@@ -8,7 +8,8 @@
     "apps/*"
   ],
   "scripts": {
-    "dev": "npm run dev -w apps/agrihub-web"
+    "dev": "npm run dev -w apps/agrihub-web",
+    "build": "cd apps/agrihub-web & npm run build"
   },
   "keywords": [],
   "author": "",

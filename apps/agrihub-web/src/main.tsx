@@ -1,0 +1,16 @@
+import React from "react";
+import ReactDOM from "react-dom/client";
+
+import ReduxProvider from "@providers/ReduxProvider";
+import QueryClientProvider from "@providers/QueryClientProvider";
+import ReactRouterProvider from "@providers/RouterProvider";
+
+ReactDOM.createRoot(document.getElementById("root")!).render(
+  <React.StrictMode>
+    <QueryClientProvider>
+      <ReduxProvider>
+        <ReactRouterProvider />
+      </ReduxProvider>
+    </QueryClientProvider>
+  </React.StrictMode>
+);

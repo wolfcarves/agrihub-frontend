@@ -1,14 +1,14 @@
 import { Route } from "react-router-dom";
 
+import ReactRouter from "@router/router";
 import "./globals.css";
 
 //Routes
-import Landing from "@routes/user/landing-page";
-import ReactRouter from "@router/router";
+import Login from "@routes/user/login";
 
 const App = ReactRouter(
   <>
-    <Route path="/" element={<Landing />} />
+    <Route path="/" element={<Login />} />
   </>
 );
 

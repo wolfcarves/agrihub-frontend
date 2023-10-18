@@ -26,7 +26,9 @@
       "@router/*": ["./src/router/*"],
       "@routes/*": ["./src/routes/*"],
       "@redux/*": ["./src/redux/*"],
-      "@providers/*": ["./src/providers/*"]
+      "@icons/*": ["./src/icons/*"],
+      "@providers/*": ["./src/providers/*"],
+      "@services/*": ["./src/services/services/*"]
     }
   },
   "include": ["src"],

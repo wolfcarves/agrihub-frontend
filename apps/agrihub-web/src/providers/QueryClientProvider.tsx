@@ -36,7 +36,7 @@ const QueryClientProvider = (props: {
 
   return (
     <TanstackProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={false} />
+      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       <Hydrate state={props.state}>{props.children}</Hydrate>
     </TanstackProvider>
   );

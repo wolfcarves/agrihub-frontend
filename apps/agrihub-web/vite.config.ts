@@ -12,8 +12,11 @@ export default defineConfig({
       "@router": path.resolve(__dirname, "src/router"),
       "@routes": path.resolve(__dirname, "src/routes"),
       "@redux": path.resolve(__dirname, "src/redux"),
-      "@providers": path.resolve(__dirname, "src/providers")
+      "@icons": path.resolve(__dirname, "src/icons"),
+      "@providers": path.resolve(__dirname, "src/providers"),
+      "@services/": path.resolve(__dirname, "src/services/services")
     }
   },
+  envDir: "../../",
   plugins: [react()]
 });

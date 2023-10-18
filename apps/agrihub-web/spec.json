@@ -1,0 +1,271 @@
+openapi: 3.0.0
+info:
+  title: v1
+  description: version agrihub API
+  version: 1.0.0
+servers:
+  - url: https://qc-agrihub.xyz
+  - url: http://localhost:3000
+tags:
+  - name: AUTH
+  - name: HEALTH CHECK
+paths:
+  /v1/api/auth/login:
+    post:
+      tags:
+        - AUTH
+      summary: LOGIN
+      description: Authentication Login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                username: sample_user
+                password: asdasdasd
+      responses:
+        '200':
+          description: OK
+          headers:
+            Server:
+              schema:
+                type: string
+                example: nginx/1.18.0 (Ubuntu)
+            Date:
+              schema:
+                type: string
+                example: Thu, 12 Oct 2023 11:10:50 GMT
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '170'
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            ETag:
+              schema:
+                type: string
+                example: W/"aa-0MOe1dkl5DsYlFFvqNRSP0H8WFc"
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                message: User Authenticated
+                user:
+                  id: '907785628072476673'
+                  username: sample_user
+                  password: password123
+                  email: sample_user@example.com
+                  firstname: John
+        '400':
+          description: Bad Request
+          headers:
+            Server:
+              schema:
+                type: string
+                example: nginx/1.18.0 (Ubuntu)
+            Date:
+              schema:
+                type: string
+                example: Thu, 12 Oct 2023 11:05:42 GMT
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '60'
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            ETag:
+              schema:
+                type: string
+                example: W/"3c-ZXr49zjdSHe3xn6X7iCBAOItfJs"
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: FAILED
+                  value:
+                    error: true
+                    message: Unautorized
+                    validationErrors: []
+                example-1:
+                  summary: VALIDATION ERROR
+                  value:
+                    error: true
+                    message: validation error
+                    validationErrors:
+                      - code: invalid_type
+                        expected: string
+                        received: undefined
+                        path:
+                          - body
+                          - password
+                        message: Required
+  /v1/api/auth/register:
+    post:
+      tags:
+        - AUTH
+      summary: REGISTER
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                username: '997987987'
+                password: 7qweR123$
+                email: test@gmail.com
+                firstname: daniel
+      responses:
+        '201':
+          description: Created
+          headers:
+            Server:
+              schema:
+                type: string
+                example: nginx/1.18.0 (Ubuntu)
+            Date:
+              schema:
+                type: string
+                example: Tue, 17 Oct 2023 12:22:56 GMT
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '146'
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            ETag:
+              schema:
+                type: string
+                example: W/"92-DQ+R2nSRxoGXLfSkPCQtwzCvtrs"
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                message: Registered Successfully
+                user:
+                  id: '909230003868041217'
+                  username: daniel123x
+                  email: test1x23@gmail.com
+                  firstname: daniel
+  /v1/api/auth/me:
+    get:
+      tags:
+        - AUTH
+      summary: GET CURRENT USER
+      responses:
+        '200':
+          description: OK
+          headers:
+            Server:
+              schema:
+                type: string
+                example: nginx/1.18.0 (Ubuntu)
+            Date:
+              schema:
+                type: string
+                example: Tue, 17 Oct 2023 12:56:39 GMT
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '102'
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            ETag:
+              schema:
+                type: string
+                example: W/"66-tF0guNFlnYxz6H6fzLMXM9yICyE"
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                id: '908314161074634753'
+                username: daniel1234
+                email: test12345@gmail.com
+                firstname: daniel
+  /healthcheck:
+    get:
+      tags:
+        - HEALTH CHECK
+      summary: ping
+      responses:
+        '200':
+          description: OK
+          headers:
+            Server:
+              schema:
+                type: string
+                example: nginx/1.18.0 (Ubuntu)
+            Date:
+              schema:
+                type: string
+                example: Tue, 17 Oct 2023 12:20:31 GMT
+            Content-Type:
+              schema:
+                type: string
+                example: text/plain; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '2'
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            ETag:
+              schema:
+                type: string
+                example: W/"2-nOO9QiTIwXgNtWtBJezz8kv3SLc"
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: OK

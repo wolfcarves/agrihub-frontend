@@ -1,0 +1,374 @@
+{
+	"info": {
+		"_postman_id": "c7ada21d-a91a-432a-83df-fb76bdcaa46a",
+		"name": "v1",
+		"description": "version agrihub API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "27565394"
+	},
+	"item": [
+		{
+			"name": "AUTH",
+			"item": [
+				{
+					"name": "LOGIN",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"sample_user\",\r\n    \"password\": \"asdasdasd\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://qc-agrihub.xyz/v1/api/auth/login",
+						"description": "Authentication Login"
+					},
+					"response": [
+						{
+							"name": "SUCCESS",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"sample_user\",\r\n    \"password\": \"asdasdasd\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "https://qc-agrihub.xyz/v1/api/auth/login"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.18.0 (Ubuntu)"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 12 Oct 2023 11:10:50 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "170"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"aa-0MOe1dkl5DsYlFFvqNRSP0H8WFc\""
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"User Authenticated\",\n    \"user\": {\n        \"id\": \"907785628072476673\",\n        \"username\": \"sample_user\",\n        \"password\": \"password123\",\n        \"email\": \"sample_user@example.com\",\n        \"firstname\": \"John\"\n    }\n}"
+						},
+						{
+							"name": "FAILED",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"sample_userd\",\r\n    \"password\": \"asdasdasd\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "https://qc-agrihub.xyz/v1/api/auth/login"
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.18.0 (Ubuntu)"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 12 Oct 2023 11:05:42 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"3c-ZXr49zjdSHe3xn6X7iCBAOItfJs\""
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": true,\n    \"message\": \"Unautorized\",\n    \"validationErrors\": []\n}"
+						},
+						{
+							"name": "VALIDATION ERROR",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"sample_userd\"\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "https://qc-agrihub.xyz/v1/api/auth/login"
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.18.0 (Ubuntu)"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 12 Oct 2023 12:19:50 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "179"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"b3-IG0xNAjnor9VdVsqgMPHd5gPCqc\""
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": true,\n    \"message\": \"validation error\",\n    \"validationErrors\": [\n        {\n            \"code\": \"invalid_type\",\n            \"expected\": \"string\",\n            \"received\": \"undefined\",\n            \"path\": [\n                \"body\",\n                \"password\"\n            ],\n            \"message\": \"Required\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "REGISTER",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"997987987\",\r\n    \"password\": \"7qweR123$\",\r\n    \"email\": \"test@gmail.com\",\r\n    \"firstname\": \"daniel\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/v1/api/auth/register"
+					},
+					"response": [
+						{
+							"name": "REGISTER",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"daniel123x\",\r\n    \"password\": \"7qweR123$\",\r\n    \"email\": \"test1x23@gmail.com\",\r\n    \"firstname\": \"daniel\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "https://qc-agrihub.xyz/v1/api/auth/register"
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.18.0 (Ubuntu)"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 17 Oct 2023 12:22:56 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "146"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"92-DQ+R2nSRxoGXLfSkPCQtwzCvtrs\""
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Registered Successfully\",\n    \"user\": {\n        \"id\": \"909230003868041217\",\n        \"username\": \"daniel123x\",\n        \"email\": \"test1x23@gmail.com\",\n        \"firstname\": \"daniel\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "GET CURRENT USER",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "https://qc-agrihub.xyz/v1/api/auth/me"
+					},
+					"response": [
+						{
+							"name": "SUCCESS",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": "https://qc-agrihub.xyz/v1/api/auth/me"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.18.0 (Ubuntu)"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 17 Oct 2023 12:56:39 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "102"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"66-tF0guNFlnYxz6H6fzLMXM9yICyE\""
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"908314161074634753\",\n    \"username\": \"daniel1234\",\n    \"email\": \"test12345@gmail.com\",\n    \"firstname\": \"daniel\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "HEALTH CHECK",
+			"item": [
+				{
+					"name": "ping",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "https://qc-agrihub.xyz/healthcheck"
+					},
+					"response": [
+						{
+							"name": "ping",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": "https://qc-agrihub.xyz/healthcheck"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.18.0 (Ubuntu)"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 17 Oct 2023 12:20:31 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/plain; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "2"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2-nOO9QiTIwXgNtWtBJezz8kv3SLc\""
+								}
+							],
+							"cookie": [],
+							"body": "OK"
+						}
+					]
+				}
+			]
+		}
+	]
+}

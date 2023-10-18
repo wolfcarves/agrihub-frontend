@@ -2,8 +2,46 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Light */
+@font-face {
+  font-family: PlayfairDisplay;
+  src: url('/fonts/PlayfairDisplay-Light.ttf');
+  font-weight: 200
+}
+
+/* Medium */
+@font-face {
+  font-family: PlayfairDisplay;
+  src: url('/fonts/PlayfairDisplay-Medium.ttf');
+  font-weight: 300
+}
+
+/* Regular */
+@font-face {
+  font-family: PlayfairDisplay;
+  src: url('/fonts/PlayfairDisplay-Regular.ttf');
+  font-weight: 400
+}
+
+/* SemiBold */
+@font-face {
+  font-family: PlayfairDisplay;
+  src: url('/fonts/PlayfairDisplay-SemiBold.ttf');
+  font-weight: 500;
+}
+
+/* Bold */
+@font-face {
+  font-family: PlayfairDisplay;
+  src: url('/fonts/PlayfairDisplay-Bold.ttf');
+  font-weight: 600
+}
+
 body {
+  font-family: PlayfairDisplay;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }

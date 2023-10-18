@@ -17,5 +17,9 @@
   "repository": {
     "type": "git",
     "url": "empty"
+  },
+  "dependencies": {
+    "react-hook-form": "^7.47.0",
+    "zod": "^3.22.4"
   }
 }

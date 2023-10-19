@@ -21,8 +21,10 @@
     "noFallthroughCasesInSwitch": true,
     "baseUrl": ".",
     "paths": {
-      "@public/*": ["./public/*"],
+      "@api/*": ["./src/api/*"],
+      "@axios/*": ["./src/axios/*"],
       "@components/*": ["./src/components/*"],
+      "@hooks/*": ["./src/hooks/*"],
       "@router/*": ["./src/router/*"],
       "@routes/*": ["./src/routes/*"],
       "@redux/*": ["./src/redux/*"],

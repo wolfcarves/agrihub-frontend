@@ -5,25 +5,43 @@ import { UserLogin, UserLoginSchema } from "./schema";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 
+import useLoginUserMutation from "@hooks/api/useUserLoginMutation";
+
 export default function UserLoginForm() {
   const { register, handleSubmit } = useForm<UserLogin>({
     mode: "onBlur",
-    resolver: zodResolver(UserLoginSchema)
+    resolver: zodResolver(UserLoginSchema),
+    defaultValues: {
+      username: "daniel123x",
+      password: "7qweR123$"
+    }
   });
 
   const onSubmit = (data: UserLogin) => {
     console.log(data);
   };
 
+  const { mutateAsync: userLogin } = useLoginUserMutation();
+
+  const onLoginSubmit = async (data: any) => {
+    try {
+      const res = await userLogin(data);
+
+      console.log(res);
+    } catch (error) {
+      //
+    }
+  };
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onLoginSubmit)}>
       <div className="px-3">
         <div className="flex flex-col gap-3">
           <Input
             type="text"
-            label="Email address"
-            {...register("email")}
-            placeholder="Email address"
+            label="Username"
+            {...register("username")}
+            placeholder="Username"
           />
         </div>
 

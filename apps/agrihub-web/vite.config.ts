@@ -8,6 +8,7 @@ export default defineConfig({
   resolve: {
     alias: {
       "@api": path.resolve(__dirname, "src/api"),
+      "@assets": path.resolve(__dirname, "src/assets"),
       "@axios": path.resolve(__dirname, "src/axios"),
       "@components": path.resolve(__dirname, "src/components"),
       "@hooks": path.resolve(__dirname, "src/hooks"),
@@ -15,8 +16,7 @@ export default defineConfig({
       "@routes": path.resolve(__dirname, "src/routes"),
       "@redux": path.resolve(__dirname, "src/redux"),
       "@icons": path.resolve(__dirname, "src/icons"),
-      "@providers": path.resolve(__dirname, "src/providers"),
-      "@services": path.resolve(__dirname, "src/services/services")
+      "@providers": path.resolve(__dirname, "src/providers")
     }
   },
   envDir: "../../",

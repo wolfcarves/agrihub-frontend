@@ -9,7 +9,8 @@
   ],
   "scripts": {
     "dev": "npm run dev -w apps/agrihub-web",
-    "build": "cd apps/agrihub-web & npm run build"
+    "build": "npm --prefix apps/agrihub-web run build",
+    "openapi-generate": "npm --prefix apps/agrihub-web run openapi-generate"
   },
   "keywords": [],
   "author": "",

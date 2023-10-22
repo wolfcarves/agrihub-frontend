@@ -1,18 +1,14 @@
 import { useMutation } from "@tanstack/react-query";
-import { postUserAuthLogin } from "@axios/api/Authentication";
+
+import { UserService } from "@api/openapi";
+import { UserAuthSchema } from "@api/openapi";
 
 const useLoginUserKey = "user_login";
 
-interface ResponseBody {
-  username: string;
-  password: string;
-}
-
 export default function useLoginUserMutation() {
   return useMutation([useLoginUserKey], {
-    async mutationFn(data: ResponseBody) {
-      const response = await postUserAuthLogin(data);
-
+    async mutationFn(data: UserAuthSchema) {
+      const response = await UserService.postV1ApiAuthLogin(data);
       return response;
     }
   });

@@ -7,5 +7,6 @@
     "paths": {
       "@/*": ["./*"]
     }
-  }
+  },
+  "include": ["src/components", "webpack.d.ts"]
 }

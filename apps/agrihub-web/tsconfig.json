@@ -22,6 +22,7 @@
     "baseUrl": ".",
     "paths": {
       "@api/*": ["./src/api/*"],
+      "@assets/*": ["./src/assets/*"],
       "@axios/*": ["./src/axios/*"],
       "@components/*": ["./src/components/*"],
       "@hooks/*": ["./src/hooks/*"],
@@ -29,8 +30,7 @@
       "@routes/*": ["./src/routes/*"],
       "@redux/*": ["./src/redux/*"],
       "@icons/*": ["./src/icons/*"],
-      "@providers/*": ["./src/providers/*"],
-      "@services/*": ["./src/services/services/*"]
+      "@providers/*": ["./src/providers/*"]
     }
   },
   "include": ["src"],

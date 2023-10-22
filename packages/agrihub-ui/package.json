@@ -9,6 +9,10 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "dependencies": {
+    "clsx": "^2.0.0",
+    "lucide-react": "^0.288.0"
+  },
   "devDependencies": {
     "@types/node": "^20.8.6",
     "prettier": "3.0.3"

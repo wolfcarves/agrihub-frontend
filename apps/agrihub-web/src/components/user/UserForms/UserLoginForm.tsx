@@ -1,6 +1,6 @@
-import { Divider, Input, Typography } from "@packages/agrihub-ui";
+import { Button, Divider, Input } from "@packages/agrihub-ui";
 
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { UserLogin, UserLoginSchema } from "./schema";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -12,24 +12,20 @@ export default function UserLoginForm() {
     mode: "onBlur",
     resolver: zodResolver(UserLoginSchema),
     defaultValues: {
-      username: "daniel123x",
-      password: "7qweR123$"
+      username: "daniel1234",
+      password: "qweR123$"
     }
   });
 
-  const onSubmit = (data: UserLogin) => {
-    console.log(data);
-  };
-
-  const { mutateAsync: userLogin } = useLoginUserMutation();
+  const { mutateAsync: userLogin, error: userLoginError } =
+    useLoginUserMutation();
 
   const onLoginSubmit = async (data: any) => {
     try {
       const res = await userLogin(data);
-
-      console.log(res);
-    } catch (error) {
+    } catch (e) {
       //
+      console.log(e);
     }
   };
 
@@ -54,25 +50,20 @@ export default function UserLoginForm() {
           />
         </div>
 
-        <div>
-          <button
-            type="submit"
-            className="mt-10 rounded-full border w-full py-2.5 px-4 bg-[#10D6B6]"
-          >
-            <Typography.Light label={"Submit"} size="base" />
-          </button>
+        <div className="mt-10">
+          <Button label="Login" variant="primary" isLoading={true} />
 
           <div className="py-5">
             <Divider label={"or"} color="#00000011" />
           </div>
 
-          <button className="rounded-full border w-full py-2.5 px-4">
-            <Typography.Light label={"Sign up with Facebook"} size="base" />
-          </button>
+          <Button label="Sign up with Facebook" variant="secondary" />
 
-          <button className="mt-5 rounded-full border w-full py-2.5 px-4">
-            <Typography.Light label={"Sign up with Google"} size="base" />
-          </button>
+          <Button
+            label="Sign up with Google"
+            className="mt-5"
+            variant="secondary"
+          />
         </div>
       </div>
     </form>

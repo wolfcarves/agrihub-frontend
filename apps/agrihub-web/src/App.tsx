@@ -5,6 +5,7 @@ import "./globals.css";
 
 //Routes
 import Login from "@routes/user/login";
+import Home from "@routes/user/home";
 
 const App = ReactRouter(
   <>

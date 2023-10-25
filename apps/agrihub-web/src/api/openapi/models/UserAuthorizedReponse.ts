@@ -6,7 +6,7 @@
 import type { ZodValidationError } from './ZodValidationError';
 
 export type UserAuthorizedReponse = {
-  error?: boolean;
-  message?: string;
-  validationErrors?: Array<ZodValidationError>;
+    error?: boolean;
+    message?: string;
+    validationErrors?: Array<ZodValidationError>;
 };

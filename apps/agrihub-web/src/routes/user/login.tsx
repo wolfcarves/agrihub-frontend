@@ -1,12 +1,12 @@
-import UserLoginLayout from "@components/user/UserLayouts/UserLoginLayout";
+import UserBaseContainer from "@components/user/UserContainers/UserBaseContainer";
 import UserLoginForm from "@components/user/UserForms/UserLoginForm";
 import UserLoginHeader from "@components/user/UserHeaders/UserLoginHeader";
 
 export default function Login() {
   return (
-    <UserLoginLayout>
+    <UserBaseContainer>
       <UserLoginHeader />
       <UserLoginForm />
-    </UserLoginLayout>
+    </UserBaseContainer>
   );
 }

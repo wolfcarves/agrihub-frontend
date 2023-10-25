@@ -4,8 +4,8 @@
 /* eslint-disable */
 
 export type UserAuthResponse = {
-  message?: string;
-  user?: {
+    message?: string;
+    user?: {
 id?: string;
 username?: string;
 email?: string;

@@ -4,9 +4,9 @@
 /* eslint-disable */
 
 export type ZodValidationError = {
-  code?: string;
-  expected?: string;
-  received?: string;
-  path?: Array<string>;
-  message?: string;
+    code?: string;
+    expected?: string;
+    received?: string;
+    path?: Array<string>;
+    message?: string;
 };

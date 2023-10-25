@@ -14,4 +14,5 @@ export type { UserRegisterSchema } from './models/UserRegisterSchema';
 export type { ZodValidationError } from './models/ZodValidationError';
 
 export { HealthcheckService } from './services/HealthcheckService';
+export { ImageService } from './services/ImageService';
 export { UserService } from './services/UserService';

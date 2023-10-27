@@ -5,6 +5,7 @@ const buttonStyles = {
   primary: "rounded-full w-full h-[55px] text-sm bg-primary-100 text-[#FFFFFF]",
   outlined:
     "rounded-full w-full h-[55px] text-sm border-2 border-gray-100 text-black-100",
+  borderless: "rounded-full w-full h-[55px] text-sm text-black-100",
   disabled: "rounded-full w-full h-11 border text-sm opacity-75 bg-[#f0f0f0]"
 } as const;
 

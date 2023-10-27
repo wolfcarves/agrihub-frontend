@@ -1,13 +1,35 @@
+import { useEffect, useState } from "react";
 import { Button, Divider, Input, Typography } from "@packages/agrihub-ui";
 
 import { useForm } from "react-hook-form";
-import { UserLogin, UserLoginSchema } from "./schema";
-
 import { zodResolver } from "@hookform/resolvers/zod";
+import { UserLogin, UserLoginSchema } from "./schema";
 
 import useLoginUserMutation from "@hooks/api/useUserLoginMutation";
 
+import { getUserState, setUser } from "@redux/slices/userSlice";
+import { useSelector, useDispatch } from "@redux/store";
+
+import { Link, useNavigate } from "react-router-dom";
+
 export default function UserLoginForm() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const {
+    user: { isAuthenticated }
+  } = useSelector(getUserState);
+
+  console.log(isAuthenticated);
+
+  // useEffect(() => {
+  //   if(isAuthenticated) {
+  //     navigate("/feed/questions/");
+  //   }
+  // }, [isAuthenticated, navigate]);
+
   const {
     register,
     handleSubmit,
@@ -21,17 +43,24 @@ export default function UserLoginForm() {
     }
   });
 
-  const { mutateAsync: userLogin, error: userLoginError } =
-    useLoginUserMutation();
+  const { mutateAsync: userLogin } = useLoginUserMutation();
 
   const onLoginSubmit = async (data: any) => {
     try {
-      const res = await userLogin(data);
-    } catch (e) {
-      //
-      console.log("userLoginError", userLoginError);
-    }
+      const { user } = await userLogin(data);
 
+      dispatch(
+        setUser({
+          isAuthenticated: true,
+          userId: user?.id,
+          email: user?.email,
+          username: "XXX"
+        })
+      );
+    } catch (e: any) {
+      setErrorMessage(e.body.message);
+      console.log(e);
+    }
   };
 
   return (
@@ -47,11 +76,7 @@ export default function UserLoginForm() {
             />
           )}
 
-          <Input
-            type="text"
-            label="Your email address"
-            {...register("username")}
-          />
+          <Input type="text" label="Username" {...register("username")} />
         </div>
 
         <div className="flex flex-col gap-3 mt-5">
@@ -65,13 +90,15 @@ export default function UserLoginForm() {
             <Divider label={"or"} color="#00000011" />
           </div>
 
-          <Button label="Sign up with Facebook" variant="outlined" />
+          <Button label="Sign up with Google" variant="outlined" />
 
-          <Button
-            label="Sign up with Google"
-            className="mt-5"
-            variant="outlined"
-          />
+          <Link to={"/account/signup"}>
+            <Button
+              label="Sign up with Email"
+              variant="outlined"
+              className="mt-5"
+            />
+          </Link>
         </div>
       </div>
     </form>

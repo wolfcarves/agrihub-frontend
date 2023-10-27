@@ -6,9 +6,9 @@
 export type UserAuthResponse = {
     message?: string;
     user?: {
-id?: string;
-username?: string;
-email?: string;
-firstname?: string;
+    id?: string;
+    username?: string;
+    email?: string;
+    firstname?: string;
 };
 };

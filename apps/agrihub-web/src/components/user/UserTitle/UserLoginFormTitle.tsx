@@ -1,6 +1,6 @@
 import { Typography } from "@packages/agrihub-ui";
 
-export default function UserLoginHeader() {
+export default function UserLoginFormTitle() {
   return (
     <div className="mb-10">
       <Typography.H1

@@ -10,6 +10,7 @@
       "openapi-generate": "openapi --input https://qc-agrihub.xyz/docs.json --output ./src/api/openapi --client axios"
    },
    "dependencies": {
+      "@hookform/error-message": "^2.0.1",
       "@hookform/resolvers": "^3.3.2",
       "@packages/agrihub-ui": "*",
       "@radix-ui/react-slot": "^1.0.2",

@@ -25,14 +25,19 @@ const Input = (
   return (
     <div>
       <label htmlFor={inputId}>
-        <Typography.Light {...{ label }} size="base" />
+        <Typography.H1
+          {...{ label }}
+          size="base"
+          weight={500}
+          className="text-black-100"
+        />
       </label>
 
       <input
         {...props}
         {...{ ref }}
         id={inputId}
-        className="rounded-full border w-full mt-2 py-2.5 px-4 placeholder:text-sm text-sm focus:outline-2 focus:outline-green-500"
+        className="rounded-xl border-2 border-gray-100 w-full mt-2 h-[55px] px-4 placeholder:text-sm"
       />
     </div>
   );

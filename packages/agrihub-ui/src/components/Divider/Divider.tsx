@@ -23,7 +23,7 @@ export default function Divider({
           className="w-full rounded-full"
           style={{ height: "2px", backgroundColor: color }}
         ></div>
-        <Typography.Medium
+        <Typography.H1
           {...{ label }}
           size="base"
           color="#00000094"

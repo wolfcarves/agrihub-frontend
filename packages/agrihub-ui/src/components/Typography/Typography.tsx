@@ -15,91 +15,26 @@ interface TypographyProps extends BaseTypographyProps {
   weight?: number;
 }
 
-const Light: FC<Omit<TypographyProps, "weight">> = ({
+const H1: FC<TypographyProps> = ({
   children,
   label,
   size,
   customSize,
-  color: fontColor = "#000000",
+  weight,
+  color: fontColor,
   ...props
 }): JSX.Element => {
-  const fontSize = useFontSize(size ?? customSize);
-  const color = useMemo(() => fontColor, [fontColor]);
-
-  return (
-    <h1 style={{ ...{ fontSize, color } }} {...props}>
-      {children ?? label}
-    </h1>
+  const style = useMemo(
+    () => ({
+      fontSize: useFontSize(size ?? customSize),
+      color: fontColor,
+      fontWeight: weight
+    }),
+    [fontColor, size, weight]
   );
-};
-
-const Medium: FC<Omit<TypographyProps, "weight">> = ({
-  children,
-  label,
-  size,
-  customSize,
-  color: fontColor = "#000000",
-  ...props
-}): JSX.Element => {
-  const fontSize = useFontSize(size ?? customSize);
-  const color = useMemo(() => fontColor, [fontColor]);
 
   return (
-    <h1 style={{ ...{ fontSize, fontWeight: 300, color } }} {...props}>
-      {children ?? label}
-    </h1>
-  );
-};
-
-const Regular: FC<Omit<TypographyProps, "weight">> = ({
-  children,
-  label,
-  size,
-  customSize,
-  color: fontColor = "#000000",
-  ...props
-}): JSX.Element => {
-  const fontSize = useFontSize(size ?? customSize);
-  const color = useMemo(() => fontColor, [fontColor]);
-
-  return (
-    <h1 style={{ ...{ fontSize, fontWeight: 400, color } }} {...props}>
-      {children ?? label}
-    </h1>
-  );
-};
-
-const SemiBold: FC<Omit<TypographyProps, "weight">> = ({
-  children,
-  label,
-  size,
-  customSize,
-  color: fontColor = "#000000",
-  ...props
-}): JSX.Element => {
-  const fontSize = useFontSize(size ?? customSize);
-  const color = useMemo(() => fontColor, [fontColor]);
-
-  return (
-    <h1 style={{ ...{ fontSize, fontWeight: 500, color } }} {...props}>
-      {children ?? label}
-    </h1>
-  );
-};
-
-const Bold: FC<Omit<TypographyProps, "weight">> = ({
-  children,
-  label,
-  size,
-  customSize,
-  color: fontColor = "#000000",
-  ...props
-}): JSX.Element => {
-  const fontSize = useFontSize(size ?? customSize);
-  const color = useMemo(() => fontColor, [fontColor]);
-
-  return (
-    <h1 style={{ ...{ fontSize, fontWeight: 600, color } }} {...props}>
+    <h1 {...{ style }} {...props}>
       {children ?? label}
     </h1>
   );
@@ -110,19 +45,24 @@ const P: FC<TypographyProps> = ({
   label,
   size,
   customSize,
-  color: fontColor = "#000000",
+  color: fontColor,
   weight,
   ...props
 }): JSX.Element => {
-  const fontSize = useFontSize(size ?? customSize);
-  const color = useMemo(() => fontColor, [fontColor]);
-  const fontWeight = useMemo(() => weight, [fontColor]);
+  const style = useMemo(
+    () => ({
+      fontSize: useFontSize(size ?? customSize),
+      color: fontColor,
+      fontWeight: weight
+    }),
+    [fontColor, size, weight]
+  );
 
   return (
-    <p style={{ ...{ fontSize, fontWeight, color } }} {...props}>
+    <p {...{ style }} {...props}>
       {children ?? label}
     </p>
   );
 };
 
-export default { Light, Medium, Regular, SemiBold, Bold, P };
+export default { H1, P };

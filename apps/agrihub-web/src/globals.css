@@ -4,41 +4,48 @@
 
 /* Light */
 @font-face {
-  font-family: PlayfairDisplay;
-  src: url('/fonts/PlayfairDisplay-Light.ttf');
+  font-family: Poppins;
+  src: url('/fonts/Poppins-Light.ttf');
   font-weight: 200
 }
 
 /* Medium */
 @font-face {
-  font-family: PlayfairDisplay;
-  src: url('/fonts/PlayfairDisplay-Medium.ttf');
+  font-family: Poppins;
+  src: url('/fonts/Poppins-Medium.ttf');
   font-weight: 300
 }
 
 /* Regular */
 @font-face {
-  font-family: PlayfairDisplay;
-  src: url('/fonts/PlayfairDisplay-Regular.ttf');
+  font-family: Poppins;
+  src: url('/fonts/Poppins-Regular.ttf');
   font-weight: 400
 }
 
 /* SemiBold */
 @font-face {
-  font-family: PlayfairDisplay;
-  src: url('/fonts/PlayfairDisplay-SemiBold.ttf');
+  font-family: Poppins;
+  src: url('/fonts/Poppins-SemiBold.ttf');
   font-weight: 500;
 }
 
 /* Bold */
 @font-face {
-  font-family: PlayfairDisplay;
-  src: url('/fonts/PlayfairDisplay-Bold.ttf');
+  font-family: Poppins;
+  src: url('/fonts/Poppins-Bold.ttf');
+  font-weight: 600
+}
+
+/* Extra Bold */
+@font-face {
+  font-family: Poppins;
+  src: url('/fonts/Poppins-ExtraBold.ttf');
   font-weight: 600
 }
 
 body {
-  font-family: PlayfairDisplay;
+  font-family: Poppins;
   margin: 0;
   padding: 0;
   box-sizing: border-box;

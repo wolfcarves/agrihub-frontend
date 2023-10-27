@@ -1,14 +1,11 @@
-import React from "react";
 import { ButtonHTMLAttributes, DetailedHTMLProps } from "react";
 import Typography from "../Typography/Typography";
-import loader from "./loader.svg";
 
 const buttonStyles = {
-  primary:
-    "rounded-full border w-full h-11 text-sm bg-[#10D6B6] hover:bg-[#10D6B6]/70 duration-100",
-  secondary:
-    "rounded-full border w-full h-11 text-sm hover:bg-[#f0f0f0] duration-100",
-  disbaled: "rounded-full w-full h-11 border text-sm opacity-75 bg-[#f0f0f0]"
+  primary: "rounded-full w-full h-[55px] text-sm bg-primary-100 text-[#FFFFFF]",
+  outlined:
+    "rounded-full w-full h-[55px] text-sm border-2 border-gray-100 text-black-100",
+  disabled: "rounded-full w-full h-11 border text-sm opacity-75 bg-[#f0f0f0]"
 } as const;
 
 type ButtonVariants = keyof typeof buttonStyles;
@@ -33,11 +30,12 @@ export default function Button({
   ...props
 }: ButtonProps) {
   return (
-    <button
-      {...props}
-      className={`relative ${buttonStyles[variant]} ${className}`}
-    >
-      {label ? label : children}
+    <button {...props} className={`${buttonStyles[variant]} ${className}`}>
+      {label ? (
+        <Typography.H1 label={label} size="base" weight={500} />
+      ) : (
+        children
+      )}
     </button>
   );
 }

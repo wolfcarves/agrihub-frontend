@@ -1,11 +1,11 @@
 import UserFormContainer from "@components/user/UserContainers/UserFormContainer";
 import UserSetupUsernameForm from "@components/user/UserForms/UserFinalSetupForm/UserFinalSetupForm";
-import UserSetupUsernameTitle from "@components/user/UserTitle/UserFinalSetupFormTitle";
+import UserFinalSetupFormTitle from "@components/user/UserTitle/UserFinalSetupFormTitle";
 
 export default function SetupUsername() {
   return (
     <UserFormContainer>
-      <UserSetupUsernameTitle />
+      <UserFinalSetupFormTitle />
       <UserSetupUsernameForm />
     </UserFormContainer>
   );

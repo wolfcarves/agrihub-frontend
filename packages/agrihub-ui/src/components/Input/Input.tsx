@@ -14,10 +14,11 @@ type BaseInputProps = DetailedHTMLProps<
 
 interface InputProps extends BaseInputProps {
   label?: string;
+  errorMessage?: string;
 }
 
 const Input = (
-  { label, ...props }: InputProps,
+  { label, errorMessage, ...props }: InputProps,
   ref: ForwardedRef<HTMLInputElement>
 ) => {
   const inputId = useId();
@@ -39,6 +40,14 @@ const Input = (
         id={inputId}
         className="rounded-xl border-2 border-gray-100 w-full mt-2 h-[55px] px-4 placeholder:text-sm"
       />
+      {errorMessage && (
+        <Typography.H1
+          label={errorMessage}
+          size="sm"
+          className="text-red-100"
+          italic
+        />
+      )}
     </div>
   );
 };

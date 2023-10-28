@@ -19,6 +19,7 @@ type BaseButtonProps = DetailedHTMLProps<
 interface ButtonProps extends BaseButtonProps {
   variant?: ButtonVariants;
   label?: string;
+  icon?: React.ReactNode;
   isLoading?: boolean;
 }
 
@@ -26,12 +27,18 @@ export default function Button({
   children,
   variant = "primary",
   label,
+  icon,
   className,
   isLoading,
   ...props
 }: ButtonProps) {
   return (
-    <button {...props} className={`${buttonStyles[variant]} ${className}`}>
+    <button
+      {...props}
+      className={`${buttonStyles[variant]} ${className} flex items-center justify-center`}
+    >
+      <i className="text-xl -ms-4 me-2">{icon}</i>
+
       {label ? (
         <Typography.H1 label={label} size="base" weight={500} />
       ) : (

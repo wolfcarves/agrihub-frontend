@@ -13,6 +13,7 @@ interface TypographyProps extends BaseTypographyProps {
   customSize?: string;
   color?: string;
   weight?: number;
+  italic?: boolean;
 }
 
 const H1: FC<TypographyProps> = ({
@@ -21,6 +22,7 @@ const H1: FC<TypographyProps> = ({
   size,
   customSize,
   weight,
+  italic,
   color: fontColor,
   ...props
 }): JSX.Element => {
@@ -32,6 +34,16 @@ const H1: FC<TypographyProps> = ({
     }),
     [fontColor, size, weight]
   );
+
+  if (italic) {
+    return (
+      <i>
+        <h1 {...{ style }} {...props}>
+          {children ?? label}
+        </h1>
+      </i>
+    );
+  }
 
   return (
     <h1 {...{ style }} {...props}>
@@ -47,6 +59,7 @@ const P: FC<TypographyProps> = ({
   customSize,
   color: fontColor,
   weight,
+  italic,
   ...props
 }): JSX.Element => {
   const style = useMemo(
@@ -57,6 +70,16 @@ const P: FC<TypographyProps> = ({
     }),
     [fontColor, size, weight]
   );
+
+  if (italic) {
+    return (
+      <i>
+        <p {...{ style }} {...props}>
+          {children ?? label}
+        </p>
+      </i>
+    );
+  }
 
   return (
     <p {...{ style }} {...props}>

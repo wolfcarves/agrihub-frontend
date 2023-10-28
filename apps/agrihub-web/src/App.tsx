@@ -3,6 +3,8 @@ import { Route, Navigate } from "react-router-dom";
 import ReactRouter from "@router/router";
 import "./globals.css";
 
+import Protect from "@auth/Protect";
+
 //Layouts
 import AccountLayout from "@routes/user/account/account-layout";
 
@@ -19,31 +21,49 @@ const App = ReactRouter(
 
     <Route path="/tour" element={<div>Tour Page</div>} />
 
-    <Route path="/account" element={<AccountLayout />}>
+    {/* Account Related */}
+    <Route path="/account" element={<AccountLayout />} errorElement={`Error`}>
       <Route path="login" element={<Login />} />
       <Route path="signup" element={<Signup />} />
       <Route path="verify-email" element={<VerifyEmail />} />
-      <Route path="profile-completion" element={<ProfileCompletion />} />
-      <Route path="final-setup" element={<SetupUsername />} />
+      <Route
+        path="profile-completion"
+        element={
+          <Protect>
+            <ProfileCompletion />
+          </Protect>
+        }
+      />
+      <Route
+        path="final-setup"
+        element={
+          <Protect>
+            <SetupUsername />
+          </Protect>
+        }
+      />
       <Route path="forgot-password" element={`forgot-password`} />
       <Route path="reset-password" element={`reset-password`} />
     </Route>
 
+    {/* Articles and Questions */}
     <Route path="/feed">
       <Route path="questions" />
       <Route path=":username/question" />
 
       <Route path="articles" />
-      <Route path="article/:title" />
+      <Route path=":slug/article/:title" />
     </Route>
 
+    {/*For Viewing Own Profile */}
     <Route path="/profile">
-      <Route path=":username" />
-      <Route path=":username/tags" />
+      <Route path=":slug" />
+      <Route path=":slug/tags" />
     </Route>
 
+    {/*For Viewing Other User */}
     <Route path="/user">
-      <Route path=":username" />
+      <Route path=":slug" />
     </Route>
   </>
 );

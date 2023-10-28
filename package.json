@@ -18,5 +18,8 @@
   "repository": {
     "type": "git",
     "url": "empty"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.33"
   }
 }

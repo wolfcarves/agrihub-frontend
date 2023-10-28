@@ -22,6 +22,7 @@
     "baseUrl": ".",
     "paths": {
       "@api/*": ["./src/api/*"],
+      "@auth/*": ["./src/auth/*"],
       "@assets/*": ["./src/assets/*"],
       "@axios/*": ["./src/axios/*"],
       "@components/*": ["./src/components/*"],

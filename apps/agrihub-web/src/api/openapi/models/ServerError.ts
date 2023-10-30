@@ -3,9 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { UserSchema } from './UserSchema';
-
-export type UserAuthResponse = {
+export type ServerError = {
+    error?: boolean;
     message?: string;
-    user?: UserSchema;
 };

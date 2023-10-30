@@ -1,9 +1,7 @@
-import { Route, Navigate } from "react-router-dom";
+import { Route, Link } from "react-router-dom";
 
 import ReactRouter from "@router/router";
 import "./globals.css";
-
-import Protect from "@auth/Protect";
 
 //Layouts
 import AccountLayout from "@routes/user/account/account-layout";
@@ -15,55 +13,43 @@ import VerifyEmail from "@routes/user/account/verify-email";
 import ProfileCompletion from "@routes/user/account/profile-completion";
 import SetupUsername from "@routes/user/account/final-setup";
 
+import { Outlet } from "react-router-dom";
+import ErrorElement from "@routes/common/error";
+
 const App = ReactRouter(
   <>
-    <Route path="/" element={<Navigate to="/account/login" replace />} />
-
-    <Route path="/tour" element={<div>Tour Page</div>} />
+    <Route
+      path="/"
+      element={<Link to="/account/login">Go to login</Link>}
+      errorElement={<ErrorElement />}
+    />
 
     {/* Account Related */}
-    <Route path="/account" element={<AccountLayout />} errorElement={`Error`}>
+    <Route path="/account" element={<AccountLayout />}>
       <Route path="login" element={<Login />} />
       <Route path="signup" element={<Signup />} />
       <Route path="verify-email" element={<VerifyEmail />} />
-      <Route
-        path="profile-completion"
-        element={
-          <Protect>
-            <ProfileCompletion />
-          </Protect>
-        }
-      />
-      <Route
-        path="final-setup"
-        element={
-          <Protect>
-            <SetupUsername />
-          </Protect>
-        }
-      />
+      <Route path="profile-completion" element={<ProfileCompletion />} />
+      <Route path="final-setup" element={<SetupUsername />} />
       <Route path="forgot-password" element={`forgot-password`} />
       <Route path="reset-password" element={`reset-password`} />
     </Route>
 
-    {/* Articles and Questions */}
-    <Route path="/feed">
-      <Route path="questions" />
-      <Route path=":username/question" />
+    {/* Questions */}
+    <Route path="/" element={<Outlet />}>
+      <Route path="questions" element={<div>Question List</div>} />
+      <Route path=":username/question" element={<div>Question Slug</div>} />
+    </Route>
 
+    {/* Articles */}
+    <Route path="/" element={<Outlet />}>
       <Route path="articles" />
-      <Route path=":slug/article/:title" />
+      <Route path="article/:title/:slug" />
     </Route>
 
-    {/*For Viewing Own Profile */}
-    <Route path="/profile">
-      <Route path=":slug" />
-      <Route path=":slug/tags" />
-    </Route>
-
-    {/*For Viewing Other User */}
-    <Route path="/user">
-      <Route path=":slug" />
+    {/* Users  */}
+    <Route path="/users">
+      <Route path=":userId/:username" />
     </Route>
   </>
 );

@@ -3,52 +3,47 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { UserAuthResponse } from '../models/UserAuthResponse';
-import type { UserAuthSchema } from '../models/UserAuthSchema';
-import type { UserRegisterSchema } from '../models/UserRegisterSchema';
+import type { UserLoginSchema } from '../models/UserLoginSchema';
+import type { UserSchema } from '../models/UserSchema';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
 
-export class UserService {
+export class AuthService {
 
     /**
-     * Authenticate a User
+     * authenticate
      * @param requestBody 
      * @returns UserAuthResponse Success
      * @throws ApiError
      */
-    public static postV1ApiAuthLogin(
-requestBody: UserAuthSchema,
-): CancelablePromise<UserAuthResponse> {
+    public static postApiAuthLogin(requestBody: UserLoginSchema,): CancelablePromise<UserAuthResponse> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/v1/api/auth/login',
+            url: '/api/auth/login',
             body: requestBody,
             mediaType: 'application/json',
             errors: {
-                400: `Authorized`,
-                403: `Authorized`,
+                400: `Validation Error`,
+                401: `Authorized`,
+                500: `Server Error`,
             },
         });
     }
 
     /**
-     * Register a user
-     * @param requestBody 
-     * @returns UserAuthResponse Success
+     * get current user from session
+     * @returns UserSchema Success
      * @throws ApiError
      */
-    public static postV1ApiAuthRegister(
-requestBody: UserRegisterSchema,
-): CancelablePromise<UserAuthResponse> {
+    public static getApiAuthMe(): CancelablePromise<UserSchema> {
         return __request(OpenAPI, {
-            method: 'POST',
-            url: '/v1/api/auth/register',
-            body: requestBody,
-            mediaType: 'application/json',
+            method: 'GET',
+            url: '/api/auth/me',
             errors: {
-                400: `Validation Error`,
+                401: `Authorized`,
+                500: `Server Error`,
             },
         });
     }

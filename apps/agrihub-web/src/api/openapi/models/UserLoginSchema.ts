@@ -3,7 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type UserAuthSchema = {
-    username: string;
+export type UserLoginSchema = {
+    user: string;
     password: string;
 };

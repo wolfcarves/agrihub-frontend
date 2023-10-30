@@ -22,7 +22,6 @@
     "js-cookie": "^2.2.1",
     "lucide-react": "^0.287.0",
     "react": "^18.2.0",
-    "react-auth-kit": "^2.12.7",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.47.0",
     "react-icons": "^4.11.0",

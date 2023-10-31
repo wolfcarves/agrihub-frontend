@@ -26,28 +26,16 @@ const Input = (
   return (
     <div>
       <label htmlFor={inputId}>
-        <Typography.H1
-          {...{ label }}
-          size="base"
-          weight={500}
-          className="text-black-100"
-        />
+        <Typography.H6 $label={label} $weight="600" />
       </label>
 
       <input
         {...props}
         {...{ ref }}
         id={inputId}
-        className="rounded-xl border-2 border-gray-100 w-full mt-2 h-[55px] px-4 placeholder:text-sm"
+        className="rounded-xl border-2 border-gray-1 w-full mt-2 h-[55px] px-4 placeholder:text-sm"
       />
-      {errorMessage && (
-        <Typography.H1
-          label={errorMessage}
-          size="sm"
-          className="text-red-100"
-          italic
-        />
-      )}
+      {errorMessage && <Typography.H1 $label={errorMessage} />}
     </div>
   );
 };

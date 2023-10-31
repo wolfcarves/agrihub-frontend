@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@badrap/bar-of-progress": "^0.2.2",
+    "classnames": "^2.3.2",
     "clsx": "^2.0.0",
     "lucide-react": "^0.288.0",
     "react": "^18.2.0",

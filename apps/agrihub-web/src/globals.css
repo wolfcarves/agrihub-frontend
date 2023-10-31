@@ -2,17 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+
 /* Light */
 @font-face {
   font-family: Poppins;
   src: url('/fonts/Poppins-Light.ttf');
-  font-weight: 200
-}
-
-/* Medium */
-@font-face {
-  font-family: Poppins;
-  src: url('/fonts/Poppins-Medium.ttf');
   font-weight: 300
 }
 
@@ -23,25 +17,32 @@
   font-weight: 400
 }
 
+/* Medium */
+@font-face {
+  font-family: Poppins;
+  src: url('/fonts/Poppins-Medium.ttf');
+  font-weight: 500
+}
+
 /* SemiBold */
 @font-face {
   font-family: Poppins;
   src: url('/fonts/Poppins-SemiBold.ttf');
-  font-weight: 500;
+  font-weight: 600;
 }
 
 /* Bold */
 @font-face {
   font-family: Poppins;
   src: url('/fonts/Poppins-Bold.ttf');
-  font-weight: 600
+  font-weight: 700
 }
 
 /* Extra Bold */
 @font-face {
   font-family: Poppins;
   src: url('/fonts/Poppins-ExtraBold.ttf');
-  font-weight: 600
+  font-weight: 800
 }
 
 body {

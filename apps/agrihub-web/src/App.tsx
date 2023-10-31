@@ -4,17 +4,17 @@ import ReactRouter from "@router/router";
 import "./globals.css";
 
 //Layouts
-import AccountLayout from "@routes/user/account/account-layout";
+import AccountLayout from "@pages/user/account/account-layout";
 
-//Routes
-import Login from "@routes/user/account/login";
-import Signup from "@routes/user/account/signup";
-import VerifyEmail from "@routes/user/account/verify-email";
-import ProfileCompletion from "@routes/user/account/profile-completion";
-import SetupUsername from "@routes/user/account/final-setup";
+//Pages
+import Login from "@pages/user/account/login";
+import Signup from "@pages/user/account/signup";
+import VerifyEmail from "@pages/user/account/verify-email";
+import ProfileCompletion from "@pages/user/account/profile-completion";
+import SetupUsername from "@pages/user/account/final-setup";
 
 import { Outlet } from "react-router-dom";
-import ErrorElement from "@routes/common/error";
+import ErrorElement from "@pages/common/error";
 
 const App = ReactRouter(
   <>
@@ -44,7 +44,7 @@ const App = ReactRouter(
     {/* Articles */}
     <Route path="/" element={<Outlet />}>
       <Route path="articles" />
-      <Route path="article/:title/:slug" />
+      <Route path="article/:title/:articleId" />
     </Route>
 
     {/* Users  */}

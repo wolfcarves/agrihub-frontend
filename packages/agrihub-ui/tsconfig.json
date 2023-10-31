@@ -8,5 +8,10 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["src/components", "webpack.d.ts"]
+  "include": [
+    "src/components",
+    "webpack.d.ts",
+    "src/hook/useFontSize.tsx",
+    "src/hook/useFontWeight.tsx"
+  ]
 }

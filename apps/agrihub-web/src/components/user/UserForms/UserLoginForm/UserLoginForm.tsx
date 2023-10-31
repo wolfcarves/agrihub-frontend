@@ -7,7 +7,7 @@ import { UserLogin, UserLoginSchema } from "./schema";
 
 import { FcGoogle } from "react-icons/fc";
 import { MdEmail } from "react-icons/md";
-import axios from "axios";
+import useLoginUserMutation from "@hooks/api/useUserLoginMutation";
 
 export default function UserLoginForm() {
   const navigate = useNavigate();
@@ -25,17 +25,11 @@ export default function UserLoginForm() {
     }
   });
 
-  // const { mutateAsync: userLogin } = useLoginUserMutation();
-  // const { data } = useGetMyProfile();
+  const { mutateAsync: userLogin } = useLoginUserMutation();
 
   const onLoginSubmit = async (data: any) => {
     try {
-      const res = await axios({
-        method: "post",
-        url: "https://qc-agrihub.xyz/api/auth/login",
-        data,
-        withCredentials: true
-      });
+      const res = await userLogin(data);
 
       navigate("/account/signup");
     } catch (e: any) {
@@ -65,7 +59,7 @@ export default function UserLoginForm() {
         </div>
 
         <div className="mt-10">
-          <Button label="Login" variant="primary" isLoading={true} />
+          <Button label="Continue" variant="primary" isLoading={true} />
 
           <div className="py-5">
             <Divider label={"or"} color="#00000011" />

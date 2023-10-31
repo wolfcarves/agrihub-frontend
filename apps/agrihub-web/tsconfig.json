@@ -26,9 +26,10 @@
       "@assets/*": ["./src/assets/*"],
       "@axios/*": ["./src/axios/*"],
       "@components/*": ["./src/components/*"],
+      "@higher-order/*": ["./src/higher-order/*"],
       "@hooks/*": ["./src/hooks/*"],
       "@router/*": ["./src/router/*"],
-      "@routes/*": ["./src/routes/*"],
+      "@pages/*": ["./src/pages/*"],
       "@redux/*": ["./src/redux/*"],
       "@icons/*": ["./src/icons/*"],
       "@providers/*": ["./src/providers/*"]

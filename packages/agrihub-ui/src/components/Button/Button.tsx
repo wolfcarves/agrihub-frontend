@@ -2,10 +2,10 @@ import { ButtonHTMLAttributes, DetailedHTMLProps } from "react";
 import Typography from "../Typography/Typography";
 
 const buttonStyles = {
-  primary: "rounded-full w-full h-[55px] text-sm bg-primary-100 text-[#FFFFFF]",
+  primary: "rounded-full w-full h-[55px] text-sm bg-primary-1 text-[#FFFFFF]",
   outlined:
-    "rounded-full w-full h-[55px] text-sm border-2 border-gray-100 text-black-100",
-  borderless: "rounded-full w-full h-[55px] text-sm text-black-100",
+    "rounded-full w-full h-[55px] text-sm border-2 border-gray-1 text-black-1",
+  borderless: "rounded-full w-full h-[55px] text-sm text-black-1",
   disabled: "rounded-full w-full h-11 border text-sm opacity-75 bg-[#f0f0f0]"
 } as const;
 
@@ -38,12 +38,7 @@ export default function Button({
       className={`${buttonStyles[variant]} ${className} flex items-center justify-center`}
     >
       <i className="text-xl -ms-4 me-2">{icon}</i>
-
-      {label ? (
-        <Typography.H1 label={label} size="base" weight={500} />
-      ) : (
-        children
-      )}
+      {label ? <Typography.H6 $label={label} /> : children}
     </button>
   );
 }

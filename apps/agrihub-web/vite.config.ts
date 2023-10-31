@@ -12,9 +12,10 @@ export default defineConfig({
       "@assets": path.resolve(__dirname, "src/assets"),
       "@axios": path.resolve(__dirname, "src/axios"),
       "@components": path.resolve(__dirname, "src/components"),
+      "@higher-order": path.resolve(__dirname, "src/higher-order"),
       "@hooks": path.resolve(__dirname, "src/hooks"),
       "@router": path.resolve(__dirname, "src/router"),
-      "@routes": path.resolve(__dirname, "src/routes"),
+      "@pages": path.resolve(__dirname, "src/pages"),
       "@redux": path.resolve(__dirname, "src/redux"),
       "@icons": path.resolve(__dirname, "src/icons"),
       "@providers": path.resolve(__dirname, "src/providers")

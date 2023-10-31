@@ -8,7 +8,6 @@ export default function useLoginUserMutation() {
     async mutationFn(data: UserLoginSchema) {
       const response = await AuthService.postApiAuthLogin(data);
 
-      console.log(response.user?.email);
       return response;
     }
   });

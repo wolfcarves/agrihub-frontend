@@ -15,7 +15,6 @@ export default function Loader({ isVisible = false }: Loader) {
 
   useEffect(() => {
     if (!isFirstRender) {
-      console.log(location.pathname);
     }
 
     setIsFirstRender(false);

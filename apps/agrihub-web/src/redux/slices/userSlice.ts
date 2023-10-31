@@ -2,17 +2,23 @@ import { createSlice, Draft, PayloadAction } from "@reduxjs/toolkit";
 
 export interface UserState {
   user: {
-    userId?: string;
-    email?: string;
     username?: string;
+    email?: string;
+    firstname?: string;
+    lastname?: string;
+    birthdate?: string;
+    avatar?: string;
   };
 }
 
 const initialState: UserState = {
   user: {
-    userId: undefined,
-    email: undefined,
-    username: undefined
+    username: "",
+    email: "",
+    firstname: "",
+    lastname: "",
+    birthdate: "",
+    avatar: ""
   }
 } as const;
 

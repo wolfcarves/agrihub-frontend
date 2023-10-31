@@ -1,91 +1,299 @@
-import React, { FC, useMemo } from "react";
-import useFontSize, { FontSizesProps } from "./useFontSize";
+import {
+  useMemo,
+  CSSProperties,
+  ReactNode,
+  DetailedHTMLProps,
+  HTMLAttributes
+} from "react";
+import { theme, FontSize, ColorType, FontWeight } from "../Theme/theme";
 
-type BaseTypographyProps = React.DetailedHTMLProps<
-  React.HTMLAttributes<HTMLHeadingElement>,
+type BaseTypographyProps = DetailedHTMLProps<
+  HTMLAttributes<HTMLHeadingElement>,
   HTMLHeadingElement
 >;
 
 interface TypographyProps extends BaseTypographyProps {
-  children?: React.ReactNode;
-  label?: string | number;
-  size?: FontSizesProps;
-  customSize?: string;
-  color?: string;
-  weight?: number;
-  italic?: boolean;
+  children?: ReactNode;
+  $label?: string | number;
+  $color?: ColorType;
+  $size?: FontSize;
+  $weight?: FontWeight;
+  $transform?: CSSProperties["textTransform"];
+  $align?: CSSProperties["textAlign"];
+  $whiteSpace?: CSSProperties["whiteSpace"];
+  $lineHeight?: CSSProperties["lineHeight"];
+  $fontStyle?: CSSProperties["fontStyle"];
+  $width?: CSSProperties["width"];
 }
 
-const H1: FC<TypographyProps> = ({
-  children,
-  label,
-  size,
-  customSize,
-  weight,
-  italic,
-  color: fontColor,
-  ...props
-}): JSX.Element => {
-  const style = useMemo(
-    () => ({
-      fontSize: useFontSize(size ?? customSize),
-      color: fontColor,
-      fontWeight: weight
-    }),
-    [fontColor, size, weight]
-  );
+const useStyles = (value: CSSProperties) => {
+  return useMemo(() => {
+    return value;
+  }, [value]);
+};
 
-  if (italic) {
-    return (
-      <i>
-        <h1 {...{ style }} {...props}>
-          {children ?? label}
-        </h1>
-      </i>
-    );
-  }
+const H1 = ({
+  children,
+  $label,
+  $color = "black-1",
+  $size = "3xl",
+  $weight = "600",
+  $transform,
+  $align,
+  $lineHeight,
+  $whiteSpace,
+  $fontStyle,
+  $width,
+  ...props
+}: TypographyProps) => {
+  const style = useStyles({
+    color: theme.colors["light"][$color],
+    fontSize: theme.fontSize[$size],
+    fontWeight: $weight,
+    textTransform: $transform,
+    textAlign: $align,
+    whiteSpace: $whiteSpace,
+    lineHeight: $lineHeight,
+    fontStyle: $fontStyle,
+    width: $width
+  });
 
   return (
     <h1 {...{ style }} {...props}>
-      {children ?? label}
+      {children ?? $label}
     </h1>
   );
 };
 
-const P: FC<TypographyProps> = ({
+const H2 = ({
   children,
-  label,
-  size,
-  customSize,
-  color: fontColor,
-  weight,
-  italic,
+  $label,
+  $color = "black-1",
+  $size = "2xl",
+  $weight = "600",
+  $transform,
+  $align,
+  $lineHeight,
+  $whiteSpace,
+  $fontStyle,
+  $width,
   ...props
-}): JSX.Element => {
-  const style = useMemo(
-    () => ({
-      fontSize: useFontSize(size ?? customSize),
-      color: fontColor,
-      fontWeight: weight
-    }),
-    [fontColor, size, weight]
-  );
+}: TypographyProps) => {
+  const style = useStyles({
+    color: theme.colors["light"][$color],
+    fontSize: theme.fontSize[$size],
+    fontWeight: $weight,
+    textTransform: $transform,
+    textAlign: $align,
+    whiteSpace: $whiteSpace,
+    lineHeight: $lineHeight,
+    fontStyle: $fontStyle,
+    width: $width
+  });
 
-  if (italic) {
-    return (
-      <i>
-        <p {...{ style }} {...props}>
-          {children ?? label}
-        </p>
-      </i>
-    );
-  }
+  return (
+    <h2 {...{ style }} {...props}>
+      {children ?? $label}
+    </h2>
+  );
+};
+
+const H3 = ({
+  children,
+  $label,
+  $color = "black-1",
+  $size = "xl",
+  $weight = "500",
+  $transform,
+  $align,
+  $lineHeight,
+  $whiteSpace,
+  $fontStyle,
+  $width,
+  ...props
+}: TypographyProps) => {
+  const style = useStyles({
+    color: theme.colors["light"][$color],
+    fontSize: theme.fontSize[$size],
+    fontWeight: $weight,
+    textTransform: $transform,
+    textAlign: $align,
+    whiteSpace: $whiteSpace,
+    lineHeight: $lineHeight,
+    fontStyle: $fontStyle,
+    width: $width
+  });
+
+  return (
+    <h3 {...{ style }} {...props}>
+      {children ?? $label}
+    </h3>
+  );
+};
+
+const H4 = ({
+  children,
+  $label,
+  $color = "black-1",
+  $size = "lg",
+  $weight = "500",
+  $transform,
+  $align,
+  $lineHeight,
+  $whiteSpace,
+  $fontStyle,
+  $width,
+  ...props
+}: TypographyProps) => {
+  const style = useStyles({
+    color: theme.colors["light"][$color],
+    fontSize: theme.fontSize[$size],
+    fontWeight: $weight,
+    textTransform: $transform,
+    textAlign: $align,
+    whiteSpace: $whiteSpace,
+    lineHeight: $lineHeight,
+    fontStyle: $fontStyle,
+    width: $width
+  });
+
+  return (
+    <h4 {...{ style }} {...props}>
+      {children ?? $label}
+    </h4>
+  );
+};
+
+const H5 = ({
+  children,
+  $label,
+  $color = "black-1",
+  $size = "md",
+  $weight = "400",
+  $transform,
+  $align,
+  $lineHeight,
+  $whiteSpace,
+  $fontStyle,
+  $width,
+  ...props
+}: TypographyProps) => {
+  const style = useStyles({
+    color: theme.colors["light"][$color],
+    fontSize: theme.fontSize[$size],
+    fontWeight: $weight,
+    textTransform: $transform,
+    textAlign: $align,
+    whiteSpace: $whiteSpace,
+    lineHeight: $lineHeight,
+    fontStyle: $fontStyle,
+    width: $width
+  });
+
+  return (
+    <h5 {...{ style }} {...props}>
+      {children ?? $label}
+    </h5>
+  );
+};
+
+const H6 = ({
+  children,
+  $label,
+  $color = "black-1",
+  $size = "base",
+  $weight = "400",
+  $transform,
+  $align,
+  $lineHeight,
+  $whiteSpace,
+  $fontStyle,
+  $width,
+  ...props
+}: TypographyProps) => {
+  const style = useStyles({
+    color: theme.colors["light"][$color],
+    fontSize: theme.fontSize[$size],
+    fontWeight: $weight,
+    textTransform: $transform,
+    textAlign: $align,
+    whiteSpace: $whiteSpace,
+    lineHeight: $lineHeight,
+    fontStyle: $fontStyle,
+    width: $width
+  });
+
+  return (
+    <h6 {...{ style }} {...props}>
+      {children ?? $label}
+    </h6>
+  );
+};
+
+const Span = ({
+  children,
+  $label,
+  $color = "black-1",
+  $size = "base",
+  $weight = "400",
+  $transform,
+  $align,
+  $lineHeight,
+  $whiteSpace,
+  $fontStyle,
+  $width,
+  ...props
+}: TypographyProps) => {
+  const style = useStyles({
+    color: theme.colors["light"][$color],
+    fontSize: theme.fontSize[$size],
+    fontWeight: $weight,
+    textTransform: $transform,
+    textAlign: $align,
+    whiteSpace: $whiteSpace,
+    lineHeight: $lineHeight,
+    fontStyle: $fontStyle,
+    width: $width
+  });
+
+  return (
+    <span {...{ style }} {...props}>
+      {children ?? $label}
+    </span>
+  );
+};
+
+const P = ({
+  children,
+  $label,
+  $color = "black-1",
+  $size = "base",
+  $weight = "400",
+  $transform,
+  $align,
+  $lineHeight,
+  $whiteSpace,
+  $fontStyle,
+  $width,
+  ...props
+}: TypographyProps) => {
+  const style = useStyles({
+    color: theme.colors["light"][$color],
+    fontSize: theme.fontSize[$size],
+    fontWeight: $weight,
+    textTransform: $transform,
+    textAlign: $align,
+    whiteSpace: $whiteSpace,
+    lineHeight: $lineHeight,
+    fontStyle: $fontStyle,
+    width: $width
+  });
 
   return (
     <p {...{ style }} {...props}>
-      {children ?? label}
+      {children ?? $label}
     </p>
   );
 };
 
-export default { H1, P };
+export default { H1, H2, H3, H4, H5, H6, Span, P };

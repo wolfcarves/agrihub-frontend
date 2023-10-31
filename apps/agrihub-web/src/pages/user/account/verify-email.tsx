@@ -2,11 +2,15 @@ import UserVerifyEmailContainer from "@components/user/UserContainers/UserVerify
 import UserVerifyEmailForm from "@components/user/UserForms/UserVerifyEmailForm/UserVerifyEmailForm";
 import UserVerifyEmailTitle from "@components/user/UserTitle/UserVerifyEmailTitle";
 
-export default function VerifyEmail() {
+import withAuthGuard from "@higher-order/withAuthGuard";
+
+const VerifyEmail = () => {
   return (
     <UserVerifyEmailContainer>
       <UserVerifyEmailTitle />
       <UserVerifyEmailForm />
     </UserVerifyEmailContainer>
   );
-}
+};
+
+export default withAuthGuard(VerifyEmail);

@@ -1,5 +1,5 @@
 import { Button, Divider, Input } from "@packages/agrihub-ui";
-import { Link, useNavigate, Form } from "react-router-dom";
+import { Link, Form, useNavigate } from "react-router-dom";
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -8,8 +8,10 @@ import { UserLogin, UserLoginSchema } from "./schema";
 import { FcGoogle } from "react-icons/fc";
 import { MdEmail } from "react-icons/md";
 import useLoginUserMutation from "@hooks/api/useUserLoginMutation";
+import { UserLoginSchema as LoginRequestSchema } from "@api/openapi";
+import withAuthGuard from "@higher-order/withAuthGuard";
 
-export default function UserLoginForm() {
+const UserLoginForm = () => {
   const navigate = useNavigate();
 
   const {
@@ -27,13 +29,13 @@ export default function UserLoginForm() {
 
   const { mutateAsync: userLogin } = useLoginUserMutation();
 
-  const onLoginSubmit = async (data: any) => {
+  const onLoginSubmit = async (data: LoginRequestSchema) => {
     try {
-      const res = await userLogin(data);
+      await userLogin(data);
 
-      navigate("/account/signup");
+      navigate("/account/signup"); //test
     } catch (e: any) {
-      console.log(e);
+      //
     }
   };
 
@@ -83,4 +85,6 @@ export default function UserLoginForm() {
       </div>
     </Form>
   );
-}
+};
+
+export default UserLoginForm;

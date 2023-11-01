@@ -28,12 +28,6 @@ const QueryClientProvider = (props: {
       })
   );
 
-  useEffect(() => {
-    return () => {
-      queryClient.cancelQueries;
-    };
-  }, []);
-
   return (
     <TanstackProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={false} />

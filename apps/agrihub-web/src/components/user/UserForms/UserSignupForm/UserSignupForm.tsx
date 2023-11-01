@@ -1,7 +1,8 @@
+import withAuthGuard from "@higher-order/withAuthGuard";
 import { Button, Input, Typography } from "@packages/agrihub-ui";
 import { Link } from "react-router-dom";
 
-export default function UserSignupForm() {
+const UserSignupForm = () => {
   return (
     <form>
       <div className="flex flex-col gap-3">
@@ -18,25 +19,18 @@ export default function UserSignupForm() {
 
       <div className="mt-10">
         <Link to={"/account/verify-email"}>
-          <Button label="Continue" variant="primary" isLoading={true} />
+          <Button label="Continue" variant="primary" />
         </Link>
 
         <div className="flex justify-center mt-10 gap-1">
-          <Typography.H1
-            label={"Already have an account?"}
-            size="base"
-            weight={200}
-          />
+          <Typography.H6 $label={"Already have an account?"} />
           <Link to={"/account/login"}>
-            <Typography.H1
-              label={"Signup"}
-              size="base"
-              weight={500}
-              className="text-black-100"
-            />
+            <Typography.H6 $label={"Signup"} />
           </Link>
         </div>
       </div>
     </form>
   );
-}
+};
+
+export default UserSignupForm;

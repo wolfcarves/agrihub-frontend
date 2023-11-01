@@ -37,13 +37,21 @@ const App = ReactRouter(
 
     {/* Questions */}
     <Route path="/" element={<Outlet />}>
-      <Route path="questions" element={<div>Question List</div>} />
-      <Route path=":username/question" element={<div>Question Slug</div>} />
+      <Route path="questions" element={<div>General Question List</div>} />
+      <Route path="questions/tags" element={<div>Questions Tag List</div>} />
+      <Route
+        path="questions/:tagName"
+        element={<div>Questions With Specific Tag</div>}
+      />
+      <Route
+        path="question/:username/:questionId/:questionTitle"
+        element={<div>Viewing User Question</div>}
+      />
     </Route>
 
     {/* Articles */}
     <Route path="/" element={<Outlet />}>
-      <Route path="articles" />
+      <Route path="articles/:category" />
       <Route path="article/:title/:articleId" />
     </Route>
 

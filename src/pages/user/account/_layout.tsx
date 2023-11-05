@@ -1,12 +1,12 @@
-import UserBaseContainer from "@pages/components/user/UserContainers/UserBaseContainer";
-import UserHeader from "@pages/components/user/UserHeaders/UserHeader";
+import UserAccountContainer from "@components/user/containers/UserAccountContainer";
+import UserHeader from "@components/user/headers/UserHeader";
 import { Outlet } from "react-router-dom";
 
 export default function AccountLayout() {
   return (
-    <UserBaseContainer>
+    <UserAccountContainer>
       <UserHeader />
       <Outlet />
-    </UserBaseContainer>
+    </UserAccountContainer>
   );
 }

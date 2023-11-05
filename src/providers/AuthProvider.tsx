@@ -1,5 +1,5 @@
 import { createContext, ReactNode } from "react";
-import useGetUserQuery from "@hooks/api/useGetUserQuery";
+import useGetUserQuery from "@hooks/api/get/useGetMyProfileQuery";
 import { UserSchema } from "@api/openapi";
 
 export type AuthContextValue = {

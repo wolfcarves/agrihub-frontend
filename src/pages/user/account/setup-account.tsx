@@ -1,13 +1,17 @@
-import UserFormContainer from "@pages/components/user/UserContainers/UserFormContainer";
-import UserProfileCompletionForm from "@pages/components/user/UserForms/UserProfileCompletionForm/UserProfileCompletionForm";
-import UserFormTitle from "@pages/components/user/UserTitle/UserFormTitle";
+import UserFormTitle from "@components/user/title/UserFormTitle";
+import UserSetupAccountForm from "@components/user/forms/UserSetupAccountForm/UserSetupAccountForm";
 
 const SetupAccount = () => {
   return (
-    <UserFormContainer>
-      <UserFormTitle title="Setup Account" size="3xl" />
-      <UserProfileCompletionForm />
-    </UserFormContainer>
+    <>
+      <UserFormTitle
+        title="Complete your profile"
+        size="3xl"
+        step="2"
+        className="mb-10"
+      />
+      <UserSetupAccountForm />
+    </>
   );
 };
 

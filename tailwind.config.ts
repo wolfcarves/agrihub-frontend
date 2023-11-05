@@ -1,36 +1,39 @@
 /** @type {import('tailwindcss').Config} */
 
-export default {
+const theme = {
+  important: true,
   darkMode: ["class"],
   content: [
     "./src/**/*.{ts,tsx}",
     "./index.html",
     "../../packages/**/*.{ts,tsx}"
   ],
-  extend: {
-    theme: {
-      screens: {
-        sm: "480px",
-        md: "768px",
-        lg: "976px",
-        xl: "1440px"
-      },
-      container: {
-        center: true,
-        padding: "2rem",
-        screens: {
-          "2xl": "1400px"
-        }
-      },
+  screens: {
+    xs: "375px",
+    sm: "480px",
+    md: "768px",
+    lg: "976px",
+    xl: "1440px"
+  },
+  container: {
+    center: true
+  },
+  theme: {
+    extend: {
       colors: {
         //primaries
-        "primary-1": "#638355",
+        "primary-1": "#368F0F",
+        "primary-2": "#57714B",
+        "primary-3": "#638355",
+        "primary-4": "#C9E7A3",
+        "primary-5": "#F0FBEA",
         //blacks
-        "black-1": "#3E3E3E",
+        "black-1": "#343434",
+        "black-2": "#4D4D4D",
         //grays
-        "gray-1": "#C8C8C8",
-        "gray-2": "#2C2C2C",
-        "gray-3": "#3E3E3E",
+        "gray-1": "#848484",
+        "gray-2": "#A9A9A9",
+        "gray-3": "#C8C8C8",
         //whites
         white: "#FFFFFF"
       },
@@ -48,9 +51,20 @@ export default {
         "7xl": "3rem",
         "8xl": "3.25rem",
         "9xl": "3.50rem"
+      },
+      fontWeight: {
+        thin: "200",
+        light: "300",
+        normal: "400",
+        medium: "500",
+        semibold: "600",
+        bold: "700",
+        extrabold: "800"
       }
     }
   },
   plugins: []
   // [require("tailwindcss-animate")]
-};
+} as const;
+
+export default theme;

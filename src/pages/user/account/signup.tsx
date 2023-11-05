@@ -1,13 +1,12 @@
-import UserFormContainer from "@pages/components/user/UserContainers/UserFormContainer";
-import UserSignupForm from "@pages/components/user/UserForms/UserSignupForm/UserSignupForm";
-import UserFormTitle from "@pages/components/user/UserTitle/UserFormTitle";
+import UserSignupForm from "@components/user/forms/UserSignupForm/UserSignupForm";
+import UserFormTitle from "@components/user/title/UserFormTitle";
 
 const Signup = () => {
   return (
-    <UserFormContainer>
-      <UserFormTitle title="Create an account" size="4xl" />
+    <>
+      <UserFormTitle title="Create an account" step="1" />
       <UserSignupForm />
-    </UserFormContainer>
+    </>
   );
 };
 

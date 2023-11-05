@@ -18,7 +18,9 @@ export class AuthService {
      * @returns UserAuthResponse Success
      * @throws ApiError
      */
-    public static postApiAuthLogin(requestBody: UserLoginSchema,): CancelablePromise<UserAuthResponse> {
+    public static postApiAuthLogin(
+requestBody: UserLoginSchema,
+): CancelablePromise<UserAuthResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/auth/login',
@@ -26,7 +28,7 @@ export class AuthService {
             mediaType: 'application/json',
             errors: {
                 400: `Validation Error`,
-                401: `Authorized`,
+                401: `Unauthorized`,
                 500: `Server Error`,
             },
         });
@@ -42,7 +44,7 @@ export class AuthService {
             method: 'GET',
             url: '/api/auth/me',
             errors: {
-                401: `Authorized`,
+                401: `Unauthorized`,
                 500: `Server Error`,
             },
         });

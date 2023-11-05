@@ -1,13 +1,14 @@
-import UserFormContainer from "@pages/components/user/UserContainers/UserFormContainer";
-import UserLoginForm from "@pages/components/user/UserForms/UserLoginForm/UserLoginForm";
-import UserFormTitle from "@pages/components/user/UserTitle/UserFormTitle";
+import UserLoginForm from "@components/user/forms/UserLoginForm/UserLoginForm";
+import UserSignInMethods from "@components/user/forms/UserSignInMethods/UserSignInMethod";
+import UserFormTitle from "@components/user/title/UserFormTitle";
 
 const Login = () => {
   return (
-    <UserFormContainer>
-      <UserFormTitle title="Sign in" size="4xl" />
+    <>
+      <UserFormTitle title="Login your account" step="1" />
+      <UserSignInMethods />
       <UserLoginForm />
-    </UserFormContainer>
+    </>
   );
 };
 

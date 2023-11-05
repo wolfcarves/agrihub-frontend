@@ -5,48 +5,48 @@
 
 /* Light */
 @font-face {
-  font-family: Poppins;
-  src: url('/fonts/Poppins-Light.ttf');
+  font-family: Inter;
+  src: url('/fonts/Inter-Light.ttf');
   font-weight: 300
 }
 
 /* Regular */
 @font-face {
-  font-family: Poppins;
-  src: url('/fonts/Poppins-Regular.ttf');
+  font-family: Inter;
+  src: url('/fonts/Inter-Regular.ttf');
   font-weight: 400
 }
 
 /* Medium */
 @font-face {
-  font-family: Poppins;
-  src: url('/fonts/Poppins-Medium.ttf');
+  font-family: Inter;
+  src: url('/fonts/Inter-Medium.ttf');
   font-weight: 500
 }
 
 /* SemiBold */
 @font-face {
-  font-family: Poppins;
-  src: url('/fonts/Poppins-SemiBold.ttf');
+  font-family: Inter;
+  src: url('/fonts/Inter-SemiBold.ttf');
   font-weight: 600;
 }
 
 /* Bold */
 @font-face {
-  font-family: Poppins;
-  src: url('/fonts/Poppins-Bold.ttf');
+  font-family: Inter;
+  src: url('/fonts/Inter-Bold.ttf');
   font-weight: 700
 }
 
 /* Extra Bold */
 @font-face {
-  font-family: Poppins;
-  src: url('/fonts/Poppins-ExtraBold.ttf');
+  font-family: Inter;
+  src: url('/fonts/Inter-ExtraBold.ttf');
   font-weight: 800
 }
 
 body {
-  font-family: Poppins;
+  font-family: Inter;
   margin: 0;
   padding: 0;
   box-sizing: border-box;

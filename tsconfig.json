@@ -25,14 +25,16 @@
       "@auth/*": ["./src/auth/*"],
       "@assets/*": ["./src/assets/*"],
       "@axios/*": ["./src/axios/*"],
-      "@components-ui": ["./src/components/index.tsx"],
+      "@components-ui": ["./src/components/ui/index.tsx"],
+      "@components/*": ["./src/components/*"],
       "@higher-order/*": ["./src/higher-order/*"],
       "@hooks/*": ["./src/hooks/*"],
       "@router/*": ["./src/router/*"],
       "@pages/*": ["./src/pages/*"],
       "@redux/*": ["./src/redux/*"],
       "@icons/*": ["./src/icons/*"],
-      "@providers/*": ["./src/providers/*"]
+      "@providers/*": ["./src/providers/*"],
+      "@svg/*": ["./src/svg/*"]
     }
   },
   "include": ["src"],

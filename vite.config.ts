@@ -1,10 +1,26 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import reactRefresh from "@vitejs/plugin-react-refresh"
 
 import path from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  server: {
+    watch: {
+      usePolling: true,
+    }
+  },
+
+  build: {
+    outDir: 'dist/',
+    rollupOptions: {
+      input : {
+        main: 'index.html'
+      }
+    }
+  },
+
   resolve: {
     alias: {
       "@api": path.resolve(__dirname, "src/api"),
@@ -23,6 +39,5 @@ export default defineConfig({
       "@svg": path.resolve(__dirname, "src/svg")
     }
   },
-  envDir: "../../",
-  plugins: [react()]
+  plugins: [react(), reactRefresh()],
 });

@@ -3,7 +3,7 @@
 */
 
 const Tour = () => {
-  return <div>Tour Page</div>;
+  return <div className="h-[100dvh]"></div>;
 };
 
 export default Tour;

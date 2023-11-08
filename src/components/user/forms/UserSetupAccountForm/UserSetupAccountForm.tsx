@@ -4,12 +4,10 @@ import { Form } from "react-router-dom";
 import { UserSetupAccount, userSetupAcountSchema } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import InputSelect from "@components/ui/Input/InputSelect";
-
-import { MONTHS } from "./constant/months";
-
 import { getAllowedYears } from "./constant/years";
 import useUserProfileCompletion from "@hooks/api/post/useUserProfileCompletion";
 import { UserCompletionSchema } from "@api/openapi";
+import { MONTHS } from "./constant/months";
 
 export default function UserSetupAccountForm() {
   const {
@@ -23,7 +21,10 @@ export default function UserSetupAccountForm() {
     reValidateMode: "onSubmit"
   });
 
-  const { mutateAsync: userSubmitProfile } = useUserProfileCompletion();
+  const {
+    mutateAsync: userSubmitProfile,
+    isLoading: isUserSubmitProfileLoading
+  } = useUserProfileCompletion();
 
   const onSubmitForm = async (data: UserSetupAccount) => {
     const refinedData = {
@@ -31,7 +32,7 @@ export default function UserSetupAccountForm() {
       lastname: data.firstname,
       birthdate: `${data.year}-${
         data.month < 10 ? "0" + data.month : data.month
-      }-00`,
+      }-01`,
       present_address: data.presentAddress,
       district: "1",
       municipality: "City",
@@ -126,6 +127,7 @@ export default function UserSetupAccountForm() {
           $variant="primary"
           $size="lg"
           $fullWidth
+          $disabled={isUserSubmitProfileLoading}
           type="submit"
         />
       </div>

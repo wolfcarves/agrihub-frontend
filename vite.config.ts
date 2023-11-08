@@ -39,5 +39,6 @@ export default defineConfig({
       "@svg": path.resolve(__dirname, "src/svg")
     }
   },
+  
   plugins: [react(), reactRefresh()],
 });

@@ -1,5 +1,5 @@
 import { ComponentType } from "react";
-import useAuthData from "@hooks/common/useAuthData";
+import useAuth from "@hooks/useAuth";
 
 import Unauthorized from "@pages/user/common/unauthorized";
 
@@ -15,7 +15,7 @@ export default function withAuthGuard<P extends object>(
   Component: ComponentType<P>
 ) {
   const NewComponent = (props: P) => {
-    const { data, isLoading, isFetched } = useAuthData();
+    const { data, isLoading, isFetched } = useAuth();
 
     if (isLoading) {
       return <Loading />;

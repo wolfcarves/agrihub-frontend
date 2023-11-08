@@ -6,8 +6,8 @@ const buttonStyles = {
   variants: {
     primary:
       "rounded-full text-white bg-primary-3 hover:opacity-90 duration-100",
-    outlined: "rounded-full border border-gray-1 text-black-1",
-    borderless: "rounded-full  text-black-1h-[55px]"
+    outlined:
+      "rounded-full border border-gray-1 text-black-1 hover:bg-gray-1/20 hover:border-gray-1/20 duration-100"
   },
   sizes: {
     xs: "text-xs h-[24px] px-4",
@@ -16,10 +16,9 @@ const buttonStyles = {
     lg: "text-base h-[55px] px-5"
   },
   disabled: {
-    primary:
-      "rounded-full text-white bg-gray-3/60 pointer-events-none select-none",
-    outlined: "rounded-full border border-gray-1 text-black-1",
-    borderless: "rounded-full  text-black-1h-[55px]"
+    primary: "rounded-full bg-gray-3 text-gray-1 cursor-not-allowed",
+    outlined:
+      "rounded-full border border-gray-1/20 text-gray-1 cursor-not-allowed"
   }
 } as const;
 

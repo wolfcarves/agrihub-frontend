@@ -3,6 +3,8 @@ import { Button, Typography } from "@components-ui";
 import useUserSendVerification from "@hooks/api/post/useUserSendVerification";
 import Illustartion from "@svg/verify-email-illust.svg";
 
+import useAuth from "@hooks/useAuth";
+
 const UserVerifyEmailForm = () => {
   if (!localStorage.getItem("timer")) {
     localStorage.setItem("timer", "30");
@@ -40,6 +42,12 @@ const UserVerifyEmailForm = () => {
     }
   };
 
+  const { data } = useAuth();
+
+  function getData() {
+    console.log(data);
+  }
+
   return (
     <>
       <div className="flex flex-col">
@@ -49,6 +57,8 @@ const UserVerifyEmailForm = () => {
           $size="sm"
         />
       </div>
+
+      <button onClick={getData}>get</button>
 
       <div className="flex justify-center py-10">
         <img src={Illustartion} width={280} />

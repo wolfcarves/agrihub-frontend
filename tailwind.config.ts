@@ -1,5 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 
+import tailwindCssAnimate from "tailwindcss-animate";
+
 const theme = {
   important: true,
   darkMode: ["class"],
@@ -35,7 +37,9 @@ const theme = {
         "gray-2": "#A9A9A9",
         "gray-3": "#C8C8C8",
         //whites
-        white: "#FFFFFF"
+        white: "#FFFFFF",
+        //danger
+        "danger-1": "#F95757"
       },
       fontSize: {
         sm: "0.8rem",
@@ -63,8 +67,8 @@ const theme = {
       }
     }
   },
-  plugins: []
-  // [require("tailwindcss-animate")]
+  plugins: [tailwindCssAnimate],
+  blocklist: ["container", "collapse"]
 } as const;
 
 export default theme;

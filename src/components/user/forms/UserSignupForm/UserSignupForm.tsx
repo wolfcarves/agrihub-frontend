@@ -1,7 +1,5 @@
 import { Button, Input, Typography } from "@components-ui";
-import { Link } from "react-router-dom";
-
-import { Form } from "react-router-dom";
+import { Link, Form } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { UserSignUp, userSignupSchema } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -18,7 +16,8 @@ const UserSignupForm = () => {
     resolver: zodResolver(userSignupSchema)
   });
 
-  const { mutateAsync: signUpUser } = useUserSignupMutation();
+  const { mutateAsync: signUpUser, isLoading: isSignUpUserLoading } =
+    useUserSignupMutation();
 
   const onSignupSubmit = async (data: any) => {
     try {
@@ -63,6 +62,7 @@ const UserSignupForm = () => {
           $variant="primary"
           $size="lg"
           $fullWidth
+          $isLoading={isSignUpUserLoading}
           type="submit"
         />
 

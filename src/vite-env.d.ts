@@ -1,5 +1,4 @@
 /// <reference types="vite/client" />
-
 interface ImportMetaEnv {
   readonly VITE_CAPTCHA_ID: string;
   readonly VITE_CAPTCHA_CONTAINER_ID: string;

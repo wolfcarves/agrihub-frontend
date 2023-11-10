@@ -8,6 +8,8 @@ import { getAllowedYears } from "./constant/years";
 import useUserSetupAccount from "@hooks/api/post/useUserSetupAccount";
 import { UserCompletionSchema } from "@api/openapi";
 import { MONTHS } from "./constant/months";
+import { useQueryClient } from "@tanstack/react-query";
+import { GET_USER_KEY } from "@hooks/api/get/useGetMyProfileQuery";
 
 export default function UserSetupAccountForm() {
   const {

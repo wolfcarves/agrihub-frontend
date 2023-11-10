@@ -67,7 +67,7 @@ const UserFinalSetupForm = () => {
     const data = {
       avatar: rawData.avatar[0],
       username: rawData.username,
-      tags
+      tags: tags ? tags : []
     };
 
     try {
@@ -75,8 +75,6 @@ const UserFinalSetupForm = () => {
     } catch (e: any) {
       console.log(e.body);
     }
-
-    console.log(data);
   };
 
   return (

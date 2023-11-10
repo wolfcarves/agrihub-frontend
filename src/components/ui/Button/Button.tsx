@@ -1,6 +1,8 @@
 import { ButtonHTMLAttributes, DetailedHTMLProps, ReactNode } from "react";
 import { BiChevronRight } from "react-icons/bi";
-import LoadingIcon from "@icons/loading.svg";
+
+import { AiOutlineLoading } from "react-icons/ai";
+import LoadingSpinner from "@icons/LoadingSpinner";
 
 const buttonStyles = {
   variants: {
@@ -81,9 +83,9 @@ export default function Button({
       disabled={$disabled}
       {...props}
     >
-      {$isLoading && <img src={LoadingIcon} width={40} className="mx-1" />}
-      {$title}
-      {children}
+      {$isLoading && <LoadingSpinner />}
+
+      {$title ?? children}
       {$withArrow && <ButtonArrow size={$size} />}
     </button>
   );

@@ -1,17 +1,20 @@
 import { useMemo } from "react";
+import { twClasses } from "../Theme/tw";
+
+const classes = twClasses;
 
 export const useTypography = (
   size?: string,
+  color?: string,
   align?: string,
   weight?: string
 ) => {
-  const a = "font-600";
-
   return useMemo(() => {
     return {
-      fontSize: `text-${size}`,
-      align: `text-${align}`,
-      weight: `font-${weight}`
+      fontSize: size ? `text-${size}` : undefined,
+      color: color ? `text-${color}` : undefined,
+      align: align ? `text-${align}` : undefined,
+      weight: weight ? `font-${weight}` : undefined
     };
-  }, [size, align, weight]);
+  }, [size, color, align, weight]);
 };

@@ -5,7 +5,7 @@ import { UserSetupAccount, userSetupAcountSchema } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import InputSelect from "@components/ui/Input/InputSelect";
 import { getAllowedYears } from "./constant/years";
-import useUserProfileCompletion from "@hooks/api/post/useUserProfileCompletion";
+import useUserSetupAccount from "@hooks/api/post/useUserSetupAccount";
 import { UserCompletionSchema } from "@api/openapi";
 import { MONTHS } from "./constant/months";
 
@@ -18,13 +18,13 @@ export default function UserSetupAccountForm() {
   } = useForm<UserSetupAccount>({
     resolver: zodResolver(userSetupAcountSchema),
     mode: "onChange",
-    reValidateMode: "onSubmit"
+    reValidateMode: "onChange"
   });
 
   const {
-    mutateAsync: userSubmitProfile,
-    isLoading: isUserSubmitProfileLoading
-  } = useUserProfileCompletion();
+    mutateAsync: userSetupAccountMutate,
+    isLoading: isUserSetupAccountLoading
+  } = useUserSetupAccount();
 
   const onSubmitForm = async (data: UserSetupAccount) => {
     const refinedData = {
@@ -36,90 +36,82 @@ export default function UserSetupAccountForm() {
       present_address: data.presentAddress,
       district: "1",
       municipality: "City",
-      zipcode: "1118"
+      zipcode: "1234"
     } as UserCompletionSchema;
 
     try {
-      await userSubmitProfile(refinedData);
-    } catch (e: any) {
+      await userSetupAccountMutate(refinedData);
+    } catch (e) {
       console.log(e);
     }
   };
 
   return (
     <Form className="mt-30" onSubmit={handleSubmit(onSubmitForm)}>
-      <div className="flex flex-col gap-3">
-        <div className="mb-2">
-          <Input
-            type="text"
-            $label="First Name"
-            {...register("firstname")}
-            $errorMessage={errors.firstname?.message}
-          />
-        </div>
+      <Input
+        type="text"
+        $label="First Name"
+        {...register("firstname")}
+        $errorMessage={errors.firstname?.message}
+      />
 
-        <div className="mb-2">
-          <Input
-            type="text"
-            $label="Last Name"
-            {...register("lastname")}
-            $errorMessage={errors.lastname?.message}
-          />
-        </div>
+      <Input
+        type="text"
+        $label="Last Name"
+        {...register("lastname")}
+        $errorMessage={errors.lastname?.message}
+      />
 
-        <div>
-          <Typography.Span $title={"Date of Birth"} $weight="600" />
-        </div>
-
-        <div className="grid grid-cols-7 gap-2 mb-2">
-          <Controller
-            name="month"
-            control={control}
-            render={({ field: { onChange, value } }) => {
-              return (
-                <div className="col-span-4">
-                  <InputSelect
-                    $label="Month"
-                    $options={MONTHS}
-                    placeholder=""
-                    value={MONTHS.find(m => m.value === value)}
-                    onChange={(e: any) => onChange(e.value)}
-                    $errorMessage={errors.month?.message}
-                  />
-                </div>
-              );
-            }}
-          />
-
-          <Controller
-            name="year"
-            control={control}
-            render={({ field: { onChange, value } }) => {
-              return (
-                <div className="col-span-3">
-                  <InputSelect
-                    $label="Year"
-                    $options={getAllowedYears()}
-                    placeholder=""
-                    value={getAllowedYears().find(y => y.value === value)}
-                    onChange={(e: any) => onChange(e.value)}
-                    $errorMessage={errors.year?.message}
-                  />
-                </div>
-              );
-            }}
-          />
-        </div>
-
-        <div className="mb-2">
-          <Input
-            type="text"
-            $label="Present Address"
-            {...register("presentAddress")}
-            $errorMessage={errors.presentAddress?.message}
-          />
-        </div>
+      <div className="mb-3">
+        <Typography.Span $title={"Date of Birth"} $weight="normal" />
       </div>
+
+      <div className="grid grid-cols-3 gap-2 mb-7">
+        <Controller
+          name="month"
+          control={control}
+          render={({ field: { onChange, value } }) => {
+            return (
+              <div className="col-span-2">
+                <InputSelect
+                  $label="Month"
+                  $options={MONTHS}
+                  placeholder=""
+                  value={MONTHS.find(m => m.value === value)}
+                  onChange={(e: any) => onChange(e.value)}
+                  $errorMessage={errors.month?.message}
+                />
+              </div>
+            );
+          }}
+        />
+
+        <Controller
+          name="year"
+          control={control}
+          render={({ field: { onChange, value } }) => {
+            return (
+              <div className="col-span-1">
+                <InputSelect
+                  $label="Year"
+                  $options={getAllowedYears()}
+                  placeholder=""
+                  value={getAllowedYears().find(y => y.value === value)}
+                  onChange={(e: any) => onChange(e.value)}
+                  $errorMessage={errors.year?.message}
+                />
+              </div>
+            );
+          }}
+        />
+      </div>
+
+      <Input
+        type="text"
+        $label="Present Address"
+        {...register("presentAddress")}
+        $errorMessage={errors.presentAddress?.message}
+      />
 
       <div className="mt-8 pb-10">
         <Button
@@ -127,8 +119,8 @@ export default function UserSetupAccountForm() {
           $variant="primary"
           $size="lg"
           $fullWidth
-          $disabled={isUserSubmitProfileLoading}
-          type="submit"
+          $isLoading={isUserSetupAccountLoading}
+          $disabled={isUserSetupAccountLoading}
         />
       </div>
     </Form>

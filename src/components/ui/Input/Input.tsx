@@ -24,26 +24,26 @@ const Input = (
   const inputId = useId();
 
   return (
-    <div>
+    <div className="mt-2">
       <label htmlFor={inputId}>
-        <Typography.H6 $title={$label} $weight="600" />
+        <Typography.Span $title={$label} />
       </label>
 
       <input
-        {...props}
-        {...{ ref }}
+        ref={ref}
         id={inputId}
         className={`${
           $errorMessage && "border border-red-500"
-        } rounded-xl border border-gray-1 w-full mt-2 h-[55px] px-4 placeholder:text-sm`}
+        } text-base rounded-xl border border-gray-1 w-full mt-2 h-[55px] px-4 placeholder:text-sm  focus:outline-primary-3 focus:shadow-md`}
+        {...props}
       />
-      <i>
+      <div className="h-5 ">
         <Typography.Span
           $title={$errorMessage}
-          $size="sm"
+          $size="base"
           className="text-red-500"
         />
-      </i>
+      </div>
     </div>
   );
 };

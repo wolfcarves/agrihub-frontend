@@ -1,29 +1,33 @@
 import { useEffect, useState } from "react";
 import { Button, Typography } from "@components-ui";
 import useUserSendVerification from "@hooks/api/post/useUserSendVerification";
-import Illustartion from "@svg/verify-email-illust.svg";
+import Illustartion from "/verify-email-illust.svg";
 
 import useAuth from "@hooks/useAuth";
 
 const UserVerifyEmailForm = () => {
-  if (!localStorage.getItem("timer")) {
-    localStorage.setItem("timer", "30");
+  const { data: authData } = useAuth();
+
+  const STORAGE_KEY = authData?.email as string;
+
+  if (!localStorage.getItem(STORAGE_KEY)) {
+    localStorage.setItem(STORAGE_KEY, "30");
   }
 
-  const time = localStorage.getItem("timer");
+  const time = localStorage.getItem(STORAGE_KEY);
 
   const [countdown, setCountdown] = useState<number>(Number(time));
 
   useEffect(() => {
     const interval = setInterval(() => {
       localStorage.setItem(
-        "timer",
-        String(Number(localStorage.getItem("timer")) - 1)
+        STORAGE_KEY,
+        String(Number(localStorage.getItem(STORAGE_KEY)) - 1)
       );
-      setCountdown(Number(localStorage.getItem("timer")));
+      setCountdown(Number(localStorage.getItem(STORAGE_KEY)));
     }, 1000);
 
-    if (localStorage.getItem("timer") === "0") clearInterval(interval);
+    if (localStorage.getItem(STORAGE_KEY) === "0") clearInterval(interval);
 
     return () => {
       clearInterval(interval);
@@ -34,7 +38,7 @@ const UserVerifyEmailForm = () => {
     useUserSendVerification();
 
   const handleResendEmail = async () => {
-    localStorage.setItem("timer", "30");
+    localStorage.setItem(STORAGE_KEY, "30");
     try {
       await resendEmail();
     } catch (error) {
@@ -42,24 +46,8 @@ const UserVerifyEmailForm = () => {
     }
   };
 
-  const { data } = useAuth();
-
-  function getData() {
-    console.log(data);
-  }
-
   return (
     <>
-      <div className="flex flex-col">
-        <Typography.P
-          $title="Check your email & click the link to activate your account"
-          $align="center"
-          $size="sm"
-        />
-      </div>
-
-      <button onClick={getData}>get</button>
-
       <div className="flex justify-center py-10">
         <img src={Illustartion} width={280} />
       </div>
@@ -69,23 +57,17 @@ const UserVerifyEmailForm = () => {
           $title="Resend Email"
           $variant="primary"
           $size="lg"
-          $disabled={localStorage.getItem("timer") !== "0"}
+          $disabled={localStorage.getItem(authData?.email as string) !== "0"}
           $isLoading={isResendEmailLoading}
           onClick={handleResendEmail}
         />
 
         {countdown !== 0 && (
           <>
-            <Typography.Span
-              $title={"Send again"}
-              $align="center"
-              $lineHeight={"0"}
-              className="mt-5"
-            />
+            <Typography.Span $title={"Send again"} $align="center" />
             <Typography.Span
               $title={`after ${countdown} seconds`}
               $align="center"
-              $lineHeight={"1rem"}
             />
           </>
         )}

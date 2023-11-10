@@ -8,6 +8,7 @@ type BaseDivType = React.DetailedHTMLProps<
 
 interface UserFormTitleProps extends BaseDivType {
   title: string;
+  description?: string;
   center?: boolean;
   size?: FontSize;
   step?: string;
@@ -15,6 +16,7 @@ interface UserFormTitleProps extends BaseDivType {
 
 const UserFormTitle = ({
   title,
+  description,
   center,
   size,
   step,
@@ -23,18 +25,16 @@ const UserFormTitle = ({
   return (
     <div {...props}>
       {step && (
-        <Typography.Span
-          $title={`Step ${step} of 2`}
-          $size="sm"
-          $weight="500"
-        />
+        <Typography.Span $title={`Step ${step} of 2`} $weight="medium" />
       )}
-      <Typography.H2
-        $title={title}
-        $weight="600"
-        $size={size}
-        $align={center ? "center" : "start"}
-      />
+      <div className={center ? "text-center" : "text-auto"}>
+        <div>
+          <Typography.H2 $title={title} $weight="normal" $size={size} />
+        </div>
+        <div className="my-4">
+          <Typography.Span $title={description} $weight="normal" $size={"md"} />
+        </div>
+      </div>
     </div>
   );
 };

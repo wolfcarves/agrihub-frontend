@@ -1,22 +1,24 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import reactRefresh from "@vitejs/plugin-react-refresh"
+import reactRefresh from "@vitejs/plugin-react-refresh";
 
 import path from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  root: "./",
+
   server: {
     watch: {
-      usePolling: true,
+      usePolling: true
     }
   },
 
   build: {
-    outDir: 'dist/',
+    outDir: "dist/",
     rollupOptions: {
-      input : {
-        main: 'index.html'
+      input: {
+        main: "index.html"
       }
     }
   },
@@ -39,6 +41,6 @@ export default defineConfig({
       "@svg": path.resolve(__dirname, "src/svg")
     }
   },
-  
-  plugins: [react(), reactRefresh()],
+
+  plugins: [react(), reactRefresh()]
 });

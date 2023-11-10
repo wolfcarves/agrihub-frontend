@@ -11,8 +11,7 @@ const theme = {
     "../../packages/**/*.{ts,tsx}"
   ],
   screens: {
-    xs: "375px",
-    sm: "480px",
+    sm: "375px",
     md: "768px",
     lg: "976px",
     xl: "1440px"
@@ -23,38 +22,32 @@ const theme = {
   theme: {
     extend: {
       colors: {
-        //primaries
-        "primary-1": "#368F0F",
-        "primary-2": "#57714B",
+        "primary-1": "#45D605",
+        "primary-2": "#368F0F",
         "primary-3": "#638355",
         "primary-4": "#C9E7A3",
-        "primary-5": "#F0FBEA",
-        //blacks
         "black-1": "#343434",
-        "black-2": "#4D4D4D",
-        //grays
-        "gray-1": "#848484",
-        "gray-2": "#A9A9A9",
-        "gray-3": "#C8C8C8",
-        //whites
-        white: "#FFFFFF",
-        //danger
-        "danger-1": "#F95757"
+        "gray-1": "#7C7C7C",
+        "gray-2": "#C8C8C8",
+        "gray-3": "#F4F4F4",
+        "white-1": "#FFFFFF",
+        "danger-1": "#F71818",
+        "danger-2": "#EE665E"
       },
       fontSize: {
-        sm: "0.8rem",
-        base: "0.9rem",
-        md: "1rem",
-        lg: "1.25rem",
-        xl: "1.5rem",
-        "2xl": "1.75rem",
-        "3xl": "2rem",
-        "4xl": "2.25rem",
-        "5xl": "2.50rem",
-        "6xl": "2.75rem",
-        "7xl": "3rem",
-        "8xl": "3.25rem",
-        "9xl": "3.50rem"
+        sm: "0.7rem",
+        base: "0.8rem",
+        md: "0.9rem",
+        lg: "1rem",
+        xl: "1.25rem",
+        "2xl": "1.50rem",
+        "3xl": "1.75rem",
+        "4xl": "2rem",
+        "5xl": "2.25rem",
+        "6xl": "2.50rem",
+        "7xl": "2.75rem",
+        "8xl": "3rem",
+        "9xl": "3.25rem"
       },
       fontWeight: {
         thin: "200",

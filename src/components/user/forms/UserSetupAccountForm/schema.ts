@@ -4,7 +4,7 @@ export const userSetupAcountSchema = zod.object({
   firstname: zod
     .string()
     .min(3, "Please enter at least 3 characters")
-    .max(15, "Your firstname is way too long"),
+    .max(30, "Your firstname is way too long"),
   lastname: zod
     .string()
     .min(3, "Please enter at least 3 characters")

@@ -1,5 +1,6 @@
 import UserFormTitle from "@components/user/title/UserFormTitle";
 import UserSetupAccountForm from "@components/user/forms/UserSetupAccountForm/UserSetupAccountForm";
+import withAuthGuard from "@higher-order/account/withAuthGuard";
 
 const SetupAccount = () => {
   return (
@@ -15,4 +16,4 @@ const SetupAccount = () => {
   );
 };
 
-export default SetupAccount;
+export default withAuthGuard(SetupAccount);

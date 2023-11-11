@@ -1,4 +1,5 @@
 export const twClasses = [
+  //font size
   "text-xs",
   "text-sm",
   "text-md",
@@ -12,7 +13,9 @@ export const twClasses = [
   "text-7xl",
   "text-8xl",
   "text-9xl",
+
   //xs
+
   "xs:text-xs",
   "xs:text-sm",
   "xs:text-md",
@@ -26,7 +29,9 @@ export const twClasses = [
   "xs:text-7xl",
   "xs:text-8xl",
   "xs:text-9xl",
+
   //md
+
   "md:text-xs",
   "md:text-sm",
   "md:text-md",
@@ -40,7 +45,9 @@ export const twClasses = [
   "md:text-7xl",
   "md:text-8xl",
   "md:text-9xl",
+
   //lg
+
   "lg:text-xs",
   "lg:text-sm",
   "lg:text-md",
@@ -54,7 +61,9 @@ export const twClasses = [
   "lg:text-7xl",
   "lg:text-8xl",
   "lg:text-9xl",
+
   //xl
+
   "xl:text-xs",
   "xl:text-sm",
   "xl:text-md",
@@ -68,7 +77,9 @@ export const twClasses = [
   "xl:text-7xl",
   "xl:text-8xl",
   "xl:text-9xl",
+
   //2xl
+
   "2xl:text-xs",
   "2xl:text-sm",
   "2xl:text-md",
@@ -82,7 +93,9 @@ export const twClasses = [
   "2xl:text-7xl",
   "2xl:text-8xl",
   "2xl:text-9xl",
+
   //3xl
+
   "3xl:text-xs",
   "3xl:text-sm",
   "3xl:text-md",
@@ -96,7 +109,9 @@ export const twClasses = [
   "3xl:text-7xl",
   "3xl:text-8xl",
   "3xl:text-9xl",
+
   //4xl
+
   "4xl:text-xs",
   "4xl:text-sm",
   "4xl:text-md",
@@ -110,7 +125,9 @@ export const twClasses = [
   "4xl:text-7xl",
   "4xl:text-8xl",
   "4xl:text-9xl",
+
   //5xl
+
   "5xl:text-xs",
   "5xl:text-sm",
   "5xl:text-md",
@@ -124,7 +141,9 @@ export const twClasses = [
   "5xl:text-7xl",
   "5xl:text-8xl",
   "5xl:text-9xl",
+
   //6xl
+
   "6xl:text-xs",
   "6xl:text-sm",
   "6xl:text-md",
@@ -138,7 +157,9 @@ export const twClasses = [
   "6xl:text-7xl",
   "6xl:text-8xl",
   "6xl:text-9xl",
+
   //7xl
+
   "7xl:text-xs",
   "7xl:text-sm",
   "7xl:text-md",
@@ -152,7 +173,9 @@ export const twClasses = [
   "7xl:text-7xl",
   "7xl:text-8xl",
   "7xl:text-9xl",
+
   //8xl
+
   "8xl:text-xs",
   "8xl:text-sm",
   "8xl:text-md",
@@ -166,7 +189,9 @@ export const twClasses = [
   "8xl:text-7xl",
   "8xl:text-8xl",
   "8xl:text-9xl",
+
   //9xl
+
   "9xl:text-xs",
   "9xl:text-sm",
   "9xl:text-md",
@@ -179,10 +204,10 @@ export const twClasses = [
   "9xl:text-6xl",
   "9xl:text-7xl",
   "9xl:text-8xl",
-  "9xl:text-9xl"
-];
+  "9xl:text-9xl",
 
-const transforms = [
+  //transform
+
   "text-auto",
   "text-start",
   "text-end",
@@ -190,15 +215,27 @@ const transforms = [
   "text-right",
   "text-center",
   "text-justify",
-  "text-ellipsis"
-];
+  "text-ellipsis",
 
-const weights = [
+  //font-style
+
   "font-thin",
   "font-light",
   "font-normal",
   "font-medium",
   "font-semibold",
   "font-bold",
-  "font-extrabold"
+  "font-extrabold",
+
+  //colors
+
+  "text-primary-1",
+  "text-primary-2",
+  "text-primary-3",
+  "text-primary-4",
+  "text-primary-5",
+  "text-black-2",
+  "text-gray-2",
+  "text-gray-3",
+  "text-danger-1"
 ];

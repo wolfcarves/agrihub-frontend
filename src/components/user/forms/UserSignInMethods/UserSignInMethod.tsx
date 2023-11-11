@@ -6,17 +6,21 @@ const UserSignInMethods = () => {
   return (
     <>
       <div className="py-5">
-        <img src={GoogleLogo} width={50} />
+        <div className="w-max">
+          <Link to={"www.google.com"}>
+            <img src={GoogleLogo} width={50} />
+          </Link>
+        </div>
       </div>
       <Divider $title="or" />
       <div className="py-5">
         <div>
-          <Typography.Span $title={"Sign up with email"} $weight="600" />
+          <Typography.Span $title={"Sign up with email"} $weight="semibold" />
         </div>
         <div>
           <Typography.Span $title={"Already have an account? "} />
           <Link to="/account/signup">
-            <Typography.Span $title={"Sign up"} $color="primary-1" />
+            <Typography.Span $title={"Sign up"} $color="primary-2" />
           </Link>
         </div>
       </div>

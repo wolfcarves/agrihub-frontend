@@ -13,7 +13,11 @@ export const userSignupSchema = zod
     confirmPassword: zod.string()
   })
   .superRefine((val, ctx) => {
-    if (val.password !== val.confirmPassword) {
+    if (
+      val.password !== val.confirmPassword ||
+      !val.password ||
+      !val.confirmPassword
+    ) {
       ctx.addIssue({
         code: "custom",
         message: "Password must match",

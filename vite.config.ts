@@ -33,6 +33,7 @@ export default defineConfig({
       "@components": path.resolve(__dirname, "src/components"),
       "@higher-order": path.resolve(__dirname, "src/higher-order"),
       "@hooks": path.resolve(__dirname, "src/hooks"),
+      "@lib": path.resolve(__dirname, "src/components/lib"),
       "@router": path.resolve(__dirname, "src/router"),
       "@pages": path.resolve(__dirname, "src/pages"),
       "@redux": path.resolve(__dirname, "src/redux"),

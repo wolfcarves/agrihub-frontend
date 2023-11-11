@@ -8,7 +8,7 @@ export const theme = {
   colors: {
     light: twTheme.theme.extend.colors,
     dark: {
-      //will set soon
+      "primary-1": "#101010"
     }
   }
 } as const;

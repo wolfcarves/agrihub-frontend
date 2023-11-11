@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { Button, Typography } from "@components-ui";
 import useUserSendVerification from "@hooks/api/post/useUserSendVerification";
 import Illustartion from "/verify-email-illust.svg";
 
 import useAuth from "@hooks/useAuth";
+import { Button } from "@components/ui/button";
 
 const UserVerifyEmailForm = () => {
   const { data: authData } = useAuth();
@@ -53,23 +53,15 @@ const UserVerifyEmailForm = () => {
       </div>
 
       <div className="flex flex-col w-full gap-5 h-max ">
-        <Button
-          $title="Resend Email"
-          $variant="primary"
-          $size="lg"
-          $disabled={localStorage.getItem(authData?.email as string) !== "0"}
-          $isLoading={isResendEmailLoading}
-          onClick={handleResendEmail}
-        />
+        <Button type="submit" size={"lg"} onClick={handleResendEmail}>
+          Resend Email
+        </Button>
 
         {countdown !== 0 && (
-          <>
-            <Typography.Span $title={"Send again"} $align="center" />
-            <Typography.Span
-              $title={`after ${countdown} seconds`}
-              $align="center"
-            />
-          </>
+          <div className="flex flex-col text-center">
+            <span>Send again</span>
+            <span>After {countdown} seconds</span>
+          </div>
         )}
       </div>
     </>

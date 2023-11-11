@@ -1,19 +1,13 @@
-import UserFormTitle from "@components/user/title/UserFormTitle";
 import UserSetupAccountForm from "@components/user/forms/UserSetupAccountForm/UserSetupAccountForm";
-import withAuthGuard from "@higher-order/account/withAuthGuard";
+import UserSetupAccountTitle from "@components/user/title/UserSetupAccountTitle";
 
 const SetupAccount = () => {
   return (
     <>
-      <UserFormTitle
-        title="Complete your profile"
-        size="3xl"
-        step="2"
-        className="mb-10"
-      />
+      <UserSetupAccountTitle />
       <UserSetupAccountForm />
     </>
   );
 };
 
-export default withAuthGuard(SetupAccount);
+export default SetupAccount;

@@ -1,5 +1,4 @@
-import { Button, Input, Typography } from "@components-ui";
-import { Link, Form } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { UserSignUp, userSignupSchema } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -10,6 +9,16 @@ import {
 } from "@leminnow/react-lemin-cropped-captcha";
 import { useState } from "react";
 import { UserRegisterSchema } from "@api/openapi";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage
+} from "@components/ui/form";
+import { Input } from "@components/ui/input";
+import { Button } from "@components/ui/button";
 
 const containerId = import.meta.env.VITE_CAPTCHA_CONTAINER_ID;
 const captchaId = import.meta.env.VITE_CAPTCHA_ID;
@@ -19,11 +28,7 @@ const UserSignupForm = () => {
   const { getCaptcha } = leminCroppedCaptcha;
   const [captchaError, setCaptchaError] = useState<boolean>(false);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors }
-  } = useForm<UserSignUp>({
+  const form = useForm<UserSignUp>({
     resolver: zodResolver(userSignupSchema),
     mode: "onChange",
     reValidateMode: "onChange"
@@ -63,64 +68,75 @@ const UserSignupForm = () => {
   };
 
   return (
-    <Form onSubmit={handleSubmit(onSignupSubmit)}>
-      <Input
-        type="email"
-        $label="Email address"
-        {...register("email")}
-        $errorMessage={errors?.email?.message}
-      />
-
-      <Input
-        type="password"
-        $label="Password"
-        {...register("password")}
-        $errorMessage={errors?.password?.message}
-      />
-
-      <Input
-        type="password"
-        $label="Confirm Password"
-        {...register("confirmPassword")}
-        $errorMessage={errors?.confirmPassword?.message}
-      />
-
-      <div className="my-7">
-        <LeminCroppedCaptchaContainer
-          containerId={containerId}
-          captchaId={captchaId}
-          onVerify={(status: boolean) => setCaptchaError(!status)}
-        />
-        <div className="py-2">
-          {captchaError && (
-            <Typography.H6
-              $title="Enter Captcha"
-              $size="base"
-              $color="danger-1"
-              $align="center"
-            />
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSignupSubmit)}
+        className="space-y-3 mt-5"
+      >
+        <FormField
+          name="email"
+          control={form.control}
+          defaultValue=""
+          render={({ field, fieldState }) => (
+            <FormItem>
+              <FormLabel>Email</FormLabel>
+              <FormControl>
+                <Input type="text" {...field} />
+              </FormControl>
+              <FormMessage>{fieldState.error?.message}</FormMessage>
+            </FormItem>
           )}
-        </div>
-      </div>
-
-      <div>
-        <Button
-          $title="Continue"
-          $variant="primary"
-          $size="lg"
-          $fullWidth
-          $isLoading={isSignUpUserLoading}
-          $disabled={isSignUpUserLoading}
-          type="submit"
         />
 
-        <div className="mt-10 text-center">
-          <Typography.Span $title={"Already have an account?"} />
-          <Link to={"/account/login"} className="ms-1">
-            <Typography.Span $title={"Sign in"} $color="primary-2" />
-          </Link>
+        <FormField
+          name="password"
+          control={form.control}
+          defaultValue=""
+          render={({ field, fieldState }) => (
+            <FormItem>
+              <FormLabel>Password</FormLabel>
+              <FormControl>
+                <Input type="password" {...field} />
+              </FormControl>
+              <FormMessage>{fieldState.error?.message}</FormMessage>
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          name="confirmPassword"
+          control={form.control}
+          defaultValue=""
+          render={({ field, fieldState }) => (
+            <FormItem>
+              <FormLabel>Confirm Password</FormLabel>
+              <FormControl>
+                <Input type="password" {...field} />
+              </FormControl>
+              <FormMessage>{fieldState.error?.message}</FormMessage>
+            </FormItem>
+          )}
+        />
+
+        <div className="py-7 text-black">
+          <LeminCroppedCaptchaContainer
+            containerId={containerId}
+            captchaId={captchaId}
+            onVerify={(status: boolean) => setCaptchaError(!status)}
+          />
+          <div className="py-2">
+            {captchaError && (
+              <span className="text-center text-danger-500">Enter captcha</span>
+            )}
+          </div>
         </div>
-      </div>
+
+        <div>
+          <Button variant={"default"} size={"lg"} className="w-full">
+            Continue
+          </Button>
+        </div>
+      </form>
     </Form>
   );
 };

@@ -30,6 +30,7 @@
       "@components/*": ["./src/components/*"],
       "@higher-order/*": ["./src/higher-order/*"],
       "@hooks/*": ["./src/hooks/*"],
+      "@lib/*": ["./src/components/lib/*"],
       "@router/*": ["./src/router/*"],
       "@pages/*": ["./src/pages/*"],
       "@redux/*": ["./src/redux/*"],

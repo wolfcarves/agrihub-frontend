@@ -5,7 +5,6 @@ import {
   forwardRef,
   ForwardedRef
 } from "react";
-import Typography from "../Typography/Typography";
 
 type BaseInputProps = DetailedHTMLProps<
   InputHTMLAttributes<HTMLInputElement>,
@@ -25,9 +24,7 @@ const Input = (
 
   return (
     <div className="mt-2">
-      <label htmlFor={inputId}>
-        <Typography.Span $title={$label} />
-      </label>
+      <label htmlFor={inputId}>{$label}</label>
 
       <input
         ref={ref}
@@ -38,11 +35,7 @@ const Input = (
         {...props}
       />
       <div className="h-5 ">
-        <Typography.Span
-          $title={$errorMessage}
-          $size="base"
-          className="text-red-500"
-        />
+        <span className="text-red-500">${$errorMessage}</span>
       </div>
     </div>
   );

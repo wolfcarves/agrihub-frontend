@@ -1,4 +1,4 @@
-import BaseHeader from "@components/agrihub-ui/Header/BaseHeader";
+import { BaseHeader } from "@components/ui/custom";
 import AgrihubLogo from "@icons/agrihub-logo.svg";
 import { Link } from "react-router-dom";
 

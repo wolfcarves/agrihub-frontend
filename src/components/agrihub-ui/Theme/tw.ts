@@ -237,5 +237,15 @@ export const twClasses = [
   "text-black-2",
   "text-gray-2",
   "text-gray-3",
-  "text-danger-1"
+  "text-danger-1",
+
+  "dark:text-primary-1",
+  "dark:text-primary-2",
+  "dark:text-primary-3",
+  "dark:text-primary-4",
+  "dark:text-primary-5",
+  "dark:text-black-2",
+  "dark:text-gray-2",
+  "dark:text-gray-3",
+  "dark:text-danger-1"
 ];

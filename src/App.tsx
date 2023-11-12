@@ -43,32 +43,32 @@ const App = ReactRouter(
       <Route path="verify-email" element={<VerifyEmail />} />
       <Route path="setup-account" element={<SetupAccount />} />
       <Route path="final-setup" element={<FinalSetup />} />
-      <Route path="forgot-password" element={`forgot-password`} />
-      <Route path="reset-password" element={`reset-password`} />
+      {/*<Route path="forgot-password" element={`forgot-password`} />
+      <Route path="reset-password" element={`reset-password`} />*/}
     </Route>
 
     {/* Question Page */}
-    <Route path="/" element={<QuestionLayout />}>
+    {/* <Route path="/" element={<QuestionLayout />}>
       <Route path="questions" element={<Questions />} />
       <Route path="questions/tags" element={<QuestionTags />} />
       <Route
         path="question/:username/:questionId/:questionTitle"
         element={<Question />}
       />
-    </Route>
+    </Route> */}
 
     {/* Article Page */}
-    <Route path="/" element={<ArticleLayout />}>
+    {/* <Route path="/" element={<ArticleLayout />}>
       <Route path="articles" element={<Articles />} />
       <Route path="article/:title/:articleId" element={<Article />} />
-    </Route>
+    </Route> */}
 
     {/* Profile Page  */}
-    <Route path="/users" element={<UserProfileLayout />}>
+    {/* <Route path="/users" element={<UserProfileLayout />}>
       <Route path=":userId/:username" element={<UserProfile />} />
       <Route path=":userId/me" element={<MyProfile />} />
       <Route path=":userId/me/edit" element={<EditProfile />} />
-    </Route>
+    </Route> */}
   </>
 );
 

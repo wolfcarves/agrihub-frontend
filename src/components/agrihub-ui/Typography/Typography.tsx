@@ -1,6 +1,7 @@
 import { CSSProperties } from "react";
 import { Colors, FontSize, FontWeight } from "../Theme/types";
 import { useTypography } from "./useTypography";
+import useColorScheme from "@hooks/useColorScheme";
 
 type BaseTextProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLHeadingElement>,
@@ -31,6 +32,8 @@ const H1 = ({
   className,
   ...props
 }: TextProps) => {
+  const scheme = useColorScheme();
+
   const { fontSize, color, align, weight } = useTypography(
     $size,
     $color,
@@ -40,9 +43,9 @@ const H1 = ({
 
   return (
     <h1
-      className={`${
-        fontSize ?? "text-3xl"
-      } ${color} ${align} ${weight} md:text-${$sizeMd} lg:text-${$sizeLg} xl:text-${$sizeXl} ${className}`}
+      className={`${fontSize ?? "text-3xl"} ${
+        scheme === "light" ? color : `dark:${color}`
+      } ${align} ${weight} md:text-${$sizeMd} lg:text-${$sizeLg} xl:text-${$sizeXl} ${className}`}
       {...props}
     >
       {$title ?? children}

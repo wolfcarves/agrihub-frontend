@@ -1,8 +1,8 @@
 import { ButtonHTMLAttributes, DetailedHTMLProps, ReactNode } from "react";
 import { BiChevronRight } from "react-icons/bi";
 
-import { AiOutlineLoading } from "react-icons/ai";
 import LoadingSpinner from "@icons/LoadingSpinner";
+import useColorScheme from "@hooks/useColorScheme";
 
 const buttonStyles = {
   variants: {
@@ -71,6 +71,8 @@ export default function Button({
   $isLoading,
   ...props
 }: ButtonProps) {
+  const colorScheme = useColorScheme();
+
   const _variant = $disabled
     ? buttonStyles.disabled[$variant]
     : buttonStyles.variants[$variant];

@@ -4,12 +4,12 @@ export const generateAllowedYears = () => {
   const leastYear = 1960;
   const mostYear = 2010;
 
-  const years: Array<{ value: number; label: number }> = [];
+  const years: Array<{ value: string; label: string }> = [];
 
   for (let i = leastYear; i <= mostYear; i++) {
     years.push({
-      value: i,
-      label: i
+      value: String(i),
+      label: String(i)
     });
   }
 

@@ -1,21 +1,17 @@
 import UserVerifyEmailForm from "@components/user/forms/UserVerifyEmailForm/UserVerifyEmailForm";
-import UserFormTitle from "@components/user/title/UserFormTitle";
+import UserFormTitle from "@components/user/title/UserLoginFormTitle";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
 
 const VerifyEmail = () => {
   return (
     <>
-      <UserFormTitle
-        title="Verify Your Email Address"
-        center
-        size="3xl"
-        step="1"
-        className="flex flex-col gap-14"
-        description="Check your email & click the link to activate your account"
-      />
+      <div className="text-center">
+        <h1 className="font-semibold">Verify your email address</h1>
+        <span>Check your email & click the link to activate your account</span>
+      </div>
       <UserVerifyEmailForm />
     </>
   );
 };
 
-export default withAuthGuard(VerifyEmail);
+export default VerifyEmail;

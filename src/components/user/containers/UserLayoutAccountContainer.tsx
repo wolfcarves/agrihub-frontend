@@ -1,4 +1,4 @@
-export default function UserAccountContainer(props: {
+export default function UserLayoutAccountContainer(props: {
   children: React.ReactNode;
 }) {
   return (

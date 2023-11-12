@@ -1,5 +1,4 @@
 import React from "react";
-import Typography from "../Typography/Typography";
 
 type BaseDivderProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
@@ -24,12 +23,7 @@ export default function Divider({
           style={{ height: "1px", backgroundColor: $color }}
         ></div>
         <div className="mx-5">
-          <Typography.Span
-            {...{ $title }}
-            $size="base"
-            className="text-[#848484]"
-            $weight="500"
-          />
+          <span>{$title}</span>
         </div>
         <div
           className="w-full rounded-full"

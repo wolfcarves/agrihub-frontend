@@ -1,6 +1,5 @@
 import Select, { Props as BaseInputSelectProps } from "react-select";
 import { useId } from "react";
-import Typography from "../Typography/Typography";
 
 type Options = { value: number | number; label: string | number };
 
@@ -21,7 +20,7 @@ const InputSelect = ({
   return (
     <div>
       <label htmlFor={selectId} className="m-0">
-        <Typography.Span $title={$label} $weight="500" />
+        <span className="font-medium">{$label}</span>
       </label>
 
       <Select
@@ -43,11 +42,7 @@ const InputSelect = ({
         {...props}
       />
       <i>
-        <Typography.Span
-          $title={$errorMessage}
-          $size="sm"
-          className="text-red-500"
-        />
+        <span className="text-red-500">{$errorMessage}</span>
       </i>
     </div>
   );

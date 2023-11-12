@@ -1,5 +1,5 @@
 import { ThemeToggler } from "@components/ui/theme-toggler";
-import UserAccountContainer from "@components/user/containers/UserAccountContainer";
+import UserLayoutAccountContainer from "@components/user/containers/UserLayoutAccountContainer";
 import UserHeader from "@components/user/headers/UserHeader";
 import { Outlet } from "react-router-dom";
 
@@ -11,13 +11,13 @@ const ChildComponent = () => (
 
 const AccountLayout = () => {
   return (
-    <UserAccountContainer>
+    <UserLayoutAccountContainer>
       <UserHeader />
       <ChildComponent />
       <div className="absolute bottom-5 right-5">
         <ThemeToggler />
       </div>
-    </UserAccountContainer>
+    </UserLayoutAccountContainer>
   );
 };
 

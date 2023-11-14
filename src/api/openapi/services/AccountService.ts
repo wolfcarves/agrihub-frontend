@@ -41,7 +41,7 @@ message?: string;
     }
 
     /**
-     * Register a user
+     * Send verification for user registration
      * @returns any Success
      * @throws ApiError
      */
@@ -60,7 +60,7 @@ message?: string;
 
     /**
      * @deprecated
-     * verify email
+     * Verify email
      * @param id 
      * @returns any Success
      * @throws ApiError
@@ -84,7 +84,7 @@ message?: string;
     }
 
     /**
-     * complete user details
+     * Complete user details
      * @param requestBody 
      * @returns UserAuthResponse Success
      * @throws ApiError

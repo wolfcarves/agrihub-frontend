@@ -37,7 +37,8 @@ export default function UserSetupAccountForm() {
 
   const {
     mutateAsync: userSetupAccountMutate,
-    isLoading: isUserSetupAccountLoading
+    isLoading: isUserSetupAccountLoading,
+    isSuccess: isUserSetupAccountSuccess
   } = useUserSetupAccount();
 
   const onSubmitForm = async (data: UserSetupAccount) => {
@@ -192,7 +193,11 @@ export default function UserSetupAccountForm() {
         </div>
 
         <div className="pt-10">
-          <Button className="w-full" size={"lg"}>
+          <Button
+            className="w-full"
+            size={"lg"}
+            disabled={isUserSetupAccountLoading || isUserSetupAccountSuccess}
+          >
             Continue
           </Button>
         </div>

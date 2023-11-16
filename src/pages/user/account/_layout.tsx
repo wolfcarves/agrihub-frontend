@@ -14,7 +14,7 @@ const AccountLayout = () => {
     <UserLayoutAccountContainer>
       <UserHeader />
       <ChildComponent />
-      <div className="absolute bottom-5 right-5">
+      <div className="fixed bottom-5 right-5">
         <ThemeToggler />
       </div>
     </UserLayoutAccountContainer>

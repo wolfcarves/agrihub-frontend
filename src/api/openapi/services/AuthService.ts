@@ -13,7 +13,7 @@ import { request as __request } from '../core/request';
 export class AuthService {
 
     /**
-     * authenticate
+     * Authenticate
      * @param requestBody 
      * @returns UserAuthResponse Success
      * @throws ApiError
@@ -35,7 +35,7 @@ requestBody: UserLoginSchema,
     }
 
     /**
-     * get current user from session
+     * Get current user from session
      * @returns UserSchema Success
      * @throws ApiError
      */
@@ -45,6 +45,23 @@ requestBody: UserLoginSchema,
             url: '/api/auth/me',
             errors: {
                 401: `Unauthorized`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Delete session token form
+     * @returns any Unauthorized
+     * @throws ApiError
+     */
+    public static deleteApiAuthLogout(): CancelablePromise<{
+message?: string;
+}> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/auth/logout',
+            errors: {
                 500: `Server Error`,
             },
         });

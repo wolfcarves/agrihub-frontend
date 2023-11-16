@@ -4,6 +4,6 @@
 /* eslint-disable */
 
 export type TagsSchema = Array<{
-id?: string;
-tag_name?: string;
+  id?: string;
+  tag_name?: string;
 }>;

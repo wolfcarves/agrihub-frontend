@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { UserSignUp, userSignupSchema } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,10 +18,11 @@ import {
 } from "@components/ui/form";
 import { Input } from "@components/ui/input";
 import { Button } from "@components/ui/button";
+import LoadingSpinner from "@icons/LoadingSpinner";
 
-const containerId = import.meta.env.VITE_CAPTCHA_CONTAINER_ID;
-const captchaId = import.meta.env.VITE_CAPTCHA_ID;
-const catpchaPrivateKey = import.meta.env.VITE_CAPTCHA_PRIVATE_KEY;
+const CAPTCHA_CONTAINER_ID = import.meta.env.VITE_CAPTCHA_CONTAINER_ID;
+const CAPTCHA_ID = import.meta.env.VITE_CAPTCHA_ID;
+const CAPTCHA_PRIVATE_KEY = import.meta.env.VITE_CAPTCHA_PRIVATE_KEY;
 
 const UserSignupForm = () => {
   const { getCaptcha } = leminCroppedCaptcha;
@@ -34,8 +34,11 @@ const UserSignupForm = () => {
     reValidateMode: "onChange"
   });
 
-  const { mutateAsync: signUpUser, isLoading: isSignUpUserLoading } =
-    useUserSignupMutation();
+  const {
+    mutateAsync: signUpUser,
+    isLoading: isSignUpUserLoading,
+    isSuccess: isSignUpUserSuccess
+  } = useUserSignupMutation();
 
   const onSignupSubmit = async (data: any) => {
     try {
@@ -49,7 +52,7 @@ const UserSignupForm = () => {
           email: data.email,
           password: data.password,
           confirmPassword: data.confirmPassword,
-          privateKey: catpchaPrivateKey,
+          privateKey: CAPTCHA_PRIVATE_KEY,
           challengeId: challenge_id,
           answer
         } as UserRegisterSchema & {
@@ -63,7 +66,7 @@ const UserSignupForm = () => {
         setCaptchaError(true);
       }
     } catch (e: any) {
-      console.log(e);
+      console.log(e.body.message);
     }
   };
 
@@ -120,8 +123,8 @@ const UserSignupForm = () => {
 
         <div className="py-7 text-black">
           <LeminCroppedCaptchaContainer
-            containerId={containerId}
-            captchaId={captchaId}
+            containerId={CAPTCHA_CONTAINER_ID}
+            captchaId={CAPTCHA_ID}
             onVerify={(status: boolean) => setCaptchaError(!status)}
           />
           <div className="py-2">
@@ -132,8 +135,13 @@ const UserSignupForm = () => {
         </div>
 
         <div>
-          <Button variant={"default"} size={"lg"} className="w-full">
-            Continue
+          <Button
+            variant={"default"}
+            size={"lg"}
+            className="w-full"
+            disabled={isSignUpUserLoading || isSignUpUserSuccess}
+          >
+            {!isSignUpUserLoading ? "Continue" : <LoadingSpinner />}
           </Button>
         </div>
       </form>

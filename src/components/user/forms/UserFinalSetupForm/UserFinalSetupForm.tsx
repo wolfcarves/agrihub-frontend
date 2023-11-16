@@ -1,9 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import LoadingSpinner from "@icons/LoadingSpinner";
-import TagsInput from "react-tagsinput";
-import axios from "axios";
-
-import { AiOutlineCloseCircle } from "react-icons/ai";
 import { useForm } from "react-hook-form";
 import { UserFinalSetup, userFinalSetup } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";

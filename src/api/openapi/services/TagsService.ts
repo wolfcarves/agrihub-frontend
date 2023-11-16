@@ -12,7 +12,7 @@ export class TagsService {
 
     /**
      * Search tags
-     * @param key Search key'
+     * @param key Search key
      * @returns TagsSchema Success
      * @throws ApiError
      */

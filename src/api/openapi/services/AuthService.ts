@@ -13,7 +13,7 @@ import { request as __request } from '../core/request';
 export class AuthService {
 
     /**
-     * authenticate
+     * Authenticate
      * @param requestBody 
      * @returns UserAuthResponse Success
      * @throws ApiError
@@ -35,7 +35,7 @@ requestBody: UserLoginSchema,
     }
 
     /**
-     * get current user from session
+     * Get current user from session
      * @returns UserSchema Success
      * @throws ApiError
      */

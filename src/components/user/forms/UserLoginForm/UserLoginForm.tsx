@@ -27,12 +27,12 @@ const UserLoginForm = () => {
   const {
     mutateAsync: userLogin,
     isLoading: isUserLoginLoading,
-    error: userLoginError
+    error: userLoginError,
+    isSuccess: isUserLoginSuccess
   } = useLoginUserMutation();
 
   const onLoginSubmit = async (data: LoginRequestSchema) => {
     try {
-      console.log("test");
       await userLogin(data);
     } catch (e: any) {
       console.log(e);
@@ -77,7 +77,12 @@ const UserLoginForm = () => {
         />
 
         <div className="pt-10">
-          <Button type="submit" className="w-full" size={"lg"}>
+          <Button
+            type="submit"
+            className="w-full"
+            size={"lg"}
+            disabled={isUserLoginLoading || isUserLoginSuccess}
+          >
             Continue
           </Button>
         </div>

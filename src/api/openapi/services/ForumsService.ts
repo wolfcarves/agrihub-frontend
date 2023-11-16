@@ -25,7 +25,7 @@ export class ForumsService {
 search?: string,
 page?: string,
 perpage?: string,
-filter?: string,
+filter?: 'newest' | 'active' | 'trending',
 ): CancelablePromise<QuestionsResponse> {
         return __request(OpenAPI, {
             method: 'GET',

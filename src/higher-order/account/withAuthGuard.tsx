@@ -1,5 +1,4 @@
 import { ComponentType, useEffect } from "react";
-import useAuth from "@hooks/useAuth";
 import Unauthorized from "@pages/user/common/unauthorized";
 import { Navigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
@@ -12,14 +11,14 @@ export default function withAuthGuard<P extends object>(
   Component: ComponentType<P>
 ) {
   const NewComponent = (props: P) => {
-    const { data: authData, isFetched, isFetching, error } = useAuth();
+    const { data: authData, isFetching, error } = useGetMyProfileQuery();
 
     const verificationLevel = authData?.verification_level;
     const pathname = window.location.pathname;
 
     const queryClient = useQueryClient();
 
-    //Fetches auth data every 3 sec
+    //Fetches auth data every 5 sec
     useEffect(() => {
       if (pathname === "/account/verify-email") {
         const interval = setInterval(
@@ -32,6 +31,23 @@ export default function withAuthGuard<P extends object>(
         };
       }
     }, []);
+
+    if (error) {
+      if (
+        (error as any).body.message === "No Auth" ||
+        (error as any).body.message === "Unauthorized"
+      ) {
+        return <Unauthorized />;
+      }
+    }
+
+    if (isFetching || authData === undefined) {
+      return (
+        <>
+          <ActivityIndicator />
+        </>
+      );
+    }
 
     switch (verificationLevel) {
       case "1":
@@ -55,22 +71,7 @@ export default function withAuthGuard<P extends object>(
         }
         break;
       default:
-        return <Navigate to={{ pathname: "/account/verify-email" }} />;
-    }
-
-    if (isFetching || authData === undefined) {
-      return (
-        <>
-          <ActivityIndicator />
-          <Component {...props} />
-        </>
-      );
-    }
-
-    if (isFetched && error) {
-      if ((error as any).body.message === "No Auth") {
         return <Unauthorized />;
-      }
     }
 
     return <Component {...props} />;

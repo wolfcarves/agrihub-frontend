@@ -50,4 +50,21 @@ requestBody: UserLoginSchema,
         });
     }
 
+    /**
+     * Delete session token form
+     * @returns any Unauthorized
+     * @throws ApiError
+     */
+    public static deleteApiAuthLogout(): CancelablePromise<{
+message?: string;
+}> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/auth/logout',
+            errors: {
+                500: `Server Error`,
+            },
+        });
+    }
+
 }

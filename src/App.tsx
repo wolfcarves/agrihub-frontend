@@ -32,6 +32,10 @@ import MyProfile from '@pages/user/users/my-profile'
 import UserProfile from '@pages/user/users/user-profile'
 import QuestionAsk from '@pages/user/question/question-ask'
 
+//Admin
+import AdminLayout from "@pages/admin/admin/admin-layout";
+import AdminLogin from "@pages/admin/admin/login";
+
 const App = ReactRouter(
   <>
     {/* Tour | Welcome | Landing Page */}
@@ -48,6 +52,15 @@ const App = ReactRouter(
       <Route path="reset-password" element={`reset-password`} />*/}
     </Route>
 
+    <Route path="/admin" element={<AdminLayout />}>
+      <Route path="login" element={<AdminLogin />} />
+      <Route path="dashboard" element={<AdminLogin />} />
+      <Route path="approve-farmer" element={<AdminLogin />} />
+      <Route path="" element={<AdminLogin />} />
+      <Route path="dashboard" element={<AdminLogin />} />
+      <Route path="dashboard" element={<AdminLogin />} />
+    </Route>
+
     {/* Question Page */}
     <Route path='/' element={<QuestionLayout />}>
       <Route path='questions' element={<Questions />} />
@@ -60,17 +73,17 @@ const App = ReactRouter(
     </Route>
 
     {/* Article Page */}
-    {/* <Route path="/" element={<ArticleLayout />}>
+    <Route path="/" element={<ArticleLayout />}>
       <Route path="articles" element={<Articles />} />
       <Route path="article/:title/:articleId" element={<Article />} />
-    </Route> */}
+    </Route>
 
     {/* Profile Page  */}
-    {/* <Route path="/users" element={<UserProfileLayout />}>
+    <Route path="/users" element={<UserProfileLayout />}>
       <Route path=":userId/:username" element={<UserProfile />} />
       <Route path=":userId/me" element={<MyProfile />} />
       <Route path=":userId/me/edit" element={<EditProfile />} />
-    </Route> */}
+    </Route>
   </>
 )
 

@@ -11,6 +11,7 @@ export type { ErrorResponse } from './models/ErrorResponse';
 export type { NewQuestionSchema } from './models/NewQuestionSchema';
 export type { QuestionSchema } from './models/QuestionSchema';
 export type { QuestionsResponse } from './models/QuestionsResponse';
+export type { QuestionViewSchema } from './models/QuestionViewSchema';
 export type { ServerError } from './models/ServerError';
 export type { TagsSchema } from './models/TagsSchema';
 export type { UserAuthResponse } from './models/UserAuthResponse';
@@ -20,6 +21,7 @@ export type { UserProfile } from './models/UserProfile';
 export type { UserRegisterSchema } from './models/UserRegisterSchema';
 export type { UserSchema } from './models/UserSchema';
 export type { UserUpdateProfile } from './models/UserUpdateProfile';
+export type { VoteResponseSchema } from './models/VoteResponseSchema';
 export type { ZodValidationError } from './models/ZodValidationError';
 
 export { AccountService } from './services/AccountService';

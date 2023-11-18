@@ -5,6 +5,8 @@
 import type { NewQuestionSchema } from '../models/NewQuestionSchema';
 import type { QuestionSchema } from '../models/QuestionSchema';
 import type { QuestionsResponse } from '../models/QuestionsResponse';
+import type { QuestionViewSchema } from '../models/QuestionViewSchema';
+import type { VoteResponseSchema } from '../models/VoteResponseSchema';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -60,8 +62,56 @@ formData: QuestionSchema,
             mediaType: 'multipart/form-data',
             errors: {
                 400: `Validation Error`,
+                429: `Too much request`,
                 500: `Server Error`,
             },
+        });
+    }
+
+    /**
+     * Get Question Details
+     * @param id Question ID
+     * @param page Page number (optional)
+     * @returns QuestionViewSchema Successful response
+     * @throws ApiError
+     */
+    public static getApiForums1(
+id: string,
+page?: string,
+): CancelablePromise<QuestionViewSchema> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/forums/{id}',
+            path: {
+                'id': id,
+            },
+            query: {
+                'page': page,
+            },
+        });
+    }
+
+    /**
+     * Upvote or Downvote Question
+     * @param id 
+     * @param requestBody 
+     * @returns VoteResponseSchema Successful vote
+     * @throws ApiError
+     */
+    public static postApiForumsVote(
+id: string,
+requestBody: {
+type: 'upvote' | 'downvote';
+},
+): CancelablePromise<VoteResponseSchema> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/forums/vote/{id}',
+            path: {
+                'id': id,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
 

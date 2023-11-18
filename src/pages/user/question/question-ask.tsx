@@ -3,15 +3,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { AskQuestion } from "./schema";
 import { QuestionSchema } from "@api/openapi";
-
 import useQuestionAskMutation from "@hooks/api/post/useQuestionAskMutation";
 import { Button } from "@components/ui/button";
 import useGetTags from "../../../hooks/api/get/useGetTags";
 import { Input } from "../../../components/ui/input";
+import RichTextEditor from "../../../components/ui/custom/rich-text-editor/RichTextEditor";
+
 export default function QuestionAsk() {
   const [tags, setTags] = useState<{ id: string; name: string }[]>([]);
   const [imgFiles, setImgFiles] = useState<FileList | null>();
   const [tagInput, setTagInput] = useState("");
+  const [question, setQuestion] = useState<any>();
 
   const handleAddTag = (selectedTag: any) => {
     setTags([...tags, { id: selectedTag.id, name: selectedTag.tag_name }]);
@@ -34,6 +36,7 @@ export default function QuestionAsk() {
   });
 
   useEffect(() => {
+    form.setValue("question", question);
     form.setValue(
       "tags",
       tags.map(tag => tag.id)
@@ -112,11 +115,12 @@ export default function QuestionAsk() {
           <h1 className="text-[.8rem] mb-1 font-medium ring-0">
             Type your question here...
           </h1>
-          <input
+          <RichTextEditor setItem={setQuestion} />
+          {/* <input
             {...form.register("question")}
             className="border-b-2 w-full border-gray-600 focus:outline-none"
             type="text"
-          />
+          /> */}
         </div>
         <div className="p-4 border-2 border-border rounded-lg">
           <h1 className="text-[.8rem] mb-1 font-medium ring-0">
@@ -137,7 +141,7 @@ export default function QuestionAsk() {
           </h1>
           <div className="flex gap-1 mt-1 flex-wrap mb-2">
             {tags.map((tag, index) => (
-              <span key={index} className="bg-gray-200 p-2 rounded">
+              <span key={index} className="bg-[#DCF2D3] p-2 rounded">
                 {tag.name}
                 <button
                   onClick={() => handleRemoveTag(index)}
@@ -153,17 +157,18 @@ export default function QuestionAsk() {
             <input
               className="border border-border w-full focus:outline-none"
               type="text"
+              value={tagInput}
               onChange={e => setTagInput(e.target.value)}
             />
           </div>
 
-          <div className="flex flex-wrap">
+          <div className="flex flex-wrap gap-2 ">
             {tagInput !== "" &&
               data?.map(tag => (
                 <div
                   key={tag.id}
                   onClick={() => handleAddTag(tag)}
-                  className="bg-gray-200 p-2 rounded"
+                  className="bg-[#DCF2D3] p-2 rounded"
                 >
                   {tag.tag_name}
                 </div>

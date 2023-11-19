@@ -7,12 +7,14 @@ import { useState } from "react";
 import useGetQuestions from "@hooks/api/get/useGetQuestions";
 import Pagination from "@components/ui/custom/pagination/pagination";
 import { Button } from "@components/ui/button";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Questions = () => {
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
-  const [filter, setFilter] = useState("newest");
+  const [filter, setFilter] = useState<"newest" | "active" | "trending">(
+    "newest"
+  );
 
   const { data } = useGetQuestions(undefined, String(page), undefined, filter);
 
@@ -20,7 +22,7 @@ const Questions = () => {
     setPage(newPage);
   };
 
-  const onFilterChange = (filterKey: string) => {
+  const onFilterChange = (filterKey: "newest" | "active" | "trending") => {
     setFilter(filterKey);
   };
 
@@ -43,7 +45,8 @@ const Questions = () => {
 
       <div className="mb-3">
         <h1 className="text-base text-gray-2">
-          {data?.pagination?.total_records} questions
+          {data?.pagination?.total_records &&
+            data?.pagination?.total_records + " Questions"}
         </h1>
         <div className="flex justify-between items-center my-1">
           <div className="flex">
@@ -87,7 +90,8 @@ const Questions = () => {
 
       {data?.questions &&
         data?.questions.map((questions, index) => (
-          <div
+          <Link
+            to={`/question/${questions.user?.username}/${questions.id}`}
             key={index}
             className="p-2 border border-border rounded flex flex-col gap-1 mb-2"
           >
@@ -110,7 +114,7 @@ const Questions = () => {
                 </span>
               ))}
             </div>
-          </div>
+          </Link>
         ))}
 
       <Pagination

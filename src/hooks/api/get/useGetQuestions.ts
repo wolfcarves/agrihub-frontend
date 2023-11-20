@@ -1,11 +1,11 @@
-import { useQuery } from '@tanstack/react-query'
-import { ForumsService } from '../../../api/openapi'
-export const GET_QUESTION = () => 'GET_QUESTION_KEY'
+import { useQuery } from "@tanstack/react-query";
+import { ForumsService } from "../../../api/openapi";
+export const GET_QUESTION = () => "GET_QUESTION_KEY";
 export default function useGetQuestions(
   search?: string,
   page?: string,
   perpage?: string,
-  filter?: string
+  filter?: "newest" | "active" | "trending"
 ) {
   return useQuery({
     queryKey: [GET_QUESTION(), page, search, filter],
@@ -15,9 +15,9 @@ export default function useGetQuestions(
         page,
         perpage,
         filter
-      )
-      return data
+      );
+      return data;
     },
-    keepPreviousData: true,
-  })
+    keepPreviousData: true
+  });
 }

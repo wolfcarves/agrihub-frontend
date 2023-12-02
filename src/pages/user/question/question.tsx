@@ -49,6 +49,9 @@ const Question = () => {
           <div>Follow</div>
         </div>
       </div>
+      <div>{data?.question}</div>
+      <div>{data?.tags.map((tags, i) => <div key={i}>{tags.tag}</div>)}</div>
+      {data?.answer_count === "0" ? <div>No Comment</div> : <div>asdasdas</div>}
     </div>
   );
 };

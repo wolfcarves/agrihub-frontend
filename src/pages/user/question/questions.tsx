@@ -30,8 +30,6 @@ const Questions = () => {
     navigate("/questions/ask");
   };
 
-  console.log(data);
-
   //This is temporary, refactor later--------
   return (
     <div className="p-3 max-h-full overflow-y-auto">

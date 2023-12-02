@@ -28,6 +28,7 @@ username: string;
     imagesrc: Array<string>;
     createdat: string;
     updatedat: string;
+    views?: string;
     answer_count: string;
     vote_count: string;
     latest_answer_createdat: string;

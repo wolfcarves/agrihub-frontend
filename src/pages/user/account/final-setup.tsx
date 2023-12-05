@@ -1,5 +1,5 @@
-import UserFinalSetupForm from "@components/user/forms/UserFinalSetupForm/UserFinalSetupForm";
-import UserFinalFormTitle from "@components/user/title/UserFinalFormTitle";
+import UserFinalSetupForm from "@components/user/account/forms/UserFinalSetupForm/UserFinalSetupForm";
+import UserFinalFormTitle from "@components/user/account/title/UserFinalFormTitle";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
 
 const FinalSetup = () => {

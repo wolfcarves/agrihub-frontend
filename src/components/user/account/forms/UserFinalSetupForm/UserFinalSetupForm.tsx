@@ -13,7 +13,7 @@ import {
 } from "@components/ui/form";
 import { Input } from "@components/ui/input";
 import { Button } from "@components/ui/button";
-import UserTagInputDropdown from "@components/user/input/UserTagInput";
+import UserTagInputDropdown from "@components/user/account/input/UserTagInput";
 import useGetTagByKeyWord from "@hooks/api/get/useGetTagByKeyword";
 
 const UserFinalSetupForm = () => {

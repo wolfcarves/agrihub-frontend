@@ -32,7 +32,7 @@ const Questions = () => {
 
   //This is temporary, refactor later--------
   return (
-    <div className="p-3 max-h-full overflow-y-auto">
+    <div className="">
       <div className="flex justify-between items-center mb-3">
         <h2 className="text-[1.5rem] font-medium ">All Questions</h2>
         <Button onClick={() => handleNavigateAsk()}>

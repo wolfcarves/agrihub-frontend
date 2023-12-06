@@ -18,7 +18,10 @@ export default function Topbar() {
         </SheetTrigger>
 
         <img className="h-[2.9rem] mr-1" src={Logo} />
-        <img className="h-[2.2rem] md:inline hidden mr-3" src={AgriLogo} />
+        <img
+          className="h-[2rem] md:inline hidden mr-3 mb-[.18rem]"
+          src={AgriLogo}
+        />
         <SearchBar />
       </div>
       <div className="flex items-center justify-center gap-8 text-md  text-[#404040] font-medium">

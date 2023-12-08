@@ -10,15 +10,16 @@ const QuestionLayout = () => {
       <Sheet key={"sidebar"}>
         <Topbar />
         <Sidebar />
-        <div className="grid grid-cols-12 grid-rows-1 lg:gap-20 gap-0 h-[92vh]">
-          <div className="col-span-3 lg:flex hidden flex-col pt-6">
+        <div className="grid grid-cols-12 grid-rows-1  overflow-y-auto">
+          <div className="col-span-2 lg:flex hidden flex-col pt-6">
             <SidebarLeft />
           </div>
-
+          <div className="col-span-1 lg:block hidden"></div>
           <div className="lg:col-span-6 col-span-12 overflow-y-auto py-8 px-2 scroll-smooth">
             <Outlet />
           </div>
-          <div className="col-span-3">
+          <div className="col-span-1 lg:block hidden"></div>
+          <div className="col-span-2">
             <SidebarRight />
           </div>
         </div>

@@ -11,7 +11,7 @@ export default function Topbar() {
   // const dispatch = useDispatch();
 
   return (
-    <div className="px-6 py-2 bg-white border-b border-border flex justify-between w-full  z-30 h-[8vh]">
+    <div className="px-6 py-2 bg-white border-b border-border flex justify-between w-full  z-30">
       <div className="flex items-center">
         <SheetTrigger className="md:hidden inline mr-3">
           <RxHamburgerMenu size={20} />

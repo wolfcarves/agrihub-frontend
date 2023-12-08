@@ -1,5 +1,5 @@
-import UserSignupForm from "@components/user/forms/UserSignupForm/UserSignupForm";
-import UserSignupFormTitle from "@components/user/title/UserSignupFormTitle";
+import UserSignupForm from "@components/user/account/forms/UserSignupForm/UserSignupForm";
+import UserSignupFormTitle from "@components/user/account/title/UserSignupFormTitle";
 import { Helmet } from "react-helmet-async";
 
 const Signup = () => {

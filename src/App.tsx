@@ -62,10 +62,10 @@ const App = ReactRouter(
     </Route>
 
     {/* Question Page */}
-    <Route path="/" element={<QuestionLayout />}>
-      <Route path="questions" element={<Questions />} />
-      <Route path="questions/tags" element={<QuestionTags />} />
-      <Route path="questions/ask" element={<QuestionAsk />} />
+    <Route path="/forums/" element={<QuestionLayout />}>
+      <Route path="list" element={<Questions />} />
+      <Route path="tags" element={<QuestionTags />} />
+      <Route path="ask" element={<QuestionAsk />} />
       <Route path="question/:username/:questionId" element={<Question />} />
     </Route>
 

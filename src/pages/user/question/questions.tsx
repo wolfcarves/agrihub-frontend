@@ -108,8 +108,8 @@ const Questions = () => {
               <div className="col-span-3 flex gap-2 items-center flex-nowrap">
                 <img className="w-11 h-11 object-center object-cover bg-slate-500 rounded-xl" />
                 <div>
-                  <h6 className="font-semibold text-nowrap ">Rodel Crisosto</h6>
-                  <p className="text-gray-400 text-nowrap ">3 months ago</p>
+                  <h6 className="font-semibold ">Rodel Crisosto</h6>
+                  <p className="text-gray-400">3 months ago</p>
                 </div>
               </div>
               <div className="col-span-4 flex items-start justify-end pt-1 gap-1 flex-wrap">

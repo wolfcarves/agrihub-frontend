@@ -24,10 +24,10 @@ export default function Topbar() {
         />
         <SearchBar />
       </div>
-      <div className="flex items-center justify-center gap-8 text-md  text-[#404040] font-medium">
+      <div className="xl:flex hidden items-center justify-center gap-8 text-md   text-[#404040] font-medium">
         <NavLink to={""}>Home</NavLink>
         <NavLink
-          to={"/questions"}
+          to={"/forums"}
           className={({ isActive }) =>
             ` ${isActive ? "text-primary" : "text-black"}`
           }

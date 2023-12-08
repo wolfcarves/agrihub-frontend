@@ -9,7 +9,7 @@ const SearchBar = () => {
     console.log("Searching for:", searchTerm);
   };
   return (
-    <div className="flex items-center border border-gray-300 rounded-lg shadow-sm overflow-hidden">
+    <div className="xl:flex hidden items-center border border-gray-300 rounded-lg shadow-sm overflow-hidden">
       <input
         type="text"
         placeholder="Type to search..."

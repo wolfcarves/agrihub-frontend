@@ -70,7 +70,7 @@ export default function QuestionAsk() {
   //This is temporary, refactor later--------
   return (
     <div className=" p-3">
-      <h2 className="text-[1.2rem] font-medium mb-2 ">All Questions</h2>
+      <h2 className="text-[1.2rem] font-medium mb-2 ">Ask a Question</h2>
 
       <form
         className="grid gap-3"
@@ -116,11 +116,6 @@ export default function QuestionAsk() {
             Type your question here...
           </h1>
           <RichTextEditor setItem={setQuestion} />
-          {/* <input
-            {...form.register("question")}
-            className="border-b-2 w-full border-gray-600 focus:outline-none"
-            type="text"
-          /> */}
         </div>
         <div className="p-4 border-2 border-border rounded-lg">
           <h1 className="text-[.8rem] mb-1 font-medium ring-0">

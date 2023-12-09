@@ -25,7 +25,7 @@ const Sidebar = () => {
         </div>
       </div>
       <h5 className="font-semibold mt-5">Popular Tags</h5>
-      <div className="pl-4 mt-2 flex flex-wrap gap-1">
+      <div className="pl-2 px-1 mt-2 flex flex-wrap gap-1">
         <span className="text-primary text-sm bg-secondary border border-primary py-1 px-2 rounded-lg">
           Rooftop
         </span>

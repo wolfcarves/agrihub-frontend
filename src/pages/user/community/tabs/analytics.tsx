@@ -69,7 +69,7 @@ const Analytics = () => {
   return (
     <>
       <SuggestionsModal />
-      <div className="grid grid-cols-2 grid-rows-1">
+      <div className="grid grid-cols-1 md:grid-cols-2 md:grid-rows-1">
         <div className="h-[400px] border-black border-1 p-1">
           <Bar data={farms} options={chartOptions} />
         </div>

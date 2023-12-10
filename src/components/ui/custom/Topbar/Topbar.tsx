@@ -24,17 +24,24 @@ export default function Topbar() {
         />
         <SearchBar />
       </div>
-      <div className="flex items-center justify-center gap-8 text-md  text-[#404040] font-medium">
+      <div className="xl:flex hidden items-center justify-center gap-12 text-md   text-[#404040] font-medium">
         <NavLink to={""}>Home</NavLink>
         <NavLink
-          to={"/questions"}
+          to={"/forums"}
           className={({ isActive }) =>
             ` ${isActive ? "text-primary" : "text-black"}`
           }
         >
           Forum
         </NavLink>
-        <NavLink to={""}>Community</NavLink>
+        <NavLink
+          to={"/community"}
+          className={({ isActive }) =>
+            ` ${isActive ? "text-primary" : "text-black"}`
+          }
+        >
+          Community
+        </NavLink>
         <NavLink to={""}>Articles</NavLink>
         <NavLink to={""}>Blogs</NavLink>
         <NavLink to={""}>About Us</NavLink>

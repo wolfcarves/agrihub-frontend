@@ -3,15 +3,22 @@
 */
 import { TbUserQuestion } from "react-icons/tb";
 import { BsFilter } from "react-icons/bs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useGetQuestions from "@hooks/api/get/useGetQuestions";
 import Pagination from "@components/ui/custom/pagination/pagination";
-import { Button } from "@components/ui/button";
+import { IoMdAdd } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 import { BsThreeDots } from "react-icons/bs";
 import { TiArrowForwardOutline } from "react-icons/ti";
 import { PiArrowFatDown, PiArrowFatUp } from "react-icons/pi";
 import { LuMessagesSquare } from "react-icons/lu";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from "@components/ui/select";
 
 const Questions = () => {
   const navigate = useNavigate();
@@ -21,7 +28,7 @@ const Questions = () => {
   );
 
   const { data } = useGetQuestions(undefined, String(page), undefined, filter);
-
+  console.log(data);
   const onPageChange = (newPage: number) => {
     setPage(newPage);
   };
@@ -31,20 +38,35 @@ const Questions = () => {
   };
 
   const handleNavigateAsk = () => {
-    navigate("/questions/ask");
+    navigate("/forums/ask");
   };
 
   //This is temporary, refactor later--------
   return (
     <div className="">
-      <div className="flex justify-between items-center mb-3">
-        <Button onClick={() => handleNavigateAsk()}>
-          <TbUserQuestion size={18} />
-          &nbsp;Ask Questions
-        </Button>
+      <div className="flex gap-3 justify-between items-center mb-3">
+        <div
+          className="w-full border flex justify-between items-center py-2 px-3 rounded-xl border-border"
+          onClick={() => handleNavigateAsk()}
+        >
+          <p className="text-gray-400 text-sm">Add a new thread</p>
+          <div className="bg-primary text-white p-2 rounded-lg">
+            <IoMdAdd />
+          </div>
+        </div>
+        <Select onValueChange={onFilterChange}>
+          <SelectTrigger className="w-[150px] font-semibold capitalize h-11">
+            <SelectValue placeholder={filter} />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="newest">Newest</SelectItem>
+            <SelectItem value="active">Active</SelectItem>
+            <SelectItem value="trending">Trending</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
 
-      <div className="mb-3">
+      {/* <div className="mb-3">
         <h1 className="text-base text-gray-2">
           {data?.pagination?.total_records &&
             data?.pagination?.total_records + " Questions"}
@@ -87,7 +109,7 @@ const Questions = () => {
             &nbsp;Filter
           </button>
         </div>
-      </div>
+      </div> */}
 
       {data?.questions &&
         data?.questions.map((questions, index) => (
@@ -108,8 +130,8 @@ const Questions = () => {
               <div className="col-span-3 flex gap-2 items-center flex-nowrap">
                 <img className="w-11 h-11 object-center object-cover bg-slate-500 rounded-xl" />
                 <div>
-                  <h6 className="font-semibold text-nowrap ">Rodel Crisosto</h6>
-                  <p className="text-gray-400 text-nowrap ">3 months ago</p>
+                  <h6 className="font-semibold ">Rodel Crisosto</h6>
+                  <p className="text-gray-400">3 months ago</p>
                 </div>
               </div>
               <div className="col-span-4 flex items-start justify-end pt-1 gap-1 flex-wrap">
@@ -140,7 +162,8 @@ const Questions = () => {
             </div>
             <div className="flex items-center gap-8">
               <div className="flex items-center font-bold gap-2">
-                <PiArrowFatUp size={18} /> 512 <PiArrowFatDown size={18} />
+                <PiArrowFatUp size={18} />
+                {questions.vote_count} <PiArrowFatDown size={18} />
               </div>
               <div className="flex items-center gap-2 font-bold">
                 <LuMessagesSquare size={18} /> 234

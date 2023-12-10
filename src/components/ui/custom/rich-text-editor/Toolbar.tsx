@@ -42,7 +42,8 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor }) => {
   return (
     <>
       <button
-        onClick={() => {
+        onClick={e => {
+          e.preventDefault();
           editor.chain().focus().toggleBold().run();
         }}
         className={`p-2 rounded-md ${
@@ -52,7 +53,10 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor }) => {
         <FaBold />
       </button>
       <button
-        onClick={() => editor.chain().focus().toggleItalic().run()}
+        onClick={e => {
+          e.preventDefault();
+          editor.chain().focus().toggleItalic().run();
+        }}
         className={`p-2 rounded-md ${
           editor.isActive("italic") ? "bg-primary text-white" : ""
         }`}
@@ -60,14 +64,20 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor }) => {
         <FaItalic />
       </button>
       <button
-        onClick={() => editor.chain().focus().undo().run()}
+        onClick={e => {
+          e.preventDefault();
+          editor.chain().focus().undo().run();
+        }}
         className="active:bg-primary active:text-white p-2 rounded-md"
         disabled={!editor.can().undo()}
       >
         <FaUndo />
       </button>
       <button
-        onClick={() => editor.chain().focus().redo().run()}
+        onClick={e => {
+          e.preventDefault();
+          editor.chain().focus().redo().run();
+        }}
         className="active:bg-primary active:text-white p-2 rounded-md"
         disabled={!editor.can().redo()}
       >
@@ -158,7 +168,10 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor }) => {
         </DropdownMenuContent>
       </DropdownMenu>
       <button
-        onClick={() => editor.chain().focus().toggleBulletList().run()}
+        onClick={e => {
+          e.preventDefault();
+          editor.chain().focus().toggleBulletList().run();
+        }}
         className={`p-2 rounded-md ${
           editor.isActive("bulletList") ? "bg-primary text-white" : ""
         }`}
@@ -166,7 +179,10 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor }) => {
         <FaListUl />
       </button>
       <button
-        onClick={() => editor.chain().focus().toggleOrderedList().run()}
+        onClick={e => {
+          e.preventDefault();
+          editor.chain().focus().toggleOrderedList().run();
+        }}
         className={`p-2 rounded-md ${
           editor.isActive("orderedList") ? "bg-primary text-white" : ""
         }`}
@@ -174,7 +190,10 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor }) => {
         <FaListOl />
       </button>
       <button
-        onClick={() => editor.chain().focus().setHorizontalRule().run()}
+        onClick={e => {
+          e.preventDefault();
+          editor.chain().focus().setHorizontalRule().run();
+        }}
         className="active:bg-primary active:text-white p-2 rounded-md"
       >
         <FaMinus />

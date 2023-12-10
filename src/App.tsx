@@ -35,6 +35,9 @@ import QuestionAsk from "@pages/user/question/question-ask";
 //Admin
 import AdminLayout from "@pages/admin/admin/admin-layout";
 import AdminLogin from "@pages/admin/admin/login";
+import CommunityLayout from "./pages/user/community/_layout";
+import Explore from "@pages/user/community/community-explore";
+import Community from "@pages/user/community/community";
 
 const App = ReactRouter(
   <>
@@ -46,7 +49,7 @@ const App = ReactRouter(
       <Route path="login" element={<Login />} />
       <Route path="signup" element={<Signup />} />
       <Route path="verify-email" element={<VerifyEmail />} />
-      <Route path="setup-account" element={<SetupAccount />} />
+      <Route path="setup-accou`nt" element={<SetupAccount />} />
       <Route path="final-setup" element={<FinalSetup />} />
       {/*<Route path="forgot-password" element={`forgot-password`} />
       <Route path="reset-password" element={`reset-password`} />*/}
@@ -62,11 +65,17 @@ const App = ReactRouter(
     </Route>
 
     {/* Question Page */}
-    <Route path="/" element={<QuestionLayout />}>
-      <Route path="questions" element={<Questions />} />
-      <Route path="questions/tags" element={<QuestionTags />} />
-      <Route path="questions/ask" element={<QuestionAsk />} />
+    <Route path="/forums/" element={<QuestionLayout />}>
+      <Route path="list" element={<Questions />} />
+      <Route path="tags" element={<QuestionTags />} />
+      <Route path="ask" element={<QuestionAsk />} />
       <Route path="question/:username/:questionId" element={<Question />} />
+    </Route>
+
+    {/* Community Page */}
+    <Route path="/community/" element={<CommunityLayout />}>
+      <Route path="my-community" element={<Community />} />
+      <Route path="explore" element={<Explore />} />
     </Route>
 
     {/* Article Page */}

@@ -2,6 +2,7 @@ import React from "react";
 
 import { Bar, Line } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
+import SuggestionsModal from "@components/user/community/suggestions-modal/modal";
 Chart.register(...registerables);
 
 const Analytics = () => {
@@ -66,14 +67,17 @@ const Analytics = () => {
   };
 
   return (
-    <div className="grid grid-cols-2 grid-rows-1">
-      <div className="h-[400px] border-black border-1 p-1">
-        <Bar data={farms} options={chartOptions} />
+    <>
+      <SuggestionsModal />
+      <div className="grid grid-cols-2 grid-rows-1">
+        <div className="h-[400px] border-black border-1 p-1">
+          <Bar data={farms} options={chartOptions} />
+        </div>
+        <div className="h-[400px] border-black border-1 p-1">
+          <Line data={crops} options={chartOptions} />
+        </div>
       </div>
-      <div className="h-[400px] border-black border-1 p-1">
-        <Line data={crops} options={chartOptions} />
-      </div>
-    </div>
+    </>
   );
 };
 

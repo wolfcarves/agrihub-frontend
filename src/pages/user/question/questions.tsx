@@ -28,7 +28,7 @@ const Questions = () => {
   );
 
   const { data } = useGetQuestions(undefined, String(page), undefined, filter);
-
+  console.log(data);
   const onPageChange = (newPage: number) => {
     setPage(newPage);
   };
@@ -162,7 +162,8 @@ const Questions = () => {
             </div>
             <div className="flex items-center gap-8">
               <div className="flex items-center font-bold gap-2">
-                <PiArrowFatUp size={18} /> 512 <PiArrowFatDown size={18} />
+                <PiArrowFatUp size={18} />
+                {questions.vote_count} <PiArrowFatDown size={18} />
               </div>
               <div className="flex items-center gap-2 font-bold">
                 <LuMessagesSquare size={18} /> 234

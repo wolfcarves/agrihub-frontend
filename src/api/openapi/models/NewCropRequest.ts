@@ -1,0 +1,35 @@
+/* generated using openapi-typescript-codegen -- do no edit */
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+
+export type NewCropRequest = {
+    /**
+     * The name of the crop
+     */
+    name: string;
+    /**
+     * A description of the crop
+     */
+    description: string;
+    /**
+     * The seedling season of the crop
+     */
+    seedling_season: string;
+    /**
+     * The planting season of the crop
+     */
+    planting_season: string;
+    /**
+     * The harvest season of the crop
+     */
+    harvest_season: string;
+    /**
+     * The growth span of the crop
+     */
+    growth_span: string;
+    /**
+     * Binary data of the crop image
+     */
+    image: Blob;
+};

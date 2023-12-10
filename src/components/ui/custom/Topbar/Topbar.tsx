@@ -34,7 +34,14 @@ export default function Topbar() {
         >
           Forum
         </NavLink>
-        <NavLink to={""}>Community</NavLink>
+        <NavLink
+          to={"/community"}
+          className={({ isActive }) =>
+            ` ${isActive ? "text-primary" : "text-black"}`
+          }
+        >
+          Community
+        </NavLink>
         <NavLink to={""}>Articles</NavLink>
         <NavLink to={""}>Blogs</NavLink>
         <NavLink to={""}>About Us</NavLink>

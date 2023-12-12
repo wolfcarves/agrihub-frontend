@@ -1,7 +1,7 @@
 import * as zod from "zod";
 
-export const AddReport = zod.object({
-  crop_name: zod
+export const ReportSchema = zod.object({
+  crop_id: zod
     .string()
     .min(3, "Please enter at least 3 characters")
     .max(200, "Title is too long"),

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Dialog,
   DialogClose,
@@ -14,8 +14,23 @@ import { Label } from "../../../ui/label";
 import { Input } from "../../../ui/input";
 import { Textarea } from "../../../ui/textarea";
 import { Button } from "../../../ui/button";
+import useGetCrops from "../../../../hooks/api/get/useGetCrops";
+import { Popover, PopoverContent, PopoverTrigger } from "../../../ui/popover";
+import { Check, ChevronsUpDown } from "lucide-react";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem
+} from "../../../ui/command";
+import { cn } from "../../../lib/utils";
 
 const CropReportModal = () => {
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState("");
+  const { data } = useGetCrops();
+
   return (
     <Dialog>
       <DialogTrigger className="bg-primary p-2 rounded-md text-white">
@@ -29,9 +44,72 @@ const CropReportModal = () => {
         <form className="flex flex-col gap-4">
           <div className="">
             <Label>Crops Name</Label>
-            <Input type="text" />
+            <div>
+              <Popover open={open} onOpenChange={setOpen}>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    role="combobox"
+                    aria-expanded={open}
+                    className="w-[200px] justify-between"
+                  >
+                    {value
+                      ? data?.find(crops => crops.id === value)?.name
+                      : "Select crop..."}
+                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-[200px] p-0">
+                  <Command>
+                    <CommandInput placeholder="Search crop..." />
+                    <CommandEmpty>No crop found.</CommandEmpty>
+                    <CommandGroup>
+                      {data?.map(crops => (
+                        <CommandItem
+                          key={crops.id}
+                          value={crops.id}
+                          onSelect={currentValue => {
+                            setValue(
+                              currentValue === value ? "" : currentValue
+                            );
+                            setOpen(false);
+                          }}
+                        >
+                          <Check
+                            className={cn(
+                              "mr-2 h-4 w-4",
+                              value === crops.id ? "opacity-100" : "opacity-0"
+                            )}
+                          />
+                          {crops.name}
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </Command>
+                </PopoverContent>
+              </Popover>
+            </div>
           </div>
-          <div className="">
+
+          <DialogFooter className="sm:justify-end">
+            <DialogClose asChild>
+              <Button type="button" variant="secondary">
+                Close
+              </Button>
+            </DialogClose>
+            <Button type="submit" variant="default">
+              Report
+            </Button>
+          </DialogFooter>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+export default CropReportModal;
+{
+  /* <div className="">
             <Label>Quantity</Label>
             <Input type="text" />
           </div>
@@ -50,21 +128,5 @@ const CropReportModal = () => {
           <div className="">
             <Label>Notes</Label>
             <Textarea placeholder="Type your notes here." />
-          </div>
-          <DialogFooter className="sm:justify-end">
-            <DialogClose asChild>
-              <Button type="button" variant="secondary">
-                Close
-              </Button>
-            </DialogClose>
-            <Button type="submit" variant="default">
-              Report
-            </Button>
-          </DialogFooter>
-        </form>
-      </DialogContent>
-    </Dialog>
-  );
-};
-
-export default CropReportModal;
+          </div> */
+}

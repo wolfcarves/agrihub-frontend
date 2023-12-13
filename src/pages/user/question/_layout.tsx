@@ -10,7 +10,7 @@ const QuestionLayout = () => {
       <Sheet key={"sidebar"}>
         <Topbar />
         <Sidebar />
-        <div className="grid grid-cols-12 grid-rows-1  overflow-y-auto">
+        <div className="grid grid-cols-12 grid-rows-1 h-full overflow-y-auto">
           <div className="col-span-2 lg:flex hidden my-6 pt-2 flex-col items-end pr-3 border-r border-border">
             <SidebarLeft />
           </div>

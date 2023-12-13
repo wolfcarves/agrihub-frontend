@@ -25,11 +25,19 @@ import {
   CommandItem
 } from "../../../ui/command";
 import { cn } from "../../../lib/utils";
-
+import {
+  Select,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  SelectContent
+} from "../../../ui/select";
+import months from "./months.json";
 const CropReportModal = () => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
   const { data } = useGetCrops();
+  console.log(data);
 
   return (
     <Dialog>
@@ -44,14 +52,14 @@ const CropReportModal = () => {
         <form className="flex flex-col gap-4">
           <div className="">
             <Label>Crops Name</Label>
-            <div>
+            <div className="">
               <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger asChild>
                   <Button
                     variant="outline"
                     role="combobox"
                     aria-expanded={open}
-                    className="w-[200px] justify-between"
+                    className="w-full justify-between "
                   >
                     {value
                       ? data?.find(crops => crops.id === value)?.name
@@ -59,7 +67,11 @@ const CropReportModal = () => {
                     <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-[200px] p-0">
+                <PopoverContent
+                  className=" w-[21rem] p-0"
+                  side="bottom"
+                  align="start"
+                >
                   <Command>
                     <CommandInput placeholder="Search crop..." />
                     <CommandEmpty>No crop found.</CommandEmpty>
@@ -89,6 +101,52 @@ const CropReportModal = () => {
                 </PopoverContent>
               </Popover>
             </div>
+          </div>
+          <div className="">
+            <Label>Quantity</Label>
+            <Input type="number" className="h-9 rounded-md" />
+          </div>
+          <div className="">
+            <Label>Planting Date</Label>
+            <div>
+              <Select>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select Month" />
+                </SelectTrigger>
+                <SelectContent>
+                  {months.map((month, i) => (
+                    <SelectItem key={i} value={month.value}>
+                      {month.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+          <div className="">
+            <Label>Expected Harvest Date</Label>
+            <div>
+              <Select>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select Month" />
+                </SelectTrigger>
+                <SelectContent>
+                  {months.map((month, i) => (
+                    <SelectItem key={i} value={month.value}>
+                      {month.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+          <div className="">
+            <Label>Upload Photo</Label>
+            <Input type="file" className="h-10" accept="image/*" multiple />
+          </div>
+          <div className="">
+            <Label>Notes</Label>
+            <Textarea placeholder="Type your notes here." />
           </div>
 
           <DialogFooter className="sm:justify-end">

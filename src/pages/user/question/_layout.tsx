@@ -1,10 +1,20 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Sheet } from "@components/ui/sheet";
 import Sidebar from "@components/ui/custom/Sidebar/Sidebar";
 import Topbar from "@components/ui/custom/Topbar/Topbar";
 import SidebarRight from "@components/user/questions/right-sidebar/Sidebar";
 import SidebarLeft from "@components/user/questions/left-sidebar/Sidebar";
+import { useEffect } from "react";
 const QuestionLayout = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    // Check if the current path is exactly '/community'
+    if (location.pathname === "/forums") {
+      navigate("/forums/list");
+    }
+  }, [navigate, location.pathname]);
   return (
     <div className="flex flex-col max-h-screen h-screen">
       <Sheet key={"sidebar"}>

@@ -44,7 +44,7 @@ const UserFinalSetupForm = () => {
   } = useUserFinalSetup();
 
   const handleOnSubmitForm = async (rawData: UserFinalSetup) => {
-    console.log(tags);
+    console.log(tags, "TAGSSSS");
 
     const data = {
       avatar: rawData.avatar[0],

@@ -11,4 +11,4 @@ const FinalSetup = () => {
   );
 };
 
-export default withAuthGuard(FinalSetup);
+export default withAuthGuard(FinalSetup, ["member"]);

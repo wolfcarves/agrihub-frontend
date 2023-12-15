@@ -68,7 +68,7 @@ const App = ReactRouter(
       <Route path="login" element={<Login />} />
       <Route path="signup" element={<Signup />} />
       <Route path="verify-email" element={<VerifyEmail />} />
-      <Route path="setup-accou`nt" element={<SetupAccount />} />
+      <Route path="setup-account" element={<SetupAccount />} />
       <Route path="final-setup" element={<FinalSetup />} />
       {/*<Route path="forgot-password" element={`forgot-password`} />
       <Route path="reset-password" element={`reset-password`} />*/}
@@ -84,7 +84,7 @@ const App = ReactRouter(
     </Route>
 
     {/* Question Page */}
-    <Route path="/forums/" element={<QuestionLayout />}>
+    <Route path="/forums" element={<QuestionLayout />}>
       <Route path="list" element={<Questions />} />
       <Route path="tags" element={<QuestionTags />} />
       <Route path="ask" element={<QuestionAsk />} />
@@ -92,7 +92,7 @@ const App = ReactRouter(
     </Route>
 
     {/* Community Page */}
-    <Route path="/community/" element={<CommunityLayout />}>
+    <Route path="/community" element={<CommunityLayout />}>
       <Route path="my-community" element={<Community />} />
       <Route path="explore" element={<Explore />} />
     </Route>

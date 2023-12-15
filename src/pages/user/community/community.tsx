@@ -3,6 +3,7 @@ import Analytics from "./tabs/analytics";
 import Overview from "./tabs/overview";
 import Reports from "./tabs/reports";
 import Members from "./tabs/members";
+import withAuthGuard from "../../../higher-order/account/withAuthGuard";
 
 const Community = () => {
   const [tab, setTab] = useState("overview");
@@ -66,4 +67,4 @@ const Community = () => {
   );
 };
 
-export default Community;
+export default withAuthGuard(Community, ["member"]);

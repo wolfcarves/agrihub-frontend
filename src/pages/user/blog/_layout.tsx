@@ -4,7 +4,7 @@ import Sidebar from "@components/ui/custom/Sidebar/Sidebar";
 import Topbar from "@components/ui/custom/Topbar/Topbar";
 import Sidebars from "@components/user/community/sidebar/Sidebar";
 import { useEffect } from "react";
-const ArticleLayout = () => {
+const BlogLayout = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -33,4 +33,4 @@ const ArticleLayout = () => {
   );
 };
 // scrollbar-thin scrollbar-thumb-gray-100 scrollbar-thumb-rounded-full
-export default ArticleLayout;
+export default BlogLayout;

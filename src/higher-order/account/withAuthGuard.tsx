@@ -1,36 +1,28 @@
-import { ComponentType, useEffect } from "react";
+import { ComponentType } from "react";
 import Unauthorized from "@pages/user/common/unauthorized";
 import { Navigate } from "react-router-dom";
-import { useQueryClient } from "@tanstack/react-query";
-import useGetMyProfileQuery, {
-  GET_USER_KEY
-} from "@hooks/api/get/useGetMyProfileQuery";
+import useGetMyProfileQuery from "@hooks/api/get/useGetMyProfileQuery";
 import ActivityIndicator from "@icons/ActivityIndicator";
 
+type AllowedRoles =
+  | "member"
+  | "guest"
+  | "subfarm_head"
+  | "farm_head"
+  | "farmer"
+  | "asst_admin"
+  | "admin";
+
 export default function withAuthGuard<P extends object>(
-  Component: ComponentType<P>
+  Component: ComponentType<P>,
+  allowedRoles: Array<AllowedRoles>
 ) {
   const NewComponent = (props: P) => {
-    const { data: authData, isFetching, error } = useGetMyProfileQuery();
+    const { data: authData, isLoading, error } = useGetMyProfileQuery();
 
     const verificationLevel = authData?.verification_level;
+    const role = authData?.role as AllowedRoles;
     const pathname = window.location.pathname;
-
-    const queryClient = useQueryClient();
-
-    //Fetches auth data every 5 sec
-    useEffect(() => {
-      if (pathname === "/account/verify-email") {
-        const interval = setInterval(
-          () => queryClient.invalidateQueries({ queryKey: [GET_USER_KEY()] }),
-          5000
-        );
-
-        return () => {
-          clearInterval(interval);
-        };
-      }
-    }, []);
 
     if (error) {
       if (
@@ -41,12 +33,18 @@ export default function withAuthGuard<P extends object>(
       }
     }
 
-    if (isFetching || authData === undefined) {
+    if (isLoading || authData === undefined) {
       return (
         <>
           <ActivityIndicator />
         </>
       );
+    }
+
+    const isAuthorized = allowedRoles.includes(role || "guest");
+
+    if (!isAuthorized) {
+      return <Unauthorized />;
     }
 
     switch (verificationLevel) {
@@ -66,10 +64,11 @@ export default function withAuthGuard<P extends object>(
         }
         break;
       case "4":
-        if (pathname !== "/questions") {
-          return <Navigate to={{ pathname: "/questions" }} />;
-        }
-        break;
+        return <Component {...props} />;
+      // if (pathname !== "/forums") {
+      //   return <Navigate to={{ pathname: "/forums" }} />;
+      // }
+      // break;
       default:
         return <Unauthorized />;
     }

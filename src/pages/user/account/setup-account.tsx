@@ -11,4 +11,4 @@ const SetupAccount = () => {
   );
 };
 
-export default withAuthGuard(SetupAccount);
+export default withAuthGuard(SetupAccount, ["member"]);

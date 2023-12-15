@@ -25,7 +25,7 @@ export default function Topbar() {
         <SearchBar />
       </div>
       <div className="xl:flex hidden items-center justify-center gap-12 text-md   text-[#404040] font-medium">
-        <NavLink to={""}>Home</NavLink>
+        <NavLink to={"/"}>Home</NavLink>
         <NavLink
           to={"/forums"}
           className={({ isActive }) =>

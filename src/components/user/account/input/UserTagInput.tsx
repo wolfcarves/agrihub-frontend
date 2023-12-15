@@ -23,6 +23,7 @@ const UserTagInputDropdown = ({
   onTagsValueChange
 }: UserTagInputDropdownProps) => {
   const [tags, setTags] = useState<Array<string>>([]);
+  const [idTags, setIdTags] = useState<Array<string>>([]);
   const [isInputTagFocused, setIsInputTagFocused] = useState<boolean>(false);
 
   const handleToggleTag = useCallback(
@@ -37,8 +38,8 @@ const UserTagInputDropdown = ({
   );
 
   useEffect(() => {
-    if (onTagsValueChange) onTagsValueChange(tags);
-  }, [onTagsValueChange, tags]);
+    if (onTagsValueChange) onTagsValueChange(idTags);
+  }, [onTagsValueChange, idTags]);
 
   const renderTag = useCallback(
     ({
@@ -82,7 +83,7 @@ const UserTagInputDropdown = ({
             tags.indexOf(tag_name) !== -1 ? "bg-green-200" : ""
           } border flex flex-col gap-3 text-start col-span-1 h-full hover:bg-green-100 hover:cursor-pointer duration-100 p-2 rounded-md`}
           onClick={() => {
-            setTags([...tags, tag_name]);
+            setIdTags([...idTags, id]);
             handleToggleTag(tag_name);
           }}
         >

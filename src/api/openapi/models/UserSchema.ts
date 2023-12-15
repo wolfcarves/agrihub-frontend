@@ -18,4 +18,5 @@ export type UserSchema = {
     createdat?: string;
     updatedat?: string;
     avatar?: string;
+    role?: string;
 };

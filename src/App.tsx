@@ -38,11 +38,30 @@ import AdminLogin from "@pages/admin/admin/login";
 import CommunityLayout from "./pages/user/community/_layout";
 import Explore from "@pages/user/community/community-explore";
 import Community from "@pages/user/community/community";
+import Blog from "./pages/user/blog/blog";
+import BlogLayout from "./pages/user/blog/_layout";
+import Blogs from "./pages/user/blog/blogs";
+import About from "./pages/user/about/about";
+import AboutFocus from "./pages/user/about/about-focus";
+import AboutInitiatives from "./pages/user/about/about-initiatives";
+import AboutLatest from "./pages/user/about/about-latest";
+import LandingPage from "./pages/user/home/landing-page";
 
 const App = ReactRouter(
   <>
     {/* Tour | Welcome | Landing Page */}
     <Route path="/" element={<Tour />} errorElement={<ErrorElement />} />
+
+    {/* Landing Page */}
+    <Route path="/" element={<LandingPage />} />
+
+    {/* About Page */}
+    <Route path="/">
+      <Route path="about" element={<About />} />
+      <Route path="our-focus" element={<AboutFocus />} />
+      <Route path="initiatives" element={<AboutInitiatives />} />
+      <Route path="latest" element={<AboutLatest />} />
+    </Route>
 
     {/* Account Page */}
     <Route path="/account" element={<AccountLayout />}>
@@ -79,9 +98,15 @@ const App = ReactRouter(
     </Route>
 
     {/* Article Page */}
-    <Route path="/" element={<ArticleLayout />}>
-      <Route path="articles" element={<Articles />} />
-      <Route path="article/:title/:articleId" element={<Article />} />
+    <Route path="/article/" element={<ArticleLayout />}>
+      <Route path="list" element={<Articles />} />
+      <Route path="view/:title/:articleId" element={<Article />} />
+    </Route>
+
+    {/* Blog Page */}
+    <Route path="/blog/" element={<BlogLayout />}>
+      <Route path="list" element={<Blogs />} />
+      <Route path="view/:blogId" element={<Blog />} />
     </Route>
 
     {/* Profile Page  */}

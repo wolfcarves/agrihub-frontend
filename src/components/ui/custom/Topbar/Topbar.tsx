@@ -42,8 +42,8 @@ export default function Topbar() {
         >
           Community
         </NavLink>
-        <NavLink to={""}>Articles</NavLink>
-        <NavLink to={""}>Blogs</NavLink>
+        <NavLink to={"/article"}>Articles</NavLink>
+        <NavLink to={"/blog"}>Blogs</NavLink>
         <NavLink to={""}>About Us</NavLink>
       </div>
       <div className="flex items-center gap-4">

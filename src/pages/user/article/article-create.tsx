@@ -1,7 +1,7 @@
 import React from "react";
 
-const articleCreate = () => {
+const ArticleCreate = () => {
   return <div>article-create</div>;
 };
 
-export default articleCreate;
+export default ArticleCreate;

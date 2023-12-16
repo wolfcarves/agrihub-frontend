@@ -120,6 +120,7 @@ formData: UserProfile,
             mediaType: 'multipart/form-data',
             errors: {
                 400: `Validation Error`,
+                409: `Username Already Exists`,
                 500: `Server Error`,
             },
         });

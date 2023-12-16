@@ -21,6 +21,9 @@ createdat?: string;
 updatedat?: string;
 answer_count?: string;
 vote_count?: string;
+vote?: {
+type?: string;
+};
 }>;
     pagination?: {
 page?: number;

@@ -8,8 +8,9 @@ import { Button } from "@components/ui/button";
 import useGetTags from "../../../hooks/api/get/useGetTags";
 import { Input } from "../../../components/ui/input";
 import RichTextEditor from "../../../components/ui/custom/rich-text-editor/RichTextEditor";
+import withAuthGuard from "../../../higher-order/account/withAuthGuard";
 
-export default function QuestionAsk() {
+function QuestionAsk() {
   const [tags, setTags] = useState<{ id: string; name: string }[]>([]);
   const [imgFiles, setImgFiles] = useState<FileList | null>();
   const [tagInput, setTagInput] = useState("");
@@ -177,3 +178,5 @@ export default function QuestionAsk() {
     </div>
   );
 }
+
+export default withAuthGuard(QuestionAsk, ["member"]);

@@ -15,6 +15,7 @@ import { Input } from "@components/ui/input";
 import { Button } from "@components/ui/button";
 import UserTagInputDropdown from "@components/user/account/input/UserTagInput";
 import useGetTagByKeyWord from "@hooks/api/get/useGetTagByKeyword";
+import toast from "react-hot-toast";
 
 const UserFinalSetupForm = () => {
   const inputFileRef = useRef<HTMLInputElement | null>(null);
@@ -44,18 +45,22 @@ const UserFinalSetupForm = () => {
   } = useUserFinalSetup();
 
   const handleOnSubmitForm = async (rawData: UserFinalSetup) => {
-    console.log(tags, "TAGSSSS");
-
     const data = {
       avatar: rawData.avatar[0],
       username: rawData.username,
-      tags: tags ? tags : ["912549919026151425", "912549919026216961"]
+      tags: tags
     };
 
     try {
-      await userFinalSetupMutate(data);
+      const length = tags?.length || 0;
+      if (length >= 2) {
+        return await userFinalSetupMutate(data);
+      }
+      throw new Error("Please select atleast 2 tags");
     } catch (e: any) {
-      console.log(e);
+      if (e.message === "Please select atleast 2 tags") {
+        return toast(e.message);
+      }
     }
   };
 

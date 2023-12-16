@@ -10,7 +10,7 @@ export default function useLoginUserMutation() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  const auth = useAuth();
+  // const auth = useAuth();
 
   return useMutation([useLoginUserKey()], {
     async mutationFn(data: UserLoginSchema) {
@@ -18,10 +18,10 @@ export default function useLoginUserMutation() {
 
       return response;
     },
-    onSuccess: () => {
+    onSuccess: userAuth => {
       queryClient.invalidateQueries({ queryKey: [GET_USER_KEY()] });
 
-      if (auth.data?.verification_level === "4") {
+      if (userAuth?.user?.verification_level === "4") {
         navigate("/forums");
       } else {
         navigate("/account/verify-email");

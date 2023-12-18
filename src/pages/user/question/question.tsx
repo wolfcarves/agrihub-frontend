@@ -1,7 +1,3 @@
-/*
-  path - /question/:username/:questionId/:questionTitle
-*/
-
 import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import useGetViewQuestion from "../../../hooks/api/get/useGetViewQuestion";
@@ -14,6 +10,7 @@ import { GoReport } from "react-icons/go";
 import { IoAddOutline } from "react-icons/io5";
 import { FiMessageSquare } from "react-icons/fi";
 import { Textarea } from "../../../components/ui/textarea";
+import { IoMdArrowBack } from "react-icons/io";
 import {
   Select,
   SelectContent,
@@ -21,15 +18,14 @@ import {
   SelectTrigger,
   SelectValue
 } from "../../../components/ui/select";
+import AnswerCard from "../../../components/user/questions/question-view/AnswerCard";
+
 const Question = () => {
-  const { username } = useParams();
   const { questionId } = useParams();
+  const navigate = useNavigate();
   const [filter, setFilter] = useState<"best" | "top" | "new">("best");
   const [page, setPage] = useState(1);
-  const navigate = useNavigate();
-  const handleNavigateAsk = () => {
-    navigate("/questions/ask");
-  };
+
   const { data } = useGetViewQuestion(questionId || "", String(page));
   console.log(data);
   // const user = useSelector(getUserState);
@@ -43,6 +39,13 @@ const Question = () => {
 
   return (
     <div className="px-3 max-h-full overflow-y-auto flex flex-col gap-6">
+      <h6
+        className="flex gap-2 items-center cursor-pointer mb-3 font-medium"
+        onClick={() => navigate(-1)}
+      >
+        <IoMdArrowBack />
+        Go back
+      </h6>
       <div className="text-2xl font-bold leading-tight">{data?.title}</div>
       <div className="col-span-3 flex gap-2 items-center flex-nowrap">
         <img
@@ -57,7 +60,7 @@ const Question = () => {
         </div>
       </div>
 
-      <div className="flex">
+      <div className="flex justify-between">
         <div
           className="leading-loose"
           dangerouslySetInnerHTML={{
@@ -127,10 +130,10 @@ const Question = () => {
               </div>
             </div>
           </div>
+          <hr className="mb-2" />
         </>
       )}
       <div>
-        <hr className="mb-2" />
         <div className="flex justify-between">
           <div className="flex gap-2 items-center text-gray-400">
             <FiMessageSquare size={20} /> {data?.answer_count}{" "}
@@ -151,7 +154,7 @@ const Question = () => {
         </div>
       </div>
 
-      <div>
+      {/* <div>
         <div className="col-span-3 flex gap-2 items-center flex-nowrap">
           <img
             src={data?.user.avatar}
@@ -309,7 +312,8 @@ const Question = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
+      <AnswerCard data={data} />
     </div>
   );
 };

@@ -1,6 +1,5 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { TbMessageCircleQuestion } from "react-icons/tb";
 
 interface SidebarNav {
   to: string;

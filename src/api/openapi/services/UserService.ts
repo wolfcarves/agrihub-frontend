@@ -3,7 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { TagsSchema } from '../models/TagsSchema';
-import type { UserProfile } from '../models/UserProfile';
+import type { UserSchema } from '../models/UserSchema';
 import type { UserUpdateProfile } from '../models/UserUpdateProfile';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -15,12 +15,12 @@ export class UserService {
     /**
      * Search User
      * @param username Search key
-     * @returns UserProfile Success
+     * @returns UserSchema Success
      * @throws ApiError
      */
     public static getApiUserProfile(
 username: string,
-): CancelablePromise<UserProfile> {
+): CancelablePromise<UserSchema> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/user/profile/{username}',

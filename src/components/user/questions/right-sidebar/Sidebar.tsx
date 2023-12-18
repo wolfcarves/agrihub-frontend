@@ -1,28 +1,31 @@
 import React from "react";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
+import useGetQuestions from "@hooks/api/get/useGetQuestions";
+import { Link } from "react-router-dom";
 const Sidebar = () => {
+  const { data, isLoading } = useGetQuestions(
+    undefined,
+    String(1),
+    String(3),
+    "trending",
+    "top_questions"
+  );
+
   return (
     <>
       <h5 className="font-semibold">Popular Questions</h5>
       <div className="pl-4">
-        <div className="my-2 flex items-center">
-          Take a look at this, pheno.. <MdOutlineKeyboardArrowRight size={18} />
-        </div>
-        <div className="my-2 flex items-center">
-          Take a look at this, pheno.. <MdOutlineKeyboardArrowRight size={18} />
-        </div>
-        <div className="my-2 flex items-center">
-          Take a look at this, pheno.. <MdOutlineKeyboardArrowRight size={18} />
-        </div>
-        <div className="my-2 flex items-center">
-          Take a look at this, pheno.. <MdOutlineKeyboardArrowRight size={18} />
-        </div>
-        <div className="my-2 flex items-center">
-          Take a look at this, pheno.. <MdOutlineKeyboardArrowRight size={18} />
-        </div>
-        <div className="my-2 flex items-center">
-          Take a look at this, pheno.. <MdOutlineKeyboardArrowRight size={18} />
-        </div>
+        {data?.questions?.map((question, index) => (
+          <Link
+            to={`/forums/question/${question.user?.username}/${question.id}`}
+            key={index}
+          >
+            <div className="my-2 flex items-center cursor-pointer line-clamp-1 underline mb-2">
+              {question.title}
+              <MdOutlineKeyboardArrowRight size={18} />
+            </div>
+          </Link>
+        ))}
       </div>
       <h5 className="font-semibold mt-5">Popular Tags</h5>
       <div className="pl-2 px-1 mt-2 flex flex-wrap gap-1">

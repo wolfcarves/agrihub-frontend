@@ -1,6 +1,8 @@
-import { createContext, ReactNode } from "react";
+import { createContext, ReactNode, useContext } from "react";
 import useGetUserQuery from "@hooks/api/get/useGetMyProfileQuery";
 import { UserSchema } from "@api/openapi";
+import { useDispatch } from "react-redux";
+import { setUser } from "../redux/slices/userSlice";
 
 export type AuthContextValue = {
   data?: UserSchema;
@@ -26,7 +28,14 @@ const AuthProvider = (props: { children: ReactNode }) => {
     error: userError
   };
 
+  const dispatch = useDispatch();
+  dispatch(setUser(userData));
+
   return <Auth.Provider value={value}>{props.children}</Auth.Provider>;
 };
 
 export default AuthProvider;
+
+export const UserAuth = () => {
+  return useContext(Auth);
+};

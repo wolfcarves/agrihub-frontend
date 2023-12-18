@@ -6,6 +6,7 @@ import { LuMessagesSquare } from "react-icons/lu";
 import { TiArrowForwardOutline } from "react-icons/ti";
 import { timeAgo } from "@lib/utils";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 interface QuestionCardProps {
   data: QuestionsResponse | undefined;
@@ -16,6 +17,7 @@ interface QuestionCardProps {
 }
 
 const QuestionCards = ({ data, handleNavigateQuestion }: QuestionCardProps) => {
+  const navigate = useNavigate();
   const handleShare = async (
     title: string | undefined,
     text: string | undefined,
@@ -40,6 +42,15 @@ const QuestionCards = ({ data, handleNavigateQuestion }: QuestionCardProps) => {
         }
       });
     }
+  };
+
+  const navigateToUser = (
+    e: React.MouseEvent<HTMLImageElement, MouseEvent>,
+    userid: string | undefined,
+    username: string | undefined
+  ) => {
+    e.stopPropagation();
+    navigate(`/users/${userid}/${username}`);
   };
 
   return (
@@ -68,6 +79,13 @@ const QuestionCards = ({ data, handleNavigateQuestion }: QuestionCardProps) => {
                 <div className="col-span-3 flex gap-2 items-center flex-nowrap">
                   <img
                     src={questions.user?.avatar}
+                    onClick={e =>
+                      navigateToUser(
+                        e,
+                        questions.user?.id,
+                        questions.user?.username
+                      )
+                    }
                     className="w-11 h-11 object-center object-cover bg-slate-500 rounded-xl"
                   />
                   <div>

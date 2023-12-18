@@ -47,6 +47,9 @@ import AboutInitiatives from "./pages/user/about/about-initiatives";
 import AboutLatest from "./pages/user/about/about-latest";
 import LandingPage from "./pages/user/home/landing-page";
 
+// Providers
+import PaginationProvider from "@providers/PaginationProvider";
+
 const App = ReactRouter(
   <>
     {/* Tour | Welcome | Landing Page */}
@@ -84,7 +87,14 @@ const App = ReactRouter(
     </Route>
 
     {/* Question Page */}
-    <Route path="/forums" element={<QuestionLayout />}>
+    <Route
+      path="/forums"
+      element={
+        <PaginationProvider>
+          <QuestionLayout />
+        </PaginationProvider>
+      }
+    >
       <Route path="list" element={<Questions />} />
       <Route path="tags" element={<QuestionTags />} />
       <Route path="ask" element={<QuestionAsk />} />
@@ -110,7 +120,14 @@ const App = ReactRouter(
     </Route>
 
     {/* Profile Page  */}
-    <Route path="/users" element={<UserProfileLayout />}>
+    <Route
+      path="/users"
+      element={
+        <PaginationProvider>
+          <UserProfileLayout />
+        </PaginationProvider>
+      }
+    >
       <Route path=":userId/:username" element={<UserProfile />} />
       <Route path=":userId/me" element={<MyProfile />} />
       <Route path=":userId/me/edit" element={<EditProfile />} />

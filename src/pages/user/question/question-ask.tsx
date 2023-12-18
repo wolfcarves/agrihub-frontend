@@ -9,12 +9,16 @@ import useGetTags from "../../../hooks/api/get/useGetTags";
 import { Input } from "../../../components/ui/input";
 import RichTextEditor from "../../../components/ui/custom/rich-text-editor/RichTextEditor";
 import withAuthGuard from "../../../higher-order/account/withAuthGuard";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import { IoMdArrowBack } from "react-icons/io";
 
 function QuestionAsk() {
   const [tags, setTags] = useState<{ id: string; name: string }[]>([]);
   const [imgFiles, setImgFiles] = useState<FileList | null>();
   const [tagInput, setTagInput] = useState("");
   const [question, setQuestion] = useState<any>();
+  const navigate = useNavigate();
 
   const handleAddTag = (selectedTag: any) => {
     setTags([...tags, { id: selectedTag.id, name: selectedTag.tag_name }]);
@@ -59,18 +63,37 @@ function QuestionAsk() {
     };
 
     try {
-      await questionAskMutate(raw);
-      form.reset();
-      setTags([]);
+      const length = data.tags?.length || 0;
+      if (length >= 1) {
+        await questionAskMutate(raw);
+        toast("Question created successfully", {
+          icon: "✅",
+          duration: 1500
+        });
+        setTimeout(() => {
+          form.reset();
+          setTags([]);
+          navigate("/forums/list");
+        }, 2500);
+        return;
+      }
+      throw new Error("Please choose a minimum of one tag.");
     } catch (e: any) {
-      console.log(e.body);
+      toast(e.message);
     }
   };
-  console.log(form.formState.errors);
+  const { title: titleError } = form.formState.errors;
 
   //This is temporary, refactor later--------
   return (
-    <div className=" p-3">
+    <div className="lg:col-span-8 col-span-12 overflow-y-auto lg:mx-[5rem] scroll-smooth p-3">
+      <h6
+        className="flex gap-2 items-center cursor-pointer mb-3 font-medium"
+        onClick={() => navigate(-1)}
+      >
+        <IoMdArrowBack />
+        Go back
+      </h6>
       <h2 className="text-[1.2rem] font-medium mb-2 ">Ask a Question</h2>
 
       <form
@@ -87,7 +110,11 @@ function QuestionAsk() {
             type="text"
           />
           <p className="text-[.7rem] mt-1 font-semibold text-gray-500">
-            Be specific and imagine you’re asking a question to another person.
+            {titleError?.message ? (
+              <span className="text-red-500">{titleError.message}</span>
+            ) : (
+              "Be specific and imagine you’re asking a question to another person."
+            )}
           </p>
         </div>
         <div className="p-3 border-2 border-border rounded-lg">
@@ -164,9 +191,11 @@ function QuestionAsk() {
                 <div
                   key={tag.id}
                   onClick={() => handleAddTag(tag)}
-                  className="bg-[#DCF2D3] p-2 rounded"
+                  className="bg-[#DCF2D3] p-2 rounded cursor-pointer"
                 >
-                  {tag.tag_name}
+                  <span className="font-bold">{tag.tag_name}</span>
+                  <br />
+                  <span className="text-sm">{tag.details}</span>
                 </div>
               ))}
           </div>

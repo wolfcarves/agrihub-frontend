@@ -1,34 +1,42 @@
-import { createSlice, Draft, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
+import { UserSchema } from "../../api/openapi";
 
-export interface UserState {
-  user: {
-    role: string;
-    username: string;
-  };
-}
+type UserState = {
+  user: UserSchema;
+};
 
 const initialState: UserState = {
   user: {
+    id: "",
+    username: "",
+    email: "",
+    firstname: "",
+    lastname: "",
+    birthdate: "",
+    present_address: "",
+    avatar: "",
+    zipcode: "",
+    district: "",
+    municipality: "",
+    verification_level: "",
     role: "",
-    username: ""
+    createdat: "",
+    updatedat: ""
   }
-} as const;
+};
 
-export const userSlice = createSlice({
+const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    setUser: (
-      state: Draft<typeof initialState>,
-      action: PayloadAction<typeof initialState.user>
-    ) => {
+    setUser: (state, action) => {
       state.user = action.payload;
     }
   }
 });
 
-export const getUserState = (state: { user: UserState }) => state.user;
-
 export const { setUser } = userSlice.actions;
+
+export const getUserState = (state: { user: UserState }) => state.user.user;
 
 export default userSlice.reducer;

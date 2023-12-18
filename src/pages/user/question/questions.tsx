@@ -69,6 +69,10 @@ const Questions = () => {
         )}
       </div>
 
+      <QuestionCards
+        data={data}
+        handleNavigateQuestion={handleNavigateQuestion}
+      />
       <Pagination
         currentPage={Number(data?.pagination?.page)}
         totalPages={Number(data?.pagination?.total_pages)}

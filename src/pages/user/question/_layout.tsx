@@ -5,6 +5,7 @@ import Topbar from "@components/ui/custom/Topbar/Topbar";
 import SidebarRight from "@components/user/questions/right-sidebar/Sidebar";
 import SidebarLeft from "@components/user/questions/left-sidebar/Sidebar";
 import { useEffect } from "react";
+import { UsePagination } from "@providers/PaginationProvider";
 const QuestionLayout = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -15,6 +16,8 @@ const QuestionLayout = () => {
       navigate("/forums/list");
     }
   }, [navigate, location.pathname]);
+
+  const pagination = UsePagination();
   return (
     <div className="flex flex-col max-h-screen h-screen">
       <Sheet key={"sidebar"}>
@@ -25,7 +28,10 @@ const QuestionLayout = () => {
             <SidebarLeft />
           </div>
 
-          <div className="lg:col-span-8 col-span-12 overflow-y-auto py-8 px-2 lg:mx-[5rem] mx-2 scroll-smooth">
+          <div
+            className="lg:col-span-8 col-span-12 overflow-y-auto py-8 px-2 lg:mx-[5rem] mx-2 scroll-smooth"
+            ref={pagination?.topRef}
+          >
             <Outlet />
           </div>
 

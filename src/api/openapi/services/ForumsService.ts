@@ -20,6 +20,7 @@ export class ForumsService {
      * @param page Page number (optional)
      * @param perpage Number of items per page (optional, default 10)
      * @param filter Filter criteria (optional, default newest)
+     * @param profile profile query
      * @returns QuestionsResponse Success
      * @throws ApiError
      */
@@ -28,6 +29,7 @@ search?: string,
 page?: string,
 perpage?: string,
 filter?: 'newest' | 'active' | 'trending',
+profile?: string,
 ): CancelablePromise<QuestionsResponse> {
         return __request(OpenAPI, {
             method: 'GET',
@@ -37,6 +39,7 @@ filter?: 'newest' | 'active' | 'trending',
                 'page': page,
                 'perpage': perpage,
                 'filter': filter,
+                'profile': profile,
             },
             errors: {
                 400: `Validation Error`,

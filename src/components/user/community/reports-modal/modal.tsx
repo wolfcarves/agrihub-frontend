@@ -37,7 +37,6 @@ const CropReportModal = () => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
   const { data } = useGetCrops();
-  console.log(data);
 
   return (
     <Dialog>

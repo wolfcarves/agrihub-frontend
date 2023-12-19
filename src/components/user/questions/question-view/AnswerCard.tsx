@@ -7,11 +7,13 @@ import { TbMessageCirclePlus } from "react-icons/tb";
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import { UserAuth } from "../../../../providers/AuthProvider";
 import { Input } from "../../../ui/input";
-interface AnswerCardProps {
-  data: QuestionViewSchema | undefined;
-}
-const AnswerCard = ({ data }: AnswerCardProps) => {
+import CommentCard from "./CommentCard";
+// interface AnswerCardProps {
+//   data: QuestionViewSchema | undefined;
+// }
+const AnswerCard = ({ answer }: any) => {
   const [reply, setReply] = useState(false);
+  const [comment, setComment] = useState(false);
   const { data: currentUser } = UserAuth() ?? {};
 
   const onClickReply = () => {
@@ -21,17 +23,25 @@ const AnswerCard = ({ data }: AnswerCardProps) => {
       setReply(true);
     }
   };
+  const onClickViewComment = () => {
+    if (comment) {
+      setComment(false);
+    } else {
+      setComment(true);
+    }
+  };
+  console.log(reply);
   return (
     <div>
       <div className="col-span-3 flex gap-2 items-center flex-nowrap">
         <img
-          src={data?.question?.user?.avatar}
+          src={answer.user.avatar}
           className="w-11 h-11 object-center object-cover bg-slate-500 rounded-xl"
         />
         <div>
-          <h6 className=" font-semibold ">{data?.question?.user?.username}</h6>
+          <h6 className=" font-semibold ">{answer.user.username}</h6>
           <p className="text-gray-400 text-sm">
-            {timeAgo(data?.question?.createdat || "")}
+            {timeAgo(answer.createdat || "")}
           </p>
         </div>
       </div>
@@ -40,7 +50,7 @@ const AnswerCard = ({ data }: AnswerCardProps) => {
           <div
             className="leading-loose"
             dangerouslySetInnerHTML={{
-              __html: data?.question?.question || "<p></p>"
+              __html: answer.answer || "<p></p>"
             }}
           />
         </div>
@@ -52,7 +62,7 @@ const AnswerCard = ({ data }: AnswerCardProps) => {
             <span className="">
               <IoIosArrowUp size={20} />
             </span>
-            <span className=" ">2</span>
+            <span className=" ">{answer.total_vote_count}</span>
             <span className="">
               <IoIosArrowDown size={20} />
             </span>
@@ -76,15 +86,18 @@ const AnswerCard = ({ data }: AnswerCardProps) => {
             </span>
             <span className=" ">Report</span>
           </div>
-          <div
-            className="flex items-center gap-2 hover:underline select-none"
-            role="button"
-          >
-            <span className="">
-              <TbMessages size={20} />
-            </span>
-            <span className=" ">View 2 comments</span>
-          </div>
+          {answer.comments.length > 0 && (
+            <div
+              className="flex items-center gap-2 hover:underline select-none"
+              role="button"
+              onClick={onClickViewComment}
+            >
+              <span className="">
+                <TbMessages size={20} />
+              </span>
+              <span className=" ">View {answer.comments.length} comments</span>
+            </div>
+          )}
         </div>
         {currentUser && reply && (
           <>
@@ -107,65 +120,10 @@ const AnswerCard = ({ data }: AnswerCardProps) => {
           </>
         )}
         <hr />
-        <div className="ml-10 my-4">
-          <div className="col-span-3 flex gap-2 items-center flex-nowrap">
-            <img
-              src={data?.question?.user?.avatar}
-              className="w-11 h-11 object-center object-cover bg-slate-500 rounded-xl"
-            />
-            <div>
-              <h6 className=" font-semibold ">
-                {data?.question?.user?.username}
-              </h6>
-              <p className="text-gray-400 text-sm">
-                {timeAgo(data?.question?.createdat || "")}
-              </p>
-            </div>
-          </div>
-          <div className="border-l-2 ml-5 pl-8 mt-2">
-            <div className="">
-              <div
-                className="leading-loose"
-                dangerouslySetInnerHTML={{
-                  __html: data?.question?.question || "<p></p>"
-                }}
-              />
-            </div>
-            <div className="flex gap-8 mt-3 mb-5">
-              <div
-                className="flex items-center gap-3 hover:underline"
-                role="button"
-              >
-                <span className="">
-                  <IoIosArrowUp size={20} />
-                </span>
-                <span className=" ">2</span>
-                <span className="">
-                  <IoIosArrowDown size={20} />
-                </span>
-              </div>
-              <div
-                className="flex items-center gap-2 hover:underline"
-                role="button"
-              >
-                <span className="">
-                  <TbMessageCirclePlus size={20} />
-                </span>
-                <span className=" ">Reply</span>
-              </div>
-              <div
-                className="flex items-center gap-2 hover:underline"
-                role="button"
-              >
-                <span className="">
-                  <GoReport size={20} />
-                </span>
-                <span className=" ">Report</span>
-              </div>
-            </div>
-          </div>
-          <hr className="ml-12 pl-8 mt-2" />
-        </div>
+        {comment &&
+          answer.comments.map((comment: any, i: number) => (
+            <CommentCard key={i} comment={comment} />
+          ))}
       </div>
     </div>
   );

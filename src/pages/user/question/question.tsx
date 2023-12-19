@@ -28,6 +28,7 @@ const Question = () => {
   const [page, setPage] = useState(1);
 
   const { data } = useGetViewQuestion(questionId || "", String(page));
+  console.log(data);
 
   const { data: currentUser } = UserAuth() ?? {};
 
@@ -155,7 +156,9 @@ const Question = () => {
           </Select>
         </div>
       </div>
-      <AnswerCard data={data} />
+      {data?.question?.answers?.map((answer, i) => (
+        <AnswerCard key={i} answer={answer} />
+      ))}
     </div>
   );
 };

@@ -6,9 +6,11 @@ import dp from "@assets/images/dp.svg";
 import { SheetTrigger } from "@components/ui/sheet";
 import SearchBar from "../search-bar/SearchBar";
 import { NavLink } from "react-router-dom";
+import { UserAuth } from "@providers/AuthProvider";
 export default function Topbar() {
   // const toggle = useSelector((state: RootState) => state.sidebar.toggle);
   // const dispatch = useDispatch();
+  const { data: currentUser } = UserAuth() ?? {};
 
   return (
     <div className="px-6 py-2 bg-white border-b border-border flex justify-between w-full  z-30">
@@ -49,8 +51,8 @@ export default function Topbar() {
       <div className="flex items-center gap-4">
         <FaRegBell size={20} color={"#404040"} />
         <img
-          className="h-[2rem] w-[2rem] aspect-square rounded-full"
-          src={dp}
+          className="h-[2rem] w-[2rem] aspect-square rounded-full shadow"
+          src={currentUser?.avatar}
         />
       </div>
     </div>

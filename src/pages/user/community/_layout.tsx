@@ -15,20 +15,13 @@ const CommunityLayout = () => {
     }
   }, [navigate, location.pathname]);
   return (
-    <div className="flex flex-col max-h-screen h-screen">
-      <Sheet key={"sidebar"}>
-        <Topbar />
-        <Sidebar />
-        <div className="grid grid-cols-12 grid-rows-1 h-full overflow-y-auto">
-          <div className="col-span-2 lg:flex hidden my-6 pt-2 flex-col items-end pr-3 border-r border-border">
-            <CommunitySideBar />
-          </div>
-
-          <div className="lg:col-span-10  col-span-12 overflow-y-auto py-3 scroll-smooth">
-            <Outlet />
-          </div>
-        </div>
-      </Sheet>
+    <div className="grid grid-cols-12 grid-rows-1 h-full overflow-y-auto">
+      <div className="col-span-2 lg:flex hidden my-6 pt-2 flex-col items-end pr-3 border-r border-border">
+        <CommunitySideBar />
+      </div>
+      <div className="lg:col-span-10  col-span-12 overflow-y-auto py-3 scroll-smooth">
+        <Outlet />
+      </div>
     </div>
   );
 };

@@ -35,6 +35,7 @@ message?: string;
             mediaType: 'application/json',
             errors: {
                 400: `Validation Error`,
+                409: `Email Already Exists`,
                 500: `Server Error`,
             },
         });

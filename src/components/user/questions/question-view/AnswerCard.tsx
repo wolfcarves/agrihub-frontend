@@ -25,13 +25,13 @@ const AnswerCard = ({ data }: AnswerCardProps) => {
     <div>
       <div className="col-span-3 flex gap-2 items-center flex-nowrap">
         <img
-          src={data?.user.avatar}
+          src={data?.question?.user?.avatar}
           className="w-11 h-11 object-center object-cover bg-slate-500 rounded-xl"
         />
         <div>
-          <h6 className=" font-semibold ">{data?.user?.username}</h6>
+          <h6 className=" font-semibold ">{data?.question?.user?.username}</h6>
           <p className="text-gray-400 text-sm">
-            {timeAgo(data?.createdat || "")}
+            {timeAgo(data?.question?.createdat || "")}
           </p>
         </div>
       </div>
@@ -40,7 +40,7 @@ const AnswerCard = ({ data }: AnswerCardProps) => {
           <div
             className="leading-loose"
             dangerouslySetInnerHTML={{
-              __html: data?.question || "<p></p>"
+              __html: data?.question?.question || "<p></p>"
             }}
           />
         </div>
@@ -110,13 +110,15 @@ const AnswerCard = ({ data }: AnswerCardProps) => {
         <div className="ml-10 my-4">
           <div className="col-span-3 flex gap-2 items-center flex-nowrap">
             <img
-              src={data?.user.avatar}
+              src={data?.question?.user?.avatar}
               className="w-11 h-11 object-center object-cover bg-slate-500 rounded-xl"
             />
             <div>
-              <h6 className=" font-semibold ">{data?.user?.username}</h6>
+              <h6 className=" font-semibold ">
+                {data?.question?.user?.username}
+              </h6>
               <p className="text-gray-400 text-sm">
-                {timeAgo(data?.createdat || "")}
+                {timeAgo(data?.question?.createdat || "")}
               </p>
             </div>
           </div>
@@ -125,7 +127,7 @@ const AnswerCard = ({ data }: AnswerCardProps) => {
               <div
                 className="leading-loose"
                 dangerouslySetInnerHTML={{
-                  __html: data?.question || "<p></p>"
+                  __html: data?.question?.question || "<p></p>"
                 }}
               />
             </div>

@@ -20,6 +20,7 @@ import {
 } from "../../../components/ui/select";
 import AnswerCard from "../../../components/user/questions/question-view/AnswerCard";
 import { timeAgo, timeAgo2 } from "@components/lib/utils";
+import AnswerForm from "../../../components/user/questions/question-view/AnswerForm";
 
 const Question = () => {
   const { questionId } = useParams();
@@ -28,7 +29,6 @@ const Question = () => {
   const [page, setPage] = useState(1);
 
   const { data } = useGetViewQuestion(questionId || "", String(page));
-  console.log(data);
 
   const { data: currentUser } = UserAuth() ?? {};
 
@@ -110,30 +110,7 @@ const Question = () => {
       </div>
       <hr className="" />
 
-      {currentUser && (
-        <>
-          <div className="flex gap-2">
-            <img
-              src={currentUser?.avatar}
-              className="h-11 w-11 rounded-full border mt-1"
-            />
-            <div className="w-full">
-              <p className="ms-1 text-gray-500 font-medium text-sm mb-1">
-                Answer as {currentUser?.username}
-              </p>
-
-              <Textarea placeholder="Type your answer here." />
-              <div className="flex justify-end mt-2">
-                <button className="bg-primary text-white py-2 px-6 rounded-3xl text-sm flex items-center gap-1">
-                  <IoAddOutline size={20} />
-                  <span> Add Answer</span>
-                </button>
-              </div>
-            </div>
-          </div>
-          <hr className="mb-2" />
-        </>
-      )}
+      {currentUser && <AnswerForm questionId={data?.question?.id} />}
       <div>
         <div className="flex justify-between">
           <div className="flex gap-2 items-center text-gray-400">

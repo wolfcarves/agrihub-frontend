@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { timeAgo } from "../../../lib/utils";
-import { QuestionViewSchema } from "../../../../api/openapi";
+import { CommentsSchema, QuestionViewSchema } from "../../../../api/openapi";
 import { TbMessages } from "react-icons/tb";
 import { GoReport } from "react-icons/go";
 import { TbMessageCirclePlus } from "react-icons/tb";
@@ -8,6 +8,10 @@ import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import { UserAuth } from "../../../../providers/AuthProvider";
 import { Input } from "../../../ui/input";
 import CommentCard from "./CommentCard";
+import useQuestionComment from "../../../../hooks/api/post/useQuestionComment";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { AddComment } from "./schema";
 // interface AnswerCardProps {
 //   data: QuestionViewSchema | undefined;
 // }
@@ -15,6 +19,31 @@ const AnswerCard = ({ answer }: any) => {
   const [reply, setReply] = useState(false);
   const [comment, setComment] = useState(false);
   const { data: currentUser } = UserAuth() ?? {};
+
+  const { mutateAsync: questionCommentMutate, isLoading } =
+    useQuestionComment();
+
+  const form = useForm<CommentsSchema>({
+    resolver: zodResolver(AddComment),
+    mode: "onChange"
+  });
+  const handleCommentSubmit = async (data: CommentsSchema) => {
+    console.log("first");
+    const raw = {
+      comment: data.comment
+    };
+
+    try {
+      await questionCommentMutate({
+        answerId: answer.id,
+        userComment: raw
+      });
+
+      return;
+    } catch (e: any) {
+      console.log(e.message);
+    }
+  };
 
   const onClickReply = () => {
     if (reply) {
@@ -30,7 +59,7 @@ const AnswerCard = ({ answer }: any) => {
       setComment(true);
     }
   };
-  console.log(reply);
+
   return (
     <div>
       <div className="col-span-3 flex gap-2 items-center flex-nowrap">
@@ -100,7 +129,7 @@ const AnswerCard = ({ answer }: any) => {
           )}
         </div>
         {currentUser && reply && (
-          <>
+          <form onSubmit={form.handleSubmit(handleCommentSubmit)}>
             <p className="ms-[3.5rem] text-gray-500 font-medium text-sm mb-1">
               Reply as {currentUser?.username}
             </p>
@@ -110,14 +139,20 @@ const AnswerCard = ({ answer }: any) => {
                 className="h-11 w-11 rounded-full border "
               />
               <div className="w-full">
-                <Input placeholder="Type your reply here..." />
+                <Input
+                  {...form.register("comment")}
+                  placeholder="Type your reply here..."
+                />
               </div>
-              <button className="bg-primary text-white py-2 px-6 rounded-3xl text-sm ">
+              <button
+                type="submit"
+                className="bg-primary text-white py-2 px-6 rounded-3xl text-sm "
+              >
                 <span>Send</span>
               </button>
             </div>
             <hr className="mb-2" />
-          </>
+          </form>
         )}
         <hr />
         {comment &&

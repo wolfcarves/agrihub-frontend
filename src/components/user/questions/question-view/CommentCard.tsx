@@ -38,15 +38,6 @@ const CommentCard = ({ comment }: any) => {
             role="button"
           >
             <span className="">
-              <TbMessageCirclePlus size={20} />
-            </span>
-            <span className=" ">Reply</span>
-          </div>
-          <div
-            className="flex items-center gap-2 hover:underline"
-            role="button"
-          >
-            <span className="">
               <GoReport size={20} />
             </span>
             <span className=" ">Report</span>

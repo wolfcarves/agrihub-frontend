@@ -28,7 +28,6 @@ const AnswerCard = ({ answer }: any) => {
     mode: "onChange"
   });
   const handleCommentSubmit = async (data: CommentsSchema) => {
-    console.log("first");
     const raw = {
       comment: data.comment
     };
@@ -70,7 +69,7 @@ const AnswerCard = ({ answer }: any) => {
         <div>
           <h6 className=" font-semibold ">{answer.user.username}</h6>
           <p className="text-gray-400 text-sm">
-            {timeAgo(answer.createdat || "")}
+            {timeAgo("2023-12-26T07:57:52.460Z")}
           </p>
         </div>
       </div>

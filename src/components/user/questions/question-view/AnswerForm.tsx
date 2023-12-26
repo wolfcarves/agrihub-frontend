@@ -63,7 +63,7 @@ const AnswerForm: React.FC<any> = ({ questionId }) => {
           </div>
         </div>
       </div>
-      <hr className="mb-2" />
+      <hr className="mb-2 mt-3" />
     </form>
   );
 };

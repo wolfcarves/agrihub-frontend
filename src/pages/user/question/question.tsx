@@ -1,15 +1,12 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import useGetViewQuestion from "../../../hooks/api/get/useGetViewQuestion";
-
 import { UserAuth } from "../../../providers/AuthProvider";
 import { PiShareFatLight } from "react-icons/pi";
 import { BiSolidDownArrow, BiSolidUpArrow } from "react-icons/bi";
 import { CiBookmarkPlus } from "react-icons/ci";
 import { GoReport } from "react-icons/go";
-import { IoAddOutline } from "react-icons/io5";
 import { FiMessageSquare } from "react-icons/fi";
-import { Textarea } from "../../../components/ui/textarea";
 import { IoMdArrowBack } from "react-icons/io";
 import {
   Select,
@@ -29,7 +26,7 @@ const Question = () => {
   const [page, setPage] = useState(1);
 
   const { data } = useGetViewQuestion(questionId || "", String(page));
-
+  console.log(data);
   const { data: currentUser } = UserAuth() ?? {};
 
   const onFilterChange = (filterKey: "best" | "top" | "new") => {

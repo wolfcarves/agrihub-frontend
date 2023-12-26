@@ -49,21 +49,72 @@ import LandingPage from "./pages/user/home/landing-page";
 
 // Providers
 import PaginationProvider from "@providers/PaginationProvider";
+import UserLayout from "@pages/user/layout/_layout";
 
 const App = ReactRouter(
   <>
-    {/* Tour | Welcome | Landing Page */}
-    <Route path="/" element={<Tour />} errorElement={<ErrorElement />} />
+    {/* User Side */}
+    <Route path="/" element={<UserLayout />} errorElement={<ErrorElement />}>
+      {/* Tour | Welcome | Landing Page */}
+      <Route path="/" element={<Tour />} errorElement={<ErrorElement />} />
 
-    {/* Landing Page */}
-    <Route path="/" element={<LandingPage />} />
+      {/* Landing Page */}
+      <Route path="/" element={<LandingPage />} />
 
-    {/* About Page */}
-    <Route path="/">
-      <Route path="about" element={<About />} />
-      <Route path="our-focus" element={<AboutFocus />} />
-      <Route path="initiatives" element={<AboutInitiatives />} />
-      <Route path="latest" element={<AboutLatest />} />
+      {/* About Page */}
+      <Route path="/">
+        <Route path="about" element={<About />} />
+        <Route path="our-focus" element={<AboutFocus />} />
+        <Route path="initiatives" element={<AboutInitiatives />} />
+        <Route path="latest" element={<AboutLatest />} />
+      </Route>
+
+      {/* Question Page */}
+      <Route
+        path="/forums"
+        element={
+          <PaginationProvider>
+            <QuestionLayout />
+          </PaginationProvider>
+        }
+      >
+        <Route path="list" element={<Questions />} />
+        <Route path="tags" element={<QuestionTags />} />
+        <Route path="ask" element={<QuestionAsk />} />
+        <Route path="question/:username/:questionId" element={<Question />} />
+      </Route>
+
+      {/* Community Page */}
+      <Route path="/community" element={<CommunityLayout />}>
+        <Route path="my-community" element={<Community />} />
+        <Route path="explore" element={<Explore />} />
+      </Route>
+
+      {/* Article Page */}
+      <Route path="/article/" element={<ArticleLayout />}>
+        <Route path="list" element={<Articles />} />
+        <Route path="view/:title/:articleId" element={<Article />} />
+      </Route>
+
+      {/* Blog Page */}
+      <Route path="/blog/" element={<BlogLayout />}>
+        <Route path="list" element={<Blogs />} />
+        <Route path="view/:blogId" element={<Blog />} />
+      </Route>
+
+      {/* Profile Page  */}
+      <Route
+        path="/users"
+        element={
+          <PaginationProvider>
+            <UserProfileLayout />
+          </PaginationProvider>
+        }
+      >
+        <Route path=":userId/:username" element={<UserProfile />} />
+        <Route path=":userId/me" element={<MyProfile />} />
+        <Route path=":userId/me/edit" element={<EditProfile />} />
+      </Route>
     </Route>
 
     {/* Account Page */}
@@ -84,53 +135,6 @@ const App = ReactRouter(
       <Route path="" element={<AdminLogin />} />
       <Route path="dashboard" element={<AdminLogin />} />
       <Route path="dashboard" element={<AdminLogin />} />
-    </Route>
-
-    {/* Question Page */}
-    <Route
-      path="/forums"
-      element={
-        <PaginationProvider>
-          <QuestionLayout />
-        </PaginationProvider>
-      }
-    >
-      <Route path="list" element={<Questions />} />
-      <Route path="tags" element={<QuestionTags />} />
-      <Route path="ask" element={<QuestionAsk />} />
-      <Route path="question/:username/:questionId" element={<Question />} />
-    </Route>
-
-    {/* Community Page */}
-    <Route path="/community" element={<CommunityLayout />}>
-      <Route path="my-community" element={<Community />} />
-      <Route path="explore" element={<Explore />} />
-    </Route>
-
-    {/* Article Page */}
-    <Route path="/article/" element={<ArticleLayout />}>
-      <Route path="list" element={<Articles />} />
-      <Route path="view/:title/:articleId" element={<Article />} />
-    </Route>
-
-    {/* Blog Page */}
-    <Route path="/blog/" element={<BlogLayout />}>
-      <Route path="list" element={<Blogs />} />
-      <Route path="view/:blogId" element={<Blog />} />
-    </Route>
-
-    {/* Profile Page  */}
-    <Route
-      path="/users"
-      element={
-        <PaginationProvider>
-          <UserProfileLayout />
-        </PaginationProvider>
-      }
-    >
-      <Route path=":userId/:username" element={<UserProfile />} />
-      <Route path=":userId/me" element={<MyProfile />} />
-      <Route path=":userId/me/edit" element={<EditProfile />} />
     </Route>
   </>
 );

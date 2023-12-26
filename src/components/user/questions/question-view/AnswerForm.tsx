@@ -10,7 +10,7 @@ import { AnswersSchema } from "../../../../api/openapi";
 interface AnswerFormProps {
   questionId: string;
 }
-const AnswerForm: React.FC<any> = ({ questionId }) => {
+const AnswerForm: React.FC<AnswerFormProps> = ({ questionId }) => {
   const { data: currentUser } = UserAuth() ?? {};
 
   const { mutateAsync: questionAnswerMutate, isLoading } = useQuestionAnswer();
@@ -25,14 +25,14 @@ const AnswerForm: React.FC<any> = ({ questionId }) => {
     };
 
     try {
-      await await questionAnswerMutate({
+      await questionAnswerMutate({
         questionId: questionId,
         userAnswer: raw
       });
 
       return;
     } catch (e: any) {
-      console.log(e.message);
+      console.log(e.body.message);
     }
   };
 

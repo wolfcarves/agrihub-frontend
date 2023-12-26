@@ -62,8 +62,8 @@ const App = ReactRouter(
       <Route path="/" element={<LandingPage />} />
 
       {/* About Page */}
-      <Route path="/">
-        <Route path="about" element={<About />} />
+      <Route path="/about">
+        <Route path="" element={<About />} />
         <Route path="our-focus" element={<AboutFocus />} />
         <Route path="initiatives" element={<AboutInitiatives />} />
         <Route path="latest" element={<AboutLatest />} />
@@ -91,14 +91,14 @@ const App = ReactRouter(
       </Route>
 
       {/* Article Page */}
-      <Route path="/article/" element={<ArticleLayout />}>
-        <Route path="list" element={<Articles />} />
+      <Route path="/article" element={<ArticleLayout />}>
+        <Route path="" element={<Articles />} />
         <Route path="view/:title/:articleId" element={<Article />} />
       </Route>
 
       {/* Blog Page */}
-      <Route path="/blog/" element={<BlogLayout />}>
-        <Route path="list" element={<Blogs />} />
+      <Route path="/blog" element={<BlogLayout />}>
+        <Route path="" element={<Blogs />} />
         <Route path="view/:blogId" element={<Blog />} />
       </Route>
 

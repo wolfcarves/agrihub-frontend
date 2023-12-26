@@ -7,6 +7,7 @@ import SearchBar from "../search-bar/SearchBar";
 import { NavLink, useNavigate } from "react-router-dom";
 import { UserAuth } from "@providers/AuthProvider";
 import { Button } from "../../button";
+import TopbarNav from "./TopbarNav";
 export default function Topbar() {
   const navigate = useNavigate();
   const { data: currentUser } = UserAuth() ?? {};
@@ -18,8 +19,8 @@ export default function Topbar() {
   };
 
   return (
-    <div className="px-6 py-2 bg-white border-b border-border flex justify-between w-full  z-30">
-      <div className="flex items-center">
+    <div className="px-6 bg-white border-b border-border flex justify-between w-full  z-30">
+      <div className="flex  py-2 items-center">
         <SheetTrigger className="md:hidden inline mr-3">
           <RxHamburgerMenu size={20} />
         </SheetTrigger>
@@ -31,27 +32,13 @@ export default function Topbar() {
         />
         <SearchBar />
       </div>
-      <div className="xl:flex hidden items-center justify-center gap-12 text-md text-[#404040] font-medium">
-        <NavLink to={"/"}>Home</NavLink>
-        <NavLink
-          to={"/forums"}
-          className={({ isActive }) =>
-            ` ${isActive ? "text-primary" : "text-black"}`
-          }
-        >
-          Forum
-        </NavLink>
-        <NavLink
-          to={"/community"}
-          className={({ isActive }) =>
-            ` ${isActive ? "text-primary" : "text-black"}`
-          }
-        >
-          Community
-        </NavLink>
-        <NavLink to={"/article"}>Articles</NavLink>
-        <NavLink to={"/blog"}>Blogs</NavLink>
-        <NavLink to={""}>About Us</NavLink>
+      <div className="xl:flex hidden justify-center gap-10 text-md text-[#404040] font-medium">
+        <TopbarNav to={"/"}>Home</TopbarNav>
+        <TopbarNav to={"/forums"}>Forum</TopbarNav>
+        <TopbarNav to={"/community"}>Community</TopbarNav>
+        <TopbarNav to={"/article"}>Articles</TopbarNav>
+        <TopbarNav to={"/blog"}>Blogs</TopbarNav>
+        <TopbarNav to={"/about"}>About Us</TopbarNav>
       </div>
       {currentUser ? (
         <div className="flex items-center gap-4">

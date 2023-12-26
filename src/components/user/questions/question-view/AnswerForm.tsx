@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AnswersSchema } from "../../../../api/openapi";
 interface AnswerFormProps {
-  questionId: string;
+  questionId: string | undefined;
 }
 const AnswerForm: React.FC<AnswerFormProps> = ({ questionId }) => {
   const { data: currentUser } = UserAuth() ?? {};
@@ -26,7 +26,7 @@ const AnswerForm: React.FC<AnswerFormProps> = ({ questionId }) => {
 
     try {
       await questionAnswerMutate({
-        questionId: questionId,
+        questionId: questionId || "",
         userAnswer: raw
       });
 

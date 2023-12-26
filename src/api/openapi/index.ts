@@ -7,10 +7,14 @@ export { CancelablePromise, CancelError } from './core/CancelablePromise';
 export { OpenAPI } from './core/OpenAPI';
 export type { OpenAPIConfig } from './core/OpenAPI';
 
+export type { AnswersSchema } from './models/AnswersSchema';
+export type { CommentsSchema } from './models/CommentsSchema';
 export type { CropData } from './models/CropData';
 export type { ErrorResponse } from './models/ErrorResponse';
 export type { FarmData } from './models/FarmData';
 export type { FarmListResponse } from './models/FarmListResponse';
+export type { NewAnswerResponse } from './models/NewAnswerResponse';
+export type { NewCommentResponse } from './models/NewCommentResponse';
 export type { NewCropReportRequest } from './models/NewCropReportRequest';
 export type { NewCropReportResponse } from './models/NewCropReportResponse';
 export type { NewCropRequest } from './models/NewCropRequest';
@@ -31,6 +35,8 @@ export type { UserProfile } from './models/UserProfile';
 export type { UserRegisterSchema } from './models/UserRegisterSchema';
 export type { UserSchema } from './models/UserSchema';
 export type { UserUpdateProfile } from './models/UserUpdateProfile';
+export { VoteAnswerSchema } from './models/VoteAnswerSchema';
+export { VoteAnswerSuccessResponse } from './models/VoteAnswerSuccessResponse';
 export type { VoteResponseSchema } from './models/VoteResponseSchema';
 export type { ZodValidationError } from './models/ZodValidationError';
 

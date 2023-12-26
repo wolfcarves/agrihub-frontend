@@ -31,6 +31,8 @@ const Questions = () => {
     setPage(newPage);
   };
 
+  console.log(data?.questions);
+
   useEffect(() => {
     pagination?.scrollToTop();
   }, [page]);

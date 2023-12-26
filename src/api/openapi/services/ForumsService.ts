@@ -2,10 +2,16 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { AnswersSchema } from '../models/AnswersSchema';
+import type { CommentsSchema } from '../models/CommentsSchema';
+import type { NewAnswerResponse } from '../models/NewAnswerResponse';
+import type { NewCommentResponse } from '../models/NewCommentResponse';
 import type { NewQuestionSchema } from '../models/NewQuestionSchema';
 import type { QuestionSchema } from '../models/QuestionSchema';
 import type { QuestionsResponse } from '../models/QuestionsResponse';
 import type { QuestionViewSchema } from '../models/QuestionViewSchema';
+import type { VoteAnswerSchema } from '../models/VoteAnswerSchema';
+import type { VoteAnswerSuccessResponse } from '../models/VoteAnswerSuccessResponse';
 import type { VoteResponseSchema } from '../models/VoteResponseSchema';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -75,12 +81,14 @@ formData: QuestionSchema,
      * Get Question Details
      * @param id Question ID
      * @param page Page number (optional)
+     * @param filter Filter criteria (optional, default newest)
      * @returns QuestionViewSchema Successful response
      * @throws ApiError
      */
     public static getApiForums1(
 id: string,
 page?: string,
+filter?: 'newest' | 'top',
 ): CancelablePromise<QuestionViewSchema> {
         return __request(OpenAPI, {
             method: 'GET',
@@ -90,6 +98,12 @@ page?: string,
             },
             query: {
                 'page': page,
+                'filter': filter,
+            },
+            errors: {
+                400: `Validation Error`,
+                429: `Too much request`,
+                500: `Server Error`,
             },
         });
     }
@@ -115,6 +129,92 @@ type: 'upvote' | 'downvote';
             },
             body: requestBody,
             mediaType: 'application/json',
+            errors: {
+                400: `Validation Error`,
+                429: `Too much request`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Create a new answer in the forum
+     * @param id The ID of the forum post
+     * @param requestBody 
+     * @returns NewAnswerResponse Answer created successfully
+     * @throws ApiError
+     */
+    public static postApiForumsCreateAnswers(
+id: string,
+requestBody: AnswersSchema,
+): CancelablePromise<NewAnswerResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/forums/create/answers/{id}',
+            path: {
+                'id': id,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                400: `Validation Error`,
+                429: `Too much request`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Create a comment for an answer in the forum
+     * @param answerId The ID of the answer
+     * @param requestBody 
+     * @returns NewCommentResponse Comment created successfully
+     * @throws ApiError
+     */
+    public static postApiForumsCreateComments(
+answerId: string,
+requestBody: CommentsSchema,
+): CancelablePromise<NewCommentResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/forums/create/comments/{answerId}',
+            path: {
+                'answerId': answerId,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                400: `Validation Error`,
+                429: `Too much request`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Vote for an answer in the forum
+     * @param id The ID of the answer
+     * @param requestBody 
+     * @returns VoteAnswerSuccessResponse Voted Answer Successfully
+     * @throws ApiError
+     */
+    public static postApiForumsVoteAnswer(
+id: string,
+requestBody: VoteAnswerSchema,
+): CancelablePromise<VoteAnswerSuccessResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/forums/vote/answer/{id}',
+            path: {
+                'id': id,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                400: `Validation Error`,
+                429: `Too much request`,
+                500: `Server Error`,
+            },
         });
     }
 

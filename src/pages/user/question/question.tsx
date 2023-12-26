@@ -16,7 +16,7 @@ import {
   SelectValue
 } from "../../../components/ui/select";
 import AnswerCard from "../../../components/user/questions/question-view/AnswerCard";
-import { timeAgo, timeAgo2 } from "@components/lib/utils";
+import { timeAgo } from "@components/lib/utils";
 import AnswerForm from "../../../components/user/questions/question-view/AnswerForm";
 
 const Question = () => {

@@ -208,4 +208,11 @@ function QuestionAsk() {
   );
 }
 
-export default withAuthGuard(QuestionAsk, ["member"]);
+export default withAuthGuard(QuestionAsk, [
+  "member",
+  "admin",
+  "farmer",
+  "farm_head",
+  "asst_admin",
+  "subfarm_head"
+]);

@@ -19,10 +19,8 @@ const LogoutAlert = () => {
 
   const handleLogout = async () => {
     try {
-      // Trigger the mutation when the logout button is clicked
       await deleteAuthMutation.mutateAsync();
     } catch (error) {
-      // Display error toast
       toast.error(`An error occurred: ${error}`);
     }
   };

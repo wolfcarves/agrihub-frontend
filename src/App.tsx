@@ -50,6 +50,7 @@ import LandingPage from "./pages/user/home/landing-page";
 // Providers
 import PaginationProvider from "@providers/PaginationProvider";
 import UserLayout from "@pages/user/layout/_layout";
+import AboutLayout from "./pages/user/about/_layout";
 
 const App = ReactRouter(
   <>
@@ -62,7 +63,7 @@ const App = ReactRouter(
       <Route path="/" element={<LandingPage />} />
 
       {/* About Page */}
-      <Route path="/about">
+      <Route path="/about" element={<AboutLayout />}>
         <Route path="" element={<About />} />
         <Route path="our-focus" element={<AboutFocus />} />
         <Route path="initiatives" element={<AboutInitiatives />} />

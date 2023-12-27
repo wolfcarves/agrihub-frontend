@@ -20,9 +20,6 @@ export default function useUserFinalSetup() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [GET_USER_KEY()] });
       navigate("/forums");
-    },
-    onError: (error: any) => {
-      toast(error.message);
     }
   });
 }

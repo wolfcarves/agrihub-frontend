@@ -7,6 +7,7 @@ import { AddAnswer } from "./schema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AnswersSchema } from "../../../../api/openapi";
+import toast from "react-hot-toast";
 interface AnswerFormProps {
   questionId: string | undefined;
 }
@@ -25,10 +26,14 @@ const AnswerForm: React.FC<AnswerFormProps> = ({ questionId }) => {
     };
 
     try {
-      await questionAnswerMutate({
+      const answerResponse = await questionAnswerMutate({
         questionId: questionId || "",
         userAnswer: raw
       });
+
+      toast(answerResponse?.message || "");
+
+      form.reset();
 
       return;
     } catch (e: any) {
@@ -56,6 +61,7 @@ const AnswerForm: React.FC<AnswerFormProps> = ({ questionId }) => {
             <button
               type="submit"
               className="bg-primary text-white py-2 px-6 rounded-3xl text-sm flex items-center gap-1"
+              disabled={isLoading}
             >
               <IoAddOutline size={20} />
               <span> Add Answer</span>

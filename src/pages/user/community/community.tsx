@@ -67,4 +67,9 @@ const Community = () => {
   );
 };
 
-export default withAuthGuard(Community, ["member"]);
+export default withAuthGuard(Community, [
+  "admin",
+  "farm_head",
+  "subfarm_head",
+  "farmer"
+]);

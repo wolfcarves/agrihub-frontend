@@ -3,11 +3,13 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { CropData } from '../models/CropData';
+import type { CropReport } from '../models/CropReport';
 import type { FarmListResponse } from '../models/FarmListResponse';
 import type { NewCropRequest } from '../models/NewCropRequest';
 import type { NewCropResponse } from '../models/NewCropResponse';
 import type { NewFarmRequest } from '../models/NewFarmRequest';
 import type { NewFarmResponse } from '../models/NewFarmResponse';
+import type { SubfarmOverviewResponse } from '../models/SubfarmOverviewResponse';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -91,6 +93,40 @@ formData: NewCropRequest,
             url: '/api/farm/crop',
             formData: formData,
             mediaType: 'multipart/form-data',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Get overview details for a subfarm
+     * @returns SubfarmOverviewResponse Success. Returns overview details for the subfarm.
+     * @throws ApiError
+     */
+    public static getApiFarmSubfarmOverview(): CancelablePromise<SubfarmOverviewResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/farm/subfarm/overview',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Get crop reports for a farm
+     * @returns CropReport Success. Returns a list of crop reports for the farm.
+     * @throws ApiError
+     */
+    public static getApiFarmCropReports(): CancelablePromise<Array<CropReport>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/farm/crop/reports',
             errors: {
                 400: `Validation Error`,
                 401: `Unauthorized`,

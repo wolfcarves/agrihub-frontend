@@ -7,10 +7,12 @@ import {
 
 //Slices
 import userSlice from "./slices/userSlice";
+import questionViewSlice from "./slices/questionViewSlice";
 
 export const store = configureStore({
   reducer: {
-    user: userSlice
+    user: userSlice,
+    questionView: questionViewSlice
   }
 });
 

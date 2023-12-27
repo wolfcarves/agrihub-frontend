@@ -4,6 +4,8 @@
 /* eslint-disable */
 import type { AnswersSchema } from '../models/AnswersSchema';
 import type { CommentsSchema } from '../models/CommentsSchema';
+import type { DeleteVoteAnswerResponse } from '../models/DeleteVoteAnswerResponse';
+import type { DeleteVoteForumResponse } from '../models/DeleteVoteForumResponse';
 import type { NewAnswerResponse } from '../models/NewAnswerResponse';
 import type { NewCommentResponse } from '../models/NewCommentResponse';
 import type { NewQuestionSchema } from '../models/NewQuestionSchema';
@@ -131,6 +133,32 @@ type: 'upvote' | 'downvote';
             mediaType: 'application/json',
             errors: {
                 400: `Validation Error`,
+                401: `Unauthorized`,
+                429: `Too much request`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Delete a vote for a forum
+     * @param id The ID of the vote for a forum
+     * @returns DeleteVoteForumResponse Success. Indicates that the vote for the forum has been deleted.
+     * @throws ApiError
+     */
+    public static deleteApiForumsVoteDelete(
+id: string,
+): CancelablePromise<DeleteVoteForumResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/forums/vote/delete/{id}',
+            path: {
+                'id': id,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found`,
                 429: `Too much request`,
                 500: `Server Error`,
             },
@@ -158,6 +186,7 @@ requestBody: AnswersSchema,
             mediaType: 'application/json',
             errors: {
                 400: `Validation Error`,
+                401: `Unauthorized`,
                 429: `Too much request`,
                 500: `Server Error`,
             },
@@ -185,6 +214,7 @@ requestBody: CommentsSchema,
             mediaType: 'application/json',
             errors: {
                 400: `Validation Error`,
+                401: `Unauthorized`,
                 429: `Too much request`,
                 500: `Server Error`,
             },
@@ -212,6 +242,30 @@ requestBody: VoteAnswerSchema,
             mediaType: 'application/json',
             errors: {
                 400: `Validation Error`,
+                401: `Unauthorized`,
+                429: `Too much request`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Delete a vote for an answer
+     * @param id The ID of the vote for an answer
+     * @returns DeleteVoteAnswerResponse Success. Indicates that the vote for the answer has been deleted.
+     * @throws ApiError
+     */
+    public static deleteApiForumsDeleteVoteAnswer(
+id: string,
+): CancelablePromise<DeleteVoteAnswerResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/forums/delete/vote-answer/{id}',
+            path: {
+                'id': id,
+            },
+            errors: {
+                401: `Validation Error`,
                 429: `Too much request`,
                 500: `Server Error`,
             },

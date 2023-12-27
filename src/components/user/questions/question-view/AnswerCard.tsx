@@ -1,21 +1,29 @@
 import React, { useState } from "react";
 import { timeAgo } from "../../../lib/utils";
-import { CommentsSchema, QuestionViewSchema } from "../../../../api/openapi";
+import {
+  Comment,
+  CommentsSchema,
+  Answer,
+  VoteAnswerSchema
+} from "@api/openapi";
 import { TbMessages } from "react-icons/tb";
 import { GoReport } from "react-icons/go";
 import { TbMessageCirclePlus } from "react-icons/tb";
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
-import { UserAuth } from "../../../../providers/AuthProvider";
+import { UserAuth } from "@providers/AuthProvider";
 import { Input } from "../../../ui/input";
 import CommentCard from "./CommentCard";
 import useQuestionComment from "../../../../hooks/api/post/useQuestionComment";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { AddComment } from "./schema";
-// interface AnswerCardProps {
-//   data: QuestionViewSchema | undefined;
-// }
-const AnswerCard = ({ answer }: any) => {
+import useQuestionVoteAnswer from "@hooks/api/post/useQuestionVoteAnswer";
+import toast from "react-hot-toast";
+import useQuestionDeleteAnswerVote from "@hooks/api/post/useQuestionDeleteAnswerVote";
+interface AnswerCardProps {
+  answer: Answer;
+}
+const AnswerCard = ({ answer }: AnswerCardProps) => {
   const [reply, setReply] = useState(false);
   const [comment, setComment] = useState(false);
   const { data: currentUser } = UserAuth() ?? {};
@@ -23,24 +31,54 @@ const AnswerCard = ({ answer }: any) => {
   const { mutateAsync: questionCommentMutate, isLoading } =
     useQuestionComment();
 
+  const { mutateAsync: asyncVoteMutate } = useQuestionVoteAnswer();
+  const { mutateAsync: asyncDeleteVoteMutate } = useQuestionDeleteAnswerVote();
+
   const form = useForm<CommentsSchema>({
     resolver: zodResolver(AddComment),
     mode: "onChange"
   });
+
   const handleCommentSubmit = async (data: CommentsSchema) => {
     const raw = {
       comment: data.comment
     };
 
     try {
-      await questionCommentMutate({
-        answerId: answer.id,
+      const data = await questionCommentMutate({
+        answerId: answer?.id || "",
         userComment: raw
       });
 
-      return;
+      form.reset();
+      onClickViewComment();
+      toast(data.message || "");
     } catch (e: any) {
       console.log(e.message);
+    }
+  };
+
+  const handleVoteAnswer = async (
+    type: VoteAnswerSchema.type,
+    isVoted: boolean,
+    id: string
+  ) => {
+    try {
+      const voteAnswerData = {
+        vote: {
+          type
+        },
+        id: answer?.id || ""
+      };
+
+      if (!isVoted) {
+        const data = await asyncVoteMutate(voteAnswerData);
+        toast(data.response.message || "");
+      } else {
+        await asyncDeleteVoteMutate(id);
+      }
+    } catch (e: any) {
+      toast(e.body.message || "");
     }
   };
 
@@ -51,6 +89,7 @@ const AnswerCard = ({ answer }: any) => {
       setReply(true);
     }
   };
+
   const onClickViewComment = () => {
     if (comment) {
       setComment(false);
@@ -63,13 +102,13 @@ const AnswerCard = ({ answer }: any) => {
     <div>
       <div className="col-span-3 flex gap-2 items-center flex-nowrap">
         <img
-          src={answer.user.avatar}
+          src={answer?.user?.avatar}
           className="w-11 h-11 object-center object-cover bg-slate-500 rounded-xl"
         />
         <div>
-          <h6 className=" font-semibold ">{answer.user.username}</h6>
+          <h6 className=" font-semibold ">{answer?.user?.username}</h6>
           <p className="text-gray-400 text-sm">
-            {timeAgo("2023-12-26T07:57:52.460Z")}
+            {timeAgo(answer.createdat?.slice(0, -3) + "Z" || "")}
           </p>
         </div>
       </div>
@@ -83,15 +122,40 @@ const AnswerCard = ({ answer }: any) => {
           />
         </div>
         <div className="flex gap-8 mt-3 mb-5">
-          <div
-            className="flex items-center gap-3 hover:underline"
-            role="button"
-          >
-            <span className="">
+          <div className="flex items-center gap-3">
+            <span
+              role="button"
+              className={
+                answer.vote?.type === "upvote"
+                  ? "text-secondary bg-primary p-1 rounded-md"
+                  : ""
+              }
+              onClick={() =>
+                handleVoteAnswer(
+                  VoteAnswerSchema.type.UPVOTE,
+                  answer.vote?.type === "upvote",
+                  answer.vote?.id || ""
+                )
+              }
+            >
               <IoIosArrowUp size={20} />
             </span>
-            <span className=" ">{answer.total_vote_count}</span>
-            <span className="">
+            <span>{answer.total_vote_count}</span>
+            <span
+              className={
+                answer.vote?.type === "downvote"
+                  ? "text-secondary bg-primary p-1 rounded-md"
+                  : ""
+              }
+              role="button"
+              onClick={() =>
+                handleVoteAnswer(
+                  VoteAnswerSchema.type.DOWNVOTE,
+                  answer.vote?.type === "downvote",
+                  answer.vote?.id || ""
+                )
+              }
+            >
               <IoIosArrowDown size={20} />
             </span>
           </div>
@@ -114,7 +178,7 @@ const AnswerCard = ({ answer }: any) => {
             </span>
             <span className=" ">Report</span>
           </div>
-          {answer.comments.length > 0 && (
+          {(answer?.comments?.length || 0) > 0 && (
             <div
               className="flex items-center gap-2 hover:underline select-none"
               role="button"
@@ -123,7 +187,9 @@ const AnswerCard = ({ answer }: any) => {
               <span className="">
                 <TbMessages size={20} />
               </span>
-              <span className=" ">View {answer.comments.length} comments</span>
+              <span className=" ">
+                View {answer?.comments?.length} comments
+              </span>
             </div>
           )}
         </div>
@@ -147,7 +213,7 @@ const AnswerCard = ({ answer }: any) => {
                 type="submit"
                 className="bg-primary text-white py-2 px-6 rounded-3xl text-sm "
               >
-                <span>Send</span>
+                Send
               </button>
             </div>
             <hr className="mb-2" />
@@ -155,7 +221,7 @@ const AnswerCard = ({ answer }: any) => {
         )}
         <hr />
         {comment &&
-          answer.comments.map((comment: any, i: number) => (
+          answer?.comments?.map((comment: Comment, i: number) => (
             <CommentCard key={i} comment={comment} />
           ))}
       </div>

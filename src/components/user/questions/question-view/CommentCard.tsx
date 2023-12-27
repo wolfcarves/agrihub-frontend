@@ -7,8 +7,13 @@ import { TbMessageCirclePlus } from "react-icons/tb";
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import { UserAuth } from "../../../../providers/AuthProvider";
 import { Input } from "../../../ui/input";
+import { Comment } from "@api/openapi";
 
-const CommentCard = ({ comment }: any) => {
+interface CommentCardProps {
+  comment: Comment;
+}
+
+const CommentCard = ({ comment }: CommentCardProps) => {
   return (
     <div className="ml-10 my-4">
       <div className="col-span-3 flex gap-2 items-center flex-nowrap">

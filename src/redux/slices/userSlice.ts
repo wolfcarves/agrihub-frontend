@@ -21,7 +21,8 @@ const initialState: UserState = {
     verification_level: "",
     role: "",
     createdat: "",
-    updatedat: ""
+    updatedat: "",
+    bio: ""
   }
 };
 

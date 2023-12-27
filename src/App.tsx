@@ -81,7 +81,14 @@ const App = ReactRouter(
         <Route path="list" element={<Questions />} />
         <Route path="tags" element={<QuestionTags />} />
         <Route path="ask" element={<QuestionAsk />} />
-        <Route path="question/:username/:questionId" element={<Question />} />
+        <Route
+          path="question/:username/:questionId"
+          element={
+            <PaginationProvider>
+              <Question />
+            </PaginationProvider>
+          }
+        />
       </Route>
 
       {/* Community Page */}

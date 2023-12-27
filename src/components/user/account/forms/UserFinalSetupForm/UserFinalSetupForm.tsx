@@ -61,6 +61,7 @@ const UserFinalSetupForm = () => {
       if (e.message === "Please select atleast 2 tags") {
         return toast(e.message);
       }
+      toast(e.body.message);
     }
   };
 

@@ -28,4 +28,8 @@ export type NewFarmRequest = {
      * The size of the farm (optional)
      */
     size?: number;
+    /**
+     * The size of the farm (optional)
+     */
+    avatar?: Blob;
 };

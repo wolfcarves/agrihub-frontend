@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useGetViewQuestion from "../../../hooks/api/get/useGetViewQuestion";
 import { UserAuth } from "../../../providers/AuthProvider";
 import { PiShareFatLight } from "react-icons/pi";
@@ -14,25 +14,87 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue
-} from "../../../components/ui/select";
-import AnswerCard from "../../../components/user/questions/question-view/AnswerCard";
+} from "@components/ui/select";
+import AnswerCard from "@components/user/questions/question-view/AnswerCard";
 import { timeAgo } from "@components/lib/utils";
-import AnswerForm from "../../../components/user/questions/question-view/AnswerForm";
+import AnswerForm from "@components/user/questions/question-view/AnswerForm";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getQuestionViewFilter,
+  getQuestionViewPage,
+  setFilter,
+  setId,
+  setPage
+} from "@redux/slices/questionViewSlice";
+import QuestionSkeleton from "@components/user/questions/question-skeleton/QuestionSkeleton";
+import Pagination from "@components/ui/custom/pagination/pagination";
+import { UsePagination } from "@providers/PaginationProvider";
+import useQuestionVoteMutation from "@hooks/api/post/useQuestionVoteMutation";
+import toast from "react-hot-toast";
+import useQuestionDeleteVoteMutation from "@hooks/api/post/useQuestionDeleteVoteMutation";
 
+type FilterType = "newest" | "top";
 const Question = () => {
+  const dispatch = useDispatch();
   const { questionId } = useParams();
   const navigate = useNavigate();
-  const [filter, setFilter] = useState<"best" | "top" | "new">("best");
-  const [page, setPage] = useState(1);
+  const pagination = UsePagination();
 
-  const { data } = useGetViewQuestion(questionId || "", String(page));
-  console.log(data);
+  useEffect(() => {
+    dispatch(setId(questionId || ""));
+    pagination?.scrollToTop();
+  }, []);
+
+  const filter = useSelector(getQuestionViewFilter);
+  const page = useSelector(getQuestionViewPage);
+
+  const { data, isLoading } = useGetViewQuestion(
+    questionId || "",
+    String(page),
+    filter
+  );
+
+  const { mutateAsync: asyncVoteMutate } = useQuestionVoteMutation();
+  const { mutateAsync: asyncDeleteVoteMutate } =
+    useQuestionDeleteVoteMutation();
+
   const { data: currentUser } = UserAuth() ?? {};
 
-  const onFilterChange = (filterKey: "best" | "top" | "new") => {
-    setFilter(filterKey);
+  const handleVoteAnswer = async (
+    type: "upvote" | "downvote",
+    isVoted: boolean,
+    voteid: string
+  ) => {
+    try {
+      const voteAnswerData = {
+        requestBody: {
+          type
+        },
+        id: questionId || ""
+      };
+
+      if (!isVoted) {
+        const data = await asyncVoteMutate(voteAnswerData);
+        toast(data.message || "");
+      } else {
+        const response = await asyncDeleteVoteMutate(voteid);
+        toast(response.message);
+      }
+    } catch (e: any) {
+      toast(e.body.message || "");
+    }
   };
 
+  const onFilterChange = (filterKey: FilterType) => {
+    dispatch(setFilter(filterKey));
+    dispatch(setPage("1"));
+  };
+
+  const onPageChange = (page: number) => {
+    dispatch(setPage(String(page)));
+  };
+
+  if (isLoading) return <QuestionSkeleton quantity={40} />;
   return (
     <div className="px-3 max-h-full overflow-y-auto flex flex-col gap-6">
       <h6
@@ -66,11 +128,39 @@ const Question = () => {
           }}
         />
         <div className="flex flex-col gap-3 items-center md:px-[2rem] px-[.8rem]">
-          <span className="bg-[#F3F3F3] rounded-full p-3">
+          <span
+            role="button"
+            className={
+              data?.question?.vote?.type === "upvote"
+                ? "bg-[#F3F3F3] rounded-full p-3 text-secondary bg-primary"
+                : "bg-[#F3F3F3] rounded-full p-3"
+            }
+            onClick={() =>
+              handleVoteAnswer(
+                "upvote",
+                data?.question?.vote?.type === "upvote",
+                data?.question?.vote?.id || ""
+              )
+            }
+          >
             <BiSolidUpArrow />
           </span>
           <span className=" font-semibold">{data?.question?.vote_count}</span>
-          <span className="bg-[#F3F3F3] rounded-full p-3">
+          <span
+            role="button"
+            className={
+              data?.question?.vote?.type === "downvote"
+                ? "bg-[#F3F3F3] rounded-full p-3 text-secondary bg-primary"
+                : "bg-[#F3F3F3] rounded-full p-3"
+            }
+            onClick={() =>
+              handleVoteAnswer(
+                "downvote",
+                data?.question?.vote?.type === "downvote",
+                data?.question?.vote?.id || ""
+              )
+            }
+          >
             <BiSolidDownArrow />
           </span>
         </div>
@@ -123,16 +213,23 @@ const Question = () => {
               <SelectValue placeholder={filter} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="best">Best</SelectItem>
+              <SelectItem value="newest">New</SelectItem>
               <SelectItem value="top">Top</SelectItem>
-              <SelectItem value="new">New</SelectItem>
             </SelectContent>
           </Select>
         </div>
       </div>
-      {data?.question?.answers?.map((answer, i) => (
-        <AnswerCard key={i} answer={answer} />
-      ))}
+      <div ref={pagination?.topRef}>
+        {data?.question?.answers?.map((answer, i) => (
+          <AnswerCard key={i} answer={answer} />
+        ))}
+      </div>
+
+      <Pagination
+        currentPage={Number(page)}
+        totalPages={data?.pagination?.total_pages || 0}
+        onPageChange={onPageChange}
+      />
     </div>
   );
 };

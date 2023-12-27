@@ -7,7 +7,7 @@ import {
   leminCroppedCaptcha
 } from "@leminnow/react-lemin-cropped-captcha";
 import { useState } from "react";
-import { UserRegisterSchema } from "@api/openapi";
+import { ApiError, UserRegisterSchema } from "@api/openapi";
 import {
   Form,
   FormControl,

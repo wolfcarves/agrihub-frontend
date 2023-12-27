@@ -8,7 +8,7 @@ export const AddAnswer = zod.object({
 });
 
 export const AddComment = zod.object({
-  answer: zod
+  comment: zod
     .string()
     .min(3, "Please enter at least 3 characters")
     .max(200, "Comment is too long")

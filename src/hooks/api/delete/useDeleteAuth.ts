@@ -15,7 +15,7 @@ export default function useDeleteAuth() {
       return response;
     },
     onSuccess: () => {
-      //   queryClient.invalidateQueries({ queryKey: [GET_USER_KEY()] });
+      queryClient.invalidateQueries({ queryKey: [GET_USER_KEY()] });
 
       navigate("/");
       window.location.reload();

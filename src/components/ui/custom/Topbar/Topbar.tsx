@@ -20,7 +20,7 @@ export default function Topbar() {
   };
 
   return (
-    <div className="px-10 bg-white border-b border-border flex justify-between w-full  z-30">
+    <div className="md:px-10 px-4 bg-white border-b border-border flex justify-between w-full  z-30">
       <div className="flex  py-2 items-center">
         <SheetTrigger className="md:hidden inline mr-3">
           <RxHamburgerMenu size={20} />

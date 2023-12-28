@@ -32,6 +32,7 @@ import { UsePagination } from "@providers/PaginationProvider";
 import useQuestionVoteMutation from "@hooks/api/post/useQuestionVoteMutation";
 import toast from "react-hot-toast";
 import useQuestionDeleteVoteMutation from "@hooks/api/post/useQuestionDeleteVoteMutation";
+import Modal from "../../../components/ui/custom/modal/Modal";
 
 type FilterType = "newest" | "top";
 const Question = () => {
@@ -94,6 +95,16 @@ const Question = () => {
     dispatch(setPage(String(page)));
   };
 
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
+  const handleImageClick = (image: string) => {
+    setSelectedImage(image);
+  };
+
+  const closeModal = () => {
+    setSelectedImage(null);
+  };
+
   if (isLoading) return <QuestionSkeleton quantity={40} />;
   return (
     <div className="px-3 max-h-full overflow-y-auto flex flex-col gap-6">
@@ -121,12 +132,24 @@ const Question = () => {
       </div>
 
       <div className="flex justify-between">
-        <div
-          className="leading-loose"
-          dangerouslySetInnerHTML={{
-            __html: data?.question?.question || "<p></p>"
-          }}
-        />
+        <div>
+          <div
+            className="leading-loose"
+            dangerouslySetInnerHTML={{
+              __html: data?.question?.question || "<p></p>"
+            }}
+          />
+          <div className="flex flex-wrap gap-2">
+            {data?.question?.imagesrc?.map((image, i) => (
+              <img
+                key={i}
+                className=" rounded-lg md:h-[8rem] h-[4rem]"
+                src={`https://s3.ap-southeast-1.amazonaws.com/agrihub-bucket/${image}`}
+                onClick={() => handleImageClick(image)}
+              />
+            ))}
+          </div>
+        </div>
         <div className="flex flex-col gap-3 items-center md:px-[2rem] px-[.8rem]">
           <span
             role="button"
@@ -219,6 +242,7 @@ const Question = () => {
           </Select>
         </div>
       </div>
+
       <div ref={pagination?.topRef}>
         {data?.question?.answers?.map((answer, i) => (
           <AnswerCard key={i} answer={answer} />
@@ -230,6 +254,15 @@ const Question = () => {
         totalPages={data?.pagination?.total_pages || 0}
         onPageChange={onPageChange}
       />
+      {selectedImage && (
+        <Modal setModal={closeModal}>
+          <img
+            src={`https://s3.ap-southeast-1.amazonaws.com/agrihub-bucket/${selectedImage}`}
+            alt="Full View"
+            className="max-w-full h-[20rem] max-h-full"
+          />
+        </Modal>
+      )}
     </div>
   );
 };

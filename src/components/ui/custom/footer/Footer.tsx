@@ -40,7 +40,7 @@ const Footer = () => {
 
         <div
           onClick={navigateInitiatives}
-          className="hover:bg-[#464646] text-white pt-2 pb-8 pl-4 rounded-lg md:col-span-2 col-span-10 flex flex-col justify-between"
+          className="hover:bg-[#464646] text-white pt-2 pb-8 pl-4 rounded-lg md:col-span-2 col-span-5 flex flex-col justify-between"
         >
           <div>
             <PiLeaf size={35} />
@@ -49,13 +49,13 @@ const Footer = () => {
               Be informed with our main objectives
             </p>
           </div>
-          <div className="flex items-center">
+          <div className="flex items-center mt-2">
             <span className=" text-sm font-bold">LEARN MORE</span>
             <MdKeyboardDoubleArrowRight size={22} />
           </div>
         </div>
 
-        <div className="hover:bg-[#464646] text-white pt-2 pb-8 pl-4 rounded-lg md:col-span-2 col-span-10 flex flex-col justify-between">
+        <div className="hover:bg-[#464646] text-white pt-2 pb-8 pl-4 rounded-lg md:col-span-2 col-span-5 flex flex-col justify-between">
           <div>
             <GiThreeLeaves size={31} />
             <div className=" font-semibold my-1">Learning Hub</div>
@@ -63,7 +63,7 @@ const Footer = () => {
               Empower each minds with agriculture
             </p>
           </div>
-          <div className="flex items-center">
+          <div className="flex items-center mt-2">
             <span className=" text-sm font-bold">LEARN MORE</span>
             <MdKeyboardDoubleArrowRight size={22} />
           </div>
@@ -71,7 +71,7 @@ const Footer = () => {
 
         <div
           onClick={navigateFocus}
-          className="hover:bg-[#464646] text-white pt-2 pb-8 pl-4 rounded-lg md:col-span-2 col-span-10 flex flex-col justify-between"
+          className="hover:bg-[#464646] text-white pt-2 pb-8 pl-4 rounded-lg md:col-span-2 col-span-5 flex flex-col justify-between"
         >
           <div>
             <FiEye size={35} />
@@ -80,7 +80,7 @@ const Footer = () => {
               Align our insights for promoting Urban Farming
             </p>
           </div>
-          <div className="flex items-center">
+          <div className="flex items-center mt-2">
             <span className=" text-sm font-bold">LEARN MORE</span>
             <MdKeyboardDoubleArrowRight size={22} />
           </div>
@@ -88,7 +88,7 @@ const Footer = () => {
 
         <div
           onClick={navigateNews}
-          className="hover:bg-[#464646] text-white pt-2 pb-8 pl-4 rounded-lg md:col-span-2 col-span-10 flex flex-col justify-between"
+          className="hover:bg-[#464646] text-white pt-2 pb-8 pl-4 rounded-lg md:col-span-2 col-span-5 flex flex-col justify-between"
         >
           <div>
             <FaRegNewspaper size={31} />
@@ -97,7 +97,7 @@ const Footer = () => {
               Ocassional updates for Urban Farming
             </p>
           </div>
-          <div className="flex items-center">
+          <div className="flex items-center mt-2">
             <span className=" text-sm font-bold">LEARN MORE</span>
             <MdKeyboardDoubleArrowRight size={22} />
           </div>
@@ -106,7 +106,8 @@ const Footer = () => {
       </div>
       <div className="flex justify-between px-2">
         <div className="flex items-center justify-center font-bold text-[0.7rem] gap-2 text-white">
-          <BsTelephone size={20} /> <span>091237418238</span>
+          <BsTelephone size={20} />{" "}
+          <span className="md:block hidden ">091237418238</span>
           <span>|</span>
           <span
             onClick={navigateAbout}
@@ -117,7 +118,9 @@ const Footer = () => {
           </span>
         </div>
         <div className="flex items-center justify-center  text-[0.7rem] gap-3 text-white">
-          <span className=" font-thin">FOLLOW US ON SOCIAL MEDIA</span>
+          <span className=" font-thin md:block hidden">
+            FOLLOW US ON SOCIAL MEDIA
+          </span>
           <RiFacebookCircleLine size={22} />
           <RiYoutubeLine size={22} />
           <RiTiktokLine size={22} />

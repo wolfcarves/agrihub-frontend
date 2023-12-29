@@ -30,6 +30,7 @@ import {
   FaUndo,
   FaItalic
 } from "react-icons/fa";
+import { FaHeading } from "react-icons/fa6";
 
 const Toolbar: React.FC<ToolbarProps> = ({ editor }) => {
   const addImage = () => {
@@ -83,90 +84,20 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor }) => {
       >
         <FaRedo />
       </button>
+      <button
+        onClick={e => {
+          e.preventDefault();
+          editor.chain().focus().toggleHeading({ level: 5 }).run();
+        }}
+        className={`p-2 rounded-md ${
+          editor.isActive("heading", { level: 5 })
+            ? " bg-primary text-white"
+            : ""
+        }`}
+      >
+        <FaHeading className="h-5" />
+      </button>
 
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <button className="active:bg-primary active:text-white p-2 rounded-md">
-            <FaTextHeight />
-          </button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-56">
-          <DropdownMenuLabel>Header</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem>
-            <button
-              onClick={() => {
-                editor.chain().focus().toggleHeading({ level: 1 }).run();
-              }}
-              className={`rounded-md w-full ${
-                editor.isActive("heading", { level: 1 }) ? " text-primary" : ""
-              }`}
-            >
-              <LucideHeading1 className="h-5" />
-            </button>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <button
-              onClick={() => {
-                editor.chain().focus().toggleHeading({ level: 2 }).run();
-              }}
-              className={`rounded-md w-full ${
-                editor.isActive("heading", { level: 2 }) ? " text-primary" : ""
-              }`}
-            >
-              <LucideHeading2 className="h-5" />
-            </button>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <button
-              onClick={() => {
-                editor.chain().focus().toggleHeading({ level: 3 }).run();
-              }}
-              className={`rounded-md w-full ${
-                editor.isActive("heading", { level: 3 }) ? " text-primary" : ""
-              }`}
-            >
-              <LucideHeading3 className="h-5" />
-            </button>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <button
-              onClick={() => {
-                editor.chain().focus().toggleHeading({ level: 4 }).run();
-              }}
-              className={`rounded-md w-full ${
-                editor.isActive("heading", { level: 4 }) ? " text-primary" : ""
-              }`}
-            >
-              <LucideHeading4 className="h-5" />
-            </button>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <button
-              onClick={() => {
-                editor.chain().focus().toggleHeading({ level: 5 }).run();
-              }}
-              className={`rounded-md w-full ${
-                editor.isActive("heading", { level: 5 }) ? " text-primary" : ""
-              }`}
-            >
-              <LucideHeading5 className="h-5" />
-            </button>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <button
-              onClick={() => {
-                editor.chain().focus().toggleHeading({ level: 6 }).run();
-              }}
-              className={`rounded-md w-full ${
-                editor.isActive("heading", { level: 6 }) ? " text-primary" : ""
-              }`}
-            >
-              <LucideHeading6 className="h-5" />
-            </button>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
       <button
         onClick={e => {
           e.preventDefault();
@@ -198,12 +129,12 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor }) => {
       >
         <FaMinus />
       </button>
-      <button
+      {/* <button
         className="active:bg-primary active:text-white p-2 rounded-md"
         onClick={addImage}
       >
         <FaRegImage />
-      </button>
+      </button> */}
     </>
   );
 };

@@ -11,6 +11,7 @@ import QuestionCards from "@components/user/questions/question-list/QuestionCard
 import Pagination from "@components/ui/custom/pagination/pagination";
 import { UsePagination } from "@providers/PaginationProvider";
 import QuestionSkeleton from "@components/user/questions/question-skeleton/QuestionSkeleton";
+import { IoMdArrowBack } from "react-icons/io";
 
 const UserProfile = () => {
   const [page, setPage] = useState(1);
@@ -45,6 +46,13 @@ const UserProfile = () => {
 
   return (
     <>
+      <h6
+        className="flex gap-2 items-center cursor-pointer mb-1 font-medium"
+        onClick={() => navigate(-1)}
+      >
+        <IoMdArrowBack />
+        Go back
+      </h6>
       <h4 className="font-medium mb-4">View Profile Page</h4>
       <div className="py-6 px-4 border-2 border-border rounded-lg">
         <div className="mb-4">

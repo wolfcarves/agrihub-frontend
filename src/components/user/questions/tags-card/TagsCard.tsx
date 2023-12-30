@@ -37,13 +37,13 @@ const TagsCard = () => {
   ];
 
   return (
-    <div className="grid grid-cols-3 gap-3 mt-8">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-8">
       {mockData.map((data, index) => (
-        <div key={index} className="flex flex-col border-2 border-gray-500 rounded-lg h-full">
+        <div key={index} className="flex flex-col border-2 border-gray-500 rounded-lg h-full hover:border-green-500">
           <div className="flex-shrink-0 p-2"></div>
           <div className="flex flex-col flex-grow h-full">
-            <h2 className="text-xl font-bold truncate p-2">{data.title}</h2>
-            <h4 className="text-md text-gray-600 overflow-hidden p-2" style={{
+            <h2 className="text-xl font-bold truncate p-2 cursor-pointer">{data.title}</h2>
+            <h4 className="text-md text-gray-600 overflow-hidden p-2 cursor-pointer" style={{
               display: '-webkit-box',
               WebkitLineClamp: 5,
               WebkitBoxOrient: 'vertical',

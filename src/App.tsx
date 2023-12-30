@@ -60,7 +60,9 @@ const App = ReactRouter(
       <Route path="/" element={<Tour />} errorElement={<ErrorElement />} />
 
       {/* Landing Page */}
-      <Route path="/" element={<LandingPage />} />
+      <Route path="/landing">
+        <Route path="members" element={<LandingPage/>} />
+      </Route>
 
       {/* About Page */}
       <Route path="/about" element={<AboutLayout />}>

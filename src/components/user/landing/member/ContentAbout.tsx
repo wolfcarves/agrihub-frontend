@@ -17,7 +17,7 @@ const ContentAbout: React.FC = () => {
 
   return (
     <div>
-        <header className="text-4xl font-bold pt-8 mb-8">About Us</header>
+        <header className="text-4xl font-bold pt-8 mb-8">About Us test</header>
       <div className="w-90 mx-auto">
         <img
           src={mockImageData.imageUrl}

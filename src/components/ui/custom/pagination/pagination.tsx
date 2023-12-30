@@ -1,89 +1,63 @@
-import React from "react";
+import {
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious
+} from "@components/ui/pagination";
+import { useEffect, useState } from "react";
+import ReactPaginate from "react-paginate";
 
-type PaginationProps = {
-  currentPage: number;
+interface ShadPaginationProps {
+  initialPage?: number;
   totalPages: number;
-  onPageChange: (page: number) => void;
-};
+  onPageChange?: (page: number) => void;
+}
 
 const Pagination = ({
-  currentPage,
+  initialPage = 1,
   totalPages,
   onPageChange
-}: PaginationProps) => {
-  const renderButtons = () => {
-    const buttons = [];
-    const numButtonToShow = 5; // Adjust this value based on your preference
+}: ShadPaginationProps) => {
+  const [current, setCurrent] = useState<number>(1);
 
-    // Display ellipsis and adjacent buttons around the current page
-    let startPage = Math.max(1, currentPage - Math.floor(numButtonToShow / 2));
-    let endPage = Math.min(totalPages, startPage + numButtonToShow - 1);
-
-    if (endPage - startPage + 1 < numButtonToShow) {
-      startPage = Math.max(1, endPage - numButtonToShow + 1);
-    }
-
-    if (startPage > 1) {
-      buttons.push(
-        <button
-          className="py-1 px-2 text-gray-2 border border-border rounded"
-          key={1}
-          onClick={() => onPageChange(1)}
-        >
-          1
-        </button>
-      );
-      if (startPage > 2) {
-        buttons.push(<span key="ellipsis-start">...</span>);
-      }
-    }
-
-    for (let i = startPage; i <= endPage; i++) {
-      buttons.push(
-        <button
-          className={`py-1 px-2 text-gray-2 border border-border rounded  ${
-            currentPage === i ? "bg-primary border-0 text-white" : null
-          }`}
-          key={i}
-          onClick={() => onPageChange(i)}
-        >
-          {i}
-        </button>
-      );
-    }
-
-    if (endPage < totalPages) {
-      if (endPage < totalPages - 1) {
-        buttons.push(<span key="ellipsis-end">...</span>);
-      }
-      buttons.push(
-        <button key={totalPages} onClick={() => onPageChange(totalPages)}>
-          {totalPages}
-        </button>
-      );
-    }
-
-    return buttons;
-  };
+  useEffect(() => {
+    if (onPageChange) onPageChange(current);
+  }, [current, onPageChange]);
 
   return (
-    <div className="flex gap-1">
-      <button
-        disabled={currentPage === 1}
-        onClick={() => onPageChange(currentPage - 1)}
-        className="py-1 px-2 text-gray-2 border border-gray-2 rounded"
-      >
-        Previous
-      </button>
-      {renderButtons()}
-      <button
-        disabled={currentPage === totalPages}
-        onClick={() => onPageChange(currentPage + 1)}
-        className="py-1 px-2 text-gray-2 border border-gray-2 rounded"
-      >
-        Next
-      </button>
-    </div>
+    <>
+      <ReactPaginate
+        breakLabel={
+          <PaginationItem>
+            <PaginationEllipsis />
+          </PaginationItem>
+        }
+        nextLabel={
+          <PaginationItem>
+            <PaginationNext href="#" />
+          </PaginationItem>
+        }
+        previousLabel={
+          <PaginationItem>
+            <PaginationPrevious href="#" />
+          </PaginationItem>
+        }
+        pageLabelBuilder={page => (
+          <PaginationItem>
+            <PaginationLink href="#" isActive={current === page}>
+              {page}
+            </PaginationLink>
+          </PaginationItem>
+        )}
+        className="flex items-center mx-auto w-max"
+        pageRangeDisplayed={totalPages < 6 ? 5 : 3}
+        pageCount={totalPages}
+        initialPage={initialPage}
+        onPageChange={selected => setCurrent(selected.selected + 1)}
+        renderOnZeroPageCount={null}
+      />
+    </>
   );
 };
 

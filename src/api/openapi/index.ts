@@ -18,6 +18,8 @@ export type { DeleteVoteForumResponse } from './models/DeleteVoteForumResponse';
 export type { ErrorResponse } from './models/ErrorResponse';
 export type { FarmData } from './models/FarmData';
 export type { FarmListResponse } from './models/FarmListResponse';
+export type { ListUser } from './models/ListUser';
+export type { ListUserResponse } from './models/ListUserResponse';
 export type { NewAnswerResponse } from './models/NewAnswerResponse';
 export type { NewCommentResponse } from './models/NewCommentResponse';
 export type { NewCropReportRequest } from './models/NewCropReportRequest';

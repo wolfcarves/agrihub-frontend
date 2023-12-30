@@ -22,7 +22,7 @@ export default function useLoginUserMutation() {
       queryClient.invalidateQueries({ queryKey: [GET_USER_KEY()] });
 
       if (userAuth?.user?.verification_level === "4") {
-        navigate("/forums");
+        navigate("/forum");
       } else {
         navigate("/account/verify-email");
       }

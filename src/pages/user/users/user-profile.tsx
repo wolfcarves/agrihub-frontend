@@ -6,9 +6,8 @@ import { CiLocationOn } from "react-icons/ci";
 import useGetUserProfileQuery from "@hooks/api/get/useGetUserProfile";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@components/ui/button";
-import useGetQuestions from "@hooks/api/get/useGetQuestions";
-import QuestionCards from "@components/user/questions/question-list/QuestionCards";
-import Pagination from "@components/ui/custom/pagination/pagination";
+import useGetQuestions from "@hooks/api/get/useGetQuestionsQuery";
+import QuestionCards from "@components/user/questions/question-list/QuestionsList";
 import { UsePagination } from "@providers/PaginationProvider";
 import QuestionSkeleton from "@components/user/questions/question-skeleton/QuestionSkeleton";
 import { IoMdArrowBack } from "react-icons/io";
@@ -41,7 +40,7 @@ const UserProfile = () => {
     username: string | undefined,
     questionId: string | undefined
   ) => {
-    navigate(`/forums/question/${username}/${questionId}`);
+    navigate(`/forum/question/${username}/${questionId}`);
   };
 
   return (
@@ -84,13 +83,13 @@ const UserProfile = () => {
           handleNavigateQuestion={handleNavigateQuestion}
         />
       )}
-      {!isLoading && (
+      {/* {!isLoading && (
         <Pagination
           currentPage={Number(page)}
           onPageChange={onPageChange}
           totalPages={Number(questionsData?.pagination?.total_pages)}
         />
-      )}
+      )} */}
     </>
   );
 };

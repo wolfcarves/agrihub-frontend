@@ -1,87 +1,64 @@
-/*
-  path - /questions
-*/
-import { useEffect, useState } from "react";
-import useGetQuestions from "@hooks/api/get/useGetQuestions";
-import Pagination from "@components/ui/custom/pagination/pagination";
-import { useNavigate } from "react-router-dom";
+import { ReactNode } from "react";
 
-import AddQuestion from "@components/user/questions/question-list/AddQuestion";
-import QuestionsFilter from "@components/user/questions/question-list/QuestionsFilter";
-import QuestionCards from "@components/user/questions/question-list/QuestionCards";
-import { UsePagination } from "@providers/PaginationProvider";
-import QuestionSkeleton from "@components/user/questions/question-skeleton/QuestionSkeleton";
+import QuestionsInputAddQuestion from "@components/user/questions/input/QuestionsInputAddQuestion";
+import QuestionsList from "@components/user/questions/question-list/QuestionsList";
+import QuestionsPagination from "@components/user/questions/pagination/QuestionsPagination";
+import useGetQuestionsQuery from "@hooks/api/get/useGetQuestionsQuery";
+
+const QuestionsContainer = ({ children }: { children: ReactNode }) => (
+  <div className="w-full min-h-full overflow-auto px-16 py-10">{children}</div>
+);
 
 const Questions = () => {
-  const navigate = useNavigate();
-  const [page, setPage] = useState(1);
-  const [filter, setFilter] = useState<"newest" | "active" | "trending">(
-    "newest"
-  );
-  const pagination = UsePagination();
+  const { data: questionData, isLoading: isQuestionLoading } =
+    useGetQuestionsQuery({
+      page: "1",
+      filter: "newest",
+      perpage: "10"
+    });
 
-  const { data, isLoading } = useGetQuestions(
-    undefined,
-    String(page),
-    String(10),
-    filter
-  );
-  // const topRef = useRef<HTMLDivElement>(null);
-  const onPageChange = (newPage: number) => {
-    setPage(newPage);
-  };
-
-  console.log(data?.questions);
-
-  useEffect(() => {
-    pagination?.scrollToTop();
-  }, [page]);
-
-  const onFilterChange = (filterKey: "newest" | "active" | "trending") => {
-    setFilter(filterKey);
-    setPage(1);
-  };
-
-  const handleNavigateAsk = () => {
-    navigate("/forums/ask");
-  };
-
-  const handleNavigateQuestion = (
-    username: string | undefined,
-    questionId: string | undefined
-  ) => {
-    navigate(`/forums/question/${username}/${questionId}`);
-  };
-
-  //This is temporary, refactor later--------
   return (
-    <div>
-      <div className="flex gap-3 justify-between items-center mb-3">
-        <AddQuestion handleNavigateAsk={handleNavigateAsk} />
-        <QuestionsFilter onFilterChange={onFilterChange} filter={filter} />
-      </div>
-      <div>
-        {isLoading ? (
-          <QuestionSkeleton quantity={4} />
-        ) : (
-          <QuestionCards
-            data={data}
-            handleNavigateQuestion={handleNavigateQuestion}
-          />
-        )}
-      </div>
-
-      <QuestionCards
-        data={data}
-        handleNavigateQuestion={handleNavigateQuestion}
-      />
-      <Pagination
-        currentPage={Number(data?.pagination?.page)}
-        totalPages={Number(data?.pagination?.total_pages)}
-        onPageChange={onPageChange}
-      />
-    </div>
+    <QuestionsContainer>
+      <QuestionsInputAddQuestion />
+      <QuestionsList data={questionData} isLoading={isQuestionLoading} />
+      <QuestionsPagination />
+    </QuestionsContainer>
   );
 };
 
 export default Questions;
+
+// const navigate = useNavigate();
+// const [page, setPage] = useState(1);
+// const [filter, setFilter] = useState<"newest" | "active" | "trending">(
+//   "newest"
+// );
+// const pagination = UsePagination();
+
+// const { data, isLoading } = useGetQuestionsQuery(
+//   undefined,
+//   String(page),
+//   String(10),
+//   filter
+// );
+
+// // const topRef = useRef<HTMLDivElement>(null);
+// const onPageChange = (newPage: number) => {
+//   setPage(newPage);
+// };
+
+// useEffect(() => {
+//   pagination?.scrollToTop();
+// }, [page]);
+
+// const onFilterChange = (filterKey: "newest" | "active" | "trending") => {
+//   setFilter(filterKey);
+//   setPage(1);
+// };
+
+// const handleNavigateQuestion = (
+//   username: string | undefined,
+//   questionId: string | undefined
+// ) => {
+//   navigate(`/forum/question/${username}/${questionId}`);
+// };

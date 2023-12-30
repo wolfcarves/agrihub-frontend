@@ -5,7 +5,7 @@ import {
   QuestionViewSchema,
   VoteAnswerSchema
 } from "@api/openapi";
-import { GET_QUESTION } from "../get/useGetQuestions";
+import { GET_QUESTION } from "../get/useGetQuestionsQuery";
 import { VIEW_QUESTION } from "../get/useGetViewQuestion";
 import { useSelector } from "react-redux";
 import {

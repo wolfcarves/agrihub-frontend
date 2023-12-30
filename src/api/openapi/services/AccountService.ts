@@ -15,13 +15,14 @@ export class AccountService {
 
     /**
      * Register a user
-     * @param requestBody 
      * @returns any Success
      * @throws ApiError
      */
-    public static postApiAccountSignup(
+    public static postApiAccountSignup({
+requestBody,
+}: {
 requestBody: UserRegisterSchema,
-): CancelablePromise<{
+}): CancelablePromise<{
 message?: string;
 user?: {
 id?: string;
@@ -62,13 +63,14 @@ message?: string;
     /**
      * @deprecated
      * Verify email
-     * @param id 
      * @returns any Success
      * @throws ApiError
      */
-    public static getApiAccountVerifyEmail(
+    public static getApiAccountVerifyEmail({
+id,
+}: {
 id: string,
-): CancelablePromise<{
+}): CancelablePromise<{
 message?: string;
 }> {
         return __request(OpenAPI, {
@@ -86,13 +88,14 @@ message?: string;
 
     /**
      * Complete user details
-     * @param requestBody 
      * @returns UserAuthResponse Success
      * @throws ApiError
      */
-    public static postApiAccountProfileCompletion(
+    public static postApiAccountProfileCompletion({
+requestBody,
+}: {
 requestBody: UserCompletionSchema,
-): CancelablePromise<UserAuthResponse> {
+}): CancelablePromise<UserAuthResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/account/profile-completion',
@@ -107,13 +110,14 @@ requestBody: UserCompletionSchema,
 
     /**
      * Setup username and tags
-     * @param formData 
      * @returns UserAuthResponse Success
      * @throws ApiError
      */
-    public static postApiAccountSetupProfile(
+    public static postApiAccountSetupProfile({
+formData,
+}: {
 formData: UserProfile,
-): CancelablePromise<UserAuthResponse> {
+}): CancelablePromise<UserAuthResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/account/setup-profile',

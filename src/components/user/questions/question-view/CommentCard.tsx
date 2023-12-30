@@ -24,7 +24,7 @@ const CommentCard = ({ comment }: CommentCardProps) => {
         <div>
           <h6 className=" font-semibold ">{comment?.user?.username}</h6>
           <p className="text-gray-400 text-sm">
-            {timeAgo(comment?.createdat || "")}
+            {timeAgo(comment?.createdat?.slice(0, -3) + "Z" || "")}
           </p>
         </div>
       </div>

@@ -176,7 +176,7 @@
 }
 
 
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
   width: 5px;
 }
 
@@ -187,4 +187,4 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
-}
+} */

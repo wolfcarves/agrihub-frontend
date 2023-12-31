@@ -1,19 +1,47 @@
 import React from "react";
-import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
 import QuestionCard from "../card/QuestionCard";
 import LoadingSpinner from "@icons/LoadingSpinner";
-import QuestionsFilterDropdown from "./QuestionsFilterDropdown";
+import { LabelValues } from "../select/QuestionsFilterSelect";
 import { QuestionsResponse } from "@api/openapi";
 
 interface QuestionsListProps {
   data?: QuestionsResponse;
   isLoading?: boolean;
+  onFilterChange?: (selectedValue: LabelValues) => void;
 }
 
 const QuestionsList = ({ data, isLoading }: QuestionsListProps) => {
-  const navigate = useNavigate();
+  if (isLoading || false) {
+    return (
+      <div className="flex justify-center items-center pt-10">
+        <LoadingSpinner />
+      </div>
+    );
+  }
 
+  return (
+    <div className="flex flex-col gap-7 py-10">
+      {data?.questions &&
+        data?.questions.map(
+          ({ title, question, user, vote_count, answer_count }) => (
+            <QuestionCard
+              key={`${user?.username} + ${title} ${Math.random()}`}
+              title={title}
+              description={question}
+              userAvatarSrc={user?.avatar}
+              username={user?.username}
+              voteCount={vote_count}
+              answerCount={answer_count}
+            />
+          )
+        )}
+    </div>
+  );
+};
+
+export default QuestionsList;
+
+/*
   const handleShare = async (
     title: string | undefined,
     text: string | undefined,
@@ -49,41 +77,6 @@ const QuestionsList = ({ data, isLoading }: QuestionsListProps) => {
     navigate(`/users/${userid}/${username}`);
   };
 
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center pt-10">
-        <LoadingSpinner />
-      </div>
-    );
-  }
-
-  return (
-    <div className="flex flex-col gap-7 py-10">
-      <div className="ms-auto">
-        <QuestionsFilterDropdown filter="newest" />
-      </div>
-
-      {data?.questions &&
-        data?.questions.map(
-          ({ title, question, user, vote_count, answer_count }) => (
-            <QuestionCard
-              key={`${user?.username} + ${title}`}
-              title={title}
-              description={question}
-              userAvatarSrc={user?.avatar}
-              username={user?.username}
-              voteCount={vote_count}
-              answerCount={answer_count}
-            />
-          )
-        )}
-    </div>
-  );
-};
-
-export default QuestionsList;
-
-/*
 {data?.questions &&
 data?.questions.map((questions, index) => (
   <div

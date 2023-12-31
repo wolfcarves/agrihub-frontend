@@ -5,25 +5,20 @@ import {
   PaginationNext,
   PaginationPrevious
 } from "@components/ui/pagination";
-import { useEffect, useState } from "react";
-import ReactPaginate from "react-paginate";
+import ReactPaginate, { ReactPaginateProps } from "react-paginate";
+import { useSearchParams } from "react-router-dom";
 
-interface ShadPaginationProps {
-  initialPage?: number;
+interface ShadPaginationProps extends Omit<ReactPaginateProps, "pageCount"> {
+  currentPage: number;
   totalPages: number;
-  onPageChange?: (page: number) => void;
 }
 
 const Pagination = ({
-  initialPage = 1,
+  currentPage,
   totalPages,
-  onPageChange
+  ...props
 }: ShadPaginationProps) => {
-  const [current, setCurrent] = useState<number>(1);
-
-  useEffect(() => {
-    if (onPageChange) onPageChange(current);
-  }, [current, onPageChange]);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   return (
     <>
@@ -33,29 +28,52 @@ const Pagination = ({
             <PaginationEllipsis />
           </PaginationItem>
         }
-        nextLabel={
-          <PaginationItem>
-            <PaginationNext href="#" />
-          </PaginationItem>
-        }
         previousLabel={
-          <PaginationItem>
-            <PaginationPrevious href="#" />
-          </PaginationItem>
+          currentPage !== 1 && (
+            <PaginationItem>
+              <PaginationPrevious href="#" />
+            </PaginationItem>
+          )
         }
-        pageLabelBuilder={page => (
-          <PaginationItem>
-            <PaginationLink href="#" isActive={current === page}>
-              {page}
-            </PaginationLink>
-          </PaginationItem>
-        )}
+        nextLabel={
+          currentPage !== totalPages && (
+            <PaginationItem>
+              <PaginationNext href="#" />
+            </PaginationItem>
+          )
+        }
+        pageLabelBuilder={page => {
+          return (
+            <PaginationItem>
+              <PaginationLink
+                href="#"
+                isActive={
+                  page === currentPage
+                    ? true
+                    : !currentPage
+                    ? page === 1
+                    : false
+                }
+              >
+                {page}
+              </PaginationLink>
+            </PaginationItem>
+          );
+        }}
         className="flex items-center mx-auto w-max"
-        pageRangeDisplayed={totalPages < 6 ? 5 : 3}
         pageCount={totalPages}
-        initialPage={initialPage}
-        onPageChange={selected => setCurrent(selected.selected + 1)}
-        renderOnZeroPageCount={null}
+        onPageChange={page => {
+          const pageSelected = page.selected + 1;
+
+          if (currentPage !== pageSelected) {
+            setSearchParams({
+              page: String(pageSelected)
+            });
+          }
+
+          window.scrollTo(0, 0);
+        }}
+        {...props}
       />
     </>
   );

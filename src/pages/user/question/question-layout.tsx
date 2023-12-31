@@ -1,8 +1,13 @@
+import { ReactNode } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { UserSidebar } from "@components/ui/custom";
-import QuestionLayoutContainer from "@components/user/questions/container/QuestionLayoutContainer";
 import UserAside from "@components/ui/custom/aside/UserAside";
+import UserResponsiveContainer from "@components/ui/custom/container/UserResponsiveContainer";
+
+const QuestionLayoutContainer = ({ children }: { children: ReactNode }) => {
+  return <UserResponsiveContainer>{children}</UserResponsiveContainer>;
+};
 
 const QuestionLayout = () => {
   const navigate = useNavigate();
@@ -23,5 +28,5 @@ const QuestionLayout = () => {
     </QuestionLayoutContainer>
   );
 };
-// scrollbar-thin scrollbar-thumb-gray-100 scrollbar-thumb-rounded-full
+
 export default QuestionLayout;

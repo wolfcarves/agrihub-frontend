@@ -1,27 +1,48 @@
-import { ReactNode } from "react";
-
+import { ReactNode, useMemo, useState } from "react";
 import QuestionsInputAddQuestion from "@components/user/questions/input/QuestionsInputAddQuestion";
-import QuestionsList from "@components/user/questions/question-list/QuestionsList";
-import QuestionsPagination from "@components/user/questions/pagination/QuestionsPagination";
+import QuestionsList from "@components/user/questions/list/QuestionsList";
 import useGetQuestionsQuery from "@hooks/api/get/useGetQuestionsQuery";
+import Pagination from "@components/ui/custom/pagination/Pagination";
+import { useSearchParams } from "react-router-dom";
+import QuestionsFilterSelect, {
+  LabelValues
+} from "@components/user/questions/select/QuestionsFilterSelect";
 
 const QuestionsContainer = ({ children }: { children: ReactNode }) => (
-  <div className="w-full min-h-full overflow-auto px-16 py-10">{children}</div>
+  <div className="flex flex-col w-full min-h-full overflow-auto px-16 py-10">
+    {children}
+  </div>
 );
 
 const Questions = () => {
+  const [sortBy, setSortBy] = useState<LabelValues>("Newest");
+  const [searchParams] = useSearchParams();
+
+  const params = useMemo(() => {
+    return {
+      currentPage: Number(searchParams.get("page")) ?? 1
+    };
+  }, [searchParams]);
+
   const { data: questionData, isLoading: isQuestionLoading } =
     useGetQuestionsQuery({
-      page: "1",
+      page: String(params.currentPage) ?? "1",
       filter: "newest",
       perpage: "10"
     });
 
+  const totalPages =
+    questionData?.pagination?.total_pages ?? params.currentPage + 1;
+
   return (
     <QuestionsContainer>
       <QuestionsInputAddQuestion />
+      <QuestionsFilterSelect
+        selected={sortBy}
+        onFilterChange={value => setSortBy(value)}
+      />
       <QuestionsList data={questionData} isLoading={isQuestionLoading} />
-      <QuestionsPagination />
+      <Pagination currentPage={params.currentPage} totalPages={totalPages} />
     </QuestionsContainer>
   );
 };
@@ -46,10 +67,6 @@ export default Questions;
 // const onPageChange = (newPage: number) => {
 //   setPage(newPage);
 // };
-
-// useEffect(() => {
-//   pagination?.scrollToTop();
-// }, [page]);
 
 // const onFilterChange = (filterKey: "newest" | "active" | "trending") => {
 //   setFilter(filterKey);

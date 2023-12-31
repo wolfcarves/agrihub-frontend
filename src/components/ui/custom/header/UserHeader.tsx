@@ -5,7 +5,7 @@ import { ReactNode } from "react";
 import { Button } from "@components/ui/button";
 
 const UserHeaderContainer = ({ children }: { children: ReactNode }) => (
-  <div className="flex justify-center h-20 border">
+  <div className="sticky top-0 w-full bg-background z-50 flex justify-center h-20 border-b">
     <div className="container flex justify-between items-center w-full">
       {children}
     </div>
@@ -30,11 +30,13 @@ const AuthButtonsGroup = () => (
 
 const UserHeader = () => {
   return (
-    <UserHeaderContainer>
-      <UserHeaderSearchBar />
-      <UserHeaderNavigation />
-      <AuthButtonsGroup />
-    </UserHeaderContainer>
+    <>
+      <UserHeaderContainer>
+        <UserHeaderSearchBar />
+        <UserHeaderNavigation />
+        <AuthButtonsGroup />
+      </UserHeaderContainer>
+    </>
   );
 };
 

@@ -26,7 +26,7 @@ import {
   setId,
   setPage
 } from "@redux/slices/questionViewSlice";
-import QuestionSkeleton from "@components/user/questions/question-skeleton/QuestionSkeleton";
+import QuestionSkeleton from "@components/user/questions/skeleton/QuestionSkeleton";
 import Pagination from "@components/ui/custom/pagination/pagination";
 import { UsePagination } from "@providers/PaginationProvider";
 import useQuestionVoteMutation from "@hooks/api/post/useQuestionVoteMutation";

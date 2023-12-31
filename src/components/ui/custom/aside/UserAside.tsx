@@ -1,8 +1,8 @@
 import type { ReactNode } from "react";
 
 const UserAsideContainer = ({ children }: { children: ReactNode }) => (
-  <div className="flex flex-col w-full max-w-[225px] min-h-full px-2 pt-10 border-l">
-    {children}
+  <div className="sticky top-14 h-[calc(100vh-3.5rem)] w-full max-w-[200px] py-10">
+    <div className="relative overflow-hidden h-full ">{children}</div>
   </div>
 );
 

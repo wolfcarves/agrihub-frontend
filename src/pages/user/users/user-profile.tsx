@@ -7,9 +7,9 @@ import useGetUserProfileQuery from "@hooks/api/get/useGetUserProfile";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@components/ui/button";
 import useGetQuestions from "@hooks/api/get/useGetQuestionsQuery";
-import QuestionCards from "@components/user/questions/question-list/QuestionsList";
+import QuestionCards from "@components/user/questions/list/QuestionsList";
 import { UsePagination } from "@providers/PaginationProvider";
-import QuestionSkeleton from "@components/user/questions/question-skeleton/QuestionSkeleton";
+import QuestionSkeleton from "@components/user/questions/skeleton/QuestionSkeleton";
 import { IoMdArrowBack } from "react-icons/io";
 
 const UserProfile = () => {

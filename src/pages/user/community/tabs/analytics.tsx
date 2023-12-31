@@ -1,8 +1,9 @@
 import React from "react";
-
 import { Bar, Line } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
 import SuggestionsModal from "@components/user/community/suggestions-modal/modal";
+import { TiArrowSortedUp } from "react-icons/ti";
+
 Chart.register(...registerables);
 
 const Analytics = () => {
@@ -31,19 +32,6 @@ const Analytics = () => {
     December: 42
   };
 
-  const farms = {
-    labels: Object.keys(farmsData),
-    datasets: [
-      {
-        label: "Growth Rate",
-        data: Object.values(farmsData),
-        backgroundColor: ["#89c26f"],
-        borderColor: "#89c26f",
-        borderWidth: 2
-      }
-    ]
-  };
-
   const cropsData = {
     kamatis: 60,
     talong: 20,
@@ -53,13 +41,28 @@ const Analytics = () => {
     kangkong: 140
   };
 
+  const getColor = (value: number) => (value < 10 ? "#ff0000" : "#89c26f");
+
+  const farms = {
+    labels: Object.keys(farmsData),
+    datasets: [
+      {
+        label: "Growth Rate",
+        data: Object.values(farmsData),
+        backgroundColor: Object.values(farmsData).map(getColor),
+        borderColor: Object.values(farmsData).map(getColor),
+        borderWidth: 2
+      }
+    ]
+  };
+
   const crops = {
     labels: Object.keys(cropsData),
     datasets: [
       {
         label: "Production Rate",
         data: Object.values(cropsData),
-        backgroundColor: ["#89c26f"],
+        backgroundColor: Object.values(cropsData).map(getColor),
         borderColor: "#89c26f",
         borderWidth: 2
       }
@@ -69,12 +72,29 @@ const Analytics = () => {
   return (
     <>
       <SuggestionsModal />
-      <div className="grid grid-cols-1 md:grid-cols-2 md:grid-rows-1">
-        <div className="h-[400px] border-black border-1 p-1">
-          <Bar data={farms} options={chartOptions} />
+      <div className="py-10 px-4">
+        <div className="h-[400px] border-black border-1 p-1 grid grid-cols-12 gap-4">
+          <div className=" col-span-8 border border-border p-4 rounded-lg">
+            <Bar data={farms} options={chartOptions} />
+          </div>
+          <div className=" col-span-4 border border-border p-4 rounded-lg flex flex-col ">
+            <div className=" font-semibold text-lg">Growth Rate</div>
+            <div className="flex-grow grid place-items-center">
+              <div className="text-center">
+                <div className="text-[6rem] p-0 m-0 leading-none text-primary">
+                  86%
+                </div>
+                <div className=" text-gray-400 font-medium flex items-center justify-center">
+                  <TiArrowSortedUp /> 1.37 from last month
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="h-[400px] border-black border-1 p-1">
-          <Line data={crops} options={chartOptions} />
+        <div className="h-[400px] border-black border-1 p-1 grid grid-cols-12 gap-4">
+          <div className="col-span-8 border border-border p-4 rounded-lg">
+            <Line data={crops} options={chartOptions} />
+          </div>
         </div>
       </div>
     </>

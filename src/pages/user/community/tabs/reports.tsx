@@ -34,7 +34,7 @@ const Reports = () => {
               <PiPlant size={18} /> 20
             </p>
           </div>
-          <div className=" col-span-1 ">
+          <div className=" col-span-1 flex justify-center">
             <DropdownMenu>
               <DropdownMenuTrigger className="flex justify-center pt-3">
                 <BiDotsVerticalRounded size={15} />

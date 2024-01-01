@@ -65,8 +65,8 @@ export default function withAuthGuard<P extends object>(
         break;
       case "4":
         return <Component {...props} />;
-      // if (pathname !== "/forums") {
-      //   return <Navigate to={{ pathname: "/forums" }} />;
+      // if (pathname !== "/forum") {
+      //   return <Navigate to={{ pathname: "/forum" }} />;
       // }
       // break;
       default:

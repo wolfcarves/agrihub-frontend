@@ -19,13 +19,14 @@ export class FarmService {
 
     /**
      * Create a new farm
-     * @param formData 
      * @returns NewFarmResponse Farm created successfully
      * @throws ApiError
      */
-    public static postApiFarm(
+    public static postApiFarm({
+formData,
+}: {
 formData: NewFarmRequest,
-): CancelablePromise<NewFarmResponse> {
+}): CancelablePromise<NewFarmResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/farm',
@@ -41,17 +42,27 @@ formData: NewFarmRequest,
 
     /**
      * List farms
-     * @param search Search query for farms (optional, default is an empty string)
-     * @param page Page number (optional)
-     * @param perpage Number of farms per page (optional, default is 20)
      * @returns FarmListResponse List of farms
      * @throws ApiError
      */
-    public static getApiFarm(
+    public static getApiFarm({
+search,
+page,
+perpage,
+}: {
+/**
+ * Search query for farms (optional, default is an empty string)
+ */
 search?: string,
+/**
+ * Page number (optional)
+ */
 page?: string,
+/**
+ * Number of farms per page (optional, default is 20)
+ */
 perpage?: string,
-): CancelablePromise<FarmListResponse> {
+}): CancelablePromise<FarmListResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/farm',
@@ -81,13 +92,14 @@ perpage?: string,
 
     /**
      * Create a new crop
-     * @param formData 
      * @returns NewCropResponse Crop created successfully
      * @throws ApiError
      */
-    public static postApiFarmCrop(
+    public static postApiFarmCrop({
+formData,
+}: {
 formData: NewCropRequest,
-): CancelablePromise<NewCropResponse> {
+}): CancelablePromise<NewCropResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/farm/crop',

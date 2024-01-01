@@ -11,7 +11,7 @@ const QuestionSearchBar = () => {
           placeholder="Type to search..."
           className="px-4 py-2 w-full focus:outline-none bg-gray-100"
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={e => setSearchTerm(e.target.value)}
         />
         <button className="text-gray-400 text-sm px-4 py-2 ">Enter</button>
       </div>

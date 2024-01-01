@@ -4,8 +4,8 @@ import ReactRouter from "@router/router";
 import "./globals.css";
 
 //Layouts
-import AccountLayout from "@pages/user/account/_layout";
-import QuestionLayout from "@pages/user/question/_layout";
+import AccountLayout from "@pages/user/account/account-layout";
+import QuestionLayout from "@pages/user/question/question-layout";
 import ArticleLayout from "@pages/user/article/_layout";
 import UserProfileLayout from "@pages/user/users/_layout";
 
@@ -49,7 +49,7 @@ import LandingPage from "./pages/user/home/landing-page";
 
 // Providers
 import PaginationProvider from "@providers/PaginationProvider";
-import UserLayout from "@pages/user/layout/_layout";
+import UserLayout from "@pages/user/layout/main-layout";
 import AboutLayout from "./pages/user/about/_layout";
 
 const App = ReactRouter(
@@ -61,7 +61,7 @@ const App = ReactRouter(
 
       {/* Landing Page */}
       <Route path="/landing">
-        <Route path="members" element={<LandingPage/>} />
+        <Route path="members" element={<LandingPage />} />
       </Route>
 
       {/* About Page */}
@@ -74,14 +74,14 @@ const App = ReactRouter(
 
       {/* Question Page */}
       <Route
-        path="/forums"
+        path="/forum"
         element={
           <PaginationProvider>
             <QuestionLayout />
           </PaginationProvider>
         }
       >
-        <Route path="list" element={<Questions />} />
+        <Route path="" element={<Questions />} />
         <Route path="tags" element={<QuestionTags />} />
         <Route path="ask" element={<QuestionAsk />} />
         <Route
@@ -125,17 +125,17 @@ const App = ReactRouter(
         <Route path=":userId/me" element={<MyProfile />} />
         <Route path=":userId/me/edit" element={<EditProfile />} />
       </Route>
-    </Route>
 
-    {/* Account Page */}
-    <Route path="/account" element={<AccountLayout />}>
-      <Route path="login" element={<Login />} />
-      <Route path="signup" element={<Signup />} />
-      <Route path="verify-email" element={<VerifyEmail />} />
-      <Route path="setup-account" element={<SetupAccount />} />
-      <Route path="final-setup" element={<FinalSetup />} />
-      {/*<Route path="forgot-password" element={`forgot-password`} />
+      {/* Account Page */}
+      <Route path="/account" element={<AccountLayout />}>
+        <Route path="login" element={<Login />} />
+        <Route path="signup" element={<Signup />} />
+        <Route path="verify-email" element={<VerifyEmail />} />
+        <Route path="setup-account" element={<SetupAccount />} />
+        <Route path="final-setup" element={<FinalSetup />} />
+        {/*<Route path="forgot-password" element={`forgot-password`} />
       <Route path="reset-password" element={`reset-password`} />*/}
+      </Route>
     </Route>
 
     <Route path="/admin" element={<AdminLayout />}>

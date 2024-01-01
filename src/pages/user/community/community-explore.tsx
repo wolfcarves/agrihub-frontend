@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import useGetFarms from "../../../hooks/api/get/useGetFarms";
 import { IoMdSearch } from "react-icons/io";
-import Pagination from "@components/ui/custom/pagination/pagination";
 import withAuthGuard from "../../../higher-order/account/withAuthGuard";
 const Explore = () => {
   const [page, setPage] = useState(1);
@@ -39,11 +38,6 @@ const Explore = () => {
           ))}
         </div>
       </div>
-      <Pagination
-        currentPage={Number(data?.pagination?.page)}
-        totalPages={Number(data?.pagination?.total_pages)}
-        onPageChange={onPageChange}
-      />
     </div>
   );
 };

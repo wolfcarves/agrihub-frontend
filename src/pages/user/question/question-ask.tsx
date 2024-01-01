@@ -73,7 +73,7 @@ function QuestionAsk() {
         setTimeout(() => {
           form.reset();
           setTags([]);
-          navigate("/forums/list");
+          navigate("/forum/list");
         }, 2500);
         return;
       }

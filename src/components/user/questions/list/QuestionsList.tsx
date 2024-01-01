@@ -20,7 +20,7 @@ const QuestionsList = ({ data, isLoading }: QuestionsListProps) => {
   }
 
   return (
-    <div className="flex flex-col gap-7 py-10">
+    <div className="flex flex-col gap-7 pb-20">
       {data?.questions &&
         data?.questions.map(
           ({ title, question, user, vote_count, answer_count }) => (

@@ -1,8 +1,8 @@
 import { ReactNode, useMemo, useState } from "react";
 import QuestionsInputAddQuestion from "@components/user/questions/input/QuestionsInputAddQuestion";
 import QuestionsList from "@components/user/questions/list/QuestionsList";
+import { Pagination } from "@components/ui/custom";
 import useGetQuestionsQuery from "@hooks/api/get/useGetQuestionsQuery";
-import Pagination from "@components/ui/custom/pagination/Pagination";
 import { useSearchParams } from "react-router-dom";
 import QuestionsFilterSelect, {
   LabelValues
@@ -42,7 +42,10 @@ const Questions = () => {
         onFilterChange={value => setSortBy(value)}
       />
       <QuestionsList data={questionData} isLoading={isQuestionLoading} />
-      <Pagination currentPage={params.currentPage} totalPages={totalPages} />
+
+      {!isQuestionLoading && (
+        <Pagination currentPage={params.currentPage} totalPages={totalPages} />
+      )}
     </QuestionsContainer>
   );
 };

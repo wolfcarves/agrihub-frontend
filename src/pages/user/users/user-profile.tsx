@@ -78,10 +78,7 @@ const UserProfile = () => {
       {isLoading ? (
         <QuestionSkeleton quantity={4} />
       ) : (
-        <QuestionCards
-          data={questionsData}
-          handleNavigateQuestion={handleNavigateQuestion}
-        />
+        <QuestionCards data={questionsData} />
       )}
       {/* {!isLoading && (
         <Pagination

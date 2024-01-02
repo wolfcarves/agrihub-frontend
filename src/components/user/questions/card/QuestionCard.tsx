@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import { BsThreeDots } from "react-icons/bs";
 import { PiArrowFatDown, PiArrowFatUp } from "react-icons/pi";
 import { LuMessagesSquare } from "react-icons/lu";
@@ -13,7 +13,7 @@ interface QuestionCardProps {
   description?: string | Node;
   voteCount?: string;
   answerCount?: string;
-  onShareButtonClick?: () => void;
+  onShareButtonClick?: (e: React.MouseEvent) => void;
 }
 
 const QuestionCard = ({
@@ -25,8 +25,6 @@ const QuestionCard = ({
   answerCount,
   onShareButtonClick
 }: QuestionCardProps) => {
-  const childRef = useRef<HTMLDivElement>(null);
-
   const purifiedDescription = DOMPurify.sanitize(description ?? "", {
     USE_PROFILES: {
       html: true
@@ -47,7 +45,6 @@ const QuestionCard = ({
               className="text-xl p-2 rounded-md hover:bg-accent opacity-80 hover:opacity-100 duration-200"
               onClick={e => {
                 e.preventDefault();
-                console.log("select");
               }}
             >
               <BsThreeDots />

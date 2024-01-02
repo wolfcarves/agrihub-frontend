@@ -1,10 +1,12 @@
 import React from "react";
 
-const AgrihubLogo = () => {
+const AgrihubLogo = ({ size = "base" }: { size?: "sm" | "base" | "lg" }) => {
+  const _size = size === "sm" ? "35" : size === "base" ? "42" : "49";
+
   return (
     <svg
-      width="42"
-      height="36"
+      width={_size}
+      height={_size}
       viewBox="0 0 42 36"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

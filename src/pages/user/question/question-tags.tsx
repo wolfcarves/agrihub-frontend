@@ -1,14 +1,12 @@
-import QuestionSearchBar from '@components/user/questions/qustion-search-bar/QuestionSearchBar';
-import TagsCard from '@components/user/questions/tags-card/TagsCard';
-
+import OutletContainer from "@components/user/questions/container/OutletContainer";
+import TagsList from "@components/user/questions/list/TagList";
 
 const QuestionTags = () => {
   return (
-    <div>
-    <QuestionSearchBar/>
-    <TagsCard/>
-    </div>
-  )
+    <OutletContainer>
+      <TagsList />
+    </OutletContainer>
+  );
 };
 
 export default QuestionTags;

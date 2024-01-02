@@ -58,84 +58,84 @@ const App = ReactRouter(
     <Route path="/" element={<UserLayout />} errorElement={<ErrorElement />}>
       {/* Tour | Welcome | Landing Page */}
       <Route path="/" element={<Tour />} errorElement={<ErrorElement />} />
+    </Route>
 
-      {/* Landing Page */}
-      <Route path="/landing">
-        <Route path="members" element={<LandingPage />} />
-      </Route>
+    {/* Landing Page */}
+    <Route path="/landing">
+      <Route path="members" element={<LandingPage />} />
+    </Route>
 
-      {/* About Page */}
-      <Route path="/about" element={<AboutLayout />}>
-        <Route path="" element={<About />} />
-        <Route path="our-focus" element={<AboutFocus />} />
-        <Route path="initiatives" element={<AboutInitiatives />} />
-        <Route path="latest" element={<AboutLatest />} />
-      </Route>
+    {/* About Page */}
+    <Route path="/about" element={<AboutLayout />}>
+      <Route path="" element={<About />} />
+      <Route path="our-focus" element={<AboutFocus />} />
+      <Route path="initiatives" element={<AboutInitiatives />} />
+      <Route path="latest" element={<AboutLatest />} />
+    </Route>
 
-      {/* Question Page */}
+    {/* Question Page */}
+    <Route
+      path="/forum"
+      element={
+        <PaginationProvider>
+          <QuestionLayout />
+        </PaginationProvider>
+      }
+    >
+      <Route path="" element={<Questions />} />
+      <Route path="tags" element={<QuestionTags />} />
+      <Route path="ask" element={<QuestionAsk />} />
       <Route
-        path="/forum"
+        path="question/:username/:questionId"
         element={
           <PaginationProvider>
-            <QuestionLayout />
+            <Question />
           </PaginationProvider>
         }
-      >
-        <Route path="" element={<Questions />} />
-        <Route path="tags" element={<QuestionTags />} />
-        <Route path="ask" element={<QuestionAsk />} />
-        <Route
-          path="question/:username/:questionId"
-          element={
-            <PaginationProvider>
-              <Question />
-            </PaginationProvider>
-          }
-        />
-      </Route>
+      />
+    </Route>
 
-      {/* Community Page */}
-      <Route path="/community" element={<CommunityLayout />}>
-        <Route path="my-community" element={<Community />} />
-        <Route path="explore" element={<Explore />} />
-      </Route>
+    {/* Community Page */}
+    <Route path="/community" element={<CommunityLayout />}>
+      <Route path="my-community" element={<Community />} />
+      <Route path="explore" element={<Explore />} />
+    </Route>
 
-      {/* Article Page */}
-      <Route path="/article" element={<ArticleLayout />}>
-        <Route path="" element={<Articles />} />
-        <Route path="view/:title/:articleId" element={<Article />} />
-      </Route>
+    {/* Article Page */}
+    <Route path="/article" element={<ArticleLayout />}>
+      <Route path="" element={<Articles />} />
+      <Route path="view/:title/:articleId" element={<Article />} />
+    </Route>
 
-      {/* Blog Page */}
-      <Route path="/blog" element={<BlogLayout />}>
-        <Route path="" element={<Blogs />} />
-        <Route path="view/:blogId" element={<Blog />} />
-      </Route>
+    {/* Blog Page */}
+    <Route path="/blog" element={<BlogLayout />}>
+      <Route path="" element={<Blogs />} />
+      <Route path="view/:blogId" element={<Blog />} />
+    </Route>
 
-      {/* Profile Page  */}
-      <Route
-        path="/users"
-        element={
-          <PaginationProvider>
-            <UserProfileLayout />
-          </PaginationProvider>
-        }
-      >
-        <Route path=":userId/:username" element={<UserProfile />} />
-        <Route path=":userId/me" element={<MyProfile />} />
-        <Route path=":userId/me/edit" element={<EditProfile />} />
-      </Route>
+    {/* Profile Page  */}
+    <Route
+      path="/users"
+      element={
+        <PaginationProvider>
+          <UserProfileLayout />
+        </PaginationProvider>
+      }
+    >
+      <Route path=":userId/:username" element={<UserProfile />} />
+      <Route path=":userId/me" element={<MyProfile />} />
+      <Route path=":userId/me/edit" element={<EditProfile />} />
+    </Route>
 
-      {/* Account Page */}
-      <Route path="/account" element={<AccountLayout />}>
-        <Route path="login" element={<Login />} />
-        <Route path="signup" element={<Signup />} />
-        <Route path="verify-email" element={<VerifyEmail />} />
-        <Route path="setup-account" element={<SetupAccount />} />
-        <Route path="final-setup" element={<FinalSetup />} />
-        {/*<Route path="forgot-password" element={`forgot-password`} />
+    {/* Account Page */}
+    <Route path="/account" element={<AccountLayout />}>
+      <Route path="login" element={<Login />} />
+      <Route path="signup" element={<Signup />} />
+      <Route path="verify-email" element={<VerifyEmail />} />
+      <Route path="setup-account" element={<SetupAccount />} />
+      <Route path="final-setup" element={<FinalSetup />} />
+      {/*<Route path="forgot-password" element={`forgot-password`} />
       <Route path="reset-password" element={`reset-password`} />*/}
-      </Route>
     </Route>
 
     <Route path="/admin" element={<AdminLayout />}>

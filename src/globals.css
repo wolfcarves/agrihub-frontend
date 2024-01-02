@@ -136,9 +136,11 @@
     @apply border-border;
   }
 
+
+
   body {
     @apply bg-background text-foreground;
-    @apply text-base;
+    @apply text-base font-poppins-regular;
     margin: 0;
     padding: 0;
     box-sizing: border-box;

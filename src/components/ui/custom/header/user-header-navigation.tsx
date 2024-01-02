@@ -10,7 +10,7 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle
 } from "@components/ui/navigation-menu";
-import { Link, useLocation } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 type AnchorProps = React.DetailedHTMLProps<
   React.AnchorHTMLAttributes<HTMLAnchorElement>,
@@ -55,47 +55,50 @@ const components: { title: string; href: string; description: string }[] = [
 ];
 
 const UserHeaderNavigation = () => {
-  const pathname = useLocation().pathname;
-
   return (
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuLink className={navigationMenuTriggerStyle()} asChild>
-            <Link to="/">
-              <span
-                className={`${
-                  pathname === "/" ? "text-primary" : "text-neutral-700"
-                } font-poppins-medium`}
-              >
-                Home
-              </span>
-            </Link>
-          </NavigationMenuLink>
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              isActive
+                ? "text-primary font-poppins-medium"
+                : "text-neutral-700 font-poppins-medium"
+            }
+          >
+            <NavigationMenuLink
+              className={navigationMenuTriggerStyle()}
+              asChild
+            >
+              <span>Home</span>
+            </NavigationMenuLink>
+          </NavLink>
         </NavigationMenuItem>
+
         <NavigationMenuItem>
-          <NavigationMenuLink className={navigationMenuTriggerStyle()} asChild>
-            <Link to="/forum">
-              <span
-                className={`${
-                  pathname === "/forum" ? "text-primary" : "text-neutral-700"
-                } font-poppins-medium`}
-              >
-                Forum
-              </span>
-            </Link>
-          </NavigationMenuLink>
+          <NavLink
+            to="/forum"
+            className={({ isActive }) =>
+              isActive
+                ? "text-primary font-poppins-medium"
+                : "text-neutral-700 font-poppins-medium"
+            }
+          >
+            <NavigationMenuLink
+              className={navigationMenuTriggerStyle()}
+              asChild
+            >
+              <span>Forum</span>
+            </NavigationMenuLink>
+          </NavLink>
         </NavigationMenuItem>
+
         <NavigationMenuItem>
           <NavigationMenuTrigger>
-            <span
-              className={`${
-                pathname === "/community" ? "text-primary" : "text-neutral-700"
-              } font-poppins-medium`}
-            >
-              Communtiy
-            </span>
+            <span className={` font-poppins-medium`}>Communtiy</span>
           </NavigationMenuTrigger>
+
           <NavigationMenuContent>
             <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
               <li className="row-span-3">
@@ -113,6 +116,7 @@ const UserHeaderNavigation = () => {
                   </div>
                 </NavigationMenuLink>
               </li>
+
               <ListItem
                 href="/docs"
                 title="My Farm"
@@ -120,6 +124,7 @@ const UserHeaderNavigation = () => {
               >
                 <span>Manage, contribute to your joined farm</span>
               </ListItem>
+
               <ListItem
                 href="/docs"
                 title="Farm Communites"
@@ -130,10 +135,12 @@ const UserHeaderNavigation = () => {
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
+
         <NavigationMenuItem>
           <NavigationMenuTrigger>
             <span className="font-poppins-medium">Resources</span>
           </NavigationMenuTrigger>
+
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
               {components.map(component => (

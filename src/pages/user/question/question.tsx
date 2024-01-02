@@ -34,6 +34,7 @@ import useQuestionDeleteVoteMutation from "@hooks/api/post/useQuestionDeleteVote
 import Modal from "../../../components/ui/custom/modal/Modal";
 
 type FilterType = "newest" | "top";
+
 const Question = () => {
   const dispatch = useDispatch();
   const { questionId } = useParams();

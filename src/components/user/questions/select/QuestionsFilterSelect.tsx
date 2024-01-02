@@ -6,7 +6,7 @@ import {
   SelectValue
 } from "@components/ui/select";
 
-const filterOptions = [
+const sortOptions = [
   {
     label: "Newest",
     value: "newest"
@@ -21,11 +21,11 @@ const filterOptions = [
   }
 ] as const;
 
-export type LabelValues = (typeof filterOptions)[number]["label"];
+export type SortValues = (typeof sortOptions)[number]["value"];
 
 interface QuestionsFilterProps {
-  selected: LabelValues;
-  onFilterChange?: (selectedValue: LabelValues) => void;
+  selected: SortValues;
+  onFilterChange?: (selectedValue: SortValues) => void;
 }
 
 function QuestionsFilterSelect({
@@ -37,11 +37,11 @@ function QuestionsFilterSelect({
     <div className="ms-auto py-10">
       <Select onValueChange={onFilterChange} {...props}>
         <SelectTrigger className="w-[120px] rounded-lg text-neutral-700 font-poppins-medium capitalize h-11 bg-white">
-          <SelectValue placeholder={selected ?? filterOptions[0].label} />
+          <SelectValue placeholder={selected ?? sortOptions[0].label} />
         </SelectTrigger>
 
         <SelectContent>
-          {filterOptions.map(({ label, value }) => (
+          {sortOptions.map(({ label, value }) => (
             <SelectItem
               key={`${value}`}
               value={value}

@@ -11,7 +11,7 @@ const QuestionLayout = () => {
         <ScrollToTop />
         <QuestionSidebar />
         <Outlet />
-        <UserAside />
+        <UserAside>Wait lang</UserAside>
       </QuestionLayoutContainer>
     </>
   );

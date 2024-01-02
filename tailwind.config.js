@@ -20,7 +20,6 @@ export default {
     },
     fontSize: {
       xs: "0.7rem",
-      xs: "0.7rem",
       sm: "0.8rem",
       base: "0.9rem",
       md: "1rem",
@@ -43,14 +42,6 @@ export default {
       semibold: "600",
       bold: "700",
       extrabold: "800"
-    },
-    fontFamily: {
-      "poppins-thin": ["poppins-thin"],
-      "poppins-regular": ["poppins-regular"],
-      "poppins-medium": ["poppins-medium"],
-      "poppins-semibold": ["poppins-semibold"],
-      "poppins-bold": ["poppins-bold"],
-      "poppins-extrabold": ["poppins-extrabold"]
     },
     fontFamily: {
       "poppins-thin": ["poppins-thin"],

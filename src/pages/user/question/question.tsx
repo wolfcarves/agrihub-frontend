@@ -144,7 +144,7 @@ const Question = () => {
               <img
                 key={i}
                 className=" rounded-lg md:h-[8rem] h-[4rem]"
-                src={`https://s3.ap-southeast-1.amazonaws.com/agrihub-bucket/${image}`}
+                src={image}
                 onClick={() => handleImageClick(image)}
               />
             ))}
@@ -252,7 +252,7 @@ const Question = () => {
       {selectedImage && (
         <Modal setModal={closeModal}>
           <img
-            src={`https://s3.ap-southeast-1.amazonaws.com/agrihub-bucket/${selectedImage}`}
+            src={selectedImage}
             alt="Full View"
             className="max-w-full h-[20rem] max-h-full"
           />

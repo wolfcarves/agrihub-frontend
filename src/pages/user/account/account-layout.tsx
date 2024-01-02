@@ -9,7 +9,7 @@ const ChildComponent = () => (
   </div>
 );
 
-const AccountLayout = () => {
+const UserAccountLayout = () => {
   return (
     <UserLayoutAccountContainer>
       <UserAccountHeader />
@@ -21,4 +21,4 @@ const AccountLayout = () => {
   );
 };
 
-export default AccountLayout;
+export default UserAccountLayout;

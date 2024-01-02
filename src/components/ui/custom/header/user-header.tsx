@@ -9,7 +9,7 @@ import UserHeaderMenu from "./user-header-menu";
 import UserReponsiveContainer from "../container/user-reponsive-container";
 
 const UserHeaderContainer = ({ children }: { children: ReactNode }) => (
-  <div className="sticky top-0 w-full bg-background/70 backdrop-blur  z-50 flex justify-center h-20 border-b">
+  <div className="sticky top-0 w-full bg-background z-50 flex justify-center h-20 border-b">
     <UserReponsiveContainer className="justify-between items-center w-full">
       {children}
     </UserReponsiveContainer>

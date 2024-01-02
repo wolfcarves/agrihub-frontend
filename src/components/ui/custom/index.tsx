@@ -1,5 +1,6 @@
 export { default as UserAside } from "./aside/user-aside";
 export { default as Divider } from "./divider/divider";
+export { default as UserFooter } from "./footer/user-footer";
 export { default as Input } from "./input/input";
 export { default as ScrollToTop } from "./scroll/scroll";
 export { default as Sidebar } from "./sidebar/sidebar";

@@ -39,14 +39,19 @@ const Carousel: React.FC = () => {
       setCurrentSlide(prev => (prev === slides.length - 1 ? 0 : prev + 1));
     }, 5000);
 
-    setAutoSlideInterval(interval);
+    setAutoSlideInterval((prevInterval) => {
+      if (prevInterval) {
+        clearInterval(prevInterval);
+      }
+      return interval; 
+    });
 
     return () => {
       if (autoSlideInterval) {
         clearInterval(autoSlideInterval);
       }
     };
-  }, [slides.length, autoSlideInterval]);
+  }, [slides.length]);
 
   return (
     <div className="relative w-full h-3/4 mx-auto">

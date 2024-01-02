@@ -2,7 +2,7 @@ import React from "react";
 import { Bar, Line } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
 import SuggestionsModal from "@components/user/community/suggestions-modal/modal";
-import { TiArrowSortedUp } from "react-icons/ti";
+import { TiArrowSortedDown } from "react-icons/ti";
 
 Chart.register(...registerables);
 
@@ -71,7 +71,6 @@ const Analytics = () => {
 
   return (
     <>
-      <SuggestionsModal />
       <div className="py-10 px-4">
         <div className="h-[400px] border-black border-1 p-1 grid grid-cols-12 gap-4">
           <div className=" col-span-8 border border-border p-4 rounded-lg">
@@ -85,11 +84,14 @@ const Analytics = () => {
                   86%
                 </div>
                 <div className=" text-gray-400 font-medium flex items-center justify-center">
-                  <TiArrowSortedUp /> 1.37 from last month
+                  <TiArrowSortedDown /> 1.37 from last month
                 </div>
               </div>
             </div>
           </div>
+        </div>
+        <div className="mb-3 mt-2 mx-1 ">
+          <SuggestionsModal />
         </div>
         <div className="h-[400px] border-black border-1 p-1 grid grid-cols-12 gap-4">
           <div className="col-span-8 border border-border p-4 rounded-lg">

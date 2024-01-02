@@ -8,6 +8,7 @@ import { GET_USER_KEY } from "@hooks/api/get/useGetMyProfileQuery";
 const VerifyEmail = () => {
   //Fetches auth data every 5 sec
   const queryClient = useQueryClient();
+
   useEffect(() => {
     const interval = setInterval(
       () => queryClient.invalidateQueries({ queryKey: [GET_USER_KEY()] }),

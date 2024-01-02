@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import useGetFarms from "../../../hooks/api/get/useGetFarms";
 import { IoMdSearch } from "react-icons/io";
-import Pagination from "@components/ui/custom/pagination/pagination";
 import withAuthGuard from "../../../higher-order/account/withAuthGuard";
 import { Button } from "../../../components/ui/button";
 const Explore = () => {

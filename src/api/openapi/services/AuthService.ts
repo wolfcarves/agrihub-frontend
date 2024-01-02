@@ -14,13 +14,14 @@ export class AuthService {
 
     /**
      * Authenticate
-     * @param requestBody 
      * @returns UserAuthResponse Success
      * @throws ApiError
      */
-    public static postApiAuthLogin(
+    public static postApiAuthLogin({
+requestBody,
+}: {
 requestBody: UserLoginSchema,
-): CancelablePromise<UserAuthResponse> {
+}): CancelablePromise<UserAuthResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/auth/login',

@@ -1,24 +1,15 @@
 import React, { useState } from "react";
-import { Button } from "../../button";
 
 const SearchBar = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
 
-  const handleSearch = () => {
-    // Implement your search logic here
-    console.log("Searching for:", searchTerm);
-  };
   return (
-    <div className="xl:flex hidden bg-[#F3F3F3] items-center border border-gray-300 rounded-lg shadow-sm overflow-hidden">
+    <div className="flex items-center h-full py-3">
       <input
-        type="text"
+        id="searchBar"
+        className="flex h-12 w-72  font-poppins-regular rounded-lg focus:border focus:border-input bg-accent px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
         placeholder="Type to search..."
-        className="px-4 py-2 w-full focus:outline-none bg-[#F3F3F3]"
-        value={searchTerm}
-        onChange={e => setSearchTerm(e.target.value)}
-        // onKeyPress={handleKeyPress}
       />
-      <button className="text-gray-400 text-sm px-4 py-2 ">Enter</button>
     </div>
   );
 };

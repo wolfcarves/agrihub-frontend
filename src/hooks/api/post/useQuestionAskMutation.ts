@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ForumsService } from "@api/openapi";
 import { QuestionSchema } from "@api/openapi";
-import { GET_QUESTION } from "../get/useGetQuestions";
+import { GET_QUESTION } from "../get/useGetQuestionsQuery";
 
 const useQuestionKey = () => "QUESTIONS_KEY";
 

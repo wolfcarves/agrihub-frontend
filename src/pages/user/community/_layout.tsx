@@ -1,6 +1,6 @@
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Sheet } from "@components/ui/sheet";
-import Sidebar from "@components/ui/custom/Sidebar/Sidebar";
+import Sidebar from "@components/ui/custom/sidebar/sidebar";
 import Topbar from "@components/ui/custom/Topbar/Topbar";
 import CommunitySideBar from "@components/user/community/sidebar/Sidebar";
 import { useEffect } from "react";

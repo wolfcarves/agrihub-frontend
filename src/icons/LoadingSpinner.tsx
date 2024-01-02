@@ -1,13 +1,17 @@
 import { AiOutlineLoading } from "react-icons/ai";
-import { Colors, FontSize } from "@components/ui/Theme/types";
 
-const LoadingSpinner = (props: { size?: FontSize; color?: Colors }) => {
+type BaseDivProps = React.DetailedHTMLProps<
+  React.HTMLAttributes<HTMLDivElement>,
+  HTMLDivElement
+>;
+
+const LoadingSpinner = ({ className }: BaseDivProps) => {
   return (
-    <AiOutlineLoading
-      className={`animate-spin text-${props.size ?? "lg"} text-${
-        props.color
-      }  w-max h-max mx-2`}
-    />
+    <div
+      className={`${className} animate-spin w-max h-max text-primary text-5xl`}
+    >
+      <AiOutlineLoading />
+    </div>
   );
 };
 

@@ -13,13 +13,15 @@ export default function useUserFinalSetup() {
 
   return useMutation([useUserFinalSetupKey()], {
     mutationFn: async (data: UserProfile) => {
-      const response = await AccountService.postApiAccountSetupProfile(data);
+      const response = await AccountService.postApiAccountSetupProfile({
+        formData: data
+      });
 
       return response;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [GET_USER_KEY()] });
-      navigate("/forums");
+      navigate("/forum");
     }
   });
 }

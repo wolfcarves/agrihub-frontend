@@ -1,6 +1,6 @@
 import React from "react";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
-import useGetQuestions from "@hooks/api/get/useGetQuestions";
+import useGetQuestions from "@hooks/api/get/useGetQuestionsQuery";
 import { Link } from "react-router-dom";
 const Sidebar = () => {
   const { data, isLoading } = useGetQuestions(
@@ -17,7 +17,7 @@ const Sidebar = () => {
       <div className="pl-4">
         {data?.questions?.map((question, index) => (
           <Link
-            to={`/forums/question/${question.user?.username}/${question.id}`}
+            to={`/forum/question/${question.user?.username}/${question.id}`}
             key={index}
           >
             <div className="my-2 flex items-center cursor-pointer line-clamp-1 underline mb-2">

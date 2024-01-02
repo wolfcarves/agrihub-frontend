@@ -26,8 +26,7 @@ import {
   setId,
   setPage
 } from "@redux/slices/questionViewSlice";
-import QuestionSkeleton from "@components/user/questions/question-skeleton/QuestionSkeleton";
-import Pagination from "@components/ui/custom/pagination/pagination";
+import QuestionSkeleton from "@components/user/questions/skeleton/QuestionSkeleton";
 import { UsePagination } from "@providers/PaginationProvider";
 import useQuestionVoteMutation from "@hooks/api/post/useQuestionVoteMutation";
 import toast from "react-hot-toast";
@@ -35,6 +34,7 @@ import useQuestionDeleteVoteMutation from "@hooks/api/post/useQuestionDeleteVote
 import Modal from "../../../components/ui/custom/modal/Modal";
 
 type FilterType = "newest" | "top";
+
 const Question = () => {
   const dispatch = useDispatch();
   const { questionId } = useParams();
@@ -249,11 +249,6 @@ const Question = () => {
         ))}
       </div>
 
-      <Pagination
-        currentPage={Number(page)}
-        totalPages={data?.pagination?.total_pages || 0}
-        onPageChange={onPageChange}
-      />
       {selectedImage && (
         <Modal setModal={closeModal}>
           <img

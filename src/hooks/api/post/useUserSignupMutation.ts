@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AccountService } from "@api/openapi";
-import { UserSignUp } from "@components/user/forms/UserSignupForm/schema";
+import { UserSignUp } from "@components/user/account/forms/UserSignupForm/schema";
 import { useNavigate } from "react-router-dom";
 import { GET_USER_KEY } from "../get/useGetMyProfileQuery";
 
@@ -12,7 +12,9 @@ export default function useUserSignupMutation() {
 
   return useMutation([useSignupUserKey()], {
     mutationFn: async (data: UserSignUp) => {
-      const response = await AccountService.postApiAccountSignup(data);
+      const response = await AccountService.postApiAccountSignup({
+        requestBody: data
+      });
 
       return response;
     },

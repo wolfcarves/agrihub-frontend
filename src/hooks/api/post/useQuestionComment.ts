@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CommentsSchema, ForumsService } from "@api/openapi";
-import { GET_QUESTION } from "../get/useGetQuestions";
+import { GET_QUESTION } from "../get/useGetQuestionsQuery";
 import { VIEW_QUESTION } from "../get/useGetViewQuestion";
 
 const useQuestionCommentKey = () => "COMMENTS_KEY";

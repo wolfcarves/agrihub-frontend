@@ -1,24 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 const Carousel: React.FC = () => {
   const [currentSlide, setCurrentSlide] = useState<number>(0);
-  const [autoSlideInterval, setAutoSlideInterval] = useState<NodeJS.Timeout | null>(null);
+  const [autoSlideInterval, setAutoSlideInterval] =
+    useState<NodeJS.Timeout | null>(null);
   const slides = [
     {
       id: 1,
-      image: 'https://i.ibb.co/ncrXc2V/1.png',
-      text: 'Slide 1 Text',
+      image: "https://i.ibb.co/ncrXc2V/1.png",
+      text: "Slide 1 Text"
     },
     {
       id: 2,
-      image: 'https://i.ibb.co/B3s7v4h/2.png',
-      text: 'Slide 2 Text',
+      image: "https://i.ibb.co/B3s7v4h/2.png",
+      text: "Slide 2 Text"
     },
     {
       id: 3,
-      image: 'https://i.ibb.co/XXR8kzF/3.png',
-      text: 'Navvii maganda qtqt',
-    },
+      image: "https://i.ibb.co/XXR8kzF/3.png",
+      text: "Navvii maganda qtqt"
+    }
   ];
 
   const nextSlide = () => {
@@ -38,14 +39,19 @@ const Carousel: React.FC = () => {
       setCurrentSlide((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
     }, 5000);
 
-    setAutoSlideInterval(interval);
+    setAutoSlideInterval((prevInterval) => {
+      if (prevInterval) {
+        clearInterval(prevInterval);
+      }
+      return interval; 
+    });
 
     return () => {
       if (autoSlideInterval) {
         clearInterval(autoSlideInterval);
       }
     };
-  }, [slides.length, autoSlideInterval]);
+  }, [slides.length]);
 
   return (
     <div className="relative w-full h-3/4 mx-auto">
@@ -54,7 +60,7 @@ const Carousel: React.FC = () => {
           <div
             key={slide.id}
             className={`absolute w-full h-full transition-opacity duration-500 ${
-              index === currentSlide ? 'opacity-100' : 'opacity-0'
+              index === currentSlide ? "opacity-100" : "opacity-0"
             }`}
           >
             <img
@@ -67,7 +73,7 @@ const Carousel: React.FC = () => {
             </div>
             <div
               className={`absolute w-full h-auto bg-red-700 opacity-50 ${
-                index === currentSlide ? 'opacity-75' : 'opacity-0'
+                index === currentSlide ? "opacity-75" : "opacity-0"
               }`}
             ></div>
           </div>
@@ -77,7 +83,7 @@ const Carousel: React.FC = () => {
             className="text-white text-9xl px-4 py-2 rounded-l h-full w-15vw"
             onClick={prevSlide}
             style={{
-              backgroundColor: 'rgba(255, 0, 0, 0.7)',
+              backgroundColor: "rgba(255, 0, 0, 0.7)"
             }}
           >
             &lt;
@@ -88,7 +94,7 @@ const Carousel: React.FC = () => {
             className="text-white text-9xl px-4 py-2 rounded-r h-full w-15vw"
             onClick={nextSlide}
             style={{
-              backgroundColor: 'rgba(0, 0, 255, 0.7)',
+              backgroundColor: "rgba(0, 0, 255, 0.7)"
             }}
           >
             &gt;
@@ -99,10 +105,10 @@ const Carousel: React.FC = () => {
             <div
               key={index}
               className={`w-4 h-4 bg-white rounded-full mx-1 cursor-pointer ${
-                currentSlide === index ? 'opacity-100' : 'opacity-50'
+                currentSlide === index ? "opacity-100" : "opacity-50"
               }`}
               onClick={() => handleDotClick(index)}
-              style={{ marginBottom: '3rem' }}
+              style={{ marginBottom: "3rem" }}
             ></div>
           ))}
         </div>

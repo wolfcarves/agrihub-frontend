@@ -14,7 +14,9 @@ export default function useLoginUserMutation() {
 
   return useMutation([useLoginUserKey()], {
     async mutationFn(data: UserLoginSchema) {
-      const response = await AuthService.postApiAuthLogin(data);
+      const response = await AuthService.postApiAuthLogin({
+        requestBody: data
+      });
 
       return response;
     },
@@ -22,7 +24,7 @@ export default function useLoginUserMutation() {
       queryClient.invalidateQueries({ queryKey: [GET_USER_KEY()] });
 
       if (userAuth?.user?.verification_level === "4") {
-        navigate("/forums");
+        navigate("/forum");
       } else {
         navigate("/account/verify-email");
       }

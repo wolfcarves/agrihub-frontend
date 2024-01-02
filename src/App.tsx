@@ -4,13 +4,14 @@ import ReactRouter from "@router/router";
 import "./globals.css";
 
 //Layouts
-import AccountLayout from "@pages/user/account/account-layout";
 import QuestionLayout from "@pages/user/question/question-layout";
+import UserAccountLayout from "@pages/user/account/account-layout";
 import ArticleLayout from "@pages/user/article/_layout";
 import UserProfileLayout from "@pages/user/users/_layout";
+import UserHomeLayout from "@pages/user/home/home-layout";
 
 //Pages
-import Tour from "@pages/user/tour/tour";
+import Home from "./pages/user/home/home";
 
 import Login from "@pages/user/account/login";
 import Signup from "@pages/user/account/signup";
@@ -45,7 +46,6 @@ import About from "./pages/user/about/about";
 import AboutFocus from "./pages/user/about/about-focus";
 import AboutInitiatives from "./pages/user/about/about-initiatives";
 import AboutLatest from "./pages/user/about/about-latest";
-import LandingPage from "./pages/user/home/landing-page";
 
 // Providers
 import PaginationProvider from "@providers/PaginationProvider";
@@ -54,14 +54,10 @@ import AboutLayout from "./pages/user/about/_layout";
 
 const App = ReactRouter(
   <>
-    {/* User Side */}
     <Route path="/" element={<UserLayout />} errorElement={<ErrorElement />}>
-      {/* Tour | Welcome | Landing Page */}
-      <Route path="/" element={<Tour />} errorElement={<ErrorElement />} />
-
       {/* Landing Page */}
-      <Route path="/landing">
-        <Route path="members" element={<LandingPage />} />
+      <Route path="/" element={<UserHomeLayout />}>
+        <Route path="/" element={<Home />} />
       </Route>
 
       {/* About Page */}
@@ -127,7 +123,7 @@ const App = ReactRouter(
       </Route>
 
       {/* Account Page */}
-      <Route path="/account" element={<AccountLayout />}>
+      <Route path="/account" element={<UserAccountLayout />}>
         <Route path="login" element={<Login />} />
         <Route path="signup" element={<Signup />} />
         <Route path="verify-email" element={<VerifyEmail />} />

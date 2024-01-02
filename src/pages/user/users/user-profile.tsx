@@ -35,7 +35,7 @@ const UserProfile = () => {
     `profile_query`,
     data?.id
   );
-  console.log(questionsData?.pagination?.total_pages, "TEST USER ID");
+
   const handleNavigateQuestion = (
     username: string | undefined,
     questionId: string | undefined

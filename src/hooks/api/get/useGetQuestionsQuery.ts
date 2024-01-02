@@ -9,19 +9,18 @@ export type SearchParams = {
   profile?: string;
 };
 
-export const GET_QUESTION = (page: string | undefined) => [
-  "GET_QUESTION_KEY",
-  page
-];
+export const GET_QUESTION = (
+  page: string | undefined,
+  filter: SearchParams["filter"]
+) => ["GET_QUESTION_KEY", page, filter];
 
 export default function useGetQuestionsQuery(data: SearchParams) {
   return useQuery({
-    queryKey: GET_QUESTION(data.page),
+    queryKey: GET_QUESTION(data.page, data.filter),
     queryFn: async () => {
       const response = await ForumsService.getApiForums(data);
 
       return response;
-    },
-    keepPreviousData: true
+    }
   });
 }

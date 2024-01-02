@@ -5,20 +5,32 @@ import {
   PaginationNext,
   PaginationPrevious
 } from "@components/ui/pagination";
+import { useMemo } from "react";
 import ReactPaginate, { ReactPaginateProps } from "react-paginate";
 import { useSearchParams } from "react-router-dom";
 
 interface ShadPaginationProps extends Omit<ReactPaginateProps, "pageCount"> {
-  currentPage: number;
   totalPages: number;
+  isLoading?: boolean;
 }
 
 const Pagination = ({
-  currentPage,
   totalPages,
+  isLoading,
   ...props
 }: ShadPaginationProps) => {
   const [searchParams, setSearchParams] = useSearchParams();
+
+  const params = useMemo(
+    () => ({
+      page: Number(searchParams.get("page")) ?? 1
+    }),
+    [searchParams]
+  );
+
+  if (isLoading) {
+    return <></>;
+  }
 
   return (
     <>
@@ -29,14 +41,14 @@ const Pagination = ({
           </PaginationItem>
         }
         previousLabel={
-          currentPage !== 1 && (
+          params.page !== 1 && (
             <PaginationItem>
               <PaginationPrevious href="#" />
             </PaginationItem>
           )
         }
         nextLabel={
-          currentPage !== totalPages && (
+          params.page !== totalPages && (
             <PaginationItem>
               <PaginationNext href="#" />
             </PaginationItem>
@@ -48,9 +60,9 @@ const Pagination = ({
               <PaginationLink
                 href="#"
                 isActive={
-                  page === currentPage
+                  page === params.page
                     ? true
-                    : !currentPage
+                    : !params.page
                     ? page === 1
                     : false
                 }
@@ -62,14 +74,12 @@ const Pagination = ({
         }}
         className="flex items-center mx-auto w-max"
         pageCount={totalPages}
-        onPageChange={page => {
-          const pageSelected = page.selected + 1;
+        forcePage={params.page - 1}
+        onPageChange={({ selected }) => {
+          const selectedPage = String(selected + 1);
 
-          if (currentPage !== pageSelected) {
-            setSearchParams({
-              page: String(pageSelected)
-            });
-          }
+          searchParams.set("page", selectedPage);
+          setSearchParams(searchParams);
 
           window.scrollTo(0, 0);
         }}

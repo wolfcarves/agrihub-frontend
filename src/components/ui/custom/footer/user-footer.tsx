@@ -14,7 +14,8 @@ import { GiThreeLeaves } from "react-icons/gi";
 import { FiEye } from "react-icons/fi";
 import { FaRegNewspaper } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
-const Footer = () => {
+
+const UserFooter = () => {
   const navigate = useNavigate();
   const navigateAbout = () => {
     navigate("/about");
@@ -138,4 +139,4 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+export default UserFooter;

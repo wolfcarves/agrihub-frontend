@@ -3,13 +3,14 @@ import { AuthService } from "@api/openapi";
 import { GET_USER_KEY } from "../get/useGetMyProfileQuery";
 import { useNavigate } from "react-router-dom";
 
-const useQuestionKey = () => "QUESTIONS_KEY";
+const useQuestionKey = () => ["QUESTIONS_KEY"];
 
-export default function useDeleteAuth() {
+export default function useDeleteAuthMutate() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
-  return useMutation([useQuestionKey()], {
+  return useMutation({
+    mutationKey: useQuestionKey(),
     mutationFn: async () => {
       const response = await AuthService.deleteApiAuthLogout();
       return response;
@@ -17,7 +18,7 @@ export default function useDeleteAuth() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [GET_USER_KEY()] });
 
-      navigate("/");
+      navigate("/", { replace: true });
       window.location.reload();
     }
   });

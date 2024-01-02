@@ -1,3 +1,4 @@
+import withRequireAuth from "@higher-order/account/withRequireAuth";
 import React from "react";
 import { IoMdAdd } from "react-icons/io";
 import { Link } from "react-router-dom";
@@ -20,4 +21,4 @@ const QuestionsInputAddQuestion = () => {
   );
 };
 
-export default QuestionsInputAddQuestion;
+export default withRequireAuth(QuestionsInputAddQuestion);

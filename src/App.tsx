@@ -4,8 +4,8 @@ import ReactRouter from "@router/router";
 import "./globals.css";
 
 //Layouts
-import AccountLayout from "@pages/user/account/account-layout";
 import QuestionLayout from "@pages/user/question/question-layout";
+import AccountLayout from "@pages/user/account/account-layout";
 import ArticleLayout from "@pages/user/article/_layout";
 import UserProfileLayout from "@pages/user/users/_layout";
 

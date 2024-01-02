@@ -1,89 +1,91 @@
-import React from "react";
+import {
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious
+} from "@components/ui/pagination";
+import { useMemo } from "react";
+import ReactPaginate, { ReactPaginateProps } from "react-paginate";
+import { useSearchParams } from "react-router-dom";
 
-type PaginationProps = {
-  currentPage: number;
+interface ShadPaginationProps extends Omit<ReactPaginateProps, "pageCount"> {
   totalPages: number;
-  onPageChange: (page: number) => void;
-};
+  isLoading?: boolean;
+}
 
 const Pagination = ({
-  currentPage,
   totalPages,
-  onPageChange
-}: PaginationProps) => {
-  const renderButtons = () => {
-    const buttons = [];
-    const numButtonToShow = 5; // Adjust this value based on your preference
+  isLoading,
+  ...props
+}: ShadPaginationProps) => {
+  const [searchParams, setSearchParams] = useSearchParams();
 
-    // Display ellipsis and adjacent buttons around the current page
-    let startPage = Math.max(1, currentPage - Math.floor(numButtonToShow / 2));
-    let endPage = Math.min(totalPages, startPage + numButtonToShow - 1);
+  const params = useMemo(
+    () => ({
+      page: Number(searchParams.get("page")) ?? 1
+    }),
+    [searchParams]
+  );
 
-    if (endPage - startPage + 1 < numButtonToShow) {
-      startPage = Math.max(1, endPage - numButtonToShow + 1);
-    }
-
-    if (startPage > 1) {
-      buttons.push(
-        <button
-          className="py-1 px-2 text-gray-2 border border-border rounded"
-          key={1}
-          onClick={() => onPageChange(1)}
-        >
-          1
-        </button>
-      );
-      if (startPage > 2) {
-        buttons.push(<span key="ellipsis-start">...</span>);
-      }
-    }
-
-    for (let i = startPage; i <= endPage; i++) {
-      buttons.push(
-        <button
-          className={`py-1 px-2 text-gray-2 border border-border rounded  ${
-            currentPage === i ? "bg-primary border-0 text-white" : null
-          }`}
-          key={i}
-          onClick={() => onPageChange(i)}
-        >
-          {i}
-        </button>
-      );
-    }
-
-    if (endPage < totalPages) {
-      if (endPage < totalPages - 1) {
-        buttons.push(<span key="ellipsis-end">...</span>);
-      }
-      buttons.push(
-        <button key={totalPages} onClick={() => onPageChange(totalPages)}>
-          {totalPages}
-        </button>
-      );
-    }
-
-    return buttons;
-  };
+  if (isLoading) {
+    return <></>;
+  }
 
   return (
-    <div className="flex gap-1">
-      <button
-        disabled={currentPage === 1}
-        onClick={() => onPageChange(currentPage - 1)}
-        className="py-1 px-2 text-gray-2 border border-gray-2 rounded"
-      >
-        Previous
-      </button>
-      {renderButtons()}
-      <button
-        disabled={currentPage === totalPages}
-        onClick={() => onPageChange(currentPage + 1)}
-        className="py-1 px-2 text-gray-2 border border-gray-2 rounded"
-      >
-        Next
-      </button>
-    </div>
+    <>
+      <ReactPaginate
+        breakLabel={
+          <PaginationItem>
+            <PaginationEllipsis />
+          </PaginationItem>
+        }
+        previousLabel={
+          params.page !== 1 && (
+            <PaginationItem>
+              <PaginationPrevious href="#" />
+            </PaginationItem>
+          )
+        }
+        nextLabel={
+          params.page !== totalPages && (
+            <PaginationItem>
+              <PaginationNext href="#" />
+            </PaginationItem>
+          )
+        }
+        pageLabelBuilder={page => {
+          return (
+            <PaginationItem>
+              <PaginationLink
+                href="#"
+                isActive={
+                  page === params.page
+                    ? true
+                    : !params.page
+                    ? page === 1
+                    : false
+                }
+              >
+                {page}
+              </PaginationLink>
+            </PaginationItem>
+          );
+        }}
+        className="flex items-center mx-auto w-max"
+        pageCount={totalPages}
+        forcePage={params.page - 1}
+        onPageChange={({ selected }) => {
+          const selectedPage = String(selected + 1);
+
+          searchParams.set("page", selectedPage);
+          setSearchParams(searchParams);
+
+          window.scrollTo(0, 0);
+        }}
+        {...props}
+      />
+    </>
   );
 };
 

@@ -6,11 +6,10 @@ import { CiLocationOn } from "react-icons/ci";
 import useGetUserProfileQuery from "@hooks/api/get/useGetUserProfile";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@components/ui/button";
-import useGetQuestions from "@hooks/api/get/useGetQuestions";
-import QuestionCards from "@components/user/questions/question-list/QuestionCards";
-import Pagination from "@components/ui/custom/pagination/pagination";
+import useGetQuestions from "@hooks/api/get/useGetQuestionsQuery";
+import QuestionCards from "@components/user/questions/list/QuestionsList";
 import { UsePagination } from "@providers/PaginationProvider";
-import QuestionSkeleton from "@components/user/questions/question-skeleton/QuestionSkeleton";
+import QuestionSkeleton from "@components/user/questions/skeleton/QuestionSkeleton";
 import { IoMdArrowBack } from "react-icons/io";
 
 const UserProfile = () => {
@@ -36,12 +35,12 @@ const UserProfile = () => {
     `profile_query`,
     data?.id
   );
-  console.log(questionsData?.pagination?.total_pages, "TEST USER ID");
+
   const handleNavigateQuestion = (
     username: string | undefined,
     questionId: string | undefined
   ) => {
-    navigate(`/forums/question/${username}/${questionId}`);
+    navigate(`/forum/question/${username}/${questionId}`);
   };
 
   return (
@@ -79,18 +78,15 @@ const UserProfile = () => {
       {isLoading ? (
         <QuestionSkeleton quantity={4} />
       ) : (
-        <QuestionCards
-          data={questionsData}
-          handleNavigateQuestion={handleNavigateQuestion}
-        />
+        <QuestionCards data={questionsData} />
       )}
-      {!isLoading && (
+      {/* {!isLoading && (
         <Pagination
           currentPage={Number(page)}
           onPageChange={onPageChange}
           totalPages={Number(questionsData?.pagination?.total_pages)}
         />
-      )}
+      )} */}
     </>
   );
 };

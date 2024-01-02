@@ -9,6 +9,7 @@ export type AuthContextValue = {
   isFetching?: boolean;
   isFetched?: boolean;
   error?: unknown;
+  isAuthenticated?: boolean;
 };
 
 export const Auth = createContext<AuthContextValue | undefined>(undefined);
@@ -25,7 +26,8 @@ const AuthProvider = (props: { children: ReactNode }) => {
     data: userData,
     isFetched: isUserDataFetched,
     isFetching: userDataLoading,
-    error: userError
+    error: userError,
+    isAuthenticated: !!userData
   };
 
   const dispatch = useDispatch();

@@ -1,87 +1,79 @@
-/*
-  path - /questions
-*/
-import { useEffect, useState } from "react";
-import useGetQuestions from "@hooks/api/get/useGetQuestions";
-import Pagination from "@components/ui/custom/pagination/pagination";
-import { useNavigate } from "react-router-dom";
-
-import AddQuestion from "@components/user/questions/question-list/AddQuestion";
-import QuestionsFilter from "@components/user/questions/question-list/QuestionsFilter";
-import QuestionCards from "@components/user/questions/question-list/QuestionCards";
-import { UsePagination } from "@providers/PaginationProvider";
-import QuestionSkeleton from "@components/user/questions/question-skeleton/QuestionSkeleton";
+import { useMemo } from "react";
+import QuestionsInputAddQuestion from "@components/user/questions/input/QuestionsInputAddQuestion";
+import QuestionsList from "@components/user/questions/list/QuestionsList";
+import { Pagination } from "@components/ui/custom";
+import useGetQuestionsQuery from "@hooks/api/get/useGetQuestionsQuery";
+import { useSearchParams } from "react-router-dom";
+import QuestionsFilterSelect, {
+  SortValues
+} from "@components/user/questions/select/QuestionsFilterSelect";
+import OutletContainer from "@components/user/questions/container/OutletContainer";
 
 const Questions = () => {
-  const navigate = useNavigate();
-  const [page, setPage] = useState(1);
-  const [filter, setFilter] = useState<"newest" | "active" | "trending">(
-    "newest"
-  );
-  const pagination = UsePagination();
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const { data, isLoading } = useGetQuestions(
-    undefined,
-    String(page),
-    String(10),
-    filter
-  );
-  // const topRef = useRef<HTMLDivElement>(null);
-  const onPageChange = (newPage: number) => {
-    setPage(newPage);
-  };
+  const params = useMemo(() => {
+    return {
+      currentPage: Number(searchParams.get("page")) ?? 1,
+      sortBy: searchParams.get("sortBy") as SortValues
+    };
+  }, [searchParams]);
 
-  console.log(data?.questions);
+  const { data: questionData, isLoading: isQuestionLoading } =
+    useGetQuestionsQuery({
+      page: String(params.currentPage) ?? "1",
+      filter: params.sortBy,
+      perpage: "10"
+    });
 
-  useEffect(() => {
-    pagination?.scrollToTop();
-  }, [page]);
+  const totalPages =
+    questionData?.pagination?.total_pages ?? params.currentPage + 1;
 
-  const onFilterChange = (filterKey: "newest" | "active" | "trending") => {
-    setFilter(filterKey);
-    setPage(1);
-  };
-
-  const handleNavigateAsk = () => {
-    navigate("/forums/ask");
-  };
-
-  const handleNavigateQuestion = (
-    username: string | undefined,
-    questionId: string | undefined
-  ) => {
-    navigate(`/forums/question/${username}/${questionId}`);
-  };
-
-  //This is temporary, refactor later--------
   return (
-    <div>
-      <div className="flex gap-3 justify-between items-center mb-3">
-        <AddQuestion handleNavigateAsk={handleNavigateAsk} />
-        <QuestionsFilter onFilterChange={onFilterChange} filter={filter} />
-      </div>
-      <div>
-        {isLoading ? (
-          <QuestionSkeleton quantity={4} />
-        ) : (
-          <QuestionCards
-            data={data}
-            handleNavigateQuestion={handleNavigateQuestion}
-          />
-        )}
-      </div>
-
-      <QuestionCards
-        data={data}
-        handleNavigateQuestion={handleNavigateQuestion}
+    <OutletContainer>
+      <QuestionsInputAddQuestion />
+      <QuestionsFilterSelect
+        selected={params.sortBy}
+        onFilterChange={value => {
+          searchParams.set("sortBy", value);
+          setSearchParams(searchParams);
+        }}
       />
-      <Pagination
-        currentPage={Number(data?.pagination?.page)}
-        totalPages={Number(data?.pagination?.total_pages)}
-        onPageChange={onPageChange}
-      />
-    </div>
+      <QuestionsList data={questionData} isLoading={isQuestionLoading} />
+      <Pagination totalPages={totalPages} isLoading={isQuestionLoading} />
+    </OutletContainer>
   );
 };
 
 export default Questions;
+
+// const navigate = useNavigate();
+// const [page, setPage] = useState(1);
+// const [filter, setFilter] = useState<"newest" | "active" | "trending">(
+//   "newest"
+// );
+// const pagination = UsePagination();
+
+// const { data, isLoading } = useGetQuestionsQuery(
+//   undefined,
+//   String(page),
+//   String(10),
+//   filter
+// );
+
+// // const topRef = useRef<HTMLDivElement>(null);
+// const onPageChange = (newPage: number) => {
+//   setPage(newPage);
+// };
+
+// const onFilterChange = (filterKey: "newest" | "active" | "trending") => {
+//   setFilter(filterKey);
+//   setPage(1);
+// };
+
+// const handleNavigateQuestion = (
+//   username: string | undefined,
+//   questionId: string | undefined
+// ) => {
+//   navigate(`/forum/question/${username}/${questionId}`);
+// };

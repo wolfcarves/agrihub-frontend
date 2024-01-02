@@ -9,8 +9,9 @@ export default function useUserSetupAccount() {
 
   return useMutation([useUserSetupAccountKey()], {
     mutationFn: async (data: UserCompletionSchema) => {
-      const response =
-        await AccountService.postApiAccountProfileCompletion(data);
+      const response = await AccountService.postApiAccountProfileCompletion({
+        requestBody: data
+      });
 
       return response;
     },

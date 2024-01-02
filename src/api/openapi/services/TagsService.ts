@@ -13,13 +13,17 @@ export class TagsService {
 
     /**
      * Search tags
-     * @param key Search key
      * @returns TagsSchema Success
      * @throws ApiError
      */
-    public static getApiTagsSearch(
+    public static getApiTagsSearch({
+key,
+}: {
+/**
+ * Search key
+ */
 key?: string,
-): CancelablePromise<TagsSchema> {
+}): CancelablePromise<TagsSchema> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/tags/search',
@@ -34,19 +38,32 @@ key?: string,
 
     /**
      * Get a list of tags
-     * @param search Search term for tags (optional)
-     * @param page Page number (optional)
-     * @param perpage Number of tags per page (optional)
-     * @param filter Sorting filter for tags (optional, default 'name')
      * @returns TagList Success. Returns a list of tags.
      * @throws ApiError
      */
-    public static getApiTags(
+    public static getApiTags({
+search,
+page,
+perpage,
+filter,
+}: {
+/**
+ * Search term for tags (optional)
+ */
 search?: string,
+/**
+ * Page number (optional)
+ */
 page?: string,
+/**
+ * Number of tags per page (optional)
+ */
 perpage?: string,
+/**
+ * Sorting filter for tags (optional, default 'name')
+ */
 filter?: string,
-): CancelablePromise<TagList> {
+}): CancelablePromise<TagList> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/tags',

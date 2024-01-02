@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import Footer from "../../../components/ui/custom/footer/Footer";
+import Footer from "../../../components/ui/custom/footer/user-footer";
 const ArticleLayout = () => {
   return (
     <div className="grid grid-cols-12 grid-rows-1 h-full overflow-y-auto">

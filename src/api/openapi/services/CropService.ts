@@ -13,17 +13,24 @@ export class CropService {
 
     /**
      * Create a new crop report
-     * @param farmid The ID of the farm
-     * @param userid The ID of the user
-     * @param requestBody 
      * @returns NewCropReportResponse Crop report created successfully
      * @throws ApiError
      */
-    public static postCropReport(
+    public static postCropReport({
+farmid,
+userid,
+requestBody,
+}: {
+/**
+ * The ID of the farm
+ */
 farmid: string,
+/**
+ * The ID of the user
+ */
 userid: string,
 requestBody: NewCropReportRequest,
-): CancelablePromise<NewCropReportResponse> {
+}): CancelablePromise<NewCropReportResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/crop/report/{farmid}/{userid}',

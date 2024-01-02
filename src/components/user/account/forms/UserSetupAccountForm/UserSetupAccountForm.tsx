@@ -1,14 +1,10 @@
-// import { Button, Input, Typography } from "@components-ui";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { UserSetupAccount, userSetupAcountSchema } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-// import InputSelect from "@components/ui/Input/InputSelect";
 import { getAllowedYears } from "./constant/years";
 import useUserSetupAccount from "@hooks/api/post/useUserSetupAccount";
 import { UserCompletionSchema } from "@api/openapi";
 import { MONTHS } from "./constant/months";
-import { useQueryClient } from "@tanstack/react-query";
-import { GET_USER_KEY } from "@hooks/api/get/useGetMyProfileQuery";
 import {
   Form,
   FormControl,

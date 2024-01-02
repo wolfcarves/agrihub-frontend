@@ -12,7 +12,7 @@ import {
   AlertDialogTrigger
 } from "../../alert-dialog";
 import toast from "react-hot-toast";
-import useDeleteAuth from "../../../../hooks/api/delete/useDeleteAuth";
+import useDeleteAuth from "../../../../hooks/api/delete/useDeleteAuthMutate";
 
 const LogoutAlert = () => {
   const deleteAuthMutation = useDeleteAuth();

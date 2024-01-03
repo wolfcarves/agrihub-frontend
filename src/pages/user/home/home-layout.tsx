@@ -5,8 +5,8 @@ const UserHomeLayout = () => {
   return (
     <>
       <UserHeader />
+      {/* Paayos nito boi nagooverlap dahil yan sa absolute ng outlet or nung home*/}
       <Outlet />
-      {/* Paayos nito boi nagooverlap dahil yan sa absolute ng outlet*/}
       {/* <UserFooter /> */}
     </>
   );

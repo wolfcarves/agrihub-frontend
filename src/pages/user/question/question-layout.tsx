@@ -1,17 +1,19 @@
-import { Outlet } from "react-router-dom";
-import { UserAside } from "@components/ui/custom";
+import { Outlet, useLocation } from "react-router-dom";
 import QuestionSidebar from "@components/user/questions/sidebar/QuestionSidebar";
 import QuestionLayoutContainer from "@components/user/questions/container/QuestionLayoutContainer";
-import { ScrollToTop } from "@components/ui/custom";
+import QuestionsAside from "@components/user/questions/aside/QuestionsAside";
 
 const QuestionLayout = () => {
+  const pathname = useLocation().pathname;
+
+  const notInto = pathname === "/forum/ask";
+
   return (
     <>
       <QuestionLayoutContainer>
-        <ScrollToTop />
-        <QuestionSidebar />
+        {!notInto && <QuestionSidebar />}
         <Outlet />
-        <UserAside>Wait lang</UserAside>
+        {!notInto && <QuestionsAside />}
       </QuestionLayoutContainer>
     </>
   );

@@ -18,7 +18,10 @@ const UserHeaderContainer = ({ children }: { children: ReactNode }) => (
 
 const UserHeaderSearchBar = () => (
   <div className="flex items-center gap-10 h-full">
-    <AgrihubLogo />
+    <Link to="/">
+      <AgrihubLogo />
+    </Link>
+
     <SearchBar />
   </div>
 );
@@ -42,14 +45,14 @@ const AuthButtonsGroup = () => {
 };
 
 const UserHeader = () => {
-  const { error } = useAuth();
+  const { isAuthenticated } = useAuth();
 
   return (
     <>
       <UserHeaderContainer>
         <UserHeaderSearchBar />
         <UserHeaderNavigation />
-        {error ? <AuthButtonsGroup /> : <UserHeaderMenu />}
+        {isAuthenticated ? <UserHeaderMenu /> : <AuthButtonsGroup />}
       </UserHeaderContainer>
     </>
   );

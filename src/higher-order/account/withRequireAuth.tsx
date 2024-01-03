@@ -20,7 +20,7 @@ export function withRequireAuth<T extends object>(Component: ComponentType<T>) {
       <>
         <Dialog>
           <DialogContent>
-            <h1 className="text-xl text-neutral-700 font-poppins-medium tracking-tight line-clamp-2">
+            <h1 className="text-xl text-foreground font-poppins-medium tracking-tight line-clamp-2">
               To continue interacting, <br /> please create an account or login
             </h1>
 
@@ -43,13 +43,13 @@ export function withRequireAuth<T extends object>(Component: ComponentType<T>) {
             </div>
 
             <div className="text-center">
-              <span className="text-sm text-neutral-700">
+              <span className="text-sm text-foreground">
                 By creating an account you agree with our Terms of Service, and
                 Privacy Policy,
               </span>
             </div>
 
-            <div className="text-center text-sm text-neutral-700 mt-auto">
+            <div className="text-center text-sm text-foreground mt-auto">
               <span>Already have an account? </span>
               <Link to="/account/login">
                 <span className="hover:underline">Login</span>

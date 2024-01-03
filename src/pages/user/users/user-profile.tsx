@@ -3,7 +3,6 @@
 */
 import { useEffect, useState } from "react";
 import { CiLocationOn } from "react-icons/ci";
-import useGetUserProfileQuery from "@hooks/api/get/useGetUserProfile";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@components/ui/button";
 import useGetQuestions from "@hooks/api/get/useGetQuestionsQuery";
@@ -13,6 +12,7 @@ import QuestionSkeleton from "@components/user/questions/skeleton/QuestionSkelet
 import { IoMdArrowBack } from "react-icons/io";
 
 const UserProfile = () => {
+  return <></>;
   const [page, setPage] = useState(1);
   const pagination = UsePagination();
 

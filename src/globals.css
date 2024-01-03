@@ -266,6 +266,9 @@
 
 .ProseMirror {
   outline: none;
+  min-height: 20rem;
+  width: '100%';
+  padding: 1rem;
 }
 
 

@@ -17,6 +17,10 @@ interface RichTextEditorProps {
   setItem: React.Dispatch<React.SetStateAction<any>>;
 }
 
+Image.configure({
+  allowBase64: true
+});
+
 const RichTextEditor: React.FC<RichTextEditorProps> = ({ setItem }) => {
   // const [data, setData] = useState<any>();
 
@@ -37,14 +41,19 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ setItem }) => {
         levels: [1, 2, 3, 4, 5, 6]
       }),
       StarterKit
-    ],
-    content: `<p></p><p></p><p></p><p></p>`
+    ]
   });
   // editor ? console.log(editor.getHTML()) : '';
   useEffect(() => {
     if (editor) {
       setItem(editor.getHTML());
     }
+    editor &&
+      editor.commands.setImage({
+        src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYscfUBUbqwGd_DHVhG-ZjCOD7MUpxp4uhNe7toUg4ug&s",
+        alt: "A boring example image",
+        title: "An example"
+      });
   }, [editor?.getHTML()]);
 
   if (!editor) {
@@ -52,11 +61,11 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ setItem }) => {
   }
 
   return (
-    <div className="shadow-md border border-border rounded-md mt-2">
+    <div className="shadow-md border border-border rounded-md mt-2 min-h-[20rem]">
       <div className="bg-[#DCF2D3] p-1 flex gap-1">
         <Toolbar editor={editor} />
       </div>
-      <EditorContent className="px-5 py-2" editor={editor} />
+      <EditorContent className="max-w-[60rem] w-full" editor={editor} />
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AccountService, UserCompletionSchema } from "@api/openapi";
-import { GET_USER_KEY } from "../get/useGetMyProfileQuery";
+import { GET_MY_PROFILE_KEY } from "../get/useGetMyProfileQuery";
 
 const useUserSetupAccountKey = () => "SETUP_ACCOUNT";
 
@@ -16,7 +16,7 @@ export default function useUserSetupAccount() {
       return response;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [GET_USER_KEY()] });
+      queryClient.invalidateQueries({ queryKey: [GET_MY_PROFILE_KEY()] });
     }
   });
 }

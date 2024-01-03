@@ -64,7 +64,7 @@ const UserHeaderNavigation = () => {
             className={({ isActive }) =>
               isActive
                 ? "text-primary font-poppins-medium"
-                : "text-neutral-700 font-poppins-medium"
+                : "text-foreground font-poppins-medium"
             }
           >
             <NavigationMenuLink
@@ -82,7 +82,7 @@ const UserHeaderNavigation = () => {
             className={({ isActive }) =>
               isActive
                 ? "text-primary font-poppins-medium"
-                : "text-neutral-700 font-poppins-medium"
+                : "text-foreground font-poppins-medium"
             }
           >
             <NavigationMenuLink

@@ -14,6 +14,33 @@ interface ShadPaginationProps extends Omit<ReactPaginateProps, "pageCount"> {
   isLoading?: boolean;
 }
 
+const PaginationPreviousLabel = ({ page }: { page: number }) => {
+  return (
+    page !== 1 &&
+    !!page && (
+      <PaginationItem>
+        <PaginationPrevious href="#" />
+      </PaginationItem>
+    )
+  );
+};
+
+const PaginationNextLabel = ({
+  page,
+  totalPages
+}: {
+  page: number;
+  totalPages: number;
+}) => {
+  return (
+    page !== totalPages && (
+      <PaginationItem>
+        <PaginationNext href="#" />
+      </PaginationItem>
+    )
+  );
+};
+
 const Pagination = ({
   totalPages,
   isLoading,
@@ -28,7 +55,9 @@ const Pagination = ({
     [searchParams]
   );
 
-  if (isLoading) {
+  const isPageValid = totalPages < params.page;
+
+  if (isLoading || isPageValid) {
     return <></>;
   }
 
@@ -40,19 +69,9 @@ const Pagination = ({
             <PaginationEllipsis />
           </PaginationItem>
         }
-        previousLabel={
-          params.page !== 1 && (
-            <PaginationItem>
-              <PaginationPrevious href="#" />
-            </PaginationItem>
-          )
-        }
+        previousLabel={<PaginationPreviousLabel page={params.page} />}
         nextLabel={
-          params.page !== totalPages && (
-            <PaginationItem>
-              <PaginationNext href="#" />
-            </PaginationItem>
-          )
+          <PaginationNextLabel page={params.page} totalPages={totalPages} />
         }
         pageLabelBuilder={page => {
           return (

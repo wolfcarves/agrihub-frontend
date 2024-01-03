@@ -1,21 +1,24 @@
 import { ReactNode } from "react";
 import { NavLink, NavLinkProps } from "react-router-dom";
 
-interface SidebarNavLinkProps extends NavLinkProps {
+interface UserSidebarNavLinkProps extends NavLinkProps {
   title: string;
   logo: ReactNode;
   to: string;
 }
 
-const SidebarNavLink = ({ title, logo, ...props }: SidebarNavLinkProps) => {
+const UserSidebarNavLink = ({
+  title,
+  logo,
+  ...props
+}: UserSidebarNavLinkProps) => {
   return (
     <NavLink
       className={({ isActive }) =>
         isActive
           ? "flex gap-5 bg-primary rounded-2xl text-white p-5"
-          : "flex gap-5 rounded-2xl text-neutral-700 p-5"
+          : "flex gap-5 rounded-2xl text-foreground p-5  hover:bg-gray-100 duration-200"
       }
-      preventScrollReset={false} // This won't fucking work, I'll figure it out next time
       {...props}
     >
       {logo}
@@ -24,4 +27,4 @@ const SidebarNavLink = ({ title, logo, ...props }: SidebarNavLinkProps) => {
   );
 };
 
-export default SidebarNavLink;
+export default UserSidebarNavLink;

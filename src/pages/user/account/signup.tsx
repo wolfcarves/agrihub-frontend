@@ -1,5 +1,6 @@
 import UserSignupForm from "@components/user/account/forms/UserSignupForm/UserSignupForm";
 import UserSignupFormTitle from "@components/user/account/title/UserSignupFormTitle";
+import withAuthGuard from "@higher-order/account/withAuthGuard";
 import { Helmet } from "react-helmet-async";
 
 const Signup = () => {
@@ -14,4 +15,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default withAuthGuard(Signup, ["guest"]);

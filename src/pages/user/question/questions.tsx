@@ -8,6 +8,7 @@ import QuestionsFilterSelect, {
   SortValues
 } from "@components/user/questions/select/QuestionsFilterSelect";
 import OutletContainer from "@components/user/questions/container/OutletContainer";
+import withAuthGuard from "@higher-order/account/withAuthGuard";
 
 const Questions = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -29,15 +30,17 @@ const Questions = () => {
   const totalPages =
     questionData?.pagination?.total_pages ?? params.currentPage + 1;
 
+  const handleFilterChange = (value: SortValues) => {
+    searchParams.set("sortBy", value);
+    setSearchParams(searchParams);
+  };
+
   return (
     <OutletContainer>
       <QuestionsInputAddQuestion />
       <QuestionsFilterSelect
         selected={params.sortBy}
-        onFilterChange={value => {
-          searchParams.set("sortBy", value);
-          setSearchParams(searchParams);
-        }}
+        onFilterChange={handleFilterChange}
       />
       <QuestionsList data={questionData} isLoading={isQuestionLoading} />
       <Pagination totalPages={totalPages} isLoading={isQuestionLoading} />
@@ -45,35 +48,4 @@ const Questions = () => {
   );
 };
 
-export default Questions;
-
-// const navigate = useNavigate();
-// const [page, setPage] = useState(1);
-// const [filter, setFilter] = useState<"newest" | "active" | "trending">(
-//   "newest"
-// );
-// const pagination = UsePagination();
-
-// const { data, isLoading } = useGetQuestionsQuery(
-//   undefined,
-//   String(page),
-//   String(10),
-//   filter
-// );
-
-// // const topRef = useRef<HTMLDivElement>(null);
-// const onPageChange = (newPage: number) => {
-//   setPage(newPage);
-// };
-
-// const onFilterChange = (filterKey: "newest" | "active" | "trending") => {
-//   setFilter(filterKey);
-//   setPage(1);
-// };
-
-// const handleNavigateQuestion = (
-//   username: string | undefined,
-//   questionId: string | undefined
-// ) => {
-//   navigate(`/forum/question/${username}/${questionId}`);
-// };
+export default withAuthGuard(Questions, ["guest"]);

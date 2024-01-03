@@ -1,7 +1,13 @@
 import { Outlet } from "react-router-dom";
+import { ScrollToTop } from "@components/ui/custom";
 
 const MainLayout = () => {
-  return <Outlet />;
+  return (
+    <>
+      <ScrollToTop />
+      <Outlet />
+    </>
+  );
 };
 
 export default MainLayout;

@@ -1,5 +1,6 @@
 import OutletContainer from "@components/user/questions/container/OutletContainer";
 import TagsList from "@components/user/questions/list/TagList";
+import withAuthGuard from "@higher-order/account/withAuthGuard";
 
 const QuestionTags = () => {
   return (
@@ -9,4 +10,4 @@ const QuestionTags = () => {
   );
 };
 
-export default QuestionTags;
+export default withAuthGuard(QuestionTags, ["guest"]);

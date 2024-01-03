@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import { Sheet } from "@components/ui/sheet";
-import Sidebar from "@components/ui/custom/Sidebar/Sidebar";
+import Sidebar from "@components/ui/custom/sidebar/user-sidebar";
 import Topbar from "@components/ui/custom/Topbar/Topbar";
 import { UsePagination } from "@providers/PaginationProvider";
 const UserLayout = () => {

@@ -14,26 +14,6 @@ const UserVerifyEmailForm = () => {
     localStorage.setItem(STORAGE_KEY, "30");
   }
 
-  const time = localStorage.getItem(STORAGE_KEY);
-
-  const [countdown, setCountdown] = useState<number>(Number(time));
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      localStorage.setItem(
-        STORAGE_KEY,
-        String(Number(localStorage.getItem(STORAGE_KEY)) - 1)
-      );
-      setCountdown(Number(localStorage.getItem(STORAGE_KEY)));
-    }, 1000);
-
-    if (localStorage.getItem(STORAGE_KEY) === "0") clearInterval(interval);
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, [countdown, time]);
-
   const { mutateAsync: resendEmail, isLoading: isResendEmailLoading } =
     useUserSendVerification();
 
@@ -57,12 +37,10 @@ const UserVerifyEmailForm = () => {
           Resend Email
         </Button>
 
-        {countdown !== 0 && (
-          <div className="flex flex-col text-center">
-            <span>Send again</span>
-            <span>After {countdown} seconds</span>
-          </div>
-        )}
+        <div className="flex flex-col text-center">
+          <span>Send again</span>
+          <span>After 1M seconds</span>
+        </div>
       </div>
     </>
   );

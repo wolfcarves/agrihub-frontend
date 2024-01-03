@@ -33,6 +33,8 @@ import {
   SelectContent
 } from "../../../ui/select";
 import months from "./months.json";
+import { GrChapterAdd } from "react-icons/gr";
+import { AiOutlineFileAdd } from "react-icons/ai";
 const CropReportModal = () => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
@@ -40,8 +42,8 @@ const CropReportModal = () => {
 
   return (
     <Dialog>
-      <DialogTrigger className="bg-primary p-2 rounded-md text-white">
-        Open
+      <DialogTrigger className="bg-primary p-2 rounded-md text-white col-span-4 grid place-items-center shadow-md">
+        <AiOutlineFileAdd size={80} />
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

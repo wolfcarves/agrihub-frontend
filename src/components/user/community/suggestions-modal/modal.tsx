@@ -14,8 +14,14 @@ import { IoIosWarning } from "react-icons/io";
 const SuggestionsModal = () => {
   return (
     <Dialog>
-      <DialogTrigger>
+      <DialogTrigger className="bg-red-300 rounded-lg flex items-center p-1 w-full gap-2 px-2">
         <IoIosWarning className="text-3xl text-red-500" />
+        <p className="text-white">
+          Action Needed: Monthly Growth Dips Below 1.37% -{" "}
+          <span className="hover:underline underline-offset-3">
+            Click here for Immediate Solutions and Contribute Your Insights.
+          </span>
+        </p>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

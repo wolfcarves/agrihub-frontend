@@ -25,13 +25,7 @@ const LogoutAlert = () => {
     }
   };
   return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <button className="relative flex cursor-default select-none w-full items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground">
-          <LogOut className="mr-2 h-4 w-4" />
-          <span>Log out</span>
-        </button>
-      </AlertDialogTrigger>
+    <>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Are you sure you want to log out?</AlertDialogTitle>
@@ -45,7 +39,7 @@ const LogoutAlert = () => {
           <AlertDialogAction onClick={handleLogout}>Continue</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
-    </AlertDialog>
+    </>
   );
 };
 

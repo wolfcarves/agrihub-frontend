@@ -4,7 +4,8 @@ import Overview from "./tabs/overview";
 import Reports from "./tabs/reports";
 import Members from "./tabs/members";
 import withAuthGuard from "../../../higher-order/account/withAuthGuard";
-
+import image from "@assets/react.svg";
+import { Button } from "../../../components/ui/button";
 const Community = () => {
   const [tab, setTab] = useState("overview");
   return (
@@ -12,12 +13,24 @@ const Community = () => {
       <div className="flex justify-center p-5 pb-[6rem] ">
         <div className="w-full h-[10rem] bg-slate-700 relative flex justify-center rounded-xl">
           <div className="absolute bg-white w-[96%] rounded-xl h-[10rem] top-[5rem]">
-            <div className="pt-10 pl-20 flex gap-4">
-              <img src="" className="h-20 w-20 bg-slate-500 rounded" />
-              <div>
-                <h4 className="font-semibold">Asdasdas</h4>
-                <p>asdasdasdklaskldjlaskdjlsakdjlaskdjalsk</p>
-                <p>asdasdasdklaskldjlaskdjlsakdjlaskdjalsk</p>
+            <div className="pt-10 px-20 grid grid-cols-10">
+              <img
+                src={image}
+                className="h-20 w-20 bg-slate-500 rounded col-span-1"
+              />
+              <div className=" col-span-7">
+                <h4 className="font-semibold">
+                  Farm Name: Harmony Haven Farms
+                </h4>
+                <p className=" text-sm">
+                  Welcome to Harmony Haven Farms, where the beauty of nature
+                  meets the bounty of the land. Nestled in the picturesque
+                  countryside, our family-owned farm is a haven for those
+                  seeking a tranquil escape and a taste of wholesome living.
+                </p>
+              </div>
+              <div className=" col-span-2 flex justify-end items-center pr-8">
+                <Button className="">Join Farm</Button>
               </div>
             </div>
           </div>

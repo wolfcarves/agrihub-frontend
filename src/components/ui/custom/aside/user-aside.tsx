@@ -36,9 +36,11 @@ const UserAsideTitle = ({ className, ...props }: ComponentProps<"h6">) => {
 const UserAside = ({ children, className }: ComponentProps<"div">) => {
   return (
     <div
-      className={`${className} sticky top-20 flex flex-col border-l h-[calc(100vh-3.5rem)] w-full max-w-[220px] py-10 px-2`}
+      className={`${className} sticky top-20 flex flex-col border-l h-[calc(100vh-3.5rem)] w-full max-w-[250px] py-10 px-2`}
     >
-      <div className="relative overflow-hidden h-full ">{children}</div>
+      <div className="relative overflow-auto h-full scroll-smooth custom-scroll">
+        {children}
+      </div>
     </div>
   );
 };

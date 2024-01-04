@@ -18,7 +18,8 @@ export default function withAuthGuard<P extends object>(
 ) {
   const NewComponent = (props: P) => {
     const navigate = useNavigate();
-    const { data: authData } = useGetMyProfileQuery();
+    const { data: authData, isFetched: isAuthDataFetched } =
+      useGetMyProfileQuery();
 
     const verificationLevel = authData?.verification_level;
     const userRole = authData?.role as AllowedRoles;
@@ -48,7 +49,7 @@ export default function withAuthGuard<P extends object>(
       return <Component {...props} />;
     }
 
-    if (!isAllowed) return <Unauthorized />;
+    if (!isAllowed && isAuthDataFetched) return <Unauthorized />;
 
     return <Component {...props} />;
   };

@@ -1,8 +1,5 @@
 import React from "react";
 import { Editor } from "@tiptap/react";
-type ToolbarProps = {
-  editor: Editor;
-};
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -32,17 +29,38 @@ import {
 } from "react-icons/fa";
 import { FaHeading } from "react-icons/fa6";
 
-const Toolbar: React.FC<ToolbarProps> = ({ editor }) => {
-  const addImage = () => {
-    const url = window.prompt("URL");
+type ToolbarProps = {
+  editor: Editor;
+  onImageUpload?: (files: FileList | null) => void;
+};
 
-    if (url) {
-      editor.chain().focus().setImage({ src: url }).run();
+const Toolbar: React.FC<ToolbarProps> = ({ editor, onImageUpload }) => {
+  const addImage = (data: React.ChangeEvent<HTMLInputElement>) => {
+    const files = data.currentTarget?.files;
+
+    if (files) {
+      onImageUpload && onImageUpload(files);
     }
   };
+
   return (
     <>
-      <button
+      <button className="active:bg-primary active:text-white p-2 rounded-md">
+        <input
+          type="file"
+          onChange={data => {
+            addImage(data);
+          }}
+        />
+      </button>
+    </>
+  );
+};
+
+export default Toolbar;
+
+/*
+ <button
         onClick={e => {
           e.preventDefault();
           editor.chain().focus().toggleBold().run();
@@ -84,6 +102,7 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor }) => {
       >
         <FaRedo />
       </button>
+
       <button
         onClick={e => {
           e.preventDefault();
@@ -128,15 +147,5 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor }) => {
         className="active:bg-primary active:text-white p-2 rounded-md"
       >
         <FaMinus />
-      </button>
-      {/* <button
-        className="active:bg-primary active:text-white p-2 rounded-md"
-        onClick={addImage}
-      >
-        <FaRegImage />
-      </button> */}
-    </>
-  );
-};
-
-export default Toolbar;
+      </button> 
+*/

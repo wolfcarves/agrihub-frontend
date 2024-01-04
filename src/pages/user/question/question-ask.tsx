@@ -5,7 +5,6 @@ import { AskQuestion } from "./schema";
 import { QuestionSchema } from "@api/openapi";
 import useQuestionAskMutation from "@hooks/api/post/useQuestionAskMutation";
 import { Button } from "@components/ui/button";
-import useGetTags from "../../../hooks/api/get/useGetPopularTagsQuery";
 import { Input } from "../../../components/ui/input";
 import RichTextEditor from "../../../components/ui/custom/rich-text-editor/RichTextEditor";
 import withAuthGuard from "../../../higher-order/account/withAuthGuard";
@@ -15,33 +14,27 @@ import { FaArrowLeftLong } from "react-icons/fa6";
 import { GoPlus } from "react-icons/go";
 import UserTagInputDropdown from "@components/user/account/input/UserTagInput";
 import useGetTagByKeyWord from "@hooks/api/get/useGetTagByKeyword";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage
+} from "@components/ui/form";
 
 function QuestionAsk() {
-  // const [tags, setTags] = useState<{ id: string; name: string }[]>([]);
   const [imgFiles, setImgFiles] = useState<FileList | null>();
-  // const [tagInput, setTagInput] = useState("");
   const [question, setQuestion] = useState<any>();
-  // const navigate = useNavigate();
-
-  // const handleAddTag = (selectedTag: any) => {
-  //   setTags([...tags, { id: selectedTag.id, name: selectedTag.tag_name }]);
-  //   setTagInput("");
-  // };
-
-  // const handleRemoveTag = (index: number) => {
-  //   const newTags = [...tags];
-  //   newTags.splice(index, 1);
-  //   setTags(newTags);
-  // };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setImgFiles(e.target.files);
   };
 
-  // const form = useForm<QuestionSchema>({
-  //   resolver: zodResolver(AskQuestion),
-  //   mode: "onChange"
-  // });
+  const form = useForm<QuestionSchema>({
+    // resolver: zodResolver(AskQuestion),
+    // mode: "onChange"
+  });
 
   // useEffect(() => {
   //   form.setValue("question", question);
@@ -54,37 +47,39 @@ function QuestionAsk() {
   // }, [tags, imgFiles, form.setValue]);
 
   // const { data } = useGetTags(tagInput);
+
+  // const length = data.tags?.length || 0;
+  // if (length >= 1) {
+  //   await questionAskMutate(raw);
+  //   toast("Question created successfully", {
+  //     icon: "✅",
+  //     duration: 1500
+  //   });
+  //   setTimeout(() => {
+  //     form.reset();
+  //     setTags([]);
+  //     navigate("/forum/list");
+  //   }, 2500);
+  //   return;
+  // }
+  // throw new Error("Please choose a minimum of one tag.");
+  // const raw = {
+  //   title: data.title,
+  //   question: data.question,
+  //   tags: data.tags,
+  //   imagesrc: data.imagesrc
+  // };
+
   // const { mutateAsync: questionAskMutate, isLoading } =
   //   useQuestionAskMutation();
 
-  // const handleOnSubmitForm = async (data: QuestionSchema) => {
-  //   const raw = {
-  //     title: data.title,
-  //     question: data.question,
-  //     tags: data.tags,
-  //     imagesrc: data.imagesrc
-  //   };
-
-  //   try {
-  //     const length = data.tags?.length || 0;
-  //     if (length >= 1) {
-  //       await questionAskMutate(raw);
-  //       toast("Question created successfully", {
-  //         icon: "✅",
-  //         duration: 1500
-  //       });
-  //       setTimeout(() => {
-  //         form.reset();
-  //         setTags([]);
-  //         navigate("/forum/list");
-  //       }, 2500);
-  //       return;
-  //     }
-  //     throw new Error("Please choose a minimum of one tag.");
-  //   } catch (e: any) {
-  //     toast(e.message);
-  //   }
-  // };
+  const handleSubmitForm = async (data: QuestionSchema) => {
+    try {
+      // console.log(data);
+    } catch (e: any) {
+      toast(e.message);
+    }
+  };
 
   // const { title: titleError } = form.formState.errors;
 
@@ -92,121 +87,159 @@ function QuestionAsk() {
   const [searchInputTagValue, setSearchInputTagValue] = useState<string>("");
   const { data: tagResult } = useGetTagByKeyWord(searchInputTagValue);
 
+  const [htmlContent, setHTMLContent] = useState<string | null>("");
+
+  const handleGetHTML = (data: { html?: string; images: any }) => {
+    console.log(data);
+    // setHTMLContent(data);
+  };
+
   return (
-    <div className="flex flex-col pb-20">
-      <div className="w-full">
-        <div className="py-10">
-          <Link to={".."}>
-            <button className="flex items-center gap-x-2 text-foreground font-poppins-semibold hover:bg-gray-100 py-2.5 px-5 rounded-lg duration-200">
-              <FaArrowLeftLong /> Back
-            </button>
-          </Link>
-        </div>
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(handleSubmitForm)}
+        className="flex flex-col pb-20 px-0 lg:px-10"
+      >
+        <div className="w-full">
+          <div className="py-10 w-max">
+            <Link to={".."}>
+              <button className="flex items-center gap-x-2 text-foreground font-poppins-semibold hover:bg-gray-100 py-2.5 px-5 rounded-lg duration-200">
+                <FaArrowLeftLong /> Back
+              </button>
+            </Link>
+          </div>
 
-        <div>
-          <h2 className="font-poppins-bold text-foreground">
-            Ask a public question
-          </h2>
+          <div>
+            <h2 className="font-poppins-bold text-foreground">
+              Ask a public question
+            </h2>
 
-          <div className="my-20 w-full max-w-[60rem] p-7 rounded-md border border-primary bg-secondary">
-            <div className="text-lg">Writing a good question</div>
-            <p className="mt-3">
-              You’re ready to ask a Farming-related question and this form will
-              help guide you through the process. Looking to ask a non
-              farming-related question? See the topics here to find a relevant
-              site.
-            </p>
+            <div className="my-20 w-full max-w-[60rem] p-7 rounded-md border border-primary bg-secondary">
+              <div className="text-lg">Writing a good question</div>
+              <p className="mt-3">
+                You’re ready to ask a Farming-related question and this form
+                will help guide you through the process. Looking to ask a non
+                farming-related question? See the topics here to find a relevant
+                site.
+              </p>
 
-            <div className="text-md font-poppins-bold mt-10">Steps</div>
+              <div className="text-md font-poppins-bold mt-10">Steps</div>
 
-            <div className="text-sm list-disc">
-              <ul className="list-disc ps-4">
-                <li className="my-3 ">
-                  Now this is a story all about how, my life got flipped-turned
-                  upside down
-                </li>
-                <li className="my-3 ">Describe your problem in more detail.</li>
-                <li className="my-3 ">
-                  Add “tags” which help surface your question to members of the
-                  community.
-                </li>
-                <li className="my-3 ">
-                  Review your question and post it to the site.
-                </li>
-              </ul>
+              <div className="text-sm">
+                <ul className="list-disc ps-4">
+                  <li className="my-3 ">
+                    Now this is a story all about how, my life got
+                    flipped-turned upside down
+                  </li>
+                  <li className="my-3 ">
+                    Describe your problem in more detail.
+                  </li>
+                  <li className="my-3 ">
+                    Add “tags” which help surface your question to members of
+                    the community.
+                  </li>
+                  <li className="my-3 ">
+                    Review your question and post it to the site.
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div>
-        <h3 className="text-foreground text-md font-poppins-bold">Title</h3>
+        <div>
+          <h3 className="text-foreground text-md font-poppins-bold">Title</h3>
 
-        <p className="text-foreground my-2 text-sm">
-          Be specific and imagine you’re asking a question to another person.
-        </p>
-        <Input />
-      </div>
+          <p className="text-foreground my-2 text-sm">
+            Be specific and imagine you’re asking a question to another person.
+          </p>
+          <Input {...form.register("title")} />
+        </div>
 
-      <div className="mt-20">
-        <h3 className="text-foreground text-md font-poppins-bold">
-          What are the details of your problem?
-        </h3>
+        <div className="mt-20">
+          <h3 className="text-foreground text-md font-poppins-bold">
+            What are the details of your problem?
+          </h3>
 
-        <p className="text-foreground my-2 text-sm">
-          Introduce the problem and expand on what you put in the title. Minimum
-          20 characters.
-        </p>
+          <p className="text-foreground my-2 text-sm">
+            Introduce the problem and expand on what you put in the title.
+            Minimum 20 characters.
+          </p>
 
-        <RichTextEditor setItem={setQuestion} />
-      </div>
-
-      <div className="mt-20">
-        <h3 className="text-foreground text-md font-poppins-bold">Add Image</h3>
-
-        <p className="text-foreground my-2 text-sm">
-          You can also provide images relating to your question
-        </p>
-
-        <div className="relative border w-44 aspect-square rounded-lg">
-          <div className="absolute inset-0 h-max w-max m-auto text-8xl text-gray-300">
-            <GoPlus />
-          </div>
-
-          <Input
-            onChange={handleImageChange}
-            className="absolute inset-0 opacity-0 z-50 h-full cursor-pointer"
-            type="file"
-            accept="image/*"
-            multiple
+          {/* AWD */}
+          <FormField
+            name="question"
+            control={form.control}
+            render={() => <RichTextEditor onChange={data => {}} />}
           />
         </div>
-      </div>
 
-      <div className="mt-20">
-        <h3 className="text-foreground text-md font-poppins-bold">Add Tags</h3>
-
-        <p className="text-foreground my-2 text-sm">
-          Add up to 5 tags to describe what your question is about. Start typing
-          to see suggestions.
-        </p>
-
-        <div className="">
-          <UserTagInputDropdown
-            option={tagResult}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              setSearchInputTagValue(e.target.value);
+        <div className="mt-10 px-5">
+          <div
+            dangerouslySetInnerHTML={{
+              __html: question
             }}
-            onTagsValueChange={e => setTags(e)}
           />
         </div>
-      </div>
 
-      <div className="mt-10">
-        <Button className="px-7">Post you question</Button>
-      </div>
+        {/* <input
+          className="border"
+          type="file"
+          onChange={e => console.log(e.currentTarget.files)}
+        /> */}
 
-      {/* {false && (
+        <div className="mt-20">
+          <h3 className="text-foreground text-md font-poppins-bold">
+            Add Image
+          </h3>
+
+          <p className="text-foreground my-2 text-sm">
+            You can also provide images relating to your question
+          </p>
+
+          <div className="relative border w-44 aspect-square rounded-lg">
+            <div className="absolute inset-0 h-max w-max m-auto text-8xl text-gray-300">
+              <GoPlus />
+            </div>
+
+            <Input
+              onChange={handleImageChange}
+              className="absolute inset-0 opacity-0 z-50 h-full cursor-pointer"
+              type="file"
+              accept="image/*"
+              multiple
+            />
+          </div>
+        </div>
+
+        <div className="mt-20">
+          <h3 className="text-foreground text-md font-poppins-bold">
+            Add Tags
+          </h3>
+
+          <p className="text-foreground my-2 text-sm">
+            Add up to 5 tags to describe what your question is about. Start
+            typing to see suggestions.
+          </p>
+
+          <div className="">
+            <UserTagInputDropdown
+              option={tagResult}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                setSearchInputTagValue(e.target.value);
+              }}
+              onTagsValueChange={e => setTags(e)}
+            />
+          </div>
+        </div>
+
+        <div className="mt-10">
+          <Button className="px-7" type="submit">
+            Post your question
+          </Button>
+        </div>
+
+        {/* {false && (
         <div className="lg:col-span-8 col-span-12 overflow-y-auto lg:mx-[5rem] scroll-smooth p-3">
           <h6
             className="flex gap-2 items-center cursor-pointer mb-3 font-medium"
@@ -331,7 +364,8 @@ function QuestionAsk() {
           </form>
         </div>
       )} */}
-    </div>
+      </form>
+    </Form>
   );
 }
 

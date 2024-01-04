@@ -1,71 +1,127 @@
-import Bold from "@tiptap/extension-bold";
-import Text from "@tiptap/extension-text";
-import Paragraph from "@tiptap/extension-paragraph";
 import { useEditor, EditorContent } from "@tiptap/react";
-import Document from "@tiptap/extension-document";
 import StarterKit from "@tiptap/starter-kit";
-import React, { useEffect, useState } from "react";
-import Italic from "@tiptap/extension-italic";
-import ListItem from "@tiptap/extension-list-item";
-import OrderedList from "@tiptap/extension-ordered-list";
-import BulletList from "@tiptap/extension-bullet-list";
-import HorizontalRule from "@tiptap/extension-horizontal-rule";
-import Heading from "@tiptap/extension-heading";
+import React, { useState } from "react";
+
 import Image from "@tiptap/extension-image";
 import Toolbar from "./Toolbar";
+import { Extensions } from "@tiptap/react";
+
 interface RichTextEditorProps {
-  setItem: React.Dispatch<React.SetStateAction<any>>;
+  onChange?: (data: { html?: string; images?: any; fileList?: File[] }) => void;
 }
 
-Image.configure({
-  allowBase64: true
-});
+const RichTextEditor: React.FC<RichTextEditorProps> = ({ onChange }) => {
+  const extensions: Extensions = [
+    Image.configure({
+      inline: true,
+      HTMLAttributes: {
+        class: "mb-1 object-cover block"
+      }
+    }),
+    StarterKit.configure({
+      bulletList: {
+        HTMLAttributes: {
+          class: "ms-5"
+        }
+      },
+      orderedList: {
+        HTMLAttributes: {
+          class: "ms-5"
+        }
+      }
+    })
+  ];
+  const [fileList, setFileList] = useState<File[]>();
 
-const RichTextEditor: React.FC<RichTextEditorProps> = ({ setItem }) => {
-  // const [data, setData] = useState<any>();
+  const dataUrlConverter = async (file: File) => {
+    return new Promise<string>((resolve, reject) => {
+      const reader = new FileReader();
+
+      reader.onerror = () => {
+        reader.abort();
+        reject(new DOMException("Error reading file"));
+      };
+
+      reader.onloadend = () => {
+        resolve(reader.result as string);
+      };
+
+      reader.readAsDataURL(file);
+    });
+  };
 
   const editor = useEditor({
-    extensions: [
-      Document,
-      Text,
-      Image,
-      Paragraph,
-      Italic,
-      Bold,
-      ListItem,
-      OrderedList,
-      BulletList,
-      HorizontalRule,
+    extensions,
+    onUpdate: ({ editor }) => {
+      const { doc } = editor.state;
+      const images: string[] = [];
 
-      Heading.configure({
-        levels: [1, 2, 3, 4, 5, 6]
-      }),
-      StarterKit
-    ]
-  });
-  // editor ? console.log(editor.getHTML()) : '';
-  useEffect(() => {
-    if (editor) {
-      setItem(editor.getHTML());
-    }
-    editor &&
-      editor.commands.setImage({
-        src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYscfUBUbqwGd_DHVhG-ZjCOD7MUpxp4uhNe7toUg4ug&s",
-        alt: "A boring example image",
-        title: "An example"
+      doc.descendants(node => {
+        if (node.type.name === "image") {
+          images.push(node.attrs.src);
+        }
+
+        return true;
       });
-  }, [editor?.getHTML()]);
 
-  if (!editor) {
-    return null;
-  }
+      //filter fileList
+      if (fileList) {
+        const someFunc = async () => {
+          const url = await dataUrlConverter(fileList[0]);
+          console.log(url);
+        };
+
+        someFunc();
+      }
+
+      if (editor) {
+        onChange && onChange({ html: editor?.getHTML(), images, fileList });
+      }
+    }
+  });
+
+  if (!editor) return null;
 
   return (
-    <div className="shadow-md border border-border rounded-md mt-2 min-h-[20rem]">
+    <div className="shadow-md border border-border rounded-md w-full max-w-[60rem]">
       <div className="bg-[#DCF2D3] p-1 flex gap-1">
-        <Toolbar editor={editor} />
+        <Toolbar
+          editor={editor}
+          onImageUpload={file => {
+            if (file && file.length) {
+              const fileReader = new FileReader();
+
+              fileReader.onload = e => {
+                const dataUrl = e.target?.result;
+
+                editor.commands.setImage({ src: dataUrl as string });
+              };
+
+              fileReader.readAsDataURL(file[0] as Blob);
+
+              if (!fileList) {
+                setFileList(Array.from(file));
+              } else {
+                setFileList(prev => prev?.concat(Array.from(file)));
+              }
+            }
+
+            // const reader = new FileReader();
+
+            // if (data) {
+            //   reader.onload = e => {
+            //     const src = e.target?.result as string;
+            //     editor.commands.setImage({ src });
+            //   };
+
+            //   reader.readAsDataURL(data?.[0] as Blob);
+            // }
+
+            // console.log("uploads", data);
+          }}
+        />
       </div>
-      <EditorContent className="max-w-[60rem] w-full" editor={editor} />
+      <EditorContent editor={editor} />
     </div>
   );
 };

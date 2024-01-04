@@ -91,7 +91,7 @@ const Pagination = ({
             </PaginationItem>
           );
         }}
-        className="flex items-center mx-auto w-max"
+        className="flex items-center mx-auto w-max list-none"
         pageCount={totalPages}
         forcePage={params.page - 1}
         onPageChange={({ selected }) => {

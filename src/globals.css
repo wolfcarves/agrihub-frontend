@@ -264,28 +264,53 @@
   }
 }
 
+
+.custom-scroll::-webkit-scrollbar {
+  width: 5px;
+}
+
+.custom-scroll::-webkit-scrollbar {
+  width: 5px;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb {
+  background-color: #d8d8d8;
+  border-radius: 10px;
+  border-radius: 10px;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb:hover {
+  background: #adadad;
+}
+
+/* FOR RICH TEXT EDITOR TITE*/
+
+
 .ProseMirror {
   outline: none;
+  padding: 0.5rem;
   min-height: 20rem;
-  width: '100%';
-  padding: 1rem;
 }
 
+.tiptap {
+  >*+* {
+    margin-top: 0.75em;
+  }
 
-/* ::-webkit-scrollbar {
-  width: 5px;
+  img {
+    height: auto;
+    max-width: 100%;
 
-/* ::-webkit-scrollbar {
-  width: 5px;
+    &.ProseMirror-selectednode {
+      outline: 3px solid #1b75d0;
+    }
+  }
 }
 
-::-webkit-scrollbar-thumb {
-  background-color: #eeeeee;
-  border-radius: 10px;
-  background-color: #eeeeee;
-  border-radius: 10px;
+ul {
+  list-style-type: disc;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
-} */
+ol {
+  list-style-type: decimal;
+}

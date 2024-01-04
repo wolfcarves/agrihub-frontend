@@ -27,7 +27,7 @@ export function withRequireAuth<T extends object>(Component: ComponentType<T>) {
             <div className="flex flex-col py-10 gap-3">
               <Link to="/account/signup">
                 <Button className="w-full" size="lg" variant="default_border">
-                  Signup with Google
+                  Create an account
                 </Button>
               </Link>
 
@@ -35,9 +35,9 @@ export function withRequireAuth<T extends object>(Component: ComponentType<T>) {
                 <span className="text-gray-700">OR</span>
               </div>
 
-              <Link to="/account/signup">
+              <Link to="/account/login">
                 <Button className="w-full" size="lg" variant="outline_border">
-                  Continue with email
+                  Login instead
                 </Button>
               </Link>
             </div>

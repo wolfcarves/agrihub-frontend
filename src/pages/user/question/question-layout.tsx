@@ -13,7 +13,8 @@ const QuestionLayout = () => {
       <QuestionLayoutContainer>
         {!notInto && <QuestionSidebar />}
         <Outlet />
-        {!notInto && <QuestionsAside />}
+        {/* {!notInto && <QuestionsAside />} */}
+        <QuestionsAside />
       </QuestionLayoutContainer>
     </>
   );

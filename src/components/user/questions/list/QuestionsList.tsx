@@ -3,7 +3,7 @@ import QuestionCard from "../card/QuestionCard";
 import LoadingSpinner from "@icons/LoadingSpinner";
 import { SortValues } from "../select/QuestionsFilterSelect";
 import { QuestionsResponse } from "@api/openapi";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 
 interface QuestionsListProps {
   data?: QuestionsResponse;

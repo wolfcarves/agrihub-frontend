@@ -15,7 +15,7 @@ import { Input } from "@components/ui/input";
 import { Button } from "@components/ui/button";
 import UserTagInputDropdown from "@components/user/account/input/UserTagInput";
 import useGetTagByKeyWord from "@hooks/api/get/useGetTagByKeyword";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 
 const UserFinalSetupForm = () => {
   const inputFileRef = useRef<HTMLInputElement | null>(null);

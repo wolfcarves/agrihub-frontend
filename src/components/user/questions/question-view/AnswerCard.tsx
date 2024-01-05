@@ -18,7 +18,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { AddComment } from "./schema";
 import useQuestionVoteAnswer from "@hooks/api/post/useQuestionVoteAnswer";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 import useQuestionDeleteAnswerVote from "@hooks/api/post/useQuestionDeleteAnswerVote";
 interface AnswerCardProps {
   answer: Answer;

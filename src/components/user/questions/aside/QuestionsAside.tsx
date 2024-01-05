@@ -23,13 +23,16 @@ const QuestionsAside = () => {
 
       <UserAsideTitle className="mt-5">Discover Tags</UserAsideTitle>
       <UserAsideItemContent className="mt-5 flex flex-wrap gap-x-1 gap-y-2">
-        {tagsData?.tags?.map(({ id, tag_name }) => (
-          <Link to={`/forum/tag/${id}`} key={id}>
-            <span className="text-sm text-primary rounded-lg border border-primary bg-secondary px-2 py-0.5">
-              {tag_name}
-            </span>
-          </Link>
-        ))}
+        {tagsData?.tags?.map(({ id, tag_name }) => {
+          console.log(id);
+          return (
+            <Link to={`/forum/tag/${id}`} key={id}>
+              <span className="text-sm text-primary rounded-lg border border-primary bg-secondary px-2 py-0.5">
+                {tag_name}
+              </span>
+            </Link>
+          );
+        })}
       </UserAsideItemContent>
     </UserAside>
   );

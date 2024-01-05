@@ -7,7 +7,7 @@ import { AddAnswer } from "./schema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AnswersSchema } from "../../../../api/openapi";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 interface AnswerFormProps {
   questionId: string | undefined;
 }

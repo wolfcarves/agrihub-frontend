@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { AskQuestion } from "./schema";
+import { askQuestionSchema } from "./schema";
 import { QuestionSchema } from "@api/openapi";
 import useQuestionAskMutation from "@hooks/api/post/useQuestionAskMutation";
 import { Button } from "@components/ui/button";
 import { Input } from "../../../components/ui/input";
 import RichTextEditor from "../../../components/ui/custom/rich-text-editor/RichTextEditor";
 import withAuthGuard from "../../../higher-order/account/withAuthGuard";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 import { Link } from "react-router-dom";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { GoPlus } from "react-icons/go";
@@ -23,82 +23,59 @@ import {
   FormMessage
 } from "@components/ui/form";
 
+async function filesToBlobs(files: File[]): Promise<Blob[]> {
+  const blobArray: Blob[] = [];
+
+  for (const file of files) {
+    const arrayBuffer = await file.arrayBuffer();
+    const blob = new Blob([arrayBuffer], { type: file.type });
+    blobArray.push(blob);
+  }
+
+  return blobArray;
+}
+
 function QuestionAsk() {
-  const [imgFiles, setImgFiles] = useState<FileList | null>();
   const [question, setQuestion] = useState<any>();
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setImgFiles(e.target.files);
-  };
-
   const form = useForm<QuestionSchema>({
-    // resolver: zodResolver(AskQuestion),
-    // mode: "onChange"
+    resolver: zodResolver(askQuestionSchema),
+    mode: "onChange",
+    defaultValues: {
+      title: "very very long dick title here..... okkaayyy??",
+      tags: ["925349537503870977", "925349537503903745"]
+    }
   });
 
-  // useEffect(() => {
-  //   form.setValue("question", question);
-  //   form.setValue(
-  //     "tags",
-  //     tags.map(tag => tag.id)
-  //   );
-  //   const fileArray = imgFiles ? Array.from(imgFiles) : [];
-  //   form.setValue("imagesrc", fileArray);
-  // }, [tags, imgFiles, form.setValue]);
-
-  // const { data } = useGetTags(tagInput);
-
-  // const length = data.tags?.length || 0;
-  // if (length >= 1) {
-  //   await questionAskMutate(raw);
-  //   toast("Question created successfully", {
-  //     icon: "✅",
-  //     duration: 1500
-  //   });
-  //   setTimeout(() => {
-  //     form.reset();
-  //     setTags([]);
-  //     navigate("/forum/list");
-  //   }, 2500);
-  //   return;
-  // }
-  // throw new Error("Please choose a minimum of one tag.");
-  // const raw = {
-  //   title: data.title,
-  //   question: data.question,
-  //   tags: data.tags,
-  //   imagesrc: data.imagesrc
-  // };
-
-  // const { mutateAsync: questionAskMutate, isLoading } =
-  //   useQuestionAskMutation();
+  const { mutateAsync: questionAskMutate, isLoading } =
+    useQuestionAskMutation();
 
   const handleSubmitForm = async (data: QuestionSchema) => {
+    const compiledData: QuestionSchema = {
+      title: data.title,
+      imagesrc: data.imagesrc,
+      question: data.question,
+      tags: data.tags
+    };
+
     try {
-      // console.log(data);
+      await questionAskMutate(compiledData);
     } catch (e: any) {
       toast(e.message);
+      toast(e.body.message);
     }
   };
-
-  // const { title: titleError } = form.formState.errors;
 
   const [tags, setTags] = useState<string[]>();
   const [searchInputTagValue, setSearchInputTagValue] = useState<string>("");
   const { data: tagResult } = useGetTagByKeyWord(searchInputTagValue);
-
-  const [htmlContent, setHTMLContent] = useState<string | null>("");
-
-  const handleGetHTML = (data: { html?: string; images: any }) => {
-    console.log(data);
-    // setHTMLContent(data);
-  };
 
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleSubmitForm)}
         className="flex flex-col pb-20 px-0 lg:px-10"
+        encType="multipart/form-data"
       >
         <div className="w-full">
           <div className="py-10 w-max">
@@ -170,7 +147,17 @@ function QuestionAsk() {
           <FormField
             name="question"
             control={form.control}
-            render={() => <RichTextEditor onChange={data => {}} />}
+            render={({ field: { onBlur, onChange } }) => (
+              <RichTextEditor
+                onBlur={data => {
+                  onBlur();
+                  onChange(data.html);
+                  filesToBlobs(data.files as File[]).then((blobs: Blob[]) => {
+                    form.setValue("imagesrc", blobs);
+                  });
+                }}
+              />
+            )}
           />
         </div>
 
@@ -180,36 +167,6 @@ function QuestionAsk() {
               __html: question
             }}
           />
-        </div>
-
-        {/* <input
-          className="border"
-          type="file"
-          onChange={e => console.log(e.currentTarget.files)}
-        /> */}
-
-        <div className="mt-20">
-          <h3 className="text-foreground text-md font-poppins-bold">
-            Add Image
-          </h3>
-
-          <p className="text-foreground my-2 text-sm">
-            You can also provide images relating to your question
-          </p>
-
-          <div className="relative border w-44 aspect-square rounded-lg">
-            <div className="absolute inset-0 h-max w-max m-auto text-8xl text-gray-300">
-              <GoPlus />
-            </div>
-
-            <Input
-              onChange={handleImageChange}
-              className="absolute inset-0 opacity-0 z-50 h-full cursor-pointer"
-              type="file"
-              accept="image/*"
-              multiple
-            />
-          </div>
         </div>
 
         <div className="mt-20">
@@ -223,12 +180,19 @@ function QuestionAsk() {
           </p>
 
           <div className="">
-            <UserTagInputDropdown
-              option={tagResult}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                setSearchInputTagValue(e.target.value);
-              }}
-              onTagsValueChange={e => setTags(e)}
+            <FormField
+              name="tags"
+              control={form.control}
+              render={({ field: { onChange } }) => (
+                <UserTagInputDropdown
+                  option={tagResult}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    setSearchInputTagValue(e.target.value);
+                    onChange(e.target.value);
+                  }}
+                  onTagsValueChange={e => setTags(e)}
+                />
+              )}
             />
           </div>
         </div>
@@ -238,132 +202,6 @@ function QuestionAsk() {
             Post your question
           </Button>
         </div>
-
-        {/* {false && (
-        <div className="lg:col-span-8 col-span-12 overflow-y-auto lg:mx-[5rem] scroll-smooth p-3">
-          <h6
-            className="flex gap-2 items-center cursor-pointer mb-3 font-medium"
-            onClick={() => navigate(-1)}
-          >
-            <IoMdArrowBack />
-            Go back
-          </h6>
-          <h2 className="text-[1.2rem] font-medium mb-2 ">Ask a Question</h2>
-
-          <form
-            className="grid gap-3"
-            onSubmit={form.handleSubmit(handleOnSubmitForm)}
-          >
-            <div className="p-4 border-2 border-border rounded-lg">
-              <h1 className="text-[1rem] mb-1 font-medium ring-0">
-                Type your title here....
-              </h1>
-              <input
-                {...form.register("title")}
-                className="border-b-2 w-full border-gray-600 focus:outline-none"
-                type="text"
-              />
-              <p className="text-[.7rem] mt-1 font-semibold text-gray-500">
-                {titleError?.message ? (
-                  <span className="text-red-500">{titleError.message}</span>
-                ) : (
-                  "Be specific and imagine you’re asking a question to another person."
-                )}
-              </p>
-            </div>
-            <div className="p-3 border-2 border-border rounded-lg">
-              <h1 className="text-[.9rem] mb-1 font-normal ring-0">
-                Writing a good question
-              </h1>
-              <p className="text-[.7rem] mt-1 font-normal text-gray-500">
-                You’re ready to ask a Farming-related question and this form
-                will help guide you through the process. Looking to ask a non
-                farming-related question? See the topics here to find a relevant
-                site.
-              </p>
-              <h1 className="text-[.9rem] mb-1 font-normal ring-0 mt-1">
-                Steps
-              </h1>
-              <ul className="text-[.6rem] mt-1 font-normal text-gray-500 list-disc pl-5">
-                <li>Summarize your problem in a one-line title.</li>
-                <li>Describe your problem in more detail.</li>
-                <li>
-                  Describe what you tried and what you expected to happen.
-                </li>
-                <li>
-                  Add “tags” which help surface your question to members of the
-                  community.
-                </li>
-                <li>Review your question and post it to the site.</li>
-              </ul>
-            </div>
-            <div className="p-4 border-2 border-border rounded-lg">
-              <h1 className="text-[.8rem] mb-1 font-medium ring-0">
-                Type your question here...
-              </h1>
-              <RichTextEditor setItem={setQuestion} />
-            </div>
-            <div className="p-4 border-2 border-border rounded-lg">
-              <h1 className="text-[.8rem] mb-1 font-medium ring-0">
-                Add an image here...
-              </h1>
-
-              <Input
-                onChange={handleImageChange}
-                className="border w-full border-gray-600 focus:outline-none h-10"
-                type="file"
-                accept="image/*"
-                multiple
-              />
-            </div>
-            <div className="p-4 border-2 border-border rounded-lg">
-              <h1 className="text-[.8rem] mb-1 font-medium">
-                Add your tags here...
-              </h1>
-              <div className="flex gap-1 mt-1 flex-wrap mb-2">
-                {tags.map((tag, index) => (
-                  <span key={index} className="bg-[#DCF2D3] p-2 rounded">
-                    {tag.name}
-                    <button
-                      onClick={() => handleRemoveTag(index)}
-                      className="bg-red-600 text-white rounded-md px-2 ml-2 focus:outline-none"
-                    >
-                      x
-                    </button>
-                  </span>
-                ))}
-              </div>
-
-              <div className="flex mb-2">
-                <input
-                  className="border border-border w-full focus:outline-none"
-                  type="text"
-                  value={tagInput}
-                  onChange={e => setTagInput(e.target.value)}
-                />
-              </div>
-
-              <div className="flex flex-wrap gap-2 ">
-                {tagInput !== "" &&
-                  data?.map(tag => (
-                    <div
-                      key={tag.id}
-                      onClick={() => handleAddTag(tag)}
-                      className="bg-[#DCF2D3] p-2 rounded cursor-pointer"
-                    >
-                      <span className="font-bold">{tag.tag_name}</span>
-                      <br />
-                      <span className="text-sm">{tag.details}</span>
-                    </div>
-                  ))}
-              </div>
-            </div>
-            <Button disabled={isLoading} className="my-4" type="submit">
-              {isLoading ? "Submitting..." : "Submit"}
-            </Button>
-          </form>
-        </div>
-      )} */}
       </form>
     </Form>
   );
@@ -377,125 +215,3 @@ export default withAuthGuard(QuestionAsk, [
   "asst_admin",
   "subfarm_head"
 ]);
-
-/*
- <div className="lg:col-span-8 col-span-12 overflow-y-auto lg:mx-[5rem] scroll-smooth p-3">
-      <h6
-        className="flex gap-2 items-center cursor-pointer mb-3 font-medium"
-        onClick={() => navigate(-1)}
-      >
-        <IoMdArrowBack />
-        Go back
-      </h6>
-      <h2 className="text-[1.2rem] font-medium mb-2 ">Ask a Question</h2>
-
-      <form
-        className="grid gap-3"
-        onSubmit={form.handleSubmit(handleOnSubmitForm)}
-      >
-        <div className="p-4 border-2 border-border rounded-lg">
-          <h1 className="text-[1rem] mb-1 font-medium ring-0">
-            Type your title here....
-          </h1>
-          <input
-            {...form.register("title")}
-            className="border-b-2 w-full border-gray-600 focus:outline-none"
-            type="text"
-          />
-          <p className="text-[.7rem] mt-1 font-semibold text-gray-500">
-            {titleError?.message ? (
-              <span className="text-red-500">{titleError.message}</span>
-            ) : (
-              "Be specific and imagine you’re asking a question to another person."
-            )}
-          </p>
-        </div>
-        <div className="p-3 border-2 border-border rounded-lg">
-          <h1 className="text-[.9rem] mb-1 font-normal ring-0">
-            Writing a good question
-          </h1>
-          <p className="text-[.7rem] mt-1 font-normal text-gray-500">
-            You’re ready to ask a Farming-related question and this form will
-            help guide you through the process. Looking to ask a non
-            farming-related question? See the topics here to find a relevant
-            site.
-          </p>
-          <h1 className="text-[.9rem] mb-1 font-normal ring-0 mt-1">Steps</h1>
-          <ul className="text-[.6rem] mt-1 font-normal text-gray-500 list-disc pl-5">
-            <li>Summarize your problem in a one-line title.</li>
-            <li>Describe your problem in more detail.</li>
-            <li>Describe what you tried and what you expected to happen.</li>
-            <li>
-              Add “tags” which help surface your question to members of the
-              community.
-            </li>
-            <li>Review your question and post it to the site.</li>
-          </ul>
-        </div>
-        <div className="p-4 border-2 border-border rounded-lg">
-          <h1 className="text-[.8rem] mb-1 font-medium ring-0">
-            Type your question here...
-          </h1>
-          <RichTextEditor setItem={setQuestion} />
-        </div>
-        <div className="p-4 border-2 border-border rounded-lg">
-          <h1 className="text-[.8rem] mb-1 font-medium ring-0">
-            Add an image here...
-          </h1>
-
-          <Input
-            onChange={handleImageChange}
-            className="border w-full border-gray-600 focus:outline-none h-10"
-            type="file"
-            accept="image/*"
-            multiple
-          />
-        </div>
-        <div className="p-4 border-2 border-border rounded-lg">
-          <h1 className="text-[.8rem] mb-1 font-medium">
-            Add your tags here...
-          </h1>
-          <div className="flex gap-1 mt-1 flex-wrap mb-2">
-            {tags.map((tag, index) => (
-              <span key={index} className="bg-[#DCF2D3] p-2 rounded">
-                {tag.name}
-                <button
-                  onClick={() => handleRemoveTag(index)}
-                  className="bg-red-600 text-white rounded-md px-2 ml-2 focus:outline-none"
-                >
-                  x
-                </button>
-              </span>
-            ))}
-          </div>
-
-          <div className="flex mb-2">
-            <input
-              className="border border-border w-full focus:outline-none"
-              type="text"
-              value={tagInput}
-              onChange={e => setTagInput(e.target.value)}
-            />
-          </div>
-
-          <div className="flex flex-wrap gap-2 ">
-            {tagInput !== "" &&
-              data?.map(tag => (
-                <div
-                  key={tag.id}
-                  onClick={() => handleAddTag(tag)}
-                  className="bg-[#DCF2D3] p-2 rounded cursor-pointer"
-                >
-                  <span className="font-bold">{tag.tag_name}</span>
-                  <br />
-                  <span className="text-sm">{tag.details}</span>
-                </div>
-              ))}
-          </div>
-        </div>
-        <Button disabled={isLoading} className="my-4" type="submit">
-          {isLoading ? "Submitting..." : "Submit"}
-        </Button>
-      </form>
-    </div>
-*/

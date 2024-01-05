@@ -28,39 +28,42 @@ import {
   FaItalic
 } from "react-icons/fa";
 import { FaHeading } from "react-icons/fa6";
+import imageCompression, { Options } from "browser-image-compression";
+import { toast } from "sonner";
 
 type ToolbarProps = {
   editor: Editor;
-  onImageUpload?: (files: FileList | null) => void;
+  onImageUpload?: (file: File | null) => void;
 };
 
 const Toolbar: React.FC<ToolbarProps> = ({ editor, onImageUpload }) => {
-  const addImage = (data: React.ChangeEvent<HTMLInputElement>) => {
-    const files = data.currentTarget?.files;
+  const addImage = async (data: React.ChangeEvent<HTMLInputElement>) => {
+    const file = data.target?.files?.[0];
 
-    if (files) {
-      onImageUpload && onImageUpload(files);
+    if (file) {
+      if (file?.size > 2000000) {
+        return toast.error("File is too large, 2mb is the maximum", {});
+      }
+
+      const options: Options = {
+        maxSizeMB: 1,
+        fileType: "image/*",
+        preserveExif: true,
+        maxWidthOrHeight: 480
+      };
+
+      const compressFile = await imageCompression(file, options);
+      const convertedToFile = new File([compressFile], compressFile.name, {
+        type: compressFile.type
+      });
+
+      onImageUpload && onImageUpload(convertedToFile);
     }
   };
 
   return (
     <>
-      <button className="active:bg-primary active:text-white p-2 rounded-md">
-        <input
-          type="file"
-          onChange={data => {
-            addImage(data);
-          }}
-        />
-      </button>
-    </>
-  );
-};
-
-export default Toolbar;
-
-/*
- <button
+      <button
         onClick={e => {
           e.preventDefault();
           editor.chain().focus().toggleBold().run();
@@ -139,6 +142,7 @@ export default Toolbar;
       >
         <FaListOl />
       </button>
+
       <button
         onClick={e => {
           e.preventDefault();
@@ -147,5 +151,23 @@ export default Toolbar;
         className="active:bg-primary active:text-white p-2 rounded-md"
       >
         <FaMinus />
-      </button> 
-*/
+      </button>
+
+      <button className="relative flex items-center gap-3 active:text-white p-2 rounded-md hover:bg-primary ">
+        <FaRegImage />
+        <span className="text-sm">Upload image</span>
+        <input
+          type="file"
+          value={[]}
+          accept="image/png, image/jpg, image/jpeg"
+          className="absolute opacity-0 inset-0 m-auto"
+          onChange={data => {
+            addImage(data);
+          }}
+        />
+      </button>
+    </>
+  );
+};
+
+export default Toolbar;

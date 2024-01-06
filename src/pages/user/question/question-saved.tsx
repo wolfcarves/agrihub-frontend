@@ -29,7 +29,7 @@ import {
 import QuestionSkeleton from "@components/user/questions/skeleton/QuestionSkeleton";
 import { UsePagination } from "@providers/PaginationProvider";
 import useQuestionVoteMutation from "@hooks/api/post/useQuestionVoteMutation";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 import useQuestionDeleteVoteMutation from "@hooks/api/post/useQuestionDeleteVoteMutation";
 import Modal from "../../../components/ui/custom/modal/Modal";
 

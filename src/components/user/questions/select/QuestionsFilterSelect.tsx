@@ -36,7 +36,7 @@ function QuestionsFilterSelect({
   return (
     <div className="ms-auto py-10">
       <Select onValueChange={onFilterChange} {...props}>
-        <SelectTrigger className="w-[120px] rounded-lg text-neutral-700 font-poppins-medium capitalize h-11 bg-white">
+        <SelectTrigger className="w-[120px] rounded-lg text-foreground font-poppins-medium capitalize h-11 bg-white">
           <SelectValue placeholder={selected ?? sortOptions[0].label} />
         </SelectTrigger>
 
@@ -45,7 +45,7 @@ function QuestionsFilterSelect({
             <SelectItem
               key={`${value}`}
               value={value}
-              className="text-neutral-700 font-poppins-medium cursor-pointer"
+              className="text-foreground font-poppins-medium cursor-pointer"
             >
               {label}
             </SelectItem>

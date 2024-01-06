@@ -1,8 +1,5 @@
 import React from "react";
 import { Editor } from "@tiptap/react";
-type ToolbarProps = {
-  editor: Editor;
-};
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -31,15 +28,39 @@ import {
   FaItalic
 } from "react-icons/fa";
 import { FaHeading } from "react-icons/fa6";
+import imageCompression, { Options } from "browser-image-compression";
+import { toast } from "sonner";
 
-const Toolbar: React.FC<ToolbarProps> = ({ editor }) => {
-  const addImage = () => {
-    const url = window.prompt("URL");
+type ToolbarProps = {
+  editor: Editor;
+  onImageUpload?: (file: File | null) => void;
+};
 
-    if (url) {
-      editor.chain().focus().setImage({ src: url }).run();
+const Toolbar: React.FC<ToolbarProps> = ({ editor, onImageUpload }) => {
+  const addImage = async (data: React.ChangeEvent<HTMLInputElement>) => {
+    const file = data.target?.files?.[0];
+
+    if (file) {
+      if (file?.size > 2000000) {
+        return toast.error("File is too large, 2mb is the maximum", {});
+      }
+
+      const options: Options = {
+        maxSizeMB: 1,
+        fileType: "image/*",
+        preserveExif: true,
+        maxWidthOrHeight: 480
+      };
+
+      const compressFile = await imageCompression(file, options);
+      const convertedToFile = new File([compressFile], compressFile.name, {
+        type: compressFile.type
+      });
+
+      onImageUpload && onImageUpload(convertedToFile);
     }
   };
+
   return (
     <>
       <button
@@ -84,6 +105,7 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor }) => {
       >
         <FaRedo />
       </button>
+
       <button
         onClick={e => {
           e.preventDefault();
@@ -120,6 +142,7 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor }) => {
       >
         <FaListOl />
       </button>
+
       <button
         onClick={e => {
           e.preventDefault();
@@ -129,12 +152,20 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor }) => {
       >
         <FaMinus />
       </button>
-      {/* <button
-        className="active:bg-primary active:text-white p-2 rounded-md"
-        onClick={addImage}
-      >
+
+      <button className="relative flex items-center gap-3 active:text-white p-2 rounded-md hover:bg-primary ">
         <FaRegImage />
-      </button> */}
+        <span className="text-sm">Upload image</span>
+        <input
+          type="file"
+          value={[]}
+          accept="image/png, image/jpg, image/jpeg"
+          className="absolute opacity-0 inset-0 m-auto"
+          onChange={data => {
+            addImage(data);
+          }}
+        />
+      </button>
     </>
   );
 };

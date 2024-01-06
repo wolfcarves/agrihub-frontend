@@ -107,17 +107,17 @@ const UserTagInputDropdown = ({
     return (
       <div
         className="relative flex flex-wrap min-h-11 rounded-lg w-full
-        border border-input bg-background px-3 py-3 text-sm ring-offset-background
+        border border-input bg-background text-sm ring-offset-background
         file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground
         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2
-        disabled:cursor-not-allowed disabled:opacity-50"
+        disabled:cursor-not-allowed disabled:opacity-50 items-center"
       >
         {renderedTag}
 
         <input
           onChange={onChange}
           onFocus={() => setIsInputTagFocused(true)}
-          className="outline-0 px-1 flex-1"
+          className="outline-0 flex-1 h-full px-3 py-3"
         />
 
         <div
@@ -137,6 +137,7 @@ const UserTagInputDropdown = ({
 
         {isInputTagFocused && (
           <button
+            className="me-2"
             onClick={() => {
               setIsInputTagFocused(false);
             }}

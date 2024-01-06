@@ -62,32 +62,22 @@ const App = ReactRouter(
 
       {/* About Page */}
       <Route path="/about" element={<AboutLayout />}>
-        <Route path="" element={<About />} />
-        <Route path="our-focus" element={<AboutFocus />} />
-        <Route path="initiatives" element={<AboutInitiatives />} />
-        <Route path="latest" element={<AboutLatest />} />
+        <>
+          <Route path="" element={<About />} />
+          <Route path="our-focus" element={<AboutFocus />} />
+          <Route path="initiatives" element={<AboutInitiatives />} />
+          <Route path="latest" element={<AboutLatest />} />
+        </>
       </Route>
 
       {/* Question Page */}
-      <Route
-        path="/forum"
-        element={
-          <PaginationProvider>
-            <QuestionLayout />
-          </PaginationProvider>
-        }
-      >
-        <Route path="" element={<Questions />} />
-        <Route path="tags" element={<QuestionTags />} />
-        <Route path="ask" element={<QuestionAsk />} />
-        <Route
-          path="question/:username/:questionId"
-          element={
-            <PaginationProvider>
-              <Question />
-            </PaginationProvider>
-          }
-        />
+      <Route path="/forum" element={<QuestionLayout />}>
+        <>
+          <Route path="" element={<Questions />} />
+          <Route path="tags" element={<QuestionTags />} />
+          <Route path="ask" element={<QuestionAsk />} />
+          <Route path="question/:username/:questionId" element={<Question />} />
+        </>
       </Route>
 
       {/* Community Page */}

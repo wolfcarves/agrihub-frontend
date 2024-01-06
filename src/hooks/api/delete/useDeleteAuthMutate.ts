@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AuthService } from "@api/openapi";
-import { GET_USER_KEY } from "../get/useGetMyProfileQuery";
+import { GET_MY_PROFILE_KEY } from "../get/useGetMyProfileQuery";
 import { useNavigate } from "react-router-dom";
 
 const useQuestionKey = () => ["QUESTIONS_KEY"];
@@ -16,7 +16,7 @@ export default function useDeleteAuthMutate() {
       return response;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [GET_USER_KEY()] });
+      queryClient.invalidateQueries({ queryKey: [GET_MY_PROFILE_KEY()] });
 
       navigate("/", { replace: true });
       window.location.reload();

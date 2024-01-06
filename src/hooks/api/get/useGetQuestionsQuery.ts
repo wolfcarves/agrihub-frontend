@@ -16,7 +16,7 @@ export const GET_QUESTION = (
 
 export default function useGetQuestionsQuery(data: SearchParams) {
   return useQuery({
-    queryKey: GET_QUESTION(data.page, data.filter),
+    queryKey: [GET_QUESTION(data.page, data.filter), data.page, data.filter],
     queryFn: async () => {
       const response = await ForumsService.getApiForums(data);
 

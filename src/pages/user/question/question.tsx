@@ -29,9 +29,10 @@ import {
 import QuestionSkeleton from "@components/user/questions/skeleton/QuestionSkeleton";
 import { UsePagination } from "@providers/PaginationProvider";
 import useQuestionVoteMutation from "@hooks/api/post/useQuestionVoteMutation";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 import useQuestionDeleteVoteMutation from "@hooks/api/post/useQuestionDeleteVoteMutation";
 import Modal from "../../../components/ui/custom/modal/Modal";
+import withAuthGuard from "@higher-order/account/withAuthGuard";
 
 type FilterType = "newest" | "top";
 
@@ -106,6 +107,7 @@ const Question = () => {
   };
 
   if (isLoading) return <QuestionSkeleton quantity={40} />;
+
   return (
     <div className="px-3 max-h-full overflow-y-auto flex flex-col gap-6">
       <h6
@@ -115,6 +117,7 @@ const Question = () => {
         <IoMdArrowBack />
         Go back
       </h6>
+
       <div className="text-2xl font-bold leading-tight">
         {data?.question?.title}
       </div>
@@ -262,4 +265,4 @@ const Question = () => {
   );
 };
 
-export default Question;
+export default withAuthGuard(Question, ["member"]);

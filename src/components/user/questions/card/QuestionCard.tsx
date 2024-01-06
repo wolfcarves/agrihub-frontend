@@ -34,10 +34,10 @@ const QuestionCard = ({
   return (
     <Link to="/">
       <div className="flex flex-col rounded-xl hover:bg-neutral-300 duration-200 h-max w-full ">
-        <div className="flex flex-col bg-white border p-5 rounded-xl min-h-[20rem] h-max cursor-pointer hover:shadow-sm hover:-translate-y-2 hover:-translate-x-2 duration-200">
+        <div className="flex flex-col bg-white border p-5 rounded-xl min-h-[20rem] h-full max-h-[25rem] cursor-pointer hover:shadow-sm hover:-translate-y-2 hover:-translate-x-2 duration-200">
           {/* Card Title */}
           <div className="flex items-start justify-between">
-            <h1 className="text-xl text-neutral-700 font-poppins-semibold line-clamp-2 hover:underline hover:opacity-90">
+            <h1 className="text-xl text-foreground font-poppins-semibold line-clamp-2 hover:underline hover:opacity-90">
               {title}
             </h1>
 
@@ -74,7 +74,7 @@ const QuestionCard = ({
           {/* Content Body */}
           <div>
             <p
-              className="font-poppins-regular line-clamp-6 text-neutral-700"
+              className="font-poppins-regular line-clamp-5 text-foreground"
               dangerouslySetInnerHTML={{
                 __html: purifiedDescription
               }}
@@ -88,7 +88,7 @@ const QuestionCard = ({
               <button className="text-lg h-full px-3 rounded-lg hover:bg-accent opacity-80 hover:opacity-100 duration-200">
                 <PiArrowFatUp />
               </button>
-              <span className="font-poppins-bold text-neutral-700 ">
+              <span className="font-poppins-bold text-foreground ">
                 {voteCount}
               </span>
               <button className="text-lg h-full px-3 rounded-lg hover:bg-accent opacity-80 hover:opacity-100 duration-200">
@@ -101,7 +101,7 @@ const QuestionCard = ({
               <div className="text-lg">
                 <LuMessagesSquare />
               </div>
-              <span className="font-poppins-bold text-neutral-700">
+              <span className="font-poppins-bold text-foreground">
                 {answerCount} &nbsp; &nbsp; Answers
               </span>
             </button>
@@ -114,7 +114,7 @@ const QuestionCard = ({
               <div className="text-xl">
                 <TiArrowForwardOutline />
               </div>
-              <span className="font-poppins-bold text-neutral-700">Share</span>
+              <span className="font-poppins-bold text-foreground">Share</span>
             </button>
           </div>
         </div>

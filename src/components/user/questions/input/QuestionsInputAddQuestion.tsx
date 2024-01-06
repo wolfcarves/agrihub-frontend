@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 const QuestionsInputAddQuestion = () => {
   return (
     <Link to="/forum/ask">
-      <div className="w-full border flex justify-between items-center h-14 py-1.5 px-3 rounded-xl border-border shadow-sm hover:shadow-md bg-white">
+      <div className="w-full border flex justify-between items-center h-14 py-1.5 px-3 rounded-xl border-border hover:opacity-80 duration-100 shadow-md bg-white">
         <span className="text-gray-400 text-sm font-poppins-regular">
           Post A Question
         </span>

@@ -1,62 +1,105 @@
-import Bold from "@tiptap/extension-bold";
-import Text from "@tiptap/extension-text";
-import Paragraph from "@tiptap/extension-paragraph";
-import { useEditor, EditorContent } from "@tiptap/react";
-import Document from "@tiptap/extension-document";
+import { useEditor, EditorContent, EditorContentProps } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import React, { useEffect, useState } from "react";
-import Italic from "@tiptap/extension-italic";
-import ListItem from "@tiptap/extension-list-item";
-import OrderedList from "@tiptap/extension-ordered-list";
-import BulletList from "@tiptap/extension-bullet-list";
-import HorizontalRule from "@tiptap/extension-horizontal-rule";
-import Heading from "@tiptap/extension-heading";
+import React, { useState } from "react";
+
 import Image from "@tiptap/extension-image";
 import Toolbar from "./Toolbar";
-interface RichTextEditorProps {
-  setItem: React.Dispatch<React.SetStateAction<any>>;
+import { Extensions } from "@tiptap/react";
+
+interface RichTextEditorProps
+  extends Omit<EditorContentProps, "editor" | "onBlur"> {
+  onBlur?: (data: { html?: string; files?: File[] | null }) => void;
 }
 
-const RichTextEditor: React.FC<RichTextEditorProps> = ({ setItem }) => {
-  // const [data, setData] = useState<any>();
+const RichTextEditor = ({ onBlur, ...props }: RichTextEditorProps) => {
+  const extensions: Extensions = [
+    Image.configure({
+      inline: true,
+      HTMLAttributes: {
+        class: "mb-1 object-cover block"
+      }
+    }),
+    StarterKit.configure({
+      bulletList: {
+        HTMLAttributes: {
+          class: "ms-5"
+        }
+      },
+      orderedList: {
+        HTMLAttributes: {
+          class: "ms-5"
+        }
+      }
+    })
+  ];
 
-  const editor = useEditor({
-    extensions: [
-      Document,
-      Text,
-      Image,
-      Paragraph,
-      Italic,
-      Bold,
-      ListItem,
-      OrderedList,
-      BulletList,
-      HorizontalRule,
+  const [fileList, setFileList] = useState<File[] | null>(null);
 
-      Heading.configure({
-        levels: [1, 2, 3, 4, 5, 6]
-      }),
-      StarterKit
-    ],
-    content: `<p></p><p></p><p></p><p></p>`
-  });
-  // editor ? console.log(editor.getHTML()) : '';
-  useEffect(() => {
-    if (editor) {
-      setItem(editor.getHTML());
+  const exisitingUrls: string[] = [];
+  const [nonSureUrls, setNonSureUrls] = useState<string[]>([]);
+  const files: File[] | null = [];
+
+  const editor = useEditor(
+    {
+      extensions,
+      onBlur: ({ editor }) => {
+        const { doc } = editor.state;
+
+        doc.descendants(node => {
+          if (node.type.name === "image") {
+            const url = node.attrs.src;
+
+            exisitingUrls.push(url);
+
+            files.length = 0;
+            fileList?.map((file, index) => {
+              if (exisitingUrls.includes(nonSureUrls[index])) {
+                files.push(file);
+              }
+            });
+          }
+        });
+
+        if (editor) {
+          onBlur && onBlur({ html: editor?.getHTML(), files });
+        }
+      }
+    },
+    []
+  );
+
+  if (!editor) return null;
+
+  const handleImageUpload = (file: File | null) => {
+    if (file) {
+      const toDataUrl = async () => {
+        try {
+          if (!fileList) {
+            setFileList([file]);
+          } else {
+            setFileList([...fileList, file]);
+          }
+
+          const imageUrl = URL.createObjectURL(file);
+
+          editor.commands.setImage({ src: imageUrl });
+          editor.commands.focus();
+
+          setNonSureUrls(prev => [...prev, imageUrl]);
+        } catch (error) {
+          console.error("Error converting to data URL:", error);
+        }
+      };
+      toDataUrl();
     }
-  }, [editor?.getHTML()]);
-
-  if (!editor) {
-    return null;
-  }
+  };
 
   return (
-    <div className="shadow-md border border-border rounded-md mt-2">
+    <div className="shadow-md border border-border rounded-md w-full max-w-[60rem]">
       <div className="bg-[#DCF2D3] p-1 flex gap-1">
-        <Toolbar editor={editor} />
+        <Toolbar editor={editor} onImageUpload={handleImageUpload} />
       </div>
-      <EditorContent className="px-5 py-2" editor={editor} />
+      <EditorContent editor={editor as Editor} {...props} />
     </div>
   );
 };

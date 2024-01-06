@@ -8,13 +8,24 @@ const useQuestionKey = () => "QUESTIONS_KEY";
 export default function useQuestionAskMutation() {
   const queryClient = useQueryClient();
 
-  return useMutation([useQuestionKey()], {
-    mutationFn: async (data: QuestionSchema) => {
-      const response = await ForumsService.postApiForums(data);
+  return useMutation({
+    mutationKey: [useQuestionKey()],
+    mutationFn: async (formData: QuestionSchema) => {
+      const response = await ForumsService.postApiForums({
+        formData
+      });
+
       return response;
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [GET_QUESTION("")] });
+    onSuccess: e => {
+      queryClient.invalidateQueries({
+        queryKey: [GET_QUESTION("10", "newest")]
+      });
+
+      console.log("It is success!!");
+    },
+    onError: e => {
+      console.log("onError: ", e);
     }
   });
 }

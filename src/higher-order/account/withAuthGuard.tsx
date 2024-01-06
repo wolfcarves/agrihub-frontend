@@ -1,8 +1,7 @@
 import { ComponentType } from "react";
 import Unauthorized from "@pages/user/common/unauthorized";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import useGetMyProfileQuery from "@hooks/api/get/useGetMyProfileQuery";
-import ActivityIndicator from "@icons/ActivityIndicator";
 
 type AllowedRoles =
   | "member"
@@ -18,56 +17,39 @@ export default function withAuthGuard<P extends object>(
   allowedRoles: Array<AllowedRoles>
 ) {
   const NewComponent = (props: P) => {
-    const { data: authData, isLoading, error } = useGetMyProfileQuery();
+    const navigate = useNavigate();
+    const { data: authData, isFetched: isAuthDataFetched } =
+      useGetMyProfileQuery();
 
     const verificationLevel = authData?.verification_level;
-    const role = authData?.role as AllowedRoles;
-    const pathname = window.location.pathname;
+    const userRole = authData?.role as AllowedRoles;
 
-    if (error) {
-      if (
-        (error as any).body.message === "No Auth" ||
-        (error as any).body.message === "Unauthorized"
-      ) {
-        return <Unauthorized />;
+    const isAllowed = allowedRoles.includes(userRole ?? "guest");
+
+    const verificationLevelPaths = {
+      "1": "/account/verify-email",
+      "2": "/account/setup-account",
+      "3": "/account/final-setup",
+      "4": "/"
+    };
+
+    const respectivePath =
+      verificationLevelPaths[
+        verificationLevel as keyof typeof verificationLevelPaths
+      ];
+
+    if (verificationLevel && location.pathname !== respectivePath) {
+      if (verificationLevel !== "4") {
+        navigate(respectivePath, { replace: true });
       }
     }
 
-    if (isLoading || authData === undefined) {
-      return (
-        <>
-          <ActivityIndicator />
-        </>
-      );
+    //Always allow guest at any cost
+    if (allowedRoles.includes("guest")) {
+      return <Component {...props} />;
     }
 
-    const isAuthorized = allowedRoles.includes(role || "guest");
-
-    if (!isAuthorized) {
-      return <Unauthorized />;
-    }
-
-    switch (verificationLevel) {
-      case "1":
-        if (pathname !== "/account/verify-email") {
-          return <Navigate to={{ pathname: "/account/verify-email" }} />;
-        }
-        break;
-      case "2":
-        if (pathname !== "/account/setup-account") {
-          return <Navigate to={{ pathname: "/account/setup-account" }} />;
-        }
-        break;
-      case "3":
-        if (pathname !== "/account/final-setup") {
-          return <Navigate to={{ pathname: "/account/final-setup" }} />;
-        }
-        break;
-      case "4":
-        return <Component {...props} />;
-      default:
-        return <Unauthorized />;
-    }
+    if (!isAllowed && isAuthDataFetched) return <Unauthorized />;
 
     return <Component {...props} />;
   };

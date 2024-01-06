@@ -57,14 +57,14 @@ const components: { title: string; href: string; description: string }[] = [
 const UserHeaderNavigation = () => {
   return (
     <NavigationMenu>
-      <NavigationMenuList>
+      <NavigationMenuList className="list-none">
         <NavigationMenuItem>
           <NavLink
             to="/"
             className={({ isActive }) =>
               isActive
                 ? "text-primary font-poppins-medium"
-                : "text-neutral-700 font-poppins-medium"
+                : "text-foreground font-poppins-medium"
             }
           >
             <NavigationMenuLink
@@ -82,7 +82,7 @@ const UserHeaderNavigation = () => {
             className={({ isActive }) =>
               isActive
                 ? "text-primary font-poppins-medium"
-                : "text-neutral-700 font-poppins-medium"
+                : "text-foreground font-poppins-medium"
             }
           >
             <NavigationMenuLink
@@ -100,7 +100,7 @@ const UserHeaderNavigation = () => {
           </NavigationMenuTrigger>
 
           <NavigationMenuContent>
-            <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+            <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr] list-none">
               <li className="row-span-3">
                 <NavigationMenuLink>
                   <div className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md">
@@ -142,7 +142,7 @@ const UserHeaderNavigation = () => {
           </NavigationMenuTrigger>
 
           <NavigationMenuContent>
-            <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+            <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] list-none">
               {components.map(component => (
                 <ListItem
                   key={component.title}

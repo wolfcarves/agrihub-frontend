@@ -8,7 +8,7 @@ const ALLOWED_IMAGE_FORMATS = [
   "image/webp"
 ];
 
-export const AskQuestion = zod.object({
+export const askQuestionSchema = zod.object({
   title: zod
     .string()
     .min(3, "Please enter at least 3 characters")

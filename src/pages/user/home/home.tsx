@@ -1,5 +1,6 @@
 import ContentWhatWeDo from "@components/user/landing/member/ContentWhatWeDo";
 import Carousel from "@components/user/landing/member/carousel/Carousel";
+import withAuthGuard from "@higher-order/account/withAuthGuard";
 import React from "react";
 
 const Home = () => {
@@ -11,4 +12,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default withAuthGuard(Home, ["guest"]);

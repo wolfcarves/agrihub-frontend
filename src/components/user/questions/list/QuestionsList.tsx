@@ -4,6 +4,7 @@ import LoadingSpinner from "@icons/LoadingSpinner";
 import { SortValues } from "../select/QuestionsFilterSelect";
 import { QuestionsResponse } from "@api/openapi";
 import { toast } from "sonner";
+import { Link } from "react-router-dom";
 
 interface QuestionsListProps {
   data?: QuestionsResponse;
@@ -12,7 +13,7 @@ interface QuestionsListProps {
 }
 
 const QuestionsList = ({ data, isLoading }: QuestionsListProps) => {
-  if (isLoading || false) {
+  if (isLoading) {
     return (
       <div className="flex justify-center items-center pt-10">
         <LoadingSpinner />
@@ -36,7 +37,6 @@ const QuestionsList = ({ data, isLoading }: QuestionsListProps) => {
         throw new Error("Web Share API is not supported");
       }
     } catch (error: any) {
-      console.error("Error sharing:", error);
       toast(error.message, {
         duration: 2000,
         style: {
@@ -51,24 +51,28 @@ const QuestionsList = ({ data, isLoading }: QuestionsListProps) => {
       {data?.questions &&
         data?.questions.map(
           ({ id, title, question, user, vote_count, answer_count }) => (
-            <QuestionCard
+            <Link
+              to={`/forum/question/${user?.username}/${id}`}
               key={`${user?.username} + ${title} ${Math.random()}`}
-              title={title}
-              description={question}
-              userAvatarSrc={user?.avatar}
-              username={user?.username}
-              voteCount={vote_count}
-              answerCount={answer_count}
-              onShareButtonClick={e => {
-                e.preventDefault();
+            >
+              <QuestionCard
+                title={title}
+                description={question}
+                userAvatarSrc={user?.avatar}
+                username={user?.username}
+                voteCount={vote_count}
+                answerCount={answer_count}
+                onShareButtonClick={e => {
+                  e.preventDefault();
 
-                handleShare(
-                  title,
-                  question,
-                  `forum/question/${user?.id}/${id}`
-                );
-              }}
-            />
+                  handleShare(
+                    title,
+                    question,
+                    `forum/question/${user?.id}/${id}`
+                  );
+                }}
+              />
+            </Link>
           )
         )}
     </div>

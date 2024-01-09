@@ -9,7 +9,11 @@ export default function useGetViewQuestion(
   return useQuery({
     queryKey: [VIEW_QUESTION(), id, page, filter],
     queryFn: async () => {
-      const data = await ForumsService.getApiForums1(id, page, filter);
+      const data = await ForumsService.getApiForums1({
+        id,
+        page,
+        filter
+      });
       return data;
     },
     keepPreviousData: true

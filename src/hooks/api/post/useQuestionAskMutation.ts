@@ -21,8 +21,6 @@ export default function useQuestionAskMutation() {
       queryClient.invalidateQueries({
         queryKey: [GET_QUESTION("10", "newest")]
       });
-
-      console.log("It is success!!");
     },
     onError: e => {
       console.log("onError: ", e);

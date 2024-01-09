@@ -16,10 +16,13 @@ export default function useDeleteAuthMutate() {
       return response;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [GET_MY_PROFILE_KEY()] });
+      queryClient
+        .invalidateQueries({ queryKey: [GET_MY_PROFILE_KEY()] })
+        .finally(() => {
+          navigate("/", { replace: true });
 
-      navigate("/", { replace: true });
-      window.location.reload();
+          window.location.reload();
+        });
     }
   });
 }

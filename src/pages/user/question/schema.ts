@@ -10,22 +10,36 @@ const ALLOWED_IMAGE_FORMATS = [
 
 export const askQuestionSchema = zod.object({
   title: zod
-    .string()
-    .min(3, "Please enter at least 3 characters")
+    .string({
+      required_error: "Title is required bro."
+    })
+    .min(10, "Please enter at least 10 characters")
     .max(200, "Title is too long"),
 
   question: zod
-    .string()
-    .min(5, "Please enter at least 5 characters")
+    .string({
+      required_error: "Content is required"
+    })
+    .min(10, "Content : Please enter some text")
     .max(2000, "Question is too long"),
 
   tags: zod
     .array(zod.string())
     .optional()
-    .refine(tags => tags === undefined || tags.length <= 5, {
-      message: "Up to 5 tags are allowed"
-    }),
+    .refine(
+      tags => {
+        if (tags && tags.length) {
+          if (tags.length <= 5) {
+            return true;
+          }
+        }
 
+        return false;
+      },
+      {
+        message: "Up to 5 tags are allowed"
+      }
+    ),
   imagesrc: zod
     .any()
     .refine(

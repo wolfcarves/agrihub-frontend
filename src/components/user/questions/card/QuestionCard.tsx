@@ -1,10 +1,6 @@
-import React from "react";
 import { BsThreeDots } from "react-icons/bs";
-import { PiArrowFatDown, PiArrowFatUp } from "react-icons/pi";
-import { LuMessagesSquare } from "react-icons/lu";
-import { TiArrowForwardOutline } from "react-icons/ti";
-import { Link } from "react-router-dom";
 import DOMPurify from "dompurify";
+import QuestionFeedbackPanel from "../panel/QuestionFeedbackPanel";
 
 interface QuestionCardProps {
   title?: string;
@@ -32,94 +28,59 @@ const QuestionCard = ({
   });
 
   return (
-    <Link to="/">
-      <div className="flex flex-col rounded-xl hover:bg-neutral-300 duration-200 h-max w-full ">
-        <div className="flex flex-col bg-white border p-5 rounded-xl min-h-[20rem] h-full max-h-[25rem] cursor-pointer hover:shadow-sm hover:-translate-y-2 hover:-translate-x-2 duration-200">
-          {/* Card Title */}
-          <div className="flex items-start justify-between">
-            <h1 className="text-xl text-foreground font-poppins-semibold line-clamp-2 hover:underline hover:opacity-90">
-              {title}
-            </h1>
+    <div className="flex flex-col rounded-xl hover:bg-neutral-300 duration-200 h-max w-full ">
+      <div className="flex flex-col bg-white border p-5 rounded-xl min-h-[20rem] h-full max-h-[25rem] cursor-pointer hover:shadow-sm hover:-translate-y-2 hover:-translate-x-2 duration-200">
+        {/* Card Title */}
+        <div className="flex items-start justify-between">
+          <h1 className="text-xl text-foreground font-poppins-semibold line-clamp-2 hover:underline hover:opacity-90">
+            {title}
+          </h1>
 
-            <button
-              className="text-xl p-2 rounded-md hover:bg-accent opacity-80 hover:opacity-100 duration-200"
-              onClick={e => {
-                e.preventDefault();
-              }}
-            >
-              <BsThreeDots />
-            </button>
-          </div>
-
-          {/* Name and Tags */}
-          <div className="flex justify-between items-center py-5">
-            <div className="flex gap-5">
-              <div className="w-12 h-12 border rounded-xl overflow-hidden ">
-                <img
-                  src={userAvatarSrc}
-                  className="object-cover w-full h-full"
-                />
-              </div>
-              <div className="flex flex-col ">
-                <span className="font-poppins-medium">{username}</span>
-                <span className="font-poppins-regular text-gray-400 text-sm">
-                  3 months ago
-                </span>
-              </div>
-            </div>
-
-            <div>Tags here</div>
-          </div>
-
-          {/* Content Body */}
-          <div>
-            <p
-              className="font-poppins-regular line-clamp-5 text-foreground"
-              dangerouslySetInnerHTML={{
-                __html: purifiedDescription
-              }}
-            />
-          </div>
-
-          {/* Actions */}
-          <div className="flex items-center mt-auto pt-5">
-            {/* Vote*/}
-            <div className="flex gap-3 items-center h-11">
-              <button className="text-lg h-full px-3 rounded-lg hover:bg-accent opacity-80 hover:opacity-100 duration-200">
-                <PiArrowFatUp />
-              </button>
-              <span className="font-poppins-bold text-foreground ">
-                {voteCount}
-              </span>
-              <button className="text-lg h-full px-3 rounded-lg hover:bg-accent opacity-80 hover:opacity-100 duration-200">
-                <PiArrowFatDown />
-              </button>
-            </div>
-
-            {/* Answer */}
-            <button className="flex items-center gap-5 h-11 px-5 rounded-lg hover:bg-accent opacity-80 hover:opacity-100 duration-200">
-              <div className="text-lg">
-                <LuMessagesSquare />
-              </div>
-              <span className="font-poppins-bold text-foreground">
-                {answerCount} &nbsp; &nbsp; Answers
-              </span>
-            </button>
-
-            {/* Share  */}
-            <button
-              className="flex items-center gap-5 h-11 px-5 rounded-lg hover:bg-accent opacity-80 hover:opacity-100 duration-200"
-              onClick={onShareButtonClick}
-            >
-              <div className="text-xl">
-                <TiArrowForwardOutline />
-              </div>
-              <span className="font-poppins-bold text-foreground">Share</span>
-            </button>
-          </div>
+          <button
+            className="text-xl p-2 rounded-md hover:bg-accent opacity-80 hover:opacity-100 duration-200"
+            onClick={e => {
+              e.preventDefault();
+            }}
+          >
+            <BsThreeDots />
+          </button>
         </div>
+
+        {/* Name and Tags */}
+        <div className="flex justify-between items-center py-5">
+          <div className="flex gap-5">
+            <div className="w-12 h-12 border rounded-xl overflow-hidden ">
+              <img src={userAvatarSrc} className="object-cover w-full h-full" />
+            </div>
+            <div className="flex flex-col ">
+              <span className="font-poppins-medium">{username}</span>
+              <span className="font-poppins-regular text-gray-400 text-sm">
+                3 months ago
+              </span>
+            </div>
+          </div>
+
+          <div>Tags here</div>
+        </div>
+
+        {/* Content Body */}
+        <div>
+          <p
+            className="font-poppins-regular line-clamp-5 text-foreground"
+            dangerouslySetInnerHTML={{
+              __html: purifiedDescription
+            }}
+          />
+        </div>
+
+        {/* Actions */}
+        <QuestionFeedbackPanel
+          {...{ answerCount }}
+          {...{ voteCount }}
+          {...{ onShareButtonClick }}
+        />
       </div>
-    </Link>
+    </div>
   );
 };
 

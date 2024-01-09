@@ -5,6 +5,7 @@ import { SortValues } from "../select/QuestionsFilterSelect";
 import { QuestionsResponse } from "@api/openapi";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
+import useQuestionVoteMutation from "@hooks/api/post/useQuestionVoteMutation";
 
 interface QuestionsListProps {
   data?: QuestionsResponse;
@@ -13,6 +14,8 @@ interface QuestionsListProps {
 }
 
 const QuestionsList = ({ data, isLoading }: QuestionsListProps) => {
+  const { mutateAsync: questionVoteMutate } = useQuestionVoteMutation();
+
   if (isLoading) {
     return (
       <div className="flex justify-center items-center pt-10">
@@ -20,6 +23,20 @@ const QuestionsList = ({ data, isLoading }: QuestionsListProps) => {
       </div>
     );
   }
+
+  const handleQuestionVote = async (
+    id: string,
+    type: "upvote" | "downvote"
+  ) => {
+    try {
+      await questionVoteMutate({
+        id,
+        requestBody: { type }
+      });
+    } catch (error: any) {
+      toast.error(error.body.message);
+    }
+  };
 
   const handleShare = async (
     title: string | undefined,
@@ -48,9 +65,20 @@ const QuestionsList = ({ data, isLoading }: QuestionsListProps) => {
 
   return (
     <div className="flex flex-col gap-7 pb-20">
-      {data?.questions &&
-        data?.questions.map(
-          ({ id, title, question, user, vote_count, answer_count }) => (
+      {data?.questions?.map(
+        ({
+          id,
+          title,
+          question,
+          tags,
+          user,
+          vote_count,
+          answer_count,
+          createdat,
+          vote
+        }) => {
+          console.log(vote_count);
+          return (
             <Link
               to={`/forum/question/${user?.username}/${id}`}
               key={`${user?.username} + ${title} ${Math.random()}`}
@@ -62,9 +90,18 @@ const QuestionsList = ({ data, isLoading }: QuestionsListProps) => {
                 username={user?.username}
                 voteCount={vote_count}
                 answerCount={answer_count}
-                onShareButtonClick={e => {
+                createdat={createdat}
+                onUpVoteBtnClick={e => {
                   e.preventDefault();
-
+                  handleQuestionVote(id!, "upvote");
+                }}
+                onDownVoteBtnClick={e => {
+                  e.preventDefault();
+                  handleQuestionVote(id!, "downvote");
+                }}
+                tags={tags}
+                onShareBtnClick={e => {
+                  e.preventDefault();
                   handleShare(
                     title,
                     question,
@@ -73,8 +110,9 @@ const QuestionsList = ({ data, isLoading }: QuestionsListProps) => {
                 }}
               />
             </Link>
-          )
-        )}
+          );
+        }
+      )}
     </div>
   );
 };

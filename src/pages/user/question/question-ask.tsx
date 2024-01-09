@@ -23,7 +23,6 @@ function QuestionAsk() {
     resolver: zodResolver(askQuestionSchema),
     mode: "onBlur",
     defaultValues: {
-      title: "tangina ang haba haba na neto ah ano bang haba gusto niyo?",
       tags: ["925677858106900481", "925677858106867713"]
     }
   });
@@ -42,8 +41,7 @@ function QuestionAsk() {
     }
   }, [form.formState.errors]);
 
-  const { mutateAsync: questionAskMutate, isLoading } =
-    useQuestionAskMutation();
+  const { mutateAsync: questionAskMutate } = useQuestionAskMutation();
 
   const handleSubmitForm = async (data: QuestionSchema) => {
     const compiledData: QuestionSchema = {
@@ -155,14 +153,6 @@ function QuestionAsk() {
             }}
           />
         </div>
-
-        {/* <div className="mt-10 px-5">
-          <div
-            dangerouslySetInnerHTML={{
-              __html: question
-            }}
-          />
-        </div> */}
 
         <div className="mt-20">
           <h3 className="text-foreground text-md font-poppins-bold">

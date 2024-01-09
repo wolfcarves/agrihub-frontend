@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ForumsService } from "@api/openapi";
-import { VIEW_QUESTION } from "../get/useGetViewQuestion";
+import { GET_QUESTION_KEY } from "../get/useGetQuestionsQuery";
 
-const useQuestionDeletAnswerKey = () => "QUESTIONS_DELETE_ANSWER_KEY";
+const useQuestionVoteMutationKey = () => "QUESTIONS_DELETE_ANSWER_KEY";
 
 type VoteMutation = {
   id: string;
@@ -14,15 +14,14 @@ type VoteMutation = {
 export default function useQuestionVoteMutation() {
   const queryClient = useQueryClient();
 
-  return useMutation([useQuestionDeletAnswerKey()], {
+  return useMutation([useQuestionVoteMutationKey()], {
     async mutationFn(data: VoteMutation) {
-      const { id, requestBody } = data;
-      const response = await ForumsService.postApiForumsVote(id, requestBody);
+      const response = await ForumsService.postApiForumsVote(data);
 
       return response;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [VIEW_QUESTION()] });
+      queryClient.invalidateQueries({ queryKey: [GET_QUESTION_KEY()] });
     }
   });
 }

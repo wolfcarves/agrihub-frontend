@@ -63,8 +63,6 @@ const Question = () => {
 
   const { data: currentUser } = UserAuth() ?? {};
 
-  console.log(questionData?.question);
-
   const handleVoteAnswer = async (
     type: "upvote" | "downvote",
     isVoted: boolean,
@@ -111,7 +109,7 @@ const Question = () => {
 
   if (isQuestionLoading) {
     return (
-      <div className="flex justify-center items-center pt-10">
+      <div className="flex justify-center pt-10 w-full">
         <LoadingSpinner />
       </div>
     );
@@ -126,7 +124,7 @@ const Question = () => {
   );
 };
 
-export default withAuthGuard(Question, ["member"]);
+export default withAuthGuard(Question, ["guest", "member"]);
 
 {
   /* 

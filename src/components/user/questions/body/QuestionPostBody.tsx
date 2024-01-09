@@ -10,6 +10,8 @@ interface QuestionPostBodyProps {
 }
 
 const QuestionPostBody = ({ data }: QuestionPostBodyProps) => {
+  const pattern = /\bblob\b/;
+
   let index = 0;
   return (
     <>
@@ -42,14 +44,16 @@ const QuestionPostBody = ({ data }: QuestionPostBodyProps) => {
               replace: domNode => {
                 if (domNode instanceof Element) {
                   if (domNode.tagName === "img") {
-                    const replacedImg = (
-                      <img
-                        src={data?.question?.imagesrc?.[index]}
-                        className="w-full max-w-[450px] my-2"
-                      />
-                    );
-                    index++;
-                    return replacedImg;
+                    if (pattern.test(domNode.attribs.src)) {
+                      const replacedImg = (
+                        <img
+                          src={data?.question?.imagesrc?.[index]}
+                          className="w-full max-w-[450px] my-2"
+                        />
+                      );
+                      index++;
+                      return replacedImg;
+                    }
                   }
                 }
               }
@@ -84,7 +88,10 @@ const QuestionPostBody = ({ data }: QuestionPostBodyProps) => {
           </div>
         </div>
 
-        <QuestionFeedbackPanel onSaveBtnClick={() => console.log("test")} />
+        <QuestionFeedbackPanel
+          voteCount="20"
+          onSaveBtnClick={() => console.log("test")}
+        />
 
         <div className="flex flex-wrap gap-2 py-5">
           {data?.question?.tags?.map(({ tag }) => {

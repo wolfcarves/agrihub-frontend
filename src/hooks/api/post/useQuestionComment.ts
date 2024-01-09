@@ -1,7 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CommentsSchema, ForumsService } from "@api/openapi";
-import { GET_QUESTION } from "../get/useGetQuestionsQuery";
-import { VIEW_QUESTION } from "../get/useGetViewQuestion";
+import { VIEW_QUESTION_KEY } from "../get/useGetViewQuestion";
 
 const useQuestionCommentKey = () => "COMMENTS_KEY";
 
@@ -24,7 +23,7 @@ export default function useQuestionComment() {
       return response;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [VIEW_QUESTION()] });
+      queryClient.invalidateQueries({ queryKey: [VIEW_QUESTION_KEY()] });
     }
   });
 }

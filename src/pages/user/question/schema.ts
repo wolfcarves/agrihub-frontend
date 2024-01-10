@@ -11,7 +11,7 @@ const ALLOWED_IMAGE_FORMATS = [
 export const askQuestionSchema = zod.object({
   title: zod
     .string({
-      required_error: "Title is required bro."
+      required_error: "Title is required."
     })
     .min(10, "Please enter at least 10 characters")
     .max(200, "Title is too long"),

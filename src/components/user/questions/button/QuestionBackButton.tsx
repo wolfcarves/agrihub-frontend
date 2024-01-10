@@ -4,9 +4,9 @@ import { FaArrowLeftLong } from "react-icons/fa6";
 
 const QuestionBackButton = () => {
   return (
-    <div className="py-10 w-max">
+    <div className="mb-10 w-max">
       <Link to={".."}>
-        <button className="flex items-center gap-x-2 text-foreground font-poppins-semibold hover:bg-gray-100 py-2.5 px-5 rounded-lg duration-200">
+        <button className="flex items-center gap-x-2 text-foreground font-poppins-semibold hover:underline hover:underline-offset-2 py-2.5 px-1.5 rounded-lg duration-200">
           <FaArrowLeftLong /> Back
         </button>
       </Link>

@@ -16,14 +16,6 @@ interface QuestionsListProps {
 const QuestionsList = ({ data, isLoading }: QuestionsListProps) => {
   const { mutateAsync: questionVoteMutate } = useQuestionVoteMutation();
 
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center pt-10">
-        <LoadingSpinner />
-      </div>
-    );
-  }
-
   const handleQuestionVote = async (
     id: string,
     type: "upvote" | "downvote"
@@ -33,6 +25,8 @@ const QuestionsList = ({ data, isLoading }: QuestionsListProps) => {
         id,
         requestBody: { type }
       });
+
+      toast.info(`Successfully ${type} a question`);
     } catch (error: any) {
       toast.error(error.body.message);
     }
@@ -63,6 +57,14 @@ const QuestionsList = ({ data, isLoading }: QuestionsListProps) => {
     }
   };
 
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center pt-10">
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col gap-7 pb-20">
       {data?.questions?.map(
@@ -77,39 +79,44 @@ const QuestionsList = ({ data, isLoading }: QuestionsListProps) => {
           createdat,
           vote
         }) => {
-          console.log(vote_count);
           return (
-            <Link
-              to={`/forum/question/${user?.username}/${id}`}
-              key={`${user?.username} + ${title} ${Math.random()}`}
+            //ginanto ko muna para maayos lang yung hover issue , nafigure out ko na problem saka nalang ayusin or kahit di na XD
+            <div
+              className="flex flex-col rounded-xl hover:bg-neutral-300 duration-200 h-max w-full"
+              key={`${id} + ${title}`}
             >
-              <QuestionCard
-                title={title}
-                description={question}
-                userAvatarSrc={user?.avatar}
-                username={user?.username}
-                voteCount={vote_count}
-                answerCount={answer_count}
-                createdat={createdat}
-                onUpVoteBtnClick={e => {
-                  e.preventDefault();
-                  handleQuestionVote(id!, "upvote");
-                }}
-                onDownVoteBtnClick={e => {
-                  e.preventDefault();
-                  handleQuestionVote(id!, "downvote");
-                }}
-                tags={tags}
-                onShareBtnClick={e => {
-                  e.preventDefault();
-                  handleShare(
-                    title,
-                    question,
-                    `forum/question/${user?.id}/${id}`
-                  );
-                }}
-              />
-            </Link>
+              <Link to={`question/${user?.username}/${id}`}>
+                <div className="flex flex-col bg-white border p-5 rounded-xl min-h-[20rem] h-full max-h-[25rem] hover:shadow-sm hover:-translate-y-2 hover:-translate-x-2 duration-200">
+                  <QuestionCard
+                    title={title}
+                    description={question}
+                    userAvatarSrc={user?.avatar}
+                    username={user?.username}
+                    vote={vote?.type as "upvote" | "downvote"}
+                    voteCount={vote_count}
+                    answerCount={answer_count}
+                    createdat={createdat}
+                    onUpVoteBtnClick={e => {
+                      e.preventDefault();
+                      handleQuestionVote(id!, "upvote");
+                    }}
+                    onDownVoteBtnClick={e => {
+                      e.preventDefault();
+                      handleQuestionVote(id!, "downvote");
+                    }}
+                    tags={tags}
+                    onShareBtnClick={e => {
+                      e.preventDefault();
+                      handleShare(
+                        title,
+                        question,
+                        `forum/question/${user?.id}/${id}`
+                      );
+                    }}
+                  />
+                </div>
+              </Link>
+            </div>
           );
         }
       )}

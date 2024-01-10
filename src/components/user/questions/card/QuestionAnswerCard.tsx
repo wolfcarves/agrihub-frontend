@@ -2,6 +2,8 @@ import { Answer } from "@api/openapi";
 import QuestionAnswerFeedbackPanel from "../panel/QuestionAnswerFeedbackPanel";
 import { timeAgo } from "@components/lib/utils";
 import QuestionFeedbackPanel from "../panel/QuestionFeedbackPanel";
+import QuestionUserProfileButton from "../button/QuestionUserProfileButton";
+import { FaCheck } from "react-icons/fa";
 
 interface QuestionAnswerListProps {
   data?: Answer;
@@ -9,27 +11,23 @@ interface QuestionAnswerListProps {
 
 const QuestionAnswerCard = ({ data }: QuestionAnswerListProps) => {
   return (
-    <>
+    <div>
       <div className="border-b py-4">
         <div className="flex items-center justify-between mt-10">
-          <div className="flex gap-4">
-            <div className="w-12 h-12 border rounded-xl overflow-hidden ">
-              <img
-                src={data?.user?.avatar}
-                className="object-cover w-full h-full"
-              />
-            </div>
-            <div className="flex flex-col ">
-              <span className="font-poppins-medium">
-                {data?.user?.username}
-              </span>
-              <span className="font-poppins-regular text-gray-400 text-sm">
-                {timeAgo(data?.createdat ?? "")}
-              </span>
-            </div>
-          </div>
+          <QuestionUserProfileButton
+            avatarSrc={data?.user?.avatar}
+            username={data?.user?.username}
+            createdAt={data?.createdat}
+          />
 
-          <div>Accepted</div>
+          {data?.isaccepted && (
+            <span className="flex text-sm gap-3 items-center font-poppins-medium h-max text-primary">
+              Accepted Answer
+              <span className="text-lg -mt-3">
+                <FaCheck />
+              </span>
+            </span>
+          )}
         </div>
 
         <div className="py-5">
@@ -37,46 +35,43 @@ const QuestionAnswerCard = ({ data }: QuestionAnswerListProps) => {
         </div>
 
         <div>
-          <QuestionFeedbackPanel answerCount={data?.total_vote_count ?? ""} />
+          <QuestionFeedbackPanel
+            onUpVoteBtnClick={() => {}}
+            onDownVoteBtnClick={() => {}}
+            voteCount={data?.total_vote_count ?? ""}
+            onCommentBtnClick={() => {}}
+          />
         </div>
       </div>
 
-      {data?.comments?.map(item => {
+      {data?.comments?.slice(0, 1).map(item => {
         return (
           <div
             key={`${item} + ${Math.random()}`}
-            className="w-[95%] ms-auto border-b py-4"
+            className="w-[95%] ms-auto border-b pt-10 pb-5"
           >
-            <div className="flex items-center justify-between mt-10">
-              <div className="flex gap-4">
-                <div className="w-12 h-12 border rounded-xl overflow-hidden ">
-                  <img
-                    src={item.user?.avatar}
-                    className="object-cover w-full h-full"
-                  />
-                </div>
-                <div className="flex flex-col ">
-                  <span className="font-poppins-medium">
-                    {item?.user?.username}
-                  </span>
-                  <span className="font-poppins-regular text-gray-400 text-sm">
-                    {timeAgo(item?.createdat ?? "")}
-                  </span>
-                </div>
-              </div>
-            </div>
+            <QuestionUserProfileButton
+              avatarSrc={data?.user?.avatar}
+              username={data?.user?.username}
+              createdAt={data?.createdat}
+            />
 
             <div className="py-5">
               <p>{item?.comment}</p>
             </div>
 
             <div>
-              <QuestionFeedbackPanel />
+              <QuestionFeedbackPanel
+                onUpVoteBtnClick={() => {}}
+                onDownVoteBtnClick={() => {}}
+                voteCount={data?.total_vote_count ?? ""}
+                onCommentBtnClick={() => {}}
+              />
             </div>
           </div>
         );
       })}
-    </>
+    </div>
   );
 };
 

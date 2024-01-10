@@ -43,6 +43,7 @@ import QuestionBackButton from "@components/user/questions/button/QuestionBackBu
 import QuestionPostBody from "@components/user/questions/body/QuestionPostBody";
 import QuestionAnswerFeedbackPanel from "@components/user/questions/panel/QuestionAnswerFeedbackPanel";
 import QuestionAnswerList from "@components/user/questions/list/QuestionAnswerList";
+import OutletContainer from "@components/user/questions/container/OutletContainer";
 
 type FilterType = "newest" | "top";
 
@@ -116,11 +117,11 @@ const Question = () => {
   }
 
   return (
-    <div className="w-full flex flex-col pb-20 px-0 lg:px-10">
+    <OutletContainer className="px-0 md:px-7 xl:px-10">
       <QuestionBackButton />
       <QuestionPostBody data={questionData} />
       <QuestionAnswerList data={questionData} />
-    </div>
+    </OutletContainer>
   );
 };
 

@@ -30,7 +30,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
 }) => {
   const extensions: Extensions = [
     CharacterCount.configure({
-      limit: 200, //200 characters only
+      limit: 500, //500 characters only
       mode: "textSize"
     }),
     Image.configure({

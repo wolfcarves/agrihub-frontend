@@ -14,6 +14,7 @@ import { FaArrowLeftLong } from "react-icons/fa6";
 import UserTagInputDropdown from "@components/user/account/input/UserTagInput";
 import useGetTagByKeyWord from "@hooks/api/get/useGetTagByKeyword";
 import { Form, FormField } from "@components/ui/form";
+import QuestionBackButton from "@components/user/questions/button/QuestionBackButton";
 
 function QuestionAsk() {
   const [searchInputTagValue, setSearchInputTagValue] = useState<string>("");
@@ -64,15 +65,8 @@ function QuestionAsk() {
         className="flex flex-col pb-20 px-0 lg:px-10"
         encType="multipart/form-data"
       >
-        <div className="w-full">
-          <div className="py-10 w-max">
-            <Link to={".."}>
-              <button className="flex items-center gap-x-2 text-foreground font-poppins-semibold hover:bg-gray-100 py-2.5 px-5 rounded-lg duration-200">
-                <FaArrowLeftLong /> Back
-              </button>
-            </Link>
-          </div>
-
+        <div className="py-10">
+          <QuestionBackButton />
           <div>
             <h2 className="font-poppins-bold text-foreground">
               Ask a public question
@@ -120,6 +114,7 @@ function QuestionAsk() {
           <FormField
             name="title"
             control={form.control}
+            defaultValue=""
             render={({ field, fieldState: { invalid } }) => {
               return <Input {...field} $isError={invalid} />;
             }}

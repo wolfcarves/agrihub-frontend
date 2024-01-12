@@ -5,8 +5,10 @@ import { BsTags } from "react-icons/bs";
 import { TbMessageCircleQuestion } from "react-icons/tb";
 import { IoBookmarkOutline } from "react-icons/io5";
 import useAuth from "@hooks/useAuth";
+import { useLocation } from "react-router-dom";
 
 const QuestionSidebar = () => {
+  const pathname = useLocation().pathname;
   const { isAuthenticated } = useAuth();
 
   return (
@@ -15,7 +17,7 @@ const QuestionSidebar = () => {
         to="/forum"
         title="Questions"
         logo={<TbMessageCircleQuestion size={20} />}
-        end
+        end={pathname === "/forum/tags"}
       />
 
       {isAuthenticated && (

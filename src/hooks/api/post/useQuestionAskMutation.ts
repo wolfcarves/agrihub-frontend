@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ForumsService } from "@api/openapi";
 import { QuestionSchema } from "@api/openapi";
-import { GET_QUESTION } from "../get/useGetQuestionsQuery";
+import { GET_QUESTION_KEY } from "../get/useGetQuestionsQuery";
 
 const useQuestionKey = () => "QUESTIONS_KEY";
 
@@ -19,10 +19,8 @@ export default function useQuestionAskMutation() {
     },
     onSuccess: e => {
       queryClient.invalidateQueries({
-        queryKey: [GET_QUESTION("10", "newest")]
+        queryKey: [GET_QUESTION_KEY()]
       });
-
-      console.log("It is success!!");
     },
     onError: e => {
       console.log("onError: ", e);

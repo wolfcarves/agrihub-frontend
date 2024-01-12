@@ -9,14 +9,11 @@ export type SearchParams = {
   profile?: string;
 };
 
-export const GET_QUESTION = (
-  page: string | undefined,
-  filter: SearchParams["filter"]
-) => ["GET_QUESTION_KEY", page, filter];
+export const GET_QUESTION_KEY = () => "GET_QUESTION_KEY";
 
 export default function useGetQuestionsQuery(data: SearchParams) {
   return useQuery({
-    queryKey: [GET_QUESTION(data.page, data.filter), data.page, data.filter],
+    queryKey: [GET_QUESTION_KEY(), data.page, data.filter],
     queryFn: async () => {
       const response = await ForumsService.getApiForums(data);
 

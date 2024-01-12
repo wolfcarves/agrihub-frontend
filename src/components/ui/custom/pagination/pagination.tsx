@@ -57,7 +57,7 @@ const Pagination = ({
 
   const isPageValid = totalPages < params.page;
 
-  if (isLoading || isPageValid) {
+  if (isLoading || isPageValid || !totalPages) {
     return <></>;
   }
 

@@ -41,9 +41,9 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor, onImageUpload }) => {
     const file = data.target?.files?.[0];
 
     if (file) {
-      if (file?.size > 2000000) {
-        return toast.error("File is too large, 2mb is the maximum", {});
-      }
+      // if (file?.size > 2000000) {
+      //   return toast.error("File is too large, 2mb is the maximum", {});
+      // }
 
       const options: Options = {
         maxSizeMB: 1,

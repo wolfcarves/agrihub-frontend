@@ -5,70 +5,58 @@ import { askQuestionSchema } from "./schema";
 import { QuestionSchema } from "@api/openapi";
 import useQuestionAskMutation from "@hooks/api/post/useQuestionAskMutation";
 import { Button } from "@components/ui/button";
-import { Input } from "../../../components/ui/input";
-import RichTextEditor from "../../../components/ui/custom/rich-text-editor/RichTextEditor";
-import withAuthGuard from "../../../higher-order/account/withAuthGuard";
+import { Input } from "@components/ui/custom";
+import RichTextEditor from "@components/ui/custom/rich-text-editor/RichTextEditor";
+import withAuthGuard from "@higher-order/account/withAuthGuard";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
 import { FaArrowLeftLong } from "react-icons/fa6";
-import { GoPlus } from "react-icons/go";
 import UserTagInputDropdown from "@components/user/account/input/UserTagInput";
 import useGetTagByKeyWord from "@hooks/api/get/useGetTagByKeyword";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
-} from "@components/ui/form";
-
-async function filesToBlobs(files: File[]): Promise<Blob[]> {
-  const blobArray: Blob[] = [];
-
-  for (const file of files) {
-    const arrayBuffer = await file.arrayBuffer();
-    const blob = new Blob([arrayBuffer], { type: file.type });
-    blobArray.push(blob);
-  }
-
-  return blobArray;
-}
+import { Form, FormField } from "@components/ui/form";
+import QuestionBackButton from "@components/user/questions/button/QuestionBackButton";
 
 function QuestionAsk() {
-  const [question, setQuestion] = useState<any>();
+  const [searchInputTagValue, setSearchInputTagValue] = useState<string>("");
+  const { data: tagResult } = useGetTagByKeyWord(searchInputTagValue);
 
   const form = useForm<QuestionSchema>({
     resolver: zodResolver(askQuestionSchema),
-    mode: "onChange",
+    mode: "onBlur",
     defaultValues: {
-      title: "very very long dick title here..... okkaayyy??",
-      tags: ["925349537503870977", "925349537503903745"]
+      tags: ["925677858106900481", "925677858106867713"]
     }
   });
 
-  const { mutateAsync: questionAskMutate, isLoading } =
-    useQuestionAskMutation();
+  useEffect(() => {
+    if (form.formState.errors.title) {
+      toast.error(form.formState.errors.title.message);
+    }
+
+    if (form.formState.errors.tags) {
+      toast.error(form.formState.errors.tags.message);
+    }
+
+    if (form.formState.errors.question) {
+      toast.error(form.formState.errors.question.message);
+    }
+  }, [form.formState.errors]);
+
+  const { mutateAsync: questionAskMutate } = useQuestionAskMutation();
 
   const handleSubmitForm = async (data: QuestionSchema) => {
     const compiledData: QuestionSchema = {
       title: data.title,
       imagesrc: data.imagesrc,
-      question: data.question,
-      tags: data.tags
+      question: data.question
     };
 
     try {
       await questionAskMutate(compiledData);
     } catch (e: any) {
-      toast(e.message);
-      toast(e.body.message);
+      //
     }
   };
-
-  const [tags, setTags] = useState<string[]>();
-  const [searchInputTagValue, setSearchInputTagValue] = useState<string>("");
-  const { data: tagResult } = useGetTagByKeyWord(searchInputTagValue);
 
   return (
     <Form {...form}>
@@ -77,15 +65,8 @@ function QuestionAsk() {
         className="flex flex-col pb-20 px-0 lg:px-10"
         encType="multipart/form-data"
       >
-        <div className="w-full">
-          <div className="py-10 w-max">
-            <Link to={".."}>
-              <button className="flex items-center gap-x-2 text-foreground font-poppins-semibold hover:bg-gray-100 py-2.5 px-5 rounded-lg duration-200">
-                <FaArrowLeftLong /> Back
-              </button>
-            </Link>
-          </div>
-
+        <div className="py-10">
+          <QuestionBackButton />
           <div>
             <h2 className="font-poppins-bold text-foreground">
               Ask a public question
@@ -130,7 +111,14 @@ function QuestionAsk() {
           <p className="text-foreground my-2 text-sm">
             Be specific and imagine you’re asking a question to another person.
           </p>
-          <Input {...form.register("title")} />
+          <FormField
+            name="title"
+            control={form.control}
+            defaultValue=""
+            render={({ field, fieldState: { invalid } }) => {
+              return <Input {...field} $isError={invalid} />;
+            }}
+          />
         </div>
 
         <div className="mt-20">
@@ -143,28 +131,20 @@ function QuestionAsk() {
             Minimum 20 characters.
           </p>
 
-          {/* AWD */}
           <FormField
             name="question"
             control={form.control}
-            render={({ field: { onBlur, onChange } }) => (
-              <RichTextEditor
-                onBlur={data => {
-                  onBlur();
-                  onChange(data.html);
-                  filesToBlobs(data.files as File[]).then((blobs: Blob[]) => {
-                    form.setValue("imagesrc", blobs);
-                  });
-                }}
-              />
-            )}
-          />
-        </div>
-
-        <div className="mt-10 px-5">
-          <div
-            dangerouslySetInnerHTML={{
-              __html: question
+            render={({ field: { onChange } }) => {
+              return (
+                <RichTextEditor
+                  onBlur={data => {
+                    onChange(data.html);
+                    data?.files?.then(blobs => {
+                      form.setValue("imagesrc", blobs);
+                    });
+                  }}
+                />
+              );
             }}
           />
         </div>
@@ -183,16 +163,17 @@ function QuestionAsk() {
             <FormField
               name="tags"
               control={form.control}
-              render={({ field: { onChange } }) => (
-                <UserTagInputDropdown
-                  option={tagResult}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    setSearchInputTagValue(e.target.value);
-                    onChange(e.target.value);
-                  }}
-                  onTagsValueChange={e => setTags(e)}
-                />
-              )}
+              render={({ field: { onChange } }) => {
+                return (
+                  <UserTagInputDropdown
+                    option={tagResult}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      setSearchInputTagValue(e.target.value);
+                      onChange(e.target.value);
+                    }}
+                  />
+                );
+              }}
             />
           </div>
         </div>

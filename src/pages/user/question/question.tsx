@@ -33,6 +33,17 @@ import { toast } from "sonner";
 import useQuestionDeleteVoteMutation from "@hooks/api/post/useQuestionDeleteVoteMutation";
 import Modal from "../../../components/ui/custom/modal/Modal";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
+import { Link } from "react-router-dom";
+import parse, { DOMNode, Element } from "html-react-parser";
+import DOMPurify from "dompurify";
+import LoadingSpinner from "@icons/LoadingSpinner";
+import QuestionFeedbackPanel from "@components/user/questions/panel/QuestionFeedbackPanel";
+import TagChip from "@components/user/questions/chip/TagChip";
+import QuestionBackButton from "@components/user/questions/button/QuestionBackButton";
+import QuestionPostBody from "@components/user/questions/body/QuestionPostBody";
+import QuestionAnswerFeedbackPanel from "@components/user/questions/panel/QuestionAnswerFeedbackPanel";
+import QuestionAnswerList from "@components/user/questions/list/QuestionAnswerList";
+import OutletContainer from "@components/user/questions/container/OutletContainer";
 
 type FilterType = "newest" | "top";
 
@@ -40,21 +51,12 @@ const Question = () => {
   const dispatch = useDispatch();
   const { questionId } = useParams();
   const navigate = useNavigate();
-  const pagination = UsePagination();
-
-  useEffect(() => {
-    dispatch(setId(questionId || ""));
-    pagination?.scrollToTop();
-  }, []);
 
   const filter = useSelector(getQuestionViewFilter);
   const page = useSelector(getQuestionViewPage);
 
-  const { data, isLoading } = useGetViewQuestion(
-    questionId || "",
-    String(page),
-    filter
-  );
+  const { data: questionData, isLoading: isQuestionLoading } =
+    useGetViewQuestion(questionId || "", String(page), filter);
 
   const { mutateAsync: asyncVoteMutate } = useQuestionVoteMutation();
   const { mutateAsync: asyncDeleteVoteMutate } =
@@ -106,10 +108,121 @@ const Question = () => {
     setSelectedImage(null);
   };
 
-  if (isLoading) return <QuestionSkeleton quantity={40} />;
+  if (isQuestionLoading) {
+    return (
+      <div className="flex justify-center pt-10 w-full">
+        <LoadingSpinner />
+      </div>
+    );
+  }
 
   return (
-    <div className="px-3 max-h-full overflow-y-auto flex flex-col gap-6">
+    <OutletContainer className="px-0 md:px-7 xl:px-10">
+      <QuestionBackButton />
+      <QuestionPostBody data={questionData} />
+      <QuestionAnswerList data={questionData} />
+    </OutletContainer>
+  );
+};
+
+export default withAuthGuard(Question, ["guest", "member"]);
+
+{
+  /* 
+      <div className="flex justify-between">
+        <div>
+          <div
+            className="leading-loose"
+            dangerouslySetInnerHTML={{
+              __html: data?.question?.question || "<p></p>"
+            }}
+          />
+          <div className="flex flex-wrap gap-2">
+            {data?.question?.imagesrc?.map((image, i) => (
+              <img
+                key={i}
+                className=" rounded-lg md:h-[8rem] h-[4rem]"
+                src={image}
+                onClick={() => handleImageClick(image)}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+      <div className="flex gap-8">
+        <div className="flex items-center gap-3 hover:underline" role="button">
+          <span className="bg-[#F3F3F3] p-2 rounded-lg">
+            <CiBookmarkPlus size={20} />
+          </span>
+          <span className=" ">Save</span>
+        </div>
+        <div className="flex items-center gap-3 hover:underline" role="button">
+          <span className="bg-[#F3F3F3] p-2 rounded-lg">
+            <GoReport size={20} />
+          </span>
+          <span className=" ">Report</span>
+        </div>
+        <div className="flex items-center gap-3 hover:underline" role="button">
+          <span className="bg-[#F3F3F3] p-2 rounded-lg">
+            <PiShareFatLight size={20} />
+          </span>
+          <span className=" ">Share</span>
+        </div>
+      </div>
+      <div className="flex gap-2 justify-start">
+        {data?.question?.?.map((tags, i) => (
+          <span
+            key={i}
+            className="text-primary text-sm bg-secondary border border-primary py-1 px-2 rounded-lg"
+          >
+            {tags.tag}
+          </span>
+        ))}
+      </div>
+      <hr className="" />
+
+      {currentUser && <AnswerForm questionId={data?.question?.id} />}
+      <div>
+        <div className="flex justify-between">
+          <div className="flex gap-2 items-center text-gray-400">
+            <FiMessageSquare size={20} /> {data?.question?.answer_count}{" "}
+            {parseInt(data?.question?.answer_count ?? "0") > 1
+              ? "Answers"
+              : "Answer"}
+          </div>
+
+          <Select onValueChange={onFilterChange}>
+            <SelectTrigger className="w-[150px] font-medium capitalize">
+              <div>Sort:</div>
+              <SelectValue placeholder={filter} />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="newest">New</SelectItem>
+              <SelectItem value="top">Top</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+
+      <div ref={pagination?.topRef}>
+        {data?.question?.answers?.map((answer, i) => (
+          <AnswerCard key={i} answer={answer} />
+        ))}
+      </div>
+
+      {selectedImage && (
+        <Modal setModal={closeModal}>
+          <img
+            src={selectedImage}
+            alt="Full View"
+            className="max-w-full h-[20rem] max-h-full"
+          />
+        </Modal>
+      )} */
+}
+
+/*
+  <div className="w-full px-3 max-h-full overflow-y-auto flex flex-col gap-6">
       <h6
         className="flex gap-2 items-center cursor-pointer mb-3 font-medium"
         onClick={() => navigate(-1)}
@@ -262,7 +375,4 @@ const Question = () => {
         </Modal>
       )}
     </div>
-  );
-};
-
-export default withAuthGuard(Question, ["member"]);
+*/

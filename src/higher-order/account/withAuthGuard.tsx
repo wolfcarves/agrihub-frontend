@@ -1,6 +1,5 @@
-import { ComponentType } from "react";
-import Unauthorized from "@pages/user/common/unauthorized";
-import { useNavigate } from "react-router-dom";
+import { ComponentType, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import useGetMyProfileQuery from "@hooks/api/get/useGetMyProfileQuery";
 
 type AllowedRoles =
@@ -17,39 +16,64 @@ export default function withAuthGuard<P extends object>(
   allowedRoles: Array<AllowedRoles>
 ) {
   const NewComponent = (props: P) => {
+    const pathname = useLocation().pathname;
     const navigate = useNavigate();
     const { data: authData, isFetched: isAuthDataFetched } =
       useGetMyProfileQuery();
 
-    const verificationLevel = authData?.verification_level;
-    const userRole = authData?.role as AllowedRoles;
+    useEffect(() => {
+      const verificationLevel = authData?.verification_level;
+      const userRole = authData?.role as AllowedRoles;
 
-    const isAllowed = allowedRoles.includes(userRole ?? "guest");
+      const isAllowed = allowedRoles.includes(userRole ?? "guest");
 
-    const verificationLevelPaths = {
-      "1": "/account/verify-email",
-      "2": "/account/setup-account",
-      "3": "/account/final-setup",
-      "4": "/"
-    };
+      if (isAuthDataFetched) {
+        if (!isAllowed) {
+          navigate("/", { replace: true });
+        }
 
-    const respectivePath =
-      verificationLevelPaths[
-        verificationLevel as keyof typeof verificationLevelPaths
-      ];
+        const verificationLevelPaths = {
+          "1": "/account/verify-email",
+          "2": "/account/setup-account",
+          "3": "/account/final-setup",
+          "4": "/"
+        };
 
-    if (verificationLevel && location.pathname !== respectivePath) {
-      if (verificationLevel !== "4") {
-        navigate(respectivePath, { replace: true });
+        const respectivePath =
+          verificationLevelPaths[
+            verificationLevel as keyof typeof verificationLevelPaths
+          ];
+
+        //force redirect to account proccess unless the verification is already 4
+        if (verificationLevel && pathname !== respectivePath) {
+          if (verificationLevel !== "4") {
+            navigate(respectivePath, { replace: true });
+          }
+        }
+
+        // Redirect user to homepage when he tried to access login,signup etc while the verif. level is already 4
+        if (
+          pathname ===
+            verificationLevelPaths[
+              "0" as keyof typeof verificationLevelPaths
+            ] ||
+          pathname ===
+            verificationLevelPaths[
+              "1" as keyof typeof verificationLevelPaths
+            ] ||
+          pathname ===
+            verificationLevelPaths["2" as keyof typeof verificationLevelPaths]
+        ) {
+          navigate("/", { replace: true });
+        }
       }
-    }
-
-    //Always allow guest at any cost
-    if (allowedRoles.includes("guest")) {
-      return <Component {...props} />;
-    }
-
-    if (!isAllowed && isAuthDataFetched) return <Unauthorized />;
+    }, [
+      authData?.role,
+      authData?.verification_level,
+      isAuthDataFetched,
+      navigate,
+      pathname
+    ]);
 
     return <Component {...props} />;
   };

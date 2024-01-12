@@ -10,6 +10,7 @@ import {
 import useDeleteAuthMutate from "@hooks/api/delete/useDeleteAuthMutate";
 import useAuth from "@hooks/useAuth";
 
+//Refactor nalang dapat dito naka .map pero ang mahalaga masaya tayong mga pilipino
 const UserHeaderMenu = () => {
   const { data } = useAuth();
   const { mutateAsync: deleteAuthData } = useDeleteAuthMutate();

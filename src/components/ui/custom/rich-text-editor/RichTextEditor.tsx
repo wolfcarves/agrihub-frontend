@@ -1,23 +1,40 @@
 import { useEditor, EditorContent, EditorContentProps } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import React, { useState } from "react";
-
 import Image from "@tiptap/extension-image";
+import React, { useState } from "react";
 import Toolbar from "./Toolbar";
-import { Extensions } from "@tiptap/react";
+import { Extensions, Editor } from "@tiptap/react";
+import CharacterCount from "@tiptap/extension-character-count";
 
 interface RichTextEditorProps
   extends Omit<EditorContentProps, "editor" | "onBlur"> {
-  onBlur?: (data: { html?: string; files?: File[] | null }) => void;
+  onBlur?: (data: { html?: string; files?: Promise<Blob[]> }) => void;
 }
 
-const RichTextEditor = ({ onBlur, ...props }: RichTextEditorProps) => {
+//put this shit to util folder pero sa susunod na yugto ng ating buhay nalang T_T
+async function filesToBlobs(files: File[]): Promise<Blob[]> {
+  const blobArray: Blob[] = [];
+
+  for (const file of files) {
+    const arrayBuffer = await file.arrayBuffer();
+    const blob = new Blob([arrayBuffer], { type: file.type });
+    blobArray.push(blob);
+  }
+
+  return blobArray;
+}
+
+const RichTextEditor: React.FC<RichTextEditorProps> = ({
+  onBlur,
+  ...props
+}) => {
   const extensions: Extensions = [
+    CharacterCount.configure({
+      limit: 500, //500 characters only
+      mode: "textSize"
+    }),
     Image.configure({
-      inline: true,
-      HTMLAttributes: {
-        class: "mb-1 object-cover block"
-      }
+      inline: false
     }),
     StarterKit.configure({
       bulletList: {
@@ -34,72 +51,66 @@ const RichTextEditor = ({ onBlur, ...props }: RichTextEditorProps) => {
   ];
 
   const [fileList, setFileList] = useState<File[] | null>(null);
-
   const exisitingUrls: string[] = [];
   const [nonSureUrls, setNonSureUrls] = useState<string[]>([]);
-  const files: File[] | null = [];
+  const files: Blob[] = [];
 
-  const editor = useEditor(
-    {
-      extensions,
-      onBlur: ({ editor }) => {
-        const { doc } = editor.state;
+  const editor = useEditor({
+    extensions,
+    onBlur: ({ editor }) => {
+      const { doc } = editor.state;
 
-        doc.descendants(node => {
-          if (node.type.name === "image") {
-            const url = node.attrs.src;
+      doc.descendants(node => {
+        if (node.type.name === "image") {
+          const url = node.attrs.src;
+          exisitingUrls.push(url);
 
-            exisitingUrls.push(url);
-
-            files.length = 0;
-            fileList?.map((file, index) => {
-              if (exisitingUrls.includes(nonSureUrls[index])) {
-                files.push(file);
-              }
-            });
-          }
-        });
-
-        if (editor) {
-          onBlur && onBlur({ html: editor?.getHTML(), files });
+          files.length = 0;
+          fileList?.map((file, index) => {
+            if (exisitingUrls.includes(nonSureUrls[index])) {
+              files.push(file);
+            }
+          });
         }
+      });
+
+      if (editor) {
+        onBlur &&
+          onBlur({
+            html: editor?.getHTML(),
+            files: filesToBlobs(files as File[]).then((blobs: Blob[]) => {
+              return blobs;
+            })
+          });
       }
-    },
-    []
-  );
+    }
+  });
 
   if (!editor) return null;
 
   const handleImageUpload = (file: File | null) => {
     if (file) {
-      const toDataUrl = async () => {
-        try {
-          if (!fileList) {
-            setFileList([file]);
-          } else {
-            setFileList([...fileList, file]);
-          }
+      if (!fileList) {
+        setFileList([file]);
+      } else {
+        setFileList([...fileList, file]);
+      }
 
-          const imageUrl = URL.createObjectURL(file);
+      const imageUrl = URL.createObjectURL(file);
 
-          editor.commands.setImage({ src: imageUrl });
-          editor.commands.focus();
+      editor.commands.setImage({ src: imageUrl });
+      editor.commands.focus();
 
-          setNonSureUrls(prev => [...prev, imageUrl]);
-        } catch (error) {
-          console.error("Error converting to data URL:", error);
-        }
-      };
-      toDataUrl();
+      setNonSureUrls(prev => [...prev, imageUrl]);
     }
   };
 
   return (
     <div className="shadow-md border border-border rounded-md w-full max-w-[60rem]">
       <div className="bg-[#DCF2D3] p-1 flex gap-1">
-        <Toolbar editor={editor} onImageUpload={handleImageUpload} />
+        <Toolbar editor={editor as Editor} onImageUpload={handleImageUpload} />
       </div>
-      <EditorContent editor={editor as Editor} {...props} />
+      <EditorContent editor={editor} {...{ props }} />
     </div>
   );
 };

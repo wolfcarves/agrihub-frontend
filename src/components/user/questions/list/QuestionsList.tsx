@@ -1,11 +1,13 @@
-import React from "react";
-import QuestionCard from "../card/QuestionCard";
 import LoadingSpinner from "@icons/LoadingSpinner";
 import { SortValues } from "../select/QuestionsFilterSelect";
 import { QuestionsResponse } from "@api/openapi";
 import { toast } from "sonner";
-import { Link } from "react-router-dom";
 import useQuestionVoteMutation from "@hooks/api/post/useQuestionVoteMutation";
+import QuestionCard from "../card/QuestionCard";
+import useQuestionDeleteVoteMutation from "@hooks/api/post/useQuestionDeleteVoteMutation";
+import wink from "@assets/images/wink.gif";
+import { useCallback, useEffect, useState } from "react";
+import { log } from "console";
 
 interface QuestionsListProps {
   data?: QuestionsResponse;
@@ -15,21 +17,54 @@ interface QuestionsListProps {
 
 const QuestionsList = ({ data, isLoading }: QuestionsListProps) => {
   const { mutateAsync: questionVoteMutate } = useQuestionVoteMutation();
+  const { mutateAsync: questionDeleteVoteMutate } =
+    useQuestionDeleteVoteMutation();
+
+  //For winking ;)
+  const [countDown, setCountdown] = useState<number>(0);
+  const [isWinkVisible, setIsWinkVisible] = useState<boolean>(false);
+  const [winkSrc, setWinkSrc] = useState<string>("");
 
   const handleQuestionVote = async (
     id: string,
-    type: "upvote" | "downvote"
+    type: "upvote" | "downvote",
+    currentVote: "upvote" | "downvote" | null | undefined
   ) => {
     try {
-      await questionVoteMutate({
-        id,
-        requestBody: { type }
-      });
+      if (countDown === 0) {
+        //for deleting vote but ain't working
+        //  await questionDeleteVoteMutate(id);
+
+        runCountDown();
+
+        await questionVoteMutate({
+          id,
+          requestBody: { type }
+        });
+      }
 
       toast.info(`Successfully ${type} a question`);
     } catch (error: any) {
       toast.error(error.body.message);
     }
+  };
+
+  const runCountDown = () => {
+    setWinkSrc(wink + "?a=" + Math.random());
+    setIsWinkVisible(true);
+    setCountdown(5);
+
+    const interval = setInterval(() => {
+      setCountdown(prev => {
+        if (prev === 1) {
+          setIsWinkVisible(false);
+          clearInterval(interval);
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
   };
 
   const handleShare = async (
@@ -65,8 +100,22 @@ const QuestionsList = ({ data, isLoading }: QuestionsListProps) => {
     );
   }
 
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center pt-10">
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col gap-7 pb-20">
+      {isWinkVisible && (
+        <div className="fixed flex z-50 inset-0">
+          <img src={winkSrc} />
+        </div>
+      )}
+
       {data?.questions?.map(
         ({
           id,
@@ -80,43 +129,43 @@ const QuestionsList = ({ data, isLoading }: QuestionsListProps) => {
           vote
         }) => {
           return (
-            //ginanto ko muna para maayos lang yung hover issue , nafigure out ko na problem saka nalang ayusin or kahit di na XD
-            <div
-              className="flex flex-col rounded-xl hover:bg-neutral-300 duration-200 h-max w-full"
+            <QuestionCard
               key={`${id} + ${title}`}
-            >
-              <Link to={`question/${user?.username}/${id}`}>
-                <div className="flex flex-col bg-white border p-5 rounded-xl min-h-[20rem] h-full max-h-[25rem] hover:shadow-sm hover:-translate-y-2 hover:-translate-x-2 duration-200">
-                  <QuestionCard
-                    title={title}
-                    description={question}
-                    userAvatarSrc={user?.avatar}
-                    username={user?.username}
-                    vote={vote?.type as "upvote" | "downvote"}
-                    voteCount={vote_count}
-                    answerCount={answer_count}
-                    createdat={createdat}
-                    onUpVoteBtnClick={e => {
-                      e.preventDefault();
-                      handleQuestionVote(id!, "upvote");
-                    }}
-                    onDownVoteBtnClick={e => {
-                      e.preventDefault();
-                      handleQuestionVote(id!, "downvote");
-                    }}
-                    tags={tags}
-                    onShareBtnClick={e => {
-                      e.preventDefault();
-                      handleShare(
-                        title,
-                        question,
-                        `forum/question/${user?.id}/${id}`
-                      );
-                    }}
-                  />
-                </div>
-              </Link>
-            </div>
+              id={id}
+              title={title}
+              description={question}
+              userAvatarSrc={user?.avatar}
+              username={user?.username}
+              vote={vote?.type as "upvote" | "downvote"}
+              voteCount={vote_count}
+              answerCount={answer_count}
+              createdat={createdat}
+              onUpVoteBtnClick={e => {
+                e.preventDefault();
+                handleQuestionVote(
+                  id!,
+                  "upvote",
+                  vote?.type as "upvote" | "downvote" | null | undefined
+                );
+              }}
+              onDownVoteBtnClick={e => {
+                e.preventDefault();
+                handleQuestionVote(
+                  id!,
+                  "downvote",
+                  vote?.type as "upvote" | "downvote" | null | undefined
+                );
+              }}
+              tags={tags}
+              onShareBtnClick={e => {
+                e.preventDefault();
+                handleShare(
+                  title,
+                  question,
+                  `forum/question/${user?.id}/${id}`
+                );
+              }}
+            />
           );
         }
       )}

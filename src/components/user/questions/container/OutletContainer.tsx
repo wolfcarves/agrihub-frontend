@@ -1,7 +1,13 @@
-import { ReactNode } from "react";
+import { ComponentProps, ReactNode } from "react";
 
-const OutletContainer = ({ children }: { children: ReactNode }) => (
-  <div className="flex flex-col w-full min-h-full overflow-auto px-16 py-10">
+interface OutletContainerProps extends ComponentProps<"div"> {
+  children: ReactNode;
+}
+
+const OutletContainer = ({ children, className }: OutletContainerProps) => (
+  <div
+    className={`flex flex-col w-full min-h-full px-0 md:px-7 xl:px-16 py-10 ${className}`}
+  >
     {children}
   </div>
 );

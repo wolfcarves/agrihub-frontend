@@ -1,19 +1,27 @@
-import React from "react";
 import { BsThreeDots } from "react-icons/bs";
-import { PiArrowFatDown, PiArrowFatUp } from "react-icons/pi";
-import { LuMessagesSquare } from "react-icons/lu";
-import { TiArrowForwardOutline } from "react-icons/ti";
-import { Link } from "react-router-dom";
 import DOMPurify from "dompurify";
+import QuestionFeedbackPanel from "../panel/QuestionFeedbackPanel";
+import parse, { Element } from "html-react-parser";
+import TagChip from "../chip/TagChip";
+import { timeAgo } from "@components/lib/utils";
+import { Link } from "react-router-dom";
+import QuestionUserProfileButton from "../button/QuestionUserProfileButton";
 
 interface QuestionCardProps {
   title?: string;
   username?: string;
   userAvatarSrc?: string;
   description?: string | Node;
+  tags?: {
+    tag?: string | undefined;
+  }[];
+  vote?: "upvote" | "downvote";
   voteCount?: string;
   answerCount?: string;
-  onShareButtonClick?: (e: React.MouseEvent) => void;
+  createdat?: string;
+  onUpVoteBtnClick?: (e: React.MouseEvent) => void;
+  onDownVoteBtnClick?: (e: React.MouseEvent) => void;
+  onShareBtnClick?: (e: React.MouseEvent) => void;
 }
 
 const QuestionCard = ({
@@ -21,9 +29,14 @@ const QuestionCard = ({
   username,
   userAvatarSrc,
   description,
+  tags,
+  vote,
   voteCount,
   answerCount,
-  onShareButtonClick
+  createdat,
+  onUpVoteBtnClick,
+  onDownVoteBtnClick,
+  onShareBtnClick
 }: QuestionCardProps) => {
   const purifiedDescription = DOMPurify.sanitize(description ?? "", {
     USE_PROFILES: {
@@ -31,95 +44,63 @@ const QuestionCard = ({
     }
   });
 
+  const contentHtml = parse(purifiedDescription, {
+    replace: domNode => {
+      if (domNode instanceof Element) {
+        if (domNode.tagName === "img") {
+          const replacedImg = <></>;
+          return replacedImg;
+        }
+      }
+    }
+  });
+
   return (
-    <Link to="/">
-      <div className="flex flex-col rounded-xl hover:bg-neutral-300 duration-200 h-max w-full ">
-        <div className="flex flex-col bg-white border p-5 rounded-xl min-h-[20rem] h-full max-h-[25rem] cursor-pointer hover:shadow-sm hover:-translate-y-2 hover:-translate-x-2 duration-200">
-          {/* Card Title */}
-          <div className="flex items-start justify-between">
-            <h1 className="text-xl text-foreground font-poppins-semibold line-clamp-2 hover:underline hover:opacity-90">
-              {title}
-            </h1>
+    <>
+      {/* Card Title */}
+      <div className="flex items-start justify-between">
+        <h1 className="text-xl text-foreground font-poppins-semibold line-clamp-2 hover:underline hover:opacity-90">
+          {title}
+        </h1>
 
-            <button
-              className="text-xl p-2 rounded-md hover:bg-accent opacity-80 hover:opacity-100 duration-200"
-              onClick={e => {
-                e.preventDefault();
-              }}
-            >
-              <BsThreeDots />
-            </button>
-          </div>
+        <button
+          className="text-xl p-2 rounded-md hover:bg-accent opacity-80 hover:opacity-100 duration-200"
+          onClick={e => {
+            e.preventDefault();
+          }}
+        >
+          <BsThreeDots />
+        </button>
+      </div>
 
-          {/* Name and Tags */}
-          <div className="flex justify-between items-center py-5">
-            <div className="flex gap-5">
-              <div className="w-12 h-12 border rounded-xl overflow-hidden ">
-                <img
-                  src={userAvatarSrc}
-                  className="object-cover w-full h-full"
-                />
-              </div>
-              <div className="flex flex-col ">
-                <span className="font-poppins-medium">{username}</span>
-                <span className="font-poppins-regular text-gray-400 text-sm">
-                  3 months ago
-                </span>
-              </div>
-            </div>
+      {/* Name and Tags */}
+      <div className="flex flex-wrap gap-3 justify-between items-center py-5">
+        <QuestionUserProfileButton
+          avatarSrc={userAvatarSrc}
+          username={username}
+          createdAt={createdat}
+        />
 
-            <div>Tags here</div>
-          </div>
-
-          {/* Content Body */}
-          <div>
-            <p
-              className="font-poppins-regular line-clamp-5 text-foreground"
-              dangerouslySetInnerHTML={{
-                __html: purifiedDescription
-              }}
-            />
-          </div>
-
-          {/* Actions */}
-          <div className="flex items-center mt-auto pt-5">
-            {/* Vote*/}
-            <div className="flex gap-3 items-center h-11">
-              <button className="text-lg h-full px-3 rounded-lg hover:bg-accent opacity-80 hover:opacity-100 duration-200">
-                <PiArrowFatUp />
-              </button>
-              <span className="font-poppins-bold text-foreground ">
-                {voteCount}
-              </span>
-              <button className="text-lg h-full px-3 rounded-lg hover:bg-accent opacity-80 hover:opacity-100 duration-200">
-                <PiArrowFatDown />
-              </button>
-            </div>
-
-            {/* Answer */}
-            <button className="flex items-center gap-5 h-11 px-5 rounded-lg hover:bg-accent opacity-80 hover:opacity-100 duration-200">
-              <div className="text-lg">
-                <LuMessagesSquare />
-              </div>
-              <span className="font-poppins-bold text-foreground">
-                {answerCount} &nbsp; &nbsp; Answers
-              </span>
-            </button>
-
-            {/* Share  */}
-            <button
-              className="flex items-center gap-5 h-11 px-5 rounded-lg hover:bg-accent opacity-80 hover:opacity-100 duration-200"
-              onClick={onShareButtonClick}
-            >
-              <div className="text-xl">
-                <TiArrowForwardOutline />
-              </div>
-              <span className="font-poppins-bold text-foreground">Share</span>
-            </button>
-          </div>
+        <div className="flex flex-wrap gap-2 py-5">
+          {tags?.map(({ tag }) => {
+            return <TagChip key={Math.random()} name={tag} size="sm" />;
+          })}
         </div>
       </div>
-    </Link>
+
+      {/* Content Body */}
+      <div className="line-clamp-5">{contentHtml}</div>
+
+      {/* Actions */}
+      <QuestionFeedbackPanel
+        {...{ vote }}
+        {...{ answerCount }}
+        {...{ voteCount }}
+        {...{ onUpVoteBtnClick }}
+        {...{ onDownVoteBtnClick }}
+        {...{ onShareBtnClick }}
+      />
+    </>
   );
 };
 

@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ForumsService } from "@api/openapi";
-import { VIEW_QUESTION } from "../get/useGetViewQuestion";
+import { VIEW_QUESTION_KEY } from "../get/useGetViewQuestion";
 
 const useQuestionDeletAnswerKey = () => "QUESTIONS_DELETE_ANSWER_KEY";
 
@@ -14,7 +14,7 @@ export default function useQuestionDeleteAnswerVote() {
       return response;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [VIEW_QUESTION()] });
+      queryClient.invalidateQueries({ queryKey: [VIEW_QUESTION_KEY()] });
     }
   });
 }

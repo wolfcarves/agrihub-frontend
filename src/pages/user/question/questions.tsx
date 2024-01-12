@@ -48,4 +48,4 @@ const Questions = () => {
   );
 };
 
-export default withAuthGuard(Questions, ["guest"]);
+export default withAuthGuard(Questions, ["guest", "member"]);

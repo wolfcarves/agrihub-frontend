@@ -5,8 +5,7 @@ import {
   QuestionViewSchema,
   VoteAnswerSchema
 } from "@api/openapi";
-import { GET_QUESTION } from "../get/useGetQuestionsQuery";
-import { VIEW_QUESTION } from "../get/useGetViewQuestion";
+import { VIEW_QUESTION_KEY } from "../get/useGetViewQuestion";
 import { useSelector } from "react-redux";
 import {
   getQuestionViewFilter,
@@ -35,11 +34,11 @@ export default function useQuestionVoteAnswer() {
       return { response, id, vote };
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [VIEW_QUESTION()] });
+      queryClient.invalidateQueries({ queryKey: [VIEW_QUESTION_KEY()] });
     },
     onSettled: () => {
       queryClient.invalidateQueries({
-        queryKey: [[VIEW_QUESTION(), id, page, filter]]
+        queryKey: [[VIEW_QUESTION_KEY(), id, page, filter]]
       });
     }
   });

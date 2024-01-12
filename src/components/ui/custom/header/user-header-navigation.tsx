@@ -118,7 +118,7 @@ const UserHeaderNavigation = () => {
               </li>
 
               <ListItem
-                href="/docs"
+                href="/community"
                 title="My Farm"
                 className="font-poppins-regular"
               >
@@ -160,9 +160,15 @@ const UserHeaderNavigation = () => {
   );
 };
 
-const ListItem = ({ className, title, children, ...props }: AnchorProps) => {
+const ListItem = ({
+  className,
+  title,
+  children,
+  href,
+  ...props
+}: AnchorProps) => {
   return (
-    <Link to="/sample">
+    <Link to={href as string}>
       <li>
         <NavigationMenuLink asChild>
           <span

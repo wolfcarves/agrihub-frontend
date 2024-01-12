@@ -15,12 +15,14 @@ interface UserTagInputDropdownProps {
   option?: TagOptionProps[];
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onTagsValueChange?: (e: string[]) => void;
+  isError?: boolean;
 }
 
 const UserTagInputDropdown = ({
   option,
   onChange,
-  onTagsValueChange
+  onTagsValueChange,
+  isError
 }: UserTagInputDropdownProps) => {
   const [tags, setTags] = useState<Array<string>>([]);
   const [idTags, setIdTags] = useState<Array<string>>([]);
@@ -52,7 +54,9 @@ const UserTagInputDropdown = ({
       return (
         <button
           key={tag}
-          className="max-h-7 border m-0.5 border-primary-3/80 bg-primary-1/40 rounded-sm w-[100px] px-2 py-1"
+          className={`${
+            isError && "border border-red-500"
+          } && max-h-7 border m-0.5 border-primary-3/80 bg-primary-1/40 rounded-sm w-[100px] px-2 py-1`}
           onClick={() => {
             setTags([...tags.filter(val => val !== tag)]);
           }}

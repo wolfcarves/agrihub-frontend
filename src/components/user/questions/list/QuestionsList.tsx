@@ -6,8 +6,8 @@ import useQuestionVoteMutation from "@hooks/api/post/useQuestionVoteMutation";
 import QuestionCard from "../card/QuestionCard";
 import useQuestionDeleteVoteMutation from "@hooks/api/post/useQuestionDeleteVoteMutation";
 import wink from "@assets/images/wink.gif";
-import { useCallback, useEffect, useState } from "react";
-import { log } from "console";
+import { useState } from "react";
+import useAuth from "@hooks/useAuth";
 
 interface QuestionsListProps {
   data?: QuestionsResponse;
@@ -16,9 +16,10 @@ interface QuestionsListProps {
 }
 
 const QuestionsList = ({ data, isLoading }: QuestionsListProps) => {
+  const user = useAuth();
   const { mutateAsync: questionVoteMutate } = useQuestionVoteMutation();
-  const { mutateAsync: questionDeleteVoteMutate } =
-    useQuestionDeleteVoteMutation();
+  // const { mutateAsync: questionDeleteVoteMutate } =
+  //   useQuestionDeleteVoteMutation();
 
   //For winking ;)
   const [countDown, setCountdown] = useState<number>(0);
@@ -31,17 +32,17 @@ const QuestionsList = ({ data, isLoading }: QuestionsListProps) => {
     currentVote: "upvote" | "downvote" | null | undefined
   ) => {
     try {
-      if (countDown === 0) {
-        //for deleting vote but ain't working
-        //  await questionDeleteVoteMutate(id);
+      //for deleting vote but ain't working
+      //  await questionDeleteVoteMutate(id);
 
+      if (countDown === 0 && type === "upvote" && user.isAuthenticated) {
         runCountDown();
-
-        await questionVoteMutate({
-          id,
-          requestBody: { type }
-        });
       }
+
+      await questionVoteMutate({
+        id,
+        requestBody: { type }
+      });
 
       toast.info(`Successfully ${type} a question`);
     } catch (error: any) {
@@ -52,7 +53,7 @@ const QuestionsList = ({ data, isLoading }: QuestionsListProps) => {
   const runCountDown = () => {
     setWinkSrc(wink + "?a=" + Math.random());
     setIsWinkVisible(true);
-    setCountdown(5);
+    setCountdown(4);
 
     const interval = setInterval(() => {
       setCountdown(prev => {

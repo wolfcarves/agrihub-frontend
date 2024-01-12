@@ -19,6 +19,14 @@ export function withRequireAuth<T extends object>(Component: ComponentType<T>) {
     return (
       <>
         <Dialog>
+          <DialogTrigger asChild>
+            {isAuthenticated ? (
+              <Component {...props} />
+            ) : (
+              <Component {...props} />
+            )}
+          </DialogTrigger>
+
           <DialogContent>
             <h1 className="text-xl text-foreground font-poppins-medium tracking-tight line-clamp-2">
               To continue interacting, <br /> please create an account or login
@@ -56,18 +64,6 @@ export function withRequireAuth<T extends object>(Component: ComponentType<T>) {
               </Link>
             </div>
           </DialogContent>
-
-          <DialogTrigger>
-            {isAuthenticated ? (
-              <Component {...props} />
-            ) : (
-              <div className="cursor-pointer">
-                <div className="pointer-events-none">
-                  <Component {...props} />
-                </div>
-              </div>
-            )}
-          </DialogTrigger>
         </Dialog>
       </>
     );

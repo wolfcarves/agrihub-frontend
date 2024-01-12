@@ -66,7 +66,7 @@ const UserSignupForm = () => {
         setCaptchaError(true);
       }
     } catch (e: any) {
-      console.log(e.body.message);
+      //
     }
   };
 

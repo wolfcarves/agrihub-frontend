@@ -41,7 +41,6 @@ import QuestionFeedbackPanel from "@components/user/questions/panel/QuestionFeed
 import TagChip from "@components/user/questions/chip/TagChip";
 import QuestionBackButton from "@components/user/questions/button/QuestionBackButton";
 import QuestionPostBody from "@components/user/questions/body/QuestionPostBody";
-import QuestionAnswerFeedbackPanel from "@components/user/questions/panel/QuestionAnswerFeedbackPanel";
 import QuestionAnswerList from "@components/user/questions/list/QuestionAnswerList";
 import OutletContainer from "@components/user/questions/container/OutletContainer";
 
@@ -50,16 +49,12 @@ type FilterType = "newest" | "top";
 const Question = () => {
   const dispatch = useDispatch();
   const { questionId } = useParams();
-  const navigate = useNavigate();
-
-  const filter = useSelector(getQuestionViewFilter);
-  const page = useSelector(getQuestionViewPage);
 
   const { data: questionData, isLoading: isQuestionLoading } =
-    useGetViewQuestion(questionId || "", String(page), filter);
+    useGetViewQuestion(questionId ?? "");
 
-  const { mutateAsync: asyncVoteMutate } = useQuestionVoteMutation();
-  const { mutateAsync: asyncDeleteVoteMutate } =
+  const { mutateAsync: questionVoteMutate } = useQuestionVoteMutation();
+  const { mutateAsync: questionVoteDeleteMutate } =
     useQuestionDeleteVoteMutation();
 
   const { data: currentUser } = UserAuth() ?? {};
@@ -77,13 +72,8 @@ const Question = () => {
         id: questionId || ""
       };
 
-      if (!isVoted) {
-        const data = await asyncVoteMutate(voteAnswerData);
-        toast(data.message || "");
-      } else {
-        const response = await asyncDeleteVoteMutate(voteid);
-        toast(response.message);
-      }
+      const data = await questionVoteMutate(voteAnswerData);
+      toast(data.message || "");
     } catch (e: any) {
       toast(e.body.message || "");
     }

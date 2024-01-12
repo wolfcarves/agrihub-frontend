@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ComponentProps } from "react";
 import { PiArrowFatDown, PiArrowFatUp } from "react-icons/pi";
 import { LuMessagesSquare } from "react-icons/lu";
 import { TiArrowForwardOutline } from "react-icons/ti";
@@ -6,6 +6,7 @@ import { LuBookmark } from "react-icons/lu";
 import { PiArrowFatUpFill } from "react-icons/pi";
 import { PiArrowFatDownFill } from "react-icons/pi";
 import { FaRegComment } from "react-icons/fa6";
+import withRequireAuth from "@higher-order/account/withRequireAuth";
 
 interface QuestionFeedbackPanelProps {
   vote?: "upvote" | "downvote";
@@ -17,6 +18,51 @@ interface QuestionFeedbackPanelProps {
   onDownVoteBtnClick?: (e: React.MouseEvent) => void;
   onShareBtnClick?: (e: React.MouseEvent) => void;
 }
+
+interface VoteButtonProps extends ComponentProps<"button"> {
+  vote?: "upvote" | "downvote";
+  variant: "upvote" | "downvote";
+}
+
+const VoteButton = withRequireAuth(
+  ({ variant, vote, ...props }: VoteButtonProps) => {
+    if (variant === "upvote") {
+      return (
+        <button
+          className="hover:bg-accent opacity-80 hover:opacity-100 text-lg h-full px-3 rounded-lg duration-200"
+          {...props}
+        >
+          {vote === "upvote" ? (
+            <div className="text-primary">
+              <PiArrowFatUpFill />
+            </div>
+          ) : (
+            <PiArrowFatUp />
+          )}
+        </button>
+      );
+    }
+
+    if (variant === "downvote") {
+      return (
+        <button
+          className="hover:bg-accent opacity-80 hover:opacity-100 text-lg h-full px-3 rounded-lg duration-200"
+          {...props}
+        >
+          {vote === "downvote" ? (
+            <div className="text-red-500">
+              <PiArrowFatDownFill />
+            </div>
+          ) : (
+            <div>
+              <PiArrowFatDown />
+            </div>
+          )}
+        </button>
+      );
+    }
+  }
+);
 
 const QuestionFeedbackPanel = ({
   vote,
@@ -48,37 +94,17 @@ const QuestionFeedbackPanel = ({
       {/* Vote */}
       {onUpVoteBtnClick && (
         <div className="flex gap-3 items-center h-11">
-          <button
-            className="hover:bg-accent opacity-80 hover:opacity-100 text-lg h-full px-3 rounded-lg duration-200"
-            onClick={onUpVoteBtnClick}
-          >
-            {vote === "upvote" ? (
-              <div className="text-primary">
-                <PiArrowFatUpFill />
-              </div>
-            ) : (
-              <PiArrowFatUp />
-            )}
-          </button>
+          <VoteButton variant="upvote" vote={vote} onClick={onUpVoteBtnClick} />
 
           <span className="font-poppins-bold text-foreground ">
             {voteCount}
           </span>
 
-          <button
-            className="hover:bg-accent opacity-80 hover:opacity-100 text-lg h-full px-3 rounded-lg duration-200"
+          <VoteButton
+            variant="downvote"
+            vote={vote}
             onClick={onDownVoteBtnClick}
-          >
-            {vote === "downvote" ? (
-              <div className="text-red-500">
-                <PiArrowFatDownFill />
-              </div>
-            ) : (
-              <div>
-                <PiArrowFatDown />
-              </div>
-            )}
-          </button>
+          />
         </div>
       )}
 

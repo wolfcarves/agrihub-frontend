@@ -1,10 +1,10 @@
 import React from 'react';
 import ReadMoreButton from '../Button/ReadMore';
 
-import image1 from '@assets/images/Articles 1.svg';
-import image2 from '@assets/images/Articles 2.svg';
-import image3 from '@assets/images/Articles 3.svg';
-import image4 from '@assets/images/blog 1.svg';
+import image1 from '@assets/images/Articles1.svg';
+import image2 from '@assets/images/Articles2.svg';
+import image3 from '@assets/images/Articles3.svg';
+import image4 from '@assets/images/blog1.svg';
 
 interface ImageData {
   id: number;

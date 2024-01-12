@@ -1,5 +1,5 @@
 import React from "react";
-import yourImage from "@assets/images/Latest News Cover photo.svg";
+import yourImage from "@assets/images/Latest_News_Cover_photo.svg";
 
 const Imagebanner: React.FC = () => {
   return (

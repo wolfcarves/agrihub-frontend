@@ -5,10 +5,10 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
 // Replace these with your actual image data
-import imageData1 from '@assets/images/cover photo for landing page.svg';
-import imageData2 from '@assets/images/OUR FUCOS COVER PHOTO.svg';
-import imageData3 from '@assets/images/Initiatives cover photo.svg';
-import imageData4 from '@assets/images/Latest News Cover photo.svg';
+import imageData1 from '@assets/images/cover_photo_for_landing_page.svg';
+import imageData2 from '@assets/images/OUR_FUCOS_COVER_PHOTO.svg';
+import imageData3 from '@assets/images/Initiatives_cover_photo.svg';
+import imageData4 from '@assets/images/Latest_News_Cover_photo.svg';
 
 const imageDatas = [imageData1, imageData2, imageData3, imageData4];
 

@@ -99,27 +99,31 @@ const ContentWhatWeDo: React.FC = () => {
 
   return (
     //WHAT WE DO
-    <div className="w-90 mx-auto my-0 md:my-15">
-    <div className="flex flex-col h-screen">
-      <header className="text-4xl md:text-7xl font-bold pt-8 mx-auto m-12 text-center">Header Title</header>
-      <div className="flex flex-col items-center gap-8 md:flex-row md:justify-center md:gap-4 md:mt-8">
-        {mockImageData.map((image) => (
-          <div key={image.id} className="flex flex-col items-center">
-            <img
-              src={image.imageUrl}
-              alt={image.altText}
-              className="w-full md:w-[calc(85vw/3)] h-auto md:h-[calc(60vw/3)] object-cover"
-            />
-            <p className="mt-4 text-center">{image.description}</p>
-            <div className="flex items-center mt-2 ml-2 cursor-pointer">
-              <span className="text-black font-bold uppercase bg-transparent hover:bg-white hover:text-orange-500 px-2 py-1 rounded transition duration-300">
-                Read More
-              </span>
-              <IoIosArrowForward className="ml-1 text-orange-500" />
+    <div className="w-full mx-auto my-0 md:my-15">
+      <div className="flex flex-col h-screen">
+        <header className="text-2xl md:text-4xl lg:text-7xl font-bold pt-8 mx-auto m-12 text-center">
+          Header Title
+        </header>
+        <div className="flex flex-col items-center gap-8 md:flex-row md:justify-center md:gap-4 md:mt-8">
+          {mockImageData.map((image) => (
+            <div key={image.id} className="flex flex-col items-center">
+              <img
+                src={image.imageUrl}
+                alt={image.altText}
+                className="w-full md:w-[calc(85vw/3)] h-auto md:h-[calc(60vw/3)] object-cover"
+              />
+              <p className="mt-4 text-center text-sm md:text-base lg:text-lg">
+                {image.description}
+              </p>
+              <div className="flex items-center mt-2 ml-2 cursor-pointer">
+                <span className="text-black font-bold uppercase bg-transparent hover:bg-white hover:text-orange-500 px-2 py-1 rounded transition duration-300">
+                  Read More
+                </span>
+                <IoIosArrowForward className="ml-1 text-orange-500" />
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
 
 
       <div className="flex flex-col h-screen mt-10">

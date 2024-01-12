@@ -100,6 +100,14 @@ const QuestionsList = ({ data, isLoading }: QuestionsListProps) => {
     );
   }
 
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center pt-10">
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col gap-7 pb-20">
       {isWinkVisible && (

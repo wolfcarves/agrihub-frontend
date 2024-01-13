@@ -73,7 +73,8 @@ export default defineConfig({
         skipWaiting: true
       },
       devOptions: {
-        enabled: true
+        enabled: true,
+        type: "module"
       }
     })
   ]

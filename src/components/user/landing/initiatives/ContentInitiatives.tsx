@@ -1,17 +1,14 @@
 import React from "react";
 import ReadMoreButton from "../Button/ReadMore";
 
-// Import your images
-import image1 from "@assets/images/Initiatives1.svg";
-import image2 from "@assets/images/Initiatives2.svg";
-import image3 from "@assets/images/Initiatives3.svg";
-import image4 from "@assets/images/Initiatives4.svg";
-
-type ImageType = React.FunctionComponent<React.SVGAttributes<SVGElement>>;
+import image1 from "@assets/images/Initiatives-1.png";
+import image2 from "@assets/images/initiatives-2.png";
+import image3 from "@assets/images/Initiatives-3.png";
+import image4 from "@assets/images/Initiatives-4.png";
 
 interface ImageData {
   id: number;
-  image: ImageType;
+  image: string; 
   title: string;
   description: string;
 }
@@ -69,7 +66,7 @@ const ContentInitiatives: React.FC = () => {
                 style={{ cursor: "pointer" }}
               >
                 <img
-                  src={item.image as unknown as string}
+                  src={item.image}
                   alt={`Image ${item.id}`}
                   className="w-full h-80 rounded-t-lg object-cover"
                 />

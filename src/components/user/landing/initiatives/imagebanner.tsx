@@ -1,5 +1,5 @@
 import React from "react";
-import yourImage from "@assets/images/Initiatives_cover_photo.svg";
+import yourImage from "@assets/images/Initiatives-cover-photo.png";
 
 const Imagebanner: React.FC = () => {
   return (

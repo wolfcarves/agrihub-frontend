@@ -1,10 +1,10 @@
 import React from 'react';
 import ReadMoreButton from '../Button/ReadMore';
 
-import image1 from '@assets/images/Our_focus_Data_analytics.svg';
-import image2 from '@assets/images/Our_focus_BLOG.svg';
-import image3 from '@assets/images/Our focus_Articles.svg';
-import image4 from '@assets/images/Our_focus_Farm.svg';
+import image1 from '@assets/images/Our-focus-Data-analytics.png';
+import image2 from '@assets/images/Our-focus-BLOG.png';
+import image3 from '@assets/images/Initiatives-1.png';
+import image4 from '@assets/images/Our-focus-Farm.png';
 
 interface ImageData {
   id: number;

@@ -1,5 +1,5 @@
 import React from "react";
-import yourImage from "@assets/images/OUR_FUCOS_COVER_PHOTO.svg";
+import yourImage from "@assets/images/OUR-FoCuS-COVER-PHOTO.png";
 
 const Imagebanner: React.FC = () => {
   return (

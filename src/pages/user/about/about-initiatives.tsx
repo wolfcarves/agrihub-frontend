@@ -8,8 +8,8 @@ const AboutInitiatives = () => {
     <div>
       <Imagebanner/>
       <ContentInitiatives/>
-      <SeeMore/>
-    </div>
+      <SeeMore/> 
+        </div>
   );
 };
 

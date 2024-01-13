@@ -1,118 +1,76 @@
-import React, { useState, useEffect } from "react";
+// Carousel.tsx
+import React from 'react';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+
+// Replace these with your actual image data
+import imageData1 from '@assets/images/cover-photo-for-landing-page.png';
+import imageData2 from '@assets/images/OUR-FoCuS-COVER-PHOTO.png';
+import imageData3 from '@assets/images/Initiatives-cover-photo.png';
+import imageData4 from '@assets/images/Latest-News-Cover-photo.png';
+
+const imageDatas = [imageData1, imageData2, imageData3, imageData4];
 
 const Carousel: React.FC = () => {
-  const [currentSlide, setCurrentSlide] = useState<number>(0);
-  const [autoSlideInterval, setAutoSlideInterval] =
-    useState<NodeJS.Timeout | null>(null);
-  const slides = [
-    {
-      id: 1,
-      image: "https://i.ibb.co/ncrXc2V/1.png",
-      text: "Slide 1 Text"
-    },
-    {
-      id: 2,
-      image: "https://i.ibb.co/B3s7v4h/2.png",
-      text: "Slide 2 Text"
-    },
-    {
-      id: 3,
-      image: "https://i.ibb.co/XXR8kzF/3.png",
-      text: "Navvii maganda qtqt"
-    }
-  ];
+  const sliderRef = React.useRef<Slider | null>(null);
 
-  const nextSlide = () => {
-    setCurrentSlide(prev => (prev === slides.length - 1 ? 0 : prev + 1));
+  const settings = {
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    prevArrow: <CustomPrevArrow />,
+    nextArrow: <CustomNextArrow />,
   };
 
-  const prevSlide = () => {
-    setCurrentSlide(prev => (prev === 0 ? slides.length - 1 : prev - 1));
-  };
+  function CustomPrevArrow(props: any) {
+    const { onClick } = props;
+    return (
+      <div
+        className="absolute top-1/2 left-0 transform -translate-y-1/2 cursor-pointer text-4xl text-red-600"
+        onClick={() => onClick()}
+      >
+        &#8249;
+      </div>
+    );
+  }
 
-  const handleDotClick = (index: number) => {
-    setCurrentSlide(index);
-  };
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentSlide(prev => (prev === slides.length - 1 ? 0 : prev + 1));
-    }, 5000);
-
-    setAutoSlideInterval((prevInterval) => {
-      if (prevInterval) {
-        clearInterval(prevInterval);
-      }
-      return interval; 
-    });
-
-    return () => {
-      if (autoSlideInterval) {
-        clearInterval(autoSlideInterval);
-      }
-    };
-  }, [slides.length]);
+  function CustomNextArrow(props: any) {
+    const { onClick } = props;
+    return (
+      <div
+        className="absolute top-1/2 right-4 transform -translate-y-1/2 cursor-pointer text-4xl text-red-600"
+        onClick={() => onClick && sliderRef.current?.slickNext()}
+      >
+        &#8250;
+      </div>
+    );
+  }
 
   return (
-    <div className="relative w-full h-3/4 mx-auto">
-      <div className="relative flex items-center justify-center h-full">
-        {slides.map((slide, index) => (
-          <div
-            key={slide.id}
-            className={`absolute w-full h-full transition-opacity duration-500 ${
-              index === currentSlide ? "opacity-100" : "opacity-0"
-            }`}
-          >
+    <div className="w-full h-1/3 relative">
+      <Slider ref={(slider) => (sliderRef.current = slider)} {...settings}>
+        {imageDatas.map((imageData, index) => (
+          <div key={index} className="relative h-full w-full">
             <img
-              src={slide.image}
-              alt={`Slide ${slide.id}`}
-              className="w-full h-full object-cover"
+              src={imageData}
+              alt={`Slide ${index + 1}`}
+              className="object-cover h-2/5 w-full max-w-full"
             />
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-center">
-              <p className="text-4xl">{slide.text}</p>
+            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+              {[...Array(imageDatas.length)].map((_, dotIndex) => (
+                <div
+                  key={dotIndex}
+                  className={`w-6 h-2 bg-white rounded-full ${
+                    index === dotIndex ? 'opacity-100' : 'opacity-50'
+                  }`}
+                />
+              ))}
             </div>
-            <div
-              className={`absolute w-full h-auto bg-red-700 opacity-50 ${
-                index === currentSlide ? "opacity-75" : "opacity-0"
-              }`}
-            ></div>
           </div>
         ))}
-        <div className="absolute left-0 top-60">
-          <button
-            className="text-white text-9xl px-4 py-2 rounded-l h-full w-15vw"
-            onClick={prevSlide}
-            style={{
-              backgroundColor: "rgba(255, 0, 0, 0.7)"
-            }}
-          >
-            &lt;
-          </button>
-        </div>
-        <div className="absolute right-0 top-60">
-          <button
-            className="text-white text-9xl px-4 py-2 rounded-r h-full w-15vw"
-            onClick={nextSlide}
-            style={{
-              backgroundColor: "rgba(0, 0, 255, 0.7)"
-            }}
-          >
-            &gt;
-          </button>
-        </div>
-        <div className="absolute bottom-2 flex items-center justify-center w-full">
-          {slides.map((_, index) => (
-            <div
-              key={index}
-              className={`w-4 h-4 bg-white rounded-full mx-1 cursor-pointer ${
-                currentSlide === index ? "opacity-100" : "opacity-50"
-              }`}
-              onClick={() => handleDotClick(index)}
-              style={{ marginBottom: "3rem" }}
-            ></div>
-          ))}
-        </div>
-      </div>
+      </Slider>
     </div>
   );
 };

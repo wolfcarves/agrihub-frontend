@@ -1,35 +1,17 @@
 import React from "react";
 import { Editor } from "@tiptap/react";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger
-} from "../../dropdown-menu";
-import {
-  LucideHeading1,
-  LucideHeading2,
-  LucideHeading3,
-  LucideHeading4,
-  LucideHeading5,
-  LucideHeading6
-} from "lucide-react";
-import {
   FaBold,
   FaListOl,
   FaListUl,
   FaMinus,
   FaRedo,
   FaRegImage,
-  FaTextHeight,
   FaUndo,
   FaItalic
 } from "react-icons/fa";
 import { FaHeading } from "react-icons/fa6";
 import imageCompression, { Options } from "browser-image-compression";
-import { toast } from "sonner";
 
 type ToolbarProps = {
   editor: Editor;

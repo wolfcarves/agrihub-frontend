@@ -12,7 +12,7 @@ const QuestionAnswerList = ({ data, isLoading }: QuestionAnswerListProps) => {
   const hasAnswer = data?.question?.answers;
 
   return (
-    <div>
+    <div className="mt-12">
       <h5 className="text-foreground font-poppins-semibold line-clamp-3 hover:opacity-90">
         Answers 32
       </h5>

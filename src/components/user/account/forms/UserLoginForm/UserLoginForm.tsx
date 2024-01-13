@@ -5,7 +5,7 @@ import useLoginUserMutation from "@hooks/api/post/useUserLoginMutation";
 import { UserLoginSchema as LoginRequestSchema } from "@api/openapi";
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
-
+import { toast } from "sonner";
 import { UserLogin, UserLoginSchema } from "./schema";
 
 import {
@@ -35,17 +35,13 @@ const UserLoginForm = () => {
     try {
       await userLogin(data);
     } catch (e: any) {
-      console.log(e);
+      toast.error("Invalid username or password");
     }
   };
 
   return (
     <Form {...form}>
       <form className="space-y-3" onSubmit={form.handleSubmit(onLoginSubmit)}>
-        <div className="my-1">
-          {userLoginError && <span>{userLoginError.body.message}</span>}
-        </div>
-
         <FormField
           control={form.control}
           name="user"

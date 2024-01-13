@@ -3,10 +3,10 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { Pagination } from "./Pagination";
-import type { Tag } from "./Tag";
+import type { Pagination } from './Pagination';
+import type { Tag } from './Tag';
 
 export type TagList = {
-  tags?: Array<Tag>;
-  pagination?: Pagination;
+    tags?: Array<Tag>;
+    pagination?: Pagination;
 };

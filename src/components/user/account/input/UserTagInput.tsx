@@ -41,7 +41,7 @@ const UserTagInputDropdown = ({
 
   useEffect(() => {
     if (onTagsValueChange) onTagsValueChange(idTags);
-  }, [onTagsValueChange, idTags]);
+  }, [idTags]);
 
   const renderTag = useCallback(
     ({
@@ -121,7 +121,7 @@ const UserTagInputDropdown = ({
         <input
           onChange={onChange}
           onFocus={() => setIsInputTagFocused(true)}
-          className="outline-0 flex-1 h-full px-3 py-3"
+          className="outline-0 flex-1 h-full px-3 py-3 rounded-lg"
         />
 
         <div

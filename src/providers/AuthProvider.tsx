@@ -1,12 +1,13 @@
-import { createContext, ReactNode } from "react";
-import useGetUserQuery from "@hooks/api/get/useGetMyProfileQuery";
+import { createContext, ReactNode, useContext } from "react";
 import { UserSchema } from "@api/openapi";
+import useGetMyProfileQuery from "@hooks/api/get/useGetMyProfileQuery";
 
 export type AuthContextValue = {
   data?: UserSchema;
-  isLoading?: boolean;
+  isFetching?: boolean;
   isFetched?: boolean;
-  error: Record<string, any>;
+  error?: unknown;
+  isAuthenticated?: boolean;
 };
 
 export const Auth = createContext<AuthContextValue | undefined>(undefined);
@@ -15,18 +16,25 @@ const AuthProvider = (props: { children: ReactNode }) => {
   const {
     data: userData,
     isFetched: isUserDataFetched,
-    isLoading: userDataLoading,
+    isFetching: userDataLoading,
     error: userError
-  } = useGetUserQuery();
+  } = useGetMyProfileQuery();
+
+  const isAuthenticated = !!userData;
 
   const value: AuthContextValue = {
     data: userData,
     isFetched: isUserDataFetched,
-    isLoading: userDataLoading,
-    error: userError as Record<string, any>
+    isFetching: userDataLoading,
+    error: userError,
+    isAuthenticated
   };
 
   return <Auth.Provider value={value}>{props.children}</Auth.Provider>;
 };
 
 export default AuthProvider;
+
+export const UserAuth = () => {
+  return useContext(Auth);
+};

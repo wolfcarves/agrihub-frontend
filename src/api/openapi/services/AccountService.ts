@@ -15,13 +15,14 @@ export class AccountService {
 
     /**
      * Register a user
-     * @param requestBody 
      * @returns any Success
      * @throws ApiError
      */
-    public static postApiAccountSignup(
+    public static postApiAccountSignup({
+requestBody,
+}: {
 requestBody: UserRegisterSchema,
-): CancelablePromise<{
+}): CancelablePromise<{
 message?: string;
 user?: {
 id?: string;
@@ -35,13 +36,14 @@ message?: string;
             mediaType: 'application/json',
             errors: {
                 400: `Validation Error`,
+                409: `Email Already Exists`,
                 500: `Server Error`,
             },
         });
     }
 
     /**
-     * Register a user
+     * Send verification for user registration
      * @returns any Success
      * @throws ApiError
      */
@@ -60,14 +62,15 @@ message?: string;
 
     /**
      * @deprecated
-     * verify email
-     * @param id 
+     * Verify email
      * @returns any Success
      * @throws ApiError
      */
-    public static getApiAccountVerifyEmail(
+    public static getApiAccountVerifyEmail({
+id,
+}: {
 id: string,
-): CancelablePromise<{
+}): CancelablePromise<{
 message?: string;
 }> {
         return __request(OpenAPI, {
@@ -84,14 +87,15 @@ message?: string;
     }
 
     /**
-     * complete user details
-     * @param requestBody 
+     * Complete user details
      * @returns UserAuthResponse Success
      * @throws ApiError
      */
-    public static postApiAccountProfileCompletion(
+    public static postApiAccountProfileCompletion({
+requestBody,
+}: {
 requestBody: UserCompletionSchema,
-): CancelablePromise<UserAuthResponse> {
+}): CancelablePromise<UserAuthResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/account/profile-completion',
@@ -106,13 +110,14 @@ requestBody: UserCompletionSchema,
 
     /**
      * Setup username and tags
-     * @param formData 
      * @returns UserAuthResponse Success
      * @throws ApiError
      */
-    public static postApiAccountSetupProfile(
+    public static postApiAccountSetupProfile({
+formData,
+}: {
 formData: UserProfile,
-): CancelablePromise<UserAuthResponse> {
+}): CancelablePromise<UserAuthResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/account/setup-profile',
@@ -120,6 +125,7 @@ formData: UserProfile,
             mediaType: 'multipart/form-data',
             errors: {
                 400: `Validation Error`,
+                409: `Username Already Exists`,
                 500: `Server Error`,
             },
         });

@@ -1,13 +1,18 @@
-import UserSignupForm from "@components/user/forms/UserSignupForm/UserSignupForm";
-import UserFormTitle from "@components/user/title/UserFormTitle";
+import UserSignupForm from "@components/user/account/forms/UserSignupForm/UserSignupForm";
+import UserSignupFormTitle from "@components/user/account/title/UserSignupFormTitle";
+import withAuthGuard from "@higher-order/account/withAuthGuard";
+import { Helmet } from "react-helmet-async";
 
 const Signup = () => {
   return (
     <>
-      <UserFormTitle title="Create an account" step="1" />
+      <Helmet>
+        <title>Signup to Agrihub</title>
+      </Helmet>
+      <UserSignupFormTitle />
       <UserSignupForm />
     </>
   );
 };
 
-export default Signup;
+export default withAuthGuard(Signup, ["guest"]);

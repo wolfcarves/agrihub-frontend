@@ -1,9 +1,13 @@
-/*
-  path - /questions/tags 
-*/
+import OutletContainer from "@components/user/questions/container/OutletContainer";
+import TagsList from "@components/user/questions/list/TagList";
+import withAuthGuard from "@higher-order/account/withAuthGuard";
 
 const QuestionTags = () => {
-  return <div>Questions Tags Page</div>;
+  return (
+    <OutletContainer>
+      <TagsList />
+    </OutletContainer>
+  );
 };
 
-export default QuestionTags;
+export default withAuthGuard(QuestionTags, ["guest", "member"]);

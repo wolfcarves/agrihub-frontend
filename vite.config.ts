@@ -1,22 +1,24 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import reactRefresh from "@vitejs/plugin-react-refresh"
-
+import reactRefresh from "@vitejs/plugin-react-refresh";
+import { VitePWA } from "vite-plugin-pwa";
 import path from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  root: "./",
+
   server: {
     watch: {
-      usePolling: true,
+      usePolling: true
     }
   },
 
   build: {
-    outDir: 'dist/',
+    outDir: "dist/",
     rollupOptions: {
-      input : {
-        main: 'index.html'
+      input: {
+        main: "index.html"
       }
     }
   },
@@ -31,6 +33,7 @@ export default defineConfig({
       "@components": path.resolve(__dirname, "src/components"),
       "@higher-order": path.resolve(__dirname, "src/higher-order"),
       "@hooks": path.resolve(__dirname, "src/hooks"),
+      "@lib": path.resolve(__dirname, "src/components/lib"),
       "@router": path.resolve(__dirname, "src/router"),
       "@pages": path.resolve(__dirname, "src/pages"),
       "@redux": path.resolve(__dirname, "src/redux"),
@@ -39,6 +42,40 @@ export default defineConfig({
       "@svg": path.resolve(__dirname, "src/svg")
     }
   },
-  
-  plugins: [react(), reactRefresh()],
+
+  plugins: [
+    react(),
+    reactRefresh(),
+    VitePWA({
+      manifest: {
+        name: "AgriHub",
+        short_name: "AgriHub",
+        start_url: "/account/login",
+        background_color: "#ffffff",
+        theme_color: "#000000",
+        display: "standalone",
+        icons: [
+          {
+            src: "/agrihub-logo-192-192.png",
+            sizes: "192x192",
+            type: "image/png"
+          },
+          {
+            src: "/agrihub-logo-512-512.png",
+            type: "image/png",
+            sizes: "512x512"
+          }
+        ]
+      },
+      registerType: "autoUpdate",
+      workbox: {
+        clientsClaim: true,
+        skipWaiting: true
+      },
+      devOptions: {
+        enabled: true,
+        type: "module"
+      }
+    })
+  ]
 });

@@ -1,19 +1,31 @@
-import UserVerifyEmailForm from "@components/user/forms/UserVerifyEmailForm/UserVerifyEmailForm";
-import UserFormTitle from "@components/user/title/UserFormTitle";
+import UserVerifyEmailForm from "@components/user/account/forms/UserVerifyEmailForm/UserVerifyEmailForm";
+import UserVerifyTitle from "@components/user/account/title/UserVerifyTitle";
+import withAuthGuard from "@higher-order/account/withAuthGuard";
+import { useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
+import { GET_MY_PROFILE_KEY } from "@hooks/api/get/useGetMyProfileQuery";
 
 const VerifyEmail = () => {
+  //Fetches auth data every 5 sec
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    const interval = setInterval(
+      () => queryClient.invalidateQueries({ queryKey: [GET_MY_PROFILE_KEY()] }),
+      5000
+    );
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
   return (
     <>
-      <UserFormTitle
-        title="Verify Your Email Address"
-        center
-        size="2xl"
-        step="1"
-        className="flex flex-col gap-14"
-      />
+      <UserVerifyTitle />
       <UserVerifyEmailForm />
     </>
   );
 };
 
-export default VerifyEmail;
+export default withAuthGuard(VerifyEmail, ["member"]);

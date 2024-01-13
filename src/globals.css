@@ -2,54 +2,315 @@
 @tailwind components;
 @tailwind utilities;
 
-
 /* Light */
 @font-face {
-  font-family: Inter;
-  src: url('/fonts/Inter-Light.ttf');
-  font-weight: 300
+  font-family: poppins-light;
+  src: url("/fonts/Poppins/Poppins-Light.ttf");
+  font-family: poppins-light;
+  src: url("/fonts/Poppins/Poppins-Light.ttf");
+  font-weight: 300;
 }
 
 /* Regular */
 @font-face {
-  font-family: Inter;
-  src: url('/fonts/Inter-Regular.ttf');
-  font-weight: 400
+  font-family: poppins-regular;
+  src: url("/fonts/Poppins/Poppins-Regular.ttf");
+  font-family: poppins-regular;
+  src: url("/fonts/Poppins/Poppins-Regular.ttf");
+  font-weight: 400;
 }
 
 /* Medium */
 @font-face {
-  font-family: Inter;
-  src: url('/fonts/Inter-Medium.ttf');
-  font-weight: 500
+  font-family: poppins-medium;
+  src: url("/fonts/Poppins/Poppins-Medium.ttf");
+  font-family: poppins-medium;
+  src: url("/fonts/Poppins/Poppins-Medium.ttf");
+  font-weight: 500;
 }
 
 /* SemiBold */
 @font-face {
-  font-family: Inter;
-  src: url('/fonts/Inter-SemiBold.ttf');
+  font-family: poppins-semibold;
+  src: url("/fonts/Poppins/Poppins-SemiBold.ttf");
+  font-family: poppins-semibold;
+  src: url("/fonts/Poppins/Poppins-SemiBold.ttf");
   font-weight: 600;
 }
 
 /* Bold */
 @font-face {
-  font-family: Inter;
-  src: url('/fonts/Inter-Bold.ttf');
-  font-weight: 700
+  font-family: poppins-bold;
+  src: url("/fonts/Poppins/Poppins-Bold.ttf");
+  font-family: poppins-bold;
+  src: url("/fonts/Poppins/Poppins-Bold.ttf");
+  font-weight: 700;
 }
 
 /* Extra Bold */
 @font-face {
-  font-family: Inter;
-  src: url('/fonts/Inter-ExtraBold.ttf');
-  font-weight: 800
+  font-family: poppins-extrabold;
+  src: url("/fonts/Poppins/Poppins-ExtraBold.ttf");
+  font-family: poppins-extrabold;
+  src: url("/fonts/Poppins/Poppins-ExtraBold.ttf");
+  font-weight: 800;
 }
 
-body {
-  font-family: Inter;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+
+
+@layer base {
+  :root {
+    --background: 160 100% 99%;
+    /*white*/
+    --foreground: 240 10% 3.9%;
+    /*black*/
+    --card: 0 0% 100%;
+    /*white*/
+    --card-foreground: 240 10% 3.9%;
+    /*black*/
+    --popover: 0 0% 100%;
+    /*white*/
+    --popover-foreground: 240 10% 3.9%;
+    /*black*/
+    --primary: 101 40% 60%;
+    /*green*/
+    --primary-foreground: 355.7 100% 97.3%;
+    /*black*/
+    --secondary: 111 100% 96%;
+    /*light-green*/
+    --secondary-foreground: 240 5.9% 10%;
+    /*black*/
+    --muted: 240 4.8% 95.9%;
+    /*gray*/
+    --muted-foreground: 240 3.8% 46.1%;
+    /*dark-gray*/
+    --accent: 240 4.8% 95.9%;
+    /*gray*/
+    --accent-foreground: 240 5.9% 10%;
+    /*black*/
+    --destructive: 0 84.2% 60.2%;
+    /*red*/
+    --destructive-foreground: 0 0% 98%;
+    /*white*/
+    --border: 240 5.9% 90%;
+    /*gray*/
+    --input: 240 5.9% 90%;
+    /*gray*/
+    --ring: 104 49% 78%;
+    /*dark-green*/
+    --radius: 0.5rem;
+    /**/
+    --background: 160 100% 99%;
+    /*white*/
+    --foreground: 240 10% 3.9%;
+    /*black*/
+    --card: 0 0% 100%;
+    /*white*/
+    --card-foreground: 240 10% 3.9%;
+    /*black*/
+    --popover: 0 0% 100%;
+    /*white*/
+    --popover-foreground: 240 10% 3.9%;
+    /*black*/
+    --primary: 101 40% 60%;
+    /*green*/
+    --primary-foreground: 355.7 100% 97.3%;
+    /*black*/
+    --secondary: 111 100% 96%;
+    /*light-green*/
+    --secondary-foreground: 240 5.9% 10%;
+    /*black*/
+    --muted: 240 4.8% 95.9%;
+    /*gray*/
+    --muted-foreground: 240 3.8% 46.1%;
+    /*dark-gray*/
+    --accent: 240 4.8% 95.9%;
+    /*gray*/
+    --accent-foreground: 240 5.9% 10%;
+    /*black*/
+    --destructive: 0 84.2% 60.2%;
+    /*red*/
+    --destructive-foreground: 0 0% 98%;
+    /*white*/
+    --border: 240 5.9% 90%;
+    /*gray*/
+    --input: 240 5.9% 90%;
+    /*gray*/
+    --ring: 104 49% 78%;
+    /*dark-green*/
+    --radius: 0.5rem;
+    /**/
+  }
+
+  .dark {
+    --background: 20 14.3% 4.1%;
+    /**/
+    --foreground: 0 0% 95%;
+    /**/
+    --card: 24 9.8% 10%;
+    /**/
+    --card-foreground: 0 0% 95%;
+    /**/
+    --popover: 0 0% 9%;
+    /**/
+    --popover-foreground: 0 0% 95%;
+    /**/
+    --primary: 142.1 70.6% 45.3%;
+    /**/
+    --primary-foreground: 144.9 80.4% 10%;
+    /**/
+    --secondary: 240 3.7% 15.9%;
+    /**/
+    --secondary-foreground: 0 0% 98%;
+    /**/
+    --muted: 0 0% 15%;
+    /**/
+    --muted-foreground: 240 5% 64.9%;
+    /**/
+    --accent: 12 6.5% 15.1%;
+    /**/
+    --accent-foreground: 0 0% 98%;
+    /**/
+    --destructive: 0 62.8% 30.6%;
+    /**/
+    --destructive-foreground: 0 85.7% 97.3%;
+    /**/
+    --border: 240 3.7% 15.9%;
+    /**/
+    --input: 240 3.7% 15.9%;
+    /**/
+    --ring: 142.4 71.8% 29.2%;
+    /**/
+    --background: 20 14.3% 4.1%;
+    /**/
+    --foreground: 0 0% 95%;
+    /**/
+    --card: 24 9.8% 10%;
+    /**/
+    --card-foreground: 0 0% 95%;
+    /**/
+    --popover: 0 0% 9%;
+    /**/
+    --popover-foreground: 0 0% 95%;
+    /**/
+    --primary: 142.1 70.6% 45.3%;
+    /**/
+    --primary-foreground: 144.9 80.4% 10%;
+    /**/
+    --secondary: 240 3.7% 15.9%;
+    /**/
+    --secondary-foreground: 0 0% 98%;
+    /**/
+    --muted: 0 0% 15%;
+    /**/
+    --muted-foreground: 240 5% 64.9%;
+    /**/
+    --accent: 12 6.5% 15.1%;
+    /**/
+    --accent-foreground: 0 0% 98%;
+    /**/
+    --destructive: 0 62.8% 30.6%;
+    /**/
+    --destructive-foreground: 0 85.7% 97.3%;
+    /**/
+    --border: 240 3.7% 15.9%;
+    /**/
+    --input: 240 3.7% 15.9%;
+    /**/
+    --ring: 142.4 71.8% 29.2%;
+    /**/
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+
+
+  body {
+    @apply bg-background text-foreground;
+    @apply text-base font-poppins-regular;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1 {
+    @apply text-3xl;
+  }
+
+  h2 {
+    @apply text-2xl;
+  }
+
+  h3 {
+    @apply text-xl;
+  }
+
+  h4 {
+    @apply text-lg;
+  }
+
+  h5 {
+    @apply text-md;
+  }
+
+  h6 {
+    @apply text-base;
+  }
+}
+
+
+.custom-scroll::-webkit-scrollbar {
+  width: 5px;
+}
+
+.custom-scroll::-webkit-scrollbar {
+  width: 5px;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb {
+  background-color: #d8d8d8;
+  border-radius: 10px;
+  border-radius: 10px;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb:hover {
+  background: #adadad;
+}
+
+/* FOR RICH TEXT EDITOR TITE*/
+
+
+.ProseMirror {
+  outline: none;
+  padding: 0.5rem;
+  min-height: 20rem;
+}
+
+.tiptap {
+  >*+* {
+    margin-top: 0.75em;
+  }
+
+  img {
+    height: auto;
+    max-width: 100%;
+
+    &.ProseMirror-selectednode {
+      outline: 3px solid #1b75d0;
+    }
+  }
+}
+
+ul {
+  list-style-type: disc;
+}
+
+ol {
+  list-style-type: decimal;
 }

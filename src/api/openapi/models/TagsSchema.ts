@@ -6,4 +6,5 @@
 export type TagsSchema = Array<{
 id?: string;
 tag_name?: string;
+details?: string;
 }>;

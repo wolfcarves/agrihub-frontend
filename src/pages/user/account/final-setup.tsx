@@ -1,13 +1,14 @@
-import UserFinalSetupForm from "@components/user/forms/UserFinalSetupForm/UserFinalSetupForm";
-import UserFormTitle from "@components/user/title/UserFormTitle";
+import UserFinalSetupForm from "@components/user/account/forms/UserFinalSetupForm/UserFinalSetupForm";
+import UserFinalFormTitle from "@components/user/account/title/UserFinalFormTitle";
+import withAuthGuard from "@higher-order/account/withAuthGuard";
 
 const FinalSetup = () => {
   return (
     <>
-      <UserFormTitle title="You're almost done!" center />
+      <UserFinalFormTitle />
       <UserFinalSetupForm />
     </>
   );
 };
 
-export default FinalSetup;
+export default withAuthGuard(FinalSetup, ["member"]);

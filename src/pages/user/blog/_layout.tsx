@@ -1,19 +1,16 @@
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { UserHeader } from "@components/ui/custom";
+import Footer from "../../../components/ui/custom/footer/user-footer";
 
 const BlogLayout = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  useEffect(() => {
-    // Check if the current path is exactly '/community'
-    if (location.pathname === "/community") {
-      navigate("/community/explore");
-    }
-  }, [navigate, location.pathname]);
   return (
     <div className="">
+      <UserHeader />
       <Outlet />
+      <Footer />
     </div>
   );
 };

@@ -2,11 +2,11 @@ import React from "react";
 
 const Blogs = () => {
   return (
-    <div className="py-4 px-10 grid grid-cols-2 gap-0">
+    <div className="py-4 px-10 grid grid-cols-2 gap-2 mb-20">
       <div className="">
         <h3>Recent Blogs</h3>
 
-        <img src="https://via.placeholder.com/750x480" className="pt-2"></img>
+        <img src="https://via.placeholder.com/750x420" className="pt-2"></img>
 
         <h5 className="text-gray-600 pt-4 text-sm">October 19, 2023</h5>
 
@@ -29,7 +29,7 @@ const Blogs = () => {
       <div className="grid row-auto pt-11 me-3">
         <div className="grid grid-cols-2">
           <div>
-            <img src="https://via.placeholder.com/700x400"></img>
+            <img src="https://via.placeholder.com/700x365"></img>
           </div>
           <div className="ms-3">
             <h5 className="text-gray-500 text-sm">October 19, 2023</h5>
@@ -43,15 +43,13 @@ const Blogs = () => {
               mga teknik sa permakultura. Sa tulong ni Sir Sixto Bereber,
               nagkaroon ng mas malalim na kaalaman sa agrikultura at kalikasan
               ang ating mga urban farmers na maaari nilang i-apply sa
-              kani-kanilang mga urban farms dito sa Quezon City. Ang pagsasanay
-              na ito ay dahil sa kolaborasyon ng Quezon City University - Center
-              for Urban...
+              kani-kanilang mga...
             </p>
           </div>
         </div>
         <div className="grid grid-cols-2 pt-3">
           <div>
-            <img src="https://via.placeholder.com/700x400"></img>
+            <img src="https://via.placeholder.com/700x365"></img>
           </div>
           <div className="ms-3">
             <h5 className="text-gray-500 text-sm">October 19, 2023</h5>
@@ -65,15 +63,13 @@ const Blogs = () => {
               mga teknik sa permakultura. Sa tulong ni Sir Sixto Bereber,
               nagkaroon ng mas malalim na kaalaman sa agrikultura at kalikasan
               ang ating mga urban farmers na maaari nilang i-apply sa
-              kani-kanilang mga urban farms dito sa Quezon City. Ang pagsasanay
-              na ito ay dahil sa kolaborasyon ng Quezon City University - Center
-              for Urban...
+              kani-kanilang mga...
             </p>
           </div>
         </div>
         <div className="grid grid-cols-2 pt-3">
           <div>
-            <img src="https://via.placeholder.com/700x400"></img>
+            <img src="https://via.placeholder.com/700x365"></img>
           </div>
           <div className="ms-3">
             <h5 className="text-gray-500 text-sm">October 19, 2023</h5>
@@ -87,9 +83,7 @@ const Blogs = () => {
               mga teknik sa permakultura. Sa tulong ni Sir Sixto Bereber,
               nagkaroon ng mas malalim na kaalaman sa agrikultura at kalikasan
               ang ating mga urban farmers na maaari nilang i-apply sa
-              kani-kanilang mga urban farms dito sa Quezon City. Ang pagsasanay
-              na ito ay dahil sa kolaborasynon ng Quezon City University -
-              Center for Urban...
+              kani-kanilang mga...
             </p>
           </div>
         </div>

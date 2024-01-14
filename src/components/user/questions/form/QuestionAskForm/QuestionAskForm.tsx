@@ -19,7 +19,7 @@ const QuestionAskForm = () => {
   const { data: tagResult } = useGetTagByKeyWord(searchInputTagValue);
 
   const form = useForm<QuestionSchema>({
-    resolver: zodResolver(askQuestionSchema),
+    // resolver: zodResolver(askQuestionSchema),
     mode: "onBlur"
   });
 
@@ -37,8 +37,7 @@ const QuestionAskForm = () => {
     }
   }, [form.formState.errors]);
 
-  const { mutateAsync: questionAskMutate, isLoading: isQuestionAskLoading } =
-    useQuestionAskMutation();
+  const { mutateAsync: questionAskMutate } = useQuestionAskMutation();
 
   const handleSubmitForm = async (data: QuestionSchema) => {
     const compiledData: QuestionSchema = {
@@ -181,11 +180,7 @@ const QuestionAskForm = () => {
           </div>
 
           <div className="mt-10">
-            <Button
-              className="px-7"
-              type="submit"
-              disabled={isQuestionAskLoading}
-            >
+            <Button className="px-7" type="submit">
               Post your question
             </Button>
           </div>

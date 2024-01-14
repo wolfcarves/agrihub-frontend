@@ -1,6 +1,14 @@
-import { ComponentType } from "react";
 import { Button } from "@components/ui/button";
-import { Dialog, DialogContent, DialogTrigger } from "@components/ui/dialog";
+import React, { ComponentType, useState } from "react";
+import { IoClose } from "react-icons/io5";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
+} from "@components/ui/dialog";
 import useAuth from "@hooks/useAuth";
 import { Link } from "react-router-dom";
 
@@ -11,7 +19,7 @@ export function withRequireAuth<T extends object>(Component: ComponentType<T>) {
     return (
       <>
         <Dialog>
-          <DialogTrigger>
+          <DialogTrigger asChild>
             {isAuthenticated ? (
               <Component {...props} />
             ) : (

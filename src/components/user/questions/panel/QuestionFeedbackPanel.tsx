@@ -1,4 +1,3 @@
-import React, { ComponentProps } from "react";
 import { PiArrowFatDown, PiArrowFatUp } from "react-icons/pi";
 import { LuMessagesSquare } from "react-icons/lu";
 import { TiArrowForwardOutline } from "react-icons/ti";
@@ -7,6 +6,7 @@ import { PiArrowFatUpFill } from "react-icons/pi";
 import { PiArrowFatDownFill } from "react-icons/pi";
 import { FaRegComment } from "react-icons/fa6";
 import withRequireAuth from "@higher-order/account/withRequireAuth";
+import QuestionFeedBackPanelButton from "../button/QuestionFeedBackPanelButton";
 
 interface QuestionFeedbackPanelProps {
   vote?: "upvote" | "downvote";
@@ -18,51 +18,6 @@ interface QuestionFeedbackPanelProps {
   onDownVoteBtnClick?: (e: React.MouseEvent) => void;
   onShareBtnClick?: (e: React.MouseEvent) => void;
 }
-
-interface VoteButtonProps extends ComponentProps<"button"> {
-  vote?: "upvote" | "downvote";
-  variant: "upvote" | "downvote";
-}
-
-const VoteButton = withRequireAuth(
-  ({ variant, vote, ...props }: VoteButtonProps) => {
-    if (variant === "upvote") {
-      return (
-        <button
-          className="h-11 hover:bg-accent opacity-80 hover:opacity-100 text-lg px-3 rounded-lg duration-200"
-          {...props}
-        >
-          {vote === "upvote" ? (
-            <div className="text-primary">
-              <PiArrowFatUpFill />
-            </div>
-          ) : (
-            <PiArrowFatUp />
-          )}
-        </button>
-      );
-    }
-
-    if (variant === "downvote") {
-      return (
-        <button
-          className="h-11 hover:bg-accent opacity-80 hover:opacity-100 text-lg px-3 rounded-lg duration-200"
-          {...props}
-        >
-          {vote === "downvote" ? (
-            <div className="text-red-500">
-              <PiArrowFatDownFill />
-            </div>
-          ) : (
-            <div>
-              <PiArrowFatDown />
-            </div>
-          )}
-        </button>
-      );
-    }
-  }
-);
 
 const QuestionFeedbackPanel = ({
   vote,
@@ -76,33 +31,37 @@ const QuestionFeedbackPanel = ({
 }: QuestionFeedbackPanelProps) => {
   return (
     <div className="flex items-center mt-auto">
-      {/* Share Button */}
+      {/* Save Button */}
       {onSaveBtnClick && (
-        <button
-          className="flex items-center gap-5 h-11 px-5 rounded-lg hover:bg-accent opacity-80 hover:opacity-100 duration-200"
-          onClick={onSaveBtnClick}
-        >
-          <div className="text-lg">
-            <LuBookmark />
-          </div>
-          <span className="hidden md:block font-poppins-bold text-foreground">
-            Save
-          </span>
-        </button>
+        <QuestionFeedBackPanelButton title="Save" icon={<LuBookmark />} />
       )}
 
       {/* Vote */}
-      {onUpVoteBtnClick && (
+      {onUpVoteBtnClick && onDownVoteBtnClick && (
         <div className="flex gap-3 h-11">
-          <VoteButton variant="upvote" vote={vote} onClick={onUpVoteBtnClick} />
+          <QuestionFeedBackPanelButton
+            icon={
+              vote === "upvote" ? (
+                <PiArrowFatUpFill className="text-primary" />
+              ) : (
+                <PiArrowFatUp />
+              )
+            }
+            onClick={onUpVoteBtnClick}
+          />
 
           <span className="font-poppins-bold text-foreground my-auto">
             {voteCount}
           </span>
 
-          <VoteButton
-            variant="downvote"
-            vote={vote}
+          <QuestionFeedBackPanelButton
+            icon={
+              vote === "downvote" ? (
+                <PiArrowFatDownFill className="text-red-500" />
+              ) : (
+                <PiArrowFatDown />
+              )
+            }
             onClick={onDownVoteBtnClick}
           />
         </div>
@@ -110,17 +69,10 @@ const QuestionFeedbackPanel = ({
 
       {/* Answer */}
       {answerCount && (
-        <button className="flex items-center gap-5 h-11 px-5 rounded-lg hover:bg-accent opacity-80 hover:opacity-100 duration-200">
-          <div className="text-lg">
-            <LuMessagesSquare />
-          </div>
-          <span className="font-poppins-bold text-foreground">
-            {answerCount}
-          </span>
-          <span className="hidden md:block font-poppins-bold text-foreground">
-            Answers
-          </span>
-        </button>
+        <QuestionFeedBackPanelButton
+          title={`${answerCount} Answers`}
+          icon={<LuMessagesSquare />}
+        />
       )}
 
       {/* Reply Button */}

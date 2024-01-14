@@ -137,7 +137,6 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor, onImageUpload }) => {
 
       <button className="relative flex items-center gap-3 active:text-white p-2 rounded-md hover:bg-primary ">
         <FaRegImage />
-        <span className="text-sm">Upload image</span>
         <input
           type="file"
           value={[]}

@@ -8,15 +8,15 @@ export function withRequireAuth<T extends object>(Component: ComponentType<T>) {
   const NewComponent = (props: T) => {
     const { isAuthenticated } = useAuth();
 
+    if (isAuthenticated) {
+      return <Component {...props} />;
+    }
+
     return (
       <>
         <Dialog>
           <DialogTrigger>
-            {isAuthenticated ? (
-              <Component {...props} />
-            ) : (
-              <Component {...props} />
-            )}
+            <Component {...props} />
           </DialogTrigger>
 
           <DialogContent>

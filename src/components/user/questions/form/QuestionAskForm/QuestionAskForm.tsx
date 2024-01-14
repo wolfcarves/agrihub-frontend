@@ -27,11 +27,9 @@ const QuestionAskForm = () => {
     if (form.formState.errors.title) {
       toast.error(form.formState.errors.title.message);
     }
-
     if (form.formState.errors.tags) {
       toast.error(form.formState.errors.tags.message);
     }
-
     if (form.formState.errors.question) {
       toast.error(form.formState.errors.question.message);
     }

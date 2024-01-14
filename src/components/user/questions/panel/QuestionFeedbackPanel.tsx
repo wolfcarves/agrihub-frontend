@@ -29,7 +29,7 @@ const VoteButton = withRequireAuth(
     if (variant === "upvote") {
       return (
         <button
-          className="hover:bg-accent opacity-80 hover:opacity-100 text-lg h-full px-3 rounded-lg duration-200"
+          className="h-11 hover:bg-accent opacity-80 hover:opacity-100 text-lg px-3 rounded-lg duration-200"
           {...props}
         >
           {vote === "upvote" ? (
@@ -46,7 +46,7 @@ const VoteButton = withRequireAuth(
     if (variant === "downvote") {
       return (
         <button
-          className="hover:bg-accent opacity-80 hover:opacity-100 text-lg h-full px-3 rounded-lg duration-200"
+          className="h-11 hover:bg-accent opacity-80 hover:opacity-100 text-lg px-3 rounded-lg duration-200"
           {...props}
         >
           {vote === "downvote" ? (
@@ -93,10 +93,10 @@ const QuestionFeedbackPanel = ({
 
       {/* Vote */}
       {onUpVoteBtnClick && (
-        <div className="flex gap-3 items-center h-11">
+        <div className="flex gap-3 h-11">
           <VoteButton variant="upvote" vote={vote} onClick={onUpVoteBtnClick} />
 
-          <span className="font-poppins-bold text-foreground ">
+          <span className="font-poppins-bold text-foreground my-auto">
             {voteCount}
           </span>
 

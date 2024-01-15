@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 /* Light */
 @font-face {
   font-family: poppins-light;

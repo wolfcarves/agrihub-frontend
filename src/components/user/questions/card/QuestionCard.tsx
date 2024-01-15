@@ -7,6 +7,7 @@ import parse, { Element } from "html-react-parser";
 import TagChip from "../chip/TagChip";
 import { Link } from "react-router-dom";
 import QuestionUserProfileButton from "../button/QuestionUserProfileButton";
+import useAuth from "@hooks/useAuth";
 
 interface QuestionCardProps {
   id?: string;
@@ -23,6 +24,7 @@ interface QuestionCardProps {
   createdat?: string;
   onUpVoteBtnClick?: (e: React.MouseEvent) => void;
   onDownVoteBtnClick?: (e: React.MouseEvent) => void;
+  onAnswerBtnClick?: (e: React.MouseEvent) => void;
   onShareBtnClick?: (e: React.MouseEvent) => void;
 }
 
@@ -39,6 +41,7 @@ const QuestionCard = ({
   createdat,
   onUpVoteBtnClick,
   onDownVoteBtnClick,
+  onAnswerBtnClick,
   onShareBtnClick
 }: QuestionCardProps) => {
   const purifiedDescription = DOMPurify.sanitize(description ?? "", {
@@ -68,7 +71,7 @@ const QuestionCard = ({
           {/* Card Title */}
           <div className="flex items-start justify-between">
             <Link to={`question/${username}/${id}`}>
-              <h4 className="text-blue-500 font-poppins-semibold line-clamp-2 hover:underline hover:opacity-90">
+              <h4 className="text-blue-500 font-poppins-semibold line-clamp-2 hover:opacity-80">
                 {title}
               </h4>
             </Link>
@@ -106,6 +109,7 @@ const QuestionCard = ({
             {...{ vote }}
             {...{ answerCount }}
             {...{ voteCount }}
+            {...{ onAnswerBtnClick }}
             {...{ onUpVoteBtnClick }}
             {...{ onDownVoteBtnClick }}
             {...{ onShareBtnClick }}

@@ -1,10 +1,18 @@
 import { Outlet } from "react-router-dom";
-import { ScrollToTop } from "@components/ui/custom";
+import { ScrollRestoration } from "react-router-dom";
 
 const MainLayout = () => {
   return (
     <>
-      <ScrollToTop />
+      <ScrollRestoration
+        getKey={location => {
+          const restoringPaths = ["/"];
+
+          return restoringPaths.includes(location.pathname)
+            ? location.pathname
+            : location.key;
+        }}
+      />
       <Outlet />
     </>
   );

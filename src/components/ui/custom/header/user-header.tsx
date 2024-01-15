@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import useAuth from "@hooks/useAuth";
 import UserHeaderMenu from "./user-header-menu";
 import UserReponsiveContainer from "../container/user-reponsive-container";
+import UserHeaderNotification from "./user-header-notification";
 
 const UserHeaderContainer = ({ children }: { children: ReactNode }) => (
   <div className="sticky top-0 w-full bg-background z-50 flex justify-center h-16 sm:h-20 border-b">
@@ -19,7 +20,7 @@ const UserHeaderContainer = ({ children }: { children: ReactNode }) => (
 const UserHeaderSearchBar = () => (
   <div className="flex items-center gap-10 h-full">
     <Link to="/">
-      <AgrihubLogo size="sm" />
+      <AgrihubLogo />
     </Link>
 
     <SearchBar placeholder="Type to search..." />
@@ -52,7 +53,11 @@ const UserHeader = () => {
       <UserHeaderContainer>
         <UserHeaderSearchBar />
         <UserHeaderNavigation />
-        {isAuthenticated ? <UserHeaderMenu /> : <AuthButtonsGroup />}
+
+        <div className="flex items-center gap-4">
+          {isAuthenticated && <UserHeaderNotification />}
+          {isAuthenticated ? <UserHeaderMenu /> : <AuthButtonsGroup />}
+        </div>
       </UserHeaderContainer>
     </>
   );

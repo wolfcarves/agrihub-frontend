@@ -8,8 +8,7 @@ import {
 } from "@components/ui/dropdown-menu";
 import useDeleteAuthMutate from "@hooks/api/delete/useDeleteAuthMutate";
 import useAuth from "@hooks/useAuth";
-import { IoNotifications } from "react-icons/io5";
-import { PiBell } from "react-icons/pi";
+import { PiBell, PiBellFill } from "react-icons/pi";
 import { useState } from "react";
 
 //Refactor nalang dapat dito naka .map pero ang mahalaga masaya tayong mga pilipino
@@ -29,7 +28,7 @@ const UserHeaderNotification = () => {
           onClick={() => setIsOpen(prev => !prev)}
         >
           <DropdownMenuTrigger></DropdownMenuTrigger>
-          {isOpen ? <IoNotifications /> : <PiBell />}
+          {isOpen ? <PiBellFill /> : <PiBell />}
         </div>
 
         <DropdownMenuContent className="w-[20rem] sm:w-[25rem]" align="end">

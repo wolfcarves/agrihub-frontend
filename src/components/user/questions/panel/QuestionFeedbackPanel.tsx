@@ -14,6 +14,7 @@ interface QuestionFeedbackPanelProps {
   answerCount?: string | number;
   onCommentBtnClick?: (e: React.MouseEvent) => void;
   onSaveBtnClick?: (e: React.MouseEvent) => void;
+  onAnswerBtnClick?: (e: React.MouseEvent) => void;
   onUpVoteBtnClick?: (e: React.MouseEvent) => void;
   onDownVoteBtnClick?: (e: React.MouseEvent) => void;
   onShareBtnClick?: (e: React.MouseEvent) => void;
@@ -28,9 +29,10 @@ const QuestionFeedbackPanel = ({
   voteCount,
   answerCount,
   onCommentBtnClick,
+  onSaveBtnClick,
+  onAnswerBtnClick,
   onUpVoteBtnClick,
   onDownVoteBtnClick,
-  onSaveBtnClick,
   onShareBtnClick
 }: QuestionFeedbackPanelProps) => {
   return (
@@ -40,7 +42,21 @@ const QuestionFeedbackPanel = ({
       )}
 
       {onUpVoteBtnClick && onDownVoteBtnClick && (
+        <QuestionFeedBackPanelButton title="Save" icon={<LuBookmark />} />
+      )}
+
+      {onUpVoteBtnClick && onDownVoteBtnClick && (
         <div className="flex gap-3 h-11">
+          <AuthenticatedQuestionFeedBackPanelButton
+            icon={
+              vote === "upvote" ? (
+                <PiArrowFatUpFill className="text-primary" />
+              ) : (
+                <PiArrowFatUp />
+              )
+            }
+            onClick={onUpVoteBtnClick}
+          />
           <AuthenticatedQuestionFeedBackPanelButton
             icon={
               vote === "upvote" ? (
@@ -70,10 +86,12 @@ const QuestionFeedbackPanel = ({
       )}
 
       {answerCount && (
-        <QuestionFeedBackPanelButton
-          title={`${answerCount} Answers`}
-          icon={<LuMessagesSquare />}
-        />
+        <div onClick={onAnswerBtnClick}>
+          <QuestionFeedBackPanelButton
+            title={`${answerCount} Answers`}
+            icon={<LuMessagesSquare />}
+          />
+        </div>
       )}
 
       {onCommentBtnClick && (

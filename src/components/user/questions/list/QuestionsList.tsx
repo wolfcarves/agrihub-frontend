@@ -8,6 +8,7 @@ import useQuestionDeleteVoteMutation from "@hooks/api/post/useQuestionDeleteVote
 import wink from "@assets/images/wink.gif";
 import { useState } from "react";
 import useAuth from "@hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 interface QuestionsListProps {
   data?: QuestionsResponse;
@@ -16,6 +17,7 @@ interface QuestionsListProps {
 }
 
 const QuestionsList = ({ data, isLoading }: QuestionsListProps) => {
+  const navigate = useNavigate();
   const user = useAuth();
   const { mutateAsync: questionVoteMutate } = useQuestionVoteMutation();
   // const { mutateAsync: questionDeleteVoteMutate } =
@@ -148,6 +150,9 @@ const QuestionsList = ({ data, isLoading }: QuestionsListProps) => {
                   "downvote",
                   vote?.type as "upvote" | "downvote" | null | undefined
                 );
+              }}
+              onAnswerBtnClick={() => {
+                navigate(`question/${user?.username}/${id}`);
               }}
               tags={tags}
               onShareBtnClick={e => {

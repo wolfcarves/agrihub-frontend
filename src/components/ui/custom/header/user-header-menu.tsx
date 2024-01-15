@@ -9,42 +9,70 @@ import {
 } from "@components/ui/dropdown-menu";
 import useDeleteAuthMutate from "@hooks/api/delete/useDeleteAuthMutate";
 import useAuth from "@hooks/useAuth";
+import { MdLogout } from "react-icons/md";
+import { RxQuestionMarkCircled } from "react-icons/rx";
+import { BiCommentError } from "react-icons/bi";
+import { IoSettingsOutline } from "react-icons/io5";
+import ActivityIndicator from "@icons/ActivityIndicator";
 
-//Refactor nalang dapat dito naka .map pero ang mahalaga masaya tayong mga pilipino
 const UserHeaderMenu = () => {
   const { data } = useAuth();
-  const { mutateAsync: deleteAuthData } = useDeleteAuthMutate();
+  const { mutateAsync: deleteAuthData, isLoading } = useDeleteAuthMutate();
 
   return (
     <>
       <DropdownMenu>
         <DropdownMenuTrigger>
           <Avatar className="border">
-            <AvatarImage src={data?.avatar ?? ""} className="object-cover" />
+            <AvatarImage
+              src={data?.avatar ?? ""}
+              className="object-cover pointer-events-none select-none "
+            />
             <AvatarFallback>R</AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>
-        <DropdownMenuContent
-          className="min-w-[200px] max-w-[200px]"
-          align="end"
-        >
+
+        <DropdownMenuContent className="w-[20rem]" align="end">
           <DropdownMenuLabel>
-            <span className="line-clamp-1 capitalize">
+            <span className="flex items-center gap-3 line-clamp-1 text-md font-poppins-bold capitalize h-10">
+              <img
+                src={data?.avatar ?? ""}
+                className="w-10 h-10 rounded-full border object-cover pointer-events-none select-none "
+              />
               {data?.firstname + " " + data?.lastname}
             </span>
           </DropdownMenuLabel>
 
           <DropdownMenuSeparator />
+
+          <DropdownMenuItem className="cursor-pointer h-12 gap-2">
+            <RxQuestionMarkCircled className="text-foreground/80 text-xl" />
+            Help & Support
+          </DropdownMenuItem>
+
+          <DropdownMenuItem className="cursor-pointer h-12 gap-2">
+            <BiCommentError className="text-foreground/80 text-xl" />
+            Give Feedback
+          </DropdownMenuItem>
+
+          <DropdownMenuItem className="cursor-pointer h-12 gap-2">
+            <IoSettingsOutline className="text-foreground/80 text-xl" />
+            Settings
+          </DropdownMenuItem>
+
           <DropdownMenuItem
+            className="cursor-pointer h-12 gap-2"
             onClick={() => {
               deleteAuthData();
             }}
-            className="cursor-pointer"
           >
+            <MdLogout className="text-foreground/80 text-xl" />
             Logout
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
+
+      <ActivityIndicator isVisible={isLoading} />
     </>
   );
 };

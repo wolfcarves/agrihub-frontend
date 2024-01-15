@@ -53,6 +53,11 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
         HTMLAttributes: {
           class: "ms-5"
         }
+      },
+      paragraph: {
+        HTMLAttributes: {
+          class: "min-h-[1rem]"
+        }
       }
     })
   ];

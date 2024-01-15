@@ -44,6 +44,9 @@ const QuestionCard = ({
   onAnswerBtnClick,
   onShareBtnClick
 }: QuestionCardProps) => {
+  const user = useAuth();
+  const isSameUser = user?.data?.username === username;
+
   const purifiedDescription = DOMPurify.sanitize(description ?? "", {
     USE_PROFILES: {
       html: true
@@ -110,8 +113,8 @@ const QuestionCard = ({
             {...{ answerCount }}
             {...{ voteCount }}
             {...{ onAnswerBtnClick }}
-            {...{ onUpVoteBtnClick }}
-            {...{ onDownVoteBtnClick }}
+            onUpVoteBtnClick={!isSameUser ? onUpVoteBtnClick : undefined}
+            onDownVoteBtnClick={!isSameUser ? onDownVoteBtnClick : undefined}
             {...{ onShareBtnClick }}
           />
         </>

@@ -20,7 +20,7 @@ const UserHeaderContainer = ({ children }: { children: ReactNode }) => (
 const UserHeaderSearchBar = () => (
   <div className="flex items-center gap-10 h-full">
     <Link to="/">
-      <AgrihubLogo />
+      <AgrihubLogo size="sm" />
     </Link>
 
     <SearchBar placeholder="Type to search..." />

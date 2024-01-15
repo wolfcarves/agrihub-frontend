@@ -19,7 +19,7 @@ const QuestionAskForm = () => {
   const { data: tagResult } = useGetTagByKeyWord(searchInputTagValue);
 
   const form = useForm<QuestionSchema>({
-    // resolver: zodResolver(askQuestionSchema),
+    resolver: zodResolver(askQuestionSchema),
     mode: "onBlur"
   });
 
@@ -27,17 +27,16 @@ const QuestionAskForm = () => {
     if (form.formState.errors.title) {
       toast.error(form.formState.errors.title.message);
     }
-
     if (form.formState.errors.tags) {
       toast.error(form.formState.errors.tags.message);
     }
-
     if (form.formState.errors.question) {
       toast.error(form.formState.errors.question.message);
     }
   }, [form.formState.errors]);
 
-  const { mutateAsync: questionAskMutate } = useQuestionAskMutation();
+  const { mutateAsync: questionAskMutate, isLoading: isQuestionAskLoading } =
+    useQuestionAskMutation();
 
   const handleSubmitForm = async (data: QuestionSchema) => {
     const compiledData: QuestionSchema = {
@@ -136,6 +135,7 @@ const QuestionAskForm = () => {
                 return (
                   <RichTextEditor
                     onBlur={data => {
+                      console.log(data.html);
                       onChange(data.html);
                       data?.files?.then(blobs => {
                         form.setValue("imagesrc", blobs);
@@ -180,7 +180,11 @@ const QuestionAskForm = () => {
           </div>
 
           <div className="mt-10">
-            <Button className="px-7" type="submit">
+            <Button
+              className="px-7"
+              type="submit"
+              disabled={isQuestionAskLoading}
+            >
               Post your question
             </Button>
           </div>

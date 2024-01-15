@@ -6,15 +6,17 @@ import QuestionsAside from "@components/user/questions/aside/QuestionsAside";
 const QuestionLayout = () => {
   const pathname = useLocation().pathname;
 
-  const notInto = pathname === "/forum/ask";
+  const sidebarNoneRenderPaths = ["/forum/ask"];
+  const asideNoneRenderPaths = ["/forum/tags"];
+  const sidebarRender = sidebarNoneRenderPaths.includes(pathname);
+  const asideRender = asideNoneRenderPaths.includes(pathname);
 
   return (
     <>
       <QuestionLayoutContainer>
-        {!notInto && <QuestionSidebar />}
+        {!sidebarRender && <QuestionSidebar />}
         <Outlet />
-        {/* {!notInto && <QuestionsAside />} */}
-        <QuestionsAside />
+        {!asideRender && <QuestionsAside />}
       </QuestionLayoutContainer>
     </>
   );

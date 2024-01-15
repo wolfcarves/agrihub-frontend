@@ -19,6 +19,7 @@ import {
 import { Input } from "@components/ui/input";
 import { Button } from "@components/ui/button";
 import LoadingSpinner from "@icons/LoadingSpinner";
+import { toast } from "sonner";
 
 const CAPTCHA_CONTAINER_ID = import.meta.env.VITE_CAPTCHA_CONTAINER_ID;
 const CAPTCHA_ID = import.meta.env.VITE_CAPTCHA_ID;
@@ -66,7 +67,7 @@ const UserSignupForm = () => {
         setCaptchaError(true);
       }
     } catch (e: any) {
-      //
+      toast.error(e.body.message);
     }
   };
 

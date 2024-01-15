@@ -3,21 +3,102 @@ import Analytics from "./tabs/analytics";
 import Overview from "./tabs/overview";
 import Reports from "./tabs/reports";
 import Members from "./tabs/members";
-import withAuthGuard from "../../../higher-order/account/withAuthGuard";
-import image from "@assets/react.svg";
-import { Button } from "../../../components/ui/button";
+import withAuthGuard from "@higher-order/account/withAuthGuard";
+import { Button } from "@components/ui/button";
+import OutletContainer from "@components/user/questions/container/OutletContainer";
+import { Link } from "react-router-dom";
+import CommunityIllustration from "@assets/images/community.png";
+import CommunityCard from "@components/user/community/card/CommunityCard";
+
 const Community = () => {
-  const [tab, setTab] = useState("overview");
   return (
-    <div>
+    <OutletContainer>
+      <div className="py-10">
+        {/* Header */}
+        <div className="flex flex-wrap gap-x-3 justify-between">
+          <h6 className="font-poppins-medium tracking-tight">
+            Farm Community on Agrihub
+          </h6>
+
+          <div>
+            <Link to="/" className="text-sm hover:underline">
+              Looking for help ?
+            </Link>
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="flex">
+          <div className="w-full max-w-[25rem] mt-20">
+            <h2 className="font-poppins-semibold tracking-tight leading-[2.3rem]">
+              Be a part of growing farm community in Quezon City.
+            </h2>
+
+            <p className="mt-5">
+              Engaging in a farm community is essential for promoting
+              sustainable agriculture, fostering collaboration among farmers,
+              and preserving local economies and traditions.
+            </p>
+
+            <div className="mt-10">
+              <Button>Discover</Button>
+            </div>
+          </div>
+
+          <div className="hidden md:block">
+            <img src={CommunityIllustration} />
+          </div>
+        </div>
+      </div>
+
+      <p>
+        Areas of practice, technology, and provider organizations already on
+        Communities:
+      </p>
+
+      <div className="grid mx-auto grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-20">
+        <CommunityCard
+          id="1"
+          title="Kuya Rodel's Farm"
+          description="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Facere repellendus delectus sint perspiciatis fugit voluptatibus corrupti voluptatum similique molestias ad!"
+        />
+        <CommunityCard
+          id="1"
+          title="Kuya Rodel's Farm"
+          description="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Facere repellendus delectus sint perspiciatis fugit voluptatibus corrupti voluptatum similique molestias ad!"
+        />
+        <CommunityCard
+          id="1"
+          title="Kuya Rodel's Farm"
+          description="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Facere repellendus delectus sint perspiciatis fugit voluptatibus corrupti voluptatum similique molestias ad!"
+        />
+        <CommunityCard
+          id="1"
+          title="Kuya Rodel's Farm"
+          description="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Facere repellendus delectus sint perspiciatis fugit voluptatibus corrupti voluptatum similique molestias ad!"
+        />
+      </div>
+    </OutletContainer>
+  );
+};
+
+export default withAuthGuard(Community, [
+  "guest",
+  "member",
+  "admin",
+  "farm_head",
+  "subfarm_head",
+  "farmer"
+]);
+
+/*
+LIPAT MO NALANG TO MEN SA MISMONG DASHBOARD NG FARMER
+
+ <div className="w-full">
       <div className="flex justify-center p-5 pb-[6rem] ">
         <div className="w-full h-[10rem] bg-slate-700 relative flex justify-center rounded-xl">
           <div className="absolute bg-white w-[96%] rounded-xl h-[10rem] top-[5rem]">
             <div className="pt-10 px-20 grid grid-cols-10">
-              <img
-                src={image}
-                className="h-20 w-20 bg-slate-500 rounded col-span-1"
-              />
               <div className=" col-span-7">
                 <h4 className="font-semibold">
                   Farm Name: Harmony Haven Farms
@@ -77,12 +158,4 @@ const Community = () => {
         {tab === "members" && <Members />}
       </div>
     </div>
-  );
-};
-
-export default withAuthGuard(Community, [
-  "admin",
-  "farm_head",
-  "subfarm_head",
-  "farmer"
-]);
+*/

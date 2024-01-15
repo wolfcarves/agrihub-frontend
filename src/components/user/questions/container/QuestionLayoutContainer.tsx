@@ -6,7 +6,7 @@ const QuestionLayoutContainer = ({ children }: { children: ReactNode }) => {
   return (
     <>
       <UserHeader />
-      <UserResponsiveContainer ntainer>{children}</UserResponsiveContainer>
+      <UserResponsiveContainer>{children}</UserResponsiveContainer>
       <UserFooter />
     </>
   );

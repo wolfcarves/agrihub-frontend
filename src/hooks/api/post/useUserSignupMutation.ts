@@ -7,7 +7,6 @@ import { GET_MY_PROFILE_KEY } from "../get/useGetMyProfileQuery";
 export const useSignupUserKey = () => "SIGNUP_USER";
 
 export default function useUserSignupMutation() {
-  const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   return useMutation([useSignupUserKey()], {
@@ -20,7 +19,6 @@ export default function useUserSignupMutation() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [GET_MY_PROFILE_KEY()] });
-      navigate("/account/verify-email");
     }
   });
 }

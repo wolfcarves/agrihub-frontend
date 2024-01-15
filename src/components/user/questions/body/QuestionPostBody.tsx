@@ -7,12 +7,15 @@ import useQuestionVoteMutation from "@hooks/api/post/useQuestionVoteMutation";
 import QuestionUserProfileButton from "../button/QuestionUserProfileButton";
 import { toast } from "sonner";
 import QuestionVoteButton from "../button/QuestionVoteButton";
+import useAuth from "@hooks/useAuth";
 
 interface QuestionPostBodyProps {
   data?: QuestionViewSchema;
 }
 
 const QuestionPostBody = ({ data }: QuestionPostBodyProps) => {
+  const user = useAuth();
+
   const pattern = /\bblob\b/;
   let index = 0;
 
@@ -42,11 +45,13 @@ const QuestionPostBody = ({ data }: QuestionPostBodyProps) => {
         </h1>
       </div>
 
-      <QuestionUserProfileButton
-        avatarSrc={data?.question?.user?.avatar}
-        username={data?.question?.user?.username}
-        createdAt={data?.question?.createdat}
-      />
+      <div className="pb-10">
+        <QuestionUserProfileButton
+          avatarSrc={data?.question?.user?.avatar}
+          username={data?.question?.user?.username}
+          createdAt={data?.question?.createdat}
+        />
+      </div>
 
       <div className="flex justify-between">
         <div className="flex flex-col">
@@ -70,25 +75,27 @@ const QuestionPostBody = ({ data }: QuestionPostBodyProps) => {
           })}
         </div>
 
-        <div className="flex flex-col gap-3 items-center md:px-[2rem] px-[.8rem]">
-          <QuestionVoteButton
-            variant="upvote"
-            voteType={data?.question?.vote?.type as "upvote" | "downvote"}
-            onClick={() => {
-              handleQuestionVote(data?.question?.id || "", "upvote");
-            }}
-          />
+        {data?.question?.user?.username !== user.data?.username && (
+          <div className="flex flex-col gap-3 items-center md:px-[2rem] px-[.8rem]">
+            <QuestionVoteButton
+              variant="upvote"
+              voteType={data?.question?.vote?.type as "upvote" | "downvote"}
+              onClick={() => {
+                handleQuestionVote(data?.question?.id || "", "upvote");
+              }}
+            />
 
-          <span className=" font-semibold">{data?.question?.vote_count}</span>
+            <span className=" font-semibold">{data?.question?.vote_count}</span>
 
-          <QuestionVoteButton
-            variant="downvote"
-            voteType={data?.question?.vote?.type as "upvote" | "downvote"}
-            onClick={() => {
-              handleQuestionVote(data?.question?.id || "", "downvote");
-            }}
-          />
-        </div>
+            <QuestionVoteButton
+              variant="downvote"
+              voteType={data?.question?.vote?.type as "upvote" | "downvote"}
+              onClick={() => {
+                handleQuestionVote(data?.question?.id || "", "downvote");
+              }}
+            />
+          </div>
+        )}
       </div>
 
       <div className="mt-20">

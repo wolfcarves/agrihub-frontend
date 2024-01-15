@@ -92,6 +92,8 @@ export default withAuthGuard(Community, [
 ]);
 
 /*
+LIPAT MO NALANG TO MEN SA MISMONG DASHBOARD NG FARMER
+
  <div className="w-full">
       <div className="flex justify-center p-5 pb-[6rem] ">
         <div className="w-full h-[10rem] bg-slate-700 relative flex justify-center rounded-xl">

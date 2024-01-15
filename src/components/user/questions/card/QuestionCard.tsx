@@ -84,14 +84,14 @@ const QuestionCard = ({
           </div>
 
           {/* Name and Tags */}
-          <div className="flex flex-wrap gap-3 justify-between items-center py-5">
+          <div className="flex flex-wrap gap-3 justify-between items-center py-5 ">
             <QuestionUserProfileButton
               avatarSrc={userAvatarSrc}
               username={username}
               createdAt={createdat}
             />
 
-            <div className="flex flex-wrap gap-2 py-5">
+            <div className="flex flex-wrap gap-2">
               {tags?.map(({ tag }) => {
                 return <TagChip key={Math.random()} name={tag} size="sm" />;
               })}

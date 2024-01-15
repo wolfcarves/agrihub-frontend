@@ -42,11 +42,13 @@ const QuestionPostBody = ({ data }: QuestionPostBodyProps) => {
         </h1>
       </div>
 
-      <QuestionUserProfileButton
-        avatarSrc={data?.question?.user?.avatar}
-        username={data?.question?.user?.username}
-        createdAt={data?.question?.createdat}
-      />
+      <div className="pb-10">
+        <QuestionUserProfileButton
+          avatarSrc={data?.question?.user?.avatar}
+          username={data?.question?.user?.username}
+          createdAt={data?.question?.createdat}
+        />
+      </div>
 
       <div className="flex justify-between">
         <div className="flex flex-col">

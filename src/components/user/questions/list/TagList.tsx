@@ -1,24 +1,44 @@
 import SearchBar from "@components/ui/custom/search-bar/SearchBar";
-import React from "react";
+import React, { useState } from "react";
 import TagCard from "../card/TagCard";
 import useGetTagsQuery from "@hooks/api/get/useGetTagsQuery";
 
 const TagList = () => {
+  const [query, setQuery] = useState<string>("");
   const { data: tagsData } = useGetTagsQuery({});
 
   return (
     <div className="flex flex-col">
-      <SearchBar placeholder="Filter by tag name" />
+      <SearchBar
+        placeholder="Filter by tag name"
+        onChange={e => setQuery(e.target.value)}
+      />
 
       <div className="flex flex-wrap gap-x-3 gap-y-7 mt-10">
-        {tagsData?.tags?.map(({ id, tag_name, details, count }) => (
-          <TagCard
-            key={id}
-            title={tag_name}
-            description={details}
-            questionTotal={count}
-          />
-        ))}
+        {query
+          ? tagsData?.tags
+              ?.filter(
+                t =>
+                  t.tag_name
+                    ?.toLocaleLowerCase()
+                    .includes(query.toLocaleLowerCase())
+              )
+              .map(({ id, tag_name, details, count }) => (
+                <TagCard
+                  key={id}
+                  title={tag_name}
+                  description={details}
+                  questionTotal={count}
+                />
+              ))
+          : tagsData?.tags?.map(({ id, tag_name, details, count }) => (
+              <TagCard
+                key={id}
+                title={tag_name}
+                description={details}
+                questionTotal={count}
+              />
+            ))}
       </div>
     </div>
   );

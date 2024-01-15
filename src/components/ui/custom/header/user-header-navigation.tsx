@@ -17,13 +17,13 @@ type AnchorProps = React.DetailedHTMLProps<
 const resources: { title: string; href: string; description: string }[] = [
   {
     title: "Articles",
-    href: "/docs/primitives/alert-dialog",
+    href: "/article",
     description:
       "A modal dialog that interrupts the user with important content and expects a response."
   },
   {
     title: "Blogs",
-    href: "/docs/primitives/hover-card",
+    href: "/blog",
     description: "For sighted users to preview content available behind a link."
   },
   {
@@ -34,7 +34,7 @@ const resources: { title: string; href: string; description: string }[] = [
   },
   {
     title: "About",
-    href: "/docs/primitives/scroll-area",
+    href: "/about",
     description: "Visually or semantically separates content."
   }
 ];

@@ -12,7 +12,7 @@ const QuestionUserProfileButton = ({
   createdAt
 }: QuestionUserProfileButtonProps) => {
   return (
-    <div className="flex gap-4 pb-5">
+    <div className="flex gap-4">
       <img
         src={avatarSrc}
         className="w-11 h-11 object-center object-cover bg-slate-500 rounded-lg"

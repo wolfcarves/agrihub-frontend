@@ -19,6 +19,10 @@ interface QuestionFeedbackPanelProps {
   onShareBtnClick?: (e: React.MouseEvent) => void;
 }
 
+const AuthenticatedQuestionFeedBackPanelButton = withRequireAuth(
+  QuestionFeedBackPanelButton
+);
+
 const QuestionFeedbackPanel = ({
   vote,
   voteCount,
@@ -31,15 +35,13 @@ const QuestionFeedbackPanel = ({
 }: QuestionFeedbackPanelProps) => {
   return (
     <div className="flex items-center mt-auto">
-      {/* Save Button */}
       {onSaveBtnClick && (
         <QuestionFeedBackPanelButton title="Save" icon={<LuBookmark />} />
       )}
 
-      {/* Vote */}
       {onUpVoteBtnClick && onDownVoteBtnClick && (
         <div className="flex gap-3 h-11">
-          <QuestionFeedBackPanelButton
+          <AuthenticatedQuestionFeedBackPanelButton
             icon={
               vote === "upvote" ? (
                 <PiArrowFatUpFill className="text-primary" />
@@ -54,7 +56,7 @@ const QuestionFeedbackPanel = ({
             {voteCount}
           </span>
 
-          <QuestionFeedBackPanelButton
+          <AuthenticatedQuestionFeedBackPanelButton
             icon={
               vote === "downvote" ? (
                 <PiArrowFatDownFill className="text-red-500" />
@@ -67,7 +69,6 @@ const QuestionFeedbackPanel = ({
         </div>
       )}
 
-      {/* Answer */}
       {answerCount && (
         <QuestionFeedBackPanelButton
           title={`${answerCount} Answers`}
@@ -75,22 +76,15 @@ const QuestionFeedbackPanel = ({
         />
       )}
 
-      {/* Reply Button */}
       {onCommentBtnClick && (
-        <button
-          className="flex items-center gap-5 h-11 px-5 rounded-lg hover:bg-accent opacity-80 hover:opacity-100 duration-200"
-          onClick={onCommentBtnClick}
-        >
-          <div className="text-lg">
-            <FaRegComment />
-          </div>
-          <span className="hidden md:block text-sm font-poppins-medium text-foreground">
-            Comment
-          </span>
-        </button>
+        <>
+          <QuestionFeedBackPanelButton
+            title="Comment"
+            icon={<FaRegComment />}
+          />
+        </>
       )}
 
-      {/* Share  */}
       {onShareBtnClick && (
         <button
           className="flex items-center gap-5 h-11 px-5 rounded-lg hover:bg-accent opacity-80 hover:opacity-100 duration-200"

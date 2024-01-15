@@ -1,12 +1,19 @@
 import AgrihubLogo from "@icons/AgrihubLogo";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const UserAccountHeader = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="fixed top-0 h-20 flex items-center">
-      <Link to="/">
+      <div
+        className="w-max cursor-pointer"
+        onClick={() => {
+          navigate("/");
+        }}
+      >
         <AgrihubLogo size="base" />
-      </Link>
+      </div>
     </div>
   );
 };

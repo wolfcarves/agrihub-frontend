@@ -36,7 +36,7 @@ import QuestionAsk from "@pages/user/question/question-ask";
 //Admin
 import AdminLayout from "@pages/admin/admin/admin-layout";
 import AdminLogin from "@pages/admin/admin/login";
-import CommunityLayout from "./pages/user/community/_layout";
+import CommunityLayout from "./pages/user/community/community-layout";
 import Explore from "@pages/user/community/community-explore";
 import Community from "@pages/user/community/community";
 import Blog from "./pages/user/blog/blog";
@@ -82,7 +82,7 @@ const App = ReactRouter(
 
       {/* Community Page */}
       <Route path="/community" element={<CommunityLayout />}>
-        <Route path="my-community" element={<Community />} />
+        <Route path="" element={<Community />} />
         <Route path="explore" element={<Explore />} />
       </Route>
 

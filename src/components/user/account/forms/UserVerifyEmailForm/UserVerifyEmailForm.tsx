@@ -1,46 +1,80 @@
-import { useEffect, useState } from "react";
 import useUserSendVerification from "@hooks/api/post/useUserSendVerification";
 import Illustartion from "/verify-email-illust.svg";
-
-import useAuth from "@hooks/useAuth";
 import { Button } from "@components/ui/button";
+import { toast } from "sonner";
+import { useState, useEffect } from "react";
+import useDeleteAuthMutate from "@hooks/api/delete/useDeleteAuthMutate";
 
 const UserVerifyEmailForm = () => {
-  const { data: authData } = useAuth();
-
-  const STORAGE_KEY = authData?.email as string;
-
-  if (!localStorage.getItem(STORAGE_KEY)) {
-    localStorage.setItem(STORAGE_KEY, "30");
-  }
-
   const { mutateAsync: resendEmail, isLoading: isResendEmailLoading } =
     useUserSendVerification();
 
+  const { mutateAsync: deleteAuth, isLoading: isDeleteAuthLoading } =
+    useDeleteAuthMutate();
+
+  const [countDown, setCountdown] = useState(3);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCountdown(prev => {
+        if (prev === 0) return 0;
+
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   const handleResendEmail = async () => {
-    localStorage.setItem(STORAGE_KEY, "30");
     try {
       await resendEmail();
-    } catch (error) {
-      console.log(error);
+      setCountdown(3);
+    } catch (err: any) {
+      toast.error(err.body.message);
+    }
+  };
+
+  const handleDeleteAuth = async () => {
+    try {
+      await deleteAuth();
+    } catch (err: any) {
+      toast.error(err.body.message);
     }
   };
 
   return (
     <>
       <div className="flex justify-center py-10">
-        <img src={Illustartion} width={280} />
+        <img src={Illustartion as unknown as string} width={280} />
       </div>
 
       <div className="flex flex-col w-full gap-5 h-max ">
-        <Button type="submit" size={"lg"} onClick={handleResendEmail}>
+        <Button
+          type="submit"
+          size={"lg"}
+          disabled={isResendEmailLoading || countDown !== 0}
+          onClick={handleResendEmail}
+        >
           Resend Email
         </Button>
 
-        <div className="flex flex-col text-center">
-          <span>Send again</span>
-          <span>After 1M seconds</span>
-        </div>
+        <Button
+          type="submit"
+          variant={"outline"}
+          size={"lg"}
+          onClick={handleDeleteAuth}
+          disabled={isDeleteAuthLoading}
+        >
+          Logout
+        </Button>
+
+        {countDown !== 0 && (
+          <div className="flex flex-col text-center">
+            <span>Send again</span>
+            <span>After {countDown} seconds</span>
+          </div>
+        )}
       </div>
     </>
   );

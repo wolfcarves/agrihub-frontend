@@ -12,4 +12,4 @@ const Home = () => {
   );
 };
 
-export default withAuthGuard(Home, ["guest"]);
+export default withAuthGuard(Home, ["guest", "member"]);

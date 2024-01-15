@@ -19,7 +19,7 @@ const PaginationPreviousLabel = ({ page }: { page: number }) => {
     page !== 1 &&
     !!page && (
       <PaginationItem>
-        <PaginationPrevious href="#" />
+        <PaginationPrevious />
       </PaginationItem>
     )
   );
@@ -35,7 +35,7 @@ const PaginationNextLabel = ({
   return (
     page !== totalPages && (
       <PaginationItem>
-        <PaginationNext href="#" />
+        <PaginationNext />
       </PaginationItem>
     )
   );
@@ -77,7 +77,6 @@ const Pagination = ({
           return (
             <PaginationItem>
               <PaginationLink
-                href="#"
                 isActive={
                   page === params.page
                     ? true
@@ -99,8 +98,6 @@ const Pagination = ({
 
           searchParams.set("page", selectedPage);
           setSearchParams(searchParams);
-
-          window.scrollTo(0, 0);
         }}
         {...props}
       />

@@ -17,7 +17,7 @@ const UserSidebarNavLink = ({
       className={({ isActive }) =>
         isActive
           ? "flex gap-5 bg-primary rounded-2xl text-white p-5 select-none"
-          : "flex gap-5 rounded-2xl text-foreground p-5  hover:bg-gray-100 duration-200 select-none"
+          : "flex gap-5 rounded-2xl text-foreground p-5 hover:bg-gray-100 select-none"
       }
       {...props}
     >

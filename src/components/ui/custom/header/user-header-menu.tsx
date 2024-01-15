@@ -46,17 +46,17 @@ const UserHeaderMenu = () => {
           <DropdownMenuSeparator />
 
           <DropdownMenuItem className="cursor-pointer h-12 gap-2">
-            <RxQuestionMarkCircled className="text-foreground/80 text-xl" />
+            <RxQuestionMarkCircled className="text-foreground/80 text-lg" />
             Help & Support
           </DropdownMenuItem>
 
           <DropdownMenuItem className="cursor-pointer h-12 gap-2">
-            <BiCommentError className="text-foreground/80 text-xl" />
+            <BiCommentError className="text-foreground/80 text-lg" />
             Give Feedback
           </DropdownMenuItem>
 
           <DropdownMenuItem className="cursor-pointer h-12 gap-2">
-            <IoSettingsOutline className="text-foreground/80 text-xl" />
+            <IoSettingsOutline className="text-foreground/80 text-lg" />
             Settings
           </DropdownMenuItem>
 
@@ -66,7 +66,7 @@ const UserHeaderMenu = () => {
               deleteAuthData();
             }}
           >
-            <MdLogout className="text-foreground/80 text-xl" />
+            <MdLogout className="text-foreground/80 text-lg" />
             Logout
           </DropdownMenuItem>
         </DropdownMenuContent>

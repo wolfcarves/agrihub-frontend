@@ -28,7 +28,9 @@ const QuestionAnswerList = ({ data, isLoading }: QuestionAnswerListProps) => {
       )}
 
       {data?.question?.answers?.map(data => {
-        return <QuestionAnswerCard key={`${data}`} data={data} />;
+        return (
+          <QuestionAnswerCard key={`${data} + ${Math.random()}`} data={data} />
+        );
       })}
     </div>
   );

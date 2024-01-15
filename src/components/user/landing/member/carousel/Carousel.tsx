@@ -4,7 +4,6 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
-// Replace these with your actual image data
 import imageData1 from '@assets/images/cover-photo-for-landing-page.png';
 import imageData2 from '@assets/images/OUR-FoCuS-COVER-PHOTO.png';
 import imageData3 from '@assets/images/Initiatives-cover-photo.png';

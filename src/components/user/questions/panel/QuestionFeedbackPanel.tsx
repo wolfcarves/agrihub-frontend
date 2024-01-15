@@ -7,7 +7,6 @@ import { PiArrowFatDownFill } from "react-icons/pi";
 import { FaRegComment } from "react-icons/fa6";
 import withRequireAuth from "@higher-order/account/withRequireAuth";
 import QuestionFeedBackPanelButton from "../button/QuestionFeedBackPanelButton";
-import QuestionFeedBackPanelButton from "../button/QuestionFeedBackPanelButton";
 
 interface QuestionFeedbackPanelProps {
   vote?: "upvote" | "downvote";
@@ -21,8 +20,6 @@ interface QuestionFeedbackPanelProps {
   onShareBtnClick?: (e: React.MouseEvent) => void;
 }
 
-const AuthenticatedQuestionFeedBackPanelButton = withRequireAuth(
-  QuestionFeedBackPanelButton
 const AuthenticatedQuestionFeedBackPanelButton = withRequireAuth(
   QuestionFeedBackPanelButton
 );
@@ -83,14 +80,6 @@ const QuestionFeedbackPanel = ({
                 <PiArrowFatDown />
               )
             }
-          <AuthenticatedQuestionFeedBackPanelButton
-            icon={
-              vote === "downvote" ? (
-                <PiArrowFatDownFill className="text-red-500" />
-              ) : (
-                <PiArrowFatDown />
-              )
-            }
             onClick={onDownVoteBtnClick}
           />
         </div>
@@ -106,12 +95,6 @@ const QuestionFeedbackPanel = ({
       )}
 
       {onCommentBtnClick && (
-        <>
-          <QuestionFeedBackPanelButton
-            title="Comment"
-            icon={<FaRegComment />}
-          />
-        </>
         <>
           <QuestionFeedBackPanelButton
             title="Comment"

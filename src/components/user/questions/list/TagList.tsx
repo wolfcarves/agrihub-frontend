@@ -9,10 +9,12 @@ const TagList = () => {
 
   return (
     <div className="flex flex-col">
-      <SearchBar
-        placeholder="Filter by tag name"
-        onChange={e => setQuery(e.target.value)}
-      />
+      <div className=" items-center h-full py-3">
+        <SearchBar
+          placeholder="Filter by tag name"
+          onChange={e => setQuery(e.target.value)}
+        />
+      </div>
 
       <div className="flex flex-wrap gap-x-3 gap-y-7 mt-10">
         {query

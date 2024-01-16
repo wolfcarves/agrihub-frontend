@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { ScrollRestoration } from "react-router-dom";
 import LoadingBar, { LoadingBarRef } from "react-top-loading-bar";
+import { UserFooter, UserHeader } from "@components/ui/custom";
 
 const MainLayout = () => {
   const loader = useRef<LoadingBarRef>(null);
@@ -15,11 +16,16 @@ const MainLayout = () => {
     }, 300);
 
     return () => clearTimeout(timeout);
-  }, [location.pathname, location.state]);
+  }, [location]);
 
   return (
     <>
-      <LoadingBar ref={loader} color="rgb(59 130 246)" />
+      <LoadingBar
+        ref={loader}
+        color="rgb(59 130 246)"
+        height={3}
+        shadow={true}
+      />
 
       <ScrollRestoration
         getKey={loc => {
@@ -27,7 +33,9 @@ const MainLayout = () => {
         }}
       />
 
+      <UserHeader />
       <Outlet />
+      <UserFooter />
     </>
   );
 };

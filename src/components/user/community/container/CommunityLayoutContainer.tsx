@@ -8,7 +8,6 @@ import type { ReactNode } from "react";
 const CommunityLayoutContainer = ({ children }: { children: ReactNode }) => {
   return (
     <>
-      <UserHeader />
       <UserResponsiveContainer>{children}</UserResponsiveContainer>
       {/* <UserFooter /> */}
     </>

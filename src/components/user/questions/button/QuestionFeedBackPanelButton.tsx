@@ -19,7 +19,7 @@ const QuestionFeedBackPanelButtonWrapper = ({
   return (
     <span
       role="button"
-      className="flex items-center gap-5 h-11 px-3 rounded-lg hover:bg-accent opacity-80 hover:opacity-100 duration-200"
+      className="flex items-center my-auto gap-2 h-full px-2 rounded-lg hover:bg-accent duration-200"
       {...(isAuth ? { ...props } : {})}
     >
       {children}
@@ -34,12 +34,14 @@ const QuestionFeedBackPanelButton = ({
 }: QuestionFeedBackPanelButtonProps) => {
   return (
     <QuestionFeedBackPanelButtonWrapper {...props}>
-      {icon && <div className="text-lg">{icon}</div>}
-      {title && (
-        <span className="hidden md:block font-poppins-bold text-foreground">
-          {title}
-        </span>
-      )}
+      <>
+        {icon && <div className="text-lg">{icon}</div>}
+        {title && (
+          <span className="hidde sm:block font-poppins-semibold text-foreground text-sm">
+            {title}
+          </span>
+        )}
+      </>
     </QuestionFeedBackPanelButtonWrapper>
   );
 };

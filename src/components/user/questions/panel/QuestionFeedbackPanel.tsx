@@ -36,7 +36,7 @@ const QuestionFeedbackPanel = ({
   onShareBtnClick
 }: QuestionFeedbackPanelProps) => {
   return (
-    <div className="flex gap-2 items-center mt-auto pt-5">
+    <div className="flex gap-2 items-center mt-auto pt-3">
       {onSaveBtnClick && (
         <div className="flex gap-3 h-8 border rounded-lg">
           <QuestionFeedBackPanelButton title="Save" icon={<LuBookmark />} />
@@ -88,7 +88,7 @@ const QuestionFeedbackPanel = ({
       {onCommentBtnClick && (
         <div className="flex h-8 border rounded-lg">
           <QuestionFeedBackPanelButton
-            title="Comment"
+            title="View Comments"
             icon={<FaRegComment />}
           />
         </div>

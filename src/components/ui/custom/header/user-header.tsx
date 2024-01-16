@@ -30,41 +30,41 @@ const UserHeaderSearchBar = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
-    <Sheet open={isOpen} onOpenChange={setIsOpen}>
-      <div className="flex items-center gap-10 h-full">
-        <div className="flex items-center gap-4">
-          <SheetTrigger
-            className="flex sm:hidden text-xl opacity-75"
-            onClick={() => setIsOpen(true)}
-          >
-            <HiMenuAlt2 />
-          </SheetTrigger>
+    <>
+      <div className="hidden sm:flex gap-10  items-center h-full py-3">
+        <Link to="/">
+          <AgrihubLogo />
+        </Link>
 
-          <div className="hidden"></div>
-
-          <Link to="/">
-            <AgrihubLogo />
-          </Link>
-
-          <SheetContent side="left" className="p-0">
-            <Link to="/">
-              <SheetHeader className="flex flex-row gap-3 text-start px-6 pt-5">
-                <div className="w-max">
-                  <AgrihubLogo />
-                </div>
-                <span className="font-poppins-medium">Agrihub</span>
-              </SheetHeader>
-            </Link>
-
-            <QuestionSidebarSheet onLinkClick={() => setIsOpen(false)} />
-          </SheetContent>
-        </div>
-
-        <div className="hidden sm:flex items-center h-full py-3">
-          <SearchBar placeholder="Type to search..." />
-        </div>
+        <SearchBar placeholder="Type to search..." />
       </div>
-    </Sheet>
+
+      <Sheet open={isOpen} onOpenChange={setIsOpen}>
+        <div className="flex sm:hidden items-center gap-10 h-full ">
+          <div className="flex items-center gap-4">
+            <SheetTrigger
+              className="text-xl opacity-75"
+              onClick={() => setIsOpen(true)}
+            >
+              <HiMenuAlt2 />
+            </SheetTrigger>
+
+            <SheetContent side="left" className="p-0">
+              <Link to="/">
+                <SheetHeader className="flex flex-row gap-3 text-start px-6 pt-5">
+                  <div className="w-max">
+                    <AgrihubLogo />
+                  </div>
+                  <span className="font-poppins-medium">Agrihub</span>
+                </SheetHeader>
+              </Link>
+
+              <QuestionSidebarSheet onLinkClick={() => setIsOpen(false)} />
+            </SheetContent>
+          </div>
+        </div>
+      </Sheet>
+    </>
   );
 };
 

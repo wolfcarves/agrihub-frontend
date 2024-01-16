@@ -48,7 +48,6 @@ import AboutInitiatives from "./pages/user/about/about-initiatives";
 import AboutLatest from "./pages/user/about/about-latest";
 
 // Providers
-import PaginationProvider from "@providers/PaginationProvider";
 import UserLayout from "@pages/user/layout/main-layout";
 import AboutLayout from "./pages/user/about/_layout";
 
@@ -87,26 +86,19 @@ const App = ReactRouter(
       </Route>
 
       {/* Article Page */}
-      <Route path="/article" element={<ArticleLayout />}>
+      <Route path="/articles" element={<ArticleLayout />}>
         <Route path="" element={<Articles />} />
         <Route path="view/:title/:articleId" element={<Article />} />
       </Route>
 
       {/* Blog Page */}
-      <Route path="/blog" element={<BlogLayout />}>
+      <Route path="/blogs" element={<BlogLayout />}>
         <Route path="" element={<Blogs />} />
         <Route path="view/:blogId" element={<Blog />} />
       </Route>
 
       {/* Profile Page  */}
-      <Route
-        path="/users"
-        element={
-          <PaginationProvider>
-            <UserProfileLayout />
-          </PaginationProvider>
-        }
-      >
+      <Route path="/users" element={<UserProfileLayout />}>
         <Route path=":userId/:username" element={<UserProfile />} />
         <Route path=":userId/me" element={<MyProfile />} />
         <Route path=":userId/me/edit" element={<EditProfile />} />

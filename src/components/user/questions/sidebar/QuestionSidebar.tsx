@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ComponentProps } from "react";
 import { UserSidebar, UserSidebarNavLink } from "@components/ui/custom";
 
 import { BsTags } from "react-icons/bs";
@@ -7,12 +7,14 @@ import { IoBookmarkOutline } from "react-icons/io5";
 import useAuth from "@hooks/useAuth";
 import { useLocation } from "react-router-dom";
 
-const QuestionSidebar = () => {
+type QuestionSidebarProps = ComponentProps<"div">;
+
+const QuestionSidebar = ({ className, ...props }: QuestionSidebarProps) => {
   const pathname = useLocation().pathname;
   const { isAuthenticated } = useAuth();
 
   return (
-    <UserSidebar>
+    <UserSidebar className={`hidden sm:block ${className}`} {...props}>
       <UserSidebarNavLink
         to="/forum"
         title="Questions"

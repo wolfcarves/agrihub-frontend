@@ -36,17 +36,18 @@ const QuestionsList = ({ data, isLoading }: QuestionsListProps) => {
     try {
       //for deleting vote but ain't working
       //  await questionDeleteVoteMutate(id);
+      if (type !== currentVote && user.isAuthenticated) {
+        if (countDown === 0 && type === "upvote") {
+          runCountDown();
+        }
 
-      if (countDown === 0 && type === "upvote" && user.isAuthenticated) {
-        runCountDown();
+        await questionVoteMutate({
+          id,
+          requestBody: { type }
+        });
+
+        toast.info(`Successfully ${type} a question`);
       }
-
-      await questionVoteMutate({
-        id,
-        requestBody: { type }
-      });
-
-      toast.info(`Successfully ${type} a question`);
     } catch (error: any) {
       toast.error(error.body.message);
     }

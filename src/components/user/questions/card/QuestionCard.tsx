@@ -69,11 +69,11 @@ const QuestionCard = ({
       className="flex flex-col rounded-xl hover:bg-neutral-300 duration-200 h-max w-full"
       key={`${id} + ${title}`}
     >
-      <div className="flex flex-col bg-white border p-5 rounded-xl min-h-[20rem] h-full max-h-[25rem] hover:shadow-sm hover:-translate-y-2 hover:-translate-x-2 duration-200">
+      <div className="flex flex-col bg-white border p-3 sm:p-5 rounded-xl min-h-[20rem] h-full max-h-[25rem] hover:shadow-sm hover:-translate-y-2 hover:-translate-x-2 duration-200">
         <>
           {/* Card Title */}
-          <div className="flex items-start justify-between">
-            <Link to={`question/${username}/${id}`}>
+          <div className="flex items-start justify-between ">
+            <Link to={`question/${username}/${id}`} className="w-[80%]">
               <h4 className="text-blue-500 font-poppins-semibold line-clamp-2 hover:opacity-80">
                 {title}
               </h4>

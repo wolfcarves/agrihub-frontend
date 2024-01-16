@@ -14,7 +14,7 @@ const Question = () => {
 
   if (isQuestionDataLoading) {
     return (
-      <div className="flex justify-center py-10 w-full ">
+      <div className="flex justify-center py-10 w-full min-h-[60rem] ">
         <LoadingSpinner />
       </div>
     );

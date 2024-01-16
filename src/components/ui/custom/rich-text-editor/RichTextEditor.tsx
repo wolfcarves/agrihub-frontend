@@ -1,15 +1,11 @@
-import {
-  useEditor,
-  EditorContent,
-  EditorContentProps,
-  Node
-} from "@tiptap/react";
+import { useEditor, EditorContent, EditorContentProps } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
 import React, { useState } from "react";
 import Toolbar from "./Toolbar";
 import { Extensions, Editor } from "@tiptap/react";
 import CharacterCount from "@tiptap/extension-character-count";
+
 interface RichTextEditorProps
   extends Omit<EditorContentProps, "editor" | "onBlur"> {
   onBlur?: (data: { html?: string; files?: Promise<Blob[]> }) => void;
@@ -36,9 +32,6 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
     CharacterCount.configure({
       limit: 1000, //1000 characters only
       mode: "textSize"
-    }),
-    Node.create({
-      whitespace: "pre"
     }),
     Image.configure({
       inline: false

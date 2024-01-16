@@ -24,14 +24,17 @@ const UserHeaderNotification = () => {
         <div
           className={`${
             isOpen && "bg-gray-200/80 text-blue-500 "
-          } bg-gray-200/40 transform active:scale-75 transition-transform focus:outline-0 text-xl cursor-pointer p-2 rounded-full my-auto flex `}
+          } bg-gray-200/40 transform active:scale-75 transition-transform focus:outline-0 text-xl cursor-pointer p-2 rounded-full my-auto flex`}
           onClick={() => setIsOpen(prev => !prev)}
         >
           <DropdownMenuTrigger></DropdownMenuTrigger>
           {isOpen ? <PiBellFill /> : <PiBell />}
         </div>
 
-        <DropdownMenuContent className="w-[20rem] sm:w-[25rem]" align="end">
+        <DropdownMenuContent
+          className="w-[22rem] sm:w-[25rem] ms-5 mt-3"
+          align="end"
+        >
           <DropdownMenuLabel>
             <span className="line-clamp-1 capitalize text-lg font-poppins-semibold">
               Notifications

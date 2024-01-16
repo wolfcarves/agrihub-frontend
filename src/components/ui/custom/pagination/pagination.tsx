@@ -98,6 +98,7 @@ const Pagination = ({
 
           searchParams.set("page", selectedPage);
           setSearchParams(searchParams);
+          window.scrollTo(0, 0);
         }}
         {...props}
       />

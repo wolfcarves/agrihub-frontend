@@ -86,13 +86,13 @@ const App = ReactRouter(
       </Route>
 
       {/* Article Page */}
-      <Route path="/article" element={<ArticleLayout />}>
+      <Route path="/articles" element={<ArticleLayout />}>
         <Route path="" element={<Articles />} />
         <Route path="view/:title/:articleId" element={<Article />} />
       </Route>
 
       {/* Blog Page */}
-      <Route path="/blog" element={<BlogLayout />}>
+      <Route path="/blogs" element={<BlogLayout />}>
         <Route path="" element={<Blogs />} />
         <Route path="view/:blogId" element={<Blog />} />
       </Route>

@@ -103,17 +103,17 @@ const App = ReactRouter(
         <Route path=":userId/me" element={<MyProfile />} />
         <Route path=":userId/me/edit" element={<EditProfile />} />
       </Route>
+    </Route>
 
-      {/* Account Page */}
-      <Route path="/account" element={<UserAccountLayout />}>
-        <Route path="login" element={<Login />} />
-        <Route path="signup" element={<Signup />} />
-        <Route path="verify-email" element={<VerifyEmail />} />
-        <Route path="setup-account" element={<SetupAccount />} />
-        <Route path="final-setup" element={<FinalSetup />} />
-        {/*<Route path="forgot-password" element={`forgot-password`} />
+    {/* Account Page */}
+    <Route path="/account" element={<UserAccountLayout />}>
+      <Route path="login" element={<Login />} />
+      <Route path="signup" element={<Signup />} />
+      <Route path="verify-email" element={<VerifyEmail />} />
+      <Route path="setup-account" element={<SetupAccount />} />
+      <Route path="final-setup" element={<FinalSetup />} />
+      {/*<Route path="forgot-password" element={`forgot-password`} />
       <Route path="reset-password" element={`reset-password`} />*/}
-      </Route>
     </Route>
 
     <Route path="/admin" element={<AdminLayout />}>

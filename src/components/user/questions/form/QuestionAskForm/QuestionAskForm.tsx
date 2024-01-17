@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { askQuestionSchema } from "./schema";
@@ -165,12 +165,11 @@ const QuestionAskForm = () => {
                   return (
                     <UserTagInputDropdown
                       option={tagResult}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      onChange={e => {
                         setSearchInputTagValue(e.target.value);
-                        onChange(e.target.value);
                       }}
                       onTagsValueChange={e => {
-                        form.setValue("tags", e);
+                        onChange(e);
                       }}
                     />
                   );

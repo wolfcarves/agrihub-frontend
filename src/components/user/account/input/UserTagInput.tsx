@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import LoadingSpinner from "@icons/LoadingSpinner";
 import { AiOutlineCloseCircle } from "react-icons/ai";
@@ -41,6 +41,8 @@ const UserTagInputDropdown = ({
 
   useEffect(() => {
     if (onTagsValueChange) onTagsValueChange(idTags);
+
+    console.log(idTags);
   }, [idTags]);
 
   const renderTag = useCallback(
@@ -87,7 +89,12 @@ const UserTagInputDropdown = ({
             tags.indexOf(tag_name) !== -1 ? "bg-green-200" : ""
           } border flex flex-col gap-3 text-start col-span-1 h-full hover:bg-green-100 hover:cursor-pointer duration-100 p-2 rounded-md`}
           onClick={() => {
-            setIdTags([...idTags, id]);
+            if (!idTags.includes(id)) {
+              setIdTags([...idTags, id]);
+            } else {
+              setIdTags(t => t.filter(t => t !== id));
+            }
+
             handleToggleTag(tag_name);
           }}
         >

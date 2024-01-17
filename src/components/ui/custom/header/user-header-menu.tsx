@@ -28,7 +28,7 @@ const UserHeaderMenu = () => {
               src={data?.avatar ?? ""}
               className="object-cover pointer-events-none select-none "
             />
-            <AvatarFallback>R</AvatarFallback>
+            <AvatarFallback>A</AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>
 

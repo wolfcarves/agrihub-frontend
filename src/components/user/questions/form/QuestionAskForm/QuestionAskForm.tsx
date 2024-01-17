@@ -135,7 +135,6 @@ const QuestionAskForm = () => {
                 return (
                   <RichTextEditor
                     onBlur={data => {
-                      console.log(data.html);
                       onChange(data.html);
                       data?.files?.then(blobs => {
                         form.setValue("imagesrc", blobs);

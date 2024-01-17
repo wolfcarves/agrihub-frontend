@@ -13,7 +13,10 @@ interface QuestionAnswerListProps {
   isRefetching?: boolean;
 }
 
-const QuestionAnswerCard = ({ data }: QuestionAnswerListProps) => {
+const QuestionAnswerCard = ({
+  data,
+  isRefetching
+}: QuestionAnswerListProps) => {
   const user = useAuth();
   const [addComment, setAddComment] = useState<boolean>(false);
   const [expandComment, setExpandComment] = useState<boolean>(false);
@@ -22,8 +25,13 @@ const QuestionAnswerCard = ({ data }: QuestionAnswerListProps) => {
   const condition = addComment || expandComment;
 
   useEffect(() => {
-    console.log(addComment);
-  }, [addComment]);
+    console.log(isRefetching);
+
+    if (isRefetching) {
+      setAddComment(true);
+      setExpandComment(true);
+    }
+  }, [isRefetching]);
 
   return (
     <div className="relative w-full">
@@ -81,7 +89,7 @@ const QuestionAnswerCard = ({ data }: QuestionAnswerListProps) => {
         </div>
       </div>
 
-      {/* Lagay natin label baka tanong tanong nanaman jan si mam impang , asan comment jan asan yung ganto yung ganto bruh */}
+      {/* Lagyan natin label baka tanong tanong nanaman jan si mam impang , asan comment jan asan yung ganto yung ganto bruh */}
 
       {data?.comments && data?.comments.length > 1 && (
         <span className="flex ps-10 ms-auto gap-2 py-2 text-sm">Comments</span>
@@ -108,7 +116,7 @@ const QuestionAnswerCard = ({ data }: QuestionAnswerListProps) => {
                 <Link to="/" className="font-poppins-medium hover:opacity-80">
                   <Avatar className="border">
                     <AvatarImage
-                      src={data?.user?.avatar ?? ""}
+                      src={c.user?.avatar ?? ""}
                       className="object-cover pointer-events-none select-none "
                     />
                     <AvatarFallback>A</AvatarFallback>

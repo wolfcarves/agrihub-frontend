@@ -34,7 +34,7 @@ const QuestionAnswerList = ({
       {data?.question?.answers?.map(data => {
         return (
           <QuestionAnswerCard
-            key={`${data} + ${Math.random()}`}
+            key={data.id}
             data={data}
             isLoading={isLoading}
             isRefetching={isRefetching}

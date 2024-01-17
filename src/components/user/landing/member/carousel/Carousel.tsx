@@ -19,33 +19,9 @@ const Carousel: React.FC = () => {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    prevArrow: <CustomPrevArrow />,
-    nextArrow: <CustomNextArrow />,
+    autoplay: true,
+    autoplaySpeed: 3000,
   };
-
-  function CustomPrevArrow(props: any) {
-    const { onClick } = props;
-    return (
-      <div
-        className="absolute top-1/2 left-0 transform -translate-y-1/2 cursor-pointer text-4xl text-red-600"
-        onClick={() => onClick()}
-      >
-        &#8249;
-      </div>
-    );
-  }
-
-  function CustomNextArrow(props: any) {
-    const { onClick } = props;
-    return (
-      <div
-        className="absolute top-1/2 right-4 transform -translate-y-1/2 cursor-pointer text-4xl text-red-600"
-        onClick={() => onClick && sliderRef.current?.slickNext()}
-      >
-        &#8250;
-      </div>
-    );
-  }
 
   return (
     <div className="w-full h-1/3 relative">

@@ -7,6 +7,7 @@ import { FaCheck } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/avatar";
 import { useEffect, useRef, useState } from "react";
+import DOMPurify from "dompurify";
 
 interface QuestionAnswerListProps {
   data?: Answer;
@@ -22,7 +23,7 @@ const QuestionAnswerCard = ({ data }: QuestionAnswerListProps) => {
 
   useEffect(() => {
     setDistance(prev => (prev ?? 0) + (parent?.current?.offsetTop ?? 0));
-  }, []);
+  }, [parent]);
 
   const onPageEvent = () => {
     setHeight(distance ? distance / 2.2 : 0);
@@ -35,14 +36,19 @@ const QuestionAnswerCard = ({ data }: QuestionAnswerListProps) => {
     return () => window.removeEventListener("resize", onPageEvent);
   }, [distance]);
 
+  const purifyAnswer = DOMPurify.sanitize(data?.answer ?? "");
+
   return (
     <div className="relative">
       <div className="flex gap-2 py-4">
-        <div className="relative flex h-max border rounded-full">
+        <div className="relative flex h-max rounded-full">
           <Link to="/" className="font-poppins-medium hover:opacity-80">
-            <Avatar>
-              <AvatarImage src={data?.user?.avatar} alt="user-avatar" />
-              <AvatarFallback>CN</AvatarFallback>
+            <Avatar className="border">
+              <AvatarImage
+                src={data?.user?.avatar ?? ""}
+                className="object-cover pointer-events-none select-none "
+              />
+              <AvatarFallback>A</AvatarFallback>
             </Avatar>
           </Link>
 
@@ -60,7 +66,12 @@ const QuestionAnswerCard = ({ data }: QuestionAnswerListProps) => {
               {data?.user?.username}
             </Link>
 
-            <p className="mt-2">{data?.answer}</p>
+            <p
+              className="mt-2"
+              dangerouslySetInnerHTML={{
+                __html: purifyAnswer
+              }}
+            />
           </div>
 
           <QuestionFeedbackPanel
@@ -79,16 +90,19 @@ const QuestionAnswerCard = ({ data }: QuestionAnswerListProps) => {
             ref={parent}
             key={`${c} + ${index}`}
           >
-            <div className="flex relative h-max border rounded-full">
+            <div className="flex relative h-max border rounded-full ">
               <Link to="/" className="font-poppins-medium hover:opacity-80">
-                <Avatar>
-                  <AvatarImage src={c?.user?.avatar} alt="user-avatar" />
+                <Avatar className="border">
+                  <AvatarImage
+                    src={data?.user?.avatar ?? ""}
+                    className="object-cover pointer-events-none select-none "
+                  />
                   <AvatarFallback>A</AvatarFallback>
                 </Avatar>
               </Link>
 
               <div
-                className={`-z-50 absolute w-8 h-7 -start-[1.30rem] bottom-4 rounded-b-md border-l-[2.5px] border-b-[2.5px] border-gray-200/90`}
+                className={`-z-50 absolute w-8 h-7 -start-[1.35rem] bottom-4 rounded-b-md border-l-[2.5px] border-b-[2.5px] border-gray-200/90`}
               />
             </div>
 

@@ -1,24 +1,27 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AnswersSchema, ForumsService } from "@api/openapi";
-import { GET_QUESTION_KEY } from "../get/useGetQuestionsQuery";
 import { VIEW_QUESTION_KEY } from "../get/useGetViewQuestion";
 
-const useQuestionAnswerKey = () => "ANSWERS_KEY";
+const useQuestionAnswerMutationKey = () => "ANSWERS_KEY";
 
 type MutationData = {
   questionId: string;
   userAnswer: AnswersSchema;
 };
 
-export default function useQuestionAnswer() {
+export default function useQuestionAnswerMutation() {
   const queryClient = useQueryClient();
 
   return useMutation(
-    [useQuestionAnswerKey()],
+    [useQuestionAnswerMutationKey()],
     (data: MutationData) => {
       const { questionId, userAnswer } = data;
+      userAnswer?.answer;
 
-      return ForumsService.postApiForumsCreateAnswers(questionId, userAnswer);
+      return ForumsService.postApiForumsCreateAnswers({
+        id: questionId,
+        requestBody: userAnswer
+      });
     },
     {
       onSuccess: () => {

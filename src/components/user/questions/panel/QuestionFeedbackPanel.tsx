@@ -7,12 +7,14 @@ import { PiArrowFatDownFill } from "react-icons/pi";
 import { FaRegComment } from "react-icons/fa6";
 import withRequireAuth from "@higher-order/account/withRequireAuth";
 import QuestionFeedBackPanelButton from "../button/QuestionFeedBackPanelButton";
+import { FiPlusCircle } from "react-icons/fi";
 
 interface QuestionFeedbackPanelProps {
   vote?: "upvote" | "downvote";
   voteCount?: string | number;
   answerCount?: string | number;
   onCommentBtnClick?: (e: React.MouseEvent) => void;
+  onCommentExpandBtnClick?: (e: React.MouseEvent) => void;
   onSaveBtnClick?: (e: React.MouseEvent) => void;
   onAnswerBtnClick?: (e: React.MouseEvent) => void;
   onUpVoteBtnClick?: (e: React.MouseEvent) => void;
@@ -29,6 +31,7 @@ const QuestionFeedbackPanel = ({
   voteCount,
   answerCount,
   onCommentBtnClick,
+  onCommentExpandBtnClick,
   onSaveBtnClick,
   onAnswerBtnClick,
   onUpVoteBtnClick,
@@ -86,10 +89,21 @@ const QuestionFeedbackPanel = ({
       )}
 
       {onCommentBtnClick && (
-        <div className="flex h-8 border rounded-lg">
+        <div className="flex h-8 border rounded-lg ">
           <QuestionFeedBackPanelButton
-            title="View Comments"
-            icon={<FaRegComment />}
+            title="Add comment"
+            icon={<FiPlusCircle className="text-base" />}
+            onClick={onCommentBtnClick}
+          />
+        </div>
+      )}
+
+      {onCommentExpandBtnClick && (
+        <div className="flex h-8 border rounded-lg ">
+          <QuestionFeedBackPanelButton
+            title="See All Comments"
+            icon={<FiPlusCircle className="text-base" />}
+            onClick={onCommentExpandBtnClick}
           />
         </div>
       )}

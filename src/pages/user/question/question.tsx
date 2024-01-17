@@ -13,7 +13,7 @@ const Question = () => {
   const {
     data: questionData,
     isLoading: isQuestionDataLoading,
-    isError
+    isRefetching: isQuestionDataRefetching
   } = useGetViewQuestion(questionId ?? "");
 
   if (isQuestionDataLoading) {
@@ -24,7 +24,7 @@ const Question = () => {
     );
   }
 
-  if (isError) {
+  if (!questionId) {
     return (
       <div className="flex justify-center py-10 w-full min-h-[60rem] ">
         <h1>Question not found</h1>
@@ -36,7 +36,11 @@ const Question = () => {
     <OutletContainer className="px-0 md:px-7 xl:px-10 min-h-[40rem]">
       <QuestionBackButton />
       <QuestionPostBody data={questionData} />
-      <QuestionAnswerList data={questionData} />
+      <QuestionAnswerList
+        data={questionData}
+        isLoading={isQuestionDataLoading}
+        isRefetching={isQuestionDataRefetching}
+      />
       <QuestionAnswerForm questionId={questionData?.question?.id} />
     </OutletContainer>
   );

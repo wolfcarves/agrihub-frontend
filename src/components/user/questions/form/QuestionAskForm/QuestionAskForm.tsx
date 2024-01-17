@@ -13,6 +13,7 @@ import useGetTagByKeyWord from "@hooks/api/get/useGetTagByKeyword";
 import { Form, FormField } from "@components/ui/form";
 import QuestionBackButton from "@components/user/questions/button/QuestionBackButton";
 import OutletContainer from "@components/user/questions/container/OutletContainer";
+import ActivityIndicator from "@icons/ActivityIndicator";
 
 const QuestionAskForm = () => {
   const [searchInputTagValue, setSearchInputTagValue] = useState<string>("");
@@ -108,6 +109,7 @@ const QuestionAskForm = () => {
               Be specific and imagine you’re asking a question to another
               person.
             </p>
+
             <FormField
               name="title"
               control={form.control}
@@ -133,14 +135,17 @@ const QuestionAskForm = () => {
               control={form.control}
               render={({ field: { onChange } }) => {
                 return (
-                  <RichTextEditor
-                    onBlur={data => {
-                      onChange(data.html);
-                      data?.files?.then(blobs => {
-                        form.setValue("imagesrc", blobs);
-                      });
-                    }}
-                  />
+                  <div className="flex">
+                    <RichTextEditor
+                      onBlur={data => {
+                        onChange(data.html);
+                        data?.files?.then(blobs => {
+                          form.setValue("imagesrc", blobs);
+                        });
+                      }}
+                      height={300}
+                    />
+                  </div>
                 );
               }}
             />
@@ -176,6 +181,8 @@ const QuestionAskForm = () => {
               />
             </div>
           </div>
+
+          {isQuestionAskLoading && <ActivityIndicator />}
 
           <div className="mt-10">
             <Button

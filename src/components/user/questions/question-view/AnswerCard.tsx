@@ -13,7 +13,7 @@ import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import { UserAuth } from "@providers/AuthProvider";
 import { Input } from "../../../ui/input";
 import CommentCard from "./CommentCard";
-import useQuestionComment from "../../../../hooks/api/post/useQuestionComment";
+import useQuestionComment from "../../../../hooks/api/post/useQuestionAddCommentMutation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { AddComment } from "./schema";

@@ -37,7 +37,7 @@ const QuestionFeedBackPanelButton = ({
       <>
         {icon && <div className="text-lg">{icon}</div>}
         {title && (
-          <span className="hidde sm:block font-poppins-semibold text-foreground text-sm">
+          <span className="hidde sm:block font-poppins-semibold text-foreground text-sm whitespace-nowrap">
             {title}
           </span>
         )}

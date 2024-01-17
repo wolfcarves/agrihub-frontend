@@ -1,5 +1,11 @@
+import { UserFooter } from '@components/ui/custom';
 import React from 'react';
 import { IoIosArrowForward } from 'react-icons/io';
+import image1 from "@assets/images/our focus.png";
+import image2 from "@assets/images/initiatives.png";
+import image3 from "@assets/images/latest news.png";
+import image4 from "@assets/images/About us.png";
+import image5 from "@assets/images/learning hub.png";
 
 interface ImageData {
   id: number;
@@ -32,7 +38,7 @@ const ContentWhatWeDo: React.FC = () => {
 
   const AboutData: AboutData = {
     id: 1,
-    imageUrl: 'https://via.placeholder.com/900x300',
+    imageUrl: image4,
     altText: 'Placeholder Image',
     description: 'Bridging Knowledge, Fostering Community, and Cultivating Innovation in Urban Agriculture',
   };
@@ -40,58 +46,40 @@ const ContentWhatWeDo: React.FC = () => {
   const mockImageData: ImageData[] = [
     {
       id: 1,
-      imageUrl: 'https://via.placeholder.com/150',
+      imageUrl: image1,
       altText: 'Image 1',
       description: 'Our Focus',
     },
     {
       id: 2,
-      imageUrl: 'https://via.placeholder.com/150',
+      imageUrl: image2,
       altText: 'Image 2',
       description: 'Initiatives',
     },
     {
       id: 3,
-      imageUrl: 'https://via.placeholder.com/150',
+      imageUrl: image3,
       altText: 'Image 3',
       description: 'Latest News',
-    },
-  ];
-
-  const FeaturedInitiatives: FeaturedInitiatives[] = [
-    {
-      id: 1,
-      title: 'initiative',
-      description: 'The QC urban farmers successfully learned Permaculture in a workshop.',
-    },
-    {
-      id: 2,
-      title: 'initiative',
-      description: 'The QC urban farmers successfully learned Permaculture in a workshop.',
-    },
-    {
-      id: 3,
-      title: 'initiative',
-      description: 'The QC urban farmers successfully learned Permaculture in a workshop.',
     },
   ];
 
   const mockLearningHubData: LearningHubData[] = [
     {
       id: 1,
-      imageUrl: 'https://via.placeholder.com/900x300',
+      imageUrl: image5,
       altText: 'Placeholder Image 1',
       description: 'Bridging Knowledge, Fostering Community, and Cultivating Innovation in Urban Agriculture',
     },
     {
       id: 2,
-      imageUrl: 'https://via.placeholder.com/900x300',
+      imageUrl: image5,
       altText: 'Placeholder Image 2',
       description: 'Bridging Knowledge, Fostering Community, and Cultivating Innovation in Urban Agriculture',
     },
     {
       id: 3,
-      imageUrl: 'https://via.placeholder.com/900x300',
+      imageUrl: image5,
       altText: 'Placeholder Image 3',
       description: 'Bridging Knowledge, Fostering Community, and Cultivating Innovation in Urban Agriculture',
     },
@@ -174,7 +162,7 @@ const ContentWhatWeDo: React.FC = () => {
           ))}
         </div>
 
-        <div className="flex flex-col h-screen mt-10">
+        <div className="flex flex-col h-screen mt-10 ">
 
           {/* FEATURED INITIATIVES */}
           <div className="flex flex-col items-center mb-9">
@@ -185,8 +173,8 @@ const ContentWhatWeDo: React.FC = () => {
 
               <div className="col-span-full md:col-span-1 lg:col-span-2 xl:col-span-2">
                 <div className="bg-gray-100 p-6">
-                  <h2 className="ml-5 text-2xl font-bold mb-4 ml-3">Initiatives</h2>
-                  <h2 className="ml-5 text-2xl mb-4 ml-3">PERMACULTURE WORKSHOP DAY 3</h2>
+                  <h2 className="ml-5 text-2xl font-bold mb-4">Initiatives</h2>
+                  <h2 className="ml-5 text-2xl mb-4">PERMACULTURE WORKSHOP DAY 3</h2>
                   <p className='ml-4'>The QC urban farmers successfully learned Permaculture in a workshop.</p>
                   <div className="flex items-center mt-2 ml-2 cursor-pointer">
                     <span className="text-black font-bold uppercase bg-transparent hover:text-orange-500 px-2 py-1 rounded transition duration-300">
@@ -198,7 +186,8 @@ const ContentWhatWeDo: React.FC = () => {
               </div>
               <div className='col-span-full md:col-span-1 lg:col-span-1 xl:col-span-1'>
                 <div className="bg-gray-100 p-6">
-                  <h2 className="ml-5 text-2xl font-bold mb-4 ml-3">Initiatives</h2>
+                <h2 className="ml-5 text-2xl font-bold mb-4">Initiatives</h2>
+                  <h2 className="ml-5 text-2xl mb-4">PERMACULTURE WORKSHOP DAY 3</h2>
                   <p className='ml-4'>The QC urban farmers successfully learned Permaculture in a workshop.</p>
                   <div className="flex items-center mt-2 ml-2 cursor-pointer">
                     <span className="text-black font-bold uppercase bg-transparent hover:text-orange-500 px-2 py-1 rounded transition duration-300">
@@ -209,8 +198,9 @@ const ContentWhatWeDo: React.FC = () => {
                 </div>
               </div>
               <div className="bg-gray-100 p-6">
-                <h2 className="text-2xl font-bold mb-4 ml-3">Initiatives</h2>
-                <p className='ml-3'>The QC urban farmers successfully learned Permaculture in a workshop.</p>
+              <h2 className="ml-5 text-2xl font-bold mb-4">Initiatives</h2>
+                  <h2 className="ml-5 text-2xl mb-4">PERMACULTURE WORKSHOP DAY 3</h2>
+                  <p className='ml-4'>The QC urban farmers successfully learned Permaculture in a workshop.</p>
                 <div className="flex items-center mt-2 ml-2 cursor-pointer">
                   <span className="text-black font-bold uppercase bg-transparent hover:text-orange-500 px-2 py-1 rounded transition duration-300">
                     Read More
@@ -218,9 +208,10 @@ const ContentWhatWeDo: React.FC = () => {
                   <IoIosArrowForward className="ml-1 text-orange-500" />
                 </div>
               </div>
-              <div className="bg-gray-100 p-6">
-                <h2 className="ml-5 text-2xl font-bold mb-4 ml-3">Initiatives</h2>
-                <p className='ml-4'>The QC urban farmers successfully learned Permaculture in a workshop.</p>
+              <div className="bg-gray-100 p-4">
+              <h2 className="ml-5 text-2xl font-bold mb-4">Initiatives</h2>
+                  <h2 className="ml-5 text-2xl mb-4">PERMACULTURE WORKSHOP DAY 3</h2>
+                  <p className='ml-4'>The QC urban farmers successfully learned Permaculture in a workshop.</p>
                 <div className="flex items-center mt-2 ml-2 cursor-pointer">
                   <span className="text-black font-bold uppercase bg-transparent hover:text-orange-500 px-2 py-1 rounded transition duration-300">
                     Read More
@@ -334,8 +325,6 @@ const ContentWhatWeDo: React.FC = () => {
           </div>
         </div>
       </div>
-
-
     </div>
 
   );

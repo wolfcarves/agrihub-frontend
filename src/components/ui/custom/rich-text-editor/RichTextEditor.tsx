@@ -8,7 +8,10 @@ import CharacterCount from "@tiptap/extension-character-count";
 import HardBreak from "@tiptap/extension-hard-break";
 
 interface RichTextEditorProps
-  extends Omit<EditorContentProps, "editor" | "onBlur" | "onChange"> {
+  extends Omit<
+    EditorContentProps,
+    "editor" | "onBlur" | "onChange" | "height"
+  > {
   onBlur?: (data: {
     html?: string;
     files?: Promise<Blob[]>;
@@ -17,6 +20,7 @@ interface RichTextEditorProps
   onChange?: (data: { charSize?: number }) => void; // temporary lang to bwisit tong text editor di ko na to gagmitin sa susunod
   withToolbar?: boolean;
   allowImagePaste?: boolean;
+  height?: number;
 }
 
 //put this shit to util folder pero sa susunod na yugto ng ating buhay nalang T_T
@@ -37,6 +41,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
   onChange,
   withToolbar = true,
   allowImagePaste = true,
+  height,
   ...props
 }) => {
   const extensions: Extensions = [
@@ -154,7 +159,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
   };
 
   return (
-    <div className="shadow-md border border-border rounded-md w-full max-w-[60rem]">
+    <div className="shadow-md border border-border rounded-md w-full max-w-[60rem] flex flex-col">
       {withToolbar && (
         <div className="bg-[#DCF2D3] p-1 flex gap-1">
           <Toolbar
@@ -163,7 +168,11 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
           />
         </div>
       )}
-      <EditorContent editor={editor} {...{ props }} />
+      <EditorContent
+        editor={editor}
+        {...{ props }}
+        style={{ minHeight: height }}
+      />
     </div>
   );
 };

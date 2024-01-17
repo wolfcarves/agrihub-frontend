@@ -4,7 +4,6 @@ import RichTextEditor from "@components/ui/custom/rich-text-editor/RichTextEdito
 import { FormField } from "@components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import useQuestionAnswerMutation from "@hooks/api/post/useQuestionAnswerMutation";
-import ActivityIndicator from "@icons/ActivityIndicator";
 import LoadingSpinner from "@icons/LoadingSpinner";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -62,22 +61,24 @@ const QuestionAnswerForm = ({ questionId }: QuestionAnswerFormProps) => {
           control={control}
           render={({ field: { onChange } }) => {
             return !isPostAnswerLoading ? (
-              <RichTextEditor
-                allowImagePaste={false}
-                withToolbar={false}
-                onChange={({ charSize }) => {
-                  setAnswerLength(charSize ?? 0);
-                }}
-                onBlur={data => {
-                  onChange(data.html);
-                }}
-              />
+              <div className="flex">
+                <RichTextEditor
+                  allowImagePaste={false}
+                  withToolbar={false}
+                  onChange={({ charSize }) => {
+                    setAnswerLength(charSize ?? 0);
+                  }}
+                  onBlur={data => {
+                    onChange(data.html);
+                  }}
+                  height={300}
+                />
+              </div>
             ) : (
               <>
                 <div className="min-h-[20rem] flex justify-center items-center w-full border mx-auto rounded-lg ">
                   <LoadingSpinner className="text-xl" />
                 </div>
-                <ActivityIndicator />
               </>
             );
           }}

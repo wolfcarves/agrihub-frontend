@@ -1,4 +1,3 @@
-import { BiSolidDownArrow, BiSolidUpArrow } from "react-icons/bi";
 import parse, { Element } from "html-react-parser";
 import QuestionFeedbackPanel from "@components/user/questions/panel/QuestionFeedbackPanel";
 import TagChip from "@components/user/questions/chip/TagChip";

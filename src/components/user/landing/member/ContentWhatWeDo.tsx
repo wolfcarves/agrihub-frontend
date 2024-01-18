@@ -136,36 +136,34 @@ const ContentWhatWeDo: React.FC = () => {
     //   </div>
     // </div>
 
-    <div className="w-full mx-auto my-0 md:my-15">
-      <div className="flex flex-col h-screen">
-        <header className="text-2xl md:text-4xl lg:text-7xl font-['Arial_Black'] pb-10 mx-auto m-12 text-center">
-          What we do
-        </header>
-        <div className="flex flex-col items-center gap-8 md:flex-row md:justify-center md:gap-4 md:mt-8 pt-10">
-          {mockImageData.map((image) => (
-            <div key={image.id} className="flex flex-col">
-              <img
-                src={image.imageUrl}
-                alt={image.altText}
-                className="w-full md:w-[calc(85vw/3)] h-auto md:h-[calc(60vw/3)] object-cover"
-              />
-              <p className="mt-4 ml-4 text-sm md:text-base lg:text-lg">
-                {image.description}
-              </p>
-              <div className="flex items-center mt-2 ml-2 cursor-pointer">
-                <span className="text-black font-bold uppercase bg-transparent hover:bg-white hover:text-orange-500 px-2 py-1 rounded transition duration-300">
-                  Discover More
-                </span>
-                <IoIosArrowForward className="ml-1 text-orange-500" />
-              </div>
-            </div>
-          ))}
-        </div>
+    <div className="w-full mx-auto my-0 md:my-15 mb-8">
+      {/* Header */}
+      <header className="text-2xl md:text-4xl lg:text-7xl font-['Arial_Black'] pb-10 mx-auto m-12 text-center">
+        What we do
+      </header>
 
-        <div className="flex flex-col h-screen mt-10 ">
+      {/* Image Section */}
+      <div className="flex flex-col items-center gap-8 md:flex-row md:justify-center md:gap-4 md:mt-8 pt-10">
+        {mockImageData.map((image) => (
+          <div key={image.id} className="flex flex-col md:w-[calc(85vw/3)]">
+            <img
+              src={image.imageUrl}
+              alt={image.altText}
+              className="w-full h-auto object-cover"
+            />
+            <p className="mt-4 text-sm md:text-base lg:text-lg">{image.description}</p>
+            <div className="flex items-center mt-2 cursor-pointer">
+              <span className="text-black font-bold uppercase bg-transparent hover:bg-white hover:text-orange-500 px-2 py-1 rounded transition duration-300">
+                Discover More
+              </span>
+              <IoIosArrowForward className="ml-1 text-orange-500" />
+            </div>
+          </div>
+        ))}
+      </div>
 
           {/* FEATURED INITIATIVES */}
-          <div className="flex flex-col items-center mb-9">
+          <div className="flex flex-col items-center mt-10">
             <div className="w-full md:w-5/6 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 gap-4 p-4">
               <div className='col-span-full md:col-span-1 lg:col-span-1 xl:col-span-1'>
                 <h2 className='md:text-7xl font-bold text-center'>Featured Initiatives</h2>
@@ -221,9 +219,10 @@ const ContentWhatWeDo: React.FC = () => {
               </div>
             </div>
           </div>
+       
 
-          {/* LATEST NEWS */}
-          <div className="flex flex-col items-center mt-16">
+        {/* LATEST NEWS */}
+        <div className="flex flex-col items-center mt-16">
             <div className="w-full md:w-5/6 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 gap-4 p-4">
               <div className='p-2 col-span-full md:col-span-1 lg:col-span-1 xl:col-span-1'>
                 <h2 className='md:text-7xl font-bold text-center'>Latest News</h2>
@@ -231,7 +230,7 @@ const ContentWhatWeDo: React.FC = () => {
 
               <div className="col-span-full md:col-span-1 lg:col-span-2 xl:col-span-2">
                 <div className="bg-gray-100 p-6">
-                  <h2 className="ml-5 text-2xl font-bold mb-4 ml-3">Initiatives</h2>
+                  <h2 className="ml-5 text-2xl font-bold mb-4 ">Initiatives</h2>
                   <p className='ml-4'>The QC urban farmers successfully learned Permaculture in a workshop.</p>
                   <div className="flex items-center mt-2 ml-2 cursor-pointer">
                     <span className="text-black font-bold uppercase bg-transparent hover:text-orange-500 px-2 py-1 rounded transition duration-300">
@@ -243,7 +242,7 @@ const ContentWhatWeDo: React.FC = () => {
               </div>
               <div className='col-span-full md:col-span-1 lg:col-span-1 xl:col-span-1'>
                 <div className="bg-gray-100 p-6">
-                  <h2 className="ml-5 text-2xl font-bold mb-4 ml-3">Initiatives</h2>
+                  <h2 className="ml-5 text-2xl font-bold mb-4 ">Initiatives</h2>
                   <p className='ml-4'>The QC urban farmers successfully learned Permaculture in a workshop.</p>
                   <div className="flex items-center mt-2 ml-2 cursor-pointer">
                     <span className="text-black font-bold uppercase bg-transparent hover:text-orange-500 px-2 py-1 rounded transition duration-300">
@@ -254,7 +253,7 @@ const ContentWhatWeDo: React.FC = () => {
                 </div>
               </div>
               <div className="bg-gray-100 p-6">
-                <h2 className="ml-5 text-2xl font-bold mb-4 ml-3">Initiatives</h2>
+                <h2 className="ml-5 text-2xl font-bold mb-4">Initiatives</h2>
                 <p className='ml-4'>The QC urban farmers successfully learned Permaculture in a workshop.</p>
                 <div className="flex items-center mt-2 ml-2 cursor-pointer">
                   <span className="text-black font-bold uppercase bg-transparent hover:text-orange-500 px-2 py-1 rounded transition duration-300">
@@ -264,7 +263,7 @@ const ContentWhatWeDo: React.FC = () => {
                 </div>
               </div>
               <div className="bg-gray-100 p-6">
-                <h2 className="ml-5 text-2xl font-bold mb-4 ml-3">Initiatives</h2>
+                <h2 className="ml-5 text-2xl font-bold mb-4">Initiatives</h2>
                 <p className='ml-4'>The QC urban farmers successfully learned Permaculture in a workshop.</p>
                 <div className="flex items-center mt-2 ml-2 cursor-pointer">
                   <span className="text-black font-bold uppercase bg-transparent hover:text-orange-500 px-2 py-1 rounded transition duration-300">
@@ -277,7 +276,6 @@ const ContentWhatWeDo: React.FC = () => {
           </div>
 
 
-          {/* About Us */}
           <header className="text-4xl md:text-7xl font-['Arial_Black'] pt-8 mx-auto m-12 text-center pb-8">About Us</header>
           <div className="w-4/5 mx-auto flex flex-col justify-center items-center">
             <img
@@ -297,9 +295,8 @@ const ContentWhatWeDo: React.FC = () => {
             </div>
           </div>
 
-
-          {/* Learning Hub */}
-          <div className="w-4/5 mx-auto flex flex-col justify-center items-center">
+           {/* Learning Hub */}
+           <div className="w-4/5 mx-auto flex flex-col justify-center items-center">
             <header className="text-4xl md:text-7xl font-['Arial_Black'] pt-8 mx-auto m-12 text-center">
               Learning Hub
             </header>
@@ -323,8 +320,7 @@ const ContentWhatWeDo: React.FC = () => {
               </div>
             ))}
           </div>
-        </div>
-      </div>
+
     </div>
 
   );

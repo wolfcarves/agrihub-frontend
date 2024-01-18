@@ -1,3 +1,4 @@
+import withRequireAuth from "@higher-order/account/withRequireAuth";
 import { ComponentProps } from "react";
 import { BiSolidDownArrow, BiSolidUpArrow } from "react-icons/bi";
 
@@ -38,4 +39,4 @@ const QuestionVoteButton = ({
   }
 };
 
-export default QuestionVoteButton;
+export default withRequireAuth(QuestionVoteButton);

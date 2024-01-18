@@ -61,7 +61,60 @@ const QuestionCommentForm = ({ answerId }: QuestionCommentFormProps) => {
         name="comment"
         control={control}
         render={({ field: { onChange } }) => {
-          return !isPostCommentLoading ? (
+          return (
+            <>
+              <div className="flex gap-2 w-full">
+                <Avatar className="border">
+                  <AvatarImage
+                    src={user.data?.avatar}
+                    className="object-cover pointer-events-none select-none "
+                  />
+                  <AvatarFallback>A</AvatarFallback>
+                </Avatar>
+
+                {!isPostCommentLoading ? (
+                  <RichTextEditor
+                    allowImagePaste={false}
+                    withToolbar={false}
+                    onChange={({ charSize }) => {
+                      setAnswerLength(charSize ?? 0);
+                    }}
+                    onBlur={data => {
+                      onChange(data.html);
+                    }}
+                  />
+                ) : (
+                  <>
+                    <div className="h-10 flex justify-center items-center w-full border mx-auto rounded-lg shadow-md ">
+                      <LoadingSpinner className="text-xl" />
+                    </div>
+                    <ActivityIndicator />
+                  </>
+                )}
+              </div>
+            </>
+          );
+        }}
+      />
+
+      {!isPostCommentLoading && (
+        <button
+          className={`${
+            answerLength === 0 && "opacity-60 pointer-events-none"
+          } flex mt-5 ms-auto text-sm border py-2 px-3 rounded-full cursor-pointer hover:bg-accent`}
+          disabled={answerLength === 0}
+        >
+          Add Comment
+        </button>
+      )}
+    </form>
+  );
+};
+
+export default QuestionCommentForm;
+
+/*
+  return !isPostCommentLoading ? (
             <div className="flex gap-2 w-full">
               <Avatar className="border">
                 <AvatarImage
@@ -90,17 +143,4 @@ const QuestionCommentForm = ({ answerId }: QuestionCommentFormProps) => {
               <ActivityIndicator />
             </>
           );
-        }}
-      />
-
-      <button
-        className="flex mt-5 ms-auto text-sm border py-2 px-3 rounded-full cursor-pointer hover:bg-accent "
-        disabled={answerLength === 0 || isPostCommentLoading}
-      >
-        Add Comment
-      </button>
-    </form>
-  );
-};
-
-export default QuestionCommentForm;
+*/

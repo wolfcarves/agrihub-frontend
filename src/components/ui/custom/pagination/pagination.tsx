@@ -71,7 +71,11 @@ const Pagination = ({
         }
         previousLabel={<PaginationPreviousLabel page={params.page} />}
         nextLabel={
-          <PaginationNextLabel page={params.page} totalPages={totalPages} />
+          <>
+            {totalPages !== 1 && (
+              <PaginationNextLabel page={params.page} totalPages={totalPages} />
+            )}
+          </>
         }
         pageLabelBuilder={page => {
           return (

@@ -22,16 +22,20 @@ const QuestionAnswerCard = ({
   const [expandComment, setExpandComment] = useState<boolean>(false);
   const parentRef = useRef<HTMLDivElement>(null);
   const purifyAnswer = DOMPurify.sanitize(data?.answer ?? "");
-  const condition = addComment || expandComment;
 
-  useEffect(() => {
-    console.log(isRefetching);
+  console.log(expandComment);
 
-    if (isRefetching) {
-      setAddComment(true);
-      setExpandComment(true);
-    }
-  }, [isRefetching]);
+  const showCommentForm =
+    addComment || (expandComment && user?.isAuthenticated);
+
+  // useEffect(() => {
+  //   console.log(isRefetching);
+
+  //   if (isRefetching) {
+  //     setAddComment(true);
+  //     setExpandComment(true);
+  //   }
+  // }, [isRefetching]);
 
   return (
     <div className="relative w-full">
@@ -54,7 +58,7 @@ const QuestionAnswerCard = ({
             className={`${
               data?.isaccepted &&
               "accepted-answer text-white border-red-700 border-2"
-            }  border p-3 rounded-lg`}
+            }  border p-2 sm:p-3 rounded-lg`}
           >
             <Link to="/" className="font-poppins-medium hover:underline ">
               {data?.user?.username}
@@ -72,10 +76,14 @@ const QuestionAnswerCard = ({
             onUpVoteBtnClick={() => {}}
             onDownVoteBtnClick={() => {}}
             voteCount={data?.total_vote_count ?? ""}
-            onCommentBtnClick={() => {
-              setExpandComment(true);
-              setAddComment(true);
-            }}
+            onCommentBtnClick={
+              user?.isAuthenticated
+                ? () => {
+                    setAddComment(true);
+                    setExpandComment(true);
+                  }
+                : undefined
+            }
             onCommentExpandBtnClick={
               data?.comments?.length &&
               data?.comments?.length > 1 &&
@@ -156,7 +164,7 @@ const QuestionAnswerCard = ({
           );
         })}
 
-      {condition && (
+      {showCommentForm && (
         <div className="flex flex-col gap-3 ps-10 mt-2">
           <span className="ps-12 text-sm">
             You're commenting to{" "}

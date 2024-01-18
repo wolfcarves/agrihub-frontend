@@ -32,7 +32,7 @@ const QuestionPostBody = ({ data }: QuestionPostBodyProps) => {
 
       toast.info(`Successfully ${type} a question`);
     } catch (error: any) {
-      toast.error(error.body.message);
+      //
     }
   };
 
@@ -103,7 +103,7 @@ const QuestionPostBody = ({ data }: QuestionPostBodyProps) => {
 
       <div className="flex flex-wrap gap-2 py-5">
         {data?.question?.tags?.map(({ tag }) => {
-          return <TagChip key={Math.random()} name={tag} size="base" />;
+          return <TagChip key={tag} name={tag} size="base" />;
         })}
       </div>
     </>

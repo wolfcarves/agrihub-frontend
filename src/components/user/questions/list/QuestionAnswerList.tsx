@@ -32,9 +32,7 @@ const QuestionAnswerList = ({
       )}
 
       {data?.question?.answers?.map(data => {
-        return (
-          <QuestionAnswerCard key={`${data} + ${Math.random()}`} data={data} />
-        );
+        return <QuestionAnswerCard key={data.id} data={data} />;
       })}
     </div>
   );

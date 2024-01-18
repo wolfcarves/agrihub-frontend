@@ -50,6 +50,7 @@ import AboutLatest from "./pages/user/about/about-latest";
 // Providers
 import UserLayout from "@pages/user/layout/main-layout";
 import AboutLayout from "./pages/user/about/_layout";
+import CommunityRegister from "./pages/user/community/community-register";
 
 const App = ReactRouter(
   <>
@@ -83,6 +84,7 @@ const App = ReactRouter(
       <Route path="/community" element={<CommunityLayout />}>
         <Route path="" element={<Community />} />
         <Route path="explore" element={<Explore />} />
+        <Route path="register" element={<CommunityRegister />} />
       </Route>
 
       {/* Article Page */}

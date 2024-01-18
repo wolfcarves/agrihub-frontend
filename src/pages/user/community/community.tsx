@@ -11,6 +11,8 @@ import CommunityIllustration from "@assets/images/community.png";
 import CommunityCard from "@components/user/community/card/CommunityCard";
 
 const Community = () => {
+  const [tab, setTab] = useState<string>("overview");
+
   return (
     <OutletContainer>
       <div className="py-10">
@@ -21,8 +23,8 @@ const Community = () => {
           </h6>
 
           <div>
-            <Link to="/" className="text-sm hover:underline">
-              Looking for help ?
+            <Link to="/community/register" className="text-sm hover:underline">
+              Already has a community ?
             </Link>
           </div>
         </div>

@@ -41,9 +41,7 @@ const UserTagInputDropdown = ({
 
   useEffect(() => {
     if (onTagsValueChange) onTagsValueChange(idTags);
-
-    console.log(idTags);
-  }, [idTags]);
+  }, [idTags, tags]);
 
   const renderTag = useCallback(
     ({
@@ -58,9 +56,16 @@ const UserTagInputDropdown = ({
           key={tag}
           className={`${
             isError && "border border-red-500"
-          } && max-h-7 border m-0.5 border-primary-3/80 bg-primary-1/40 rounded-sm w-[100px] px-2 py-1`}
+          } && max-h-7 border m-0.5 border-primary-3/80 bg-primary-1/40 rounded-sm w-[150px] px-2 py-1`}
           onClick={() => {
-            setTags([...tags.filter(val => val !== tag)]);
+            const tagIndex = tags.indexOf(tag);
+
+            if (tagIndex !== -1) {
+              setIdTags(
+                idTags.slice(0, tagIndex).concat(idTags.slice(tagIndex + 1))
+              );
+              setTags(tags.filter(val => val !== tag));
+            }
           }}
         >
           <div className="flex gap-1 items-center">

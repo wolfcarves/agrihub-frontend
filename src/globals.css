@@ -284,13 +284,54 @@
   background: #adadad;
 }
 
-/* FOR RICH TEXT EDITOR TITE*/
 
+.accepted-answer {
+  position: relative;
+  background: linear-gradient(0deg, #e25454, #d42f2f);
+}
+
+.accepted-answer:before,
+.accepted-answer:after {
+  border-radius: 3%;
+  content: '';
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  /* background: linear-gradient(45deg, #e91414, #f82626, #c42424, #ff0000, #df1b1b, #dd3434,
+      #ff0000, #c51919, #c92323, #ff0000); */
+  background: linear-gradient(45deg, #ff0000, #ff00005d, #ff0000, #ff00005d, #ff0000, #ff00005d,
+      #ff0000, #ff00005d, #ff0000, #ff00005d);
+  background-size: 400%;
+  width: calc(100% + 0px);
+  height: calc(100% + 2px);
+  z-index: -1;
+  animation: steam 40s linear infinite;
+}
+
+@keyframes steam {
+  0% {
+    background-position: 0 0;
+  }
+
+  50% {
+    background-position: 400% 0;
+  }
+
+  100% {
+    background-position: 0 0;
+  }
+}
+
+.accepted-answer:after {
+  filter: blur(40px);
+}
+
+/* FOR RICH TEXT EDITOR TITE*/
 
 .ProseMirror {
   outline: none;
   padding: 0.5rem;
-  min-height: 20rem;
+  height: 100% !important;
 }
 
 .tiptap {

@@ -5,10 +5,22 @@ import React, { useState } from "react";
 import Toolbar from "./Toolbar";
 import { Extensions, Editor } from "@tiptap/react";
 import CharacterCount from "@tiptap/extension-character-count";
+import HardBreak from "@tiptap/extension-hard-break";
 
 interface RichTextEditorProps
-  extends Omit<EditorContentProps, "editor" | "onBlur"> {
-  onBlur?: (data: { html?: string; files?: Promise<Blob[]> }) => void;
+  extends Omit<
+    EditorContentProps,
+    "editor" | "onBlur" | "onChange" | "height"
+  > {
+  onBlur?: (data: {
+    html?: string;
+    files?: Promise<Blob[]>;
+    charSize?: number;
+  }) => void;
+  onChange?: (data: { charSize?: number }) => void; // temporary lang to bwisit tong text editor di ko na to gagmitin sa susunod
+  withToolbar?: boolean;
+  allowImagePaste?: boolean;
+  height?: number;
 }
 
 //put this shit to util folder pero sa susunod na yugto ng ating buhay nalang T_T
@@ -26,6 +38,10 @@ async function filesToBlobs(files: File[]): Promise<Blob[]> {
 
 const RichTextEditor: React.FC<RichTextEditorProps> = ({
   onBlur,
+  onChange,
+  withToolbar = true,
+  allowImagePaste = true,
+  height,
   ...props
 }) => {
   const extensions: Extensions = [
@@ -61,9 +77,26 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
   const files: Blob[] = [];
 
   const editor = useEditor({
+    editorProps: !allowImagePaste
+      ? {
+          transformPastedHTML(html) {
+            return html.replace(/<img.*?>/g, "");
+          }
+        }
+      : undefined,
     extensions,
+    onUpdate: ({ editor }) => {
+      onChange &&
+        onChange({
+          charSize: editor.storage.characterCount.characters()
+        });
+    },
     onBlur: ({ editor }) => {
       const { doc } = editor.state;
+
+      editor.commands.setContent(editor?.getHTML(), false, {
+        preserveWhitespace: "full"
+      });
 
       doc.descendants(node => {
         if (node.type.name === "image") {
@@ -79,13 +112,28 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
         }
       });
 
+      const hardBreakPattern = /(<br>\s*)+/g;
+      const emptyParagraphPattern = /(<p class="min-h-\[1rem\]"><\/p>)+/g;
+
+      let html = editor
+        ?.getHTML()
+        .replace(hardBreakPattern, "<br>")
+        .replace(emptyParagraphPattern, `<br>`);
+
+      const lastTag = html.slice(html.length - 4, html.length);
+
+      if (lastTag === "<br>") {
+        html = html.slice(0, html.length - 4);
+      }
+
       if (editor) {
         onBlur &&
           onBlur({
-            html: editor?.getHTML(),
+            html,
             files: filesToBlobs(files as File[]).then((blobs: Blob[]) => {
               return blobs;
-            })
+            }),
+            charSize: editor.storage.characterCount.characters()
           });
       }
     }
@@ -111,11 +159,20 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
   };
 
   return (
-    <div className="shadow-md border border-border rounded-md w-full max-w-[60rem]">
-      <div className="bg-[#DCF2D3] p-1 flex gap-1">
-        <Toolbar editor={editor as Editor} onImageUpload={handleImageUpload} />
-      </div>
-      <EditorContent editor={editor} {...{ props }} />
+    <div className="shadow-md border border-border rounded-md w-full max-w-[60rem] flex flex-col">
+      {withToolbar && (
+        <div className="bg-[#DCF2D3] p-1 flex gap-1">
+          <Toolbar
+            editor={editor as Editor}
+            onImageUpload={handleImageUpload}
+          />
+        </div>
+      )}
+      <EditorContent
+        editor={editor}
+        {...{ props }}
+        style={{ minHeight: height }}
+      />
     </div>
   );
 };

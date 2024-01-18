@@ -41,7 +41,11 @@ const resources: { title: string; href: string; description: string }[] = [
 
 const UserHeaderNavigation = () => {
   return (
-    <NavigationMenu delayDuration={0} className="hidden lg:block">
+    <NavigationMenu
+      delayDuration={999999}
+      skipDelayDuration={0}
+      className="hidden lg:block"
+    >
       <NavigationMenuList>
         <NavigationMenuItem className="flex h-20">
           <NavLink

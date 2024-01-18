@@ -1,4 +1,3 @@
-import React from "react";
 import { QuestionViewSchema } from "@api/openapi";
 import QuestionAnswerCard from "../card/QuestionAnswerCard";
 import LoadingSpinner from "@icons/LoadingSpinner";
@@ -6,9 +5,14 @@ import LoadingSpinner from "@icons/LoadingSpinner";
 interface QuestionAnswerListProps {
   data?: QuestionViewSchema;
   isLoading?: boolean;
+  isRefetching?: boolean;
 }
 
-const QuestionAnswerList = ({ data, isLoading }: QuestionAnswerListProps) => {
+const QuestionAnswerList = ({
+  data,
+  isLoading,
+  isRefetching
+}: QuestionAnswerListProps) => {
   const hasAnswer = data?.question?.answers;
 
   return (
@@ -28,9 +32,7 @@ const QuestionAnswerList = ({ data, isLoading }: QuestionAnswerListProps) => {
       )}
 
       {data?.question?.answers?.map(data => {
-        return (
-          <QuestionAnswerCard key={`${data} + ${Math.random()}`} data={data} />
-        );
+        return <QuestionAnswerCard key={data.id} data={data} />;
       })}
     </div>
   );

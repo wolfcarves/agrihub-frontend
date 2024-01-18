@@ -4,9 +4,11 @@
 /* eslint-disable */
 import type { CropData } from '../models/CropData';
 import type { CropReport } from '../models/CropReport';
+import type { FarmApplicationResponse } from '../models/FarmApplicationResponse';
 import type { FarmListResponse } from '../models/FarmListResponse';
 import type { NewCropRequest } from '../models/NewCropRequest';
 import type { NewCropResponse } from '../models/NewCropResponse';
+import type { NewFarmApplication } from '../models/NewFarmApplication';
 import type { NewFarmRequest } from '../models/NewFarmRequest';
 import type { NewFarmResponse } from '../models/NewFarmResponse';
 import type { SubfarmOverviewResponse } from '../models/SubfarmOverviewResponse';
@@ -16,6 +18,29 @@ import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
 
 export class FarmService {
+
+    /**
+     * Submit a new farm application
+     * @returns FarmApplicationResponse Success. Farm application submitted successfully.
+     * @throws ApiError
+     */
+    public static postApiFarmApply({
+formData,
+}: {
+formData?: NewFarmApplication,
+}): CancelablePromise<FarmApplicationResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/farm/apply',
+            formData: formData,
+            mediaType: 'multipart/form-data',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                500: `Server Error`,
+            },
+        });
+    }
 
     /**
      * Create a new farm

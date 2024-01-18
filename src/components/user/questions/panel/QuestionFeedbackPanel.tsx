@@ -89,30 +89,33 @@ const QuestionFeedbackPanel = ({
       )}
 
       {onCommentBtnClick && (
-        <div className="flex h-8 border rounded-lg ">
-          <QuestionFeedBackPanelButton
+        <div
+          className="flex h-8 border rounded-lg "
+          onClick={onCommentBtnClick}
+        >
+          <AuthenticatedQuestionFeedBackPanelButton
             title="Add comment"
             icon={<FiPlusCircle className="text-base" />}
-            onClick={onCommentBtnClick}
           />
         </div>
       )}
 
       {onCommentExpandBtnClick && (
-        <div className="flex h-8 border rounded-lg ">
+        <div
+          className="flex h-8 border rounded-lg "
+          onClick={onCommentExpandBtnClick}
+        >
           <QuestionFeedBackPanelButton
             title="See All Comments"
             icon={<FiPlusCircle className="text-base" />}
-            onClick={onCommentExpandBtnClick}
           />
         </div>
       )}
 
       {onShareBtnClick && (
-        <div className="flex h-8 border rounded-lg">
+        <div className="flex h-8 border rounded-lg" onClick={onShareBtnClick}>
           <QuestionFeedBackPanelButton
             title="Share"
-            onClick={onShareBtnClick}
             icon={<TiArrowForwardOutline />}
           />
         </div>

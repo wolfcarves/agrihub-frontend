@@ -3,6 +3,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import type { ApplicantData } from './ApplicantData';
+
 export type FarmApplicationData = {
     /**
      * The ID of the farm application
@@ -37,15 +39,27 @@ export type FarmApplicationData = {
      */
     valid_id: string;
     /**
+     * The location of the farm
+     */
+    location: string;
+    /**
      * The selfie image of the applicant
      */
     selfie: string;
     /**
      * The ID of the applicant
      */
-    applicant: string;
+    applicant: ApplicantData;
     /**
      * The status of the application
      */
     status: string;
+    /**
+     * The timestamp when the application was created
+     */
+    createdat: string;
+    /**
+     * The timestamp when the application was last updated
+     */
+    updatedat: string;
 };

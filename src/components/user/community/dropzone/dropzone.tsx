@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { RiUploadCloud2Line } from "react-icons/ri";
 
 interface DropzoneProps {
-  onChange: (file: FileList | null) => void;
+  onChange: (blob: Blob) => void;
 }
 
 const Dropzone: React.FC<DropzoneProps> = ({ onChange }) => {
@@ -26,7 +26,7 @@ const Dropzone: React.FC<DropzoneProps> = ({ onChange }) => {
     const file = e.dataTransfer.files[0];
 
     if (file) {
-      onChange(e.dataTransfer.files);
+      onChange(file);
       showImagePreview(file);
     }
   };
@@ -35,7 +35,7 @@ const Dropzone: React.FC<DropzoneProps> = ({ onChange }) => {
     const file = e.target.files && e.target.files[0];
 
     if (file) {
-      onChange(e.target.files && e.target.files);
+      onChange(file);
       showImagePreview(file);
     }
   };

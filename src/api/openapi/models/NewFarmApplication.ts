@@ -7,33 +7,37 @@ export type NewFarmApplication = {
     /**
      * The name of the farm
      */
-    farm_name?: string;
+    farm_name: string;
     /**
      * The size of the farm
      */
-    farm_size?: string;
+    farm_size: string;
     /**
      * The district of the farm
      */
-    district?: string;
+    district: string;
     /**
      * The type of ID used for application
      */
-    id_type?: string;
+    id_type: string;
+    /**
+     * The type of ID used for application
+     */
+    location: string;
     /**
      * The selfie image file
      */
-    selfie?: Blob;
+    selfie: Blob;
     /**
      * The proof image file
      */
-    valid_id?: Blob;
+    valid_id: Blob;
     /**
      * The proof image file
      */
-    proof?: Blob;
+    proof: Blob;
     /**
      * An array of actual farm image files
      */
-    farm_actual_images?: Array<Blob>;
+    farm_actual_images: Array<Blob>;
 };

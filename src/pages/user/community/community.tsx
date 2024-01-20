@@ -9,9 +9,16 @@ import OutletContainer from "@components/user/questions/container/OutletContaine
 import { Link } from "react-router-dom";
 import CommunityIllustration from "@assets/images/community.png";
 import CommunityCard from "@components/user/community/card/CommunityCard";
+import useGetFarms from "@hooks/api/get/useGetFarms";
 
 const Community = () => {
   const [tab, setTab] = useState<string>("overview");
+  const [page, setPage] = useState(1);
+  const { data } = useGetFarms(undefined, String(page), undefined);
+  const onPageChange = (newPage: number) => {
+    setPage(newPage);
+  };
+  console.log(data);
 
   return (
     <OutletContainer>
@@ -23,8 +30,8 @@ const Community = () => {
           </h6>
 
           <div>
-            <Link to="/community/register" className="text-sm hover:underline">
-              Already has a community ?
+            <Link to={""} className="text-sm hover:underline">
+              Need Help?
             </Link>
           </div>
         </div>
@@ -43,7 +50,9 @@ const Community = () => {
             </p>
 
             <div className="mt-10">
-              <Button>Discover</Button>
+              <Link to="/community/register">
+                <Button>Register Farm</Button>
+              </Link>
             </div>
           </div>
 

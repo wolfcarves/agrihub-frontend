@@ -9,14 +9,14 @@ const ALLOWED_IMAGE_FORMATS = [
 ];
 
 export const registerCommunitySchema = zod.object({
-  name: zod
+  farm_name: zod
     .string({
       required_error: "Name is required."
     })
-    .min(10, "Please enter at least 10 characters")
+    .min(5, "Please enter at least 5 characters")
     .max(200, "Name is too long"),
 
-  size: zod
+  farm_size: zod
     .string({
       required_error: "Size is required"
     })
@@ -26,63 +26,40 @@ export const registerCommunitySchema = zod.object({
     .string({
       required_error: "Location is required."
     })
-    .min(3, "Please enter at least 10 characters")
+    .min(3, "Please enter at least 3 characters")
     .max(200, "Location is too long"),
 
   district: zod.string({
     required_error: "District is required."
   }),
 
-  idType: zod.string({
+  id_type: zod.string({
     required_error: "ID type is required."
   }),
 
-  id: zod
+  valid_id: zod
     .any()
-    .refine((file: FileList) => file?.length === 1, "Please upload image")
+    .refine((file: Blob) => file !== undefined, "Please upload image")
     .refine(
-      (file: FileList) =>
-        file?.[0]?.size === undefined
-          ? true
-          : file?.[0]?.size <= MAX_IMAGE_FILE_SIZE,
+      (file: Blob) =>
+        file?.size === undefined ? true : file.size <= MAX_IMAGE_FILE_SIZE,
       "Maximum image file size is 10MB"
-    )
-    .refine(
-      (file: FileList) => (
-        ALLOWED_IMAGE_FORMATS.includes(file?.[0]?.type),
-        "Only .jpg, .jpeg, .png, .webp, formats are supported "
-      )
     ),
   selfie: zod
     .any()
-    .refine((file: FileList) => file?.length === 1, "Please upload image")
+    .refine((file: Blob) => file !== undefined, "Please upload image")
     .refine(
-      (file: FileList) =>
-        file?.[0]?.size === undefined
-          ? true
-          : file?.[0]?.size <= MAX_IMAGE_FILE_SIZE,
+      (file: Blob) =>
+        file?.size === undefined ? true : file.size <= MAX_IMAGE_FILE_SIZE,
       "Maximum image file size is 10MB"
-    )
-    .refine(
-      (file: FileList) => (
-        ALLOWED_IMAGE_FORMATS.includes(file?.[0]?.type),
-        "Only .jpg, .jpeg, .png, .webp, formats are supported "
-      )
     ),
   proof: zod
     .any()
-    .refine((file: FileList) => file?.length === 1, "Please upload image")
+    .refine((file: Blob) => file !== undefined, "Please upload image")
     .refine(
-      (file: FileList) =>
-        file?.[0]?.size === undefined
-          ? true
-          : file?.[0]?.size <= MAX_IMAGE_FILE_SIZE,
+      (file: Blob) =>
+        file?.size === undefined ? true : file.size <= MAX_IMAGE_FILE_SIZE,
       "Maximum image file size is 10MB"
-    )
-    .refine(
-      (file: FileList) => (
-        ALLOWED_IMAGE_FORMATS.includes(file?.[0]?.type),
-        "Only .jpg, .jpeg, .png, .webp, formats are supported "
-      )
-    )
+    ),
+  farm_actual_images: zod.any()
 });

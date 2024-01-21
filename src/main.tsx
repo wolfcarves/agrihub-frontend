@@ -7,6 +7,7 @@ import ReactRouterProvider from "@providers/RouterProvider";
 import AuthProvider from "@providers/AuthProvider";
 import HelmetProvider from "@providers/HelmetProvider";
 import { ThemeProvider } from "@components/ui/theme-provider";
+import SocketProvider from "./providers/SocketProvider";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -14,9 +15,11 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <ReduxProvider>
         <HelmetProvider>
           <AuthProvider>
-            <ThemeProvider>
-              <ReactRouterProvider />
-            </ThemeProvider>
+            <SocketProvider>
+              <ThemeProvider>
+                <ReactRouterProvider />
+              </ThemeProvider>
+            </SocketProvider>
           </AuthProvider>
         </HelmetProvider>
       </ReduxProvider>

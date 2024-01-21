@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { AcceptFarmApplicationResponse } from '../models/AcceptFarmApplicationResponse';
 import type { CropData } from '../models/CropData';
 import type { CropReport } from '../models/CropReport';
 import type { FarmApplicationData } from '../models/FarmApplicationData';
@@ -40,6 +41,28 @@ formData?: NewFarmApplication,
                 400: `Validation Error`,
                 401: `Unauthorized`,
                 500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Accept a farm application
+     * @returns AcceptFarmApplicationResponse Success. Returns details for the accepted farm application.
+     * @throws ApiError
+     */
+    public static putApiFarmApplicationsAccept({
+id,
+}: {
+/**
+ * The ID of the farm application to accept
+ */
+id: string,
+}): CancelablePromise<AcceptFarmApplicationResponse> {
+        return __request(OpenAPI, {
+            method: 'PUT',
+            url: '/api/farm/applications/accept/{id}',
+            path: {
+                'id': id,
             },
         });
     }

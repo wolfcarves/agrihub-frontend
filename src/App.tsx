@@ -52,6 +52,7 @@ import UserLayout from "@pages/user/layout/main-layout";
 import AboutLayout from "./pages/user/about/_layout";
 import CommunityRegister from "./pages/user/community/community-register";
 import FarmApplication from "./pages/admin/farm-application/farm-application";
+import FarmApplicationView from "./pages/admin/farm-application/farm-application-view";
 
 const App = ReactRouter(
   <>
@@ -127,6 +128,10 @@ const App = ReactRouter(
       <Route path="" element={<AdminLogin />} />
       <Route path="dashboard" element={<AdminLogin />} />
       <Route path="dashboard" element={<AdminLogin />} />
+
+      {/* Farm Application  */}
+      <Route path="farm/application" element={<FarmApplication />} />
+      <Route path="farm/application/:id" element={<FarmApplicationView />} />
     </Route>
   </>
 );

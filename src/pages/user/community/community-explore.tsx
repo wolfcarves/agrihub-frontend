@@ -13,7 +13,7 @@ const Explore = () => {
   console.log(data);
   return (
     <div>
-      {/* <div className="p-4">
+      <div className="p-4">
         <h1 className="font-bold text-4xl">Discover Communities</h1>
         <div></div>
       </div>
@@ -52,7 +52,7 @@ const Explore = () => {
             </div>
           ))}
         </div>
-      </div> */}
+      </div>
     </div>
   );
 };

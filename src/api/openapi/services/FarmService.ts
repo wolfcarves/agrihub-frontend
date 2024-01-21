@@ -4,9 +4,13 @@
 /* eslint-disable */
 import type { CropData } from '../models/CropData';
 import type { CropReport } from '../models/CropReport';
+import type { FarmApplicationData } from '../models/FarmApplicationData';
+import type { FarmApplicationResponse } from '../models/FarmApplicationResponse';
+import type { FarmApplicationsResponse } from '../models/FarmApplicationsResponse';
 import type { FarmListResponse } from '../models/FarmListResponse';
 import type { NewCropRequest } from '../models/NewCropRequest';
 import type { NewCropResponse } from '../models/NewCropResponse';
+import type { NewFarmApplication } from '../models/NewFarmApplication';
 import type { NewFarmRequest } from '../models/NewFarmRequest';
 import type { NewFarmResponse } from '../models/NewFarmResponse';
 import type { SubfarmOverviewResponse } from '../models/SubfarmOverviewResponse';
@@ -16,6 +20,101 @@ import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
 
 export class FarmService {
+
+    /**
+     * Submit a new farm application
+     * @returns FarmApplicationResponse Success. Farm application submitted successfully.
+     * @throws ApiError
+     */
+    public static postApiFarmApply({
+formData,
+}: {
+formData?: NewFarmApplication,
+}): CancelablePromise<FarmApplicationResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/farm/apply',
+            formData: formData,
+            mediaType: 'multipart/form-data',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Get a list of farm applications
+     * @returns FarmApplicationsResponse Success. Returns a list of farm applications.
+     * @throws ApiError
+     */
+    public static getApiFarmApplications({
+search,
+page,
+filter,
+perpage,
+}: {
+/**
+ * Search term
+ */
+search?: string,
+/**
+ * Page number
+ */
+page?: string,
+/**
+ * Filter term
+ */
+filter?: 'pending' | 'rejected' | 'approved',
+/**
+ * Records per page
+ */
+perpage?: string,
+}): CancelablePromise<FarmApplicationsResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/farm/applications',
+            query: {
+                'search': search,
+                'page': page,
+                'filter': filter,
+                'perpage': perpage,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Get details for a farm application
+     * @returns FarmApplicationData Success. Returns details for the farm application.
+     * @throws ApiError
+     */
+    public static getApiFarmApplications1({
+id,
+}: {
+/**
+ * The ID of the farm application
+ */
+id: string,
+}): CancelablePromise<FarmApplicationData> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/farm/applications/{id}',
+            path: {
+                'id': id,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                500: `Server Error`,
+            },
+        });
+    }
 
     /**
      * Create a new farm

@@ -5,6 +5,7 @@
 
 export type { Answer } from './models/Answer';
 export type { AnswersSchema } from './models/AnswersSchema';
+export type { ApplicantData } from './models/ApplicantData';
 export type { Comment } from './models/Comment';
 export type { CommentsSchema } from './models/CommentsSchema';
 export type { CropData } from './models/CropData';
@@ -12,6 +13,9 @@ export type { CropReport } from './models/CropReport';
 export type { DeleteVoteAnswerResponse } from './models/DeleteVoteAnswerResponse';
 export type { DeleteVoteForumResponse } from './models/DeleteVoteForumResponse';
 export type { ErrorResponse } from './models/ErrorResponse';
+export type { FarmApplicationData } from './models/FarmApplicationData';
+export type { FarmApplicationResponse } from './models/FarmApplicationResponse';
+export type { FarmApplicationsResponse } from './models/FarmApplicationsResponse';
 export type { FarmData } from './models/FarmData';
 export type { FarmListResponse } from './models/FarmListResponse';
 export type { ListUser } from './models/ListUser';
@@ -22,6 +26,7 @@ export type { NewCropReportRequest } from './models/NewCropReportRequest';
 export type { NewCropReportResponse } from './models/NewCropReportResponse';
 export type { NewCropRequest } from './models/NewCropRequest';
 export type { NewCropResponse } from './models/NewCropResponse';
+export type { NewFarmApplication } from './models/NewFarmApplication';
 export type { NewFarmRequest } from './models/NewFarmRequest';
 export type { NewFarmResponse } from './models/NewFarmResponse';
 export type { NewQuestionSchema } from './models/NewQuestionSchema';

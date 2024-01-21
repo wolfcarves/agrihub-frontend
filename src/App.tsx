@@ -50,6 +50,8 @@ import AboutLatest from "./pages/user/about/about-latest";
 // Providers
 import UserLayout from "@pages/user/layout/main-layout";
 import AboutLayout from "./pages/user/about/_layout";
+import CommunityRegister from "./pages/user/community/community-register";
+import FarmApplication from "./pages/admin/farm-application/farm-application";
 
 const App = ReactRouter(
   <>
@@ -83,6 +85,7 @@ const App = ReactRouter(
       <Route path="/community" element={<CommunityLayout />}>
         <Route path="" element={<Community />} />
         <Route path="explore" element={<Explore />} />
+        <Route path="register" element={<CommunityRegister />} />
       </Route>
 
       {/* Article Page */}
@@ -120,6 +123,7 @@ const App = ReactRouter(
       <Route path="login" element={<AdminLogin />} />
       <Route path="dashboard" element={<AdminLogin />} />
       <Route path="approve-farmer" element={<AdminLogin />} />
+      <Route path="farm/application" element={<FarmApplication />} />
       <Route path="" element={<AdminLogin />} />
       <Route path="dashboard" element={<AdminLogin />} />
       <Route path="dashboard" element={<AdminLogin />} />

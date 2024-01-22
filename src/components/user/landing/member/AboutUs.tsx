@@ -61,7 +61,7 @@ const About = () => {
 </div>
 
 <div>
-      {/* ... (previous code) ... */}
+      {/* ... Image ... */}
 
       <div className="mt-8 sm:mt-12 lg:mt-16 relative">
       <h4 className="text-center font-bold sm:text-2xl md:text-2xl lg:text-xl xl:text-6xl text-gray-600">
@@ -109,24 +109,56 @@ const About = () => {
       </div>
     </div>
     </div>
-
-  {/*Mission & Vission*/}
-  <div className="mt-8 sm:mt-12 lg:mt-16">
+{/*Mission*/}
+<div className="mt-8 sm:mt-12 lg:mt-16">
   <h4 className="text-center font-bold sm:text-2xl md:text-2xl lg:text-xl xl:text-6xl text-gray-600">Mission & Vision</h4>
-  <img className="w-full mb-4 sm:mx-0 sm:mb-10 mt-3 sm:mt-12 lg:mt-12 " src="https://i.imgur.com/SWYwMVy.png" />
-  <img className="w-full sm:mx-0" src="https://i.imgur.com/qikwYfM.png"  />
+<div className="flex bg-gray-50 p-6 mt-10 text-black mx-4">
+  <div className="mr-0 sm:mr-0 lg:mr-28 ml-2 sm:ml-24 lg:ml-28 mt-8 sm:mt-12 lg:mt-14">
+    <h2 className="text-lg md:text-base lg:text-9xl font-bold italic">M</h2>
+  </div>
+  <div>
+    <p className="text-sm md:text-base lg:text-3xl ml-12 sm:ml-12 lg:ml-14">
+      To empower urban farmers through education and
+      <span className="hidden sm:inline lg:inline"> <br /></span>
+      collaboration, fostering sustainable agricultural
+      <span className="hidden sm:inline lg:inline"> <br /></span>
+      practices and environmental stewardship for
+      <span className="hidden sm:inline lg:inline"> <br /></span>
+      a resilient and thriving community.
+    </p>
+  </div>
 </div>
+</div>
+{/*Vission*/}
+<div className="flex bg-gray-50 p-6 mt-10 text-black mx-4">
+  <div className="mr-0 sm:mr-0 lg:mr-28 ml-2 sm:ml-24 lg:ml-28 mt-12 sm:mt-14 lg:mt-16">
+    <h2 className="text-lg md:text-base lg:text-9xl font-bold italic">V</h2>
+  </div>
+  <div>
+    <p className="text-sm md:text-base lg:text-3xl ml-12 sm:ml-0 lg:ml-14">
+      To be a leading center for urban agriculture innovation,
+      <span className="hidden sm:inline lg:inline"> <br /></span>
+      inspiring a greener and more sustainable future by 
+      <span className="hidden sm:inline lg:inline"> <br /></span>
+      equipping individuals with the knowledge and skills to 
+      <span className="hidden sm:inline lg:inline"> <br /></span>
+      transform urban spaces into thriving, ecologically sound agricultural ecosystems.
+    </p>
+  </div>
+</div>
+    
+
 
 
   {/*Partnership & Funding*/}
   <div className="mt-8 sm:mt-12 lg:mt-16 ">
   <h4 className="text-center font-bold sm:text-2xl md:text-2xl lg:text-xl xl:text-6xl text-gray-600">Partnership & Funding</h4>
   <div className="flex">
-  <div className="w-1/3 flex ml-4 m:ml-12 lg:ml-20 items-start mt-12 sm:mt-12 lg:mt-12">
+  <div className="w-1/3 flex ml-4 m:ml-12 lg:ml-24 items-start mt-12 sm:mt-12 lg:mt-12">
     <img className="w-full" src="https://i.imgur.com/r47MAhb.png"/>
   </div>
   <div className="w-2/3">
-    <p className="text-sm md:text-base lg:text-lg  ml-4 m:ml-12 lg:ml-10 px-5 sm:px-6 lg:px-44 mt-3 sm:mt-12 lg:mt-36 leading-relaxed py-2 ">In partnership with 
+    <p className="text-sm md:text-base lg:text-lg  ml-4 m:ml-12 lg:ml-0 px-5 sm:px-6 lg:px-44 mt-3 sm:mt-12 lg:mt-36 leading-relaxed py-2 ">In partnership with 
     DA-ATI, we have received  funding amounting to P14.5MM to establish the center on the QCU campus. This financial support 
     enables us to create a dynamic learning environment and implement cutting-edge projects.</p>
   </div>
@@ -140,7 +172,7 @@ const About = () => {
   </h4>
   <div className="flex">
     <div className="w-1/2">
-      <p className="text-sm md:text-base lg:text-lg ml-4 m:ml-12 lg:ml-10 px-0 sm:px-6 lg:px-10 mt-3 sm:mt-12 lg:mt-36 leading-relaxed py-2">
+      <p className="text-sm md:text-base lg:text-lg ml-4 m:ml-12 lg:ml-10 px-0 sm:px-6 lg:px-10 mt-3 sm:mt-12 lg:mt-32 leading-relaxed py-2">
         Aligned with Quezon City's commitment to sustainability, our center plays a pivotal role in reinforcing and 
         expanding the city's urban farming programs. Mayor Joy Belmonte envisions the center as a key player in 
         creating a smart and sustainable city, involving students and stakeholders in the process.
@@ -160,12 +192,12 @@ const About = () => {
     President Message
   </h4>
   <div className="flex">
-    <div className="w-1/3 sm:w-1/3 flex ml-4 m:ml-12 lg:ml-20 items-start mt-8 sm:mt-12 lg:mt-12">
+    <div className="w-1/3 sm:w-1/3 flex ml-4 m:ml-12 lg:ml-32 items-start mt-8 sm:mt-12 lg:mt-12">
       <img className="w-full sm:w-3/4 h-auto" src="https://i.imgur.com/MDd9HbW.png" alt="Your Image" />
     </div>
 
   <div className="w-2/3">
-    <p className="text-sm md:text-base lg:text-lg px-5 sm:px-6 lg:px-44   ml-4 m:ml-12 lg:ml-10 mt-2 sm:mt-4 lg:mt-36 leading-relaxed py-2 ">In partnership with 
+    <p className="text-sm md:text-base lg:text-lg px-5 sm:px-6 lg:px-44   ml-4 m:ml-12 lg:ml-0 mt-2 sm:mt-4 lg:mt-36 leading-relaxed py-2 ">In partnership with 
     DA-ATI, we have received  funding amounting to P14.5MM to establish the center on the QCU campus. This financial support 
     enables us to create a dynamic learning environment and implement cutting-edge projects.</p>
   </div>

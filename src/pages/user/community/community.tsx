@@ -10,9 +10,11 @@ import { Link } from "react-router-dom";
 import CommunityIllustration from "@assets/images/community.png";
 import CommunityCard from "@components/user/community/card/CommunityCard";
 import useGetFarms from "@hooks/api/get/useGetFarms";
+import useAuth from "@hooks/useAuth";
 
 const Community = () => {
   const [tab, setTab] = useState<string>("overview");
+  const { isAuthenticated, data: userData } = useAuth();
   const [page, setPage] = useState(1);
   const { data } = useGetFarms(undefined, String(page), undefined);
   const onPageChange = (newPage: number) => {
@@ -29,11 +31,16 @@ const Community = () => {
             Farm Community on Agrihub
           </h6>
 
-          <div>
-            <Link to={"/community/register"} className="text-sm hover:underline">
-              Register your community?
-            </Link>
-          </div>
+          {isAuthenticated && userData?.role === "member" && (
+            <div>
+              <Link
+                to={"/community/register"}
+                className="text-sm hover:underline"
+              >
+                Register your community?
+              </Link>
+            </div>
+          )}
         </div>
 
         {/* Content */}

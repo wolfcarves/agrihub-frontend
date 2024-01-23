@@ -20,7 +20,6 @@ import { useNavigate } from "react-router-dom";
 const UserHeaderMenu = () => {
   const navigate = useNavigate()
   const { data } = useAuth();
-  console.log(data)
   const { mutateAsync: deleteAuthData, isLoading } = useDeleteAuthMutate();
   const handleToAdmin = () => {
     navigate(`/admin`)

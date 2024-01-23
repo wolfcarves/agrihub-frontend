@@ -38,7 +38,7 @@ const UserAside = ({ children, className }: ComponentProps<"div">) => {
     <div
       className={`${className} sticky top-20 flex flex-col border-l h-[calc(100vh-3.5rem)] w-full max-w-[250px] py-10 px-2`}
     >
-      <div className="relative overflow-auto h-full scroll-smooth custom-scroll">
+      <div className="relative overflow-auto h-full scroll-smooth custom-scroll pr-3">
         {children}
       </div>
     </div>

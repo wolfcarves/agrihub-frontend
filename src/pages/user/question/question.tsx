@@ -46,4 +46,4 @@ const Question = () => {
   );
 };
 
-export default withAuthGuard(Question, ["guest", "member"]);
+export default Question

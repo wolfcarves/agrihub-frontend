@@ -40,7 +40,7 @@ export default function UserSetupAccountForm() {
   const onSubmitForm = async (data: UserSetupAccount) => {
     const refinedData = {
       firstname: data.firstname,
-      lastname: data.firstname,
+      lastname: data.lastname,
       birthdate: `${data.year}-${
         Number(data.month) < 10 ? "0" + data.month : data.month
       }-01`,

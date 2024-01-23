@@ -9,71 +9,51 @@ import {
 } from "../../../components/ui/dropdown-menu";
 import { Button } from "../../../components/ui/button";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { FarmApplicationData } from "../../../api/openapi";
+import { useNavigate } from "react-router-dom";
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
-export type Payment = {
-  id: string;
-  amount: number;
-  status: "pending" | "processing" | "success" | "failed";
-  email: string;
-};
 
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<FarmApplicationData>[] = [
   {
     accessorKey: "status",
     header: "Status"
   },
   {
-    accessorKey: "email",
-
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Email
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    }
+    accessorKey: "farm_name",
+    header: "Farm Name"
   },
   {
-    accessorKey: "amount",
-    header: () => <div className="text-right">Amount</div>,
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"));
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD"
-      }).format(amount);
-
-      return <div className="text-right font-medium">{formatted}</div>;
-    }
+    accessorKey: "district",
+    header: "District"
   },
+
   {
+    header: "Actions",
     id: "actions",
     cell: ({ row }) => {
-      const payment = row.original;
+      const farm = row.original;
+      const navigate = useNavigate();
 
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
+            <Button
+              variant="ghost"
+              className="h-1 w-8 p-0 focus-visible:ring-0 "
+            >
               <MoreHorizontal className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
+              onClick={() => navigate(`/admin/farm/application/${farm.id}`)}
             >
-              Copy payment ID
+              View
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
+            <DropdownMenuItem>Reject</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

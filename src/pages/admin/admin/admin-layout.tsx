@@ -8,7 +8,7 @@ const AdminLayout = () => {
   return (
     <AdminLayoutContainer>
       <AdminSidebar />
-      <div className="flex flex-col w-full overflow-y-auto custom-scroll">
+      <div className="flex flex-col w-full ">
         <AdminTopbar />
         <Outlet />
       </div>

@@ -2,6 +2,8 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { AcceptFarmApplicationResponse } from '../models/AcceptFarmApplicationResponse';
+import type { CheckExistingApplicationResponse } from '../models/CheckExistingApplicationResponse';
 import type { CropData } from '../models/CropData';
 import type { CropReport } from '../models/CropReport';
 import type { FarmApplicationData } from '../models/FarmApplicationData';
@@ -39,6 +41,92 @@ formData?: NewFarmApplication,
             errors: {
                 400: `Validation Error`,
                 401: `Unauthorized`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Accept a farm application
+     * @returns AcceptFarmApplicationResponse Success. Returns details for the accepted farm application.
+     * @throws ApiError
+     */
+    public static putApiFarmApplicationsAccept({
+id,
+}: {
+/**
+ * The ID of the farm application to accept
+ */
+id: string,
+}): CancelablePromise<AcceptFarmApplicationResponse> {
+        return __request(OpenAPI, {
+            method: 'PUT',
+            url: '/api/farm/applications/accept/{id}',
+            path: {
+                'id': id,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Reject a farm application
+     * @returns AcceptFarmApplicationResponse Success. Returns details for the rejected farm application.
+     * @throws ApiError
+     */
+    public static putApiFarmApplicationsReject({
+id,
+}: {
+/**
+ * The ID of the farm application to accept
+ */
+id: string,
+}): CancelablePromise<AcceptFarmApplicationResponse> {
+        return __request(OpenAPI, {
+            method: 'PUT',
+            url: '/api/farm/applications/reject/{id}',
+            path: {
+                'id': id,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Cancel a farm application
+     * @returns any Success. Returns details for the rejected farm application.
+     * @throws ApiError
+     */
+    public static deleteApiFarmApplicationsCancel({
+id,
+}: {
+/**
+ * The ID of the farm application to accept
+ */
+id: string,
+}): CancelablePromise<{
+message: string;
+}> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/farm/applications/cancel/{id}',
+            path: {
+                'id': id,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found`,
                 500: `Server Error`,
             },
         });
@@ -108,6 +196,24 @@ id: string,
             path: {
                 'id': id,
             },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Get details for a farm application
+     * @returns CheckExistingApplicationResponse Success. Returns details for the farm application.
+     * @throws ApiError
+     */
+    public static getApiFarmApplicationsCheckExisting(): CancelablePromise<CheckExistingApplicationResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/farm/applications/check-existing',
             errors: {
                 400: `Validation Error`,
                 401: `Unauthorized`,

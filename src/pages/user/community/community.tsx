@@ -30,8 +30,8 @@ const Community = () => {
           </h6>
 
           <div>
-            <Link to={""} className="text-sm hover:underline">
-              Need Help?
+            <Link to={"/community/register"} className="text-sm hover:underline">
+              Register your community?
             </Link>
           </div>
         </div>
@@ -50,8 +50,8 @@ const Community = () => {
             </p>
 
             <div className="mt-10">
-              <Link to="/community/register">
-                <Button>Register Farm</Button>
+              <Link to="">
+                <Button>Discover</Button>
               </Link>
             </div>
           </div>

@@ -7,9 +7,11 @@ import { useParams } from "react-router-dom";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
 import LoadingSpinner from "@icons/LoadingSpinner";
 import QuestionAnswerForm from "@components/user/questions/form/QuestionAnswerForm/QuestionAnswerForm";
+import useAuth from "@hooks/useAuth";
 
 const Question = () => {
   const { questionId } = useParams();
+  const { isAuthenticated } = useAuth();
   const {
     data: questionData,
     isLoading: isQuestionDataLoading,
@@ -41,9 +43,11 @@ const Question = () => {
         isLoading={isQuestionDataLoading}
         isRefetching={isQuestionDataRefetching}
       />
-      <QuestionAnswerForm questionId={questionData?.question?.id} />
+      {isAuthenticated && (
+        <QuestionAnswerForm questionId={questionData?.question?.id} />
+      )}
     </OutletContainer>
   );
 };
 
-export default withAuthGuard(Question, ["guest", "member"]);
+export default Question;

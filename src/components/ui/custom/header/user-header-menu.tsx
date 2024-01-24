@@ -14,10 +14,16 @@ import { RxQuestionMarkCircled } from "react-icons/rx";
 import { BiCommentError } from "react-icons/bi";
 import { IoSettingsOutline } from "react-icons/io5";
 import ActivityIndicator from "@icons/ActivityIndicator";
+import { RiAdminLine } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
 
 const UserHeaderMenu = () => {
+  const navigate = useNavigate()
   const { data } = useAuth();
   const { mutateAsync: deleteAuthData, isLoading } = useDeleteAuthMutate();
+  const handleToAdmin = () => {
+    navigate(`/admin`)
+  }
 
   return (
     <>
@@ -44,6 +50,10 @@ const UserHeaderMenu = () => {
           </DropdownMenuLabel>
 
           <DropdownMenuSeparator />
+          {data?.role === 'admin' && <DropdownMenuItem onClick={handleToAdmin} className="cursor-pointer h-12 gap-2">
+            <RiAdminLine className="text-foreground/80 text-lg " />
+            <span className="font-poppins-medium">Admin Panel</span>
+          </DropdownMenuItem>}
 
           <DropdownMenuItem className="cursor-pointer h-12 gap-2">
             <RxQuestionMarkCircled className="text-foreground/80 text-lg " />

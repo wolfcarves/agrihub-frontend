@@ -24,7 +24,7 @@ export default function useLoginUserMutation() {
       queryClient.invalidateQueries({ queryKey: [GET_MY_PROFILE_KEY()] });
 
       if (userAuth?.user?.verification_level === "4") {
-        navigate("/forum");
+        navigate("/");
       } else {
         navigate("/account/verify-email");
       }

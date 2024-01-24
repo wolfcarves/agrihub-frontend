@@ -10,4 +10,4 @@ const QuestionTags = () => {
   );
 };
 
-export default withAuthGuard(QuestionTags, ["guest", "member"]);
+export default QuestionTags

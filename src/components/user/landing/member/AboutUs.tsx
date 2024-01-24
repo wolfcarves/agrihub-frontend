@@ -269,7 +269,7 @@ const About = () => {
                     </div>
                     <div className="flex-1 mt-12 sm:max-w-lg lg:max-w-md">
                         <form
-                            target="_blank" action="https://formsubmit.co/agrihub26@gmail.com" method="POST"
+                            target="_blank" action="https://formsubmit.co/be07a8e90d267dedd8bf6a354cb4d0e7" method="POST"
                             className="space-y-5"
                         >
                             <div>

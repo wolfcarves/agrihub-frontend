@@ -1,10 +1,10 @@
 import { UserFooter } from '@components/ui/custom';
 import React from 'react';
 import { IoIosArrowForward } from 'react-icons/io';
-import image1 from "@assets/images/landing-5.png";
-import image2 from "@assets/images/Initiatives-3.png";
-import image3 from "@assets/images/landing-4.jpg";
-import image4 from "@assets/images/About us.png";
+import image1 from "@assets/images/our focus.png";
+import image2 from "@assets/images/initiatives.png";
+import image3 from "@assets/images/latest news.png";
+import image4 from "@assets/images/Upcoming-events-permaculture.png";
 import image5 from "@assets/images/learning hub.png";
 
 interface ImageData {
@@ -27,20 +27,20 @@ interface AboutData {
   description: string;
 }
 
-interface LearningHubData {
+interface UpcomingEventsData {
   id: number;
   imageUrl: string;
   altText: string;
   description: string;
 }
 
-const ContentWhatWeDo: React.FC = () => {
+const ContentWhatWeDoMember: React.FC = () => {
 
   const AboutData: AboutData = {
     id: 1,
-    imageUrl: image4,
+    imageUrl: image5,
     altText: 'Placeholder Image',
-    description: 'Bridging Knowledge, Fostering Community, and Cultivating Innovation in Urban Agriculture',
+    description: 'Isang pamamaraan ng pagtanim ng mga halaman nang hindi gumagamit ng lupa.',
   };
 
   const mockImageData: ImageData[] = [
@@ -64,24 +64,24 @@ const ContentWhatWeDo: React.FC = () => {
     },
   ];
 
-  const mockLearningHubData: LearningHubData[] = [
+  const mockUpcomingEventsData: UpcomingEventsData[] = [
     {
       id: 1,
-      imageUrl: image5,
+      imageUrl: image4,
       altText: 'Placeholder Image 1',
-      description: 'Bridging Knowledge, Fostering Community, and Cultivating Innovation in Urban Agriculture',
+      description: 'Isang pamamaraan ng pagtanim ng mga halaman nang hindi gumagamit ng lupa.',
     },
     {
       id: 2,
-      imageUrl: image5,
+      imageUrl: image4,
       altText: 'Placeholder Image 2',
-      description: 'Bridging Knowledge, Fostering Community, and Cultivating Innovation in Urban Agriculture',
+      description: 'Isang pamamaraan ng pagtanim ng mga halaman nang hindi gumagamit ng lupa.',
     },
     {
       id: 3,
-      imageUrl: image5,
+      imageUrl: image4,
       altText: 'Placeholder Image 3',
-      description: 'Bridging Knowledge, Fostering Community, and Cultivating Innovation in Urban Agriculture',
+      description: 'Isang pamamaraan ng pagtanim ng mga halaman nang hindi gumagamit ng lupa.',
     },
   ];
 
@@ -279,7 +279,7 @@ const ContentWhatWeDo: React.FC = () => {
           </div>
 
 
-          <header className="text-4xl md:text-7xl font-['Arial_Black'] pt-8 mx-auto m-12 text-center pb-8">About Us</header>
+          <header className="text-4xl md:text-7xl font-['Arial_Black'] pt-8 mx-auto m-12 text-center pb-8">Learning Materials</header>
           <div className="w-4/5 mx-auto flex flex-col justify-center items-center">
             <img
               src={AboutData.imageUrl}
@@ -301,9 +301,9 @@ const ContentWhatWeDo: React.FC = () => {
            {/* Learning Hub */}
            <div className="w-4/5 mx-auto flex flex-col justify-center items-center">
             <header className="text-4xl md:text-7xl font-['Arial_Black'] pt-8 mx-auto m-12 text-center">
-              Learning Hub
+              Upcoming Events
             </header>
-            {mockLearningHubData.map((data) => (
+            {mockUpcomingEventsData.map((data) => (
               <div key={data.id} className="w-full">
                 <img
                   src={data.imageUrl}
@@ -329,4 +329,4 @@ const ContentWhatWeDo: React.FC = () => {
   );
 };
 
-export default ContentWhatWeDo;
+export default ContentWhatWeDoMember;

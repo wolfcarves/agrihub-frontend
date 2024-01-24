@@ -53,7 +53,7 @@ export const columns: ColumnDef<FarmApplicationData>[] = [
               View
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Reject</DropdownMenuItem>
+            <DropdownMenuItem>Delete</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

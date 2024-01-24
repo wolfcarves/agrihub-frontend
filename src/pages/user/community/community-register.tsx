@@ -4,12 +4,14 @@ import CommunityRegisterForm from "../../../components/user/community/form/Commu
 import useGetFarmCheckExistingApplication from "@hooks/api/get/useGetFarmCheckExistingApplication";
 import PendingPage from "../../../components/user/community/pending-page/pending-page";
 import withAuthGuard from "../../../higher-order/account/withAuthGuard";
+import Loader from "../../../icons/Loader";
 
 const CommunityRegister = () => {
-  const { error } = useGetFarmCheckExistingApplication();
+  const { error, isLoading } = useGetFarmCheckExistingApplication();
   return (
-    <OutletContainer>
-      {error ? <CommunityRegisterForm /> : <PendingPage />}
+    <OutletContainer className="relative">
+      <Loader isVisible={isLoading} />
+      {isLoading ? <></> : error ? <CommunityRegisterForm /> : <PendingPage />}
     </OutletContainer>
   );
 };

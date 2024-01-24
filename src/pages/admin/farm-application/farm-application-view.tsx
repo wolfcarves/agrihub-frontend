@@ -6,18 +6,28 @@ import { timeAgo } from "../../../components/lib/utils";
 import { Button } from "../../../components/ui/button";
 import { toast } from "sonner";
 import useFarmAcceptApplicationMutation from "../../../hooks/api/post/useFarmAcceptApplicationMutation";
+import useFarmRejectApplicationMutation from "../../../hooks/api/post/useFarmRejectApplicationMutation";
 
 const FarmApplicationView = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const { data } = useGetFarmApplication(id || "");
   const { mutateAsync: farmAcceptMutate } = useFarmAcceptApplicationMutation();
+  const { mutateAsync: farmRejectMutate } = useFarmRejectApplicationMutation();
 
   const handleAcceptApplication = async () => {
     try {
       await farmAcceptMutate(id || "");
 
       toast.info(`Successfully accepted farm application`);
+      navigate(`/admin/farm/application`);
+    } catch (error: any) {}
+  };
+  const handleRejectApplication = async () => {
+    try {
+      await farmRejectMutate(id || "");
+
+      toast.info(`Farm application rejected`);
       navigate(`/admin/farm/application`);
     } catch (error: any) {}
   };
@@ -44,6 +54,7 @@ const FarmApplicationView = () => {
       <h6>{data?.farm_size}</h6>
       <h6>{data?.location}</h6>
       <Button onClick={handleAcceptApplication}>Accept</Button>
+      <Button onClick={handleRejectApplication}>Reject</Button>
     </AdminOutletContainer>
   );
 };

@@ -1,9 +1,9 @@
 import { UserFooter } from '@components/ui/custom';
 import React from 'react';
 import { IoIosArrowForward } from 'react-icons/io';
-import image1 from "@assets/images/our focus.png";
-import image2 from "@assets/images/initiatives.png";
-import image3 from "@assets/images/latest news.png";
+import image1 from "@assets/images/landing-5.png";
+import image2 from "@assets/images/Initiatives-3.png";
+import image3 from "@assets/images/landing-4.jpg"
 import image4 from "@assets/images/Upcoming-events-permaculture.png";
 import image5 from "@assets/images/learning hub.png";
 

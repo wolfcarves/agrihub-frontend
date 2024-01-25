@@ -42,6 +42,9 @@ import Community from "@pages/user/community/community";
 import Blog from "./pages/user/blog/blog";
 import BlogLayout from "./pages/user/blog/_layout";
 import Blogs from "./pages/user/blog/blogs";
+import Event from "@pages/user/event/event";
+import EventsLayout from "@pages/user/event/_layout";
+import Events from "@pages/user/event/events";
 import About from "./pages/user/about/about";
 import AboutFocus from "./pages/user/about/about-focus";
 import AboutInitiatives from "./pages/user/about/about-initiatives";
@@ -99,6 +102,12 @@ const App = ReactRouter(
       <Route path="/blogs" element={<BlogLayout />}>
         <Route path="" element={<Blogs />} />
         <Route path="view/:blogId" element={<Blog />} />
+      </Route>
+      
+      {/* Events Page */}
+      <Route path="/events" element={<EventsLayout />}>
+        <Route path="" element={<Events />} />
+        <Route path="view/:eventId" element={<Event />} />
       </Route>
 
       {/* Profile Page  */}

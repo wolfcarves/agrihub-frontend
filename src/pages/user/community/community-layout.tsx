@@ -5,7 +5,7 @@ import CommunitySidebar from "@components/user/community/sidebar/CommunitySideba
 const CommunityLayout = () => {
   const pathname = useLocation().pathname;
 
-  const sidebarNoneRenderPaths = ["/community"];
+  const sidebarNoneRenderPaths = ["/community", "/community/register"];
   const sidebarRender = sidebarNoneRenderPaths.includes(pathname);
 
   return (

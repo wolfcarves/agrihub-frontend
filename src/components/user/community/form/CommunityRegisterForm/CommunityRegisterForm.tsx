@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Label } from "../../../../ui/label";
 import { Input } from "../../../../ui/input";
 import Dropzone from "../../dropzone/dropzone";
@@ -16,8 +16,23 @@ import MultiImageUpload from "../../multi-image-input/multi-image-input";
 import { useNavigate } from "react-router-dom";
 import SelectDistrict from "../../select-district/select-district";
 import ActivityIndicator from "@icons/ActivityIndicator";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from "../../../../ui/select";
+import { ownership } from "../../../../../constants/data";
+import DataPrivacyDialog from "./DataPrivacyDialog";
+import { Checkbox } from "../../../../ui/checkbox";
 
 const CommunityRegisterForm = () => {
+  const [isDialogOpen, setDialogOpen] = useState(false);
+
+  useEffect(() => {
+    setDialogOpen(true);
+  }, []);
   const navigate = useNavigate();
   const form = useForm<NewFarmApplication>({
     resolver: zodResolver(registerCommunitySchema),
@@ -43,9 +58,6 @@ const CommunityRegisterForm = () => {
     if (form.formState.errors.valid_id) {
       toast.error(form.formState.errors.valid_id.message);
     }
-    if (form.formState.errors.selfie) {
-      toast.error(form.formState.errors.selfie.message);
-    }
     if (form.formState.errors.proof) {
       toast.error(form.formState.errors.proof.message);
     }
@@ -65,7 +77,6 @@ const CommunityRegisterForm = () => {
       district: data.district,
       id_type: data.id_type,
       valid_id: data.valid_id,
-      selfie: data.selfie,
       proof: data.proof,
       farm_actual_images: data.farm_actual_images
     };
@@ -147,27 +158,26 @@ const CommunityRegisterForm = () => {
           </div>
 
           <div className="col-span-12">
-            <Label className=" font-poppins-medium">
-              Capture a photo of yourself
-            </Label>
-            <FormField
-              control={form.control}
-              name="selfie"
-              render={() => (
-                <Capture onChange={value => form.setValue("selfie", value)} />
-              )}
-            />
-          </div>
-
-          <div className="col-span-12">
-            <Label className=" font-poppins-medium">
-              Proof of farm ownership
-            </Label>
+            <Label className=" font-poppins-medium">Farm Ownership</Label>
             <FormField
               control={form.control}
               name="proof"
-              render={() => (
-                <Dropzone onChange={value => form.setValue("proof", value)} />
+              render={({ field }) => (
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select valid id type..." />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {ownership.map((id, i) => (
+                      <SelectItem key={i} value={id}>
+                        {id}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               )}
             />
           </div>
@@ -183,6 +193,15 @@ const CommunityRegisterForm = () => {
               )}
             />
           </div>
+          <div className="flex items-center space-x-2 col-span-12">
+            <Checkbox id="terms" />
+            <Label htmlFor="terms">
+              Accept{" "}
+              <span className="text-primary underline">
+                terms and conditions
+              </span>
+            </Label>
+          </div>
 
           <div className="col-span-12">
             <Button disabled={isFarmApplyLoading} type="submit">
@@ -192,6 +211,10 @@ const CommunityRegisterForm = () => {
         </form>
       </Form>
       <ActivityIndicator isVisible={isFarmApplyLoading} />
+      <DataPrivacyDialog
+        isDialogOpen={isDialogOpen}
+        setDialogOpen={setDialogOpen}
+      />
     </div>
   );
 };

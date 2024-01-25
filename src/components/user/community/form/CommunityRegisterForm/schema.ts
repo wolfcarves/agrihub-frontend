@@ -39,32 +39,20 @@ export const registerCommunitySchema = zod.object({
 
   valid_id: zod
     .any()
-    .refine((file: Blob) => file !== undefined, "Please upload image")
+    .refine((file: Blob) => file !== undefined, "Please upload a valid ID")
     .refine(
       (file: Blob) =>
         file?.size === undefined ? true : file.size <= MAX_IMAGE_FILE_SIZE,
       "Maximum image file size is 10MB"
     ),
-  selfie: zod
-    .any()
-    .refine((file: Blob) => file !== undefined, "Please upload image")
-    .refine(
-      (file: Blob) =>
-        file?.size === undefined ? true : file.size <= MAX_IMAGE_FILE_SIZE,
-      "Maximum image file size is 10MB"
-    ),
-  proof: zod
-    .any()
-    .refine((file: Blob) => file !== undefined, "Please upload image")
-    .refine(
-      (file: Blob) =>
-        file?.size === undefined ? true : file.size <= MAX_IMAGE_FILE_SIZE,
-      "Maximum image file size is 10MB"
-    ),
+
+  proof: zod.string({
+    required_error: "Ownership is required."
+  }),
   farm_actual_images: zod
     .any()
     .refine(
       (file: Blob[]) => file !== undefined,
-      "Please upload atleast one image"
+      "Please upload atleast one image of your farm"
     )
 });

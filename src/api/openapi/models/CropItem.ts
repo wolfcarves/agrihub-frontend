@@ -3,15 +3,31 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type NewCropRequest = {
+export type CropItem = {
+    /**
+     * The ID of the crop
+     */
+    id: string;
+    /**
+     * The timestamp when the crop was last updated
+     */
+    updatedat: string;
+    /**
+     * The timestamp when the crop was created
+     */
+    createdat: string;
     /**
      * The name of the crop
      */
     name: string;
     /**
-     * A description of the crop
+     * The description of the crop
      */
     description: string;
+    /**
+     * The URL of the crop's image
+     */
+    image: string;
     /**
      * The seedling season of the crop
      */
@@ -25,15 +41,11 @@ export type NewCropRequest = {
      */
     harvest_season: string;
     /**
-     * The growth span of the crop
-     */
-    growth_span: string;
-    /**
-     * Indicates whether the crop yields
+     * Indicates whether the crop is a yield
      */
     isyield: boolean;
     /**
-     * Binary data of the crop image
+     * The growth span of the crop
      */
-    image: Blob;
+    growth_span: string;
 };

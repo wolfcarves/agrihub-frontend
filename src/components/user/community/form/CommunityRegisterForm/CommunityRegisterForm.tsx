@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Label } from "../../../../ui/label";
 import { Input } from "../../../../ui/input";
 import Dropzone from "../../dropzone/dropzone";
@@ -9,12 +9,13 @@ import { registerCommunitySchema } from "./schema";
 import { Form, FormField } from "../../../../ui/form";
 import Capture from "../../capture/capture";
 import SelectId from "../../select-id/select-id";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 import useFarmApplication from "../../../../../hooks/api/post/useFarmApplication";
 import { NewFarmApplication } from "../../../../../api/openapi";
 import MultiImageUpload from "../../multi-image-input/multi-image-input";
 import { useNavigate } from "react-router-dom";
 import SelectDistrict from "../../select-district/select-district";
+import ActivityIndicator from "@icons/ActivityIndicator";
 
 const CommunityRegisterForm = () => {
   const navigate = useNavigate();
@@ -22,6 +23,36 @@ const CommunityRegisterForm = () => {
     resolver: zodResolver(registerCommunitySchema),
     mode: "onBlur"
   });
+
+  useEffect(() => {
+    if (form.formState.errors.farm_name) {
+      toast.error(form?.formState?.errors?.farm_name?.message);
+    }
+    if (form.formState.errors.farm_size) {
+      toast.error(form.formState.errors.farm_size.message);
+    }
+    if (form.formState.errors.location) {
+      toast.error(form.formState.errors.location.message);
+    }
+    if (form.formState.errors.district) {
+      toast.error(form.formState.errors.district.message);
+    }
+    if (form.formState.errors.id_type) {
+      toast.error(form.formState.errors.id_type.message);
+    }
+    if (form.formState.errors.valid_id) {
+      toast.error(form.formState.errors.valid_id.message);
+    }
+    if (form.formState.errors.selfie) {
+      toast.error(form.formState.errors.selfie.message);
+    }
+    if (form.formState.errors.proof) {
+      toast.error(form.formState.errors.proof.message);
+    }
+    if (form.formState.errors.farm_actual_images) {
+      toast.error(form.formState.errors.farm_actual_images.message);
+    }
+  }, [form.formState.errors]);
 
   const { mutateAsync: farmApplyMutate, isLoading: isFarmApplyLoading } =
     useFarmApplication();
@@ -47,10 +78,11 @@ const CommunityRegisterForm = () => {
       toast.error(e.body.message);
     }
   };
+  console.log(form.formState.errors);
 
   return (
     <div className="w-full ">
-      <h2 className="font-semibold mb-4">Register Community</h2>
+      <h2 className="font-poppins-medium mb-4">Register Community</h2>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(handleSubmitForm)}
@@ -58,7 +90,7 @@ const CommunityRegisterForm = () => {
           className=" grid grid-cols-12 gap-4"
         >
           <div className=" md:col-span-8 col-span-12">
-            <Label className=" font-semibold">Farm Name</Label>
+            <Label className=" font-poppins-medium">Farm Name</Label>
             <Input
               type="text"
               className="h-10"
@@ -67,7 +99,7 @@ const CommunityRegisterForm = () => {
             />
           </div>
           <div className=" md:col-span-4 col-span-12">
-            <Label className=" font-semibold">Farm Size (&#x33A1;)</Label>
+            <Label className=" font-poppins-medium">Farm Size (&#x33A1;)</Label>
             <Input
               type="number"
               className="h-10"
@@ -76,7 +108,7 @@ const CommunityRegisterForm = () => {
             />
           </div>
           <div className=" md:col-span-8 col-span-12">
-            <Label className=" font-semibold">Location</Label>
+            <Label className=" font-poppins-medium">Location</Label>
             <Input
               type="text"
               className="h-10"
@@ -85,7 +117,7 @@ const CommunityRegisterForm = () => {
             />
           </div>
           <div className=" md:col-span-4 col-span-12">
-            <Label className=" font-semibold">District</Label>
+            <Label className=" font-poppins-medium">District</Label>
             <FormField
               control={form.control}
               name="district"
@@ -94,7 +126,7 @@ const CommunityRegisterForm = () => {
           </div>
 
           <div className="col-span-12">
-            <Label className=" font-semibold">Select valid ID type</Label>
+            <Label className=" font-poppins-medium">Select valid ID type</Label>
             <FormField
               control={form.control}
               name="id_type"
@@ -102,7 +134,7 @@ const CommunityRegisterForm = () => {
             />
           </div>
           <div className="col-span-12">
-            <Label className=" font-semibold">Upload ID</Label>
+            <Label className=" font-poppins-medium">Upload ID</Label>
             <FormField
               control={form.control}
               name="valid_id"
@@ -115,7 +147,7 @@ const CommunityRegisterForm = () => {
           </div>
 
           <div className="col-span-12">
-            <Label className=" font-semibold">
+            <Label className=" font-poppins-medium">
               Capture a photo of yourself
             </Label>
             <FormField
@@ -128,7 +160,9 @@ const CommunityRegisterForm = () => {
           </div>
 
           <div className="col-span-12">
-            <Label className=" font-semibold">Proof of farm ownership</Label>
+            <Label className=" font-poppins-medium">
+              Proof of farm ownership
+            </Label>
             <FormField
               control={form.control}
               name="proof"
@@ -138,7 +172,7 @@ const CommunityRegisterForm = () => {
             />
           </div>
           <div className="col-span-12">
-            <Label className=" font-semibold">Farm photo</Label>
+            <Label className=" font-poppins-medium">Farm photo</Label>
             <FormField
               control={form.control}
               name="farm_actual_images"
@@ -157,6 +191,7 @@ const CommunityRegisterForm = () => {
           </div>
         </form>
       </Form>
+      <ActivityIndicator isVisible={isFarmApplyLoading} />
     </div>
   );
 };

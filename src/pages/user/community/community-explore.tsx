@@ -3,16 +3,24 @@ import useGetFarms from "../../../hooks/api/get/useGetFarms";
 import { IoMdSearch } from "react-icons/io";
 import withAuthGuard from "../../../higher-order/account/withAuthGuard";
 import { Button } from "../../../components/ui/button";
+import { Link } from "react-router-dom";
+import useAuth from "../../../hooks/useAuth";
+import useGetFarmListQuery from "../../../hooks/api/get/useGetFarmListQuery";
 
 const Explore = () => {
   const [page, setPage] = useState(1);
-  const { data } = useGetFarms(undefined, String(page), undefined);
+  const { data } = useGetFarmListQuery({
+    search: undefined,
+    page: String(page),
+    filter: undefined,
+    perpage: undefined
+  });
   const onPageChange = (newPage: number) => {
     setPage(newPage);
   };
   console.log(data);
   return (
-    <div>
+    <div className="w-full">
       <div className="p-4">
         <h1 className="font-bold text-4xl">Discover Communities</h1>
         <div></div>
@@ -28,28 +36,25 @@ const Explore = () => {
         </p>
         <div className="grid grid-cols-6 gap-2 mt-4 mb-3">
           {data?.farms?.map((farm, i) => (
-            <div
+            <Link
+              to={`/community/explore/${farm.id}`}
               key={i}
-              className="border border-border bg-[#F9F9F9] md:col-span-2 col-span-6 p-3 rounded-lg flex justify-between flex-col"
+              className="flex flex-col col-span-2 w-full h-full border rounded-md p-4 shadow-md"
             >
-              <div className="grid grid-cols-6">
+              <div className="flex gap-3">
                 <img
                   src={farm.avatar}
-                  className="h-12 rounded-lg aspect-square col-span-1 content-center object-cover object-center"
-                  alt="avatar"
+                  className="w-10 h-10 rounded-lg bg-slate-500 object-center object-cover shadow-sm"
                 />
-                <div className=" col-span-5">
-                  <div className=" font-semibold text-md">{farm.name}</div>
-                  <div className="text-sm line-clamp-3 text-[#a9a9a9]">
-                    {farm.description}
-                  </div>
+                <div className="flex flex-col">
+                  <span className="text-blue-500 hover:text-blue-700">
+                    {farm.farm_name}
+                  </span>
+                  <span className="text-sm">11 members </span>
                 </div>
               </div>
-
-              <div className="flex justify-end mt-2">
-                <Button className="">Apply</Button>
-              </div>
-            </div>
+              <p className="text-sm mt-2 line-clamp-3">{farm.description}</p>
+            </Link>
           ))}
         </div>
       </div>

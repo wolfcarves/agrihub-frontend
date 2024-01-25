@@ -1,0 +1,78 @@
+export const eventsData = [
+  {
+    title: "Crop Rotation Workshop",
+    desc: "Learn the benefits of crop rotation and how to implement it in your farming practices. Join us for a hands-on workshop with expert agronomists.",
+    img: "https://images.unsplash.com/photo-1611843467160-25afb8df1074?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    eventStart: "2022-02-15T08:00:00",
+    eventEnd: "2022-02-15T12:00:00",
+    where: "Room 212 IB Building, 673 Quirino Hwy, Novaliches, Quezon City, Metro Manila",
+    speaker: "John Doe",
+    status: "upcoming",
+    participateGuide: "Check-in at the registration desk on arrival.",
+    eventId: "215412154121",
+    organized_by: "Agriculture Institute",
+    partnership: "Sponsored by FarmTech",
+    type: "onsite"
+  },
+  {
+    title: "Sustainable Agriculture Conference",
+    desc: "Explore the latest advancements in sustainable agriculture. Join renowned speakers, farmers, and researchers for a two-day conference on eco-friendly farming practices.",
+    img: "https://images.unsplash.com/photo-1506484381205-f7945653044d?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    eventStart: "2022-03-10T09:00:00",
+    eventEnd: "2022-03-11T17:00:00",
+    where: "Conference Center",
+    speaker: "Jane Smith",
+    status: "upcoming",
+    participateGuide: "Bring your ticket and a valid ID for registration.",
+    eventId: "444546654564",
+    organized_by: "Sustainable Agriculture Association",
+    partnership: "In partnership with GreenFarm Co.",
+    type: "virtual"
+  },
+  {
+    title: "Farmers Market Grand Opening",
+    desc: "Join us for the grand opening of the local farmers market. Discover fresh, locally grown produce and support your community farmers.",
+    img: "https://images.unsplash.com/photo-1567306295427-94503f8300d7?q=80&w=1442&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    eventStart: "2022-04-05T10:00:00",
+    eventEnd: "2022-04-05T18:00:00",
+    where: "Local Farmers Market",
+    speaker: "Community Leaders",
+    status: "upcoming",
+    participateGuide: "No registration required. Just show up and enjoy!",
+    eventId: "3215966565656",
+    organized_by: "Community Farmers Association",
+    partnership: "Supported by Local Businesses",
+    type: "onsite"
+  },
+  {
+    title: "Livestock Management Workshop",
+    desc: "Learn effective livestock management techniques from experienced farmers. Topics include nutrition, health, and sustainable practices.",
+    img: "https://images.unsplash.com/photo-1500595046743-cd271d694d30?q=80&w=1474&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    eventStart: "2022-05-20T13:00:00",
+    eventEnd: "2022-05-20T16:00:00",
+    where: "Livestock Farm",
+    speaker: "Dr. James Farmer",
+    status: "upcoming",
+    participateGuide: "Please bring your notebook and pen for taking notes.",
+    eventId: "65232212412",
+    organized_by: "Livestock Association",
+    partnership: "In collaboration with AgriTech Solutions",
+    type: "onsite"
+  },
+  {
+    title: "PHOTOSHOP and GRAPHICS DESIGN WORKSHOP",
+    desc: "The seminar on Basic Graphic Designing and Photoshop, held at the Quezon City University's Center for Urban Agriculture and Innovation on November 15, 2023, was a resounding success. The collaboration between Quezon City University Center for Urban Agriculture and Innovation and Aspiring Youth Enrichment Society brought together a diverse group of participants, including SAGIP OSY , Aspiring Youth Enrichment and Society (AYES), Government Internship Program (GIP), Greentech Innovation and Association, and the Special Program for Employment in Students (SPES). Mr. Paul Anthony Salcedo, an accomplished graphic artist and web designer with a Bachelor of Science in Computer Science from the University of Caloocan City, served as the keynote speaker. His wealth of knowledge and practical insights into graphic designing and Photoshop provided valuable learning experiences for all attendees.The event commenced with a warm welcome by the Emcee, Wilhemenia Calip from GreenScape Production and Secretary of GreenTech Innovations Association , who skillfully guided the audience through the program. The seminar opened with a heartfelt prayer led by Jayson Romaraog from GreenScape Production (Voice Over)  and Treasurer of GreenTech Innovations Association, setting a positive and focused tone for the day. Arcel R. Balanon from Aspiring Youth for Enrichment Society President and Head of GreenScape Production, in the opening segment, provided context for the significance of the seminar in the context of the Center for Urban Agriculture and Innovation's mission.",
+    img: "https://scontent.fmnl25-4.fna.fbcdn.net/v/t39.30808-6/401236823_319884360797207_5032158938569998026_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=dd5e9f&_nc_eui2=AeExGuNBG3c9Pz5lvWIrm9cynqY_gVwwAR6epj-BXDABHg3OZODbHLBRFgLzy_IJJVvjO88lCClpBpOM7lpvinDJ&_nc_ohc=nj_nuk4sSwUAX_tH8eo&_nc_ht=scontent.fmnl25-4.fna&oh=00_AfD35fkgiqrCH6lt9f7EyrYvvmyLBG5w1R3SZB74WNA1Lg&oe=65B740B1",
+    eventStart: "2023-11-15T13:00:00",
+    eventEnd: "2023-11-15T16:00:00",
+    where: "Quezon City University - Center for Urban Agriculture and Innovation",
+    speaker: "Mr. Paul Anthony Salcedo, Graphic Artist and Web Designer",
+    status: "previous",
+    participateGuide: "Please bring your notebook and pen for taking notes.",
+    eventId: "6523221891212",
+    organized_by: "Quezon City University - Center for Urban Agriculture and Innovation",
+    partnership: "Aspiring Youth for Enrichment Society ",
+    type: "onsite"
+  }
+
+];

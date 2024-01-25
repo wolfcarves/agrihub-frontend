@@ -59,10 +59,12 @@ export function timeAgo(timestamp: string) {
 
 export function timeAgo2(timestamp: string) {
   const currentDate: any = new Date();
-  
+
   // Truncate microseconds and parse the date
   const parsedTimestamp = timestamp.substring(0, 19);
-  const previousDate: any = new Date(Date.parse(parsedTimestamp.replace(" ", "T") + "Z"));
+  const previousDate: any = new Date(
+    Date.parse(parsedTimestamp.replace(" ", "T") + "Z")
+  );
 
   const seconds = Math.floor((currentDate - previousDate) / 1000);
   const minutes = Math.floor(seconds / 60);
@@ -110,4 +112,22 @@ export function timeAgo2(timestamp: string) {
   }
 
   return result;
+}
+
+export function formatDateTime(dateTimeString: string): string {
+  const options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true,
+    timeZone: "UTC"
+  };
+  const eventStartDate = new Date(dateTimeString);
+  const formattedDate = `${eventStartDate.toLocaleDateString(
+    "en-US",
+    options
+  )}`;
+  return formattedDate;
 }

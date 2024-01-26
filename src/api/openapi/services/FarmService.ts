@@ -3,13 +3,20 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { AcceptFarmApplicationResponse } from '../models/AcceptFarmApplicationResponse';
+import type { AddFarmCropResponse } from '../models/AddFarmCropResponse';
 import type { CheckExistingApplicationResponse } from '../models/CheckExistingApplicationResponse';
+import type { CommunityFarmResponse } from '../models/CommunityFarmResponse';
+import type { CommunityFarmsResponse } from '../models/CommunityFarmsResponse';
 import type { CropData } from '../models/CropData';
+import type { CropGalleryItem } from '../models/CropGalleryItem';
+import type { CropItem } from '../models/CropItem';
 import type { CropReport } from '../models/CropReport';
+import type { DeleteSuccessMessage } from '../models/DeleteSuccessMessage';
 import type { FarmApplicationData } from '../models/FarmApplicationData';
 import type { FarmApplicationResponse } from '../models/FarmApplicationResponse';
 import type { FarmApplicationsResponse } from '../models/FarmApplicationsResponse';
 import type { FarmListResponse } from '../models/FarmListResponse';
+import type { NewCommunityFarmGallery } from '../models/NewCommunityFarmGallery';
 import type { NewCropRequest } from '../models/NewCropRequest';
 import type { NewCropResponse } from '../models/NewCropResponse';
 import type { NewFarmApplication } from '../models/NewFarmApplication';
@@ -41,6 +48,159 @@ formData?: NewFarmApplication,
             errors: {
                 400: `Validation Error`,
                 401: `Unauthorized`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Get a list of community farms
+     * @returns CommunityFarmsResponse Successful response
+     * @throws ApiError
+     */
+    public static getApiFarmCommunityFarm({
+search,
+page,
+perpage,
+filter,
+}: {
+/**
+ * Search term
+ */
+search?: string,
+/**
+ * Page number
+ */
+page?: string,
+/**
+ * Number of items per page
+ */
+perpage?: string,
+/**
+ * Filter criteria
+ */
+filter?: 'District 1' | 'District 2' | 'District 3' | 'District 4' | 'District 5' | 'District 6',
+}): CancelablePromise<CommunityFarmsResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/farm/community-farm',
+            query: {
+                'search': search,
+                'page': page,
+                'perpage': perpage,
+                'filter': filter,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Get details for a community farm
+     * @returns CommunityFarmResponse Success. Returns details for the community farm.
+     * @throws ApiError
+     */
+    public static getApiFarmCommunityFarm1({
+id,
+}: {
+/**
+ * The ID of the community farm
+ */
+id: string,
+}): CancelablePromise<CommunityFarmResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/farm/community-farm/{id}',
+            path: {
+                'id': id,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Add a new gallery item for a community farm
+     * @returns CropGalleryItem Success. Returns the newly added gallery item.
+     * @throws ApiError
+     */
+    public static postApiFarmCommunityFarmGallery({
+requestBody,
+}: {
+requestBody: NewCommunityFarmGallery,
+}): CancelablePromise<Array<CropGalleryItem>> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/farm/community-farm/gallery',
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Get gallery items for a specific community farm
+     * @returns CropGalleryItem Success. Returns gallery items for the specified community farm.
+     * @throws ApiError
+     */
+    public static getApiFarmCommunityFarmGallery({
+id,
+}: {
+/**
+ * The ID of the community farm
+ */
+id: string,
+}): CancelablePromise<Array<CropGalleryItem>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/farm/community-farm/gallery/{id}',
+            path: {
+                'id': id,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Delete a gallery item
+     * @returns DeleteSuccessMessage Success. Returns a message indicating the deletion was successful.
+     * @throws ApiError
+     */
+    public static deleteApiFarmCommunityFarmGallery({
+id,
+}: {
+/**
+ * The ID of the gallery item to be deleted
+ */
+id: string,
+}): CancelablePromise<DeleteSuccessMessage> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/farm/community-farm/gallery/{id}',
+            path: {
+                'id': id,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found`,
                 500: `Server Error`,
             },
         });
@@ -217,6 +377,67 @@ id: string,
             errors: {
                 400: `Validation Error`,
                 401: `Unauthorized`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Get crops for a community farm
+     * @returns CropItem Success. Returns crops for the community farm.
+     * @throws ApiError
+     */
+    public static getApiFarmCommunityFarmCrops({
+id,
+}: {
+/**
+ * The ID of the community farm
+ */
+id: string,
+}): CancelablePromise<Array<CropItem>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/farm/community-farm/crops/{id}',
+            path: {
+                'id': id,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Add a crop to a community farm
+     * @returns AddFarmCropResponse Success. Returns details for the added crop.
+     * @throws ApiError
+     */
+    public static postApiFarmCommunityFarmCrop({
+farmId,
+cropId,
+}: {
+/**
+ * The ID of the community farm
+ */
+farmId: string,
+/**
+ * The ID of the crop
+ */
+cropId: string,
+}): CancelablePromise<AddFarmCropResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/farm/community-farm/crop/{farm_id}/{crop_id}',
+            path: {
+                'farm_id': farmId,
+                'crop_id': cropId,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
                 500: `Server Error`,
             },
         });

@@ -25,17 +25,13 @@ export type NewFarmApplication = {
      */
     location: string;
     /**
-     * The selfie image file
-     */
-    selfie: Blob;
-    /**
      * The proof image file
      */
     valid_id: Blob;
     /**
-     * The proof image file
+     * Type of farm
      */
-    proof: Blob;
+    proof: string;
     /**
      * An array of actual farm image files
      */

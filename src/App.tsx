@@ -35,6 +35,8 @@ import QuestionAsk from "@pages/user/question/question-ask";
 import HelpsLayout from "@pages/user/help/_layout";
 import Helps from "@pages/user/help/helps";
 import Help from "@pages/user/help/help";
+import Policy from "@pages/user/help/policy";
+import Terms from "@pages/user/help/terms";
 
 //Admin
 import AdminLayout from "@pages/admin/admin/admin-layout";
@@ -127,6 +129,10 @@ const App = ReactRouter(
         <Route path=":userId/me" element={<MyProfile />} />
         <Route path=":userId/me/edit" element={<EditProfile />} />
       </Route>
+
+      {/* others */}
+      <Route path="/privacy-policy" element={<Policy />} />
+      <Route path="/terms-condition" element={<Terms />} />
     </Route>
 
     {/* Account Page */}

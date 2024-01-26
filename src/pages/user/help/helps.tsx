@@ -15,7 +15,7 @@ const Helps = () => {
           </div>
           <form
             onSubmit={e => e.preventDefault()}
-            className="max-w-md mt-12 mx-32"
+            className="max-w-md mt-12 sm:mx-32"
           >
             <p className="text-gray-600 max-w-lg mx-auto text-lg mb-2">
               How can we help you?
@@ -46,7 +46,7 @@ const Helps = () => {
             </p>
           </form>
           
-          <ul className="mt-5 grid gap-8 sm:grid-cols-2 lg:grid-cols-3 mx-32">
+          <ul className="mt-5 grid gap-8 sm:grid-cols-2 lg:grid-cols-3 sm:mx-32">
             {helpList.map((item) => (
               <Link to={`/helps/${item.ref}`} className="border rounded-lg" key={item.ref}>
                 <div className="flex items-start justify-center p-4">

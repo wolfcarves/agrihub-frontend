@@ -32,6 +32,9 @@ import EditProfile from "@pages/user/users/edit-profile";
 import MyProfile from "@pages/user/users/my-profile";
 import UserProfile from "@pages/user/users/user-profile";
 import QuestionAsk from "@pages/user/question/question-ask";
+import HelpsLayout from "@pages/user/help/_layout";
+import Helps from "@pages/user/help/helps";
+import Help from "@pages/user/help/help";
 
 //Admin
 import AdminLayout from "@pages/admin/admin/admin-layout";
@@ -110,6 +113,12 @@ const App = ReactRouter(
       <Route path="/events" element={<EventsLayout />}>
         <Route path="" element={<Events />} />
         <Route path="view/:eventId" element={<Event />} />
+      </Route>
+
+      {/* Help Center Page */}
+      <Route path="/helps" element={<HelpsLayout />}>
+        <Route path="" element={<Helps />} />
+        <Route path=":ref" element={<Help />} />
       </Route>
 
       {/* Profile Page  */}

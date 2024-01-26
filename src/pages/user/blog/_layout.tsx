@@ -1,5 +1,6 @@
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+
 const BlogLayout = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -11,7 +12,7 @@ const BlogLayout = () => {
     }
   }, [navigate, location.pathname]);
   return (
-    <div className="grid grid-cols-12 grid-rows-1 h-full overflow-y-auto">
+    <div className="">
       <Outlet />
     </div>
   );

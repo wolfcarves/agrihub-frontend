@@ -17,6 +17,62 @@ const Analytics = () => {
     }
   };
 
+  const initialData = [
+    {
+      crop_name: "patola",
+      total_harvested: 20,
+      total_withered: 5
+    },
+    {
+      crop_name: "alugbati",
+      total_harvested: 80,
+      total_withered: 5
+    }
+  ];
+
+  const initialDataSet = {
+    label: "Total Harvest",
+    backgroundColor: "rgba(75,192,192,0.2)",
+    borderColor: "rgba(75,192,192,1)",
+    borderWidth: 1,
+    hoverBackgroundColor: "rgba(75,192,192,0.4)",
+    hoverBorderColor: "rgba(75,192,192,1)"
+  };
+
+  const datasss = {
+    labels: initialData.map(item => item.crop_name),
+    datasets: [
+      {
+        label: "Total Harvest",
+        backgroundColor: "rgba(75,192,192,0.2)",
+        borderColor: "rgba(75,192,192,1)",
+        borderWidth: 1,
+        hoverBackgroundColor: "rgba(75,192,192,0.4)",
+        hoverBorderColor: "rgba(75,192,192,1)",
+        data: initialData.map(item => item.total_harvested)
+        // 20, 18
+      },
+      {
+        label: "Total Withered",
+        backgroundColor: "rgba(255,99,132,0.2)",
+        borderColor: "rgba(255,99,132,1)",
+        borderWidth: 1,
+        hoverBackgroundColor: "rgba(255,99,132,0.4)",
+        hoverBorderColor: "rgba(255,99,132,1)",
+        data: initialData.map(item => item.total_withered)
+        // 25, 20
+      }
+    ]
+  };
+
+  // Chart options
+  const optionsBar = {
+    scales: {
+      x: { stacked: true },
+      y: { stacked: true }
+    }
+  };
+
   const farmsData = {
     January: 37,
     February: 12,
@@ -96,6 +152,11 @@ const Analytics = () => {
         <div className="h-[400px] border-black border-1 p-1 grid grid-cols-12 gap-4">
           <div className="col-span-8 border border-border p-4 rounded-lg">
             <Line data={crops} options={chartOptions} />
+          </div>
+        </div>
+        <div className="h-[400px] border-black border-1 p-1 grid grid-cols-12 gap-4">
+          <div className="col-span-8 border border-border p-4 rounded-lg">
+            <Bar data={datasss} options={optionsBar} />
           </div>
         </div>
       </div>

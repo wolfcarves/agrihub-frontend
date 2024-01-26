@@ -147,13 +147,8 @@ const App = ReactRouter(
     </Route>
 
     <Route path="/admin" element={<AdminLayout />}>
-      <Route path="login" element={<AdminLogin />} />
       <Route path="dashboard" element={<AdminLogin />} />
-      <Route path="approve-farmer" element={<AdminLogin />} />
-      <Route path="farm/application" element={<FarmApplication />} />
-      <Route path="" element={<AdminLogin />} />
-      <Route path="dashboard" element={<AdminLogin />} />
-      <Route path="dashboard" element={<AdminLogin />} />
+      <Route path="analytics" element={<AdminLogin />} />
 
       {/* Farm Application  */}
       <Route path="farm/application" element={<FarmApplication />} />

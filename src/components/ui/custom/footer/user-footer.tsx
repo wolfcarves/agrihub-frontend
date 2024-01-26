@@ -14,6 +14,7 @@ import { GiThreeLeaves } from "react-icons/gi";
 import { FiEye } from "react-icons/fi";
 import { FaRegNewspaper } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const UserFooter = () => {
   const navigate = useNavigate();
@@ -107,8 +108,12 @@ const UserFooter = () => {
       </div>
       <div className="flex justify-between px-2">
         <div className="flex items-center justify-center font-bold text-[0.7rem] gap-2 text-white">
-          <BsTelephone size={20} />{" "}
-          <span className="md:block hidden ">091237418238</span>
+          <a href="tel:09082559914">
+            <BsTelephone size={20} />{" "}
+          </a>
+          <a href="tel:09082559914" className="md:block hidden">
+            09082559914
+          </a>
           <span>|</span>
           <span
             onClick={navigateAbout}
@@ -122,9 +127,15 @@ const UserFooter = () => {
           <span className=" font-thin md:block hidden">
             FOLLOW US ON SOCIAL MEDIA
           </span>
-          <RiFacebookCircleLine size={22} />
-          <RiYoutubeLine size={22} />
-          <RiTiktokLine size={22} />
+          <a href="https://www.facebook.com/centerforurbanagri/">
+            <RiFacebookCircleLine size={22} />
+          </a>
+          <a href="https://www.youtube.com/@qcenterforurbanagri">
+            <RiYoutubeLine size={22} />
+          </a>
+          <a href="https://www.tiktok.com/@centerforurbanagr">
+            <RiTiktokLine size={22} />
+          </a>
         </div>
       </div>
       <hr className="border-t border-[#767676] my-2" />
@@ -132,7 +143,15 @@ const UserFooter = () => {
         <p className="text-[#A2A2A2] text-[.70rem] w-[70%]">
           Agrihub is an Urban Farming Data Sharing Platform, Philippines, 673
           Quirino Highway, San Bartolome, Novaliches Q.C. © 2024 Agrihub. All
-          rights reserved. Privacy Policy and Terms of Use.
+          rights reserved.{" "}
+          <Link to="/privacy-policy" className="underline">
+            Privacy Policy
+          </Link>{" "}
+          and
+          <Link to="/terms-condition" className="underline">
+            Terms of Use
+          </Link>
+          .
         </p>
       </div>
     </div>

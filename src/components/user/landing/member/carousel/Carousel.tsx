@@ -44,7 +44,7 @@ const Carousel: React.FC = () => {
         <img
           src={imageDatas[currentSlide]}
           alt={`Slide ${currentSlide + 1}`}
-          className="w-full mt-3"
+          className="w-full"
           style={{ height: 'auto', minHeight: '200px', maxHeight: '100vh' }}
         />
           <div className="absolute bottom-0 left-0 right-0 flex justify-center mb-4">

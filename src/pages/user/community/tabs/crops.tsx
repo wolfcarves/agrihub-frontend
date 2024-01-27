@@ -113,7 +113,7 @@ const Crops = () => {
           </div>
         </div>
 
-        {/* <CropReportModal /> */}
+        <CropReportModal />
       </div>
     </div>
   );

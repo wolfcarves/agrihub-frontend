@@ -65,14 +65,14 @@ const CommunityMain = () => {
         >
           Overview
         </button>
-        {/* <button
+        <button
           className={`py-2 px-5 rounded-full ${
             tab === "analytics" ? "bg-primary text-white" : ""
           }`}
           onClick={() => setTab("analytics")}
         >
           Analytics
-        </button> */}
+        </button>
         <button
           className={`py-2 px-5 rounded-full ${
             tab === "crops" ? "bg-primary text-white" : ""
@@ -81,14 +81,14 @@ const CommunityMain = () => {
         >
           Crops
         </button>
-        {/* <button
+        <button
           className={`py-2 px-5 rounded-full ${
             tab === "members" ? "bg-primary text-white" : ""
           }`}
           onClick={() => setTab("members")}
         >
           Members
-        </button> */}
+        </button>
         <button
           className={`py-2 px-5 rounded-full ${
             tab === "gallery" ? "bg-primary text-white" : ""

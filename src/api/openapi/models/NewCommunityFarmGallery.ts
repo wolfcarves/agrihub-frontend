@@ -8,4 +8,5 @@ export type NewCommunityFarmGallery = {
      * The description of the gallery item
      */
     description?: string;
+    image?: Array<Blob>;
 };

@@ -12,7 +12,7 @@ const CommunitySidebar = () => {
   const { isAuthenticated } = useAuth();
 
   return (
-    <UserSidebar>
+    <UserSidebar className="hidden sm:block">
       {/* <UserSidebarNavLink
         to="/community"
         title="My Community"

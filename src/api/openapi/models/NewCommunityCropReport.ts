@@ -11,5 +11,5 @@ export type NewCommunityCropReport = {
     date_planted?: string;
     date_harvested?: string;
     notes?: string;
-    images?: Array<Blob>;
+    image?: Array<Blob>;
 };

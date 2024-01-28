@@ -36,6 +36,11 @@ const resources: { title: string; href: string; description: string }[] = [
     title: "About",
     href: "/about",
     description: "Visually or semantically separates content."
+  },
+  {
+    title: "Learning Materials",
+    href: "/learning-materials",
+    description: "Tandang tanda ko pa nung panahon ng tagtuyot"
   }
 ];
 

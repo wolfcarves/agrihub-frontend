@@ -7,7 +7,6 @@ import { Link } from "react-router-dom";
 import useAuth from "@hooks/useAuth";
 import UserHeaderMenu from "./user-header-menu";
 import UserReponsiveContainer from "../container/user-reponsive-container";
-import UserHeaderNotification from "./user-header-notification";
 
 import {
   Sheet,
@@ -17,6 +16,7 @@ import {
 } from "@components/ui/sheet";
 import { HiMenuAlt2 } from "react-icons/hi";
 import QuestionSidebarSheet from "@components/user/questions/sidebar/QuestionSidebarSheet";
+import HeaderNotification from "../notification/header-notification";
 
 const UserHeaderContainer = ({ children }: { children: ReactNode }) => (
   <div className="sticky top-0 w-full bg-background z-50 flex justify-center h-16 sm:h-20 border-b">
@@ -96,7 +96,7 @@ const UserHeader = () => {
         <UserHeaderNavigation />
 
         <div className="flex items-center gap-4">
-          {isAuthenticated && <UserHeaderNotification />}
+          {isAuthenticated && <HeaderNotification />}
           {isAuthenticated ? <UserHeaderMenu /> : <AuthButtonsGroup />}
         </div>
       </UserHeaderContainer>

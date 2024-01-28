@@ -133,15 +133,15 @@ id: string,
      * @throws ApiError
      */
     public static postApiFarmCommunityFarmGallery({
-requestBody,
+formData,
 }: {
-requestBody: NewCommunityFarmGallery,
+formData: NewCommunityFarmGallery,
 }): CancelablePromise<Array<CropGalleryItem>> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/farm/community-farm/gallery',
-            body: requestBody,
-            mediaType: 'application/json',
+            formData: formData,
+            mediaType: 'multipart/form-data',
             errors: {
                 400: `Validation Error`,
                 401: `Unauthorized`,

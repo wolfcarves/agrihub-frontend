@@ -3,6 +3,8 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { CropReportResponse } from '../models/CropReportResponse';
+import type { FarmerGraphStackedBarResponse } from '../models/FarmerGraphStackedBarResponse';
+import type { FarmerTotalHarvestedResponse } from '../models/FarmerTotalHarvestedResponse';
 import type { NewCommunityCropReport } from '../models/NewCommunityCropReport';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -26,6 +28,42 @@ formData: NewCommunityCropReport,
             url: '/api/reports/crop',
             formData: formData,
             mediaType: 'multipart/form-data',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Get stacked bar graph data for farmer reports
+     * @returns FarmerGraphStackedBarResponse Successful response
+     * @throws ApiError
+     */
+    public static getApiReportsFarmerGraphStackedBar(): CancelablePromise<FarmerGraphStackedBarResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/reports/farmer/graph/stacked-bar',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Get total harvested data for farmer reports
+     * @returns FarmerTotalHarvestedResponse Successful response
+     * @throws ApiError
+     */
+    public static getApiReportsFarmerTotalHarvested(): CancelablePromise<FarmerTotalHarvestedResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/reports/farmer/total-harvested',
             errors: {
                 400: `Validation Error`,
                 401: `Unauthorized`,

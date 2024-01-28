@@ -56,7 +56,7 @@ const CommunityMain = () => {
           </div>
         </div>
       </div>
-      <div className=" flex items-center gap-2 justify-start px-4 py-4 border-y border-border">
+      <div className=" flex items-center gap-2 justify-start px-4 py-4 border-y border-border overflow-x-auto">
         <button
           className={`py-2 px-5 rounded-full ${
             tab === "overview" ? "bg-primary text-white" : ""
@@ -65,14 +65,14 @@ const CommunityMain = () => {
         >
           Overview
         </button>
-        {/* <button
+        <button
           className={`py-2 px-5 rounded-full ${
             tab === "analytics" ? "bg-primary text-white" : ""
           }`}
           onClick={() => setTab("analytics")}
         >
           Analytics
-        </button> */}
+        </button>
         <button
           className={`py-2 px-5 rounded-full ${
             tab === "crops" ? "bg-primary text-white" : ""
@@ -81,14 +81,14 @@ const CommunityMain = () => {
         >
           Crops
         </button>
-        {/* <button
+        <button
           className={`py-2 px-5 rounded-full ${
             tab === "members" ? "bg-primary text-white" : ""
           }`}
           onClick={() => setTab("members")}
         >
           Members
-        </button> */}
+        </button>
         <button
           className={`py-2 px-5 rounded-full ${
             tab === "gallery" ? "bg-primary text-white" : ""

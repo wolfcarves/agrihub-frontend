@@ -1,6 +1,7 @@
 import { ComponentType, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import useGetMyProfileQuery from "@hooks/api/get/useGetMyProfileQuery";
+import Loader from "../../icons/Loader";
 
 type AllowedRoles =
   | "member"
@@ -22,6 +23,7 @@ export default function withAuthGuard<P extends object>(
     const {
       data: authData,
       isFetched: isAuthDataFetched,
+      isLoading,
       isError
     } = useGetMyProfileQuery();
 
@@ -62,7 +64,7 @@ export default function withAuthGuard<P extends object>(
         }
 
         if (!isAllowed && userRole) {
-          navigate("/", { replace: true });
+          navigate("/forum", { replace: true });
         }
       }
     }, [
@@ -74,6 +76,10 @@ export default function withAuthGuard<P extends object>(
       navigate,
       pathname
     ]);
+
+    if (isLoading) {
+      return <Loader />;
+    }
 
     return <Component {...props} />;
   };

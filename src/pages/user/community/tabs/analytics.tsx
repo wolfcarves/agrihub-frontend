@@ -43,16 +43,6 @@ const Analytics = () => {
     labels: initialData.map(item => item.crop_name),
     datasets: [
       {
-        label: "Total Harvest",
-        backgroundColor: "rgba(75,192,192,0.2)",
-        borderColor: "rgba(75,192,192,1)",
-        borderWidth: 1,
-        hoverBackgroundColor: "rgba(75,192,192,0.4)",
-        hoverBorderColor: "rgba(75,192,192,1)",
-        data: initialData.map(item => item.total_harvested)
-        // 20, 18
-      },
-      {
         label: "Total Withered",
         backgroundColor: "rgba(255,99,132,0.2)",
         borderColor: "rgba(255,99,132,1)",
@@ -61,15 +51,30 @@ const Analytics = () => {
         hoverBorderColor: "rgba(255,99,132,1)",
         data: initialData.map(item => item.total_withered)
         // 25, 20
+      },
+      {
+        label: "Total Harvest",
+        backgroundColor: "rgba(75,192,192,0.2)",
+        borderColor: "rgba(75,192,192,1)",
+        borderWidth: 1,
+        hoverBackgroundColor: "rgba(75,192,192,0.4)",
+        hoverBorderColor: "rgba(75,192,192,1)",
+        data: initialData.map(item => item.total_harvested)
+        // 20, 18
       }
     ]
   };
 
   // Chart options
   const optionsBar = {
+    responsive: true,
     scales: {
-      x: { stacked: true },
-      y: { stacked: true }
+      x: {
+        stacked: true
+      },
+      y: {
+        stacked: true
+      }
     }
   };
 

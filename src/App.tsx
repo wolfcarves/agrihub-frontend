@@ -54,6 +54,9 @@ import About from "./pages/user/about/about";
 import AboutFocus from "./pages/user/about/about-focus";
 import AboutInitiatives from "./pages/user/about/about-initiatives";
 import AboutLatest from "./pages/user/about/about-latest";
+import LearningsLayout from "@pages/user/learning/_layout";
+import Learnings from "@pages/user/learning/learnings";
+import Learning from "@pages/user/learning/learning";
 
 // Providers
 import UserLayout from "@pages/user/layout/main-layout";
@@ -117,6 +120,12 @@ const App = ReactRouter(
         <Route path="view/:eventId" element={<Event />} />
       </Route>
 
+      {/* Learning Page */}
+      <Route path="/learning-materials" element={<LearningsLayout />}>
+        <Route path="" element={<Learnings />} />
+        <Route path="view" element={<Learning />} />
+      </Route>
+
       {/* Help Center Page */}
       <Route path="/helps" element={<HelpsLayout />}>
         <Route path="" element={<Helps />} />
@@ -147,13 +156,8 @@ const App = ReactRouter(
     </Route>
 
     <Route path="/admin" element={<AdminLayout />}>
-      <Route path="login" element={<AdminLogin />} />
       <Route path="dashboard" element={<AdminLogin />} />
-      <Route path="approve-farmer" element={<AdminLogin />} />
-      <Route path="farm/application" element={<FarmApplication />} />
-      <Route path="" element={<AdminLogin />} />
-      <Route path="dashboard" element={<AdminLogin />} />
-      <Route path="dashboard" element={<AdminLogin />} />
+      <Route path="analytics" element={<AdminLogin />} />
 
       {/* Farm Application  */}
       <Route path="farm/application" element={<FarmApplication />} />

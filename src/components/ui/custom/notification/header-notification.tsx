@@ -12,7 +12,7 @@ import { PiBell, PiBellFill } from "react-icons/pi";
 import { useState } from "react";
 
 //Refactor nalang dapat dito naka .map pero ang mahalaga masaya tayong mga pilipino
-const UserHeaderNotification = () => {
+const HeaderNotification = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const { data } = useAuth();
@@ -69,4 +69,4 @@ const UserHeaderNotification = () => {
   );
 };
 
-export default UserHeaderNotification;
+export default HeaderNotification;

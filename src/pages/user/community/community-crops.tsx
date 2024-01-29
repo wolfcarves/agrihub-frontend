@@ -1,6 +1,6 @@
 import React from "react";
 import useGetReportCropStatsQuery from "../../../hooks/api/get/useGetReportCropStatsQuery";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import AdminOutletContainer from "../../../components/admin/layout/container/AdminOutletContainer";
 import {
   GiFruitBowl,
@@ -13,14 +13,23 @@ import { PiPlant, PiPottedPlantLight } from "react-icons/pi";
 import CropDetails from "../../../components/user/community/crop/crop-details/crop-details";
 import { TbReportAnalytics } from "react-icons/tb";
 import CropStats from "../../../components/user/community/crop/crop-stats/crop-stats";
+import OutletContainer from "../../../components/user/questions/container/OutletContainer";
+import { FaArrowLeftLong } from "react-icons/fa6";
 
 const CommunityCrop = () => {
+  const navigate = useNavigate();
   const { cropId } = useParams();
   const { data: CropData } = useGetReportCropStatsQuery(cropId || "");
 
   console.log(CropData, "asdasd");
   return (
-    <AdminOutletContainer className="w-full">
+    <OutletContainer className="w-full">
+      <div
+        onClick={() => navigate(-1)}
+        className="flex items-center cursor-pointer mb-3 gap-x-2 text-gray-400 font-poppins-semibold hover:underline hover:underline-offset-2 py-2.5 px-1.5 rounded-lg duration-200"
+      >
+        <FaArrowLeftLong /> Back
+      </div>
       <div className="grid grid-cols-12 gap-4">
         <img
           src={CropData?.image}
@@ -82,7 +91,7 @@ const CommunityCrop = () => {
           icon={<GiPlantRoots size={20} />}
         />
       </div>
-    </AdminOutletContainer>
+    </OutletContainer>
   );
 };
 

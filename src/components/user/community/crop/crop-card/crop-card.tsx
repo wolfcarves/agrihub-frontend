@@ -1,16 +1,28 @@
 import React from "react";
 import { PiPlant } from "react-icons/pi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CropItem } from "../../../../../api/openapi";
+import useGetReportCropStatsQuery from "../../../../../hooks/api/get/useGetReportCropStatsQuery";
+import { toast } from "sonner";
 
 interface CropCardProps {
   crop: CropItem;
 }
 
 const CropCard: React.FC<CropCardProps> = ({ crop }) => {
+  const navigate = useNavigate();
+  const { isError } = useGetReportCropStatsQuery(crop.name || "");
+
+  const handleCropStats = () => {
+    if (isError) {
+      toast.error("This crop has no reports available");
+    } else {
+      navigate(`${crop.name}`);
+    }
+  };
   return (
-    <Link
-      to={`/community/crop/${crop.name}`}
+    <div
+      onClick={handleCropStats}
       className="md:col-span-4 col-span-12 hover:shadow-md grid grid-cols-12 rounded-lg border bg-white select-none"
     >
       <img
@@ -33,7 +45,7 @@ const CropCard: React.FC<CropCardProps> = ({ crop }) => {
           <PiPlant size={18} /> Growth Span : {crop.growth_span}
         </p>
       </div>
-    </Link>
+    </div>
   );
 };
 

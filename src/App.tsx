@@ -117,7 +117,7 @@ const App = ReactRouter(
           <Route path="members" element={<Members />} />
           <Route path="gallery" element={<Gallery />} />
         </Route>
-        <Route path="crop/:cropId" element={<CommunityCrop />} />
+        <Route path="my-community/:id/:cropId" element={<CommunityCrop />} />
       </Route>
 
       {/* Article Page */}

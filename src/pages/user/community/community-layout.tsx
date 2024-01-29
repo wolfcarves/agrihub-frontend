@@ -7,16 +7,16 @@ import { useEffect } from "react";
 const CommunityLayout = () => {
   const navigate = useNavigate();
   const pathname = useLocation().pathname;
-  const { data: UserData, isFetching } = useAuth();
+  const { data: UserData, isFetching, isAuthenticated } = useAuth();
   useEffect(() => {
-    if (UserData?.farm_id) {
-      navigate(`/community/my-community/${UserData.farm_id}/`);
-    } else {
+    if (!UserData?.farm_id) {
       navigate(`/community`);
+    } else {
+      navigate(`/community/my-community/${UserData?.farm_id}/`);
     }
   }, [UserData, navigate]);
 
-  if (isFetching) {
+  if (isAuthenticated && isFetching) {
     return <div className="h-screen bg-white"></div>;
   }
 

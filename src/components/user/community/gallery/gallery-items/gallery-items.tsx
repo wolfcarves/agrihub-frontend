@@ -13,6 +13,7 @@ const GalleryItems = () => {
   const { id } = useParams();
   const { data: farmGallery } = useGetFarmGalleryQuery(id || "");
   const { data } = useAuth();
+  const isMember = id === data?.farm_id;
   const allowedRoles = ["farmer", "farm_head"];
   const isAllowed = allowedRoles.includes(data?.role || "");
   return (
@@ -24,7 +25,7 @@ const GalleryItems = () => {
               className="h-[10rem] rounded hover:shadow-lg"
               src={gallery.imagesrc}
             />
-            {isAllowed && <DeleteImageAlert imageId={gallery.id} />}
+            {isMember && isAllowed && <DeleteImageAlert imageId={gallery.id} />}
           </TooltipTrigger>
           <TooltipContent>
             <p>{gallery.description}</p>

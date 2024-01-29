@@ -5,14 +5,12 @@ import { CropItem } from "../../../../../api/openapi";
 
 interface CropCardProps {
   crop: CropItem;
-  key: number;
 }
 
-const CropCard: React.FC<CropCardProps> = ({ crop, key }) => {
+const CropCard: React.FC<CropCardProps> = ({ crop }) => {
   return (
     <Link
       to={`/community/crop/${crop.name}`}
-      key={key}
       className="md:col-span-4 col-span-12 hover:shadow-md grid grid-cols-12 rounded-lg border bg-white select-none"
     >
       <img

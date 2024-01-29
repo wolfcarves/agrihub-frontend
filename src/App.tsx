@@ -66,6 +66,11 @@ import FarmApplication from "./pages/admin/farm-application/farm-application";
 import FarmApplicationView from "./pages/admin/farm-application/farm-application-view";
 import CommunityMain from "./pages/user/community/community-main";
 import CommunityCrop from "./pages/user/community/community-crops";
+import Overview from "./pages/user/community/tabs/overview";
+import Analytics from "./pages/user/community/tabs/analytics";
+import Crops from "./pages/user/community/tabs/crops";
+import Members from "./pages/user/community/tabs/members";
+import Gallery from "./pages/user/community/tabs/gallery";
 
 const App = ReactRouter(
   <>
@@ -100,8 +105,18 @@ const App = ReactRouter(
         <Route path="" element={<Community />} />
         <Route path="explore" element={<Explore />} />
         <Route path="register" element={<CommunityRegister />} />
-        <Route path="explore/:id" element={<CommunityMain />} />
-        <Route path="my-community/:id" element={<CommunityMain />} />
+        <Route path="explore/:id" element={<CommunityMain />}>
+          <Route path="" element={<Overview />} />
+          <Route path="crops" element={<Crops />} />
+          <Route path="gallery" element={<Gallery />} />
+        </Route>
+        <Route path="my-community/:id" element={<CommunityMain />}>
+          <Route path="" element={<Overview />} />
+          <Route path="analytics" element={<Analytics />} />
+          <Route path="crops" element={<Crops />} />
+          <Route path="members" element={<Members />} />
+          <Route path="gallery" element={<Gallery />} />
+        </Route>
         <Route path="crop/:cropId" element={<CommunityCrop />} />
       </Route>
 

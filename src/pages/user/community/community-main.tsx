@@ -18,10 +18,10 @@ import Gallery from "./tabs/gallery";
 const CommunityMain = () => {
   const { isAuthenticated } = useAuth();
   const { id } = useParams();
+
   const { data: farmDetails } = useGetFarmViewQuery(id || "");
   const { data: farmGallery } = useGetFarmGalleryQuery(id || "");
   const { data: farmCrops } = useGetFarmCropsQuery(id || "");
-  console.log(farmDetails, farmCrops, farmGallery);
 
   const [tab, setTab] = useState<string>("overview");
   return (

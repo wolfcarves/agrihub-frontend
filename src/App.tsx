@@ -65,6 +65,7 @@ import CommunityRegister from "./pages/user/community/community-register";
 import FarmApplication from "./pages/admin/farm-application/farm-application";
 import FarmApplicationView from "./pages/admin/farm-application/farm-application-view";
 import CommunityMain from "./pages/user/community/community-main";
+import CommunityCrop from "./pages/user/community/community-crops";
 
 const App = ReactRouter(
   <>
@@ -98,8 +99,10 @@ const App = ReactRouter(
       <Route path="/community" element={<CommunityLayout />}>
         <Route path="" element={<Community />} />
         <Route path="explore" element={<Explore />} />
-        <Route path="explore/:id" element={<CommunityMain />} />
         <Route path="register" element={<CommunityRegister />} />
+        <Route path="explore/:id" element={<CommunityMain />} />
+        <Route path="my-community/:id" element={<CommunityMain />} />
+        <Route path="crop/:cropId" element={<CommunityCrop />} />
       </Route>
 
       {/* Article Page */}

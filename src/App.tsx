@@ -58,6 +58,20 @@ import LearningsLayout from "@pages/user/learning/_layout";
 import Learnings from "@pages/user/learning/learnings";
 import Learning from "@pages/user/learning/learning";
 
+import Resource from "@pages/admin/resources/resource";
+import BlogsAdmin from "@pages/admin/resources/blogs-admin";
+import BlogsDraft from "@pages/admin/resources/blogs-draft";
+import BlogsArchive from "@pages/admin/resources/blogs-archive";
+import EventsAdmin from "@pages/admin/resources/events-admin";
+import EventsDraft from "@pages/admin/resources/events-draft";
+import EventsArchive from "@pages/admin/resources/events-archive";
+import LearningsAdmin from "@pages/admin/resources/learnings-admin";
+import LearningsDraft from "@pages/admin/resources/learnings-draft";
+import LearningArchive from "@pages/admin/resources/learning-archive";
+import ArticlesAdmin from "@pages/admin/resources/articles-admin";
+import ArticlesDraft from "@pages/admin/resources/articles-draft";
+import ArticlesArchive from "@pages/admin/resources/articles-archive";
+
 // Providers
 import UserLayout from "@pages/user/layout/main-layout";
 import AboutLayout from "./pages/user/about/_layout";
@@ -188,8 +202,28 @@ const App = ReactRouter(
       <Route path="analytics" element={<AdminLogin />} />
 
       {/* Farm Application  */}
-      <Route path="farm/application" element={<FarmApplication />} />
-      <Route path="farm/application/:id" element={<FarmApplicationView />} />
+      <Route path="farm/farm-request" element={<FarmApplication />} />
+      <Route path="farm/farm-request/:id" element={<FarmApplicationView />} />
+
+      {/* Resources */}
+      <Route path="resources" element={<Resource />} />
+      <Route path="resource">
+        <Route path="blogs" element={<BlogsAdmin />} />
+        <Route path="blogs-drafts" element={<BlogsDraft />} />
+        <Route path="blogs-archives" element={<BlogsArchive />} />
+
+        <Route path="events" element={<EventsAdmin />} />
+        <Route path="events-draft" element={<EventsDraft />} />
+        <Route path="events-archives" element={<EventsArchive />} />
+
+        <Route path="learnings" element={<LearningsAdmin />} />
+        <Route path="learnings-draft" element={<LearningsDraft />} />
+        <Route path="learnings-archives" element={<LearningArchive />} />
+
+        <Route path="articles" element={<ArticlesAdmin />} />
+        <Route path="articles-draft" element={<ArticlesDraft />} />
+        <Route path="articles-archives" element={<ArticlesArchive />} />
+      </Route>
     </Route>
   </>
 );

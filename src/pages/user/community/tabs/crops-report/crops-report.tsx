@@ -1,6 +1,5 @@
 import React from "react";
 import CropsReportTable from "../../../../../components/user/community/crops-report/crops-report-table/crops-report-table";
-import CropReportModal from "../../../../../components/user/community/reports-modal/modal";
 import { IoMdAdd } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../../../../components/ui/button";

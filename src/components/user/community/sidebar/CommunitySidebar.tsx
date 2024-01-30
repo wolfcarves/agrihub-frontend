@@ -9,7 +9,7 @@ import { useLocation } from "react-router-dom";
 
 const CommunitySidebar = () => {
   const pathname = useLocation().pathname;
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, data: UserData } = useAuth();
 
   return (
     <UserSidebar className="hidden sm:block">
@@ -20,14 +20,13 @@ const CommunitySidebar = () => {
         end={pathname === ""}
       /> */}
 
-      {/* {isAuthenticated && (
+      {UserData?.farm_id && isAuthenticated && (
         <UserSidebarNavLink
-          to="/community/explore"
-          title="Saved"
+          to={`/community/my-community/${UserData.farm_id}`}
+          title="My Community"
           logo={<IoBookmarkOutline size={20} />}
-          end
         />
-      )} */}
+      )}
 
       <UserSidebarNavLink
         to="/community/explore"

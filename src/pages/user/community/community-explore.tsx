@@ -8,6 +8,7 @@ import useAuth from "../../../hooks/useAuth";
 import useGetFarmListQuery from "../../../hooks/api/get/useGetFarmListQuery";
 
 const Explore = () => {
+  const { data: UserData } = useAuth();
   const [page, setPage] = useState(1);
   const { data } = useGetFarmListQuery({
     search: undefined,
@@ -35,27 +36,29 @@ const Explore = () => {
           Search for a farm community where you belong to
         </p>
         <div className="grid grid-cols-6 gap-2 mt-4 mb-3">
-          {data?.farms?.map((farm, i) => (
-            <Link
-              to={`/community/explore/${farm.id}`}
-              key={i}
-              className="flex flex-col col-span-2 w-full h-full border rounded-md p-4 shadow-md"
-            >
-              <div className="flex gap-3">
-                <img
-                  src={farm.avatar}
-                  className="w-10 h-10 rounded-lg bg-slate-500 object-center object-cover shadow-sm"
-                />
-                <div className="flex flex-col">
-                  <span className="text-blue-500 hover:text-blue-700">
-                    {farm.farm_name}
-                  </span>
-                  <span className="text-sm">11 members </span>
+          {data?.farms
+            ?.filter(farm => farm.id !== UserData?.farm_id)
+            .map((farm, i) => (
+              <Link
+                to={`/community/explore/${farm.id}`}
+                key={i}
+                className="flex flex-col col-span-2 w-full h-full border rounded-md p-4 shadow-md"
+              >
+                <div className="flex gap-3">
+                  <img
+                    src={farm.avatar}
+                    className="w-10 h-10 rounded-lg bg-slate-500 object-center object-cover shadow-sm"
+                  />
+                  <div className="flex flex-col">
+                    <span className="text-blue-500 hover:text-blue-700">
+                      {farm.farm_name}
+                    </span>
+                    <span className="text-sm">11 members </span>
+                  </div>
                 </div>
-              </div>
-              <p className="text-sm mt-2 line-clamp-3">{farm.description}</p>
-            </Link>
-          ))}
+                <p className="text-sm mt-2 line-clamp-3">{farm.description}</p>
+              </Link>
+            ))}
         </div>
       </div>
     </div>

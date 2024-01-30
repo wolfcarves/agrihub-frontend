@@ -13,8 +13,16 @@ const GalleryItems = () => {
   const { id } = useParams();
   const { data: farmGallery } = useGetFarmGalleryQuery(id || "");
   const { data } = useAuth();
+  const isMember = id === data?.farm_id;
   const allowedRoles = ["farmer", "farm_head"];
   const isAllowed = allowedRoles.includes(data?.role || "");
+  if (!farmGallery?.length || 0 > 0) {
+    return (
+      <div className="text-center">
+        <p className=" text-gray-400">No images found for this farm.</p>
+      </div>
+    );
+  }
   return (
     <div className="flex gap-3 flex-wrap">
       {farmGallery?.map((gallery, i) => (
@@ -24,7 +32,7 @@ const GalleryItems = () => {
               className="h-[10rem] rounded hover:shadow-lg"
               src={gallery.imagesrc}
             />
-            {isAllowed && <DeleteImageAlert imageId={gallery.id} />}
+            {isMember && isAllowed && <DeleteImageAlert imageId={gallery.id} />}
           </TooltipTrigger>
           <TooltipContent>
             <p>{gallery.description}</p>

@@ -1,0 +1,52 @@
+import React from "react";
+import { PiPlant } from "react-icons/pi";
+import { Link, useNavigate } from "react-router-dom";
+import { CropItem } from "../../../../../api/openapi";
+import useGetReportCropStatsQuery from "../../../../../hooks/api/get/useGetReportCropStatsQuery";
+import { toast } from "sonner";
+
+interface CropCardProps {
+  crop: CropItem;
+}
+
+const CropCard: React.FC<CropCardProps> = ({ crop }) => {
+  const navigate = useNavigate();
+  const { isError } = useGetReportCropStatsQuery(crop.name || "");
+
+  const handleCropStats = () => {
+    if (isError) {
+      toast.error("This crop has no reports available");
+    } else {
+      navigate(`${crop.name}`);
+    }
+  };
+  return (
+    <div
+      onClick={handleCropStats}
+      className="md:col-span-4 col-span-12 hover:shadow-md grid grid-cols-12 rounded-lg border bg-white select-none"
+    >
+      <img
+        src={crop.image}
+        alt="plant"
+        className="col-span-4 h-[8rem] w-full border-r rounded-lg object-center"
+      />
+      <div className="col-span-8 p-2">
+        <p className="font-semibold text-md">{crop.name}</p>
+        <p className="text-sm text-[#b6b6b6] font-medium">
+          Planting Season : {crop.planting_season}
+        </p>
+        <p className="text-sm text-[#b6b6b6] font-medium">
+          Seedling Season : {crop.seedling_season}
+        </p>
+        <p className="text-sm text-[#b6b6b6] font-medium">
+          Harvest Season : {crop.harvest_season}
+        </p>
+        <p className="flex items-center gap-2 mt-2 text-sm text-primary capitalize">
+          <PiPlant size={18} /> Growth Span : {crop.growth_span}
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export default CropCard;

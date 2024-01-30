@@ -6,7 +6,7 @@ const UserReponsiveContainer = ({
   children,
   className
 }: UserResponsiveContainer) => {
-  return <div className={`${className} container flex`}>{children}</div>;
+  return <div className={`${className} container p-0 flex`}>{children}</div>;
 };
 
 export default UserReponsiveContainer;

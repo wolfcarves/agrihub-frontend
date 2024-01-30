@@ -94,6 +94,8 @@ import UsersBanned from "@pages/admin/users/users-banned";
 import RecordAdmins from "@pages/admin/admins/record-admins";
 import DisabledAdmin from "@pages/admin/admins/disabled-admin";
 
+import ActivityLog from "@pages/admin/activities/activity-log";
+
 // Providers
 import UserLayout from "@pages/user/layout/main-layout";
 import AboutLayout from "./pages/user/about/_layout";
@@ -110,7 +112,6 @@ import Gallery from "./pages/user/community/tabs/gallery";
 import CommunityReport from "./pages/user/community/community-report";
 import CropsReport from "./pages/user/community/tabs/crops-report/crops-report";
 import CropsReportAdd from "./pages/user/community/tabs/crops-report/crops-report-add";
-import path from "path";
 
 const App = ReactRouter(
   <>
@@ -277,6 +278,8 @@ const App = ReactRouter(
 
         <Route path="admins" element={<RecordAdmins />} />
         <Route path="admin-disabled" element={<DisabledAdmin />} />
+
+        <Route path="activity-logs" element={<ActivityLog />} />
       </Route>
     </Route>
   </>

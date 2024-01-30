@@ -72,7 +72,8 @@ import Crops from "./pages/user/community/tabs/crops";
 import Members from "./pages/user/community/tabs/members";
 import Gallery from "./pages/user/community/tabs/gallery";
 import CommunityReport from "./pages/user/community/community-report";
-import CropsReport from "./pages/user/community/tabs/crops-report";
+import CropsReport from "./pages/user/community/tabs/crops-report/crops-report";
+import CropsReportAdd from "./pages/user/community/tabs/crops-report/crops-report-add";
 
 const App = ReactRouter(
   <>
@@ -125,6 +126,7 @@ const App = ReactRouter(
         />
         <Route path="reports/:id" element={<CommunityReport />}>
           <Route path="" element={<CropsReport />} />
+          <Route path="add" element={<CropsReportAdd />} />
         </Route>
       </Route>
 

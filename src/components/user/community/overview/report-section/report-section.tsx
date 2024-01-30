@@ -3,7 +3,7 @@ import useGetReportTotalHarvestQuery from "../../../../../hooks/api/get/useGetRe
 
 const ReportSection = () => {
   const { data: harvestData } = useGetReportTotalHarvestQuery();
-  console.log(harvestData);
+
   return (
     <div>
       <h4 className="font-poppins-semibold mb-4">Reports Overview</h4>

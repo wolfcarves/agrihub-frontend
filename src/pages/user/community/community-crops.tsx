@@ -21,7 +21,6 @@ const CommunityCrop = () => {
   const { cropId } = useParams();
   const { data: CropData } = useGetReportCropStatsQuery(cropId || "");
 
-  console.log(CropData, "asdasd");
   return (
     <OutletContainer className="w-full">
       <div

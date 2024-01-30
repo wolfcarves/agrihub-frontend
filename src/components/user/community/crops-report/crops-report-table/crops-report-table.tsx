@@ -1,21 +1,35 @@
 import React from "react";
 import useGetReportCropListQuery from "../../../../../hooks/api/get/useGetReportCropListQuery";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { columns } from "./columns";
+import { DataTable } from "../../../../ui/custom/data-table/data-table";
+import { Button } from "../../../../ui/button";
+import { IoMdAdd } from "react-icons/io";
 
 const CropsReportTable = () => {
   const { id } = useParams();
-  const { data } = useGetReportCropListQuery({
+  const navigate = useNavigate();
+  const { data: CropReport } = useGetReportCropListQuery({
     id: id || "",
     search: "",
     page: "",
-    perpage: "",
+    perpage: undefined,
     filter: [],
-    sort: ""
+    sort: undefined
   });
-  console.log(data, "asdsad");
+  const handleAddReport = () => {
+    navigate("add");
+  };
+  console.log(CropReport, "asdsad");
   return (
-    <div></div>
-    // <DataTable columns={columns} data={applications?.applications || []} />
+    <div>
+      <div className="my-2 flex justify-end">
+        <Button onClick={handleAddReport} className="flex items-center gap-1">
+          <IoMdAdd size={15} /> Report
+        </Button>
+      </div>
+      <DataTable columns={columns} data={CropReport?.reports || []} />
+    </div>
   );
 };
 

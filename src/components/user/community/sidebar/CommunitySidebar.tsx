@@ -33,6 +33,13 @@ const CommunitySidebar = () => {
         title="Explore"
         logo={<BsTags size={20} />}
       />
+      {UserData?.farm_id && isAuthenticated && (
+        <UserSidebarNavLink
+          to={`/community/reports/${UserData.farm_id}`}
+          title="Reports"
+          logo={<IoBookmarkOutline size={20} />}
+        />
+      )}
     </UserSidebar>
   );
 };

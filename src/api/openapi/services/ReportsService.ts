@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { CropReportResponse } from '../models/CropReportResponse';
+import type { CropStatisticsResponse } from '../models/CropStatisticsResponse';
 import type { FarmerGraphStackedBarResponse } from '../models/FarmerGraphStackedBarResponse';
 import type { FarmerTotalHarvestedResponse } from '../models/FarmerTotalHarvestedResponse';
 import type { NewCommunityCropReport } from '../models/NewCommunityCropReport';
@@ -64,6 +65,34 @@ formData: NewCommunityCropReport,
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/reports/farmer/total-harvested',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Get crop statistics data for reports
+     * @returns CropStatisticsResponse Successful response
+     * @throws ApiError
+     */
+    public static getApiReportsCropStatistics({
+name,
+}: {
+/**
+ * Crop name
+ */
+name: string,
+}): CancelablePromise<CropStatisticsResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/reports/crop/statistics/{name}',
+            path: {
+                'name': name,
+            },
             errors: {
                 400: `Validation Error`,
                 401: `Unauthorized`,

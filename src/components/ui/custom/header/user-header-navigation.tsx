@@ -67,19 +67,6 @@ const UserHeaderNavigation = () => {
 
         <NavigationMenuItem className="flex h-20">
           <NavLink
-            to="/forum"
-            className={({ isActive }) =>
-              isActive
-                ? "flex items-center h-full font-poppins-medium text-primary text-sm px-8 hover:bg-slate-100/50 border-b-[2px] border-b-primary duration-200"
-                : "flex items-center h-full font-poppins-medium text-foreground text-sm px-8 hover:bg-slate-100/50 duration-200"
-            }
-          >
-            <span>Forum</span>
-          </NavLink>
-        </NavigationMenuItem>
-
-        <NavigationMenuItem className="flex h-20">
-          <NavLink
             to="/community"
             className={({ isActive }) =>
               isActive
@@ -115,6 +102,19 @@ const UserHeaderNavigation = () => {
               ))}
             </ul>
           </NavigationMenuContent>
+        </NavigationMenuItem>
+
+        <NavigationMenuItem className="flex h-20">
+          <NavLink
+            to="/forum"
+            className={({ isActive }) =>
+              isActive
+                ? "flex items-center h-full font-poppins-medium text-primary text-sm px-8 hover:bg-slate-100/50 border-b-[2px] border-b-primary duration-200"
+                : "flex items-center h-full font-poppins-medium text-foreground text-sm px-8 hover:bg-slate-100/50 duration-200"
+            }
+          >
+            <span>Forum</span>
+          </NavLink>
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>

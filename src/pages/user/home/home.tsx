@@ -34,4 +34,4 @@ const Home: React.FC<HomeProps> = () => {
   );
 };
 
-export default withAuthGuard(Home, ["guest", "member"]);
+export default Home;

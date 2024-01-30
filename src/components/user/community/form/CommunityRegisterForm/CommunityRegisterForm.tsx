@@ -24,15 +24,15 @@ import {
   SelectValue
 } from "../../../../ui/select";
 import { ownership } from "../../../../../constants/data";
-import DataPrivacyDialog from "./DataPrivacyDialog";
 import { Checkbox } from "../../../../ui/checkbox";
+import DataPrivacyDialog from "../../../../ui/custom/data-privacy-dialog/data-privacy-dialog";
 
 const CommunityRegisterForm = () => {
   const [isDialogOpen, setDialogOpen] = useState(false);
 
-  useEffect(() => {
-    setDialogOpen(true);
-  }, []);
+  // useEffect(() => {
+  //   setDialogOpen(true);
+  // }, []);
   const navigate = useNavigate();
   const form = useForm<NewFarmApplication>({
     resolver: zodResolver(registerCommunitySchema),
@@ -92,8 +92,9 @@ const CommunityRegisterForm = () => {
   console.log(form.formState.errors);
 
   return (
-    <div className="w-full ">
-      <h2 className="font-poppins-medium mb-4">Register Community</h2>
+    <div className="w-full md:px-0 px-2 ">
+      <h2 className="font-poppins-medium">Register Community</h2>
+      <hr className="mb-4 mt-1 border-primary border-2" />
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(handleSubmitForm)}
@@ -118,8 +119,17 @@ const CommunityRegisterForm = () => {
               {...form.register("farm_size")}
             />
           </div>
-          <div className=" md:col-span-8 col-span-12">
-            <Label className=" font-poppins-medium">Location</Label>
+          <div className=" md:col-span-4 col-span-12">
+            <Label className=" font-poppins-medium">Street</Label>
+            <Input
+              type="text"
+              className="h-10"
+              placeholder="Enter Location..."
+              {...form.register("location")}
+            />
+          </div>
+          <div className=" md:col-span-4 col-span-12">
+            <Label className=" font-poppins-medium">Barangay</Label>
             <Input
               type="text"
               className="h-10"
@@ -135,29 +145,7 @@ const CommunityRegisterForm = () => {
               render={({ field }) => <SelectDistrict field={field} />}
             />
           </div>
-
-          <div className="col-span-12">
-            <Label className=" font-poppins-medium">Select valid ID type</Label>
-            <FormField
-              control={form.control}
-              name="id_type"
-              render={({ field }) => <SelectId field={field} />}
-            />
-          </div>
-          <div className="col-span-12">
-            <Label className=" font-poppins-medium">Upload ID</Label>
-            <FormField
-              control={form.control}
-              name="valid_id"
-              render={() => (
-                <Dropzone
-                  onChange={value => form.setValue("valid_id", value)}
-                />
-              )}
-            />
-          </div>
-
-          <div className="col-span-12">
+          <div className="md:col-span-6 col-span-12">
             <Label className=" font-poppins-medium">Farm Ownership</Label>
             <FormField
               control={form.control}
@@ -181,7 +169,56 @@ const CommunityRegisterForm = () => {
               )}
             />
           </div>
-          <div className="col-span-12">
+          <div className="md:col-span-6 col-span-12">
+            <Label className=" font-poppins-medium">Farm Type</Label>
+            <FormField
+              control={form.control}
+              name="proof"
+              render={({ field }) => (
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select valid id type..." />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {ownership.map((id, i) => (
+                      <SelectItem key={i} value={id}>
+                        {id}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              )}
+            />
+          </div>
+          <div className="md:col-span-6 col-span-12 flex flex-col gap-4">
+            <div className="">
+              <Label className=" font-poppins-medium">
+                Select valid ID type
+              </Label>
+              <FormField
+                control={form.control}
+                name="id_type"
+                render={({ field }) => <SelectId field={field} />}
+              />
+            </div>
+            <div className="">
+              <Label className=" font-poppins-medium">Upload ID</Label>
+              <FormField
+                control={form.control}
+                name="valid_id"
+                render={() => (
+                  <Dropzone
+                    onChange={value => form.setValue("valid_id", value)}
+                  />
+                )}
+              />
+            </div>
+          </div>
+
+          <div className="md:col-span-6 col-span-12">
             <Label className=" font-poppins-medium">Farm photo</Label>
             <FormField
               control={form.control}

@@ -80,6 +80,13 @@ import ArticlesAdmin from "@pages/admin/resources/articles-admin";
 import ArticlesDraft from "@pages/admin/resources/articles-draft";
 import ArticlesArchive from "@pages/admin/resources/articles-archive";
 
+import Forums from "@pages/admin/forums/forums";
+import QuestionsAdmin from "@pages/admin/forums/questions-admin";
+import QuestionsReported from "@pages/admin/forums/questions-reported";
+import QuestionsArchive from "@pages/admin/forums/questions-archive";
+import TagsAdmin from "@pages/admin/forums/tags-admin";
+import TagsArchive from "@pages/admin/forums/tags-archive";
+
 // Providers
 import UserLayout from "@pages/user/layout/main-layout";
 import AboutLayout from "./pages/user/about/_layout";
@@ -210,7 +217,7 @@ const App = ReactRouter(
       <Route path="dashboard" element={<AdminLogin />} />
       <Route path="analytics" element={<AdminLogin />} />
 
-      {/* Farm Application  */}
+      {/* Community  */}
       <Route path="farm" element={<Farms />} />
       <Route path="farm">
         <Route path="farmers" element={<FarmersAdmin />} />
@@ -242,6 +249,17 @@ const App = ReactRouter(
         <Route path="articles" element={<ArticlesAdmin />} />
         <Route path="articles-draft" element={<ArticlesDraft />} />
         <Route path="articles-archives" element={<ArticlesArchive />} />
+      </Route>
+
+      {/* Forums */}
+      <Route path="forum" element={<Forums />} />
+      <Route path="forum">
+        <Route path="questions" element={<QuestionsAdmin />} />
+        <Route path="question-reported" element={<QuestionsReported />} />
+        <Route path="question-archive" element={<QuestionsArchive />} />
+
+        <Route path="tags" element={<TagsAdmin />} />
+        <Route path="tag-archive" element={<TagsArchive />} />
       </Route>
     </Route>
   </>

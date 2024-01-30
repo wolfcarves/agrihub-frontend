@@ -1,8 +1,8 @@
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 import useGetFarmCropsQuery from "../../../../../hooks/api/get/useGetFarmCropsQuery";
-import CropCard from "../../crop/crop-card/crop-card";
 import { IoChevronForward } from "react-icons/io5";
+import CropCardReport from "../crop-card-report/crop-card-report";
 
 const DisplayNone = () => {
   return (
@@ -25,7 +25,7 @@ const CropSection = () => {
           <div className="grid grid-cols-12 gap-3">
             {farmCrops
               ?.slice(0, 3)
-              .map((crop, i) => <CropCard crop={crop} key={i} />)}
+              .map((crop, i) => <CropCardReport crop={crop} key={i} />)}
           </div>
           <div className="flex justify-end mt-2">
             <Link

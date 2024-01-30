@@ -10,17 +10,19 @@ interface CropCardProps {
   crop: CropItem;
 }
 
-const CropCard: React.FC<CropCardProps> = ({ crop }) => {
+const CropCardReport: React.FC<CropCardProps> = ({ crop }) => {
   const navigate = useNavigate();
   const { id } = useParams();
   const { data: UserData } = useAuth();
   const isMember = id === UserData?.farm_id;
+
   const { isError } = useGetReportCropStatsQuery(crop.name || "");
+
   const handleCropStats = () => {
     if (isError) {
       toast.error("This crop has no reports available");
     } else {
-      navigate(`${crop.name}`);
+      navigate(`crops/${crop.name}`);
     }
   };
   return (
@@ -53,4 +55,4 @@ const CropCard: React.FC<CropCardProps> = ({ crop }) => {
   );
 };
 
-export default CropCard;
+export default CropCardReport;

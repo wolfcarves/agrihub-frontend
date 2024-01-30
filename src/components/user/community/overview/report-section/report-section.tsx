@@ -11,7 +11,7 @@ const ReportSection = () => {
         {harvestData?.slice(0, 3).map((harvest, i) => (
           <div
             key={i}
-            className=" col-span-2  border flex flex-col gap-2 justify-center items-center rounded-md select-none pb-2 hover:shadow-md"
+            className=" col-span-2 bg-white  border flex flex-col gap-2 justify-center items-center rounded-md select-none pb-2 hover:shadow-md"
           >
             <img
               src={harvest.image}
@@ -21,7 +21,7 @@ const ReportSection = () => {
               {harvest.crop_name}
             </h5>
             <p className=" text-primary font-poppins-medium">
-              {harvest.total_harvested}
+              Total Harvest : {harvest.total_harvested}
             </p>
           </div>
         ))}

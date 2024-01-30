@@ -14,11 +14,7 @@ const CommunityLayout = () => {
     } else {
       navigate(`/community/my-community/${UserData?.farm_id}/`);
     }
-  }, [UserData, navigate]);
-
-  if (isAuthenticated && isFetching) {
-    return <div className="h-screen bg-white"></div>;
-  }
+  }, [UserData]);
 
   const sidebarNoneRenderPaths = ["/community", "/community/register"];
   const sidebarRender = sidebarNoneRenderPaths.includes(pathname);
@@ -26,7 +22,7 @@ const CommunityLayout = () => {
   return (
     <CommunityLayoutContainer>
       {!sidebarRender && <CommunitySidebar />}
-      <Outlet />
+      {isAuthenticated && isFetching ? <></> : <Outlet />}
     </CommunityLayoutContainer>
   );
 };

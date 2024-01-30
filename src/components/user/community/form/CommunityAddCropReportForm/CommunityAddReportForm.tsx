@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Label } from "../../../../ui/label";
 import { Form, FormField } from "../../../../ui/form";
 import { Button } from "../../../../ui/button";
@@ -13,6 +13,7 @@ import { toast } from "sonner";
 import SelectCrop from "../../select-crop/select-crop";
 import useReportCropMutation from "../../../../../hooks/api/post/useReportCropMutation";
 import { useNavigate } from "react-router-dom";
+import { Checkbox } from "../../../../ui/checkbox";
 
 const CommunityAddCropReportForm = () => {
   const navigate = useNavigate();
@@ -21,14 +22,32 @@ const CommunityAddCropReportForm = () => {
     mode: "onBlur"
   });
 
-  // useEffect(() => {
-  //   if (form.formState.errors.description) {
-  //     toast.error(form?.formState?.errors?.description?.message);
-  //   }
-  //   if (form.formState.errors.image) {
-  //     toast.error(form.formState.errors.image.message);
-  //   }
-  // }, [form.formState.errors]);
+  useEffect(() => {
+    if (form.formState.errors.crop_id) {
+      toast.error(form?.formState?.errors?.crop_id?.message);
+    }
+    if (form.formState.errors.date_harvested) {
+      toast.error(form?.formState?.errors?.date_harvested?.message);
+    }
+    if (form.formState.errors.date_planted) {
+      toast.error(form?.formState?.errors?.date_planted?.message);
+    }
+    if (form.formState.errors.harvested_qty) {
+      toast.error(form?.formState?.errors?.harvested_qty?.message);
+    }
+    if (form.formState.errors.image) {
+      toast.error(form.formState.errors.image.message);
+    }
+    if (form.formState.errors.notes) {
+      toast.error(form?.formState?.errors?.notes?.message);
+    }
+    if (form.formState.errors.planted_qty) {
+      toast.error(form?.formState?.errors?.planted_qty?.message);
+    }
+    if (form.formState.errors.withered_crops) {
+      toast.error(form?.formState?.errors?.withered_crops?.message);
+    }
+  }, [form.formState.errors]);
 
   const { mutateAsync: cropReportMutate, isLoading: cropReportLoading } =
     useReportCropMutation();
@@ -131,6 +150,13 @@ const CommunityAddCropReportForm = () => {
               )}
             />
           </div>
+        </div>
+        <div className="flex items-center space-x-2 col-span-12">
+          <Checkbox />
+          <Label htmlFor="terms">
+            Accept{" "}
+            <span className="text-primary underline">terms and conditions</span>
+          </Label>
         </div>
         <div className="col-span-12">
           <Button disabled={cropReportLoading} type="submit">

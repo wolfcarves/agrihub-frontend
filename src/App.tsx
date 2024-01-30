@@ -58,6 +58,44 @@ import LearningsLayout from "@pages/user/learning/_layout";
 import Learnings from "@pages/user/learning/learnings";
 import Learning from "@pages/user/learning/learning";
 
+import Farms from "@pages/admin/farms/farms";
+import FarmsAdmin from "@pages/admin/farms/farms-admin";
+import FarmsPending from "@pages/admin/farms/farms-pending";
+import FarmsRejected from "@pages/admin/farms/farms-rejected";
+import FarmersAdmin from "@pages/admin/farms/farmers-admin";
+import FarmersBanned from "@pages/admin/farms/farmers-banned";
+import FarmersReported from "@pages/admin/farms/farmers-reported";
+
+import Resource from "@pages/admin/resources/resource";
+import BlogsAdmin from "@pages/admin/resources/blogs-admin";
+import BlogsDraft from "@pages/admin/resources/blogs-draft";
+import BlogsArchive from "@pages/admin/resources/blogs-archive";
+import EventsAdmin from "@pages/admin/resources/events-admin";
+import EventsDraft from "@pages/admin/resources/events-draft";
+import EventsArchive from "@pages/admin/resources/events-archive";
+import LearningsAdmin from "@pages/admin/resources/learnings-admin";
+import LearningsDraft from "@pages/admin/resources/learnings-draft";
+import LearningArchive from "@pages/admin/resources/learning-archive";
+import ArticlesAdmin from "@pages/admin/resources/articles-admin";
+import ArticlesDraft from "@pages/admin/resources/articles-draft";
+import ArticlesArchive from "@pages/admin/resources/articles-archive";
+
+import Forums from "@pages/admin/forums/forums";
+import QuestionsAdmin from "@pages/admin/forums/questions-admin";
+import QuestionsReported from "@pages/admin/forums/questions-reported";
+import QuestionsArchive from "@pages/admin/forums/questions-archive";
+import TagsAdmin from "@pages/admin/forums/tags-admin";
+import TagsArchive from "@pages/admin/forums/tags-archive";
+
+import RecordUsers from "@pages/admin/users/record-users";
+import UsersReported from "@pages/admin/users/users-reported";
+import UsersBanned from "@pages/admin/users/users-banned";
+
+import RecordAdmins from "@pages/admin/admins/record-admins";
+import DisabledAdmin from "@pages/admin/admins/disabled-admin";
+
+import ActivityLog from "@pages/admin/activities/activity-log";
+
 // Providers
 import UserLayout from "@pages/user/layout/main-layout";
 import AboutLayout from "./pages/user/about/_layout";
@@ -71,6 +109,9 @@ import Analytics from "./pages/user/community/tabs/analytics";
 import Crops from "./pages/user/community/tabs/crops";
 import Members from "./pages/user/community/tabs/members";
 import Gallery from "./pages/user/community/tabs/gallery";
+import CommunityReport from "./pages/user/community/community-report";
+import CropsReport from "./pages/user/community/tabs/crops-report/crops-report";
+import CropsReportAdd from "./pages/user/community/tabs/crops-report/crops-report-add";
 
 const App = ReactRouter(
   <>
@@ -117,7 +158,14 @@ const App = ReactRouter(
           <Route path="members" element={<Members />} />
           <Route path="gallery" element={<Gallery />} />
         </Route>
-        <Route path="my-community/:id/:cropId" element={<CommunityCrop />} />
+        <Route
+          path="my-community/:id/crops/:cropId"
+          element={<CommunityCrop />}
+        />
+        <Route path="reports/:id" element={<CommunityReport />}>
+          <Route path="" element={<CropsReport />} />
+          <Route path="add" element={<CropsReportAdd />} />
+        </Route>
       </Route>
 
       {/* Article Page */}
@@ -177,9 +225,62 @@ const App = ReactRouter(
       <Route path="dashboard" element={<AdminLogin />} />
       <Route path="analytics" element={<AdminLogin />} />
 
-      {/* Farm Application  */}
-      <Route path="farm/application" element={<FarmApplication />} />
-      <Route path="farm/application/:id" element={<FarmApplicationView />} />
+      {/* Community  */}
+      <Route path="farm" element={<Farms />} />
+      <Route path="farm">
+        <Route path="farmers" element={<FarmersAdmin />} />
+        <Route path="accounts-reported" element={<FarmersReported />} />
+        <Route path="accounts-banned" element={<FarmersBanned />} />
+
+        <Route path="farm-approved" element={<FarmsAdmin />} />
+        {/* <Route path="farm-request" element={<FarmsPending />} /> */}
+        <Route path="farm-request" element={<FarmApplication />} />
+        <Route path="farm-request/:id" element={<FarmApplicationView />} />
+        <Route path="farm-rejected" element={<FarmsRejected />} />
+      </Route>
+
+      {/* Resources */}
+      <Route path="resources" element={<Resource />} />
+      <Route path="resource">
+        <Route path="blogs" element={<BlogsAdmin />} />
+        <Route path="blogs-drafts" element={<BlogsDraft />} />
+        <Route path="blogs-archives" element={<BlogsArchive />} />
+
+        <Route path="events" element={<EventsAdmin />} />
+        <Route path="events-draft" element={<EventsDraft />} />
+        <Route path="events-archives" element={<EventsArchive />} />
+
+        <Route path="learnings" element={<LearningsAdmin />} />
+        <Route path="learnings-draft" element={<LearningsDraft />} />
+        <Route path="learnings-archives" element={<LearningArchive />} />
+
+        <Route path="articles" element={<ArticlesAdmin />} />
+        <Route path="articles-draft" element={<ArticlesDraft />} />
+        <Route path="articles-archives" element={<ArticlesArchive />} />
+      </Route>
+
+      {/* Forums */}
+      <Route path="forum" element={<Forums />} />
+      <Route path="forum">
+        <Route path="questions" element={<QuestionsAdmin />} />
+        <Route path="question-reported" element={<QuestionsReported />} />
+        <Route path="question-archive" element={<QuestionsArchive />} />
+
+        <Route path="tags" element={<TagsAdmin />} />
+        <Route path="tag-archive" element={<TagsArchive />} />
+      </Route>
+
+      {/* records */}
+      <Route path="record">
+        <Route path="users" element={<RecordUsers />} />
+        <Route path="user-reported" element={<UsersReported />} />
+        <Route path="user-banned" element={<UsersBanned />} />
+
+        <Route path="admins" element={<RecordAdmins />} />
+        <Route path="admin-disabled" element={<DisabledAdmin />} />
+
+        <Route path="activity-logs" element={<ActivityLog />} />
+      </Route>
     </Route>
   </>
 );

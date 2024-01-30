@@ -35,10 +35,10 @@ const AdminTopbar = () => {
   };
   return (
     <div className="sticky top-0 left-0 right-0 border-b w-full">
-      <nav className="h-16 flex items-center justify-between px-5 bg-white opacity-100">
-        <div role="button" onClick={handleToggleSidebar}>
+      <nav className="h-16 flex items-center justify-end px-5 bg-white opacity-100">
+        {/* <div role="button" onClick={handleToggleSidebar}>
           <RxHamburgerMenu size={20} />
-        </div>
+        </div> */}
         <div className="flex gap-4">
           <HeaderNotification />
 

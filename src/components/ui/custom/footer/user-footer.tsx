@@ -30,6 +30,9 @@ const UserFooter = () => {
   const navigateNews = () => {
     navigate("/about/latest");
   };
+  const navigateLearning = () => {
+    navigate("/learning-materials");
+  };
   return (
     <div className="bg-[#404040] p-10">
       <div className="flex justify-center items-center gap-1">
@@ -57,7 +60,10 @@ const UserFooter = () => {
           </div>
         </div>
 
-        <div className="hover:bg-[#464646] text-white pt-2 pb-8 pl-4 rounded-lg md:col-span-2 col-span-5 flex flex-col justify-between">
+        <div
+          onClick={navigateLearning}
+          className="hover:bg-[#464646] text-white pt-2 pb-8 pl-4 rounded-lg md:col-span-2 col-span-5 flex flex-col justify-between"
+        >
           <div>
             <GiThreeLeaves size={31} />
             <div className=" font-semibold my-1">Learning Hub</div>
@@ -144,14 +150,17 @@ const UserFooter = () => {
           Agrihub is an Urban Farming Data Sharing Platform, Philippines, 673
           Quirino Highway, San Bartolome, Novaliches Q.C. © 2024 Agrihub. All
           rights reserved.{" "}
-          <Link to="/privacy-policy" className="underline">
+          <Link to="/privacy-policy" className="hover:underline">
             Privacy Policy
-          </Link>{" "}
-          and
-          <Link to="/terms-condition" className="underline">
+          </Link>
+          {" | "}
+          <Link to="/terms-condition" className="hover:underline">
             Terms of Use
           </Link>
-          .
+          {" | "}
+          <Link to="/helps" className="hover:underline">
+            Help center
+          </Link>
         </p>
       </div>
     </div>

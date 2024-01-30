@@ -58,6 +58,14 @@ import LearningsLayout from "@pages/user/learning/_layout";
 import Learnings from "@pages/user/learning/learnings";
 import Learning from "@pages/user/learning/learning";
 
+import Farms from "@pages/admin/farms/farms";
+import FarmsAdmin from "@pages/admin/farms/farms-admin";
+import FarmsPending from "@pages/admin/farms/farms-pending";
+import FarmsRejected from "@pages/admin/farms/farms-rejected";
+import FarmersAdmin from "@pages/admin/farms/farmers-admin";
+import FarmersBanned from "@pages/admin/farms/farmers-banned";
+import FarmersReported from "@pages/admin/farms/farmers-reported";
+
 import Resource from "@pages/admin/resources/resource";
 import BlogsAdmin from "@pages/admin/resources/blogs-admin";
 import BlogsDraft from "@pages/admin/resources/blogs-draft";
@@ -88,6 +96,7 @@ import Gallery from "./pages/user/community/tabs/gallery";
 import CommunityReport from "./pages/user/community/community-report";
 import CropsReport from "./pages/user/community/tabs/crops-report/crops-report";
 import CropsReportAdd from "./pages/user/community/tabs/crops-report/crops-report-add";
+import path from "path";
 
 const App = ReactRouter(
   <>
@@ -202,8 +211,18 @@ const App = ReactRouter(
       <Route path="analytics" element={<AdminLogin />} />
 
       {/* Farm Application  */}
-      <Route path="farm/farm-request" element={<FarmApplication />} />
-      <Route path="farm/farm-request/:id" element={<FarmApplicationView />} />
+      <Route path="farm" element={<Farms />} />
+      <Route path="farm">
+        <Route path="farmers" element={<FarmersAdmin />} />
+        <Route path="accounts-reported" element={<FarmersReported />} />
+        <Route path="accounts-banned" element={<FarmersBanned />} />
+
+        <Route path="farm-approved" element={<FarmsAdmin />} />
+        {/* <Route path="farm-request" element={<FarmsPending />} /> */}
+        <Route path="farm-request" element={<FarmApplication />} />
+        <Route path="farm-request/:id" element={<FarmApplicationView />} />
+        <Route path="farm-rejected" element={<FarmsRejected />} />
+      </Route>
 
       {/* Resources */}
       <Route path="resources" element={<Resource />} />

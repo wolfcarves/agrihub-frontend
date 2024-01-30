@@ -91,6 +91,9 @@ import RecordUsers from "@pages/admin/users/record-users";
 import UsersReported from "@pages/admin/users/users-reported";
 import UsersBanned from "@pages/admin/users/users-banned";
 
+import RecordAdmins from "@pages/admin/admins/record-admins";
+import DisabledAdmin from "@pages/admin/admins/disabled-admin";
+
 // Providers
 import UserLayout from "@pages/user/layout/main-layout";
 import AboutLayout from "./pages/user/about/_layout";
@@ -271,6 +274,9 @@ const App = ReactRouter(
         <Route path="users" element={<RecordUsers />} />
         <Route path="user-reported" element={<UsersReported />} />
         <Route path="user-banned" element={<UsersBanned />} />
+
+        <Route path="admins" element={<RecordAdmins />} />
+        <Route path="admin-disabled" element={<DisabledAdmin />} />
       </Route>
     </Route>
   </>

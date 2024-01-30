@@ -176,7 +176,7 @@ export const adminNavigation = [
   },
 
   {
-    href: "/admin/users",
+    href: "/admin/record/users",
     name: "Users Management",
     icon: <FaRegUser size={24} />,
     nav: [
@@ -199,7 +199,7 @@ export const adminNavigation = [
   },
 
   {
-    href: "/admin/admins",
+    href: "/admin/record/admins",
     name: "Admin Management",
     icon: <MdOutlineAdminPanelSettings size={24} />,
     nav: [
@@ -216,7 +216,7 @@ export const adminNavigation = [
     ]
   },
   {
-    href: "/admin/activity-logs",
+    href: "/admin/record/activity-logs",
     name: "Activity Logs",
     icon: <RxActivityLog size={24} />,
     nav: [

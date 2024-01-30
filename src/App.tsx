@@ -87,6 +87,10 @@ import QuestionsArchive from "@pages/admin/forums/questions-archive";
 import TagsAdmin from "@pages/admin/forums/tags-admin";
 import TagsArchive from "@pages/admin/forums/tags-archive";
 
+import RecordUsers from "@pages/admin/users/record-users";
+import UsersReported from "@pages/admin/users/users-reported";
+import UsersBanned from "@pages/admin/users/users-banned";
+
 // Providers
 import UserLayout from "@pages/user/layout/main-layout";
 import AboutLayout from "./pages/user/about/_layout";
@@ -260,6 +264,13 @@ const App = ReactRouter(
 
         <Route path="tags" element={<TagsAdmin />} />
         <Route path="tag-archive" element={<TagsArchive />} />
+      </Route>
+
+      {/* records */}
+      <Route path="record">
+        <Route path="users" element={<RecordUsers />} />
+        <Route path="user-reported" element={<UsersReported />} />
+        <Route path="user-banned" element={<UsersBanned />} />
       </Route>
     </Route>
   </>

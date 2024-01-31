@@ -7,9 +7,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger
-} from "../../../../ui/dialog";
-import { Button } from "../../../../ui/button";
-import { ScrollArea } from "../../../../ui/scroll-area";
+} from "../../dialog";
+import { Button } from "../../button";
+import { ScrollArea } from "../../scroll-area";
 const DataPrivacyDialog = ({ isDialogOpen, setDialogOpen }: any) => {
   return (
     <Dialog open={isDialogOpen}>

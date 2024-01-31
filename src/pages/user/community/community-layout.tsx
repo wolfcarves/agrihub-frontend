@@ -5,24 +5,16 @@ import useAuth from "../../../hooks/useAuth";
 import { useEffect } from "react";
 
 const CommunityLayout = () => {
-  const navigate = useNavigate();
   const pathname = useLocation().pathname;
-  const { data: UserData, isFetching, isAuthenticated } = useAuth();
-  useEffect(() => {
-    if (!UserData?.farm_id) {
-      navigate(`/community`);
-    } else {
-      navigate(`/community/my-community/${UserData?.farm_id}/`);
-    }
-  }, [UserData]);
-
   const sidebarNoneRenderPaths = ["/community", "/community/register"];
   const sidebarRender = sidebarNoneRenderPaths.includes(pathname);
 
   return (
     <CommunityLayoutContainer>
       {!sidebarRender && <CommunitySidebar />}
-      {isAuthenticated && isFetching ? <></> : <Outlet />}
+      <div className="min-h-screen w-full">
+        <Outlet />
+      </div>
     </CommunityLayoutContainer>
   );
 };

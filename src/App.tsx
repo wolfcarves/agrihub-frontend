@@ -189,7 +189,7 @@ const App = ReactRouter(
       {/* Learning Page */}
       <Route path="/learning-materials" element={<LearningsLayout />}>
         <Route path="" element={<Learnings />} />
-        <Route path="view" element={<Learning />} />
+        <Route path="view/:learningsId" element={<Learning />} />
       </Route>
 
       {/* Help Center Page */}

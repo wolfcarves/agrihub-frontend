@@ -3,10 +3,13 @@ import { Avatar, AvatarFallback, AvatarImage } from "../../../ui/avatar";
 import { Button } from "../../../ui/button";
 import useAuth from "../../../../hooks/useAuth";
 import useGetFarmViewQuery from "../../../../hooks/api/get/useGetFarmViewQuery";
+import { useParams } from "react-router-dom";
 
 const CommunityDetails = () => {
   const { isAuthenticated, data: UserData } = useAuth();
-  const { data: farmDetails } = useGetFarmViewQuery(UserData?.farm_id || "");
+  const { id } = useParams();
+  const isMember = id === UserData?.farm_id;
+  const { data: farmDetails } = useGetFarmViewQuery(id || "");
   return (
     <div className="flex justify-center p-5 pb-[6rem] ">
       <div className="w-full h-[10rem] bg-slate-700 relative flex justify-center rounded-xl">
@@ -19,7 +22,7 @@ const CommunityDetails = () => {
                   className="object-cover pointer-events-none select-none rounded"
                 />
                 <AvatarFallback className="rounded">
-                  {farmDetails?.farm_name.charAt(0)}
+                  {farmDetails?.farm_name?.charAt(0)}
                 </AvatarFallback>
               </Avatar>
               <div>
@@ -32,7 +35,11 @@ const CommunityDetails = () => {
               </div>
             </div>
             <div className=" col-span-3 flex justify-end items-start ">
-              {isAuthenticated && <Button className="">Join Farm</Button>}
+              {isAuthenticated && (
+                <Button className="">
+                  {isMember ? "Edit Details" : "Join"}
+                </Button>
+              )}
             </div>
           </div>
         </div>

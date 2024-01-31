@@ -101,27 +101,27 @@ export const adminNavigation = [
       {
         title: "",
         name: "Draft",
-        href: "/admin/resource/events-drafts"
+        href: "/admin/resource/events-draft"
       },
       {
         title: "",
         name: "Archive",
-        href: "/admin/resource/evemts-archives"
+        href: "/admin/resource/events-archives"
       },
       {
         title: "Learning Materials",
         name: "All Learning Materials",
-        href: "/admin/resource/learning-materials"
+        href: "/admin/resource/learnings"
       },
       {
         title: "",
         name: "Draft",
-        href: "/admin/resource/learning-drafts"
+        href: "/admin/resource/learnings-draft"
       },
       {
         title: "",
         name: "Archive",
-        href: "/admin/resource/learning-archives"
+        href: "/admin/resource/learnings-archives"
       },
 
       {
@@ -132,12 +132,12 @@ export const adminNavigation = [
       {
         title: "",
         name: "Draft",
-        href: "/admin/resource/article-drafts"
+        href: "/admin/resource/articles-draft"
       },
       {
         title: "",
         name: "Archive",
-        href: "/admin/resource/article-archive"
+        href: "/admin/resource/articles-archives"
       }
     ]
   },

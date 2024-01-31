@@ -34,13 +34,13 @@ const SocketProvider = (props: { children: React.ReactNode }) => {
 
   const showNotification = (payload: string) => {
     console.log(payload);
-    // if (Notification.permission === "granted") {
-    //   new Notification("Hello!", {
-    //     body: payload
-    //   });
-    // } else {
-    //   console.log("Permission not granted to show notifications.");
-    // }
+    if (Notification.permission === "granted") {
+      new Notification("Hello!", {
+        body: payload
+      });
+    } else {
+      console.log("Permission not granted to show notifications.");
+    }
   };
 
   useEffect(() => {

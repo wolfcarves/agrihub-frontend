@@ -11,17 +11,37 @@ import {
   DropdownMenuTrigger
 } from "../../../../ui/dropdown-menu";
 import { Button } from "../../../../ui/button";
-import { MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { format } from "date-fns";
 
 export const columns: ColumnDef<CommunityCropReportResponseItem>[] = [
   {
     accessorKey: "crop_name",
-    header: "Crop"
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Crop
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    }
   },
   {
     accessorKey: "date_harvested",
-    header: "Date Harvested",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Date Harvested
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) =>
       format(new Date(row.original.date_harvested || ""), "PPP")
   },

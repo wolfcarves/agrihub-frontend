@@ -6,6 +6,7 @@ import type { CommunityCropReportsResponse } from '../models/CommunityCropReport
 import type { CropReportResponse } from '../models/CropReportResponse';
 import type { CropReportViewResponse } from '../models/CropReportViewResponse';
 import type { CropStatisticsResponse } from '../models/CropStatisticsResponse';
+import type { FarmerGraphGrowthHarvestResponse } from '../models/FarmerGraphGrowthHarvestResponse';
 import type { FarmerGraphPiechartResponse } from '../models/FarmerGraphPiechartResponse';
 import type { FarmerGraphStackedBarResponse } from '../models/FarmerGraphStackedBarResponse';
 import type { FarmerGraphTotalHarvestResponse } from '../models/FarmerGraphTotalHarvestResponse';
@@ -87,6 +88,24 @@ formData: NewCommunityCropReport,
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/reports/farmer/graph/total-harvest',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Get farmer graph growth harvest data
+     * @returns FarmerGraphGrowthHarvestResponse Successful response
+     * @throws ApiError
+     */
+    public static getApiReportsFarmerGraphGrowthHarvest(): CancelablePromise<FarmerGraphGrowthHarvestResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/reports/farmer/graph/growth-harvest',
             errors: {
                 400: `Validation Error`,
                 401: `Unauthorized`,

@@ -34,6 +34,7 @@ export type { FarmApplicationData } from './models/FarmApplicationData';
 export type { FarmApplicationResponse } from './models/FarmApplicationResponse';
 export type { FarmApplicationsResponse } from './models/FarmApplicationsResponse';
 export type { FarmData } from './models/FarmData';
+export type { FarmerGraphGrowthHarvestResponse } from './models/FarmerGraphGrowthHarvestResponse';
 export type { FarmerGraphPiechartResponse } from './models/FarmerGraphPiechartResponse';
 export type { FarmerGraphStackedBarData } from './models/FarmerGraphStackedBarData';
 export type { FarmerGraphStackedBarResponse } from './models/FarmerGraphStackedBarResponse';

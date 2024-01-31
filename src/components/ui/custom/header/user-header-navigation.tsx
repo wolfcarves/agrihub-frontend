@@ -40,6 +40,12 @@ const resources: { title: string; href: string; description: string }[] = [
   {
     title: "Learning Materials",
     href: "/learning-materials",
+    description:
+      "Explore a wealth of knowledge to cultivate success on your farm"
+  },
+  {
+    title: "Planting Calendar",
+    href: "/planting-calendar",
     description: "Tandang tanda ko pa nung panahon ng tagtuyot"
   }
 ];

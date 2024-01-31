@@ -9,6 +9,7 @@ import UserAccountLayout from "@pages/user/account/account-layout";
 import ArticleLayout from "@pages/user/article/_layout";
 import UserProfileLayout from "@pages/user/users/_layout";
 import UserHomeLayout from "@pages/user/home/home-layout";
+import CalendarLayout from "@pages/user/calendar/_layout";
 
 //Pages
 import Home from "./pages/user/home/home";
@@ -25,6 +26,8 @@ import Question from "@pages/user/question/question";
 
 import Articles from "@pages/user/article/articles";
 import Article from "@pages/user/article/article";
+
+import Calendar from "@pages/user/calendar/calendar";
 
 //Others
 import ErrorElement from "@pages/user/common/error";
@@ -190,6 +193,11 @@ const App = ReactRouter(
       <Route path="/learning-materials" element={<LearningsLayout />}>
         <Route path="" element={<Learnings />} />
         <Route path="view/:learningsId" element={<Learning />} />
+      </Route>
+
+      {/* Planting Calendar Page */}
+      <Route path="/planting-calendar" element={<CalendarLayout />}>
+        <Route path="" element={<Calendar />} />
       </Route>
 
       {/* Help Center Page */}

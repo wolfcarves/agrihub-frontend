@@ -6,6 +6,11 @@ import { Button } from "../../../components/ui/button";
 import { Link } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
 import useGetFarmListQuery from "../../../hooks/api/get/useGetFarmListQuery";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage
+} from "../../../components/ui/avatar";
 
 const Explore = () => {
   const { data: UserData } = useAuth();
@@ -42,13 +47,18 @@ const Explore = () => {
               <Link
                 to={`/community/explore/${farm.id}`}
                 key={i}
-                className="flex flex-col col-span-2 w-full h-full border rounded-md p-4 shadow-md"
+                className="flex flex-col md:col-span-2 col-span-6 w-full h-full border rounded-md p-4 shadow-md"
               >
                 <div className="flex gap-3">
-                  <img
-                    src={farm.avatar}
-                    className="w-10 h-10 rounded-lg bg-slate-500 object-center object-cover shadow-sm"
-                  />
+                  <Avatar className="border rounded w-10 h-10 ">
+                    <AvatarImage
+                      src={farm?.avatar ?? ""}
+                      className="object-cover pointer-events-none select-none rounded"
+                    />
+                    <AvatarFallback className="rounded">
+                      {farm?.farm_name?.charAt(0)}
+                    </AvatarFallback>
+                  </Avatar>
                   <div className="flex flex-col">
                     <span className="text-blue-500 hover:text-blue-700">
                       {farm.farm_name}

@@ -1,59 +1,38 @@
-import React from "react";
-
+import React, { Dispatch, SetStateAction, useState } from "react";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
-  DialogDescription,
   DialogFooter,
-  DialogHeader,
-  DialogTitle,
   DialogTrigger
-} from "../../../ui/dialog";
+} from "../../../ui/custom/dialog/dialog";
 import { Button } from "../../../ui/button";
-import { ScrollArea } from "../../../ui/scroll-area";
-import { Label } from "../../../ui/label";
-import { Input } from "../../../ui/input";
+import { RegisterCommunitySchema } from "../form/CommunityRegisterForm/schema";
+import { UseFormReturn } from "react-hook-form";
 
-const ReviewDialog = () => {
+interface ReviewDialogProps {
+  dialogReview: boolean | undefined;
+  setDialogReview: Dispatch<SetStateAction<boolean | undefined>>;
+  form: UseFormReturn<RegisterCommunitySchema>;
+}
+
+const ReviewDialog: React.FC<ReviewDialogProps> = ({
+  dialogReview,
+  setDialogReview,
+  form
+}) => {
+  const handleSubmit = () => {
+    setDialogReview(false);
+    form.trigger();
+  };
   return (
-    <Dialog>
+    <Dialog open={dialogReview}>
       <DialogTrigger asChild>
-        <Button>Apply</Button>
+        <Button type="submit">Apply</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Edit profile</DialogTitle>
-          <DialogDescription>
-            Make changes to your profile here. Click save when you're done.
-          </DialogDescription>
-        </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
-              Name
-            </Label>
-            <Input
-              id="name"
-              defaultValue="Pedro Duarte"
-              className="col-span-3"
-            />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="username" className="text-right">
-              Username
-            </Label>
-            <Input
-              id="username"
-              defaultValue="@peduarte"
-              className="col-span-3"
-            />
-          </div>
-        </div>
+        <div>asdasdas</div>
         <DialogFooter>
-          <DialogClose asChild>
-            <Button type="submit">Save changes</Button>
-          </DialogClose>
+          <Button onClick={handleSubmit}>Save changes</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

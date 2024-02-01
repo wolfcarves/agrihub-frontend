@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Label } from "../../../../ui/label";
 import { Input } from "../../../../ui/input";
 import Dropzone from "../../dropzone/dropzone";
@@ -36,6 +36,7 @@ const CommunityRegisterForm = () => {
   useEffect(() => {
     setDialogOpen(true);
   }, []);
+
   const navigate = useNavigate();
   const form = useForm<RegisterCommunitySchema>({
     resolver: zodResolver(registerCommunitySchema),
@@ -78,6 +79,13 @@ const CommunityRegisterForm = () => {
   const { mutateAsync: farmApplyMutate, isLoading: isFarmApplyLoading } =
     useFarmApplication();
 
+  const handleValidation = async () => {
+    // console.log("no open");
+    const success = await form.trigger();
+    if (success) {
+      return setDialogReview(true);
+    }
+  };
   const handleSubmitForm = async (data: RegisterCommunitySchema) => {
     // setDialogReview(true);
     const compiledData: NewFarmApplication = {
@@ -92,19 +100,14 @@ const CommunityRegisterForm = () => {
       farm_actual_images: data.farm_actual_images
     };
 
-    if (!Object.keys(form.formState.errors).length) {
-      setDialogReview(true);
+    try {
+      await farmApplyMutate(compiledData);
+
+      toast.success("Applied Successfully!");
+      navigate("/community");
+    } catch (e: any) {
+      toast.error(e.body.message);
     }
-    console.log("test");
-
-    // try {
-    //   await farmApplyMutate(compiledData);
-
-    //   toast.success("Applied Successfully!");
-    //   navigate("/community");
-    // } catch (e: any) {
-    //   toast.error(e.body.message);
-    // }
   };
 
   return (
@@ -263,10 +266,14 @@ const CommunityRegisterForm = () => {
             {/* <Button disabled={isFarmApplyLoading} type="submit">
               Apply
             </Button> */}
+            <Button type="button" onClick={handleValidation}>
+              Apply
+            </Button>
             <ReviewDialog
               dialogReview={dialogReview}
               setDialogReview={setDialogReview}
               form={form}
+              handleSubmitForm={handleSubmitForm}
             />
           </div>
         </form>

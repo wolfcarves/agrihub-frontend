@@ -13,24 +13,26 @@ interface ReviewDialogProps {
   dialogReview: boolean | undefined;
   setDialogReview: Dispatch<SetStateAction<boolean | undefined>>;
   form: UseFormReturn<RegisterCommunitySchema>;
+  handleSubmitForm: (data: RegisterCommunitySchema) => Promise<void>;
 }
 
 const ReviewDialog: React.FC<ReviewDialogProps> = ({
   dialogReview,
   setDialogReview,
-  form
+  form,
+  handleSubmitForm
 }) => {
   const handleSubmit = () => {
+    form.handleSubmit(handleSubmitForm)();
     setDialogReview(false);
-    form.trigger();
   };
+
+  const details = form.getValues();
+
   return (
-    <Dialog open={dialogReview}>
-      <DialogTrigger asChild>
-        <Button type="submit">Apply</Button>
-      </DialogTrigger>
+    <Dialog open={dialogReview} onOpenChange={setDialogReview}>
       <DialogContent className="sm:max-w-[425px]">
-        <div>asdasdas</div>
+        <div>{details.farm_name}</div>
         <DialogFooter>
           <Button onClick={handleSubmit}>Save changes</Button>
         </DialogFooter>

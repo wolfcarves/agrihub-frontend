@@ -1,16 +1,21 @@
 import React from "react";
-import { Bar, Line } from "react-chartjs-2";
+import { Bar, Line, Pie } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
 import SuggestionsModal from "@components/user/community/suggestions-modal/modal";
 import { TiArrowSortedDown } from "react-icons/ti";
 import useGetReportStackBarQuery from "../../../../hooks/api/get/useGetReportStackBarQuery";
+import useGetReportPiechartQuery from "../../../../hooks/api/get/useGetReportPiechartQuery";
+import useGetReportTotalHarvestChart from "../../../../hooks/api/get/useGetReportTotalHarvestChart";
+import useGetReportGrowthChart from "../../../../hooks/api/get/useGetReportGrowthChart";
 
 Chart.register(...registerables);
 
 const Analytics = () => {
   const { data: stackBar } = useGetReportStackBarQuery();
-  console.log(stackBar);
-
+  const { data: pieChart } = useGetReportPiechartQuery();
+  const { data: harvestChart } = useGetReportTotalHarvestChart();
+  const { data: growthChart } = useGetReportGrowthChart();
+  console.log(pieChart);
   const chartOptions = {
     responsive: true,
     maintainAspectRatio: false,
@@ -21,38 +26,29 @@ const Analytics = () => {
     }
   };
 
-  // const initialData = [
-  //   {
-  //     crop_name: "patola",
-  //     total_harvested: 20,
-  //     total_withered: 5
-  //   },
-  //   {
-  //     crop_name: "alugbati",
-  //     total_harvested: 80,
-  //     total_withered: 5
-  //   }
-  // ];
-
-  // const initialDataSet = {
-  //   label: "Total Harvest",
-  //   backgroundColor: "rgba(75,192,192,0.2)",
-  //   borderColor: "rgba(75,192,192,1)",
-  //   borderWidth: 1,
-  //   hoverBackgroundColor: "rgba(75,192,192,0.4)",
-  //   hoverBorderColor: "rgba(75,192,192,1)"
-  // };
+  const optionsBar = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      x: {
+        stacked: true
+      },
+      y: {
+        stacked: true
+      }
+    }
+  };
 
   const stackBarData = {
     labels: stackBar?.map(item => item.crop_name),
     datasets: [
       {
         label: "Total Withered",
-        backgroundColor: "rgba(255,99,132,0.2)",
-        borderColor: "rgba(255,99,132,1)",
+        backgroundColor: "rgba(50,205,50,0.2)",
+        borderColor: "rgba(50,205,50,1)",
         borderWidth: 1,
-        hoverBackgroundColor: "rgba(255,99,132,0.4)",
-        hoverBorderColor: "rgba(255,99,132,1)",
+        hoverBackgroundColor: "rgba(50,205,50,0.4)",
+        hoverBorderColor: "rgba(50,205,50,1)",
         data: stackBar?.map(item => item.total_withered)
         // 25, 20
       },
@@ -69,67 +65,44 @@ const Analytics = () => {
     ]
   };
 
-  // Chart options
-  const optionsBar = {
-    responsive: true,
-    scales: {
-      x: {
-        stacked: true
-      },
-      y: {
-        stacked: true
-      }
-    }
-  };
-
-  const farmsData = {
-    January: 37,
-    February: 12,
-    March: 85,
-    April: 64,
-    May: 22,
-    June: 91,
-    July: 50,
-    August: 76,
-    September: 18,
-    October: 3,
-    November: 95,
-    December: 42
-  };
-
-  const cropsData = {
-    kamatis: 60,
-    talong: 20,
-    petchay: 30,
-    sili: 80,
-    carrots: 90,
-    kangkong: 140
-  };
-
-  const getColor = (value: number) => (value < 10 ? "#ff0000" : "#89c26f");
-
-  const farms = {
-    labels: Object.keys(farmsData),
+  const lineData = {
+    labels: growthChart?.map(crop => crop.crop_name),
     datasets: [
       {
-        label: "Growth Rate",
-        data: Object.values(farmsData),
-        backgroundColor: Object.values(farmsData).map(getColor),
-        borderColor: Object.values(farmsData).map(getColor),
+        label: "Growth Span",
+        data: growthChart?.map(crop => crop.avg_growth_span),
+        backgroundColor: "#66CDAA",
+        borderColor: "#66CDAA",
+        borderWidth: 2
+      },
+      {
+        label: "Harvest Quantity",
+        data: growthChart?.map(crop => crop.avg_harvest_qty),
+        backgroundColor: "#20B2AA",
+        borderColor: "#20B2AA",
         borderWidth: 2
       }
     ]
   };
 
-  const crops = {
-    labels: Object.keys(cropsData),
+  const pieData = {
+    labels: pieChart?.map(crop => crop.crop_name),
     datasets: [
       {
-        label: "Production Rate",
-        data: Object.values(cropsData),
-        backgroundColor: Object.values(cropsData).map(getColor),
-        borderColor: "#89c26f",
-        borderWidth: 2
+        label: "Crop",
+        data: pieChart?.map(crop => crop.planted_quantity),
+        backgroundColor: ["#228B22", "#2E8B57", "#3CB371", "#32CD32", "#8FBC8F"]
+      }
+    ]
+  };
+
+  const barData = {
+    labels: Object.keys(harvestChart || {}),
+    datasets: [
+      {
+        label: "Crop",
+        data: Object.values(harvestChart || {}),
+        backgroundColor: ["#9ACD32", "#7FFF00", "#98FB98", "#00FA9A", "#00FF7F"]
       }
     ]
   };
@@ -137,35 +110,34 @@ const Analytics = () => {
   return (
     <>
       <div className="py-10 px-4">
-        <div className="h-[400px] border-black border-1 p-1 grid grid-cols-12 gap-4">
-          <div className=" col-span-8 border border-border p-4 rounded-lg">
-            <Bar data={farms} options={chartOptions} />
-          </div>
-          <div className=" col-span-4 border border-border p-4 rounded-lg flex flex-col ">
-            <div className=" font-semibold text-lg">Growth Rate</div>
-            <div className="flex-grow grid place-items-center">
-              <div className="text-center">
-                <div className="text-[6rem] p-0 m-0 leading-none text-primary">
-                  86%
-                </div>
-                <div className=" text-gray-400 font-medium flex items-center justify-center">
-                  <TiArrowSortedDown /> 1.37 from last month
-                </div>
-              </div>
+        <div className=" border-black border-1 p-1 grid grid-cols-12 gap-x-4 gap-y-10">
+          <div className=" xl:col-span-8 col-span-12">
+            <h5 className="font-poppins-medium">
+              Total Withered & Total Harvest
+            </h5>
+            <div className="h-[400px]  border border-border p-4 rounded-lg">
+              <Bar data={stackBarData} options={optionsBar} />
             </div>
           </div>
-        </div>
-        <div className="mb-3 mt-2 mx-1 ">
-          <SuggestionsModal />
-        </div>
-        <div className="h-[400px] border-black border-1 p-1 grid grid-cols-12 gap-4">
-          <div className="col-span-8 border border-border p-4 rounded-lg">
-            <Line data={crops} options={chartOptions} />
+          <div className=" lg:col-span-4 col-span-12">
+            <h5 className="font-poppins-medium">Crops Quantity</h5>
+            <div className="h-[400px]  border border-border p-4 rounded-lg">
+              <Pie data={pieData} options={chartOptions} />
+            </div>
           </div>
-        </div>
-        <div className="h-[400px] border-black border-1 p-1 grid grid-cols-12 gap-4">
-          <div className="col-span-8 border border-border p-4 rounded-lg">
-            <Bar data={stackBarData} options={optionsBar} />
+          <div className="  lg:col-span-6 col-span-12">
+            <h5 className="font-poppins-medium">
+              Growth Span & Harvest Quantity
+            </h5>
+            <div className="h-[400px] border border-border p-4 rounded-lg">
+              <Line data={lineData} options={chartOptions} />
+            </div>
+          </div>
+          <div className="  lg:col-span-6 col-span-12 ">
+            <h5 className="font-poppins-medium">Monthly Harvest</h5>
+            <div className="h-[400px]  border border-border p-4 rounded-lg">
+              <Bar data={barData} options={chartOptions} />
+            </div>
           </div>
         </div>
       </div>

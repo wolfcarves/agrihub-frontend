@@ -13,10 +13,19 @@ interface SelectDistrictProps {
     onChange: (value: any) => void;
     value: any;
   };
+  setDistrict: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const SelectDistrict: React.FC<SelectDistrictProps> = ({ field }) => (
-  <Select onValueChange={field.onChange} defaultValue={field.value}>
+const SelectDistrict: React.FC<SelectDistrictProps> = ({
+  field,
+  setDistrict
+}) => (
+  <Select
+    onValueChange={value => {
+      field.onChange(value), setDistrict(value);
+    }}
+    defaultValue={field.value}
+  >
     <SelectTrigger className="w-full">
       <SelectValue placeholder="Select district..." />
     </SelectTrigger>

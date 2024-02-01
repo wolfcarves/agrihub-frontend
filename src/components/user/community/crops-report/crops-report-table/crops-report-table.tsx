@@ -36,10 +36,8 @@ const CropsReportTable = () => {
   const handleCheckboxChange = (cropName: string, isChecked: boolean) => {
     setFilter(prevFilter => {
       if (isChecked) {
-        // Add cropName to filter if checked
         return [...prevFilter, cropName];
       } else {
-        // Remove cropName from filter if unchecked
         return prevFilter.filter(name => name !== cropName);
       }
     });

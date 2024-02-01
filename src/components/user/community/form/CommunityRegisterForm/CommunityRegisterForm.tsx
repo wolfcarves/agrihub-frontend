@@ -5,9 +5,8 @@ import Dropzone from "../../dropzone/dropzone";
 import { Button } from "../../../../ui/button";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { registerCommunitySchema } from "./schema";
+import { RegisterCommunitySchema, registerCommunitySchema } from "./schema";
 import { Form, FormField } from "../../../../ui/form";
-import Capture from "../../capture/capture";
 import SelectId from "../../select-id/select-id";
 import { toast } from "sonner";
 import useFarmApplication from "../../../../../hooks/api/post/useFarmApplication";
@@ -23,18 +22,22 @@ import {
   SelectTrigger,
   SelectValue
 } from "../../../../ui/select";
-import { ownership } from "../../../../../constants/data";
+import { farmType, ownership } from "../../../../../constants/data";
 import { Checkbox } from "../../../../ui/checkbox";
 import DataPrivacyDialog from "../../../../ui/custom/data-privacy-dialog/data-privacy-dialog";
+import SelectBarangay from "../../select-barangay/select-barangay";
+import ReviewDialog from "../../review-dialog/review-dialog";
 
 const CommunityRegisterForm = () => {
-  const [isDialogOpen, setDialogOpen] = useState(false);
+  const [isDialogOpen, setDialogOpen] = useState<boolean>(false);
+  const [dialogReview, setDialogReview] = useState<boolean>();
+  const [district, setDistrict] = useState<string>("");
 
-  // useEffect(() => {
-  //   setDialogOpen(true);
-  // }, []);
+  useEffect(() => {
+    setDialogOpen(true);
+  }, []);
   const navigate = useNavigate();
-  const form = useForm<NewFarmApplication>({
+  const form = useForm<RegisterCommunitySchema>({
     resolver: zodResolver(registerCommunitySchema),
     mode: "onBlur"
   });
@@ -46,8 +49,11 @@ const CommunityRegisterForm = () => {
     if (form.formState.errors.farm_size) {
       toast.error(form.formState.errors.farm_size.message);
     }
-    if (form.formState.errors.location) {
-      toast.error(form.formState.errors.location.message);
+    if (form.formState.errors.street) {
+      toast.error(form.formState.errors.street.message);
+    }
+    if (form.formState.errors.barangay) {
+      toast.error(form.formState.errors.barangay.message);
     }
     if (form.formState.errors.district) {
       toast.error(form.formState.errors.district.message);
@@ -56,40 +62,50 @@ const CommunityRegisterForm = () => {
       toast.error(form.formState.errors.id_type.message);
     }
     if (form.formState.errors.valid_id) {
-      toast.error(form.formState.errors.valid_id.message);
+      toast.error(form.formState.errors.valid_id.message?.toString());
     }
     if (form.formState.errors.proof) {
       toast.error(form.formState.errors.proof.message);
     }
+    if (form.formState.errors.type_of_farm) {
+      toast.error(form.formState.errors.type_of_farm.message);
+    }
     if (form.formState.errors.farm_actual_images) {
-      toast.error(form.formState.errors.farm_actual_images.message);
+      toast.error(form.formState.errors.farm_actual_images.message?.toString());
     }
   }, [form.formState.errors]);
 
   const { mutateAsync: farmApplyMutate, isLoading: isFarmApplyLoading } =
     useFarmApplication();
 
-  const handleSubmitForm = async (data: NewFarmApplication) => {
+  const handleSubmitForm = async (data: RegisterCommunitySchema) => {
+    // setDialogReview(true);
     const compiledData: NewFarmApplication = {
       farm_name: data.farm_name,
       farm_size: data.farm_size,
-      location: data.location,
+      location: `${data.street} ${data.barangay}`,
       district: data.district,
       id_type: data.id_type,
       valid_id: data.valid_id,
       proof: data.proof,
+      type_of_farm: data.type_of_farm,
       farm_actual_images: data.farm_actual_images
     };
 
-    try {
-      await farmApplyMutate(compiledData);
-      toast.success("Applied Successfully!");
-      navigate("/community");
-    } catch (e: any) {
-      toast.error(e.body.message);
+    if (!Object.keys(form.formState.errors).length) {
+      setDialogReview(true);
     }
+    console.log("test");
+
+    // try {
+    //   await farmApplyMutate(compiledData);
+
+    //   toast.success("Applied Successfully!");
+    //   navigate("/community");
+    // } catch (e: any) {
+    //   toast.error(e.body.message);
+    // }
   };
-  console.log(form.formState.errors);
 
   return (
     <div className="w-full md:px-0 px-2 ">
@@ -120,29 +136,32 @@ const CommunityRegisterForm = () => {
             />
           </div>
           <div className=" md:col-span-4 col-span-12">
+            <Label className=" font-poppins-medium">District</Label>
+            <FormField
+              control={form.control}
+              name="district"
+              render={({ field }) => (
+                <SelectDistrict field={field} setDistrict={setDistrict} />
+              )}
+            />
+          </div>
+          <div className=" md:col-span-4 col-span-12">
             <Label className=" font-poppins-medium">Street</Label>
             <Input
               type="text"
               className="h-10"
               placeholder="Enter Location..."
-              {...form.register("location")}
+              {...form.register("street")}
             />
           </div>
           <div className=" md:col-span-4 col-span-12">
             <Label className=" font-poppins-medium">Barangay</Label>
-            <Input
-              type="text"
-              className="h-10"
-              placeholder="Enter Location..."
-              {...form.register("location")}
-            />
-          </div>
-          <div className=" md:col-span-4 col-span-12">
-            <Label className=" font-poppins-medium">District</Label>
             <FormField
               control={form.control}
-              name="district"
-              render={({ field }) => <SelectDistrict field={field} />}
+              name="barangay"
+              render={({ field }) => (
+                <SelectBarangay field={field} district={district} />
+              )}
             />
           </div>
           <div className="md:col-span-6 col-span-12">
@@ -156,7 +175,7 @@ const CommunityRegisterForm = () => {
                   defaultValue={field.value}
                 >
                   <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select valid id type..." />
+                    <SelectValue placeholder="Select ownership type..." />
                   </SelectTrigger>
                   <SelectContent>
                     {ownership.map((id, i) => (
@@ -173,17 +192,17 @@ const CommunityRegisterForm = () => {
             <Label className=" font-poppins-medium">Farm Type</Label>
             <FormField
               control={form.control}
-              name="proof"
+              name="type_of_farm"
               render={({ field }) => (
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
                 >
                   <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select valid id type..." />
+                    <SelectValue placeholder="Select farm type..." />
                   </SelectTrigger>
                   <SelectContent>
-                    {ownership.map((id, i) => (
+                    {farmType.map((id, i) => (
                       <SelectItem key={i} value={id}>
                         {id}
                       </SelectItem>
@@ -241,9 +260,14 @@ const CommunityRegisterForm = () => {
           </div>
 
           <div className="col-span-12">
-            <Button disabled={isFarmApplyLoading} type="submit">
+            {/* <Button disabled={isFarmApplyLoading} type="submit">
               Apply
-            </Button>
+            </Button> */}
+            <ReviewDialog
+              dialogReview={dialogReview}
+              setDialogReview={setDialogReview}
+              form={form}
+            />
           </div>
         </form>
       </Form>

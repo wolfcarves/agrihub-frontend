@@ -29,7 +29,8 @@ import SelectBarangay from "../../select-barangay/select-barangay";
 import ReviewDialog from "../../review-dialog/review-dialog";
 
 const CommunityRegisterForm = () => {
-  const [isDialogOpen, setDialogOpen] = useState(false);
+  const [isDialogOpen, setDialogOpen] = useState<boolean>(false);
+  const [dialogReview, setDialogReview] = useState<boolean>();
   const [district, setDistrict] = useState<string>("");
 
   useEffect(() => {
@@ -78,6 +79,7 @@ const CommunityRegisterForm = () => {
     useFarmApplication();
 
   const handleSubmitForm = async (data: RegisterCommunitySchema) => {
+    // setDialogReview(true);
     const compiledData: NewFarmApplication = {
       farm_name: data.farm_name,
       farm_size: data.farm_size,
@@ -90,15 +92,19 @@ const CommunityRegisterForm = () => {
       farm_actual_images: data.farm_actual_images
     };
 
-    try {
-      await farmApplyMutate(compiledData);
-
-      toast.success("Applied Successfully!");
-      navigate("/community");
-    } catch (e: any) {
-      toast.error(e.body.message);
-      console.log(e.body);
+    if (!Object.keys(form.formState.errors).length) {
+      setDialogReview(true);
     }
+    console.log("test");
+
+    // try {
+    //   await farmApplyMutate(compiledData);
+
+    //   toast.success("Applied Successfully!");
+    //   navigate("/community");
+    // } catch (e: any) {
+    //   toast.error(e.body.message);
+    // }
   };
 
   return (
@@ -254,9 +260,14 @@ const CommunityRegisterForm = () => {
           </div>
 
           <div className="col-span-12">
-            <Button disabled={isFarmApplyLoading} type="submit">
+            {/* <Button disabled={isFarmApplyLoading} type="submit">
               Apply
-            </Button>
+            </Button> */}
+            <ReviewDialog
+              dialogReview={dialogReview}
+              setDialogReview={setDialogReview}
+              form={form}
+            />
           </div>
         </form>
       </Form>

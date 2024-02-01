@@ -1,11 +1,8 @@
 import React from "react";
 import { UserSidebar, UserSidebarNavLink } from "@components/ui/custom";
-
-import { BsTags } from "react-icons/bs";
-import { TbMessageCircleQuestion } from "react-icons/tb";
-import { IoBookmarkOutline } from "react-icons/io5";
 import useAuth from "@hooks/useAuth";
 import { useLocation } from "react-router-dom";
+import { PiListMagnifyingGlass, PiNewspaper, PiUsers } from "react-icons/pi";
 
 const CommunitySidebar = () => {
   const pathname = useLocation().pathname;
@@ -24,20 +21,20 @@ const CommunitySidebar = () => {
         <UserSidebarNavLink
           to={`/community/my-community/${UserData.farm_id}`}
           title="My Community"
-          logo={<IoBookmarkOutline size={20} />}
+          logo={<PiUsers size={21} />}
         />
       )}
 
       <UserSidebarNavLink
         to="/community/explore"
         title="Explore"
-        logo={<BsTags size={20} />}
+        logo={<PiListMagnifyingGlass size={21} />}
       />
       {UserData?.farm_id && isAuthenticated && (
         <UserSidebarNavLink
           to={`/community/reports/${UserData.farm_id}`}
           title="Reports"
-          logo={<IoBookmarkOutline size={20} />}
+          logo={<PiNewspaper size={20} />}
         />
       )}
     </UserSidebar>

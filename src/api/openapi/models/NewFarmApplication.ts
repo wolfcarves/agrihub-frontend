@@ -33,6 +33,10 @@ export type NewFarmApplication = {
      */
     proof: string;
     /**
+     * Type of farm community
+     */
+    type_of_farm?: string;
+    /**
      * An array of actual farm image files
      */
     farm_actual_images: Array<Blob>;

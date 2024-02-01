@@ -47,6 +47,7 @@ export default defineConfig({
     react(),
     reactRefresh(),
     VitePWA({
+      injectRegister: false,
       manifest: {
         name: "AgriHub",
         short_name: "AgriHub",
@@ -69,6 +70,7 @@ export default defineConfig({
       },
       registerType: "autoUpdate",
       workbox: {
+        importScripts: ["./sw.js"],
         clientsClaim: true,
         skipWaiting: true
       },

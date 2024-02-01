@@ -54,10 +54,7 @@ const MultiImageUpload: React.FC<MultiImageUploadProps> = ({ onChange }) => {
         multiple
         ref={inputRef}
       />
-      <Button
-        className="lg:w-[50%] w-full p-2"
-        onClick={handleUploadButtonClick}
-      >
+      <Button className="w-full p-2" onClick={handleUploadButtonClick}>
         <FiUploadCloud className="mr-1" size={18} />
         Upload
       </Button>

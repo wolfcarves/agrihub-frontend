@@ -22,13 +22,20 @@ export default function useLoginUserMutation() {
     },
     onSuccess: userAuth => {
       queryClient.invalidateQueries({ queryKey: [GET_MY_PROFILE_KEY()] });
-
-      if (userAuth?.user?.verification_level === "4") {
-        navigate("/");
-      } else {
-        navigate("/account/verify-email");
+      switch (userAuth?.user?.verification_level) {
+        case "4":
+          if (userAuth?.user?.role === "admin") {
+            navigate("/admin/dashboard");
+          } else {
+            navigate("/");
+          }
+          break;
+        default:
+          navigate("/account/verify-email");
+          break;
       }
     },
+
     onError: (e: any) => {
       console.log(e);
     }

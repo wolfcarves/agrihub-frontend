@@ -155,7 +155,7 @@ export const adminNavigation = [
       {
         title: "",
         name: "Reported",
-        href: "/admin/forum/qusestion-reported"
+        href: "/admin/forum/question-reported"
       },
       {
         title: "",
@@ -166,11 +166,6 @@ export const adminNavigation = [
         title: "Tags",
         name: "All Tags",
         href: "/admin/forum/tags"
-      },
-      {
-        title: "",
-        name: "Archived",
-        href: "/admin/forum/tag-archive"
       }
     ]
   },

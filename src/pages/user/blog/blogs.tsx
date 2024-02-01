@@ -1,98 +1,39 @@
 import React from "react";
+import { blogsData } from "./blogs-data";
+import { formatDateTime } from "@components/lib/utils";
+import { Link } from "react-router-dom";
+import { ellipsis } from "./blog";
 
 const Blogs = () => {
   return (
-    <div className="py-4 px-10 grid grid-cols-2 gap-0">
-      <div className="">
-        <h3>Recent Blogs</h3>
-
-        <img src="https://via.placeholder.com/750x480" className="pt-2"></img>
-
-        <h5 className="text-gray-600 pt-4 text-sm">October 19, 2023</h5>
-
-        <a className="font-bold text-3xl" href="#">
-          Permaculture Workshop Day 1
-        </a>
-
-        <p className="text-gray-600 text-sm me-8 text-justify">
-          Sa pangalawang araw ng workshop, itinalakay at pinag-usapan ang mas
-          malalim na kahulugan ng permakultura, ang buhay sa ilalim ng lupa,
-          bahagi, ethics, abstract principle, ekolohiya, stratehiya at mga
-          teknik sa permakultura. Sa tulong ni Sir Sixto Bereber, nagkaroon ng
-          mas malalim na kaalaman sa agrikultura at kalikasan ang ating mga
-          urban farmers na maaari nilang i-apply sa kani-kanilang mga urban
-          farms dito sa Quezon City. Ang pagsasanay na ito ay dahil sa
-          kolaborasyon ng Quezon City University - Center for Urban...
-        </p>
-      </div>
-
-      <div className="grid row-auto pt-11 me-3">
-        <div className="grid grid-cols-2">
-          <div>
-            <img src="https://via.placeholder.com/700x400"></img>
+    <div className="py-4 px-8">
+      <h3 className="mb-3">Recent Blogs</h3>
+      <div className="grid grid-cols-1 lg:grid-cols-3 sm:grid-cols-2 grid-rows-3 gap-5">
+        {blogsData.map((items, key) => (
+          <div key={key} className="group flex flex-col">
+            <div className="max-h-370px max-w-750px">
+              <img
+                src={items.img}
+                loading="lazy"
+                alt={items.title}
+                className="w-full rounded-lg max-h-370px max-w-750px"
+              />
+            </div>
+            <Link to={`/blogs/view/${items.blogId}`}>
+              <div className="mt-3">
+                <h5 className="text-gray-600 pt-1 text-sm">
+                  {formatDateTime(items.date)}
+                </h5>
+                <h1 className="text-gray-800 duration-150 group-hover:text-green-700 font-semibold pt-1 text-lg">
+                  {ellipsis(items.title, 30)}
+                </h1>
+                <p className="text-sm me-8 text-justify">
+                  {ellipsis(items.desc, 180)}
+                </p>
+              </div>
+            </Link>
           </div>
-          <div className="ms-3">
-            <h5 className="text-gray-500 text-sm">October 19, 2023</h5>
-            <a className="font-bold text-xl" href="#">
-              Permaculture Workshop Day 1
-            </a>
-            <p className="text-gray-600 text-xs text-justify">
-              Sa pangalawang araw ng workshop, itinalakay at pinag-usapan ang
-              mas malalim na kahulugan ng permakultura, ang buhay sa ilalim ng
-              lupa, bahagi, ethics, abstract principle, ekolohiya, stratehiya at
-              mga teknik sa permakultura. Sa tulong ni Sir Sixto Bereber,
-              nagkaroon ng mas malalim na kaalaman sa agrikultura at kalikasan
-              ang ating mga urban farmers na maaari nilang i-apply sa
-              kani-kanilang mga urban farms dito sa Quezon City. Ang pagsasanay
-              na ito ay dahil sa kolaborasyon ng Quezon City University - Center
-              for Urban...
-            </p>
-          </div>
-        </div>
-        <div className="grid grid-cols-2 pt-3">
-          <div>
-            <img src="https://via.placeholder.com/700x400"></img>
-          </div>
-          <div className="ms-3">
-            <h5 className="text-gray-500 text-sm">October 19, 2023</h5>
-            <a className="font-bold text-xl" href="#">
-              Permaculture Workshop Day 1
-            </a>
-            <p className="text-gray-600 text-xs text-justify">
-              Sa pangalawang araw ng workshop, itinalakay at pinag-usapan ang
-              mas malalim na kahulugan ng permakultura, ang buhay sa ilalim ng
-              lupa, bahagi, ethics, abstract principle, ekolohiya, stratehiya at
-              mga teknik sa permakultura. Sa tulong ni Sir Sixto Bereber,
-              nagkaroon ng mas malalim na kaalaman sa agrikultura at kalikasan
-              ang ating mga urban farmers na maaari nilang i-apply sa
-              kani-kanilang mga urban farms dito sa Quezon City. Ang pagsasanay
-              na ito ay dahil sa kolaborasyon ng Quezon City University - Center
-              for Urban...
-            </p>
-          </div>
-        </div>
-        <div className="grid grid-cols-2 pt-3">
-          <div>
-            <img src="https://via.placeholder.com/700x400"></img>
-          </div>
-          <div className="ms-3">
-            <h5 className="text-gray-500 text-sm">October 19, 2023</h5>
-            <a className="font-bold text-xl" href="#">
-              Permaculture Workshop Day 1
-            </a>
-            <p className="text-gray-600 text-xs text-justify">
-              Sa pangalawang araw ng workshop, itinalakay at pinag-usapan ang
-              mas malalim na kahulugan ng permakultura, ang buhay sa ilalim ng
-              lupa, bahagi, ethics, abstract principle, ekolohiya, stratehiya at
-              mga teknik sa permakultura. Sa tulong ni Sir Sixto Bereber,
-              nagkaroon ng mas malalim na kaalaman sa agrikultura at kalikasan
-              ang ating mga urban farmers na maaari nilang i-apply sa
-              kani-kanilang mga urban farms dito sa Quezon City. Ang pagsasanay
-              na ito ay dahil sa kolaborasynon ng Quezon City University -
-              Center for Urban...
-            </p>
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   );

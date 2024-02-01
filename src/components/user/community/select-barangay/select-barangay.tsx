@@ -52,7 +52,7 @@ const SelectBarangay: React.FC<SelectBarangayProps> = ({ field, district }) => {
       <SelectTrigger className="w-full">
         <SelectValue placeholder="Select barangay..." />
       </SelectTrigger>
-      <SelectContent>
+      <SelectContent className="h-[10rem]">
         {getBarangayOptions.map((id, i) => (
           <SelectItem key={i} value={id}>
             {id}

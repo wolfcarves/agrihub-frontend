@@ -12,7 +12,7 @@ import { Button } from "../../button";
 import { ScrollArea } from "../../scroll-area";
 const DataPrivacyDialog = ({ isDialogOpen, setDialogOpen }: any) => {
   return (
-    <Dialog open={isDialogOpen}>
+    <Dialog open={isDialogOpen} onOpenChange={setDialogOpen}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Data Privacy Statement</DialogTitle>

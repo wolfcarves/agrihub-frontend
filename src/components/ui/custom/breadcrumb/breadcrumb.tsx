@@ -16,10 +16,10 @@ export default function BreadCrumb({ items }: BreadCrumbPropsType) {
   return (
     <div className="mb-4 flex items-center space-x-1 text-sm text-muted-foreground font-poppins-medium">
       <Link
-        to={"/admin"}
+        to={"/admin/dashboard"}
         className="overflow-hidden text-ellipsis whitespace-nowrap"
       >
-        Home
+        Dashboard
       </Link>
       {items?.map((item: BreadCrumbType, index: number) => (
         <React.Fragment key={item.title}>

@@ -47,7 +47,7 @@ const CropsReportTable = () => {
 
   return (
     <div>
-      <div className="my-2 flex justify-between">
+      <div className="my-2 flex md:flex-row flex-col gap-3 justify-between">
         <Input
           placeholder="Search crop..."
           value={search}

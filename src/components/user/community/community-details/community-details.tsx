@@ -10,12 +10,14 @@ const CommunityDetails = () => {
   const { id } = useParams();
   const isMember = id === UserData?.farm_id;
   const { data: farmDetails } = useGetFarmViewQuery(id || "");
+  console.log(farmDetails);
   return (
-    <div className="flex justify-center p-5 pb-[6rem] ">
-      <div className="w-full h-[10rem] bg-slate-700 relative flex justify-center rounded-xl">
-        <div className="absolute bg-white w-[96%] rounded-xl min-h-[10rem] top-[5rem]">
-          <div className="pt-10 px-10 grid grid-cols-10">
-            <div className=" col-span-7 flex gap-3">
+    <div className="flex justify-center p-5  ">
+      <div className="w-full min-h-[10rem]  relative flex justify-center mt-[5rem]">
+        <div className="absolute -z-10 bg-slate-700 w-[100%] rounded-xl min-h-[10rem] -top-[5rem]"></div>
+        <div className=" bg-white w-[96%] rounded-xl shadow">
+          <div className="pt-10 px-10 pb-5 grid grid-cols-10 md:gap-0 gap-3">
+            <div className=" md:col-span-7 col-span-10 flex gap-3">
               <Avatar className="border rounded h-[5.5rem] w-[5.5rem]">
                 <AvatarImage
                   src={farmDetails?.avatar ?? ""}
@@ -34,9 +36,9 @@ const CommunityDetails = () => {
                 </p>
               </div>
             </div>
-            <div className=" col-span-3 flex justify-end items-start ">
+            <div className=" md:col-span-3 col-span-10 flex md:justify-end justify-center  items-start ">
               {isAuthenticated && (
-                <Button className="">
+                <Button className="md:text-sm text-xs">
                   {isMember ? "Edit Details" : "Join"}
                 </Button>
               )}

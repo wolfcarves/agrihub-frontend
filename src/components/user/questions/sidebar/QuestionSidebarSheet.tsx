@@ -11,6 +11,7 @@ import { GrArticle } from "react-icons/gr";
 import { RiLightbulbLine } from "react-icons/ri";
 import { IoCalendarNumberOutline } from "react-icons/io5";
 import { BsExclamationCircle } from "react-icons/bs";
+import { PiListMagnifyingGlass, PiNewspaper } from "react-icons/pi";
 
 type QuestionSidebarSheetProps = ComponentProps<"div"> & {
   onLinkClick?: () => void;
@@ -22,7 +23,7 @@ const QuestionSidebarSheet = ({
   ...props
 }: QuestionSidebarSheetProps) => {
   const pathname = useLocation().pathname;
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, data: UserData } = useAuth();
 
   const handleEventClick = () => {
     onLinkClick && onLinkClick();
@@ -69,6 +70,22 @@ const QuestionSidebarSheet = ({
           end
           onClick={handleEventClick}
         />
+        <UserSidebarNavLink
+          to="/community/explore"
+          title="Explore"
+          logo={<PiListMagnifyingGlass size={21} />}
+          end
+          onClick={handleEventClick}
+        />
+        {UserData?.farm_id && (
+          <UserSidebarNavLink
+            to={`/community/reports/${UserData?.farm_id}`}
+            title="Reports"
+            logo={<PiNewspaper size={20} />}
+            end
+            onClick={handleEventClick}
+          />
+        )}
       </div>
 
       <div className="mt-10">

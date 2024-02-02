@@ -32,9 +32,9 @@ const CommunityCrop = () => {
       <div className="grid grid-cols-12 gap-4">
         <img
           src={CropData?.image}
-          className=" col-span-3 h-[15rem] object-fill object-center rounded-md hover:shadow-md border"
+          className=" md:col-span-3 col-span-12 h-[15rem] object-fill object-center rounded-md hover:shadow-md border place-self-center"
         />
-        <div className=" col-span-9">
+        <div className=" md:col-span-9 col-span-12 md:px-0 px-4">
           <h2 className=" font-poppins-semibold  text-green-700 leading-tight ">
             {CropData?.crop_name}
           </h2>

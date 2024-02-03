@@ -35,10 +35,10 @@ const Learning = () => {
       );
     } else if (resource.type === "video") {
       return (
-        <div className="max-w-md">
+        <div>
           <iframe
-            width="560"
-            height="315"
+            width="800"
+            height="636"
             src={resource.resource}
             title={resource.name}
             frameBorder="0"
@@ -61,14 +61,15 @@ const Learning = () => {
             <CarouselItem className="h-auto">
               <div
                 key={index}
-                className="mb-2 flex justify-between flex-wrap m-5 shadow-lg p-5 rounded-lg"
+                className="mb-2 flex h-[636px] bg-[#f5f5f5] justify-between flex-wrap m-5 shadow-lg rounded-lg"
               >
-                <h2 className="w-1/3">
-                  <span className="font-bold">{resource.name}</span>
-                  <br />
-                  {resource.description}
+                <h2 className="w-[388px]">
+                  <span className="font-bold block m-5">{resource.name}</span>
+                  <span className="block m-5 text-base">
+                    {resource.description}
+                  </span>
                 </h2>
-                <div className="w-1/2 max-h-80">{renderResource(resource)}</div>
+                <div className="w-[800px]">{renderResource(resource)}</div>
               </div>
             </CarouselItem>
           ))}
@@ -76,32 +77,33 @@ const Learning = () => {
         <CarouselPrevious />
         <CarouselNext />
       </Carousel>
-      <p className="text-gray-700 my-2">
-        <strong>Date:</strong> {selectedEvent.date}
-      </p>
-      <p className="text-gray-700 mb-2">
-        <strong>Type:</strong> {selectedEvent.type}
-      </p>
-      <p className="text-gray-700 mb-2">
-        <strong>Language:</strong> {selectedEvent.language}
-      </p>
-      <p className="text-gray-700 mb-2">
-        <strong>Tags:</strong>{" "}
-        {selectedEvent.tags.map((tag, index) => (
-          <span
-            key={index}
-            className="text-base text-primary rounded-md w-auto border border-[#BBE3AD] bg-secondary px-2 ml-2 py-1"
-          >
-            {tag.name}
-          </span>
-        ))}
-      </p>
+      <div className="flex flex-col items-center my-7 ">
+        <div className="w-1/2">
+          <p className="text-gray-700 my-2">
+            <strong>Date:</strong> {selectedEvent.date}
+          </p>
+          <p className="text-gray-700 mb-2">
+            <strong>Type:</strong> {selectedEvent.type}
+          </p>
+          <p className="text-gray-700 mb-2">
+            <strong>Language:</strong> {selectedEvent.language}
+          </p>
+          <p className="text-gray-700 mb-2">
+            <strong>Tags:</strong>{" "}
+            {selectedEvent.tags.map((tag, index) => (
+              <span
+                key={index}
+                className="text-base text-primary rounded-md w-auto border border-[#BBE3AD] bg-secondary px-2 ml-2 py-1"
+              >
+                {tag.name}
+              </span>
+            ))}
+          </p>
 
-      <p className="py-4 text-lg">{selectedEvent.content}</p>
+          <p className="py-5 mb-5 text-[18px]">{selectedEvent.content}</p>
 
-      <div>
-        <strong>Learning Credits:</strong>
-        <ul className="list-disc ml-4">
+          <strong>Learning Credits:</strong>
+        <ul className="list-disc">
           {selectedEvent.learning_credits.map((credit, index) => (
             <>
               <p key={index} className="text-gray-700 font-semibold sm:text-lg">
@@ -111,7 +113,9 @@ const Learning = () => {
             </>
           ))}
         </ul>
+        </div>
       </div>
+
     </div>
   );
 };

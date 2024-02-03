@@ -13,6 +13,7 @@ import { IoMdAdd } from "react-icons/io";
 import { Button } from "../../../../ui/button";
 import { Search } from "lucide-react";
 import MemberInviteDialog from "../member-invite-dialog/member-invite-dialog";
+import useGetUsersMember from "../../../../../hooks/api/get/useGetUsersMember";
 interface HeaderProps {
   search: string;
   setSearch: React.Dispatch<React.SetStateAction<string>>;
@@ -26,7 +27,7 @@ const Header: React.FC<HeaderProps> = ({
   setFilter
 }) => {
   const [dialog, setDialog] = useState<boolean>(false);
-  console.log(dialog);
+
   return (
     <div className="my-2 flex md:flex-row flex-col gap-3 justify-between">
       <Input

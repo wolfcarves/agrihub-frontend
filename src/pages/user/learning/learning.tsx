@@ -35,10 +35,8 @@ const Learning = () => {
       );
     } else if (resource.type === "video") {
       return (
-        <div>
-          <iframe
-            width="800"
-            height="636"
+        <div  className='w-full aspect-video'>
+          <iframe className="w-full h-full"
             src={resource.resource}
             title={resource.name}
             frameBorder="0"
@@ -53,32 +51,32 @@ const Learning = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto my-6 shadow-lg border rounded-md p-6">
-      <h2 className="text-2xl font-bold mb-4">{selectedEvent.title}</h2>
-      <Carousel>
+    <div className="max-w-4xl lg:max-w-6xl lg:p-6 mx-auto my-6 shadow-lg border rounded-md">
+      <h2 className="text-xl font-bold m-4">{selectedEvent.title}</h2>
+      <Carousel>  
         <CarouselContent>
           {selectedEvent.learning_resources.map((resource, index) => (
-            <CarouselItem className="h-auto">
+            <CarouselItem className="lg:h-auto">
               <div
                 key={index}
-                className="mb-2 flex h-[636px] bg-[#f5f5f5] justify-between flex-wrap m-5 shadow-lg rounded-lg"
+                className="mb-2 flex bg-[#f5f5f5] justify-between flex-wrap m-3 shadow-lg rounded-lg"
               >
-                <h2 className="w-[388px]">
-                  <span className="font-bold block m-5">{resource.name}</span>
+                <h2 className="lg:w-2/5 sm:w-1/3">
+                <h2 className="text-xl font-bold ml-3 my-4">{resource.name}</h2>
                   <span className="block m-5 text-base">
                     {resource.description}
                   </span>
                 </h2>
-                <div className="w-[800px]">{renderResource(resource)}</div>
+                <div className="w-[700px] sm:w-2/3 lg:w-3/5">{renderResource(resource)}</div>
               </div>
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious />
+        <CarouselPrevious/>
         <CarouselNext />
       </Carousel>
       <div className="flex flex-col items-center my-7 ">
-        <div className="w-1/2">
+        <div className="w-5/6 lg:w-3/4">
           <p className="text-gray-700 my-2">
             <strong>Date:</strong> {selectedEvent.date}
           </p>
@@ -103,7 +101,7 @@ const Learning = () => {
           <p className="py-5 mb-5 text-[18px]">{selectedEvent.content}</p>
 
           <strong>Learning Credits:</strong>
-        <ul className="list-disc">
+        <ul className="list-disc mt-4">
           {selectedEvent.learning_credits.map((credit, index) => (
             <>
               <p key={index} className="text-gray-700 font-semibold sm:text-lg">

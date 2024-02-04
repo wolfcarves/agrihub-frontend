@@ -116,6 +116,7 @@ import Gallery from "./pages/user/community/tabs/gallery";
 import CommunityReport from "./pages/user/community/community-report";
 import CropsReport from "./pages/user/community/tabs/crops-report/crops-report";
 import CropsReportAdd from "./pages/user/community/tabs/crops-report/crops-report-add";
+import CommunityProfile from "./pages/user/community/community-profile";
 
 const App = ReactRouter(
   <>
@@ -170,6 +171,7 @@ const App = ReactRouter(
           <Route path="" element={<CropsReport />} />
           <Route path="add" element={<CropsReportAdd />} />
         </Route>
+        <Route path="my-community/:id/profile" element={<CommunityProfile />} />
       </Route>
 
       {/* Article Page */}

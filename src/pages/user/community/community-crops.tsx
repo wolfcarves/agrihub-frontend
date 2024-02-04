@@ -20,6 +20,7 @@ const CommunityCrop = () => {
   const navigate = useNavigate();
   const { cropId } = useParams();
   const { data: CropData } = useGetReportCropStatsQuery(cropId || "");
+  console.log(CropData);
 
   return (
     <OutletContainer className="w-full">
@@ -32,9 +33,9 @@ const CommunityCrop = () => {
       <div className="grid grid-cols-12 gap-4">
         <img
           src={CropData?.image}
-          className=" col-span-3 h-[15rem] object-fill object-center rounded-md hover:shadow-md border"
+          className=" md:col-span-3 col-span-12 h-[15rem] object-fill object-center rounded-md hover:shadow-md border place-self-center"
         />
-        <div className=" col-span-9">
+        <div className=" md:col-span-9 col-span-12 md:px-0 px-4">
           <h2 className=" font-poppins-semibold  text-green-700 leading-tight ">
             {CropData?.crop_name}
           </h2>
@@ -89,6 +90,18 @@ const CommunityCrop = () => {
           value={CropData?.total_withered || "0"}
           icon={<GiPlantRoots size={20} />}
         />
+      </div>
+      <div className="py-3">
+        <h4 className="font-poppins-semibold  text-green-700 mb-2">Images</h4>
+        <div className="flex flex-wrap gap-2">
+          {CropData?.images?.map((image, i) => (
+            <img
+              key={i}
+              className="md:h-[10rem] h-[5rem] rounded hover:shadow-lg"
+              src={image.image}
+            />
+          ))}
+        </div>
       </div>
     </OutletContainer>
   );

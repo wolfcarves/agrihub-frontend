@@ -15,11 +15,13 @@ import type { DeleteSuccessMessage } from '../models/DeleteSuccessMessage';
 import type { FarmApplicationData } from '../models/FarmApplicationData';
 import type { FarmApplicationResponse } from '../models/FarmApplicationResponse';
 import type { FarmApplicationsResponse } from '../models/FarmApplicationsResponse';
+import type { FarmerInvitationResponse } from '../models/FarmerInvitationResponse';
 import type { FarmListResponse } from '../models/FarmListResponse';
 import type { NewCommunityFarmGallery } from '../models/NewCommunityFarmGallery';
 import type { NewCropRequest } from '../models/NewCropRequest';
 import type { NewCropResponse } from '../models/NewCropResponse';
 import type { NewFarmApplication } from '../models/NewFarmApplication';
+import type { NewFarmerInvitationRequest } from '../models/NewFarmerInvitationRequest';
 import type { NewFarmRequest } from '../models/NewFarmRequest';
 import type { NewFarmResponse } from '../models/NewFarmResponse';
 import type { SubfarmOverviewResponse } from '../models/SubfarmOverviewResponse';
@@ -568,6 +570,94 @@ formData: NewCropRequest,
             errors: {
                 400: `Validation Error`,
                 401: `Unauthorized`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Send a farmer invitation
+     * @returns FarmerInvitationResponse Successful invitation
+     * @throws ApiError
+     */
+    public static postApiFarmFarmerInvitation({
+requestBody,
+}: {
+requestBody: NewFarmerInvitationRequest,
+}): CancelablePromise<FarmerInvitationResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/farm/farmer/invitation',
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * @returns any Successful response
+     * @throws ApiError
+     */
+    public static postApiFarmFarmerInvitationAccept({
+id,
+}: {
+/**
+ * The ID of the invitation to accept.
+ */
+id: string,
+}): CancelablePromise<{
+/**
+ * Success message indicating the invitation was accepted successfully.
+ */
+message?: string;
+}> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/farm/farmer/invitation/accept/{id}',
+            path: {
+                'id': id,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * @returns any Successful response
+     * @throws ApiError
+     */
+    public static deleteApiFarmFarmerInvitationReject({
+id,
+}: {
+/**
+ * The ID of the invitation to accept.
+ */
+id: string,
+}): CancelablePromise<{
+/**
+ * Success message indicating the invitation was accepted successfully.
+ */
+message?: string;
+}> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/farm/farmer/invitation/reject/{id}',
+            path: {
+                'id': id,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
                 500: `Server Error`,
             },
         });

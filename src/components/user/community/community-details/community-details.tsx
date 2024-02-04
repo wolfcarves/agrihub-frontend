@@ -3,14 +3,18 @@ import { Avatar, AvatarFallback, AvatarImage } from "../../../ui/avatar";
 import { Button } from "../../../ui/button";
 import useAuth from "../../../../hooks/useAuth";
 import useGetFarmViewQuery from "../../../../hooks/api/get/useGetFarmViewQuery";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const CommunityDetails = () => {
+  const navigate = useNavigate();
   const { isAuthenticated, data: UserData } = useAuth();
   const { id } = useParams();
   const isMember = id === UserData?.farm_id;
   const { data: farmDetails } = useGetFarmViewQuery(id || "");
-  console.log(farmDetails);
+
+  const handleEdit = () => {
+    navigate(`/community/my-community/${UserData?.farm_id}/profile`);
+  };
   return (
     <div className="flex justify-center p-5  ">
       <div className="w-full min-h-[10rem]  relative flex justify-center mt-[5rem]">
@@ -37,10 +41,12 @@ const CommunityDetails = () => {
               </div>
             </div>
             <div className=" md:col-span-3 col-span-10 flex md:justify-end justify-center  items-start ">
-              {isAuthenticated && (
-                <Button className="md:text-sm text-xs">
-                  {isMember ? "Edit Details" : "Join"}
+              {isAuthenticated && isMember ? (
+                <Button onClick={handleEdit} className="md:text-sm text-xs">
+                  Edit Details
                 </Button>
+              ) : (
+                <Button className="md:text-sm text-xs">Join</Button>
               )}
             </div>
           </div>

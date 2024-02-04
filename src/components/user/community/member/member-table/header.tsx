@@ -37,18 +37,6 @@ const Header: React.FC<HeaderProps> = ({
         className="max-w-sm focus-visible:ring-0"
       />
       <div className="flex items-center justify-end gap-2">
-        <Select onValueChange={value => setFilter(value)} value={filter}>
-          <SelectTrigger className="w-[180px] focus-visible:ring-0">
-            <SelectValue placeholder="Select Filter" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectItem value="member">Member</SelectItem>
-              <SelectItem value="invited">Invited</SelectItem>
-              <SelectItem value="pending">Pending</SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
         <Button
           onClick={() => setDialog(true)}
           className="flex items-center gap-1"

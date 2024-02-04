@@ -3,9 +3,10 @@ import { RiUploadCloud2Line } from "react-icons/ri";
 
 interface DropzoneProps {
   onChange: (blob: Blob) => void;
+  className?: string;
 }
 
-const Dropzone: React.FC<DropzoneProps> = ({ onChange }) => {
+const Dropzone: React.FC<DropzoneProps> = ({ onChange, className }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -52,7 +53,7 @@ const Dropzone: React.FC<DropzoneProps> = ({ onChange }) => {
     <div
       className={`border-2 ${
         isDragging ? "border-blue-500" : "border-gray-300"
-      } flex flex-col items-center justify-center w-full h-64 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600`}
+      } flex flex-col items-center justify-center w-full h-64 ${className} border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600`}
       onDragEnter={handleDragEnter}
       onDragLeave={handleDragLeave}
       onDragOver={e => e.preventDefault()}

@@ -11,12 +11,11 @@ import {
 } from "../../../../ui/dropdown-menu";
 import { Button } from "../../../../ui/button";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
-import { format } from "date-fns";
-import { MemberSchema } from "../../../../../constants/data";
+import { FarmMember } from "../../../../../api/openapi";
 
-export const columns: ColumnDef<MemberSchema>[] = [
+export const columns: ColumnDef<FarmMember>[] = [
   {
-    accessorKey: "name",
+    accessorKey: "firstname",
     header: ({ column }) => {
       return (
         <Button
@@ -27,17 +26,20 @@ export const columns: ColumnDef<MemberSchema>[] = [
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
+    },
+    cell: ({ row }) => {
+      return `${row.original.firstname} ${row.original.lastname}`;
     }
   },
   {
-    accessorKey: "applicationStatus",
+    accessorKey: "role",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Status
+          Role
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );

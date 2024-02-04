@@ -21,13 +21,19 @@ export const registerCommunitySchema = zod.object({
       required_error: "Size is required"
     })
     .min(1, " Please enter farm size"),
-
-  location: zod
+  street: zod
     .string({
-      required_error: "Location is required."
+      required_error: "Street is required."
     })
     .min(3, "Please enter at least 3 characters")
-    .max(200, "Location is too long"),
+    .max(200, "Street is too long"),
+
+  barangay: zod
+    .string({
+      required_error: "Barangay is required."
+    })
+    .min(3, "Please enter at least 3 characters")
+    .max(200, "Barangay is too long"),
 
   district: zod.string({
     required_error: "District is required."
@@ -49,6 +55,9 @@ export const registerCommunitySchema = zod.object({
   proof: zod.string({
     required_error: "Ownership is required."
   }),
+  type_of_farm: zod.string({
+    required_error: "Farm Type is required."
+  }),
   farm_actual_images: zod
     .any()
     .refine(
@@ -56,3 +65,4 @@ export const registerCommunitySchema = zod.object({
       "Please upload atleast one image of your farm"
     )
 });
+export type RegisterCommunitySchema = zod.infer<typeof registerCommunitySchema>;

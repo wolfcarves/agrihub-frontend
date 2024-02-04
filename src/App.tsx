@@ -9,6 +9,7 @@ import UserAccountLayout from "@pages/user/account/account-layout";
 import ArticleLayout from "@pages/user/article/_layout";
 import UserProfileLayout from "@pages/user/users/_layout";
 import UserHomeLayout from "@pages/user/home/home-layout";
+import CalendarLayout from "@pages/user/calendar/_layout";
 
 //Pages
 import Home from "./pages/user/home/home";
@@ -25,6 +26,8 @@ import Question from "@pages/user/question/question";
 
 import Articles from "@pages/user/article/articles";
 import Article from "@pages/user/article/article";
+
+import Calendar from "@pages/user/calendar/calendar";
 
 //Others
 import ErrorElement from "@pages/user/common/error";
@@ -58,6 +61,8 @@ import LearningsLayout from "@pages/user/learning/_layout";
 import Learnings from "@pages/user/learning/learnings";
 import Learning from "@pages/user/learning/learning";
 
+import OverviewAdmin from "@pages/admin/overview/overview";
+
 import Farms from "@pages/admin/farms/farms";
 import FarmsAdmin from "@pages/admin/farms/farms-admin";
 import FarmsPending from "@pages/admin/farms/farms-pending";
@@ -85,7 +90,6 @@ import QuestionsAdmin from "@pages/admin/forums/questions-admin";
 import QuestionsReported from "@pages/admin/forums/questions-reported";
 import QuestionsArchive from "@pages/admin/forums/questions-archive";
 import TagsAdmin from "@pages/admin/forums/tags-admin";
-import TagsArchive from "@pages/admin/forums/tags-archive";
 
 import RecordUsers from "@pages/admin/users/record-users";
 import UsersReported from "@pages/admin/users/users-reported";
@@ -192,6 +196,11 @@ const App = ReactRouter(
         <Route path="view/:learningsId" element={<Learning />} />
       </Route>
 
+      {/* Planting Calendar Page */}
+      <Route path="/planting-calendar" element={<CalendarLayout />}>
+        <Route path="" element={<Calendar />} />
+      </Route>
+
       {/* Help Center Page */}
       <Route path="/helps" element={<HelpsLayout />}>
         <Route path="" element={<Helps />} />
@@ -222,7 +231,7 @@ const App = ReactRouter(
     </Route>
 
     <Route path="/admin" element={<AdminLayout />}>
-      <Route path="dashboard" element={<AdminLogin />} />
+      <Route path="dashboard" element={<OverviewAdmin />} />
       <Route path="analytics" element={<AdminLogin />} />
 
       {/* Community  */}
@@ -267,7 +276,6 @@ const App = ReactRouter(
         <Route path="question-archive" element={<QuestionsArchive />} />
 
         <Route path="tags" element={<TagsAdmin />} />
-        <Route path="tag-archive" element={<TagsArchive />} />
       </Route>
 
       {/* records */}

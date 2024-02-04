@@ -4,6 +4,7 @@ import { columns } from "./columns";
 import useGetFarmApplicationList from "../../../hooks/api/get/useGetFarmApplicationsList";
 import AdminOutletContainer from "../../../components/admin/layout/container/AdminOutletContainer";
 import BreadCrumb from "../../../components/ui/custom/breadcrumb/breadcrumb";
+import withAuthGuard from "@higher-order/account/withAuthGuard";
 
 const breadcrumbItems = [
   { title: "Farm Applications", link: "/admin/farm/application" }
@@ -32,4 +33,4 @@ const FarmApplication = () => {
   );
 };
 
-export default FarmApplication;
+export default withAuthGuard(FarmApplication, ["admin", "asst_admin"]);

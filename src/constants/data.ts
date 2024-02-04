@@ -181,3 +181,11 @@ export const ownership: string[] = [
   "Public Property",
   "Goverment Property"
 ];
+
+export const farmType: string[] = [
+  "Rooftop Gardens/Farm",
+  "Community Farm",
+  "School Farm",
+  "Urban Market Farm",
+  "Backyard  Garden/Farm"
+];

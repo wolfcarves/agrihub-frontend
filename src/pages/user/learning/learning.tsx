@@ -52,7 +52,7 @@ const Learning = () => {
 
   return (
     <div className="max-w-4xl lg:max-w-6xl lg:p-6 mx-auto my-6 shadow-lg border rounded-md">
-      <h2 className="text-xl font-bold m-4">{selectedEvent.title}</h2>
+      <h2 className="text-2xl font-bold m-4">{selectedEvent.title}</h2>
       <Carousel>  
         <CarouselContent>
           {selectedEvent.learning_resources.map((resource, index) => (
@@ -76,7 +76,7 @@ const Learning = () => {
         <CarouselNext />
       </Carousel>
       <div className="flex flex-col items-center my-7 ">
-        <div className="w-5/6 lg:w-3/4">
+        <div className="w-5/6 lg:w-/3">
           <p className="text-gray-700 my-2">
             <strong>Date:</strong> {selectedEvent.date}
           </p>

@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { socket } from "../socket/socket";
 import useAuth from "../hooks/useAuth";
 import axios from "axios";
+import { useQueryClient } from "@tanstack/react-query";
 
 // const api_uri =
 //   import.meta.env.VITE_DEV_STATE === "development"
@@ -19,6 +20,8 @@ const axiosInstance = axios.create({
 const SocketProvider = (props: { children: React.ReactNode }) => {
   const { data } = useAuth();
 
+  const queryClient = useQueryClient();
+
   const requestNotificationPermission = async () => {
     try {
       const permission = await Notification.requestPermission();
@@ -33,7 +36,7 @@ const SocketProvider = (props: { children: React.ReactNode }) => {
   };
 
   const showNotification = (payload: string) => {
-    console.log(payload);
+    queryClient.invalidateQueries({ queryKey: ["GET_USER_NOTIFICATIONS"] });
     if (Notification.permission === "granted") {
       new Notification("Hello!", {
         body: payload

@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FarmService } from "@api/openapi";
 import { GET_CROP_ARCHIVE } from "../get/useGetFarmCropsArchiveList";
+import { VIEW_FARM_CROPS_KEY } from "../get/useGetFarmCropsQuery";
 
 const usePutFarmCropUnarchiveKey = () => "FARM_CROP_UNARCHIVE_KEY";
 
@@ -16,7 +17,9 @@ export default function usePutFarmCropUnarchive() {
       return response;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [GET_CROP_ARCHIVE()] });
+      queryClient.invalidateQueries({
+        queryKey: [GET_CROP_ARCHIVE()]
+      });
     }
   });
 }

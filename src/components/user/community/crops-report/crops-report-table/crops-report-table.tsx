@@ -14,6 +14,7 @@ import {
 } from "../../../../ui/dropdown-menu";
 import { ChevronDown } from "lucide-react";
 import useGetFarmCropsQuery from "../../../../../hooks/api/get/useGetFarmCropsQuery";
+import useDebounce from "../../../../../hooks/utils/useDebounce";
 const CropsReportTable = () => {
   const [search, setSearch] = useState<string>("");
   const [filter, setFilter] = React.useState<string[]>([]);
@@ -29,6 +30,10 @@ const CropsReportTable = () => {
     sort: undefined
   });
 
+  const debouncedSearch = useDebounce((value: string) => {
+    setSearch(value);
+  }, 100);
+
   const handleAddReport = () => {
     navigate("add");
   };
@@ -43,15 +48,13 @@ const CropsReportTable = () => {
     });
   };
 
-  console.log(CropReport, "asdsad");
-
   return (
     <div>
       <div className="my-2 flex md:flex-row flex-col gap-3 justify-between">
         <Input
           placeholder="Search crop..."
           value={search}
-          onChange={e => setSearch(e.target.value)}
+          onChange={e => debouncedSearch(e.target.value)}
           className="max-w-sm focus-visible:ring-0"
         />
         <div className="flex items-center gap-2">

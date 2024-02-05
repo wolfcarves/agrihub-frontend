@@ -1,24 +1,17 @@
 import React from "react";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger
-} from "../../../../components/ui/dialog";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger
-} from "../../../../components/ui/dropdown-menu";
-import { Button } from "../../../../components/ui/button";
+import CropsReportTable from "../../../../components/user/community/crops-report/crops-report-table/crops-report-table";
+import MemberTable from "../../../../components/user/community/member/member-table/member-table";
 
 const Members = () => {
-  return <div>asd</div>;
+  return (
+    <div className="md:px-10 px-2 py-6 ">
+      <div className="flex justify-between">
+        <h3 className=" font-poppins-medium">Members</h3>
+      </div>
+
+      <MemberTable />
+    </div>
+  );
 };
 
 export default Members;

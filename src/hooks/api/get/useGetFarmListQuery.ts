@@ -16,13 +16,7 @@ interface ApplicationsParams {
 }
 export default function useGetFarmListQuery(data: ApplicationsParams) {
   return useQuery({
-    queryKey: [
-      GET_FARM_LIST_QUERY(),
-      data.search,
-      data.page,
-      data.filter,
-      data.perpage
-    ],
+    queryKey: [GET_FARM_LIST_QUERY(), ...Object.values(data)],
     queryFn: async () => {
       const response = await FarmService.getApiFarmCommunityFarm(data);
 

@@ -189,3 +189,32 @@ export const farmType: string[] = [
   "Urban Market Farm",
   "Backyard  Garden/Farm"
 ];
+
+export interface MemberSchema {
+  name: string;
+  applicationStatus: "invited" | "member" | "pending" | "rejected";
+}
+
+export const memberData: MemberSchema[] = [
+  { name: "John Doe", applicationStatus: "invited" },
+  { name: "Jane Smith", applicationStatus: "member" },
+  { name: "Bob Johnson", applicationStatus: "pending" },
+  { name: "Alice Williams", applicationStatus: "rejected" },
+  { name: "David Brown", applicationStatus: "invited" },
+  { name: "Emma White", applicationStatus: "member" },
+  { name: "Frank Miller", applicationStatus: "pending" },
+  { name: "Grace Davis", applicationStatus: "rejected" },
+  { name: "Henry Clark", applicationStatus: "invited" },
+  { name: "Ivy Turner", applicationStatus: "member" },
+  { name: "Jackie Ward", applicationStatus: "pending" },
+  { name: "Kevin Reed", applicationStatus: "rejected" },
+  { name: "Lily Adams", applicationStatus: "invited" },
+  { name: "Michael Hill", applicationStatus: "member" },
+  { name: "Nora Evans", applicationStatus: "pending" },
+  { name: "Oscar Lee", applicationStatus: "rejected" },
+  { name: "Pamela Carter", applicationStatus: "invited" },
+  { name: "Quincy Foster", applicationStatus: "member" },
+  { name: "Rachel Allen", applicationStatus: "pending" },
+  { name: "Samuel Moore", applicationStatus: "rejected" }
+  // Add more users as needed
+];

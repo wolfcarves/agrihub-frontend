@@ -4,6 +4,9 @@
 /* eslint-disable */
 import type { AcceptFarmApplicationResponse } from '../models/AcceptFarmApplicationResponse';
 import type { AddFarmCropResponse } from '../models/AddFarmCropResponse';
+import type { ArchiveCropResponse } from '../models/ArchiveCropResponse';
+import type { ArchivedCrop } from '../models/ArchivedCrop';
+import type { CancelInvitationResponse } from '../models/CancelInvitationResponse';
 import type { CheckExistingApplicationResponse } from '../models/CheckExistingApplicationResponse';
 import type { CommunityFarmResponse } from '../models/CommunityFarmResponse';
 import type { CommunityFarmsResponse } from '../models/CommunityFarmsResponse';
@@ -15,14 +18,21 @@ import type { DeleteSuccessMessage } from '../models/DeleteSuccessMessage';
 import type { FarmApplicationData } from '../models/FarmApplicationData';
 import type { FarmApplicationResponse } from '../models/FarmApplicationResponse';
 import type { FarmApplicationsResponse } from '../models/FarmApplicationsResponse';
+import type { FarmerInvitationResponse } from '../models/FarmerInvitationResponse';
 import type { FarmListResponse } from '../models/FarmListResponse';
+import type { ListFarmMembersResponse } from '../models/ListFarmMembersResponse';
+import type { ListInvitationsResponse } from '../models/ListInvitationsResponse';
 import type { NewCommunityFarmGallery } from '../models/NewCommunityFarmGallery';
 import type { NewCropRequest } from '../models/NewCropRequest';
 import type { NewCropResponse } from '../models/NewCropResponse';
 import type { NewFarmApplication } from '../models/NewFarmApplication';
+import type { NewFarmerInvitationRequest } from '../models/NewFarmerInvitationRequest';
 import type { NewFarmRequest } from '../models/NewFarmRequest';
 import type { NewFarmResponse } from '../models/NewFarmResponse';
 import type { SubfarmOverviewResponse } from '../models/SubfarmOverviewResponse';
+import type { UpdateCommunityFarmRequest } from '../models/UpdateCommunityFarmRequest';
+import type { UpdateCommunityFarmResponse } from '../models/UpdateCommunityFarmResponse';
+import type { ViewInvitationResponse } from '../models/ViewInvitationResponse';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -568,6 +578,333 @@ formData: NewCropRequest,
             errors: {
                 400: `Validation Error`,
                 401: `Unauthorized`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Send a farmer invitation
+     * @returns FarmerInvitationResponse Successful invitation
+     * @throws ApiError
+     */
+    public static postApiFarmFarmerInvitation({
+requestBody,
+}: {
+requestBody: NewFarmerInvitationRequest,
+}): CancelablePromise<FarmerInvitationResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/farm/farmer/invitation',
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * @returns any Successful response
+     * @throws ApiError
+     */
+    public static postApiFarmFarmerInvitationAccept({
+id,
+}: {
+/**
+ * The ID of the invitation to accept.
+ */
+id: string,
+}): CancelablePromise<{
+/**
+ * Success message indicating the invitation was accepted successfully.
+ */
+message?: string;
+}> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/farm/farmer/invitation/accept/{id}',
+            path: {
+                'id': id,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * @returns any Successful response
+     * @throws ApiError
+     */
+    public static deleteApiFarmFarmerInvitationReject({
+id,
+}: {
+/**
+ * The ID of the invitation to accept.
+ */
+id: string,
+}): CancelablePromise<{
+/**
+ * Success message indicating the invitation was accepted successfully.
+ */
+message?: string;
+}> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/farm/farmer/invitation/reject/{id}',
+            path: {
+                'id': id,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * @returns CancelInvitationResponse Successful response
+     * @throws ApiError
+     */
+    public static deleteApiFarmFarmerInvitationCancel({
+id,
+}: {
+/**
+ * ID of the invitation to cancel
+ */
+id: string,
+}): CancelablePromise<CancelInvitationResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/farm/farmer/invitation/cancel/{id}',
+            path: {
+                'id': id,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * @returns ViewInvitationResponse Successful response
+     * @throws ApiError
+     */
+    public static getApiFarmFarmerInvitationView({
+id,
+}: {
+/**
+ * ID of the invitation to view
+ */
+id: string,
+}): CancelablePromise<ViewInvitationResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/farm/farmer/invitation/view/{id}',
+            path: {
+                'id': id,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * @returns ListInvitationsResponse Successful response
+     * @throws ApiError
+     */
+    public static getApiFarmFarmerInvitationList({
+search,
+page,
+perpage,
+filter,
+}: {
+/**
+ * Search parameter (optional)
+ */
+search?: string,
+/**
+ * Page number (optional)
+ */
+page?: string,
+/**
+ * Items per page (optional)
+ */
+perpage?: string,
+/**
+ * Filter parameter (optional)
+ */
+filter?: string,
+}): CancelablePromise<ListInvitationsResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/farm/farmer/invitation/list',
+            query: {
+                'search': search,
+                'page': page,
+                'perpage': perpage,
+                'filter': filter,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * @returns ListFarmMembersResponse Successful response
+     * @throws ApiError
+     */
+    public static getApiFarmFarmerMembers({
+search,
+page,
+perpage,
+filter,
+}: {
+/**
+ * Search parameter (optional)
+ */
+search?: string,
+/**
+ * Page number (optional)
+ */
+page?: string,
+/**
+ * Items per page (optional)
+ */
+perpage?: string,
+/**
+ * Filter parameter (optional)
+ */
+filter?: string,
+}): CancelablePromise<ListFarmMembersResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/farm/farmer/members',
+            query: {
+                'search': search,
+                'page': page,
+                'perpage': perpage,
+                'filter': filter,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * @returns UpdateCommunityFarmResponse Successful response
+     * @throws ApiError
+     */
+    public static putApiFarmCommunityFarmUpdate({
+formData,
+}: {
+formData?: UpdateCommunityFarmRequest,
+}): CancelablePromise<UpdateCommunityFarmResponse> {
+        return __request(OpenAPI, {
+            method: 'PUT',
+            url: '/api/farm/community-farm/update',
+            formData: formData,
+            mediaType: 'multipart/form-data',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * @returns ArchiveCropResponse Successful response
+     * @throws ApiError
+     */
+    public static deleteApiFarmCommunityFarmCropArchive({
+id,
+}: {
+/**
+ * ID of the crop to archive
+ */
+id: string,
+}): CancelablePromise<ArchiveCropResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/farm/community-farm/crop/archive/{id}',
+            path: {
+                'id': id,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * @returns ArchiveCropResponse Successful response
+     * @throws ApiError
+     */
+    public static putApiFarmCommunityFarmCropUnarchive({
+id,
+}: {
+/**
+ * ID of the crop to unarchive
+ */
+id: string,
+}): CancelablePromise<ArchiveCropResponse> {
+        return __request(OpenAPI, {
+            method: 'PUT',
+            url: '/api/farm/community-farm/crop/unarchive/{id}',
+            path: {
+                'id': id,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Get the list of archived crops
+     * @returns ArchivedCrop Successful response
+     * @throws ApiError
+     */
+    public static getApiFarmCommunityFarmCropArchivedList(): CancelablePromise<Array<ArchivedCrop>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/farm/community-farm/crop/archived/list',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
                 500: `Server Error`,
             },
         });

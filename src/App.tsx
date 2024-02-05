@@ -116,13 +116,18 @@ import Gallery from "./pages/user/community/tabs/gallery";
 import CommunityReport from "./pages/user/community/community-report";
 import CropsReport from "./pages/user/community/tabs/crops-report/crops-report";
 import CropsReportAdd from "./pages/user/community/tabs/crops-report/crops-report-add";
+import CommunityProfile from "./pages/user/community/community-profile";
+import InviteFarm from "./pages/user/invitation/invite-farm";
+import InviteLayout from "./pages/user/invitation/invite-layout";
 
 const App = ReactRouter(
   <>
     <Route path="/" element={<UserLayout />} errorElement={<ErrorElement />}>
       {/* Landing Page */}
+
       <Route path="/" element={<UserHomeLayout />}>
         <Route path="/" element={<Home />} />
+        <Route path="invite/farm/:id" element={<InviteFarm />} />
       </Route>
 
       {/* About Page */}
@@ -170,6 +175,7 @@ const App = ReactRouter(
           <Route path="" element={<CropsReport />} />
           <Route path="add" element={<CropsReportAdd />} />
         </Route>
+        <Route path="my-community/:id/profile" element={<CommunityProfile />} />
       </Route>
 
       {/* Article Page */}

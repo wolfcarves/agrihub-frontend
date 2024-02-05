@@ -17,9 +17,8 @@ export default function usePutFarmCropUnarchive() {
       return response;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: [GET_CROP_ARCHIVE()]
-      });
+      queryClient.invalidateQueries([GET_CROP_ARCHIVE()]);
+      queryClient.invalidateQueries([VIEW_FARM_CROPS_KEY()]);
     }
   });
 }

@@ -20,7 +20,7 @@ import CommunityProfileEditForm from "../../../components/user/community/form/Co
 
 const CommunityProfile = () => {
   return (
-    <OutletContainer className="px-2">
+    <OutletContainer className="  px-2">
       <h3 className=" font-poppins-semibold">Edit Community Profile</h3>
       <CommunityProfileEditForm />
     </OutletContainer>

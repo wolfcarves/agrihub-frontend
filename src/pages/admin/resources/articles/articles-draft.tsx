@@ -1,7 +1,7 @@
 import React from "react";
 import AdminOutletContainer from "@components/admin/layout/container/AdminOutletContainer";
-import BreadCrumb from "../../../components/ui/custom/breadcrumb/breadcrumb";
-import { TableArticles } from "./table/table-article";
+import BreadCrumb from "../../../../components/ui/custom/breadcrumb/breadcrumb";
+import { TableArticles } from "../table/table-article";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
 
 const breadcrumbItems = [

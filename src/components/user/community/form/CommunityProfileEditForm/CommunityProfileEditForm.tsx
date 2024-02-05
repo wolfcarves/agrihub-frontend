@@ -42,9 +42,8 @@ const CommunityProfileEditForm = () => {
     };
 
     try {
-      console.log(compiledData);
       await updateFarmMutate(compiledData);
-      toast.success("Uploaded Successfully!");
+      toast.success("Farm Updated Successfully!");
 
       navigate("/community");
     } catch (e: any) {
@@ -52,7 +51,6 @@ const CommunityProfileEditForm = () => {
     }
   };
   console.log(form.formState.errors);
-  // console.log(farmDetails);
 
   if (farmDetailsLoading) {
     return <Loader isVisible={farmDetailsLoading} />;
@@ -186,7 +184,7 @@ const CommunityProfileEditForm = () => {
           />
         </div>
         <div className="flex py-8">
-          <Button disabled={isFarmProfileLoading} className="">
+          <Button type="submit" disabled={isFarmProfileLoading} className="">
             Update Profile
           </Button>
         </div>

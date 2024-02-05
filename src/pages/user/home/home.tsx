@@ -4,7 +4,6 @@ import Carousel from "@components/user/landing/member/carousel/Carousel";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
 import React, { useState } from "react";
 
-
 interface HomeProps {
   // Empty for now
 }
@@ -29,10 +28,17 @@ const Home: React.FC<HomeProps> = () => {
 
   return (
     <div>
-      <Carousel/>
+      <Carousel />
       {renderContent()}
     </div>
   );
 };
 
-export default Home;
+export default withAuthGuard(Home, [
+  "guest",
+  "member",
+  "admin",
+  "farm_head",
+  "farmer",
+  "asst_admin"
+]);

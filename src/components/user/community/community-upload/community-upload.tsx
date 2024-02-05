@@ -5,11 +5,13 @@ import icon from "@icons/agrihub-logo.svg";
 interface CommunityUploadProps {
   variant: "circle" | "rectangle";
   defaultValue?: string;
+  onChange?: (blob: Blob) => void;
 }
 
 const CommunityUpload: React.FC<CommunityUploadProps> = ({
   variant,
-  defaultValue
+  defaultValue,
+  onChange
 }) => {
   const [imageSrc, setImageSrc] = useState<string>("");
   const variants =
@@ -27,6 +29,9 @@ const CommunityUpload: React.FC<CommunityUploadProps> = ({
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
+    if (onChange && file) {
+      onChange(file);
+    }
 
     if (file) {
       const reader = new FileReader();

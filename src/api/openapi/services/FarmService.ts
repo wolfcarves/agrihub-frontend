@@ -5,6 +5,7 @@
 import type { AcceptFarmApplicationResponse } from '../models/AcceptFarmApplicationResponse';
 import type { AddFarmCropResponse } from '../models/AddFarmCropResponse';
 import type { ArchiveCropResponse } from '../models/ArchiveCropResponse';
+import type { ArchivedCrop } from '../models/ArchivedCrop';
 import type { CancelInvitationResponse } from '../models/CancelInvitationResponse';
 import type { CheckExistingApplicationResponse } from '../models/CheckExistingApplicationResponse';
 import type { CommunityFarmResponse } from '../models/CommunityFarmResponse';
@@ -855,6 +856,51 @@ id: string,
             path: {
                 'id': id,
             },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * @returns ArchiveCropResponse Successful response
+     * @throws ApiError
+     */
+    public static putApiFarmCommunityFarmCropUnarchive({
+id,
+}: {
+/**
+ * ID of the crop to unarchive
+ */
+id: string,
+}): CancelablePromise<ArchiveCropResponse> {
+        return __request(OpenAPI, {
+            method: 'PUT',
+            url: '/api/farm/community-farm/crop/unarchive/{id}',
+            path: {
+                'id': id,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Get the list of archived crops
+     * @returns ArchivedCrop Successful response
+     * @throws ApiError
+     */
+    public static getApiFarmCommunityFarmCropArchivedList(): CancelablePromise<Array<ArchivedCrop>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/farm/community-farm/crop/archived/list',
             errors: {
                 400: `Validation Error`,
                 401: `Unauthorized`,

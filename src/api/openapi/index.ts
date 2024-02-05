@@ -10,6 +10,7 @@ export type { Answer } from './models/Answer';
 export type { AnswersSchema } from './models/AnswersSchema';
 export type { ApplicantData } from './models/ApplicantData';
 export type { ArchiveCropResponse } from './models/ArchiveCropResponse';
+export type { ArchivedCrop } from './models/ArchivedCrop';
 export type { CancelInvitationResponse } from './models/CancelInvitationResponse';
 export type { CheckExistingApplicationResponse } from './models/CheckExistingApplicationResponse';
 export type { Comment } from './models/Comment';

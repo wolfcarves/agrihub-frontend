@@ -2,23 +2,11 @@ import React, { Dispatch, SetStateAction, useState } from "react";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger
+  DialogFooter
 } from "@components/ui/custom/dialog/dialog";
 import { Button } from "../../../../ui/button";
-import { Input } from "../../../../ui/input";
-import useAuth from "../../../../../hooks/useAuth";
-import { Avatar, AvatarFallback, AvatarImage } from "../../../../ui/avatar";
-import useGetUsersMember from "../../../../../hooks/api/get/useGetUsersMember";
-import { ScrollArea } from "../../../../ui/scroll-area";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import useFarmSendInviteMutation from "../../../../../hooks/api/post/useFarmSendInviteMutation";
-import { toast } from "sonner";
-import InviteTab from "./invite-tab";
-import InvitedTab from "./invited-tab";
+import InviteTab from "./tabs/invite-tab";
+import PendingTab from "./tabs/pending-tab";
 
 interface DialogProps {
   dialog: boolean;
@@ -49,7 +37,7 @@ const MemberInviteDialog: React.FC<DialogProps> = ({ dialog, setDialog }) => {
             </button>
           </div>
           {tab === "invite" && <InviteTab />}
-          {tab === "pending" && <InvitedTab />}
+          {tab === "pending" && <PendingTab />}
         </div>
 
         <DialogFooter>

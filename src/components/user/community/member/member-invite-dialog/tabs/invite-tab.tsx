@@ -6,22 +6,21 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger
-} from "../../../../ui/dialog";
-import { Input } from "../../../../ui/input";
-import { ScrollArea } from "../../../../ui/scroll-area";
-import useGetUsersMember from "../../../../../hooks/api/get/useGetUsersMember";
-import useFarmSendInviteMutation from "../../../../../hooks/api/post/useFarmSendInviteMutation";
+} from "../../../../../ui/dialog";
+import { Input } from "../../../../../ui/input";
+import { ScrollArea } from "../../../../../ui/scroll-area";
+import useGetUsersMember from "../../../../../../hooks/api/get/useGetUsersMember";
+import useFarmSendInviteMutation from "../../../../../../hooks/api/post/useFarmSendInviteMutation";
 import { toast } from "sonner";
-import { Avatar, AvatarFallback, AvatarImage } from "../../../../ui/avatar";
-import { Button } from "../../../../ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "../../../../../ui/avatar";
+import { Button } from "../../../../../ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import useGetFarmMemberInvited from "../../../../../hooks/api/get/useGetFarmMemberInvited";
-import useFarmCancelInviteMutation from "../../../../../hooks/api/post/useFarmCancelInviteMutation";
-interface InvitedTabProps {}
-const InvitedTab: React.FC<InvitedTabProps> = () => {
+interface InviteTabProps {}
+const InviteTab: React.FC<InviteTabProps> = () => {
+  const [inviteStates, setInviteStates] = useState<Record<string, boolean>>({});
   const [search, setSearch] = useState<string>("");
   const [page, setPage] = useState<number>(1);
-  const { data: MemberList } = useGetFarmMemberInvited({
+  const { data: MemberList } = useGetUsersMember({
     search: search,
     page: page.toString(),
     perpage: "10",
@@ -29,22 +28,31 @@ const InvitedTab: React.FC<InvitedTabProps> = () => {
   });
   console.log(MemberList);
 
-  const { mutateAsync: farmInviteCancel } = useFarmCancelInviteMutation();
+  const { mutateAsync: farmInviteMember } = useFarmSendInviteMutation();
 
   const handleInvite = async (userid: string) => {
     try {
-      await farmInviteCancel(userid);
-      toast.success("Cancelled Successfully");
+      const currentDate = new Date();
+      const futureDate = new Date(currentDate);
+      futureDate.setDate(currentDate.getDate() + 7);
+      const expiresat = futureDate.toISOString().split("T")[0];
+      await farmInviteMember({ userid, expiresat });
+      toast.success("Invited Successfully");
+      setInviteStates(prevStates => ({
+        ...prevStates,
+        [userid]: true
+      }));
     } catch (error) {
-      toast.error("Failed to cancel invite");
+      console.error("Error inviting member:", error);
+      toast.error("Failed to invite member");
     }
   };
   return (
     <>
       <DialogHeader>
-        <DialogTitle>Pending Invite</DialogTitle>
+        <DialogTitle>Invite Members</DialogTitle>
         <DialogDescription>
-          Enter the name to find the invited member.
+          Enter the name of the member then click invite.
         </DialogDescription>
       </DialogHeader>
       <div className="grid grid-cols-12 gap-4 py-4">
@@ -55,7 +63,7 @@ const InvitedTab: React.FC<InvitedTabProps> = () => {
           onChange={e => setSearch(e.target.value)}
         />
         <ScrollArea className=" col-span-12 h-[47vh] overflow-y-auto ">
-          {MemberList?.invitations?.map((user, i) => (
+          {MemberList?.members?.map((user, i) => (
             <div
               key={i}
               className="w-full grid grid-cols-12 px-2 border-y py-2"
@@ -71,10 +79,10 @@ const InvitedTab: React.FC<InvitedTabProps> = () => {
               <div className=" col-span-3 flex justify-center">
                 <Button
                   key={i}
-                  variant={"destructive"}
+                  variant={inviteStates[user.id] ? "outline" : "default"}
                   onClick={() => handleInvite(user.id)}
                 >
-                  Cancel
+                  {inviteStates[user.id] ? "Sent" : "Invite"}
                 </Button>
               </div>
             </div>
@@ -102,4 +110,4 @@ const InvitedTab: React.FC<InvitedTabProps> = () => {
   );
 };
 
-export default InvitedTab;
+export default InviteTab;

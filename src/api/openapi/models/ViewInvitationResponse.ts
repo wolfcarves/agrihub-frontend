@@ -10,4 +10,5 @@ export type ViewInvitationResponse = {
     updatedat: string;
     userid: string;
     farm_name: string;
+    avatar: string;
 };

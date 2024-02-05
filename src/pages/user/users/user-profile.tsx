@@ -10,9 +10,9 @@ import QuestionCards from "@components/user/questions/list/QuestionsList";
 import { UsePagination } from "@providers/PaginationProvider";
 import QuestionSkeleton from "@components/user/questions/skeleton/QuestionSkeleton";
 import { IoMdArrowBack } from "react-icons/io";
+import useGetUserProfileQuery from "../../../hooks/api/get/useGetUserProfileQuery";
 
 const UserProfile = () => {
-  return <></>;
   const [page, setPage] = useState(1);
   const pagination = UsePagination();
 
@@ -27,14 +27,13 @@ const UserProfile = () => {
   const navigate = useNavigate();
   const { username } = useParams();
   const { data } = useGetUserProfileQuery(username as string);
-  const { data: questionsData, isLoading } = useGetQuestions(
-    undefined,
-    String(page),
-    "10",
-    "newest",
-    `profile_query`,
-    data?.id
-  );
+  const { data: questionsData, isLoading } = useGetQuestions({
+    search: undefined,
+    page: String(page),
+    perpage: "10",
+    filter: "newest",
+    profile: data?.id
+  });
 
   const handleNavigateQuestion = (
     username: string | undefined,

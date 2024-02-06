@@ -129,33 +129,45 @@ const Learning = () => {
     <h1 className="font-poppins-semibold flex justify-center mt-14 tracking-widest">RELATED SOURCES</h1>
     <br></br>
     <div className="flex justify-center w-full ">
-      <div className="w-full p-8 sm:p-4 xl:mx-32 2xl:px-56 grid grid-cols-1 sm:grid-cols-3 grid-rows-1 gap-5">
-          {learningsData.slice(0,3).map((items, key) => (
-            <div key={key} className="group flex flex-col ">
-              <div className="max-w-350px sm:w-full sm:h-[200px] lg:h-[300px] h-[300px]">
-                <img
-                  src={items.img}
-                  loading="lazy"
-                  alt={items.title}
-                  className="w-full h-full object-cover rounded-lg max-h-300px max-w-750px overflow-hidden group-hover:scale-105 transition-transform duration-300"
-                />
-              </div>
-                <div className="mb-2 bg-[#cae3cd] rounded-md">
-                  <h5 className="text-black pt-1 text-sm lg:text-[18px] font-bold m-2">
-                    INITIATIVES
-                  </h5>
-                  <p className="text-sm me-3 text-justify m-2 h-[60px] md:h-[90px] sm:h-[87px] xl:h-[73px] ">
-                    {ellipsis(items.content, 120)}
-                  </p>
-                </div>
-              <Link to={`/learning-materials/view/${items.id}`}>
-              <div className="m-2">
-              <h5 className="font-bold lg:text-[20px] mb-10">READ MORE <span className="ml-3 text-[16px] text-red-600" >&gt;</span></h5>
-              </div>
-              </Link>
-            </div>
-          ))}
+    <div className="w-full p-8 sm:p-4 xl:mx-32 2xl:px-56 grid grid-cols-1 sm:grid-cols-3 grid-rows-1 gap-5">
+  {learningsData
+    .filter((item) =>
+      item.tags.some((tag) =>
+        selectedEvent.tags.some((selectedTag) => selectedTag.name === tag.name)
+      )
+    )
+    .filter((item) => item.id !== selectedEvent.id)
+    .slice(0, 3)
+    .map((items, key) => (
+      <div key={key} className="group flex flex-col">
+        <div className="max-w-350px sm:w-full sm:h-[200px] lg:h-[300px] h-[300px]">
+          <img
+            src={items.img}
+            loading="lazy"
+            alt={items.title}
+            className="w-full h-full object-cover rounded-lg max-h-300px max-w-750px overflow-hidden group-hover:scale-105 transition-transform duration-300"
+          />
+        </div>
+        <div className="mb-2 bg-[#cae3cd] rounded-md">
+          <h5 className="text-black pt-1 text-sm lg:text-[18px] font-bold m-2">
+            INITIATIVES
+          </h5>
+          <p className="text-sm me-3 text-justify m-2 h-[60px] md:h-[90px] sm:h-[87px] xl:h-[73px]">
+            {ellipsis(items.content, 120)}
+          </p>
+        </div>
+        <Link to={`/learning-materials/view/${items.id}`}>
+          <div className="m-2">
+            <h5 className="font-bold lg:text-[20px] mb-10">
+              READ MORE{" "}
+              <span className="ml-3 text-[16px] text-red-600">&gt;</span>
+            </h5>
+          </div>
+        </Link>
       </div>
+    ))}
+</div>
+
     </div>
     </>
   );

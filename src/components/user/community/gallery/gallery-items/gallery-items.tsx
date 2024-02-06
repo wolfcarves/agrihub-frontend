@@ -8,14 +8,12 @@ import {
   TooltipTrigger
 } from "../../../../ui/tooltip";
 import DeleteImageAlert from "../delete-image-modal/delete-image-alert";
+import useCommunityAutorization from "../../../../../hooks/utils/useCommunityAutorization";
 
 const GalleryItems = () => {
   const { id } = useParams();
   const { data: farmGallery } = useGetFarmGalleryQuery(id || "");
-  const { data } = useAuth();
-  const isMember = id === data?.farm_id;
-  const allowedRoles = ["farmer", "farm_head"];
-  const isAllowed = allowedRoles.includes(data?.role || "");
+  const { isAllowed, isMember } = useCommunityAutorization();
   if (!farmGallery?.length || 0 > 0) {
     return (
       <div className="text-center">

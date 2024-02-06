@@ -6,6 +6,7 @@ import useGetReportCropStatsQuery from "../../../../../hooks/api/get/useGetRepor
 import { toast } from "sonner";
 import useAuth from "../../../../../hooks/useAuth";
 import ArchiveCropAlert from "../archive-crop-alert/archive-crop-alert";
+import useCommunityAutorization from "../../../../../hooks/utils/useCommunityAutorization";
 
 interface CropCardProps {
   crop: CropItem;
@@ -13,9 +14,7 @@ interface CropCardProps {
 
 const CropCard: React.FC<CropCardProps> = ({ crop }) => {
   const navigate = useNavigate();
-  const { id } = useParams();
-  const { data: UserData } = useAuth();
-  const isMember = id === UserData?.farm_id;
+  const { isAllowed, isMember } = useCommunityAutorization();
   const { isError } = useGetReportCropStatsQuery(crop.name || "");
   const handleCropStats = () => {
     if (isError) {
@@ -24,6 +23,7 @@ const CropCard: React.FC<CropCardProps> = ({ crop }) => {
       navigate(`${crop.name}`);
     }
   };
+
   return (
     <div className="md:col-span-4 col-span-12 hover:shadow-md grid grid-cols-12 rounded-lg border bg-white select-none">
       <button
@@ -53,7 +53,7 @@ const CropCard: React.FC<CropCardProps> = ({ crop }) => {
         </div>
       </button>
       <div className=" col-span-1">
-        <ArchiveCropAlert cropId={crop.id} />
+        {isAllowed && <ArchiveCropAlert cropId={crop.id} />}
       </div>
     </div>
   );

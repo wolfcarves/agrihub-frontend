@@ -121,7 +121,7 @@ export const learningsData = [
     type: "Seminar",
     content:
       "This seminar focuses on soil health and nutrient management, crucial aspects of sustainable agriculture. Participants will learn about the importance of soil health in maintaining productivity and resilience in agricultural systems. Topics covered include soil structure and composition, soil testing methods, and strategies for improving soil fertility and nutrient availability. The seminar will also address sustainable nutrient management practices, including organic amendments, cover cropping, and precision fertilization techniques. By the end of the seminar, participants will have a deeper understanding of soil health and nutrient management principles and practical tools to enhance soil fertility and crop nutrition on their farms.",
-    img: "",
+    img: "https://images.unsplash.com/photo-1581578021450-fbd19fba0e63?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     language: "English",
     tags: [
       { name: "Agriculture", category: "Soil Management" },

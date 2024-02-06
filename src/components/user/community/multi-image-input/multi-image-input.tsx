@@ -4,7 +4,7 @@ import { Button } from "../../../ui/button";
 import { FiUploadCloud } from "react-icons/fi";
 
 interface MultiImageUploadProps {
-  onChange: (files: Blob[]) => void;
+  onChange?: (files: Blob[]) => void;
 }
 
 const MultiImageUpload: React.FC<MultiImageUploadProps> = ({ onChange }) => {
@@ -23,7 +23,9 @@ const MultiImageUpload: React.FC<MultiImageUploadProps> = ({ onChange }) => {
       }));
 
       setImagePreviews(prevPreviews => [...prevPreviews, ...newImagePreviews]);
-      onChange(newImagePreviews.map(image => image.file));
+      if (onChange) {
+        onChange(newImagePreviews.map(image => image.file));
+      }
     }
   };
 
@@ -36,7 +38,9 @@ const MultiImageUpload: React.FC<MultiImageUploadProps> = ({ onChange }) => {
     const deletedImage = updatedPreviews.splice(index, 1)[0];
     URL.revokeObjectURL(deletedImage.url);
     setImagePreviews(updatedPreviews);
-    onChange(updatedPreviews.map(image => image.file));
+    if (onChange) {
+      onChange(updatedPreviews.map(image => image.file));
+    }
   };
 
   const handleUploadButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {

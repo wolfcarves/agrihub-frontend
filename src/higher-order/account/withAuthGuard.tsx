@@ -59,12 +59,12 @@ export default function withAuthGuard<P extends object>(
             break;
           case "4":
             if (pathname === redirectPaths["2"])
-              navigate("/forum", { replace: true });
+              navigate("/", { replace: true });
             break;
         }
 
         if (!isAllowed && userRole) {
-          navigate("/forum", { replace: true });
+          navigate("/", { replace: true });
         }
       }
     }, [

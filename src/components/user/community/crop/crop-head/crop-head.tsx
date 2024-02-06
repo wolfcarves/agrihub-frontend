@@ -7,7 +7,7 @@ import ArchiveDrawer from "../archive-drawer/archive-drawer";
 const CropHead = () => {
   const { id } = useParams();
   const { data } = useAuth();
-  const allowedRoles = ["farmer", "farm_head"];
+  const allowedRoles = ["farm_head"];
   const isAllowed = allowedRoles.includes(data?.role || "");
   const isMember = id === data?.farm_id;
   return (

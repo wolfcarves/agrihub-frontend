@@ -14,12 +14,18 @@ import { PiPlant } from "react-icons/pi";
 import { format } from "date-fns";
 import CropStats from "../../../../../components/user/community/crop/crop-stats/crop-stats";
 import { TbReportAnalytics } from "react-icons/tb";
+import Loader from "../../../../../icons/Loader";
 
 const CropsReportView = () => {
   const { cropId } = useParams();
   const navigate = useNavigate();
-  const { data: CropReport } = useGetReportCropListView(cropId || "");
-  console.log(CropReport);
+  const { data: CropReport, isLoading } = useGetReportCropListView(
+    cropId || ""
+  );
+  if (isLoading) {
+    return <Loader isVisible={isLoading} />;
+  }
+
   return (
     <OutletContainer className="w-full">
       <div
@@ -38,7 +44,7 @@ const CropsReportView = () => {
             {CropReport?.crop_name}
           </h2>
           <div className="flex flex-col gap-4 border-t-4 border-primary pt-2">
-            {/* <CropDetails
+            <CropDetails
               label="Date Planted :"
               value={format(new Date(CropReport?.date_planted || ""), "PPP")}
               icon={<GiTreeGrowth size={18} />}
@@ -47,7 +53,7 @@ const CropsReportView = () => {
               label="Date Harvested :"
               value={format(new Date(CropReport?.date_harvested || ""), "PPP")}
               icon={<GiPlantSeed size={18} />}
-            /> */}
+            />
           </div>
         </div>
 

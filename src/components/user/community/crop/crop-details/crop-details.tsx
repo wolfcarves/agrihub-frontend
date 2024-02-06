@@ -2,7 +2,7 @@ import React, { ReactNode } from "react";
 
 interface CropDetailsProps {
   label: string;
-  value: any;
+  value: string;
   icon: ReactNode;
 }
 

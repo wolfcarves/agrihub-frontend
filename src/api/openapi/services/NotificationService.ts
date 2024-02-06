@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { PaginationData } from '../models/PaginationData';
+import type { ReadNotificationResponse } from '../models/ReadNotificationResponse';
 import type { UserNotificationResponse } from '../models/UserNotificationResponse';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -56,6 +57,28 @@ pagination?: PaginationData;
                 401: `Unauthorized`,
                 404: `Not Found Error`,
                 500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Mark a user notification as read
+     * @returns ReadNotificationResponse Successful response
+     * @throws ApiError
+     */
+    public static putApiNotificationUserRead({
+id,
+}: {
+/**
+ * The ID of the notification to mark as read
+ */
+id: string,
+}): CancelablePromise<ReadNotificationResponse> {
+        return __request(OpenAPI, {
+            method: 'PUT',
+            url: '/api/notification/user/read/{id}',
+            path: {
+                'id': id,
             },
         });
     }

@@ -76,6 +76,7 @@ export type { QuestionSchema } from './models/QuestionSchema';
 export type { QuestionsResponse } from './models/QuestionsResponse';
 export type { QuestionTags } from './models/QuestionTags';
 export type { QuestionViewSchema } from './models/QuestionViewSchema';
+export type { ReadNotificationResponse } from './models/ReadNotificationResponse';
 export type { ServerError } from './models/ServerError';
 export type { SubfarmOverviewResponse } from './models/SubfarmOverviewResponse';
 export type { Tag } from './models/Tag';

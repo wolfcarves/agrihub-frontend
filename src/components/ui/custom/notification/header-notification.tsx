@@ -12,6 +12,8 @@ import { PiBell, PiBellFill } from "react-icons/pi";
 import React, { useMemo, useState } from "react";
 import useGetUserNotifications from "@hooks/api/get/useGetUserNotifications";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+import usePutUserNotificationRead from "../../../../hooks/api/put/usePutUserNotificationRead";
 
 //Refactor nalang dapat dito naka .map pero ang mahalaga masaya tayong mga pilipino
 const HeaderNotification = () => {
@@ -27,11 +29,21 @@ const HeaderNotification = () => {
     filter: undefined
   });
 
-  const handleNavigate = (redirect: string | undefined) => {
-    if (redirect !== "") {
-      navigate(redirect ?? "");
+  const { mutateAsync: readNotificationMutate } = usePutUserNotificationRead();
+
+  const handleReadNotification = async (
+    redirect: string | undefined,
+    id: string | undefined
+  ) => {
+    try {
+      readNotificationMutate(id ?? "");
+      if (redirect !== "") {
+        navigate(redirect ?? "");
+      }
+      return;
+    } catch (error: any) {
+      toast.error(error.body.message);
     }
-    return;
   };
 
   const unreadNotifications = useMemo(
@@ -86,7 +98,9 @@ const HeaderNotification = () => {
                   <React.Fragment key={index}>
                     <DropdownMenuItem
                       className="flex flex-col  justify-start items-start cursor-pointer min-h-20"
-                      onClick={() => handleNavigate(item.redirect_to)}
+                      onClick={() =>
+                        handleReadNotification(item.redirect_to, item.id)
+                      }
                     >
                       <span className="font-poppins-medium text-sm mt-2 opacity-70">
                         {item.body}

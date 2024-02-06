@@ -21,7 +21,7 @@ const InviteFarm = () => {
     try {
       await acceptMutate(id ? id : "");
 
-      navigate(`/community/my-community/${data?.id}`);
+      navigate(`/community/my-community/${data?.community_farm_id}`);
     } catch (error) {
       toast.error("Invitation Error");
     }
@@ -47,7 +47,7 @@ const InviteFarm = () => {
         <>
           <img
             className="w-32 h-32 rounded-full mb-4"
-            src="https://s3.ap-southeast-1.amazonaws.com/agrihub-bucket/eec871225febb932.jpg"
+            src={data.avatar}
             alt="farm"
           />
           <div className="text-lg text-center">

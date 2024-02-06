@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Label } from "../../../../ui/label";
 import { Form, FormField } from "../../../../ui/form";
 import { Button } from "../../../../ui/button";
@@ -14,6 +14,7 @@ import SelectCrop from "../../select-crop/select-crop";
 import useReportCropMutation from "../../../../../hooks/api/post/useReportCropMutation";
 import { useNavigate } from "react-router-dom";
 import { Checkbox } from "../../../../ui/checkbox";
+import { addWeeks, format, isBefore } from "date-fns";
 
 const CommunityAddCropReportForm = () => {
   const navigate = useNavigate();
@@ -53,26 +54,43 @@ const CommunityAddCropReportForm = () => {
     useReportCropMutation();
 
   const handleSubmitForm = async (data: NewCommunityCropReport) => {
-    const compiledData: NewCommunityCropReport = {
-      crop_id: data.crop_id,
-      planted_qty: data.planted_qty,
-      harvested_qty: data.harvested_qty,
-      withered_crops: data.withered_crops,
-      date_planted: data.date_planted,
-      date_harvested: data.date_harvested,
-      notes: data.notes,
-      image: data.image
-    };
+    const { date_planted, date_harvested } = data;
+    const plantedDate = date_planted ? new Date(date_planted) : null;
+    const harvestedDate = date_harvested ? new Date(date_harvested) : null;
+    const minHarvestDate = plantedDate ? addWeeks(plantedDate, 1) : null;
 
-    try {
-      await cropReportMutate(compiledData);
-      toast.success("Report Submitted Successfully!");
+    if (
+      minHarvestDate &&
+      harvestedDate &&
+      isBefore(harvestedDate, minHarvestDate)
+    ) {
+      form.setError("date_planted", {
+        type: "manual",
+        message: "Harvest date must be at least 1 week after planted date"
+      });
+    } else {
+      const compiledData: NewCommunityCropReport = {
+        crop_id: data.crop_id,
+        planted_qty: data.planted_qty,
+        harvested_qty: data.harvested_qty,
+        withered_crops: data.withered_crops,
+        date_planted: data.date_planted,
+        date_harvested: data.date_harvested,
+        notes: data.notes,
+        image: data.image
+      };
 
-      navigate(-1);
-    } catch (e: any) {
-      toast.error(e.body.message);
+      try {
+        await cropReportMutate(compiledData);
+        toast.success("Report Submitted Successfully!");
+        navigate(-1);
+      } catch (error: any) {
+        toast.error(error.body.message);
+      }
     }
   };
+
+  const todayDate = format(new Date(), "yyyy-MM-dd");
 
   return (
     <Form {...form}>
@@ -119,6 +137,7 @@ const CommunityAddCropReportForm = () => {
             {...form.register("date_planted")}
             type="date"
             className="h-9 rounded-md"
+            max={todayDate}
           />
         </div>
         <div className="md:col-span-6 col-span-12">
@@ -127,6 +146,7 @@ const CommunityAddCropReportForm = () => {
             {...form.register("date_harvested")}
             type="date"
             className="h-9 rounded-md"
+            max={todayDate}
           />
         </div>
         <div className="md:col-span-6 col-span-12">

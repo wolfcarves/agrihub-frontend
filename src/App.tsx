@@ -119,6 +119,7 @@ import CropsReportAdd from "./pages/user/community/tabs/crops-report/crops-repor
 import CommunityProfile from "./pages/user/community/community-profile";
 import InviteFarm from "./pages/user/invitation/invite-farm";
 import InviteLayout from "./pages/user/invitation/invite-layout";
+import CropsReportView from "./pages/user/community/tabs/crops-report/crops-report-view";
 
 const App = ReactRouter(
   <>
@@ -155,11 +156,13 @@ const App = ReactRouter(
         <Route path="" element={<Community />} />
         <Route path="explore" element={<Explore />} />
         <Route path="register" element={<CommunityRegister />} />
+        {/* Public Community */}
         <Route path="explore/:id" element={<CommunityMain />}>
           <Route path="" element={<Overview />} />
           <Route path="crops" element={<Crops />} />
           <Route path="gallery" element={<Gallery />} />
         </Route>
+        {/* My Community */}
         <Route path="my-community/:id" element={<CommunityMain />}>
           <Route path="" element={<Overview />} />
           <Route path="analytics" element={<Analytics />} />
@@ -167,15 +170,17 @@ const App = ReactRouter(
           <Route path="members" element={<Members />} />
           <Route path="gallery" element={<Gallery />} />
         </Route>
+        <Route path="my-community/:id/profile" element={<CommunityProfile />} />
         <Route
           path="my-community/:id/crops/:cropId"
           element={<CommunityCrop />}
         />
+        {/* Reports */}
         <Route path="reports/:id" element={<CommunityReport />}>
           <Route path="" element={<CropsReport />} />
           <Route path="add" element={<CropsReportAdd />} />
+          <Route path="view/:cropId" element={<CropsReportView />} />
         </Route>
-        <Route path="my-community/:id/profile" element={<CommunityProfile />} />
       </Route>
 
       {/* Article Page */}
@@ -215,7 +220,7 @@ const App = ReactRouter(
 
       {/* Profile Page  */}
       <Route path="/users" element={<UserProfileLayout />}>
-        <Route path=":userId/:username" element={<UserProfile />} />
+        <Route path=":username" element={<UserProfile />} />
         <Route path=":userId/me" element={<MyProfile />} />
         <Route path=":userId/me/edit" element={<EditProfile />} />
       </Route>

@@ -11,6 +11,7 @@ import { UsePagination } from "@providers/PaginationProvider";
 import QuestionSkeleton from "@components/user/questions/skeleton/QuestionSkeleton";
 import { IoMdArrowBack } from "react-icons/io";
 import useGetUserProfileQuery from "../../../hooks/api/get/useGetUserProfileQuery";
+import useAuth from "../../../hooks/useAuth";
 
 const UserProfile = () => {
   const [page, setPage] = useState(1);
@@ -32,8 +33,11 @@ const UserProfile = () => {
     page: String(page),
     perpage: "10",
     filter: "newest",
-    profile: data?.id
+    profile: "937242908212068353"
   });
+
+  const { data: Userdata } = useAuth();
+  console.log(Userdata);
 
   const handleNavigateQuestion = (
     username: string | undefined,

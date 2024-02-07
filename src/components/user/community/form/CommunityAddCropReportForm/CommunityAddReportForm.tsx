@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Label } from "../../../../ui/label";
 import { Form, FormField } from "../../../../ui/form";
 import { Button } from "../../../../ui/button";
@@ -15,9 +15,12 @@ import useReportCropMutation from "../../../../../hooks/api/post/useReportCropMu
 import { useNavigate } from "react-router-dom";
 import { Checkbox } from "../../../../ui/checkbox";
 import { addWeeks, format, isBefore } from "date-fns";
+import { CheckedState } from "@radix-ui/react-checkbox";
 
 const CommunityAddCropReportForm = () => {
   const navigate = useNavigate();
+  const [check, setCheck] = useState<CheckedState>(false);
+
   const form = useForm<NewCommunityCropReport>({
     resolver: zodResolver(cropAddReportSchema),
     mode: "onBlur"
@@ -68,25 +71,35 @@ const CommunityAddCropReportForm = () => {
         type: "manual",
         message: "Harvest date must be at least 1 week after planted date"
       });
-    } else {
-      const compiledData: NewCommunityCropReport = {
-        crop_id: data.crop_id,
-        planted_qty: data.planted_qty,
-        harvested_qty: data.harvested_qty,
-        withered_crops: data.withered_crops,
-        date_planted: data.date_planted,
-        date_harvested: data.date_harvested,
-        notes: data.notes,
-        image: data.image
-      };
+      return null;
+    }
 
-      try {
-        await cropReportMutate(compiledData);
-        toast.success("Report Submitted Successfully!");
-        navigate(-1);
-      } catch (error: any) {
-        toast.error(error.body.message);
-      }
+    if (!check) {
+      form.setError("notes", {
+        type: "manual",
+        message:
+          "Oops! It looks like you forgot to agree to the terms and conditions."
+      });
+      return null;
+    }
+
+    const compiledData: NewCommunityCropReport = {
+      crop_id: data.crop_id,
+      planted_qty: data.planted_qty,
+      harvested_qty: data.harvested_qty,
+      withered_crops: data.withered_crops,
+      date_planted: data.date_planted,
+      date_harvested: data.date_harvested,
+      notes: data.notes,
+      image: data.image
+    };
+
+    try {
+      await cropReportMutate(compiledData);
+      toast.success("Report Submitted Successfully!");
+      navigate(-1);
+    } catch (error: any) {
+      toast.error(error.body.message);
     }
   };
 
@@ -172,9 +185,12 @@ const CommunityAddCropReportForm = () => {
           </div>
         </div>
         <div className="flex items-center space-x-2 col-span-12">
-          <Checkbox />
+          <Checkbox
+            checked={check}
+            onCheckedChange={checked => setCheck(checked)}
+          />
           <Label htmlFor="terms">
-            Accept{" "}
+            By selecting this, you agree to our&nbsp;
             <span className="text-primary underline">terms and conditions</span>
           </Label>
         </div>

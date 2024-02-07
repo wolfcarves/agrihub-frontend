@@ -15,6 +15,20 @@ import {
   DropdownMenuTrigger
 } from "@components/ui/dropdown-menu";
 
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
+} from "@components/ui/dialog";
+
+import { Input } from "@components/ui/input";
+import { Label } from "@components/ui/label";
+import { Textarea } from "@components/ui/textarea";
+
 export const data: Tag[] = [
   {
     id: "t1",
@@ -94,10 +108,49 @@ export const columns: ColumnDef<Tag>[] = [
             <DropdownMenuItem
               onClick={() => navigator.clipboard.writeText(payment.id)}
             >
-              Copy tag ID
+              Copy Tag ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View/update tag</DropdownMenuItem>
+            <Dialog>
+              <DialogTrigger asChild>
+                <div className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+                  View/update Tag
+                </div>
+              </DialogTrigger>
+              {/* modal */}
+              <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle>Tag Name</DialogTitle>
+                  <DialogDescription>
+                    Update tags to categorize resources effectively. Click
+                    'Save' when you've finished.
+                  </DialogDescription>
+                </DialogHeader>
+
+                <div className="grid gap-4">
+                  <div className="flex-col gap-4">
+                    <Label htmlFor="title" className="text-right">
+                      Title
+                    </Label>
+                    <Input
+                      id="title"
+                      placeholder="insert title of your material"
+                      className="col-span-3"
+                    />
+                  </div>
+                  <div className="flex-col gap-4">
+                    <Label className="text-right">Descrition</Label>
+                    <Textarea />
+                  </div>
+                </div>
+
+                {/* buttons */}
+                <DialogFooter>
+                  <Button variant="destructive">Delete</Button>
+                  <Button type="submit">Save Changes</Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
           </DropdownMenuContent>
         </DropdownMenu>
       );

@@ -14,10 +14,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@components/ui/dropdown-menu";
+import { Link } from "react-router-dom";
 
 export const data: Blog[] = [
   {
-    id: "b1",
+    id: "1",
     createdAt: "2023-01-15",
     updatedAt: "2023-01-20",
     title: "Introduction to Sustainable Agriculture",
@@ -26,7 +27,7 @@ export const data: Blog[] = [
     status: "posted"
   },
   {
-    id: "b2",
+    id: "2",
     createdAt: "2023-02-20",
     updatedAt: "2023-02-25",
     title: "5 Tips for Organic Gardening",
@@ -35,7 +36,7 @@ export const data: Blog[] = [
     status: "draft"
   },
   {
-    id: "b3",
+    id: "3",
     createdAt: "2023-03-10",
     updatedAt: "2023-03-15",
     title: "Maximizing Crop Yields: Techniques and Strategies",
@@ -44,7 +45,7 @@ export const data: Blog[] = [
     status: "posted"
   },
   {
-    id: "b4",
+    id: "4",
     createdAt: "2023-04-05",
     updatedAt: "2023-04-10",
     title: "The Importance of Soil Health in Agriculture",
@@ -117,8 +118,12 @@ export const columns: ColumnDef<Blog>[] = [
               Copy blog ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View/update article</DropdownMenuItem>
-            <DropdownMenuItem>View article in page</DropdownMenuItem>
+            <Link to={`/admin/resource/blogs/view/${payment.id}`}>
+              <DropdownMenuItem>View/update article</DropdownMenuItem>
+            </Link>
+            <Link to={`/blogs/view/${payment.id}`}>
+              <DropdownMenuItem>View article in page</DropdownMenuItem>
+            </Link>
           </DropdownMenuContent>
         </DropdownMenu>
       );

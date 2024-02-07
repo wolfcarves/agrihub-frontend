@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 import { Checkbox } from "../../../../ui/checkbox";
 import { addWeeks, format, isBefore } from "date-fns";
 import { CheckedState } from "@radix-ui/react-checkbox";
+import Loader from "../../../../../icons/Loader";
 
 const CommunityAddCropReportForm = () => {
   const navigate = useNavigate();
@@ -200,6 +201,7 @@ const CommunityAddCropReportForm = () => {
           </Button>
         </div>
       </form>
+      <Loader isVisible={cropReportLoading} />
     </Form>
   );
 };

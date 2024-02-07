@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useParams } from "react-router-dom";
 import useGetFarmGalleryQuery from "../../../../../hooks/api/get/useGetFarmGalleryQuery";
 import { IoChevronForward } from "react-icons/io5";
-
+import { TfiGallery } from "react-icons/tfi";
 const DisplayNone = () => {
   return (
     <div className="text-center min-h-32">
@@ -17,7 +17,10 @@ const GallerySection = () => {
 
   return (
     <div>
-      <h4 className="font-poppins-semibold mb-4">Gallery Overview</h4>
+      <h4 className=" font-poppins-medium mb-4 flex items-center gap-1">
+        <TfiGallery className="text-primary text-lg" />
+        Gallery Overview
+      </h4>
       {!farmGallery?.length || 0 < 0 ? (
         <DisplayNone />
       ) : (

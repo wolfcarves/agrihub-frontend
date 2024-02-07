@@ -30,14 +30,17 @@ import {
   AlertDialogTrigger
 } from "@components/ui/alert-dialog";
 import Capture from "@components/user/community/capture/capture";
+import { useParams } from "react-router-dom";
 
-const breadcrumbItems = [
-  { title: "Resource Management", link: "/admin/resources" },
-  { title: "Blogs", link: "/admin/resource/blogs" },
-  { title: "Add New Blogs", link: "/admin/resource/blogs/add" }
-];
+const UpdateBlogs = () => {
+  const { blogId } = useParams();
 
-const AddBlogs = () => {
+  const breadcrumbItems = [
+    { title: "Resource Management", link: "/admin/resources" },
+    { title: "Blogs", link: "/admin/resource/blogs" },
+    { title: `Update BLog #${blogId}`, link: "/admin/resource/blogs/add" }
+  ];
+
   const [searchInputTagValue, setSearchInputTagValue] = useState<string>("");
   const { data: tagResult } = useGetTagByKeyWord(searchInputTagValue);
 
@@ -45,11 +48,12 @@ const AddBlogs = () => {
     <AdminOutletContainer>
       <BreadCrumb items={breadcrumbItems} />
       <div className="flex justify-between items-center">
-        <h2 className="text-3xl font-bold tracking-tight">New Blog Form</h2>
+        <h2 className="text-3xl font-bold tracking-tight">Blog # {blogId}</h2>
       </div>
       <p className="text-sm text-muted-foreground">
-        Add new blog here and complete all required fields for publication.
-        Click 'Publish' to make your article public.
+        Blogs that has been published is visible to public, blogs draft is blogs
+        that is currently in progress, and blogs archive is the blogs removed
+        from the website.
       </p>
       <hr className="my-4" />
       <div className="max-w-[60rem] mx-auto">
@@ -62,9 +66,9 @@ const AddBlogs = () => {
                   <SelectValue placeholder="Choose" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="News">News</SelectItem>
-                  <SelectItem value="Initiatives">Initiatives</SelectItem>
-                  <SelectItem value="Story">Story</SelectItem>
+                  <SelectItem value="light">News</SelectItem>
+                  <SelectItem value="dark">Initiatives</SelectItem>
+                  <SelectItem value="system">Story</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -124,27 +128,28 @@ const AddBlogs = () => {
           </div>
 
           <div className="flex gap-4 justify-end mt-4">
+            <Link to="/admin/resource/blogs">
+              <Button variant="ghost">Back</Button>
+            </Link>
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <Button variant="ghost" className="hover:bg-red-500">
-                  Discard
+                <Button variant="destructive" className="hover:border-red-500">
+                  Delete
                 </Button>
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
-                  <AlertDialogTitle>
-                    Are you sure you want to discard?
-                  </AlertDialogTitle>
+                  <AlertDialogTitle>Delete?</AlertDialogTitle>
                   <AlertDialogDescription>
-                    This action cannot be undone. This will permanently delete
-                    all your progress from our website.
+                    When you delete blogs it will go to archive and you can
+                    recover it from there.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancel</AlertDialogCancel>
                   <Link to="/admin/resource/blogs">
                     <AlertDialogAction className="bg-red-600 hover:bg-red-500 hover:text-black">
-                      Discard
+                      Delete
                     </AlertDialogAction>
                   </Link>
                 </AlertDialogFooter>
@@ -153,7 +158,7 @@ const AddBlogs = () => {
 
             <Link to="/admin/resource/blogs-drafts">
               <Button variant="outline" className="hover:border-green-500">
-                Save Draft
+                Update Draft
               </Button>
             </Link>
 
@@ -167,9 +172,8 @@ const AddBlogs = () => {
                     Are you sure you want to upload this blog?
                   </AlertDialogTitle>
                   <AlertDialogDescription>
-                    This blog can be seen publicly by the users when posted, if
-                    you want to archive the blog you can visit the blogs
-                    management in admin
+                    This blogs can be seen publicly by the users when published,
+                    make sure to review everything before publish.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
@@ -187,4 +191,4 @@ const AddBlogs = () => {
   );
 };
 
-export default AddBlogs;
+export default UpdateBlogs;

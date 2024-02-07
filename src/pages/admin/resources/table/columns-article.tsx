@@ -3,7 +3,7 @@
 import * as React from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
-
+import { Link } from "react-router-dom";
 import { Button } from "@components/ui/button";
 
 import {
@@ -97,8 +97,12 @@ export const columns: ColumnDef<Article>[] = [
               Copy article ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>view/update article</DropdownMenuItem>
-            <DropdownMenuItem>View article in page</DropdownMenuItem>
+            <Link to={`/admin/resource/articles/view/${payment.id}`}>
+              <DropdownMenuItem>View/update article</DropdownMenuItem>
+            </Link>
+            <Link to={`/articles/view/${payment.id}`}>
+              <DropdownMenuItem>View article in page</DropdownMenuItem>
+            </Link>
           </DropdownMenuContent>
         </DropdownMenu>
       );

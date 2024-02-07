@@ -1,18 +1,10 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useGetFarmViewQuery from "@hooks/api/get/useGetFarmViewQuery";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from "../../../../ui/select";
 import { Input } from "../../../../ui/input";
 import { Textarea } from "../../../../ui/textarea";
 import CommunityUpload from "../../community-upload/community-upload";
 import { Button } from "../../../../ui/button";
-import { district } from "../../../../../constants/data";
 import { profileCommunitySchema } from "./schema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,32 +12,49 @@ import { UpdateCommunityFarmRequest } from "../../../../../api/openapi";
 import { toast } from "sonner";
 import { Form, FormField } from "../../../../ui/form";
 import SelectDistrict from "../../select-district/select-district";
+import usePutFarmProfile from "../../../../../hooks/api/put/usePutFarmProfile";
+import Loader from "../../../../../icons/Loader";
 
 const CommunityProfileEditForm = () => {
   const { id } = useParams();
-  const { data: farmDetails } = useGetFarmViewQuery(id || "");
+  const navigate = useNavigate();
+  const { data: farmDetails, isLoading: farmDetailsLoading } =
+    useGetFarmViewQuery(id || "");
 
   const form = useForm<UpdateCommunityFarmRequest>({
     resolver: zodResolver(profileCommunitySchema),
     mode: "onBlur"
   });
-  // const { mutateAsync: farmAddGalleryMutate, isLoading: isFarmGalleryLoading } =
-  // useFarmAddGalleryMutation();
+
+  const { mutateAsync: updateFarmMutate, isLoading: isFarmProfileLoading } =
+    usePutFarmProfile();
 
   const handleSubmitForm = async (data: UpdateCommunityFarmRequest) => {
-    const compiledData: UpdateCommunityFarmRequest = {};
+    const compiledData: UpdateCommunityFarmRequest = {
+      farm_name: data.farm_name,
+      description: data.description,
+      location: data.location,
+      size: data.size,
+
+      cover_photo: data.cover_photo,
+      avatar: data.avatar,
+      district: data.district
+    };
 
     try {
-      console.log(compiledData);
-      //   await farmAddGalleryMutate(compiledData);
-      //   toast.success("Uploaded Successfully!");
+      await updateFarmMutate(compiledData);
+      toast.success("Farm Updated Successfully!");
 
-      //   navigate("/community");
+      navigate("/community");
     } catch (e: any) {
       toast.error(e.body.message);
     }
   };
   console.log(form.formState.errors);
+
+  if (farmDetailsLoading) {
+    return <Loader isVisible={farmDetailsLoading} />;
+  }
   return (
     <Form {...form}>
       <form
@@ -95,9 +104,16 @@ const CommunityProfileEditForm = () => {
             </p>
           </div>
           <div className=" lg:col-span-6 col-span-12 ">
-            <CommunityUpload
-              defaultValue={farmDetails?.avatar}
-              variant="circle"
+            <FormField
+              control={form.control}
+              name="avatar"
+              render={() => (
+                <CommunityUpload
+                  onChange={value => form.setValue("avatar", value)}
+                  defaultValue={farmDetails?.avatar}
+                  variant="circle"
+                />
+              )}
             />
           </div>
         </div>
@@ -109,9 +125,16 @@ const CommunityProfileEditForm = () => {
             </p>
           </div>
           <div className=" lg:col-span-6 col-span-12 ">
-            <CommunityUpload
-              defaultValue={farmDetails?.cover_photo}
-              variant="rectangle"
+            <FormField
+              control={form.control}
+              name="cover_photo"
+              render={() => (
+                <CommunityUpload
+                  onChange={value => form.setValue("cover_photo", value)}
+                  defaultValue={farmDetails?.cover_photo}
+                  variant="rectangle"
+                />
+              )}
             />
           </div>
         </div>
@@ -123,7 +146,6 @@ const CommunityProfileEditForm = () => {
             </p>
           </div>
           <Input
-            type="number"
             defaultValue={farmDetails?.size}
             {...form.register("size")}
             className=" lg:col-span-6 col-span-12 focus-visible:ring-0 border-2"
@@ -155,29 +177,19 @@ const CommunityProfileEditForm = () => {
             render={({ field }) => (
               <SelectDistrict
                 field={field}
+                defaultValue={farmDetails?.district}
                 className="lg:col-span-6 col-span-12 focus-visible:ring-0 border-2"
               />
             )}
           />
-          {/* <Select defaultValue={farmDetails?.district}>
-            <SelectTrigger className="lg:col-span-6 col-span-12 focus-visible:ring-0 border-2">
-              <SelectValue
-                placeholder={farmDetails?.district || `Select district...`}
-              />
-            </SelectTrigger>
-            <SelectContent>
-              {district.map((id, i) => (
-                <SelectItem key={i} value={id}>
-                  {id}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select> */}
         </div>
         <div className="flex py-8">
-          <Button className="">Update Profile</Button>
+          <Button type="submit" disabled={isFarmProfileLoading} className="">
+            Update Profile
+          </Button>
         </div>
       </form>
+      <Loader isVisible={isFarmProfileLoading} />
     </Form>
   );
 };

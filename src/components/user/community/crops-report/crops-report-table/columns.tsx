@@ -54,7 +54,7 @@ export const columns: ColumnDef<CommunityCropReportResponseItem>[] = [
     header: "Actions",
     id: "actions",
     cell: ({ row }) => {
-      const farm = row.original;
+      const crop = row.original;
       const navigate = useNavigate();
 
       return (
@@ -69,9 +69,7 @@ export const columns: ColumnDef<CommunityCropReportResponseItem>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-            //   onClick={() => navigate(`/admin/farm/application/${farm.id}`)}
-            >
+            <DropdownMenuItem onClick={() => navigate(`view/${crop.crop_id}`)}>
               View
             </DropdownMenuItem>
             <DropdownMenuSeparator />

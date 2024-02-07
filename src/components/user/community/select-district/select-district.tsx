@@ -15,12 +15,14 @@ interface SelectDistrictProps {
   };
   setDistrict?: React.Dispatch<React.SetStateAction<string>>;
   className?: string;
+  defaultValue?: string;
 }
 
 const SelectDistrict: React.FC<SelectDistrictProps> = ({
   field,
   setDistrict,
-  className
+  className,
+  defaultValue
 }) => (
   <Select
     onValueChange={value => {
@@ -32,7 +34,9 @@ const SelectDistrict: React.FC<SelectDistrictProps> = ({
     defaultValue={field.value}
   >
     <SelectTrigger className={`w-full ${className}`}>
-      <SelectValue placeholder="Select district..." />
+      <SelectValue
+        placeholder={`${defaultValue ? defaultValue : "Select district..."}`}
+      />
     </SelectTrigger>
     <SelectContent>
       {district.map((id, i) => (

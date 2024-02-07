@@ -7,49 +7,53 @@ export const profileCommunitySchema = zod.object({
     .string({
       required_error: "Name is required."
     })
+    .min(1, "Please enter at least 5 characters")
+    .max(200, "Name is too long")
+    .optional(),
+  description: zod
+    .string({
+      required_error: "Description is required."
+    })
     .min(5, "Please enter at least 5 characters")
-    .max(200, "Name is too long"),
-
-  farm_size: zod
+    .max(400, "Description is too long")
+    .optional(),
+  size: zod
     .string({
       required_error: "Size is required"
     })
-    .min(1, " Please enter farm size"),
+    .min(1, " Please enter farm size")
+    .optional(),
   location: zod
     .string({
       required_error: "Street is required."
     })
     .min(3, "Please enter at least 3 characters")
-    .max(100, "location is too long"),
+    .max(200, "location is too long")
+    .optional(),
 
-  district: zod.string({
-    required_error: "District is required."
-  }),
+  district: zod
+    .string({
+      required_error: "District is required."
+    })
+    .optional(),
+  avatar: zod
+    .any()
+    .refine((file: Blob) => file !== undefined, "Please upload a valid ID")
+    .refine(
+      (file: Blob) =>
+        file?.size === undefined ? true : file.size <= MAX_IMAGE_FILE_SIZE,
+      "Maximum image file size is 10MB"
+    )
+    .optional(),
 
-  avatar: zod.any().refine(
-    (file: Blob[]) => {
-      return (
-        file !== undefined &&
-        file[0] instanceof Blob &&
-        file[0].size <= MAX_IMAGE_FILE_SIZE
-      );
-    },
-    `Please upload Logo with a maximum size of ${
-      MAX_IMAGE_FILE_SIZE / (1024 * 1024)
-    }MB`
-  ),
-
-  background: zod.any().refine(
-    (file: Blob[]) => {
-      return (
-        file !== undefined &&
-        file[0] instanceof Blob &&
-        file[0].size <= MAX_IMAGE_FILE_SIZE
-      );
-    },
-    `Please upload background image with a maximum size of ${
-      MAX_IMAGE_FILE_SIZE / (1024 * 1024)
-    }MB`
-  )
+  cover_photo: zod
+    .any()
+    .refine((file: Blob) => file !== undefined, "Please upload a valid ID")
+    .refine(
+      (file: Blob) =>
+        file?.size === undefined ? true : file.size <= MAX_IMAGE_FILE_SIZE,
+      "Maximum image file size is 10MB"
+    )
+    .optional()
 });
 export type ProfileCommunitySchema = zod.infer<typeof profileCommunitySchema>;

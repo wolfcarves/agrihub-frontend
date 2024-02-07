@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { IoCamera } from "react-icons/io5";
 
 interface DropzoneProps {
-  onChange: (blob: Blob) => void;
+  onChange?: (blob: Blob) => void;
 }
 
 const Capture: React.FC<DropzoneProps> = ({ onChange }) => {
@@ -12,8 +12,10 @@ const Capture: React.FC<DropzoneProps> = ({ onChange }) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files && e.target.files[0];
 
-    if (file) {
+    if (file && onChange) {
       onChange(file);
+    }
+    if (file) {
       showImagePreview(file);
     }
   };

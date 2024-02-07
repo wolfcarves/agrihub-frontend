@@ -73,15 +73,22 @@ import FarmersReported from "@pages/admin/farms/farmers-reported";
 
 import Resource from "@pages/admin/resources/resource";
 import BlogsAdmin from "@pages/admin/resources/blogs/blogs-admin";
+import AddBlogs from "@pages/admin/resources/blogs/blogs-add";
+import UpdateBlogs from "@pages/admin/resources/blogs/blogs-update";
 import BlogsDraft from "@pages/admin/resources/blogs/blogs-draft";
 import BlogsArchive from "@pages/admin/resources/blogs/blogs-archive";
 import EventsAdmin from "@pages/admin/resources/events/events-admin";
+import AddEvents from "@pages/admin/resources/events/events-add";
+import UpdateEvents from "@pages/admin/resources/events/events-update";
 import EventsDraft from "@pages/admin/resources/events/events-draft";
 import EventsArchive from "@pages/admin/resources/events/events-archive";
 import LearningsAdmin from "@pages/admin/resources/learnings/learnings-admin";
+import UpdateLearnings from "@pages/admin/resources/learnings/learnings-add-details";
 import LearningsDraft from "@pages/admin/resources/learnings/learnings-draft";
 import LearningArchive from "@pages/admin/resources/learnings/learning-archive";
 import ArticlesAdmin from "@pages/admin/resources/articles/articles-admin";
+import AddArticles from "@pages/admin/resources/articles/articles-add";
+import UpdateArticles from "@pages/admin/resources/articles/articles-update";
 import ArticlesDraft from "@pages/admin/resources/articles/articles-draft";
 import ArticlesArchive from "@pages/admin/resources/articles/articles-archive";
 
@@ -262,19 +269,34 @@ const App = ReactRouter(
       {/* Resources */}
       <Route path="resources" element={<Resource />} />
       <Route path="resource">
-        <Route path="blogs" element={<BlogsAdmin />} />
+        <Route path="blogs">
+          <Route path="" element={<BlogsAdmin />} />
+          <Route path="add" element={<AddBlogs />} />
+          <Route path="view/:blogId" element={<UpdateBlogs />} />
+        </Route>
         <Route path="blogs-drafts" element={<BlogsDraft />} />
         <Route path="blogs-archives" element={<BlogsArchive />} />
 
-        <Route path="events" element={<EventsAdmin />} />
+        <Route path="events">
+          <Route path="" element={<EventsAdmin />} />
+          <Route path="add" element={<AddEvents />} />
+          <Route path="view/:eventId" element={<UpdateEvents />} />
+        </Route>
         <Route path="events-draft" element={<EventsDraft />} />
         <Route path="events-archives" element={<EventsArchive />} />
 
-        <Route path="learnings" element={<LearningsAdmin />} />
+        <Route path="learnings">
+          <Route path="" element={<LearningsAdmin />} />
+          <Route path="view/:learningsId" element={<UpdateLearnings />} />
+        </Route>
         <Route path="learnings-draft" element={<LearningsDraft />} />
         <Route path="learnings-archives" element={<LearningArchive />} />
 
-        <Route path="articles" element={<ArticlesAdmin />} />
+        <Route path="articles">
+          <Route path="" element={<ArticlesAdmin />} />
+          <Route path="add" element={<AddArticles />} />
+          <Route path="view/:articlesId" element={<UpdateArticles />} />
+        </Route>
         <Route path="articles-draft" element={<ArticlesDraft />} />
         <Route path="articles-archives" element={<ArticlesArchive />} />
       </Route>

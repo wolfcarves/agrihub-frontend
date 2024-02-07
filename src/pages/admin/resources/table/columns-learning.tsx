@@ -4,6 +4,7 @@ import * as React from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 
+import { Link } from "react-router-dom";
 import { Button } from "@components/ui/button";
 
 import {
@@ -114,11 +115,15 @@ export const columns: ColumnDef<LearningMaterial>[] = [
             <DropdownMenuItem
               onClick={() => navigator.clipboard.writeText(payment.id)}
             >
-              Copy amaterial ID
+              Copy material ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>view/update material</DropdownMenuItem>
-            <DropdownMenuItem>View material in page</DropdownMenuItem>
+            <Link to={`/admin/resource/learnings/view/${payment.id}`}>
+              <DropdownMenuItem>View/update material</DropdownMenuItem>
+            </Link>
+            <Link to={`/learning-materials/view/${payment.id}`}>
+              <DropdownMenuItem>View material in page</DropdownMenuItem>
+            </Link>
           </DropdownMenuContent>
         </DropdownMenu>
       );

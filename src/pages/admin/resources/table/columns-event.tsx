@@ -15,6 +15,8 @@ import {
   DropdownMenuTrigger
 } from "@components/ui/dropdown-menu";
 
+import { Link } from "react-router-dom";
+
 export const data: Event[] = [
   {
     id: "e1",
@@ -117,8 +119,12 @@ export const columns: ColumnDef<Event>[] = [
               Copy event ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>view/update event</DropdownMenuItem>
-            <DropdownMenuItem>View event in page</DropdownMenuItem>
+            <Link to={`/admin/resource/events/view/${payment.id}`}>
+              <DropdownMenuItem>View/update article</DropdownMenuItem>
+            </Link>
+            <Link to={`/events/view/${payment.id}`}>
+              <DropdownMenuItem>View event in page</DropdownMenuItem>
+            </Link>
           </DropdownMenuContent>
         </DropdownMenu>
       );

@@ -16,13 +16,15 @@ interface UserTagInputDropdownProps {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onTagsValueChange?: (e: string[]) => void;
   isError?: boolean;
+  disabled: boolean;
 }
 
 const UserTagInputDropdown = ({
   option,
   onChange,
   onTagsValueChange,
-  isError
+  isError,
+  disabled
 }: UserTagInputDropdownProps) => {
   const [tags, setTags] = useState<Array<string>>([]);
   const [idTags, setIdTags] = useState<Array<string>>([]);
@@ -134,6 +136,7 @@ const UserTagInputDropdown = ({
           onChange={onChange}
           onFocus={() => setIsInputTagFocused(true)}
           className="outline-0 flex-1 h-full px-3 py-3 rounded-lg"
+          disabled={disabled}
         />
 
         <div

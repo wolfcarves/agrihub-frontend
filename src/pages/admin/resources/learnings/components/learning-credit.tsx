@@ -35,9 +35,9 @@ const LearningCreditForm = () => {
       </div>
 
       {/* credits form */}
-      <Card className="p-4">
+      <div>
         {Array.from({ length: credits }).map((_, index) => (
-          <>
+          <Card className="p-4 mb-4">
             <h2 className="text-sm font-bold tracking-tight">
               Credit {index + 1}
             </h2>
@@ -86,9 +86,9 @@ const LearningCreditForm = () => {
               </Button>
               <Button onClick={e => handleAddCredit(e)}>Add more source</Button>
             </div>
-          </>
+          </Card>
         ))}
-      </Card>
+      </div>
     </div>
   );
 };

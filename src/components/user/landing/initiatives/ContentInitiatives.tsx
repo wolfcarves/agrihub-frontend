@@ -13,10 +13,10 @@ export const ellipsis = (text: string, maxLength: number): string => {
 };
 
 const ContentInitiatives: React.FC = () => {
+  
   const navigate = useNavigate();
   const [showAll, setShowAll] = useState(false);
-  const [visibleCount, setVisibleCount] = useState(4);
-  const blogsCategory = blogsData.filter((item) => item.category === "initiatives").slice(0, visibleCount);
+  const blogsCategory = blogsData.filter((item) => item.category === "initiatives").slice(0, 4);
   const visibleBlogs = showAll ? blogsData.filter((item) => item.category === "initiatives") : blogsCategory;
 
   const handleCardClick = (blogId: string) => {
@@ -24,17 +24,19 @@ const ContentInitiatives: React.FC = () => {
   };
 
   const handleSeeMoreClick = () => {
-    setVisibleCount((prevCount) => prevCount + 2);
     setShowAll(true);
   };
 
   const handleSeeLessClick = () => {
-    setVisibleCount(4);
     setShowAll(false);
+    const targetElem = document.getElementById("grid_container");
+    if(targetElem){
+      targetElem.scrollIntoView({behavior: 'smooth'});
+    }
   };
 
   return (
-    <div className="container">
+    <div className="container" id="grid_container">
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-8 p-10 mx-auto">
         {visibleBlogs.map((item) => (
           <div

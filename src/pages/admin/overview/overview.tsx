@@ -19,34 +19,38 @@ const OverviewAdmin = () => {
     <AdminOutletContainer>
       <BreadCrumb items={breadcrumbItems} />
       <h2 className="text-3xl font-bold tracking-tight pb-5">Overview</h2>
-      <div className="grid grid-cols-10 grid-rows-4 gap-4">
-        <Card className="col-span-4 row-span-4 flex-col justify-center items-center">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <Card className="flex-col justify-center items-center">
           <CardHeader>
             <CardTitle>Resources</CardTitle>
             <CardDescription>
               Comparison of total Articles, Blogs, Learning Resources and Events
             </CardDescription>
           </CardHeader>
-          <DoughnutResource />
+          <div className="mx-auto">
+            <DoughnutResource />
+          </div>
         </Card>
-        <Card className="col-span-6 row-span-2 col-start-5 flex-col justify-center items-end p-5">
-          <CardHeader>
-            <CardTitle>District Farms</CardTitle>
-            <CardDescription>
-              Comparison of total number of farms each district
-            </CardDescription>
-          </CardHeader>
-          <BarDistrictOverview />
-        </Card>
-        <Card className="col-span-6 row-span-2 col-start-5 row-start-3 flex-col justify-center items-center p-5">
-          <CardHeader>
-            <CardTitle>Forums</CardTitle>
-            <CardDescription>
-              Comparison of total question and answer each month
-            </CardDescription>
-          </CardHeader>
-          <LineForumOverview />
-        </Card>
+        <div className="flex-col gap-4 w-full">
+          <Card className="flex-col justify-center items-end p-5">
+            <CardHeader>
+              <CardTitle>District Farms</CardTitle>
+              <CardDescription>
+                Comparison of total number of farms each district
+              </CardDescription>
+            </CardHeader>
+            <BarDistrictOverview />
+          </Card>
+          <Card className="flex-col justify-center items-center p-5">
+            <CardHeader>
+              <CardTitle>Forums</CardTitle>
+              <CardDescription>
+                Comparison of total question and answer each month
+              </CardDescription>
+            </CardHeader>
+            <LineForumOverview />
+          </Card>
+        </div>
       </div>
     </AdminOutletContainer>
   );

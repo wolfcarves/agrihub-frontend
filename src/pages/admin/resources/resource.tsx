@@ -11,7 +11,7 @@ import DoughnutResource from "../charts/dougnut-resource-overview";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
 
 const breadcrumbItems = [
-  { title: "Reasource Management", link: "/admin/resources" }
+  { title: "Resource Management", link: "/admin/resources" }
 ];
 
 const Resource = () => {
@@ -22,11 +22,11 @@ const Resource = () => {
         Resource Overview
       </h2>
 
-      <div className="grid grid-cols-9 grid-rows-4 gap-4 ">
-        <Card className="col-span-4 row-span-4 p-8">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-6 md:grid-rows-4 md:gap-4">
+        <Card className="col-span-full md:col-span-3 md:row-span-4 p-8">
           <DoughnutResource />
         </Card>
-        <Card className="col-span-5 col-start-5">
+        <Card className="col-span-full md:col-span-3 md:col-start-4">
           <CardHeader>
             <CardTitle>189</CardTitle>
             <CardDescription>
@@ -34,7 +34,7 @@ const Resource = () => {
             </CardDescription>
           </CardHeader>
         </Card>
-        <Card className="col-span-5 col-start-5">
+        <Card className="col-span-full md:col-span-3 md:col-start-4 md:row-start-2">
           <CardHeader>
             <CardTitle>132</CardTitle>
             <CardDescription>
@@ -42,7 +42,7 @@ const Resource = () => {
             </CardDescription>
           </CardHeader>
         </Card>
-        <Card className="col-span-5 col-start-5">
+        <Card className="col-span-full md:col-span-3 md:col-start-4 md:row-start-3">
           <CardHeader>
             <CardTitle>190</CardTitle>
             <CardDescription>
@@ -51,7 +51,7 @@ const Resource = () => {
             </CardDescription>
           </CardHeader>
         </Card>
-        <Card className="col-span-5 col-start-5">
+        <Card className="col-span-full md:col-span-3 md:col-start-4 md:row-start-4">
           <CardHeader>
             <CardTitle>89</CardTitle>
             <CardDescription>

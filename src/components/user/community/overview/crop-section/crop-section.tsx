@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import useGetFarmCropsQuery from "../../../../../hooks/api/get/useGetFarmCropsQuery";
 import { IoChevronForward } from "react-icons/io5";
 import CropCardReport from "../crop-card-report/crop-card-report";
+import { PiPlantLight } from "react-icons/pi";
 
 const DisplayNone = () => {
   return (
@@ -17,7 +18,10 @@ const CropSection = () => {
   const { data: farmCrops } = useGetFarmCropsQuery(id || "");
   return (
     <div>
-      <h4 className="font-poppins-semibold mb-4">Crops Available</h4>
+      <h4 className=" font-poppins-medium mb-4 flex items-center gap-1">
+        <PiPlantLight className="text-primary text-xl" />
+        Crops Available
+      </h4>
       {!farmCrops?.length || 0 < 0 ? (
         <DisplayNone />
       ) : (

@@ -53,7 +53,7 @@ const CropCard: React.FC<CropCardProps> = ({ crop }) => {
         </div>
       </button>
       <div className=" col-span-1">
-        {isAllowed && <ArchiveCropAlert cropId={crop.id} />}
+        {isAllowed && isMember && <ArchiveCropAlert cropId={crop.id} />}
       </div>
     </div>
   );

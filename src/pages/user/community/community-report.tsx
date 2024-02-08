@@ -1,5 +1,6 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
+import withAuthGuard from "../../../higher-order/account/withAuthGuard";
 
 const CommunityReport = () => {
   return (
@@ -9,4 +10,4 @@ const CommunityReport = () => {
   );
 };
 
-export default CommunityReport;
+export default withAuthGuard(CommunityReport, ["farm_head"]);

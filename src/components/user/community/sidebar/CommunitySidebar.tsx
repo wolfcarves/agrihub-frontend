@@ -3,20 +3,15 @@ import { UserSidebar, UserSidebarNavLink } from "@components/ui/custom";
 import useAuth from "@hooks/useAuth";
 import { useLocation } from "react-router-dom";
 import { PiListMagnifyingGlass, PiNewspaper, PiUsers } from "react-icons/pi";
+import useCommunityAutorization from "../../../../hooks/utils/useCommunityAutorization";
 
 const CommunitySidebar = () => {
   const pathname = useLocation().pathname;
   const { isAuthenticated, data: UserData } = useAuth();
+  const { isAllowed } = useCommunityAutorization();
 
   return (
     <UserSidebar className="hidden sm:block">
-      {/* <UserSidebarNavLink
-        to="/community"
-        title="My Community"
-        logo={<TbMessageCircleQuestion size={20} />}
-        end={pathname === ""}
-      /> */}
-
       {UserData?.farm_id && isAuthenticated && (
         <UserSidebarNavLink
           to={`/community/my-community/${UserData.farm_id}`}
@@ -30,7 +25,7 @@ const CommunitySidebar = () => {
         title="Explore"
         logo={<PiListMagnifyingGlass size={21} />}
       />
-      {UserData?.farm_id && isAuthenticated && (
+      {UserData?.farm_id && isAuthenticated && isAllowed && (
         <UserSidebarNavLink
           to={`/community/reports/${UserData.farm_id}`}
           title="Reports"

@@ -12,6 +12,7 @@ import {
 import { Button } from "../../../../ui/button";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { FarmMember } from "../../../../../api/openapi";
+import { formatRoles } from "../../../../lib/utils";
 
 export const columns: ColumnDef<FarmMember>[] = [
   {
@@ -43,6 +44,9 @@ export const columns: ColumnDef<FarmMember>[] = [
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
+    },
+    cell: ({ row }) => {
+      return formatRoles(row.original.role);
     }
   },
 

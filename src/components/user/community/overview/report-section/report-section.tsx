@@ -1,12 +1,16 @@
 import React from "react";
 import useGetReportTotalHarvestQuery from "../../../../../hooks/api/get/useGetReportTotalHarvestQuery";
+import { HiOutlineDocumentReport } from "react-icons/hi";
 
 const ReportSection = () => {
   const { data: harvestData } = useGetReportTotalHarvestQuery();
 
   return (
     <div>
-      <h4 className="font-poppins-semibold mb-4">Reports Overview</h4>
+      <h4 className=" font-poppins-medium mb-4 flex items-center gap-1">
+        <HiOutlineDocumentReport className="text-primary text-xl" />
+        Report Overview
+      </h4>
       <div className="grid grid-cols-12 gap-3">
         {harvestData?.slice(0, 3).map((harvest, i) => (
           <div

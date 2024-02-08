@@ -3,6 +3,7 @@ import OutletContainer from "../../../../../components/user/questions/container/
 import CommunityAddCropReportForm from "../../../../../components/user/community/form/CommunityAddCropReportForm/CommunityAddReportForm";
 import { useNavigate } from "react-router-dom";
 import { FaArrowLeftLong } from "react-icons/fa6";
+import withAuthGuard from "../../../../../higher-order/account/withAuthGuard";
 
 const CropsReportAdd = () => {
   const navigate = useNavigate();

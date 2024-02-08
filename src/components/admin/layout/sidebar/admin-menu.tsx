@@ -40,6 +40,11 @@ export const adminNavigation = [
     icon: <GiFarmTractor size={24} />,
     nav: [
       {
+        title: "",
+        name: "Overview",
+        href: "/admin/farm"
+      },
+      {
         title: "Farmers",
         name: "Farmers",
         href: "/admin/farm/farmers"
@@ -78,6 +83,11 @@ export const adminNavigation = [
     name: "Resources Management",
     icon: <MdOutlineSource size={24} />,
     nav: [
+      {
+        title: "",
+        name: "Overview",
+        href: "/admin/resources"
+      },
       {
         title: "Blogs",
         name: "All Blogs",
@@ -147,6 +157,11 @@ export const adminNavigation = [
     name: "Forum Management",
     icon: <MdOutlineForum size={24} />,
     nav: [
+      {
+        title: "",
+        name: "Overview",
+        href: "/admin/forum"
+      },
       {
         title: "Questions",
         name: "All Questions",

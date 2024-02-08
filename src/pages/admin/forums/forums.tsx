@@ -11,25 +11,26 @@ import {
 import withAuthGuard from "@higher-order/account/withAuthGuard";
 
 const breadcrumbItems = [{ title: "Forum Management", link: "/admin/forum" }];
+
 const Forums = () => {
   return (
     <AdminOutletContainer>
       <BreadCrumb items={breadcrumbItems} />
       <h2 className="text-3xl font-bold tracking-tight mb-5">Forum Overview</h2>
-      <div className="grid grid-cols-6 grid-rows-5 gap-4">
-        <Card className="col-span-2 flex justify-start items-center">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <Card className="flex justify-start items-center">
           <CardHeader>
             <CardTitle>10390</CardTitle>
             <CardDescription>Total Questions in Forums</CardDescription>
           </CardHeader>
         </Card>
-        <Card className="col-span-2 col-start-3 flex justify-start items-center">
+        <Card className="flex justify-start items-center">
           <CardHeader>
             <CardTitle>127242</CardTitle>
             <CardDescription>Total Answers in Forums</CardDescription>
           </CardHeader>
         </Card>
-        <Card className="col-span-2 col-start-5 flex justify-start items-center">
+        <Card className="flex justify-start items-center">
           <CardHeader>
             <CardTitle>1840</CardTitle>
             <CardDescription>
@@ -37,7 +38,7 @@ const Forums = () => {
             </CardDescription>
           </CardHeader>
         </Card>
-        <Card className="col-span-6 row-span-4 row-start-2 p-5">
+        <Card className="col-span-full md:col-span-2 lg:col-span-3 p-5">
           <CardHeader>
             Comparison of total question and answer each month
           </CardHeader>

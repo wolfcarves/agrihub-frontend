@@ -48,9 +48,11 @@ const UpdateLearnings = () => {
       <div className="max-w-[60rem] mx-auto">
         <form>
           <LearningDetailForm />
+          <hr className="my-4" />
           <LearningResourceForm />
+          <hr className="my-4" />
           <LearningCreditForm />
-
+          <hr className="my-4" />
           {/* ==================================bu-ons======================================== */}
           <div className="flex gap-4 justify-end mt-4">
             <Link to="/admin/resource/learnings-draft">

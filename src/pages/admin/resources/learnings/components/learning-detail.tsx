@@ -105,7 +105,6 @@ const LearningDetailForm = () => {
           </Button>
         )}
       </div>
-      <hr className="my-4" />
     </div>
   );
 };

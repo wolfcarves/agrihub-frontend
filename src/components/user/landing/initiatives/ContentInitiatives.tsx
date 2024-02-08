@@ -13,11 +13,15 @@ export const ellipsis = (text: string, maxLength: number): string => {
 };
 
 const ContentInitiatives: React.FC = () => {
-  
   const navigate = useNavigate();
+
   const [showAll, setShowAll] = useState(false);
-  const blogsCategory = blogsData.filter((item) => item.category === "initiatives").slice(0, 4);
-  const visibleBlogs = showAll ? blogsData.filter((item) => item.category === "initiatives") : blogsCategory;
+
+  const blogsCategory = blogsData.filter((item) => item.category === "Initiative").sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+  const visibleBlogs = showAll ? blogsData.filter((item) => item.category === "Initiative") : blogsCategory.slice(0, 4);
+
+  visibleBlogs.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
   const handleCardClick = (blogId: string) => {
     navigate(`/blogs/view/${blogId}`);
@@ -30,8 +34,8 @@ const ContentInitiatives: React.FC = () => {
   const handleSeeLessClick = () => {
     setShowAll(false);
     const targetElem = document.getElementById("grid_container");
-    if(targetElem){
-      targetElem.scrollIntoView({behavior: 'smooth'});
+    if (targetElem) {
+      targetElem.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -60,7 +64,7 @@ const ContentInitiatives: React.FC = () => {
           </div>
         ))}
       </div>
-      {!showAll && blogsCategory.length > 3 && (
+      {!showAll && blogsCategory.length > 4 && (
         <SeeMore onClick={handleSeeMoreClick} text="See More" />
       )}
       {showAll && <SeeMore onClick={handleSeeLessClick} text="See Less" />}

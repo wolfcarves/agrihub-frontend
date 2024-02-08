@@ -21,6 +21,7 @@ interface RichTextEditorProps
   withToolbar?: boolean;
   allowImagePaste?: boolean;
   height?: number;
+  disabled?: boolean;
 }
 
 //put this shit to util folder pero sa susunod na yugto ng ating buhay nalang T_T
@@ -42,6 +43,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
   withToolbar = true,
   allowImagePaste = true,
   height,
+  disabled = false,
   ...props
 }) => {
   const extensions: Extensions = [
@@ -159,7 +161,11 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
   };
 
   return (
-    <div className="shadow-md border border-border rounded-md w-full max-w-[60rem] flex flex-col">
+    <div
+      className={`shadow-md border border-border rounded-md w-full max-w-[60rem] flex flex-col ${
+        disabled ? "opacity-50 pointer-events-none" : ""
+      }`}
+    >
       {withToolbar && (
         <div className="bg-[#DCF2D3] p-1 flex gap-1">
           <Toolbar

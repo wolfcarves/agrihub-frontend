@@ -226,8 +226,8 @@ const App = ReactRouter(
       </Route>
 
       {/* Profile Page  */}
-      <Route path="/users" element={<UserProfileLayout />}>
-        <Route path=":username" element={<UserProfile />} />
+      <Route path="/user" element={<UserProfileLayout />}>
+        <Route path=":username/:userId" element={<UserProfile />} />
         <Route path=":userId/me" element={<MyProfile />} />
         <Route path=":userId/me/edit" element={<EditProfile />} />
       </Route>

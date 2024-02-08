@@ -16,7 +16,7 @@ import {
 } from "@components/ui/alert-dialog";
 import { useParams } from "react-router-dom";
 import LearningCreditForm from "./components/learning-credit";
-import LearningDetailForm from "./components/learning-detail";
+import LearningDetailForm from "../../../../components/admin/form/learning-detail-form/learning-detail-form";
 import LearningResourceForm from "./components/learning-resource";
 import useGetLearningDraftList from "../../../../hooks/api/get/useGetLearningDraftList";
 
@@ -49,7 +49,7 @@ const UpdateLearnings = () => {
       </p>
       <hr className="my-4" />
       <div className="max-w-[60rem] mx-auto">
-        <form>
+        <div>
           <LearningDetailForm />
           <hr className="my-4" />
           <LearningResourceForm />
@@ -113,7 +113,7 @@ const UpdateLearnings = () => {
               </AlertDialogContent>
             </AlertDialog>
           </div>
-        </form>
+        </div>
       </div>
     </AdminOutletContainer>
   );

@@ -18,7 +18,7 @@ const Blog = () => {
   const selectedEvent = blogsData.find(event => event.blogId === blogId);
 
   if (!selectedEvent) {
-    return <div>Event not found!</div>;
+    return <div>Blog not found!</div>;
   }
 
   return (

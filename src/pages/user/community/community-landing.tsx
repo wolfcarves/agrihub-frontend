@@ -1,20 +1,19 @@
-import React, { useState } from "react";
-import withAuthGuard from "@higher-order/account/withAuthGuard";
+import React from "react";
 import { Button } from "@components/ui/button";
 import OutletContainer from "@components/user/questions/container/OutletContainer";
 import { Link } from "react-router-dom";
 import CommunityIllustration from "@assets/images/community.png";
-import CommunityCard from "@components/user/community/card/CommunityCard";
-import useGetFarms from "@hooks/api/get/useGetFarms";
 import useAuth from "@hooks/useAuth";
+import useGetFarmListQuery from "../../../hooks/api/get/useGetFarmListQuery";
+import FarmCard from "../../../components/user/community/farm-card/farm-card";
 const CommunityLanding = () => {
   const { isAuthenticated, data: userData } = useAuth();
-  const [page, setPage] = useState(1);
-  const { data } = useGetFarms(undefined, String(page), undefined);
-  const onPageChange = (newPage: number) => {
-    setPage(newPage);
-  };
-  console.log(data);
+  const { data } = useGetFarmListQuery({
+    search: undefined,
+    page: "1",
+    filter: undefined,
+    perpage: "3"
+  });
   return (
     <OutletContainer className="min-h-screen">
       <div className="py-10">
@@ -67,27 +66,10 @@ const CommunityLanding = () => {
         Communities:
       </p>
 
-      <div className="grid mx-auto grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-20">
-        <CommunityCard
-          id="1"
-          title="Kuya Rodel's Farm"
-          description="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Facere repellendus delectus sint perspiciatis fugit voluptatibus corrupti voluptatum similique molestias ad!"
-        />
-        <CommunityCard
-          id="1"
-          title="Kuya Rodel's Farm"
-          description="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Facere repellendus delectus sint perspiciatis fugit voluptatibus corrupti voluptatum similique molestias ad!"
-        />
-        <CommunityCard
-          id="1"
-          title="Kuya Rodel's Farm"
-          description="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Facere repellendus delectus sint perspiciatis fugit voluptatibus corrupti voluptatum similique molestias ad!"
-        />
-        <CommunityCard
-          id="1"
-          title="Kuya Rodel's Farm"
-          description="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Facere repellendus delectus sint perspiciatis fugit voluptatibus corrupti voluptatum similique molestias ad!"
-        />
+      <div className="grid grid-cols-6 gap-2 mb-20 mt-10">
+        {data?.farms
+          ?.filter(farm => farm.id !== userData?.farm_id)
+          .map((farm, i) => <FarmCard farm={farm} index={i} />)}
       </div>
     </OutletContainer>
   );

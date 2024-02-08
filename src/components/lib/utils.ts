@@ -131,3 +131,25 @@ export function formatDateTime(dateTimeString: string): string {
   )}`;
   return formattedDate;
 }
+
+export function formatRoles(role: string) {
+  let formatedRole;
+
+  switch (role) {
+    case "member":
+      formatedRole = "Member";
+      break;
+    case "admin":
+      formatedRole = "Admin";
+      break;
+    case "farm_head":
+      formatedRole = "Farm Head";
+      break;
+    case "farmer":
+      formatedRole = "Farmer";
+      break;
+    default:
+      formatedRole = "Undefined";
+  }
+  return formatedRole;
+}

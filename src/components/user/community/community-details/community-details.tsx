@@ -63,10 +63,10 @@ const CommunityDetails = () => {
                       Manage
                     </Button>
                   )
+                ) : isAuthenticated ? (
+                  <Button className="md:text-sm text-xs">Join</Button>
                 ) : (
-                  <Button className="md:text-sm text-xs">
-                    {isAuthenticated ? "Join" : "Login to Join"}
-                  </Button>
+                  <Button className="md:text-sm text-xs">Login to join</Button>
                 )}
               </div>
 

@@ -3,18 +3,12 @@ import { useNavigate } from "react-router-dom";
 
 interface ReadMoreButtonProps {
   text: string;
-  to: string;
 }
 
-const ReadMoreButton: React.FC<ReadMoreButtonProps> = ({ text, to }) => {
-  const navigate = useNavigate();
-
-  const handleClick = () => {
-    navigate(to);
-  };
+const ReadMoreButton: React.FC<ReadMoreButtonProps> = ({ text }) => {
 
   return (
-    <div className="flex items-center cursor-pointer" onClick={handleClick}>
+    <div className="flex items-center cursor-pointer">
       <span className="text-black font-bold uppercase bg-transparent hover:text-orange-500 rounded transition duration-300">
         {text}
       </span>

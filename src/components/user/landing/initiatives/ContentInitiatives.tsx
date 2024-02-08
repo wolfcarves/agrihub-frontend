@@ -53,7 +53,7 @@ const ContentInitiatives: React.FC = () => {
               <p className="text-left mt-5 mb-5 overflow-hidden text-ellipsis two-line-clamp">
                 {ellipsis(item.desc, 180)}
               </p>
-              <ReadMoreButton text="Read more" to={`/blogs/view/${item.blogId}`} />
+              <ReadMoreButton text="Read more"/>
             </div>
           </div>
         ))}

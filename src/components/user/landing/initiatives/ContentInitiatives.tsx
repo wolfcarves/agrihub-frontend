@@ -1,86 +1,67 @@
-import React from "react";
+import React, { useState } from "react";
 import ReadMoreButton from "../Button/ReadMore";
+import { useNavigate } from "react-router-dom";
+import { blogsData } from "@pages/user/blog/blogs-data";
+import SeeMore from "../Button/SeeMore";
 
-import image1 from "@assets/images/Initiatives-1.png";
-import image2 from "@assets/images/initiatives-2.png";
-import image3 from "@assets/images/Initiatives-3.png";
-import image4 from "@assets/images/Initiatives-4.png";
-
-interface ImageData {
-  id: number;
-  image: string; 
-  title: string;
-  description: string;
-}
-
-const imageData: ImageData[] = [
-  {
-    id: 1,
-    image: image1,
-    title: "Initiatives",
-    description: "Lorem ipsum dolor sit amet..."
-  },
-  {
-    id: 2,
-    image: image2,
-    title: "Initiatives",
-    description: "Sa pangalawang araw ng workshop..."
-  },
-  {
-    id: 3,
-    image: image3,
-    title: "Initiatives",
-    description: "Nagsama-sama ang mga lider ng mga Urban Farms..."
-  },
-  {
-    id: 4,
-    image: image4,
-    title: "Initiatives",
-    description:
-      "Bumaba sa Barangay Gulod ang Center for Urban Agriculture and Innovation (CUAI) upang..."
+export const ellipsis = (text: string, maxLength: number): string => {
+  if (text.length <= maxLength) {
+    return text;
+  } else {
+    return text.substring(0, maxLength).trim() + "...";
   }
-];
+};
 
 const ContentInitiatives: React.FC = () => {
-  const handleCardClick = (id: number) => {
-    console.log(`Card clicked with id: ${id}`);
+  const navigate = useNavigate();
+  const [showAll, setShowAll] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(4);
+  const blogsCategory = blogsData.filter((item) => item.category === "initiatives").slice(0, visibleCount);
+  const visibleBlogs = showAll ? blogsData.filter((item) => item.category === "initiatives") : blogsCategory;
+
+  const handleCardClick = (blogId: string) => {
+    navigate(`/blogs/view/${blogId}`);
+  };
+
+  const handleSeeMoreClick = () => {
+    setVisibleCount((prevCount) => prevCount + 2);
+    setShowAll(true);
+  };
+
+  const handleSeeLessClick = () => {
+    setVisibleCount(4);
+    setShowAll(false);
   };
 
   return (
-    <div className="flex flex-col justify-center items-center w-full p-10">
-      {imageData
-        .reduce((rows: ImageData[][], item: ImageData, index: number) => {
-          if (index % 2 === 0) {
-            rows.push([]);
-          }
-          rows[rows.length - 1].push(item);
-          return rows;
-        }, [])
-        .map((row: ImageData[], rowIndex: number) => (
-          <div key={rowIndex} className="flex flex-row justify-center w-full">
-            {row.map((item: ImageData) => (
-              <div
-                key={item.id}
-                className="flex flex-col items-start m-4 bg-gray-100 rounded-lg shadow-lg w-2/5 h-1/4"
-                onClick={() => handleCardClick(item.id)}
-                style={{ cursor: "pointer" }}
-              >
-                <img
-                  src={item.image}
-                  alt={`Image ${item.id}`}
-                  className="w-full h-80 rounded-t-lg object-cover"
-                />
-                <div className="p-4">
-                  <p className="text-left uppercase font-bold">{item.title}</p>
-                  <p className="text-left mt-5 mb-5 overflow-hidden text-ellipsis two-line-clamp">
-                    {item.description}
-                  </p>
-                  <ReadMoreButton text="read more" />
-                </div>
-              </div>
-            ))}
+    <div className="container">
+      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-8 p-10 mx-auto">
+        {visibleBlogs.map((item) => (
+          <div
+            key={item.blogId}
+            className="flex flex-col items-start bg-gray-100 rounded-lg shadow-lg"
+            style={{ cursor: "pointer" }}
+            onClick={() => handleCardClick(item.blogId)}
+          >
+            <img
+              src={item.img}
+              alt={`Image ${item.blogId}`}
+              className="w-full h-80 rounded-t-lg object-cover"
+            />
+            <div className="p-4">
+              <p className="text-left uppercase font-bold">{item.title}</p>
+              <p className="text-left mt-5 mb-5 overflow-hidden text-ellipsis two-line-clamp">
+                {ellipsis(item.desc, 180)}
+              </p>
+              <ReadMoreButton text="Read more" to={`/blogs/view/${item.blogId}`} />
+            </div>
           </div>
         ))}
+      </div>
+      {!showAll && blogsCategory.length > 3 && (
+        <SeeMore onClick={handleSeeMoreClick} text="See More" />
+      )}
+      {showAll && <SeeMore onClick={handleSeeLessClick} text="See Less" />}
     </div>
   );
 };

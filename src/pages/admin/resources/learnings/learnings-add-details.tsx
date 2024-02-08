@@ -18,9 +18,12 @@ import { useParams } from "react-router-dom";
 import LearningCreditForm from "./components/learning-credit";
 import LearningDetailForm from "./components/learning-detail";
 import LearningResourceForm from "./components/learning-resource";
+import useGetLearningDraftList from "../../../../hooks/api/get/useGetLearningDraftList";
 
 const UpdateLearnings = () => {
   const { learningsId } = useParams();
+  const { data: LearningData } = useGetLearningDraftList();
+  console.log(LearningData);
 
   // breadcrumbs
   const breadcrumbItems = [

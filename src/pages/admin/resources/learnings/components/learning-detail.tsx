@@ -15,8 +15,16 @@ import { useState } from "react";
 import { Card } from "@components/ui/card";
 import UserTagInputDropdown from "@components/user/account/input/UserTagInput";
 import useGetTagByKeyWord from "@hooks/api/get/useGetTagByKeyword";
+import { useParams } from "react-router-dom";
+import useGetLearningDraftList from "../../../../../hooks/api/get/useGetLearningDraftList";
+import useGetLearningDraftView from "../../../../../hooks/api/get/useGetLearningDraftView";
 
 const LearningDetailForm = () => {
+  //data
+  const { learningsId } = useParams();
+  const { data: LearningData } = useGetLearningDraftView(learningsId || "");
+  console.log(LearningData);
+
   // tags
   const [searchInputTagValue, setSearchInputTagValue] = useState<string>("");
   const { data: tagResult } = useGetTagByKeyWord(searchInputTagValue);
@@ -30,15 +38,9 @@ const LearningDetailForm = () => {
     setIsEditingDeets(false);
   };
   return (
-    <div>
+    <form>
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-bold tracking-tight">Details</h2>
-      </div>
-
-      {/* thumbnail of event */}
-      <div className="mt-4">
-        <Label>Thumbnail</Label>
-        <CoverImageUpload disabled={!isEditingDeets} />
       </div>
 
       {/* title and type */}
@@ -47,9 +49,8 @@ const LearningDetailForm = () => {
           <Label htmlFor="text">Title</Label>
           <Input
             type="text"
-            id="text"
             placeholder="Input material title"
-            defaultValue="Title inserted beforehand"
+            defaultValue={LearningData?.title}
             disabled={!isEditingDeets}
           />
         </div>
@@ -73,29 +74,11 @@ const LearningDetailForm = () => {
         <Label htmlFor="text">Content</Label>
         <RichTextEditor height={300} disabled={!isEditingDeets} />
       </div>
-      {/* tags */}
-      <div className="mt-4">
-        <h3 className="text-md font-bold">Add Tags</h3>
-        <Label>
-          Add up to 5 tags to describe what your blog is about. Start typing to
-          see suggestions.
-        </Label>
-
-        <div className="">
-          <UserTagInputDropdown
-            option={tagResult}
-            onChange={e => {
-              setSearchInputTagValue(e.target.value);
-            }}
-            disabled={!isEditingDeets}
-          />
-        </div>
-      </div>
 
       <div className="flex justify-end mt-4">
         {isEditingDeets ? (
           <div>
-            <Button variant="secondary" onClick={handleSaveDeets}>
+            <Button type="submit" variant="secondary" onClick={handleSaveDeets}>
               Save
             </Button>
           </div>
@@ -105,8 +88,40 @@ const LearningDetailForm = () => {
           </Button>
         )}
       </div>
-    </div>
+    </form>
   );
 };
 
 export default LearningDetailForm;
+{
+  /* tags */
+}
+{
+  /* <div className="mt-4">
+<h3 className="text-md font-bold">Add Tags</h3>
+<Label>
+  Add up to 5 tags to describe what your blog is about. Start typing to
+  see suggestions.
+</Label>
+
+<div className="">
+  <UserTagInputDropdown
+    option={tagResult}
+    onChange={e => {
+      setSearchInputTagValue(e.target.value);
+    }}
+    disabled={!isEditingDeets}
+  />
+</div>
+</div> */
+}
+
+{
+  /* thumbnail of event */
+}
+{
+  /* <div className="mt-4">
+        <Label>Thumbnail</Label>
+        <CoverImageUpload disabled={!isEditingDeets} />
+      </div> */
+}

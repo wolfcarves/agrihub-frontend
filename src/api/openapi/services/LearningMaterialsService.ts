@@ -12,9 +12,12 @@ import type { NewLearningCredits } from '../models/NewLearningCredits';
 import type { NewLearningMaterial } from '../models/NewLearningMaterial';
 import type { NewLearningResource } from '../models/NewLearningResource';
 import type { NewLearningTags } from '../models/NewLearningTags';
+import type { PublishLearningMaterialResponse } from '../models/PublishLearningMaterialResponse';
 import type { RemoveLearningCreditsResponse } from '../models/RemoveLearningCreditsResponse';
 import type { RemoveLearningTagsResponse } from '../models/RemoveLearningTagsResponse';
 import type { RemoveResourceResponse } from '../models/RemoveResourceResponse';
+import type { SetFeaturedLearningMaterialResponse } from '../models/SetFeaturedLearningMaterialResponse';
+import type { UnpublishLearningMaterialResponse } from '../models/UnpublishLearningMaterialResponse';
 import type { UpdateDraftResponse } from '../models/UpdateDraftResponse';
 import type { UpdateLearningMaterial } from '../models/UpdateLearningMaterial';
 
@@ -315,6 +318,90 @@ perpage?: string,
                 'search': search,
                 'page': page,
                 'perpage': perpage,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Publish a learning material
+     * @returns PublishLearningMaterialResponse Successful response
+     * @throws ApiError
+     */
+    public static putApiLearningPublish({
+id,
+}: {
+/**
+ * ID of the learning material to publish
+ */
+id: string,
+}): CancelablePromise<PublishLearningMaterialResponse> {
+        return __request(OpenAPI, {
+            method: 'PUT',
+            url: '/api/learning/publish/{id}',
+            path: {
+                'id': id,
+            },
+        });
+    }
+
+    /**
+     * Set a learning material as featured
+     * @returns SetFeaturedLearningMaterialResponse Successful response
+     * @throws ApiError
+     */
+    public static putApiLearningFeatured({
+materialId,
+id,
+}: {
+/**
+ * ID of the learning material
+ */
+materialId: string,
+/**
+ * ID of the featured item
+ */
+id: string,
+}): CancelablePromise<SetFeaturedLearningMaterialResponse> {
+        return __request(OpenAPI, {
+            method: 'PUT',
+            url: '/api/learning/featured/{materialId}/{id}',
+            path: {
+                'materialId': materialId,
+                'id': id,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Unpublish a learning material
+     * @returns UnpublishLearningMaterialResponse Successful response
+     * @throws ApiError
+     */
+    public static deleteApiLearningUnpublish({
+id,
+}: {
+/**
+ * ID of the learning material to be unpublished
+ */
+id: string,
+}): CancelablePromise<UnpublishLearningMaterialResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/learning/unpublish/{id}',
+            path: {
+                'id': id,
             },
             errors: {
                 400: `Validation Error`,

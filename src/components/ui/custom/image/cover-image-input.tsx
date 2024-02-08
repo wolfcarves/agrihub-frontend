@@ -3,14 +3,21 @@ import { FaRegTrashCan } from "react-icons/fa6";
 import { Button } from "../../button";
 import { FiUploadCloud } from "react-icons/fi";
 
-interface SingleImageUploadProps {
-  onChange: (files: Blob[]) => void;
+interface ImagePreview {
+  url: string;
+  file: File;
 }
 
-const CoverImageUpload: React.FC<SingleImageUploadProps> = ({ onChange }) => {
-  const [imagePreviews, setImagePreviews] = useState<
-    { url: string; file: File }[]
-  >([]);
+interface CoverImageUploadProps {
+  onChange: (files: Blob[], imagePreviews: ImagePreview[]) => void;
+  disabled: boolean;
+}
+
+const CoverImageUpload: React.FC<CoverImageUploadProps> = ({
+  onChange,
+  disabled
+}) => {
+  const [imagePreviews, setImagePreviews] = useState<ImagePreview[]>([]);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,7 +30,10 @@ const CoverImageUpload: React.FC<SingleImageUploadProps> = ({ onChange }) => {
       }));
 
       setImagePreviews(prevPreviews => [...prevPreviews, ...newImagePreviews]);
-      onChange(newImagePreviews.map(image => image.file));
+      onChange(
+        newImagePreviews.map(image => image.file),
+        [...imagePreviews, ...newImagePreviews]
+      );
     }
   };
 
@@ -36,7 +46,10 @@ const CoverImageUpload: React.FC<SingleImageUploadProps> = ({ onChange }) => {
     const deletedImage = updatedPreviews.splice(index, 1)[0];
     URL.revokeObjectURL(deletedImage.url);
     setImagePreviews(updatedPreviews);
-    onChange(updatedPreviews.map(image => image.file));
+    onChange(
+      updatedPreviews.map(image => image.file),
+      updatedPreviews
+    );
   };
 
   const handleUploadButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -51,8 +64,8 @@ const CoverImageUpload: React.FC<SingleImageUploadProps> = ({ onChange }) => {
         accept="image/*"
         onChange={handleInputChange}
         className="hidden"
-        multiple
         ref={inputRef}
+        disabled={disabled}
       />
       {imagePreviews.length === 0 && (
         <Button className="w-full p-2" onClick={handleUploadButtonClick}>
@@ -60,17 +73,18 @@ const CoverImageUpload: React.FC<SingleImageUploadProps> = ({ onChange }) => {
           Upload
         </Button>
       )}
-      <div className="flex flex-wrap mt-2">
+      <div className="flex flex-wrap my-2">
         {imagePreviews.map((preview, index) => (
           <div key={index} className="relative">
             <img
               src={preview.url}
               alt={`Uploaded ${index + 1}`}
-              className="h-auto w-auto rounded-lg shadow-md object-cover object-center m-1"
+              className="h-auto w-auto max-h-[70vh] rounded-lg shadow-md object-cover object-center m-1"
             />
             <button
               className="absolute top-0 right-0 text-white bg-red-600 rounded-full p-1 cursor-pointer"
               onClick={e => handleDelete(index, e)}
+              disabled={disabled}
             >
               <FaRegTrashCan />
             </button>

@@ -1,5 +1,4 @@
 import React from "react";
-import { Input } from "@components/ui/input";
 import { Label } from "@components/ui/label";
 import {
   Select,
@@ -10,13 +9,8 @@ import {
 } from "@components/ui/select";
 import RichTextEditor from "@components/ui/custom/rich-text-editor/RichTextEditor";
 import { Button } from "@components/ui/button";
-import CoverImageUpload from "@components/ui/custom/image/cover-image-input";
 import { useState } from "react";
-import { Card } from "@components/ui/card";
-import UserTagInputDropdown from "@components/user/account/input/UserTagInput";
-import useGetTagByKeyWord from "@hooks/api/get/useGetTagByKeyword";
-import { useNavigate, useParams } from "react-router-dom";
-import useGetLearningDraftList from "../../../../hooks/api/get/useGetLearningDraftList";
+import { useParams } from "react-router-dom";
 import useGetLearningDraftView from "../../../../hooks/api/get/useGetLearningDraftView";
 import { toast } from "sonner";
 import usePutLearningUpdateDraft from "../../../../hooks/api/put/usePutLearningUpdateDraft";
@@ -26,6 +20,7 @@ import { Form, FormField } from "../../../ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Loader from "../../../../icons/Loader";
+import { Input } from "../../../ui/input";
 
 const LearningDetailForm = () => {
   // details edit
@@ -35,7 +30,8 @@ const LearningDetailForm = () => {
   };
   //data
   const { learningsId } = useParams();
-  const { data: LearningData } = useGetLearningDraftView(learningsId || "");
+  const { data: LearningData, isLoading: LearningDataLoading } =
+    useGetLearningDraftView(learningsId || "");
   console.log(LearningData);
 
   const form = useForm<UpdateLearningMaterial>({
@@ -70,8 +66,8 @@ const LearningDetailForm = () => {
   // const handleSaveDeets = () => {
   //   setIsEditingDeets(false);
   // };
-  if (isDetailLoading) {
-    <Loader isVisible={isDetailLoading} />;
+  if (LearningDataLoading) {
+    return <Loader isVisible={true} />;
   }
   return (
     <Form {...form}>
@@ -82,7 +78,6 @@ const LearningDetailForm = () => {
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold tracking-tight">Details</h2>
         </div>
-
         {/* title and type */}
         <div className="flex flex-wrap justify-between gap-4 mb-4">
           <div className="grid w-full max-w-3xl items-center gap-1.5">
@@ -120,7 +115,6 @@ const LearningDetailForm = () => {
             />
           </div>
         </div>
-
         {/* Event desc */}
         <div className="mt-4">
           <Label htmlFor="text">Content</Label>
@@ -141,7 +135,6 @@ const LearningDetailForm = () => {
             }}
           />
         </div>
-
         <div className="flex justify-end mt-4">
           {isEditingDeets ? (
             <div>
@@ -164,6 +157,7 @@ const LearningDetailForm = () => {
             </Button>
           )}
         </div>
+        <Loader isVisible={isDetailLoading} />;
       </form>
     </Form>
   );

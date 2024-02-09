@@ -22,6 +22,7 @@ interface RichTextEditorProps
   allowImagePaste?: boolean;
   height?: number;
   disabled?: boolean;
+  defaultValue?: string;
 }
 
 //put this shit to util folder pero sa susunod na yugto ng ating buhay nalang T_T
@@ -44,6 +45,8 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
   allowImagePaste = true,
   height,
   disabled = false,
+
+  defaultValue,
   ...props
 }) => {
   const extensions: Extensions = [
@@ -87,6 +90,8 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
         }
       : undefined,
     extensions,
+    content: defaultValue,
+
     onUpdate: ({ editor }) => {
       onChange &&
         onChange({

@@ -32,7 +32,6 @@ const LearningDetailForm = () => {
   const { learningsId } = useParams();
   const { data: LearningData, isLoading: LearningDataLoading } =
     useGetLearningDraftView(learningsId || "");
-  console.log(LearningData);
 
   const form = useForm<UpdateLearningMaterial>({
     resolver: zodResolver(addLearningDetailSchema),
@@ -128,6 +127,7 @@ const LearningDetailForm = () => {
                   disabled={!isEditingDeets}
                   onBlur={data => {
                     onChange(data.html);
+                    console.log(data.html);
                   }}
                   height={300}
                 />
@@ -157,7 +157,7 @@ const LearningDetailForm = () => {
             </Button>
           )}
         </div>
-        <Loader isVisible={isDetailLoading} />;
+        <Loader isVisible={isDetailLoading} />
       </form>
     </Form>
   );

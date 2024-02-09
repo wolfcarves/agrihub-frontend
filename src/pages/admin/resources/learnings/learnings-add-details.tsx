@@ -55,15 +55,16 @@ const UpdateLearnings = () => {
       <hr className="my-4" />
       <div className="max-w-[60rem] mx-auto">
         <div>
+          <LearningDetailForm />
           <Accordion type="single" collapsible className="w-full">
-            <AccordionItem value="item-1">
+            {/* <AccordionItem value="item-1">
               <AccordionTrigger className="text-lg font-poppins-medium">
                 Details
               </AccordionTrigger>
               <AccordionContent>
-                <LearningDetailForm />
+
               </AccordionContent>
-            </AccordionItem>
+            </AccordionItem> */}
             <AccordionItem value="item-2">
               <AccordionTrigger className="text-lg font-poppins-medium">
                 Tags

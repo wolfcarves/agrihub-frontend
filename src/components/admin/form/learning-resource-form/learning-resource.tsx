@@ -26,37 +26,6 @@ const LearningResourceForm = () => {
   const [hide, setHide] = useState<boolean>(false);
   const { data: LearningData } = useGetLearningDraftView(learningsId || "");
 
-  const [resource, setResource] = React.useState(1);
-  const handleAddResource = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    setResource(prevResource => Math.min(100, prevResource + 1));
-  };
-  const handleDeleteResource = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    setResource(prevResource => Math.max(1, prevResource - 1));
-  };
-
-  // resource edit
-  const [isEditingResource, setIsEditingResource] = useState(false);
-  const handleEditingResource = () => {
-    setIsEditingResource(true);
-  };
-  const handleSaveResource = () => {
-    setIsEditingResource(false);
-  };
-
-  // type upload
-  const [selectedType, setSelectedType] = useState<string | null>(null);
-  const handleTypeChange = (value: string) => {
-    console.log("Selected type:", value);
-    setSelectedType(value);
-  };
-
-  const [selectedImages, setSelectedImages] = useState<File[]>([]);
-  const handleImageChange = (files: Blob[]) => {
-    setSelectedImages(files as File[]);
-  };
-
   const { mutateAsync: deleteResource } = useDeleteLearningResource();
   const handleDelete = async (id: string) => {
     await deleteResource(id);
@@ -123,7 +92,7 @@ const LearningResourceForm = () => {
                     type="text"
                     value={resource.resource}
                     placeholder="Input resource link"
-                    disabled={!isEditingResource}
+                    disabled={true}
                   />
                 </div>
               </div>

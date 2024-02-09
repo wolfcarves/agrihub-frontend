@@ -20,11 +20,15 @@ import LearningDetailForm from "../../../../components/admin/form/learning-detai
 import LearningResourceForm from "../../../../components/admin/form/learning-resource-form/learning-resource";
 import useGetLearningDraftList from "../../../../hooks/api/get/useGetLearningDraftList";
 import LearningTagsForm from "../../../../components/admin/form/learning-tags-form/learning-tags-form";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger
+} from "../../../../components/ui/accordion";
 
 const UpdateLearnings = () => {
   const { learningsId } = useParams();
-  const { data: LearningData } = useGetLearningDraftList();
-  console.log(LearningData);
 
   // breadcrumbs
   const breadcrumbItems = [
@@ -51,14 +55,41 @@ const UpdateLearnings = () => {
       <hr className="my-4" />
       <div className="max-w-[60rem] mx-auto">
         <div>
-          <LearningDetailForm />
-          <hr className="my-4" />
-          <LearningTagsForm />
-          <hr className="my-4" />
-          <LearningResourceForm />
-          <hr className="my-4" />
-          <LearningCreditForm />
-          <hr className="my-4" />
+          <Accordion type="single" collapsible className="w-full">
+            <AccordionItem value="item-1">
+              <AccordionTrigger className="text-lg font-poppins-medium">
+                Details
+              </AccordionTrigger>
+              <AccordionContent>
+                <LearningDetailForm />
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-2">
+              <AccordionTrigger className="text-lg font-poppins-medium">
+                Tags
+              </AccordionTrigger>
+              <AccordionContent>
+                <LearningTagsForm />
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-3">
+              <AccordionTrigger className="text-lg font-poppins-medium">
+                Resource
+              </AccordionTrigger>
+              <AccordionContent>
+                <LearningResourceForm />
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-4">
+              <AccordionTrigger className="text-lg font-poppins-medium">
+                Credit
+              </AccordionTrigger>
+              <AccordionContent>
+                <LearningCreditForm />
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+
           {/* ==================================bu-ons======================================== */}
           <div className="flex gap-4 justify-end mt-4">
             <Link to="/admin/resource/learnings-draft">

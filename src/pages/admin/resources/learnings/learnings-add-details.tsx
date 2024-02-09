@@ -15,10 +15,11 @@ import {
   AlertDialogTrigger
 } from "@components/ui/alert-dialog";
 import { useParams } from "react-router-dom";
-import LearningCreditForm from "./components/learning-credit";
+import LearningCreditForm from "../../../../components/admin/form/learning-credit-form/learning-credit";
 import LearningDetailForm from "../../../../components/admin/form/learning-detail-form/learning-detail-form";
-import LearningResourceForm from "./components/learning-resource";
+import LearningResourceForm from "../../../../components/admin/form/learning-resource-form/learning-resource";
 import useGetLearningDraftList from "../../../../hooks/api/get/useGetLearningDraftList";
+import LearningTagsForm from "../../../../components/admin/form/learning-tags-form/learning-tags-form";
 
 const UpdateLearnings = () => {
   const { learningsId } = useParams();
@@ -51,6 +52,8 @@ const UpdateLearnings = () => {
       <div className="max-w-[60rem] mx-auto">
         <div>
           <LearningDetailForm />
+          <hr className="my-4" />
+          <LearningTagsForm />
           <hr className="my-4" />
           <LearningResourceForm />
           <hr className="my-4" />

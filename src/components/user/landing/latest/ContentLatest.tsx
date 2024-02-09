@@ -17,9 +17,9 @@ const ContentLatest: React.FC = () => {
 
   const [showAll, setShowAll] = useState(false);
 
-  const blogsCategory = blogsData.filter((item) => item.category === "news").sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  const blogsCategory = blogsData.filter((item) => item.category === "News").sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-  const visibleBlogs = showAll ? blogsData.filter((item) => item.category === "news") : blogsCategory.slice(0, 4);
+  const visibleBlogs = showAll ? blogsData.filter((item) => item.category === "News") : blogsCategory.slice(0, 4);
 
   visibleBlogs.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
@@ -64,7 +64,7 @@ const ContentLatest: React.FC = () => {
           </div>
         ))}
       </div>
-      {!showAll && blogsCategory.length > 3 && (
+      {!showAll && blogsCategory.length > 4 && (
         <SeeMore onClick={handleSeeMoreClick} text="See More" />
       )}
       {showAll && <SeeMore onClick={handleSeeLessClick} text="See Less" />}

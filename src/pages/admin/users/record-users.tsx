@@ -1,7 +1,9 @@
 import React from "react";
 import AdminOutletContainer from "@components/admin/layout/container/AdminOutletContainer";
 import BreadCrumb from "../../../components/ui/custom/breadcrumb/breadcrumb";
-import { TableUser } from "./table/table-user";
+import { DataTable } from "@components/ui/custom/data-table/data-table";
+import { Input } from "@components/ui/input";
+import { data, columns } from "./table/columns-user";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
 
 const breadcrumbItems = [
@@ -15,7 +17,8 @@ const RecordUsers = () => {
       <h2 className="text-3xl font-bold tracking-tight">Users</h2>
       <p className="text-sm text-muted-foreground">Manage all users.</p>
       <hr className="my-4" />
-      <TableUser />
+      <Input placeholder="Search title..." className="max-w-sm my-4" />
+      <DataTable columns={columns} data={data} />
     </AdminOutletContainer>
   );
 };

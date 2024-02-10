@@ -1,7 +1,9 @@
 import React from "react";
 import AdminOutletContainer from "@components/admin/layout/container/AdminOutletContainer";
 import BreadCrumb from "../../../components/ui/custom/breadcrumb/breadcrumb";
-import { TableReportedUser } from "./table/table-reported-user";
+import { DataTable } from "@components/ui/custom/data-table/data-table";
+import { Input } from "@components/ui/input";
+import { data, columns } from "./table/columns-reported-user";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
 
 const breadcrumbItems = [
@@ -18,7 +20,8 @@ const UsersReported = () => {
         Manage all reported users.
       </p>
       <hr className="my-4" />
-      <TableReportedUser />
+      <Input placeholder="Search title..." className="max-w-sm my-4" />
+      <DataTable columns={columns} data={data} />
     </AdminOutletContainer>
   );
 };

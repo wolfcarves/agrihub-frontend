@@ -1,7 +1,9 @@
 import React from "react";
 import AdminOutletContainer from "@components/admin/layout/container/AdminOutletContainer";
 import BreadCrumb from "../../../../components/ui/custom/breadcrumb/breadcrumb";
-import { TableArticles } from "../table/table-article";
+import { Input } from "@components/ui/input";
+import { data, columns } from "../table/columns-article";
+import { DataTable } from "@components/ui/custom/data-table/data-table";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
 
 const breadcrumbItems = [
@@ -16,7 +18,8 @@ const ArticlesArchive = () => {
       <h2 className="text-3xl font-bold tracking-tight">Archived Articles</h2>
       <p className="text-sm text-muted-foreground">Manage archived articles.</p>
       <hr className="my-4" />
-      <TableArticles />
+      <Input placeholder="Search title..." className="max-w-sm my-4" />
+      <DataTable columns={columns} data={data} />
     </AdminOutletContainer>
   );
 };

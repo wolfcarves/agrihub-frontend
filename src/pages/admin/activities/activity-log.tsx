@@ -1,7 +1,9 @@
 import React from "react";
 import AdminOutletContainer from "@components/admin/layout/container/AdminOutletContainer";
 import BreadCrumb from "../../../components/ui/custom/breadcrumb/breadcrumb";
-import { TableActivityLog } from "./table/table-activity";
+import { Input } from "@components/ui/input";
+import { DataTable } from "@components/ui/custom/data-table/data-table";
+import { data, columns } from "./table/columns-activity";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
 
 const breadcrumbItems = [
@@ -16,7 +18,8 @@ const ActivityLog = () => {
         Manage admin activity logs.
       </p>
       <hr className="my-4" />
-      <TableActivityLog />
+      <Input placeholder="Search title..." className="max-w-sm my-4" />
+      <DataTable columns={columns} data={data} />
     </AdminOutletContainer>
   );
 };

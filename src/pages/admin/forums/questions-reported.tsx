@@ -1,8 +1,10 @@
 import React from "react";
 import AdminOutletContainer from "@components/admin/layout/container/AdminOutletContainer";
 import BreadCrumb from "../../../components/ui/custom/breadcrumb/breadcrumb";
-import { TableReportedQuestions } from "./table/table-reported-question";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
+import { Input } from "@components/ui/input";
+import { DataTable } from "@components/ui/custom/data-table/data-table";
+import { data, columns } from "./table/columns-reported-question";
 
 const breadcrumbItems = [
   { title: "Forum Management", link: "/admin/forum" },
@@ -20,7 +22,8 @@ const QuestionsReported = () => {
         Manage reported question and answer in forums.
       </p>
       <hr className="my-4" />
-      <TableReportedQuestions />
+      <Input placeholder="Search title..." className="max-w-sm my-4" />
+      <DataTable columns={columns} data={data} />
     </AdminOutletContainer>
   );
 };

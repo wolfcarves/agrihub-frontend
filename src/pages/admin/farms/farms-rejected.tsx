@@ -1,8 +1,10 @@
 import React from "react";
 import AdminOutletContainer from "@components/admin/layout/container/AdminOutletContainer";
 import BreadCrumb from "../../../components/ui/custom/breadcrumb/breadcrumb";
-import { TableFarmApplication } from "./table/table-farm-application";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
+import { data, columns } from "./table/columns-farm-application";
+import { DataTable } from "@components/ui/custom/data-table/data-table";
+import { Input } from "@components/ui/input";
 
 const breadcrumbItems = [
   { title: "Farm Management", link: "/admin/farm" },
@@ -20,7 +22,8 @@ const FarmsRejected = () => {
         Manage rejected farm applications within the community.
       </p>
       <hr className="my-4" />
-      <TableFarmApplication />
+      <Input placeholder="Search title..." className="max-w-sm my-4" />
+      <DataTable columns={columns} data={data} />
     </AdminOutletContainer>
   );
 };

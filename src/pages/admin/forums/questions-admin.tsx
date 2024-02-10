@@ -1,8 +1,9 @@
 import React from "react";
 import AdminOutletContainer from "@components/admin/layout/container/AdminOutletContainer";
 import BreadCrumb from "../../../components/ui/custom/breadcrumb/breadcrumb";
-import { TableQuestions } from "./table/table-question";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
+import { DataTable } from "@components/ui/custom/data-table/data-table";
+import { data, columns } from "./table/colums-question";
 
 const breadcrumbItems = [
   { title: "Forum Management", link: "/admin/forum" },
@@ -17,7 +18,7 @@ const QuestionsAdmin = () => {
         Manage all question and answer in forums.
       </p>
       <hr className="my-4" />
-      <TableQuestions />
+      <DataTable data={data} columns={columns} />
     </AdminOutletContainer>
   );
 };

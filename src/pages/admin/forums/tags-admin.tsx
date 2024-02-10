@@ -1,7 +1,6 @@
 import React from "react";
 import AdminOutletContainer from "@components/admin/layout/container/AdminOutletContainer";
 import BreadCrumb from "../../../components/ui/custom/breadcrumb/breadcrumb";
-import { TableTag } from "./table/table-tag";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
 import { Button } from "@components/ui/button";
 import {
@@ -16,6 +15,8 @@ import {
 import { Input } from "@components/ui/input";
 import { Label } from "@components/ui/label";
 import { Textarea } from "@components/ui/textarea";
+import { DataTable } from "@components/ui/custom/data-table/data-table";
+import { data, columns } from "./table/columns-tag";
 
 const breadcrumbItems = [
   { title: "Forum Management", link: "/admin/forum" },
@@ -67,7 +68,8 @@ const TagsAdmin = () => {
         Manage all tags within the website.
       </p>
       <hr className="my-4" />
-      <TableTag />
+      <Input placeholder="Search title..." className="max-w-sm my-4" />
+      <DataTable columns={columns} data={data} />
     </AdminOutletContainer>
   );
 };

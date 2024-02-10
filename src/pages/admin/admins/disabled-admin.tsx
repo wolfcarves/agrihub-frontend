@@ -1,7 +1,9 @@
 import React from "react";
 import AdminOutletContainer from "@components/admin/layout/container/AdminOutletContainer";
 import BreadCrumb from "../../../components/ui/custom/breadcrumb/breadcrumb";
-import { TableAdmin } from "./table/table-admin";
+import { Input } from "@components/ui/input";
+import { DataTable } from "@components/ui/custom/data-table/data-table";
+import { data, columns } from "./table/columns-admin";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
 
 const breadcrumbItems = [
@@ -17,7 +19,8 @@ const DisabledAdmin = () => {
       </h2>
       <p className="text-sm text-muted-foreground">Manage all admins.</p>
       <hr className="my-4" />
-      <TableAdmin />
+      <Input placeholder="Search title..." className="max-w-sm my-4" />
+      <DataTable columns={columns} data={data} />
     </AdminOutletContainer>
   );
 };

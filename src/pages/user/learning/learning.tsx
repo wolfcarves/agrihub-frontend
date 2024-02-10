@@ -14,7 +14,6 @@ import {
   AccordionItem,
   AccordionTrigger
 } from "@components/ui/accordion";
-import { Card } from "@components/ui/card";
 
 export const ellipsis = (text: string, maxLength: number): string => {
   if (text.length <= maxLength) {
@@ -134,7 +133,7 @@ const Learning = () => {
             {/* credits */}
             <Accordion type="multiple">
               <AccordionItem value="credits">
-                <AccordionTrigger>
+                <AccordionTrigger className=" decoration-green-400">
                   <b className="my-4">Credits</b>
                 </AccordionTrigger>
                 {selectedEvent.learning_credits.map((credit, index) => (
@@ -150,7 +149,7 @@ const Learning = () => {
               </AccordionItem>
 
               <AccordionItem value="user-permission">
-                <AccordionTrigger>
+                <AccordionTrigger className=" decoration-green-400">
                   <b className="my-4">User Permissions</b>
                 </AccordionTrigger>
                 <AccordionContent>
@@ -204,7 +203,7 @@ const Learning = () => {
         RELATED SOURCES
       </h1>
       <br></br>
-      <div className="flex justify-center w-full ">
+      <div className="flex justify-center w-full mb-4">
         <div className="w-full p-8 sm:p-4 xl:mx-32 2xl:px-56 grid grid-cols-1 sm:grid-cols-3 grid-rows-1 gap-5">
           {learningsData
             .filter(item =>
@@ -229,7 +228,7 @@ const Learning = () => {
                   </div>
                   <div className="p-4">
                     <h6 className="text-black pt-1 font-bold mx-2 my-4">
-                      INIATIVES
+                      INIATIVES <span className="text-green-500">{">"}</span>
                     </h6>
                     <h5 className="text-black pt-1 text-sm lg:text-[18px] font-bold mx-2 mb-4">
                       {items.title}

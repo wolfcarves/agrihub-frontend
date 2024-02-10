@@ -20,7 +20,7 @@ import { Form, FormField } from "../../../ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Loader from "../../../../icons/Loader";
-import { Input } from "../../../ui/input";
+import { Input } from "@components/ui/custom/input-admin/input";
 
 const LearningDetailForm = () => {
   // details edit
@@ -86,7 +86,7 @@ const LearningDetailForm = () => {
               placeholder="Input material title"
               {...form.register("title")}
               defaultValue={LearningData?.title}
-              disabled={!isEditingDeets}
+              readOnly={!isEditingDeets}
             />
           </div>
           <div className="grid w-full max-w-[11rem] items-center gap-1.5">

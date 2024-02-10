@@ -74,8 +74,28 @@ export const learningsData = [
     ],
     learning_credits: [
       {
-        name: "Emma Green",
-        title_occupation: "Agricultural Consultant"
+        name: "Romel O. Sevilla, MBA",
+        title_occupation: "Head, Center for Urban Agriculture and Innovation"
+      },{
+        name: "Ms. Justine Angela Marielle D. Sanchez",
+        title_occupation: "Administrative Support Staff"
+      },{
+        name: "Engr. Jaylenon R. Asilo, MMPA",
+        title_occupation: "Agriculturist"
+      },{
+        name: "Engr. Justin F. Malindao",
+        title_occupation: "Agriculturist"
+      }
+      ,{
+        name: "Mr. Jonabelle M. Orain",
+        title_occupation: "Farm worker"
+      }
+      ,{
+        name: "Mr. Hipolito O. Lopez",
+        title_occupation: "Farm worker"
+      },{
+        name: "Mr. Jhonil N. Garcia, LTFRB, NDRRMC, VXI",
+        title_occupation: "Tech Specialist"
       }
     ]
   },

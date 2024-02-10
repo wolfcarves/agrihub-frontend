@@ -52,6 +52,7 @@ const AddLearningCreditForm: React.FC<AddLearningResourceProps> = ({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmitForm)}>
+        <h2 className="text-md font-bold tracking-tight mb-2">Add Credits</h2>
         <Card className="p-4 mb-4">
           <h2 className="text-sm font-bold tracking-tight mb-4">
             New Credit Form

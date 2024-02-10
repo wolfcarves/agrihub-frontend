@@ -25,7 +25,7 @@ const LearningCreditForm = () => {
   return (
     <div>
       <div className="flex justify-between items-center mt-4 mb-2">
-        <h2 className="text-md font-bold tracking-tight">Credits</h2>
+        <h2 className="text-md font-bold tracking-tight">List</h2>
         <div></div>
       </div>
 

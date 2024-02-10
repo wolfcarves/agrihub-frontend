@@ -25,6 +25,7 @@ const LearningResourceForm = () => {
   const { learningsId } = useParams();
   const [hide, setHide] = useState<boolean>(false);
   const { data: LearningData } = useGetLearningDraftView(learningsId || "");
+  console.log(LearningData);
 
   const { mutateAsync: deleteResource } = useDeleteLearningResource();
   const handleDelete = async (id: string) => {
@@ -41,7 +42,7 @@ const LearningResourceForm = () => {
     <div>
       {/* add resource */}
       <div className="flex justify-between items-center mt-4 mb-2">
-        <h2 className="text-md font-bold tracking-tight">Resource</h2>
+        <h2 className="text-md font-bold tracking-tight">List</h2>
       </div>
 
       {/* resource form */}

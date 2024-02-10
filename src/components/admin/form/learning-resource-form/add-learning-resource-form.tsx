@@ -68,6 +68,7 @@ const AddLearningResourceForm: React.FC<AddLearningInterfaceProps> = ({
         onSubmit={form.handleSubmit(handleSubmitForm)}
         encType="multipart/form-data"
       >
+        <h2 className="text-md font-bold tracking-tight mb-2">Add Resource</h2>
         <Card className="p-4 mb-4">
           <div className="flex flex-wrap justify-between items-end gap-4 mb-8">
             <h2 className="text-sm font-bold tracking-tight">

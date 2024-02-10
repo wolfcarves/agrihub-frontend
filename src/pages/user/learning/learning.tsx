@@ -2,7 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { learningsData } from "./learningsData";
 import { Link } from "react-router-dom";
-import { formatDate } from "@components/lib/utils";
+import { formatDateTime } from "@components/lib/utils";
 import {
   Carousel,
   CarouselContent,
@@ -75,7 +75,7 @@ const Learning = () => {
           {selectedEvent.title}
         </h2>
         <p className="text-gray-700 m-4">
-          last updated: {formatDate(selectedEvent.date)}
+          last updated: {formatDateTime(selectedEvent.date)}
         </p>
         <Carousel>
           <CarouselContent>

@@ -6,8 +6,10 @@ import type { CreateDraftResponse } from '../models/CreateDraftResponse';
 import type { CreateLearningCreditsResponse } from '../models/CreateLearningCreditsResponse';
 import type { CreateLearningTagsResponse } from '../models/CreateLearningTagsResponse';
 import type { CreateResourceResponse } from '../models/CreateResourceResponse';
+import type { DeleteDraftLearningMaterialResponse } from '../models/DeleteDraftLearningMaterialResponse';
 import type { LearningMaterialViewResponse } from '../models/LearningMaterialViewResponse';
 import type { ListDraftLearningMaterialsResponse } from '../models/ListDraftLearningMaterialsResponse';
+import type { MessageResponse } from '../models/MessageResponse';
 import type { NewLearningCredits } from '../models/NewLearningCredits';
 import type { NewLearningMaterial } from '../models/NewLearningMaterial';
 import type { NewLearningResource } from '../models/NewLearningResource';
@@ -329,6 +331,86 @@ perpage?: string,
     }
 
     /**
+     * List archived learning materials
+     * @returns ListDraftLearningMaterialsResponse Successful response
+     * @throws ApiError
+     */
+    public static getApiLearningArchiveList({
+search,
+page,
+perpage,
+}: {
+/**
+ * Search query string (optional)
+ */
+search?: string,
+/**
+ * Page number (optional)
+ */
+page?: string,
+/**
+ * Number of items per page (optional)
+ */
+perpage?: string,
+}): CancelablePromise<ListDraftLearningMaterialsResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/learning/archive/list',
+            query: {
+                'search': search,
+                'page': page,
+                'perpage': perpage,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * List draft learning materials
+     * @returns ListDraftLearningMaterialsResponse Successful response
+     * @throws ApiError
+     */
+    public static getApiLearningPublished({
+search,
+page,
+perpage,
+}: {
+/**
+ * Search query string (optional)
+ */
+search?: string,
+/**
+ * Page number (optional)
+ */
+page?: string,
+/**
+ * Number of items per page (optional)
+ */
+perpage?: string,
+}): CancelablePromise<ListDraftLearningMaterialsResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/learning/published',
+            query: {
+                'search': search,
+                'page': page,
+                'perpage': perpage,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
      * Publish a learning material
      * @returns PublishLearningMaterialResponse Successful response
      * @throws ApiError
@@ -400,6 +482,90 @@ id: string,
         return __request(OpenAPI, {
             method: 'DELETE',
             url: '/api/learning/unpublish/{id}',
+            path: {
+                'id': id,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Delete a draft learning material
+     * @returns DeleteDraftLearningMaterialResponse Successful response
+     * @throws ApiError
+     */
+    public static deleteApiLearningDraftDelete({
+id,
+}: {
+/**
+ * ID of the draft learning material to be deleted
+ */
+id: string,
+}): CancelablePromise<DeleteDraftLearningMaterialResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/learning/draft/delete/{id}',
+            path: {
+                'id': id,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Archive a learning material
+     * @returns MessageResponse Successful response
+     * @throws ApiError
+     */
+    public static deleteApiLearningArchive({
+id,
+}: {
+/**
+ * ID of the learning material to be archived
+ */
+id: string,
+}): CancelablePromise<MessageResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/learning/archive/{id}',
+            path: {
+                'id': id,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Unarchive a learning material
+     * @returns MessageResponse Successful response
+     * @throws ApiError
+     */
+    public static putApiLearningUnarchive({
+id,
+}: {
+/**
+ * ID of the learning material to be archived
+ */
+id: string,
+}): CancelablePromise<MessageResponse> {
+        return __request(OpenAPI, {
+            method: 'PUT',
+            url: '/api/learning/unarchive/{id}',
             path: {
                 'id': id,
             },

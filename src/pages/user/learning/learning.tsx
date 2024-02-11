@@ -67,9 +67,10 @@ const Learning = () => {
 
   return (
     <>
-      <div className="max-w-4xl lg:max-w-6xl lg:p-6 mx-auto my-6">
+      <div className="max-w-4xl lg:max-w-6xl lg:p-6 mx-auto my-12">
         <h2 className="text-sm lg:text-md font-thin mx-4 underline decoration-solid decoration-green-400 underline-offset-[3px]">
-          Learning Material | {selectedEvent.language}
+          <Link to="/learning-materials">Learning Material</Link> |{" "}
+          {selectedEvent.language}
         </h2>
         <h2 className="text-2xl lg:text-4xl font-bold mx-4 my-1">
           {selectedEvent.title}
@@ -204,7 +205,7 @@ const Learning = () => {
       </h1>
       <br></br>
       <div className="flex justify-center w-full mb-4">
-        <div className="w-full p-8 sm:p-4 xl:mx-32 2xl:px-56 grid grid-cols-1 sm:grid-cols-3 grid-rows-1 gap-5">
+        <div className="w-full p-8 sm:p-4 xl:mx-32 2xl:px-56 grid grid-cols-1 sm:grid-cols-3 grid-rows-1 gap-5 mb-12">
           {learningsData
             .filter(item =>
               item.tags.some(tag =>
@@ -227,14 +228,11 @@ const Learning = () => {
                     />
                   </div>
                   <div className="p-4">
-                    <h6 className="text-black pt-1 font-bold mx-2 my-4">
-                      INIATIVES <span className="text-green-500">{">"}</span>
-                    </h6>
                     <h5 className="text-black pt-1 text-sm lg:text-[18px] font-bold mx-2 mb-4">
                       {items.title}
                     </h5>
-                    <p className="text-sm me-3 text-justify m-2 h-[60px] md:h-[90px] sm:h-[87px] xl:h-[73px]">
-                      {ellipsis(items.content, 120)}
+                    <p className="text-sm me-3 line-clamp-4 text-justify m-2">
+                      {items.content}
                     </p>
                   </div>
                 </Link>

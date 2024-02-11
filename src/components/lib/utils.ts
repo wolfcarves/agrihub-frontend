@@ -125,12 +125,26 @@ export function formatDateTime(dateTimeString: string): string {
     timeZone: "UTC"
   };
   const eventStartDate = new Date(dateTimeString);
-  const formattedDate = `${eventStartDate.toLocaleDateString(
+  const formattedDateTime = `${eventStartDate.toLocaleDateString(
     "en-US",
     options
   )}`;
-  return formattedDate;
+  return formattedDateTime;
 }
+
+export function formatDate(dateString: string): string {
+    const options: Intl.DateTimeFormatOptions = {
+      year: "numeric",
+      month: "short",
+      day: "numeric"
+    };
+    const eventStartDate = new Date(dateString);
+    const formattedDate = `${eventStartDate.toLocaleDateString(
+      "en-US",
+      options
+    )}`;
+    return formattedDate;
+  }
 
 export function formatRoles(role: string) {
   let formatedRole;

@@ -30,13 +30,13 @@ import { toast } from "sonner";
 import useDeleteLearningUnpublish from "../../../../hooks/api/delete/useDeleteLearningUnpublish";
 import useDeleteLearningArchive from "../../../../hooks/api/delete/useDeleteLearningArchive";
 import usePutLearningPublish from "../../../../hooks/api/put/usePutLearningPublish";
-import useGetLearningDraftView from "../../../../hooks/api/get/useGetLearningDraftView";
+import useGetLearningView from "../../../../hooks/api/get/useGetLearningView";
 
 const UpdateLearnings = () => {
   const { learningsId } = useParams();
   const navigate = useNavigate();
   const { data: LearningData, isLoading: LearningDataLoading } =
-    useGetLearningDraftView(learningsId || "");
+    useGetLearningView(learningsId || "");
   console.log(LearningData);
 
   const { mutateAsync: deleteDraft } = useDeleteLearningDraftDelete();
@@ -50,12 +50,14 @@ const UpdateLearnings = () => {
   const handleUnpublish = async () => {
     await unpublishMaterial(learningsId || "");
     toast.success("Unpublished Successfully!");
+    navigate("/admin/resource/learnings-draft");
   };
 
   const { mutateAsync: archiveMaterial } = useDeleteLearningArchive();
   const handleArchive = async () => {
     await archiveMaterial(learningsId || "");
     toast.success("Archive Successfully!");
+    navigate("/admin/resource/learnings-archives");
   };
 
   const { mutateAsync: publishMaterial } = usePutLearningPublish();
@@ -63,6 +65,7 @@ const UpdateLearnings = () => {
     try {
       await publishMaterial(learningsId || "");
       toast.success("Published Successfully!");
+      navigate("/admin/resource/learnings");
     } catch (e: any) {
       toast.error(e.body.message);
     }
@@ -184,10 +187,10 @@ const UpdateLearnings = () => {
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
                     <Button
-                      variant="destructive"
-                      className="hover:border-red-500"
+                      variant="outline"
+                      className="border-red-500 text-red-500 hover:text-white hover:bg-red-500"
                     >
-                      Delete
+                      Archive
                     </Button>
                   </AlertDialogTrigger>
                   <AlertDialogContent>
@@ -212,7 +215,7 @@ const UpdateLearnings = () => {
                 </AlertDialog>
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
-                    <Button>Publish Material</Button>
+                    <Button variant={"destructive"}>Unpublish Material</Button>
                   </AlertDialogTrigger>
                   <AlertDialogContent>
                     <AlertDialogHeader>

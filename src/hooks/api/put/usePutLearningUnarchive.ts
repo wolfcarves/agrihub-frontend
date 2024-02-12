@@ -2,14 +2,14 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { LearningMaterialsService } from "@api/openapi";
 import { GET_LEARNING_PUBLISHED_LIST } from "../get/useGetLearningPublishedList";
 
-const usePutLearningPublishKey = () => "PUT_LEARNING_MATERIAL_PUBLISH_KEY";
+const usePutLearningUnarchiveKey = () => "PUT_LEARNING_MATERIAL_UNARCHIVE_KEY";
 
-export default function usePutLearningPublish() {
+export default function usePutLearningUnarchive() {
   const queryClient = useQueryClient();
 
-  return useMutation([usePutLearningPublishKey()], {
+  return useMutation([usePutLearningUnarchiveKey()], {
     async mutationFn(id: string) {
-      const response = await LearningMaterialsService.putApiLearningPublish({
+      const response = await LearningMaterialsService.putApiLearningUnarchive({
         id
       });
 

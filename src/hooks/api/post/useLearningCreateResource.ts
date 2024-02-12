@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { LearningMaterialsService, NewLearningResource } from "@api/openapi";
-import { GET_LEARNING_DRAFT_VIEW } from "../get/useGetLearningDraftView";
+import { GET_LEARNING_VIEW } from "../get/useGetLearningView";
 
 const useLearningCreateResourcetKey = () => "LEARNING_CREATE_RESOURCE_KEY";
 
@@ -20,7 +20,7 @@ export default function useLearningCreateResource() {
       return response;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [GET_LEARNING_DRAFT_VIEW()] });
+      queryClient.invalidateQueries({ queryKey: [GET_LEARNING_VIEW()] });
     }
   });
 }

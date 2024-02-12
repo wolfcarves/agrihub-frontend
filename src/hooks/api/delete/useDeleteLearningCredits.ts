@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { LearningMaterialsService } from "@api/openapi";
-import { GET_LEARNING_DRAFT_VIEW } from "../get/useGetLearningDraftView";
+import { GET_LEARNING_VIEW } from "../get/useGetLearningView";
 
 const useDeleteLearningCreditsKey = () => "LEARNING_REMOVE_CREDITS_KEY";
 
@@ -15,7 +15,7 @@ export default function useDeleteLearningCredits() {
       return response;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [GET_LEARNING_DRAFT_VIEW()] });
+      queryClient.invalidateQueries({ queryKey: [GET_LEARNING_VIEW()] });
     }
   });
 }

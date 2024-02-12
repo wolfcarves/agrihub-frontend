@@ -9,16 +9,16 @@ import { Input } from "@components/ui/input";
 import { ChevronDown } from "lucide-react";
 import { Button } from "../../../../ui/button";
 import { DataTable } from "../../../../ui/custom/data-table/data-table";
-import useGetLearningDraftList from "../../../../../hooks/api/get/useGetLearningDraftList";
 import { columns } from "./columns";
+import useGetLearningPublishedList from "../../../../../hooks/api/get/useGetLearningPublishedList";
 
 const TableLearningMaterial = () => {
-  const { data: LearningData } = useGetLearningDraftList(
+  const { data: LearningData } = useGetLearningPublishedList(
     undefined,
     undefined,
     undefined
   );
-  console.log(LearningData, "asdasd");
+
   return (
     <div className="w-full">
       <div className="flex items-center py-4">

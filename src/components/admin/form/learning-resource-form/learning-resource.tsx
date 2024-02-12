@@ -14,7 +14,7 @@ import { useState } from "react";
 import { Textarea } from "@components/ui/textarea";
 import { Card } from "@components/ui/card";
 import { useParams } from "react-router-dom";
-import useGetLearningDraftView from "../../../../hooks/api/get/useGetLearningDraftView";
+import useGetLearningDraftView from "../../../../hooks/api/get/useGetLearningView";
 import AddLearningResourceForm from "./add-learning-resource-form";
 import useDeleteLearningResource from "../../../../hooks/api/delete/useDeleteLearningResource";
 import { toast } from "sonner";

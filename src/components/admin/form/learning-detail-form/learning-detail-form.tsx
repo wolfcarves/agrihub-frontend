@@ -11,7 +11,6 @@ import RichTextEditor from "@components/ui/custom/rich-text-editor/RichTextEdito
 import { Button } from "@components/ui/button";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import useGetLearningDraftView from "../../../../hooks/api/get/useGetLearningDraftView";
 import { toast } from "sonner";
 import usePutLearningUpdateDraft from "../../../../hooks/api/put/usePutLearningUpdateDraft";
 import { UpdateLearningMaterial } from "../../../../api/openapi";
@@ -21,6 +20,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Loader from "../../../../icons/Loader";
 import { Input } from "@components/ui/custom/input-admin/input";
+import useGetLearningView from "../../../../hooks/api/get/useGetLearningView";
 
 const LearningDetailForm = () => {
   // details edit
@@ -31,7 +31,7 @@ const LearningDetailForm = () => {
   //data
   const { learningsId } = useParams();
   const { data: LearningData, isLoading: LearningDataLoading } =
-    useGetLearningDraftView(learningsId || "");
+    useGetLearningView(learningsId || "");
 
   const form = useForm<UpdateLearningMaterial>({
     resolver: zodResolver(addLearningDetailSchema),

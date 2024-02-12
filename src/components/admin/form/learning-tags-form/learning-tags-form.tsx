@@ -15,7 +15,7 @@ import { Card } from "../../../ui/card";
 import { IoIosClose } from "react-icons/io";
 import SelectTags from "./select-tags";
 import useGetLearningDraftList from "../../../../hooks/api/get/useGetLearningDraftList";
-import useGetLearningDraftView from "../../../../hooks/api/get/useGetLearningDraftView";
+import useGetLearningDraftView from "../../../../hooks/api/get/useGetLearningView";
 import useDeleteLearningTags from "../../../../hooks/api/delete/useDeleteLearningTags";
 
 export const addTagsSchema = zod.object({

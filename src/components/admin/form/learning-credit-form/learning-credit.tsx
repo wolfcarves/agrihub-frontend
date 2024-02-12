@@ -8,7 +8,7 @@ import { Card } from "@components/ui/card";
 import { useState } from "react";
 import AddLearningCreditForm from "./add-learning-credit-form";
 import { useParams } from "react-router-dom";
-import useGetLearningDraftView from "../../../../hooks/api/get/useGetLearningDraftView";
+import useGetLearningDraftView from "../../../../hooks/api/get/useGetLearningView";
 import useDeleteLearningCredits from "../../../../hooks/api/delete/useDeleteLearningCredits";
 import { toast } from "sonner";
 

@@ -46,7 +46,8 @@ const LearningDetailForm = () => {
     const compiledData: UpdateLearningMaterial = {
       title: data.title,
       content: data.content,
-      language: data.language
+      language: data.language,
+      type: "none"
     };
 
     try {

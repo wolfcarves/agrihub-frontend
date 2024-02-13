@@ -128,7 +128,6 @@ const LearningDetailForm = () => {
                   disabled={!isEditingDeets}
                   onBlur={data => {
                     onChange(data.html);
-                    console.log(data.html);
                   }}
                   height={300}
                 />

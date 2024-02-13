@@ -13,21 +13,19 @@ import { FarmApplicationData, LearningMaterial } from "@api/openapi";
 import { Link, useNavigate } from "react-router-dom";
 import usePutLearningUnarchive from "../../../../../hooks/api/put/usePutLearningUnarchive";
 import { toast } from "sonner";
+import { format } from "date-fns";
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 
 export const columns: ColumnDef<LearningMaterial>[] = [
   {
     accessorKey: "createdat",
-    header: "Created At"
+    header: "Created At",
+    cell: ({ row }) => format(new Date(row.original.createdat || ""), "PPP")
   },
   {
     accessorKey: "title",
     header: "Title"
-  },
-  {
-    accessorKey: "type",
-    header: "Type"
   },
   {
     accessorKey: "status",

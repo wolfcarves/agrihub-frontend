@@ -88,7 +88,6 @@ const LearningDetailForm = () => {
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold tracking-tight">Details</h2>
         </div>
-        {/* title and type */}
         <div className="flex flex-wrap justify-between gap-4 mb-4">
           <div className="grid w-full max-w-3xl items-center gap-1.5">
             <Label htmlFor="text">Title</Label>
@@ -125,7 +124,6 @@ const LearningDetailForm = () => {
             />
           </div>
         </div>
-        {/* Event desc */}
         <div className="mt-4">
           <Label htmlFor="text">Content</Label>
           <FormField
@@ -148,7 +146,6 @@ const LearningDetailForm = () => {
         <div className="flex justify-end mt-4">
           {isEditingDeets ? (
             <div>
-              {" "}
               <Button
                 type="submit"
                 variant="secondary"

@@ -4,5 +4,7 @@
 /* eslint-disable */
 
 export type GrowthRateResponse = {
-    result: string;
+    results?: string;
+    growth_rate?: number;
+    average_growth_rate?: number;
 };

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Label } from "@components/ui/label";
 import {
   Select,
@@ -28,20 +28,35 @@ const LearningDetailForm = () => {
   const handleEditingDeets = () => {
     setIsEditingDeets(true);
   };
-  //data
+  //get present data
   const { learningsId } = useParams();
   const { data: LearningData, isLoading: LearningDataLoading } =
     useGetLearningView(learningsId || "");
 
+  //form
   const form = useForm<UpdateLearningMaterial>({
     resolver: zodResolver(addLearningDetailSchema),
     mode: "onBlur"
   });
 
+  // validations
+  useEffect(() => {
+    if (form.formState.errors.language) {
+      toast.error(form?.formState?.errors?.language?.message);
+    }
+    if (form.formState.errors.title) {
+      toast.error(form?.formState?.errors?.title?.message);
+    }
+    if (form.formState.errors.content) {
+      toast.error(form?.formState?.errors?.content?.message);
+    }
+  }, [form.formState.errors]);
+
   //edit
   const { mutateAsync: updateDetailMutate, isLoading: isDetailLoading } =
     usePutLearningUpdateDraft();
 
+  //submit form
   const handleSubmitForm = async (data: UpdateLearningMaterial) => {
     const compiledData: UpdateLearningMaterial = {
       title: data.title,
@@ -49,7 +64,6 @@ const LearningDetailForm = () => {
       language: data.language,
       type: "none"
     };
-
     try {
       await updateDetailMutate({
         id: learningsId || "",
@@ -61,11 +75,7 @@ const LearningDetailForm = () => {
       toast.error(e.body.message);
     }
   };
-  console.log(form.formState.errors);
 
-  // const handleSaveDeets = () => {
-  //   setIsEditingDeets(false);
-  // };
   if (LearningDataLoading) {
     return <Loader isVisible={true} />;
   }

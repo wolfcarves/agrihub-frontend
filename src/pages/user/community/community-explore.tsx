@@ -90,10 +90,12 @@ const Explore = () => {
             </SelectContent>
           </Select>
         </div>
-        <div className="grid grid-cols-6 gap-2 mt-4 mb-3">
-          {data?.farms
-            ?.filter(farm => farm.id !== UserData?.farm_id)
-            .map((farm, i) => <FarmCard farm={farm} key={i} />)}
+        <div className="min-h-[16.5rem]">
+          <div className="grid grid-cols-6 gap-2 mt-4 mb-3">
+            {data?.farms
+              ?.filter(farm => farm.id !== UserData?.farm_id)
+              .map((farm, i) => <FarmCard farm={farm} key={i} />)}
+          </div>
         </div>
         <Pagination totalPages={totalPages} isLoading={isLoading} />
       </div>

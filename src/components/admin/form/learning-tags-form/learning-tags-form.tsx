@@ -17,6 +17,7 @@ import SelectTags from "./select-tags";
 import useGetLearningDraftList from "../../../../hooks/api/get/useGetLearningDraftList";
 import useGetLearningDraftView from "../../../../hooks/api/get/useGetLearningView";
 import useDeleteLearningTags from "../../../../hooks/api/delete/useDeleteLearningTags";
+import Loader from "../../../../icons/Loader";
 
 export const addTagsSchema = zod.object({
   tags: zod
@@ -41,7 +42,8 @@ const LearningTagsForm = () => {
     mode: "onBlur"
   });
 
-  const { mutateAsync: deleteResource } = useDeleteLearningTags();
+  const { mutateAsync: deleteResource, isLoading: isDeleteLoading } =
+    useDeleteLearningTags();
   const handleDelete = async (id: string) => {
     await deleteResource(id);
     toast.success("Tags Deleted Successfully!");
@@ -131,6 +133,7 @@ const LearningTagsForm = () => {
             </div>
           </Card>
         </form>
+        <Loader isVisible={isTagsLoading || isDeleteLoading} />
       </Form>
     </div>
   );

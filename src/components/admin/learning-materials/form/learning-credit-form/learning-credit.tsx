@@ -13,13 +13,18 @@ import useDeleteLearningCredits from "../../../../../hooks/api/delete/useDeleteL
 import { toast } from "sonner";
 import { IoTrashOutline } from "react-icons/io5";
 import DialogAddCredits from "../../dialogs/dialog-add-credits/dialog-add-credits";
+import Loader from "../../../../../icons/Loader";
 
 const LearningCreditForm = () => {
-  const [hide, setHide] = useState<boolean>(false);
   const { learningsId } = useParams();
-  const { data: LearningData } = useGetLearningDraftView(learningsId || "");
 
-  const { mutateAsync: deleteResource } = useDeleteLearningCredits();
+  //get present source
+  const { data: LearningData, isLoading: isDataLoading } =
+    useGetLearningDraftView(learningsId || "");
+
+  //delete source
+  const { mutateAsync: deleteResource, isLoading: isDeleteLoading } =
+    useDeleteLearningCredits();
   const handleDeleteCredit = async (id: string) => {
     await deleteResource(id);
     toast.success("Credit Deleted Successfully!");
@@ -27,15 +32,24 @@ const LearningCreditForm = () => {
   return (
     <div>
       <div>
-        <div className="flex justify-end">
+        <div className="flex justify-end mb-2">
           <DialogAddCredits />
         </div>
-        <div className="grid grid-cols-12 gap-4">
+        {LearningData?.learning_credits?.length &&
+          LearningData.learning_credits.length <= 0 && (
+            <div className="mt-10 flex items-center justify-center">
+              <h4 className="text-gray-500 font-poppins-medium">
+                No Credits Available. Add now...
+              </h4>
+            </div>
+          )}
+        <div className="grid grid-cols-12 gap-x-4 gap-y-2">
           {LearningData?.learning_credits?.map((credits, index) => (
             <Card key={index} className=" col-span-4 p-4 mb-4 bg-main relative">
               <IoTrashOutline
+                onClick={() => handleDeleteCredit(credits.id)}
                 size={25}
-                className=" absolute top-1 right-1 border p-1 rounded-full text-red-600 border-red-400/45 bg-red-300/30"
+                className=" absolute top-1 right-1 border p-1 rounded-full text-red-600 border-red-400/45 bg-red-300/30 hover:animate-pulse"
               />
               <div className="flex flex-col gap-2">
                 <div>
@@ -54,58 +68,10 @@ const LearningCreditForm = () => {
             </Card>
           ))}
         </div>
-        {/* {hide && (
-          <>
-            <hr className="my-8" />
-            <AddLearningCreditForm setHide={setHide} />
-          </>
-        )} */}
-        {/* <div className="flex justify-end">
-          {hide ? (
-            <Button variant={"destructive"} onClick={() => setHide(false)}>
-              Cancel
-            </Button>
-          ) : (
-            <Button onClick={() => setHide(true)}>Add more source</Button>
-          )}
-        </div> */}
       </div>
+      <Loader isVisible={isDataLoading || isDeleteLoading} />
     </div>
   );
 };
 
 export default LearningCreditForm;
-{
-  /* <h2 className="text-sm font-bold tracking-tight mb-4">
-Credit {index + 1}
-</h2>
-<div className="flex flex-wrap justify-between items-end gap-4 mb-8">
-<div className="grid w-full max-w-[40rem] items-center gap-1.5">
-  <Label>Name</Label>
-  <Input
-    type="text"
-    value={credits.name}
-    placeholder="e.g Engr. Jusin F. Malindao"
-    disabled={true}
-  />
-</div>
-
-<div className="grid w-full max-w-[15rem] items-center gap-1.5">
-  <Label>Title</Label>
-  <Input
-    type="text"
-    value={credits.title}
-    placeholder="e.g Agriculturist"
-    disabled={true}
-  />
-</div>
-</div>
-<div className="flex justify-end mt-4 gap-4">
-<Button
-  variant="destructive"
-  onClick={() => handleDeleteCredit(credits.id)}
->
-  Delete
-</Button>
-</div> */
-}

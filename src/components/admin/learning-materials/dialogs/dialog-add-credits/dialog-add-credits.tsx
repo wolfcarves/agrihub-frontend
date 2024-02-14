@@ -10,12 +10,19 @@ import {
 } from "@components/ui/custom/dialog/dialog";
 import { Button } from "../../../../ui/button";
 import AddLearningCreditForm from "../../form/learning-credit-form/add-learning-credit-form";
+import { IoMdAdd } from "react-icons/io";
 const DialogAddCredits = () => {
   const [isOpen, setIsOpen] = useState<boolean>();
   return (
     <Dialog open={isOpen}>
       <DialogTrigger asChild>
-        <Button onClick={() => setIsOpen(true)}>Add more source</Button>
+        <Button
+          className="gap-1 text-primary border-primary hover:text-white hover:bg-primary"
+          variant={"outline"}
+          onClick={() => setIsOpen(true)}
+        >
+          <IoMdAdd size={16} /> Add Source
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>

@@ -116,7 +116,7 @@ const UpdateLearnings = () => {
             </AccordionItem>
             <AccordionItem value="item-3">
               <AccordionTrigger className="text-lg font-poppins-medium [&[data-state=open]]:text-primary">
-                Credit
+                Credits
               </AccordionTrigger>
               <AccordionContent>
                 <LearningCreditForm />
@@ -190,7 +190,7 @@ const UpdateLearnings = () => {
                       variant="outline"
                       className="border-red-500 text-red-500 hover:text-white hover:bg-red-500"
                     >
-                      Archive
+                      Archieve
                     </Button>
                   </AlertDialogTrigger>
                   <AlertDialogContent>
@@ -208,7 +208,7 @@ const UpdateLearnings = () => {
                         onClick={handleArchive}
                         className="bg-red-600 hover:bg-red-500 hover:text-black"
                       >
-                        Archive
+                        Archieve
                       </AlertDialogAction>
                     </AlertDialogFooter>
                   </AlertDialogContent>

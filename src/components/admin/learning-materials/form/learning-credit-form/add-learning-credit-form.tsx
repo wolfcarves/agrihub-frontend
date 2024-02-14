@@ -14,11 +14,12 @@ import useLearningCreateCredits from "../../../../../hooks/api/post/useLearningC
 import { Form } from "../../../../ui/form";
 import { toast } from "sonner";
 import { useParams } from "react-router-dom";
+import Loader from "../../../../../icons/Loader";
 interface AddLearningResourceProps {
-  setHide: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean | undefined>>;
 }
 const AddLearningCreditForm: React.FC<AddLearningResourceProps> = ({
-  setHide
+  setIsOpen
 }) => {
   const { learningsId } = useParams();
   const form = useForm<NewLearningCredits>({
@@ -43,7 +44,7 @@ const AddLearningCreditForm: React.FC<AddLearningResourceProps> = ({
         requestBody: compiledData
       });
       toast.success("Credit Added Successfully!");
-      setHide(false);
+      setIsOpen(false);
     } catch (e: any) {
       toast.error(e.body.message);
     }
@@ -52,41 +53,33 @@ const AddLearningCreditForm: React.FC<AddLearningResourceProps> = ({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmitForm)}>
-        <h2 className="text-md font-bold tracking-tight mb-2">Add Credits</h2>
-        <Card className="p-4 mb-4">
-          <h2 className="text-sm font-bold tracking-tight mb-4">
-            New Credit Form
-          </h2>
-          <div className="flex flex-wrap justify-between items-end gap-4 mb-8">
-            <div className="grid w-full max-w-[40rem] items-center gap-1.5">
-              <Label>Name</Label>
-              <Input
-                type="text"
-                placeholder="e.g Engr. Jusin F. Malindao"
-                {...form.register("name")}
-              />
-            </div>
+        <div className="flex flex-wrap justify-between items-end gap-4 mb-8">
+          <div className="grid w-full items-center gap-1.5">
+            <Label>Name</Label>
+            <Input
+              type="text"
+              placeholder="e.g Engr. Jusin F. Malindao"
+              {...form.register("name")}
+            />
+          </div>
 
-            <div className="grid w-full max-w-[15rem] items-center gap-1.5">
-              <Label>Title</Label>
-              <Input
-                type="text"
-                placeholder="e.g Agriculturist"
-                {...form.register("title")}
-              />
-            </div>
+          <div className="grid w-full items-center gap-1.5">
+            <Label>Title</Label>
+            <Input
+              type="text"
+              placeholder="e.g Agriculturist"
+              {...form.register("title")}
+            />
           </div>
-          <div className="flex justify-end mt-4 gap-4">
-            <Button
-              variant="default"
-              type="submit"
-              // onClick={e => handleDeleteCredit(e)}
-            >
-              Save
-            </Button>
-          </div>
-        </Card>
+        </div>
+        <div className="flex justify-end mt-4 gap-2">
+          <Button variant={"outline"} onClick={() => setIsOpen(false)}>
+            Close
+          </Button>
+          <Button type="submit">Save changes</Button>
+        </div>
       </form>
+      <Loader isVisible={isCreditLoading} />
     </Form>
   );
 };

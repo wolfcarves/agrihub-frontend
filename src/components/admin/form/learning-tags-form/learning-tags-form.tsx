@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Label } from "../../../ui/label";
 import * as zod from "zod";
 import useGetTagByKeyWord from "../../../../hooks/api/get/useGetTagByKeyword";
@@ -32,16 +32,16 @@ const LearningTagsForm = () => {
   const [tags, setTags] = useState<Array<string>>([]);
   const [idTags, setIdTags] = useState<Array<string>>([]);
   const { data: tagResult } = useGetTagByKeyWord(searchInputTagValue);
-
   const { learningsId } = useParams();
+  //get present tags
   const { data: LearningData } = useGetLearningDraftView(learningsId || "");
-  console.log(LearningData);
 
   const form = useForm<NewLearningTags>({
     resolver: zodResolver(addTagsSchema),
     mode: "onBlur"
   });
 
+  //add tags
   const { mutateAsync: deleteResource, isLoading: isDeleteLoading } =
     useDeleteLearningTags();
   const handleDelete = async (id: string) => {
@@ -49,10 +49,18 @@ const LearningTagsForm = () => {
     toast.success("Tags Deleted Successfully!");
   };
 
-  //edit
+  // validations
+  useEffect(() => {
+    if (form.formState.errors.tags) {
+      toast.error(form?.formState?.errors?.tags?.message);
+    }
+  }, [form.formState.errors]);
+
+  //create
   const { mutateAsync: createTagsMutate, isLoading: isTagsLoading } =
     useLearningCreateTags();
 
+  //submit
   const handleSubmitForm = async (data: NewLearningTags) => {
     const compiledData: NewLearningTags = {
       tags: data.tags

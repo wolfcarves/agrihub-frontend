@@ -158,9 +158,9 @@ const ContentWhatWeDo: React.FC = () => {
 
       {/* Image Section */}
       <div className="flex flex-col items-center gap-8 md:flex-row md:justify-center md:gap-4 md:mt-8 pt-10">
-        {mockImageData.map(image => (
-          <Link to={image.path}>
-            <div key={image.id} className="flex flex-col md:w-[calc(85vw/3)]">
+        {mockImageData.map((image, i) => (
+          <Link key={i} to={image.path}>
+            <div className="flex flex-col md:w-[calc(85vw/3)]">
               <div className="image-container w-full h-[200px] md:h-[250px] lg:h-[300px]">
                 <img
                   src={image.imageUrl}

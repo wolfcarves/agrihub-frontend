@@ -16,7 +16,7 @@ interface UserTagInputDropdownProps {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onTagsValueChange?: (e: string[]) => void;
   isError?: boolean;
-  disabled: boolean;
+  disabled?: boolean;
 }
 
 const UserTagInputDropdown = ({

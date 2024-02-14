@@ -69,7 +69,7 @@ const CommunityLanding = () => {
       <div className="grid grid-cols-6 gap-2 mb-20 mt-10">
         {data?.farms
           ?.filter(farm => farm.id !== userData?.farm_id)
-          .map((farm, i) => <FarmCard farm={farm} index={i} />)}
+          .map((farm, i) => <FarmCard farm={farm} key={i} />)}
       </div>
     </OutletContainer>
   );

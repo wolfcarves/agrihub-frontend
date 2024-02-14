@@ -5,13 +5,11 @@ import { Link } from "react-router-dom";
 import { CommunityFarmData } from "../../../../api/openapi";
 interface FarmCardProps {
   farm: CommunityFarmData;
-  index: number;
 }
-const FarmCard: React.FC<FarmCardProps> = ({ farm, index }) => {
+const FarmCard: React.FC<FarmCardProps> = ({ farm }) => {
   return (
     <Link
       to={`/community/explore/${farm.id}`}
-      key={index}
       className={`flex flex-col lg:col-span-2 col-span-6 w-full h-full border rounded-md p-4 shadow-md relative bg-main`}
     >
       <img

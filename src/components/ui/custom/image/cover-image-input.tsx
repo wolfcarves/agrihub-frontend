@@ -10,7 +10,7 @@ interface ImagePreview {
 
 interface CoverImageUploadProps {
   onChange: (files: Blob[], imagePreviews: ImagePreview[]) => void;
-  disabled: boolean;
+  disabled?: boolean;
 }
 
 const CoverImageUpload: React.FC<CoverImageUploadProps> = ({

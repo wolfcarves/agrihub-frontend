@@ -1,8 +1,8 @@
 import React from "react";
 import AdminOutletContainer from "@components/admin/layout/container/AdminOutletContainer";
 import BreadCrumb from "../../../../components/ui/custom/breadcrumb/breadcrumb";
-import { TableLearningMaterial } from "../table/table-learning";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
+import TableLearningMaterialArchive from "../../../../components/admin/learning-materials/tables/table-learning-material-archive/table-learning-material-archive";
 
 const breadcrumbItems = [
   { title: "Resource Management", link: "/admin/resources" },
@@ -23,7 +23,7 @@ const LearningsArchive = () => {
         Manage archived learning materials.
       </p>
       <hr className="my-4" />
-      <TableLearningMaterial />
+      <TableLearningMaterialArchive />
     </AdminOutletContainer>
   );
 };

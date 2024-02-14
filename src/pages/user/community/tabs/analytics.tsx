@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Bar, Line, Pie } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
 import SuggestionsModal from "@components/user/community/suggestions-modal/modal";
@@ -7,6 +7,8 @@ import useGetReportStackBarQuery from "../../../../hooks/api/get/useGetReportSta
 import useGetReportPiechartQuery from "../../../../hooks/api/get/useGetReportPiechartQuery";
 import useGetReportTotalHarvestChart from "../../../../hooks/api/get/useGetReportTotalHarvestChart";
 import useGetReportGrowthChart from "../../../../hooks/api/get/useGetReportGrowthChart";
+import useGetReportGrowthRate from "../../../../hooks/api/get/useGetReportGrowthRate";
+import { toast } from "sonner";
 
 Chart.register(...registerables);
 
@@ -15,7 +17,8 @@ const Analytics = () => {
   const { data: pieChart } = useGetReportPiechartQuery();
   const { data: harvestChart } = useGetReportTotalHarvestChart();
   const { data: growthChart } = useGetReportGrowthChart();
-  console.log(pieChart);
+  const { data: growthRate } = useGetReportGrowthRate();
+  console.log(growthRate);
   const chartOptions = {
     responsive: true,
     maintainAspectRatio: false,
@@ -107,16 +110,45 @@ const Analytics = () => {
     ]
   };
 
+  useEffect(() => {
+    toast.warning("Action Needed");
+  }, []);
+
   return (
     <>
       <div className="py-10 px-4">
-        <div className=" border-black border-1 p-1 grid grid-cols-12 gap-x-4 gap-y-10">
+        <div className=" border-black border-1 p-1 grid grid-cols-12 gap-x-4 gap-y-[4rem]">
           <div className=" xl:col-span-8 col-span-12">
             <h5 className="font-poppins-medium">
               Total Withered & Total Harvest
             </h5>
             <div className="h-[400px]  border border-border p-4 rounded-lg">
               <Bar data={stackBarData} options={optionsBar} />
+              <SuggestionsModal />
+            </div>
+          </div>
+          <div className=" col-span-4 border border-border mt-6 p-4 pb-8 rounded-lg flex flex-col ">
+            <div className=" font-semibold text-lg">Growth Rate</div>
+            <div className="flex-grow grid place-items-center">
+              <div className="text-center">
+                <div className="text-[4rem] p-0 m-0 leading-none text-primary">
+                  {growthRate?.average_growth_rate}%
+                </div>
+                <div className=" text-gray-400 font-medium flex items-center justify-center">
+                  {growthRate?.growth_rate} from last harvest
+                </div>
+              </div>
+            </div>
+            <div className=" text-gray-400 font-medium flex items-center justify-center ">
+              {growthRate?.results}
+            </div>
+          </div>
+          <div className="  lg:col-span-8 col-span-12">
+            <h5 className="font-poppins-medium">
+              Growth Span & Harvest Quantity
+            </h5>
+            <div className="h-[400px] border border-border p-4 rounded-lg">
+              <Line data={lineData} options={chartOptions} />
             </div>
           </div>
           <div className=" lg:col-span-4 col-span-12">
@@ -125,15 +157,7 @@ const Analytics = () => {
               <Pie data={pieData} options={chartOptions} />
             </div>
           </div>
-          <div className="  lg:col-span-6 col-span-12">
-            <h5 className="font-poppins-medium">
-              Growth Span & Harvest Quantity
-            </h5>
-            <div className="h-[400px] border border-border p-4 rounded-lg">
-              <Line data={lineData} options={chartOptions} />
-            </div>
-          </div>
-          <div className="  lg:col-span-6 col-span-12 ">
+          <div className="  lg:col-span-8 col-span-12 ">
             <h5 className="font-poppins-medium">Monthly Harvest</h5>
             <div className="h-[400px]  border border-border p-4 rounded-lg">
               <Bar data={barData} options={chartOptions} />

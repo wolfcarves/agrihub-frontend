@@ -2,7 +2,7 @@ import React from "react";
 import BreadCrumb from "@components/ui/custom/breadcrumb/breadcrumb";
 import AdminOutletContainer from "@components/admin/layout/container/AdminOutletContainer";
 import { Button } from "@components/ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -15,12 +15,61 @@ import {
   AlertDialogTrigger
 } from "@components/ui/alert-dialog";
 import { useParams } from "react-router-dom";
-import LearningCreditForm from "./components/learning-credit";
-import LearningDetailForm from "./components/learning-detail";
-import LearningResourceForm from "./components/learning-resource";
+import LearningCreditForm from "../../../../components/admin/form/learning-credit-form/learning-credit";
+import LearningDetailForm from "../../../../components/admin/form/learning-detail-form/learning-detail-form";
+import LearningResourceForm from "../../../../components/admin/form/learning-resource-form/learning-resource";
+import LearningTagsForm from "../../../../components/admin/form/learning-tags-form/learning-tags-form";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger
+} from "../../../../components/ui/accordion";
+import useDeleteLearningDraftDelete from "../../../../hooks/api/delete/useDeleteLearningDraftDelete";
+import { toast } from "sonner";
+import useDeleteLearningUnpublish from "../../../../hooks/api/delete/useDeleteLearningUnpublish";
+import useDeleteLearningArchive from "../../../../hooks/api/delete/useDeleteLearningArchive";
+import usePutLearningPublish from "../../../../hooks/api/put/usePutLearningPublish";
+import useGetLearningView from "../../../../hooks/api/get/useGetLearningView";
 
 const UpdateLearnings = () => {
   const { learningsId } = useParams();
+  const navigate = useNavigate();
+  const { data: LearningData, isLoading: LearningDataLoading } =
+    useGetLearningView(learningsId || "");
+  console.log(LearningData);
+
+  const { mutateAsync: deleteDraft } = useDeleteLearningDraftDelete();
+  const handleDeleteDraft = async () => {
+    await deleteDraft(learningsId || "");
+    toast.success("Draft Deleted Successfully!");
+    navigate("/admin/resource/learnings");
+  };
+
+  const { mutateAsync: unpublishMaterial } = useDeleteLearningUnpublish();
+  const handleUnpublish = async () => {
+    await unpublishMaterial(learningsId || "");
+    toast.success("Unpublished Successfully!");
+    navigate("/admin/resource/learnings-draft");
+  };
+
+  const { mutateAsync: archiveMaterial } = useDeleteLearningArchive();
+  const handleArchive = async () => {
+    await archiveMaterial(learningsId || "");
+    toast.success("Archive Successfully!");
+    navigate("/admin/resource/learnings-archives");
+  };
+
+  const { mutateAsync: publishMaterial } = usePutLearningPublish();
+  const handlePublish = async () => {
+    try {
+      await publishMaterial(learningsId || "");
+      toast.success("Published Successfully!");
+      navigate("/admin/resource/learnings");
+    } catch (e: any) {
+      toast.error(e.body.message);
+    }
+  };
 
   // breadcrumbs
   const breadcrumbItems = [
@@ -46,71 +95,151 @@ const UpdateLearnings = () => {
       </p>
       <hr className="my-4" />
       <div className="max-w-[60rem] mx-auto">
-        <form>
+        <div>
           <LearningDetailForm />
-          <hr className="my-4" />
-          <LearningResourceForm />
-          <hr className="my-4" />
-          <LearningCreditForm />
-          <hr className="my-4" />
+          <Accordion type="single" collapsible className="w-full">
+            <AccordionItem value="item-1">
+              <AccordionTrigger className="text-lg font-poppins-medium [&[data-state=open]]:text-primary">
+                Tags
+              </AccordionTrigger>
+              <AccordionContent>
+                <LearningTagsForm />
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-2">
+              <AccordionTrigger className="text-lg font-poppins-medium [&[data-state=open]]:text-primary">
+                Resource
+              </AccordionTrigger>
+              <AccordionContent>
+                <LearningResourceForm />
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-3">
+              <AccordionTrigger className="text-lg font-poppins-medium [&[data-state=open]]:text-primary">
+                Credit
+              </AccordionTrigger>
+              <AccordionContent>
+                <LearningCreditForm />
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+
           {/* ==================================bu-ons======================================== */}
           <div className="flex gap-4 justify-end mt-4">
-            <Link to="/admin/resource/learnings-draft">
-              <Button variant="ghost">Back</Button>
-            </Link>
-
-            {/* delete */}
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button variant="destructive" className="hover:border-red-500">
-                  Delete
-                </Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>Delete Material?</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    When you delete learning material it will go to archive and
-                    you can recover it from there.
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <Link to="/admin/resource/learnings-archives">
-                    <AlertDialogAction className="bg-red-600 hover:bg-red-500 hover:text-black">
+            {LearningData?.status === "draft" ? (
+              <>
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button
+                      variant="destructive"
+                      className="hover:border-red-500"
+                    >
                       Delete
-                    </AlertDialogAction>
-                  </Link>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Delete Draft?</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        When you delete learning material draft it will be
+                        remove totally in our system
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
 
-            {/* publish */}
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button>Publish Material</Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>
-                    Are you sure you want to upload this material?
-                  </AlertDialogTitle>
-                  <AlertDialogDescription>
-                    This learning material can be seen publicly by the users
-                    when published, make sure to review everything before
-                    publishing.
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <Link to="/admin/resource/learnings">
-                    <AlertDialogAction>Publish</AlertDialogAction>
-                  </Link>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
+                      <AlertDialogAction
+                        onClick={handleDeleteDraft}
+                        className="bg-red-600 hover:bg-red-500 hover:text-black"
+                      >
+                        Delete
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button>Publish Material</Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>
+                        Are you sure you want to upload this material?
+                      </AlertDialogTitle>
+                      <AlertDialogDescription>
+                        This learning material can be seen publicly by the users
+                        when published, make sure to review everything before
+                        publishing.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+
+                      <AlertDialogAction onClick={handlePublish}>
+                        Publish
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              </>
+            ) : (
+              <>
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className="border-red-500 text-red-500 hover:text-white hover:bg-red-500"
+                    >
+                      Archive
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Delete Material?</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        When you delete learning material it will go to archive
+                        and you can recover it from there.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+
+                      <AlertDialogAction
+                        onClick={handleArchive}
+                        className="bg-red-600 hover:bg-red-500 hover:text-black"
+                      >
+                        Archive
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button variant={"destructive"}>Unpublish Material</Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>
+                        Are you sure you want to unpublish this material?
+                      </AlertDialogTitle>
+                      <AlertDialogDescription>
+                        This learning material will can't be seen in public
+                        anymore.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+
+                      <AlertDialogAction onClick={handleUnpublish}>
+                        Unpublish
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              </>
+            )}
           </div>
-        </form>
+        </div>
       </div>
     </AdminOutletContainer>
   );

@@ -11,6 +11,8 @@ import type { FarmerGraphPiechartResponse } from '../models/FarmerGraphPiechartR
 import type { FarmerGraphStackedBarResponse } from '../models/FarmerGraphStackedBarResponse';
 import type { FarmerGraphTotalHarvestResponse } from '../models/FarmerGraphTotalHarvestResponse';
 import type { FarmerTotalHarvestedResponse } from '../models/FarmerTotalHarvestedResponse';
+import type { GrowthRateResponse } from '../models/GrowthRateResponse';
+import type { LearningMaterialReport } from '../models/LearningMaterialReport';
 import type { NewCommunityCropReport } from '../models/NewCommunityCropReport';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -240,6 +242,42 @@ id: string,
             path: {
                 'id': id,
             },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Get the growth rate of a crop
+     * @returns GrowthRateResponse Successful response
+     * @throws ApiError
+     */
+    public static getApiReportsCropGrowthRate(): CancelablePromise<GrowthRateResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/reports/crop/growth-rate',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Get learning materials report
+     * @returns LearningMaterialReport Successful response
+     * @throws ApiError
+     */
+    public static getApiReportsLearningMaterials(): CancelablePromise<Array<LearningMaterialReport>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/reports/learning-materials',
             errors: {
                 400: `Validation Error`,
                 401: `Unauthorized`,

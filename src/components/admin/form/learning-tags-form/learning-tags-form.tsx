@@ -33,6 +33,7 @@ const LearningTagsForm = () => {
   const [idTags, setIdTags] = useState<Array<string>>([]);
   const { data: tagResult } = useGetTagByKeyWord(searchInputTagValue);
   const { learningsId } = useParams();
+
   //get present tags
   const { data: LearningData } = useGetLearningDraftView(learningsId || "");
 
@@ -82,14 +83,13 @@ const LearningTagsForm = () => {
   return (
     <div className="mt-4">
       <div className="mb-5">
-        <h3 className="text-md font-bold mb-2">List</h3>
         <div className="flex flex-wrap gap-2">
           {LearningData?.tags?.map((tag, i) => (
             <span
               key={i}
-              className="inline-flex gap-1 items-center rounded-md bg-green-50 pl-2 pr-1 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20"
+              className="inline-flex gap-1 items-center rounded-md bg-green-50 pl-3 pr-2 py-2 text-base font-medium text-green-700 ring-1 ring-inset ring-green-600/20"
             >
-              {tag.tag}{" "}
+              {tag.tag}
               <IoIosClose
                 onClick={() => handleDelete(tag.id)}
                 className=" text-green-600/50 hover:text-red-800/60"
@@ -135,7 +135,10 @@ const LearningTagsForm = () => {
               />
             </div>
             <div className="flex justify-end mt-2">
-              <Button disabled={isTagsLoading} type="submit">
+              <Button
+                disabled={isTagsLoading || tags.length <= 0}
+                type="submit"
+              >
                 Save
               </Button>
             </div>

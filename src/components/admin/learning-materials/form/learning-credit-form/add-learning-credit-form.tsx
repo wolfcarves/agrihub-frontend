@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Input } from "@components/ui/input";
 import { Label } from "@components/ui/label";
 
@@ -26,6 +26,16 @@ const AddLearningCreditForm: React.FC<AddLearningResourceProps> = ({
     resolver: zodResolver(addLearningCreditSchema),
     mode: "onBlur"
   });
+
+  // validations
+  useEffect(() => {
+    if (form.formState.errors.name) {
+      toast.error(form?.formState?.errors?.name?.message);
+    }
+    if (form.formState.errors.title) {
+      toast.error(form?.formState?.errors?.title?.message);
+    }
+  }, [form.formState.errors]);
 
   //edit
   const { mutateAsync: createCreditMutate, isLoading: isCreditLoading } =
@@ -73,7 +83,11 @@ const AddLearningCreditForm: React.FC<AddLearningResourceProps> = ({
           </div>
         </div>
         <div className="flex justify-end mt-4 gap-2">
-          <Button variant={"outline"} onClick={() => setIsOpen(false)}>
+          <Button
+            type="reset"
+            variant={"outline"}
+            onClick={() => setIsOpen(false)}
+          >
             Close
           </Button>
           <Button type="submit">Save changes</Button>

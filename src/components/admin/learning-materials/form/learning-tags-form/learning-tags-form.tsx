@@ -1,23 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { Label } from "../../../ui/label";
+import { Label } from "../../../../ui/label";
 import * as zod from "zod";
-import useGetTagByKeyWord from "../../../../hooks/api/get/useGetTagByKeyword";
-import { Button } from "../../../ui/button";
-import UserTagInputDropdown from "../../../user/account/input/UserTagInput";
-import useLearningCreateTags from "../../../../hooks/api/post/useLearningCreateTags";
+import useGetTagByKeyWord from "../../../../../hooks/api/get/useGetTagByKeyword";
+import { Button } from "../../../../ui/button";
+import UserTagInputDropdown from "../../../../user/account/input/UserTagInput";
+import useLearningCreateTags from "../../../../../hooks/api/post/useLearningCreateTags";
 import { useForm } from "react-hook-form";
-import { NewLearningTags } from "../../../../api/openapi";
+import { NewLearningTags } from "../../../../../api/openapi";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
-import { Form, FormField } from "../../../ui/form";
-import { Card } from "../../../ui/card";
+import { Form, FormField } from "../../../../ui/form";
+import { Card } from "../../../../ui/card";
 import { IoIosClose } from "react-icons/io";
 import SelectTags from "./select-tags";
-import useGetLearningDraftList from "../../../../hooks/api/get/useGetLearningDraftList";
-import useGetLearningDraftView from "../../../../hooks/api/get/useGetLearningView";
-import useDeleteLearningTags from "../../../../hooks/api/delete/useDeleteLearningTags";
-import Loader from "../../../../icons/Loader";
+import useGetLearningDraftList from "../../../../../hooks/api/get/useGetLearningDraftList";
+import useGetLearningDraftView from "../../../../../hooks/api/get/useGetLearningView";
+import useDeleteLearningTags from "../../../../../hooks/api/delete/useDeleteLearningTags";
+import Loader from "../../../../../icons/Loader";
 
 export const addTagsSchema = zod.object({
   tags: zod

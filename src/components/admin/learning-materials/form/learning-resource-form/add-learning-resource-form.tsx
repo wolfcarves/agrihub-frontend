@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Card } from "@components/ui/card";
-import { Label } from "../../../ui/label";
-import { Input } from "../../../ui/input";
+import { Label } from "../../../../ui/label";
+import { Input } from "../../../../ui/input";
 import {
   Select,
   SelectContent,
@@ -9,17 +9,17 @@ import {
   SelectTrigger,
   SelectValue
 } from "@components/ui/select";
-import { Textarea } from "../../../ui/textarea";
-import CoverImageUpload from "../../../ui/custom/image/cover-image-input";
-import { Button } from "../../../ui/button";
+import { Textarea } from "../../../../ui/textarea";
+import CoverImageUpload from "../../../../ui/custom/image/cover-image-input";
+import { Button } from "../../../../ui/button";
 import { useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { addResourceSchema } from "./schema";
-import { NewLearningResource } from "../../../../api/openapi";
-import useLearningCreateResource from "../../../../hooks/api/post/useLearningCreateResource";
-import { Form, FormField } from "../../../ui/form";
-import Dropzone from "../../../user/community/dropzone/dropzone";
+import { NewLearningResource } from "../../../../../api/openapi";
+import useLearningCreateResource from "../../../../../hooks/api/post/useLearningCreateResource";
+import { Form, FormField } from "../../../../ui/form";
+import Dropzone from "../../../../user/community/dropzone/dropzone";
 import { toast } from "sonner";
 interface AddLearningInterfaceProps {
   setHide: React.Dispatch<React.SetStateAction<boolean>>;

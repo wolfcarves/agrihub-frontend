@@ -14,12 +14,12 @@ import { useState } from "react";
 import { Textarea } from "@components/ui/textarea";
 import { Card } from "@components/ui/card";
 import { useParams } from "react-router-dom";
-import useGetLearningDraftView from "../../../../hooks/api/get/useGetLearningView";
+import useGetLearningDraftView from "../../../../../hooks/api/get/useGetLearningView";
 import AddLearningResourceForm from "./add-learning-resource-form";
-import useDeleteLearningResource from "../../../../hooks/api/delete/useDeleteLearningResource";
+import useDeleteLearningResource from "../../../../../hooks/api/delete/useDeleteLearningResource";
 import { toast } from "sonner";
-import { Checkbox } from "../../../ui/checkbox";
-import usePutLearningFeatured from "../../../../hooks/api/put/usePutLearningFeatured";
+import { Checkbox } from "../../../../ui/checkbox";
+import usePutLearningFeatured from "../../../../../hooks/api/put/usePutLearningFeatured";
 
 const LearningResourceForm = () => {
   const { learningsId } = useParams();

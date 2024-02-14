@@ -15,10 +15,10 @@ import {
   AlertDialogTrigger
 } from "@components/ui/alert-dialog";
 import { useParams } from "react-router-dom";
-import LearningCreditForm from "../../../../components/admin/form/learning-credit-form/learning-credit";
-import LearningDetailForm from "../../../../components/admin/form/learning-detail-form/learning-detail-form";
-import LearningResourceForm from "../../../../components/admin/form/learning-resource-form/learning-resource";
-import LearningTagsForm from "../../../../components/admin/form/learning-tags-form/learning-tags-form";
+import LearningCreditForm from "../../../../components/admin/learning-materials/form/learning-credit-form/learning-credit";
+import LearningDetailForm from "../../../../components/admin/learning-materials/form/learning-detail-form/learning-detail-form";
+import LearningResourceForm from "../../../../components/admin/learning-materials/form/learning-resource-form/learning-resource";
+import LearningTagsForm from "../../../../components/admin/learning-materials/form/learning-tags-form/learning-tags-form";
 import {
   Accordion,
   AccordionContent,
@@ -97,7 +97,7 @@ const UpdateLearnings = () => {
       <div className="max-w-[60rem] mx-auto">
         <div>
           <LearningDetailForm />
-          <Accordion type="single" collapsible className="w-full">
+          <Accordion type="single" collapsible className="w-full mt-5">
             <AccordionItem value="item-1">
               <AccordionTrigger className="text-lg font-poppins-medium [&[data-state=open]]:text-primary">
                 Tags

@@ -3,7 +3,7 @@ import AdminOutletContainer from "@components/admin/layout/container/AdminOutlet
 import BreadCrumb from "../../../../components/ui/custom/breadcrumb/breadcrumb";
 
 import withAuthGuard from "@higher-order/account/withAuthGuard";
-import DialogAddLearning from "../../../../components/admin/learning-materials/dialog-add-learning/dialog-add-learning";
+import DialogAddLearning from "../../../../components/admin/learning-materials/dialogs/dialog-add-learning/dialog-add-learning";
 import TableLearningMaterial from "../../../../components/admin/learning-materials/tables/table-learning-material/table-learning-material";
 
 const breadcrumbItems = [

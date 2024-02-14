@@ -6,12 +6,12 @@ import { Button } from "@components/ui/button";
 
 import { Card } from "@components/ui/card";
 import { useState } from "react";
-import { NewLearningCredits } from "../../../../api/openapi";
+import { NewLearningCredits } from "../../../../../api/openapi";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { addLearningCreditSchema } from "./schema";
-import useLearningCreateCredits from "../../../../hooks/api/post/useLearningCreateCredits";
-import { Form } from "../../../ui/form";
+import useLearningCreateCredits from "../../../../../hooks/api/post/useLearningCreateCredits";
+import { Form } from "../../../../ui/form";
 import { toast } from "sonner";
 import { useParams } from "react-router-dom";
 interface AddLearningResourceProps {

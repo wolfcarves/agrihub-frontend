@@ -40,6 +40,7 @@ import Helps from "@pages/user/help/helps";
 import Help from "@pages/user/help/help";
 import Policy from "@pages/user/help/policy";
 import Terms from "@pages/user/help/terms";
+import Feedback from "@pages/user/help/feedback";
 
 //Admin
 import AdminLayout from "@pages/admin/admin/admin-layout";
@@ -235,6 +236,7 @@ const App = ReactRouter(
       {/* others */}
       <Route path="/privacy-policy" element={<Policy />} />
       <Route path="/terms-condition" element={<Terms />} />
+      <Route path="/feedback" element={<Feedback />} />
     </Route>
 
     {/* Account Page */}

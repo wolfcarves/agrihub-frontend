@@ -3,8 +3,11 @@ import { learningsData } from "./learningsData";
 import { Link } from "react-router-dom";
 import logo from "../../../icons/fullLogo.svg";
 import { formatDate } from "@components/lib/utils";
+import useGetLearningPublishedList from "../../../hooks/api/get/useGetLearningPublishedList";
 
 const Learnings = () => {
+  const { data: learningsDatas } = useGetLearningPublishedList();
+  console.log(learningsDatas);
   return (
     <section className="my-12 mx-auto px-4 max-w-screen-xl md:px-8 py-8">
       <div className="text-left">

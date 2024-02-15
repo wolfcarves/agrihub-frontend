@@ -4,11 +4,18 @@ import { RiUploadCloud2Line } from "react-icons/ri";
 interface DropzoneProps {
   onChange: (blob: Blob) => void;
   className?: string;
+  defaultValue?: string;
 }
 
-const Dropzone: React.FC<DropzoneProps> = ({ onChange, className }) => {
+const Dropzone: React.FC<DropzoneProps> = ({
+  onChange,
+  className,
+  defaultValue
+}) => {
   const [isDragging, setIsDragging] = useState(false);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(
+    defaultValue || null
+  );
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const handleDragEnter = (e: React.DragEvent<HTMLDivElement>) => {

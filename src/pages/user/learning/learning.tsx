@@ -14,56 +14,22 @@ import {
   AccordionItem,
   AccordionTrigger
 } from "@components/ui/accordion";
-
-export const ellipsis = (text: string, maxLength: number): string => {
-  if (text.length <= maxLength) {
-    return text;
-  } else {
-    return text.substring(0, maxLength).trim() + "...";
-  }
-};
+import useGetLearningDraftView from "@hooks/api/get/useGetLearningView";
+// export const ellipsis = (text: string, maxLength: number): string => {
+//   if (text.length <= maxLength) {
+//     return text;
+//   } else {
+//     return text.substring(0, maxLength).trim() + "...";
+//   }
+// };
 
 const Learning = () => {
   const { learningsId } = useParams();
-
-  const selectedEvent = learningsData.find(
-    learnings => learnings.id === learningsId
-  );
+  const { data: selectedEvent } = useGetLearningDraftView(learningsId || "");
 
   if (!selectedEvent) {
     return <div>Event not found!</div>;
   }
-
-  const renderResource = (resource: {
-    type: string;
-    name: string;
-    resource: string;
-  }) => {
-    if (resource.type === "image") {
-      return (
-        <img
-          src={resource.resource}
-          alt={resource.name}
-          className="w-full rounded-md max-w-md max-h-80"
-        />
-      );
-    } else if (resource.type === "video") {
-      return (
-        <div className="w-full aspect-video">
-          <iframe
-            className="w-full h-full"
-            src={resource.resource}
-            title={resource.name}
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
-          ></iframe>
-        </div>
-      );
-    } else {
-      return null;
-    }
-  };
 
   return (
     <>
@@ -76,11 +42,11 @@ const Learning = () => {
           {selectedEvent.title}
         </h2>
         <p className="text-gray-700 m-4">
-          last updated: {formatDateTime(selectedEvent.date)}
+          last updated: {formatDateTime(selectedEvent.updatedat)}
         </p>
         <Carousel>
           <CarouselContent>
-            {selectedEvent.learning_resources.map((resource, index) => (
+            {selectedEvent?.learning_resource?.map((resource, index) => (
               <CarouselItem className="h-[550px] sm:h-auto lg:h-auto">
                 <div
                   key={index}
@@ -91,16 +57,28 @@ const Learning = () => {
                       {resource.name}
                     </h2>
                     <span className="block m-5 text-base">
-                      {resource.description} This workshop provides a
-                      comprehensive overview of water management practices in
-                      agriculture. Participants will learn about the importance
-                      of efficient water usage, sustainable irrigation
-                      techniques, and strategies for optimizing water resources
-                      on the farm.
+                      {resource.description}
                     </span>
                   </h2>
                   <div className="w-full sm:w-[700px] lg:w-3/5">
-                    {renderResource(resource)}
+                    {resource.type === "image" ? (
+                      <img
+                        src={resource.resource}
+                        alt={resource.name}
+                        className="w-full rounded-md max-w-md max-h-80"
+                      />
+                    ) : resource.type === "video" ? (
+                      <div className="w-full aspect-video">
+                        <iframe
+                          className="w-full h-full"
+                          src={resource.resource}
+                          title={resource.name}
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          allowFullScreen
+                        ></iframe>
+                      </div>
+                    ) : null}
                   </div>
                 </div>
               </CarouselItem>
@@ -110,12 +88,12 @@ const Learning = () => {
 
         <div className="m-4">
           <p className="text-gray-700 mb-2">
-            {selectedEvent.tags.map((tag, index) => (
+            {selectedEvent?.tags?.map((tag, index) => (
               <span
                 key={index}
                 className="text-base text-primary rounded-md w-auto border border-[#BBE3AD] bg-secondary px-2 mr-2 py-1"
               >
-                {tag.name}
+                {tag.tag}
               </span>
             ))}
           </p>
@@ -137,14 +115,12 @@ const Learning = () => {
                 <AccordionTrigger className=" decoration-green-400">
                   <b className="my-4">Credits</b>
                 </AccordionTrigger>
-                {selectedEvent.learning_credits.map((credit, index) => (
-                  <AccordionContent>
+                {selectedEvent?.learning_credits?.map((credit, index) => (
+                  <AccordionContent key={index}>
                     <p className="text-gray-700 font-semibold sm:text-md">
                       {credit.name}
                     </p>
-                    <p className="text-green-600 mb-3">
-                      {credit.title_occupation}
-                    </p>
+                    <p className="text-green-600 mb-3">{credit.title}</p>
                   </AccordionContent>
                 ))}
               </AccordionItem>
@@ -205,7 +181,7 @@ const Learning = () => {
       </h1>
       <br></br>
       <div className="flex justify-center w-full mb-4">
-        <div className="w-full p-8 sm:p-4 xl:mx-32 2xl:px-56 grid grid-cols-1 sm:grid-cols-3 grid-rows-1 gap-5 mb-12">
+        {/* <div className="w-full p-8 sm:p-4 xl:mx-32 2xl:px-56 grid grid-cols-1 sm:grid-cols-3 grid-rows-1 gap-5 mb-12">
           {learningsData
             .filter(item =>
               item.tags.some(tag =>
@@ -238,7 +214,7 @@ const Learning = () => {
                 </Link>
               </div>
             ))}
-        </div>
+        </div> */}
       </div>
     </>
   );

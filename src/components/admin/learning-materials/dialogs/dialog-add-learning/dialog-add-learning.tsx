@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "@components/ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Dialog,
   DialogContent,
@@ -30,6 +30,7 @@ interface NewLearningMaterial {
   title: string;
 }
 const DialogAddLearning = () => {
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState<boolean>();
   const form = useForm<NewLearningMaterial>({
     resolver: zodResolver(addLearningMaterialSchema),
@@ -50,9 +51,10 @@ const DialogAddLearning = () => {
     };
 
     try {
-      await addDraftMutate(compiledData);
+      const response = await addDraftMutate(compiledData);
       toast.success("Draft Created Successfully!");
       setIsOpen(false);
+      navigate(`/admin/resource/learnings/view/${response.data.id}`);
     } catch (e: any) {
       toast.error(e.body.message);
     }

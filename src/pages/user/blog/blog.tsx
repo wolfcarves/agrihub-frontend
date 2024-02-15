@@ -41,7 +41,7 @@ const Blog = () => {
             src={mainImage || imageagri}
             loading="lazy"
             alt={selectedEvent.title}
-            className="w-full object-cover object-center"
+            className="w-full object-cover object-center mb-5"
           />
           <div className="mx-8">
             <Carousel className="w-full">
@@ -81,44 +81,49 @@ const Blog = () => {
             {selectedEvent.title}
           </h1>
           <div className="flex justify-center">
-            <p className="text-base text-primary rounded-md w-auto border border-[#BBE3AD] bg-secondary px-2 mr-2 py-1">
-              tag1
-            </p>
-            <p className="text-base text-primary rounded-md w-auto border border-[#BBE3AD] bg-secondary px-2 mr-2 py-1">
-              tag2
-            </p>
+            {selectedEvent.tags.map(tags => (
+              <p className="text-base text-primary rounded-md w-auto border border-[#BBE3AD] bg-secondary px-2 mr-2 py-1">
+                {tags}
+              </p>
+            ))}
           </div>
           <p className="pt-5 text-justify">{selectedEvent.content}</p>
         </div>
       </div>
 
       <h3 className="px-10 mt-20 mb-5"> Suggested Blogs </h3>
-      <div className="grid grid-cols-3 lg:grid-cols-3 sm:grid-cols-2 grid-rows-2 gap-20 px-10">
-        {blogData.map((items, key) => (
-          <div key={key} className="group flex flex-col">
-            <div className="max-h-370px max-w-750px">
-              <img
-                src={mainImage || imageagri}
-                loading="lazy"
-                alt={items.title}
-                className="w-full rounded-lg max-h-370px max-w-750px"
-              />
-            </div>
-            <Link to={`/blogs/view/${items.blogId}`}>
-              <div className="mt-3">
-                <h5 className="text-gray-600 pt-1 text-sm">
-                  {formatDateTime(items.createdAt)}
-                </h5>
-                <h1 className="text-gray-800 duration-150 group-hover:text-green-700 font-semibold pt-1 text-lg">
-                  {ellipsis(items.title, 30)}
-                </h1>
-                <p className="text-sm me-8 text-justify">
-                  {ellipsis(items.content, 180)}
-                </p>
+      <div className="grid grid-cols-1 lg:grid-cols-3 sm:grid-cols-2 grid-rows-2 gap-20 px-10">
+        {blogData
+          .filter(blogsData => blogsData.blogId !== blogId)
+          .map((item, key) => (
+            <div key={key} className="group flex flex-col">
+              <div className="max-h-370px max-w-750px">
+                <img
+                  src={mainImage || imageagri}
+                  loading="lazy"
+                  alt={item.title}
+                  className="w-full rounded-lg max-h-370px max-w-750px"
+                />
               </div>
-            </Link>
-          </div>
-        ))}
+              <Link to={`/blogs/view/${item.blogId}`}>
+                <div className="mt-3">
+                  <h5 className="text-gray-600 pt-1 text-sm lg:text-sm sm:text-xs line-clamp-1">
+                    {formatDateTime(item.createdAt)}
+                  </h5>
+                  <h5 className="font-bold mt-1">
+                    {item.category}{" "}
+                    <span className="text-green-700">{">"}</span>
+                  </h5>
+                  <h1 className="text-gray-800 duration-150 group-hover:text-green-700 font-semibold pt-1 text-md lg:text-lg xs:text-xs line-clamp-1">
+                    {ellipsis(item.title, 30)}
+                  </h1>
+                  <p className="text-sm me-8 text-justify lg:text-md sm:text-xs">
+                    {ellipsis(item.content, 180)}
+                  </p>
+                </div>
+              </Link>
+            </div>
+          ))}
       </div>
     </>
   );

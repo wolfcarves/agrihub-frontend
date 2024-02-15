@@ -2,7 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import parse from "html-react-parser";
 import { Link } from "react-router-dom";
-import { formatDateTime } from "@components/lib/utils";
+import { convertToEmbedLink, formatDateTime } from "@components/lib/utils";
 import {
   Carousel,
   CarouselContent,
@@ -64,7 +64,7 @@ const Learning = () => {
                       <div className="w-full aspect-video max-h-[24]">
                         <iframe
                           className="w-full h-full"
-                          src={resource.resource}
+                          src={convertToEmbedLink(resource.resource || "")}
                           title={resource.name}
                           frameBorder="0"
                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"

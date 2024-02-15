@@ -47,6 +47,14 @@ const LearningResourceForm = () => {
       </div>
 
       {/* resource form */}
+      {LearningData?.learning_resource &&
+        LearningData.learning_resource.length <= 0 && (
+          <div className="py-10 flex items-center justify-center">
+            <h4 className="text-gray-500 font-poppins-medium">
+              No Resource Available. Add now...
+            </h4>
+          </div>
+        )}
       {LearningData?.learning_resource?.map((resource, index) => (
         <Card key={index} className="p-4 mb-4">
           <div className="flex flex-wrap justify-between items-end gap-4 mb-8">

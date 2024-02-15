@@ -22,7 +22,7 @@ import Loader from "../../../../../icons/Loader";
 export const addTagsSchema = zod.object({
   tags: zod
     .array(zod.string())
-    .refine(data => data.length <= 1, {
+    .refine(data => data.length >= 1, {
       message: "Please enter at least 1 tag"
     })
     .default([])

@@ -1,5 +1,11 @@
 import * as zod from "zod";
 const MAX_IMAGE_FILE_SIZE = 1024 * 1024 * 10; // 10MB
+function isYouTubeVideoLink(value: string | undefined): boolean {
+  if (!value) return false;
+  const youtubeRegex =
+    /^(https?:\/\/)?(www\.)?(youtube\.com\/(watch\?v=|embed\/|v\/)|youtu\.be\/)/;
+  return youtubeRegex.test(value);
+}
 export const addResourceSchema = zod.object({
   name: zod
     .string({
@@ -17,6 +23,7 @@ export const addResourceSchema = zod.object({
     .string({
       required_error: "Resource is required."
     })
+    .refine(isYouTubeVideoLink, "Please enter a valid YouTube video link")
     .optional(),
 
   type: zod

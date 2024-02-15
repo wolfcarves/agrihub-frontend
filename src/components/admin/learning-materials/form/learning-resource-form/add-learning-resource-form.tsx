@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card } from "@components/ui/card";
 import { Label } from "../../../../ui/label";
 import { Input } from "../../../../ui/input";
@@ -35,7 +35,26 @@ const AddLearningResourceForm: React.FC<AddLearningInterfaceProps> = ({
     mode: "onBlur"
   });
 
-  //edit
+  // validations
+  useEffect(() => {
+    if (form.formState.errors.name) {
+      toast.error(form?.formState?.errors?.name?.message);
+    }
+    if (form.formState.errors.type) {
+      toast.error(form?.formState?.errors?.type?.message);
+    }
+    if (form.formState.errors.description) {
+      toast.error(form?.formState?.errors?.description?.message);
+    }
+    if (form.formState.errors.resource) {
+      toast.error(form?.formState?.errors?.resource?.message);
+    }
+    if (form.formState.errors.name) {
+      toast.error(form?.formState?.errors?.name?.message);
+    }
+  }, [form.formState.errors]);
+
+  //create
   const { mutateAsync: createResourceMutate, isLoading: isResourceLoading } =
     useLearningCreateResource();
 
@@ -140,7 +159,7 @@ const AddLearningResourceForm: React.FC<AddLearningInterfaceProps> = ({
               <Label>Video Source</Label>
               <Input
                 type="text"
-                placeholder="Input video link"
+                placeholder="Input a youtube video link"
                 {...form.register("resource")}
               />
             </div>

@@ -21,6 +21,7 @@ import useLearningCreateResource from "../../../../../hooks/api/post/useLearning
 import { Form, FormField } from "../../../../ui/form";
 import Dropzone from "../../../../user/community/dropzone/dropzone";
 import { toast } from "sonner";
+import Loader from "../../../../../icons/Loader";
 interface AddLearningInterfaceProps {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean | undefined>>;
 }
@@ -174,11 +175,16 @@ const AddLearningResourceForm: React.FC<AddLearningInterfaceProps> = ({
             >
               Close
             </Button>
-            <Button type="submit" variant="default">
+            <Button
+              disabled={isResourceLoading}
+              type="submit"
+              variant="default"
+            >
               Save
             </Button>
           </div>
         </div>
+        <Loader isVisible={isResourceLoading} />
       </form>
     </Form>
   );

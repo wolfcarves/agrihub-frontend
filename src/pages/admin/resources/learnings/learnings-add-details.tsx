@@ -195,10 +195,10 @@ const UpdateLearnings = () => {
                   </AlertDialogTrigger>
                   <AlertDialogContent>
                     <AlertDialogHeader>
-                      <AlertDialogTitle>Delete Material?</AlertDialogTitle>
+                      <AlertDialogTitle>Archive Material?</AlertDialogTitle>
                       <AlertDialogDescription>
-                        When you delete learning material it will go to archive
-                        and you can recover it from there.
+                        When you archieve learning material it will go to
+                        archieve and you can recover it from there.
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>

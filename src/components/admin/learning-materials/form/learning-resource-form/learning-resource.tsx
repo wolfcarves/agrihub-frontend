@@ -20,6 +20,7 @@ import useDeleteLearningResource from "../../../../../hooks/api/delete/useDelete
 import { toast } from "sonner";
 import { Checkbox } from "../../../../ui/checkbox";
 import usePutLearningFeatured from "../../../../../hooks/api/put/usePutLearningFeatured";
+import DialogAddResource from "../../dialogs/dialog-add-resource/dialog-add-resource";
 
 const LearningResourceForm = () => {
   const { learningsId } = useParams();
@@ -41,8 +42,8 @@ const LearningResourceForm = () => {
   return (
     <div>
       {/* add resource */}
-      <div className="flex justify-between items-center mt-4 mb-2">
-        <h2 className="text-md font-bold tracking-tight">List</h2>
+      <div className="flex justify-end mb-4">
+        <DialogAddResource />
       </div>
 
       {/* resource form */}
@@ -133,15 +134,15 @@ const LearningResourceForm = () => {
           </div>
         </Card>
       ))}
-      <>
+      {/* <>
         {hide && (
           <>
             <hr className="my-8" />
             <AddLearningResourceForm setHide={setHide} />
           </>
         )}
-      </>
-      {hide ? (
+      </> */}
+      {/* {hide ? (
         <div className="flex justify-end">
           <Button variant={"destructive"} onClick={() => setHide(false)}>
             Cancel
@@ -151,7 +152,7 @@ const LearningResourceForm = () => {
         <div className="flex justify-end">
           <Button onClick={() => setHide(true)}>Add more source</Button>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

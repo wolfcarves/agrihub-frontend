@@ -22,10 +22,10 @@ import { Form, FormField } from "../../../../ui/form";
 import Dropzone from "../../../../user/community/dropzone/dropzone";
 import { toast } from "sonner";
 interface AddLearningInterfaceProps {
-  setHide: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean | undefined>>;
 }
 const AddLearningResourceForm: React.FC<AddLearningInterfaceProps> = ({
-  setHide
+  setIsOpen
 }) => {
   const [selectedType, setSelectedType] = useState<string | null>(null);
   const { learningsId } = useParams();
@@ -55,7 +55,7 @@ const AddLearningResourceForm: React.FC<AddLearningInterfaceProps> = ({
         formData: compiledData
       });
       toast.success("Resource Added Successfully!");
-      setHide(false);
+      setIsOpen(false);
     } catch (e: any) {
       toast.error(e.body.message);
     }
@@ -68,97 +68,98 @@ const AddLearningResourceForm: React.FC<AddLearningInterfaceProps> = ({
         onSubmit={form.handleSubmit(handleSubmitForm)}
         encType="multipart/form-data"
       >
-        <h2 className="text-md font-bold tracking-tight mb-2">Add Resource</h2>
-        <Card className="p-4 mb-4">
-          <div className="flex flex-wrap justify-between items-end gap-4 mb-8">
-            <h2 className="text-sm font-bold tracking-tight">
-              New Resource Form
-            </h2>
-            <div className="w-full flex justify-between gap-4">
-              <div className="grid w-full max-w-[46rem] items-center gap-1.5">
-                <Label>Title</Label>
-                <Input
-                  type="text"
-                  placeholder="Input resource title"
-                  {...form.register("name")}
-                />
-              </div>
-
-              <div className="grid w-full max-w-[10rem] items-center gap-1.5">
-                <Label>Type</Label>
-                <FormField
-                  control={form.control}
-                  name="type"
-                  render={({ field }) => (
-                    <Select
-                      onValueChange={newValue => {
-                        field.onChange(newValue);
-                        setSelectedType(newValue);
-                      }}
-                      defaultValue={field.value}
-                    >
-                      <SelectTrigger>
-                        <SelectValue
-                          className=" uppercase"
-                          placeholder="Select Type.."
-                        />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="image">Image</SelectItem>
-                        <SelectItem value="video">Video</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  )}
-                />
-              </div>
+        <div className="flex flex-col gap-4 pb-2 mb-8 max-h-[85vh] overflow-y-auto custom-scroll px-2">
+          <div className="w-full flex flex-col justify-between gap-4">
+            <div className="grid w-full items-center gap-1.5">
+              <Label>Title</Label>
+              <Input
+                type="text"
+                placeholder="Input resource title"
+                {...form.register("name")}
+              />
             </div>
 
             <div className="grid w-full items-center gap-1.5">
-              <Label>Description</Label>
-              <Textarea
-                placeholder="insert resource desc"
-                className="active:border-green-500"
-                {...form.register("description")}
+              <Label>Type</Label>
+              <FormField
+                control={form.control}
+                name="type"
+                render={({ field }) => (
+                  <Select
+                    onValueChange={newValue => {
+                      field.onChange(newValue);
+                      setSelectedType(newValue);
+                    }}
+                    defaultValue={field.value}
+                  >
+                    <SelectTrigger>
+                      <SelectValue
+                        className=" uppercase"
+                        placeholder="Select Type.."
+                      />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="image">Image</SelectItem>
+                      <SelectItem value="video">Video</SelectItem>
+                    </SelectContent>
+                  </Select>
+                )}
               />
             </div>
-            {/* for image upload  */}
-            {selectedType === "image" && (
-              <div className="grid w-full items-center gap-1.5">
-                <Label>Upload Image</Label>
-                <FormField
-                  control={form.control}
-                  name="image"
-                  render={() => (
-                    <Dropzone
-                      onChange={value => {
-                        form.setValue("image", value);
-                      }}
-                    />
-                  )}
-                />
-              </div>
-            )}
+          </div>
 
-            {/* for video upload */}
-            {selectedType === "video" && (
-              <div className="grid w-full items-center gap-1.5">
-                <Label>Video Source</Label>
-                <Input
-                  type="text"
-                  placeholder="Input video link"
-                  {...form.register("resource")}
-                />
-              </div>
-            )}
+          <div className="grid w-full items-center gap-1.5">
+            <Label>Description</Label>
+            <Textarea
+              placeholder="insert resource desc"
+              className=" focus-visible:ring-primary"
+              {...form.register("description")}
+            />
           </div>
-          <div className="flex justify-end mt-4 gap-4">
-            <div className="flex gap-4">
-              <Button type="submit" variant="secondary">
-                Save
-              </Button>
+          {/* for image upload  */}
+          {selectedType === "image" && (
+            <div className="grid w-full items-center gap-1.5">
+              <Label>Upload Image</Label>
+              <FormField
+                control={form.control}
+                name="image"
+                render={() => (
+                  <Dropzone
+                    onChange={value => {
+                      form.setValue("image", value);
+                    }}
+                  />
+                )}
+              />
             </div>
+          )}
+
+          {/* for video upload */}
+          {selectedType === "video" && (
+            <div className="grid w-full items-center gap-1.5">
+              <Label>Video Source</Label>
+              <Input
+                type="text"
+                placeholder="Input video link"
+                {...form.register("resource")}
+              />
+            </div>
+          )}
+        </div>
+        <div className="flex justify-end mt-4 gap-4">
+          <div className="flex gap-2">
+            <Button
+              type="reset"
+              onClick={() => setIsOpen(false)}
+              variant={"outline"}
+            >
+              Close
+            </Button>
+            <Button type="submit" variant="default">
+              Save
+            </Button>
           </div>
-        </Card>
+        </div>
       </form>
     </Form>
   );

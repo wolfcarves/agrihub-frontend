@@ -20,7 +20,7 @@ import Autoplay from "embla-carousel-autoplay";
 const Learning = () => {
   const { learningsId } = useParams();
   const { data: learningDetail } = useGetLearningDraftView(learningsId || "");
-
+  console.log(learningDetail);
   if (!learningDetail) {
     return <div>Event not found!</div>;
   }

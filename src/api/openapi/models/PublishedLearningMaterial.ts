@@ -3,7 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type LearningMaterial = {
+export type PublishedLearningMaterial = {
     id: string;
     title: string;
     content?: string;
@@ -12,4 +12,12 @@ export type LearningMaterial = {
     status: string;
     createdat: string;
     updatedat: string;
+    thumbnail: {
+id: string;
+resource: string;
+type: string;
+};
+    tags: Array<{
+tag?: string;
+}>;
 };

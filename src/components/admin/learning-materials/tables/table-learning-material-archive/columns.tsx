@@ -14,6 +14,7 @@ import { Link, useNavigate } from "react-router-dom";
 import usePutLearningUnarchive from "../../../../../hooks/api/put/usePutLearningUnarchive";
 import { toast } from "sonner";
 import { format } from "date-fns";
+import Loader from "../../../../../icons/Loader";
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 
@@ -42,9 +43,9 @@ export const columns: ColumnDef<LearningMaterial>[] = [
     cell: ({ row }) => {
       const material = row.original;
       const navigate = useNavigate();
-      const { mutateAsync: unarchiveMaterial } = usePutLearningUnarchive();
+      const { mutateAsync: unarchiveMaterial, isLoading: archieveLoading } =
+        usePutLearningUnarchive();
       const handleUnpublish = async () => {
-        console.log(material.id);
         await unarchiveMaterial(material.id || "");
         toast.success("Unarchive Successfully!");
         navigate("/admin/resource/learnings");
@@ -61,9 +62,10 @@ export const columns: ColumnDef<LearningMaterial>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem onClick={handleUnpublish}>
-              Unarchive
+              Unarchieve
             </DropdownMenuItem>
           </DropdownMenuContent>
+          <Loader isVisible={archieveLoading} />
         </DropdownMenu>
       );
     }

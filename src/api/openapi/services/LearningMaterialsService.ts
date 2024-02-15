@@ -9,6 +9,7 @@ import type { CreateResourceResponse } from '../models/CreateResourceResponse';
 import type { DeleteDraftLearningMaterialResponse } from '../models/DeleteDraftLearningMaterialResponse';
 import type { LearningMaterialViewResponse } from '../models/LearningMaterialViewResponse';
 import type { ListDraftLearningMaterialsResponse } from '../models/ListDraftLearningMaterialsResponse';
+import type { ListPublishedLearningMaterialsResponse } from '../models/ListPublishedLearningMaterialsResponse';
 import type { MessageResponse } from '../models/MessageResponse';
 import type { NewLearningCredits } from '../models/NewLearningCredits';
 import type { NewLearningMaterial } from '../models/NewLearningMaterial';
@@ -435,8 +436,8 @@ perpage?: string,
     }
 
     /**
-     * List draft learning materials
-     * @returns ListDraftLearningMaterialsResponse Successful response
+     * List published learning materials
+     * @returns ListPublishedLearningMaterialsResponse Successful response
      * @throws ApiError
      */
     public static getApiLearningPublished({
@@ -456,7 +457,7 @@ page?: string,
  * Number of items per page (optional)
  */
 perpage?: string,
-}): CancelablePromise<ListDraftLearningMaterialsResponse> {
+}): CancelablePromise<ListPublishedLearningMaterialsResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/learning/published',

@@ -18,6 +18,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { Form } from "../../../../ui/form";
+import Loader from "../../../../../icons/Loader";
 
 const addLearningMaterialSchema = zod.object({
   title: zod
@@ -43,7 +44,8 @@ const DialogAddLearning = () => {
     }
   }, [form.formState.errors]);
 
-  const { mutateAsync: addDraftMutate } = useLearningCreateDraftMutation();
+  const { mutateAsync: addDraftMutate, isLoading: addDraftLoading } =
+    useLearningCreateDraftMutation();
 
   const handleSubmitForm = async (data: NewLearningMaterial) => {
     const compiledData: NewLearningMaterial = {
@@ -95,6 +97,7 @@ const DialogAddLearning = () => {
             </DialogFooter>
           </form>
         </Form>
+        <Loader isVisible={addDraftLoading} />
       </DialogContent>
     </Dialog>
   );

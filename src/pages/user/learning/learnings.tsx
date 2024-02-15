@@ -6,7 +6,7 @@ import parse from "html-react-parser";
 
 const Learnings = () => {
   const { data: learningsData } = useGetLearningPublishedList();
-
+  console.log(learningsData);
   return (
     <section className="my-12 mx-auto px-4 max-w-screen-xl md:px-8 py-8">
       <div className="text-left">
@@ -25,9 +25,7 @@ const Learnings = () => {
           >
             <Link to={`/learning-materials/view/${items.id}`}>
               <img
-                src={
-                  "https://images.unsplash.com/photo-1590682680695-43b964a3ae17?q=80&w=1400&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                }
+                src={`https://s3.ap-southeast-1.amazonaws.com/agrihub-bucket/${items.thumbnail.resource}`}
                 loading="lazy"
                 alt={items.title}
                 className="w-full h-48 object-cover rounded-t-md"
@@ -50,14 +48,14 @@ const Learnings = () => {
 
                 <div className="my-4 item">
                   <p className="text-gray-700 mb-2 flex flex-wrap">
-                    {/* {items.tags.map((tag, index) => (
+                    {items.tags.map((tag, index) => (
                       <span
                         key={index}
                         className="text-base text-primary rounded-md w-auto border border-[#BBE3AD] bg-secondary px-2 mr-2 mb-2 py-1"
                       >
-                        {tag.name}
+                        {tag.tag}
                       </span>
-                    ))} */}
+                    ))}
                   </p>
                 </div>
               </div>

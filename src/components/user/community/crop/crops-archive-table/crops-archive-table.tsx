@@ -8,7 +8,7 @@ const CropsArchiveTable = () => {
   return (
     <div>
       <div className="my-2 flex md:flex-row flex-col gap-3 justify-between">
-        <h3 className="ms-2 font-poppins-medium">Crops Archive List</h3>
+        <h3 className="ms-2 font-poppins-medium">Crops Archieve List</h3>
       </div>
       <DataTable columns={columns} data={archiveCrops || []} />
     </div>

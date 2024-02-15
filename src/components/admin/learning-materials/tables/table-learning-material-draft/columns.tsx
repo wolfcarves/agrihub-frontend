@@ -59,9 +59,6 @@ export const columns: ColumnDef<LearningMaterial>[] = [
             <Link to={`/admin/resource/learnings/view/${payment.id}`}>
               <DropdownMenuItem>View/update material</DropdownMenuItem>
             </Link>
-            <Link to={`/learning-materials/view/${payment.id}`}>
-              <DropdownMenuItem>View material in page</DropdownMenuItem>
-            </Link>
           </DropdownMenuContent>
         </DropdownMenu>
       );

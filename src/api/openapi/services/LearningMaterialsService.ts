@@ -118,6 +118,38 @@ formData: NewLearningResource,
     }
 
     /**
+     * Update a resource for a learning material
+     * @returns CreateResourceResponse Successful response
+     * @throws ApiError
+     */
+    public static putApiLearningUpdateResource({
+id,
+formData,
+}: {
+/**
+ * ID of the learning material
+ */
+id: string,
+formData: NewLearningResource,
+}): CancelablePromise<CreateResourceResponse> {
+        return __request(OpenAPI, {
+            method: 'PUT',
+            url: '/api/learning/update/resource/{id}',
+            path: {
+                'id': id,
+            },
+            formData: formData,
+            mediaType: 'multipart/form-data',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
      * Remove a resource from a learning material
      * @returns RemoveResourceResponse Successful response
      * @throws ApiError
@@ -163,6 +195,38 @@ requestBody: NewLearningCredits,
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/learning/create/credits/{id}',
+            path: {
+                'id': id,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Update learning credits
+     * @returns CreateLearningCreditsResponse Successful response
+     * @throws ApiError
+     */
+    public static putApiLearningUpdateCredits({
+id,
+requestBody,
+}: {
+/**
+ * ID of the learning material
+ */
+id: string,
+requestBody: NewLearningCredits,
+}): CancelablePromise<CreateLearningCreditsResponse> {
+        return __request(OpenAPI, {
+            method: 'PUT',
+            url: '/api/learning/update/credits/{id}',
             path: {
                 'id': id,
             },

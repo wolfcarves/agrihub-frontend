@@ -8,33 +8,32 @@ import {
   DialogTitle,
   DialogTrigger
 } from "@components/ui/custom/dialog/dialog";
-import { Button } from "../../../../ui/button";
-import { IoMdAdd } from "react-icons/io";
+import { TiEdit } from "react-icons/ti";
 import LearningCreditForm from "../../form/learning-credit-form/learning-credit-form";
-const DialogAddCredits = () => {
+interface DialogProps {
+  creditId: string;
+}
+const DialogEditCredits: React.FC<DialogProps> = ({ creditId }) => {
   const [isOpen, setIsOpen] = useState<boolean>();
+
   return (
     <Dialog open={isOpen}>
       <DialogTrigger asChild>
-        <Button
-          className="gap-1 text-primary border-primary hover:text-white hover:bg-primary"
-          variant={"outline"}
+        <TiEdit
           onClick={() => setIsOpen(true)}
-        >
-          <IoMdAdd size={16} /> Add Source
-        </Button>
+          size={25}
+          className="  border p-1 rounded-full text-green-600 border-green-400/45 bg-green-300/30 hover:animate-pulse"
+        />
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Add Credits</DialogTitle>
-          <DialogDescription>
-            Fill out the form to add credits. Click save when you're done.
-          </DialogDescription>
+          <DialogTitle>Edit Credits</DialogTitle>
+          <DialogDescription>Click save when you're done.</DialogDescription>
         </DialogHeader>
-        <LearningCreditForm setIsOpen={setIsOpen} />
+        <LearningCreditForm setIsOpen={setIsOpen} creditId={creditId} />
       </DialogContent>
     </Dialog>
   );
 };
 
-export default DialogAddCredits;
+export default DialogEditCredits;

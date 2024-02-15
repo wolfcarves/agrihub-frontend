@@ -1,11 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { Input } from "@components/ui/input";
 import { Label } from "@components/ui/label";
-
 import { Button } from "@components/ui/button";
-
-import { Card } from "@components/ui/card";
-import { useState } from "react";
 import { NewLearningCredits } from "../../../../../api/openapi";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,17 +11,32 @@ import { Form } from "../../../../ui/form";
 import { toast } from "sonner";
 import { useParams } from "react-router-dom";
 import Loader from "../../../../../icons/Loader";
-interface AddLearningResourceProps {
+import usePutLearningUpdateCredits from "../../../../../hooks/api/put/usePutLearningUpdateCredits";
+import useGetLearningView from "../../../../../hooks/api/get/useGetLearningView";
+interface LearningResourceProps {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean | undefined>>;
+  creditId?: string;
 }
-const AddLearningCreditForm: React.FC<AddLearningResourceProps> = ({
-  setIsOpen
+const LearningCreditForm: React.FC<LearningResourceProps> = ({
+  setIsOpen,
+  creditId
 }) => {
   const { learningsId } = useParams();
   const form = useForm<NewLearningCredits>({
     resolver: zodResolver(addLearningCreditSchema),
     mode: "onBlur"
   });
+
+  // get present data
+  const { data: LearningData, isLoading: LearningDataLoading } =
+    useGetLearningView(learningsId || "");
+
+  //get present credits
+  const activeCredits = useMemo(() => {
+    return LearningData?.learning_credits?.find(
+      credit => credit.id === creditId
+    );
+  }, [LearningData, creditId]);
 
   // validations
   useEffect(() => {
@@ -37,23 +48,34 @@ const AddLearningCreditForm: React.FC<AddLearningResourceProps> = ({
     }
   }, [form.formState.errors]);
 
-  //edit
+  //create
   const { mutateAsync: createCreditMutate, isLoading: isCreditLoading } =
     useLearningCreateCredits();
+
+  //edit
+  const { mutateAsync: updateCreditMutate, isLoading: isUpdateLoading } =
+    usePutLearningUpdateCredits();
 
   const handleSubmitForm = async (data: NewLearningCredits) => {
     const compiledData: NewLearningCredits = {
       title: data.title,
       name: data.name
     };
-    console.log(compiledData);
 
     try {
-      await createCreditMutate({
-        id: learningsId || "",
-        requestBody: compiledData
-      });
-      toast.success("Credit Added Successfully!");
+      if (creditId) {
+        await updateCreditMutate({
+          id: creditId || "",
+          requestBody: compiledData
+        });
+        toast.success("Credit Edited Successfully!");
+      } else {
+        await createCreditMutate({
+          id: learningsId || "",
+          requestBody: compiledData
+        });
+        toast.success("Credit Added Successfully!");
+      }
       setIsOpen(false);
     } catch (e: any) {
       toast.error(e.body.message);
@@ -68,6 +90,7 @@ const AddLearningCreditForm: React.FC<AddLearningResourceProps> = ({
             <Label>Name</Label>
             <Input
               type="text"
+              defaultValue={activeCredits?.name || ""}
               placeholder="e.g Engr. Jusin F. Malindao"
               {...form.register("name")}
             />
@@ -77,6 +100,7 @@ const AddLearningCreditForm: React.FC<AddLearningResourceProps> = ({
             <Label>Title</Label>
             <Input
               type="text"
+              defaultValue={activeCredits?.title || ""}
               placeholder="e.g Agriculturist"
               {...form.register("title")}
             />
@@ -93,9 +117,11 @@ const AddLearningCreditForm: React.FC<AddLearningResourceProps> = ({
           <Button type="submit">Save changes</Button>
         </div>
       </form>
-      <Loader isVisible={isCreditLoading} />
+      <Loader
+        isVisible={isCreditLoading || isUpdateLoading || LearningDataLoading}
+      />
     </Form>
   );
 };
 
-export default AddLearningCreditForm;
+export default LearningCreditForm;

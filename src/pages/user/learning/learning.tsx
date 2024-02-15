@@ -15,6 +15,7 @@ import {
   AccordionTrigger
 } from "@components/ui/accordion";
 import useGetLearningDraftView from "@hooks/api/get/useGetLearningView";
+import Autoplay from "embla-carousel-autoplay";
 
 const Learning = () => {
   const { learningsId } = useParams();
@@ -37,7 +38,17 @@ const Learning = () => {
         <p className="text-gray-700 m-4">
           last updated: {formatDateTime(learningDetail.updatedat)}
         </p>
-        <Carousel>
+        <Carousel
+          plugins={[
+            Autoplay({
+              delay: 4000
+            })
+          ]}
+          opts={{
+            align: "start",
+            loop: true
+          }}
+        >
           <CarouselContent>
             {learningDetail?.learning_resource?.map((resource, index) => (
               <CarouselItem className=" ">

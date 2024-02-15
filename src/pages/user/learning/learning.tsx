@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { learningsData } from "./learningsData";
+import parse from "html-react-parser";
 import { Link } from "react-router-dom";
 import { formatDateTime } from "@components/lib/utils";
 import {
@@ -15,19 +15,12 @@ import {
   AccordionTrigger
 } from "@components/ui/accordion";
 import useGetLearningDraftView from "@hooks/api/get/useGetLearningView";
-// export const ellipsis = (text: string, maxLength: number): string => {
-//   if (text.length <= maxLength) {
-//     return text;
-//   } else {
-//     return text.substring(0, maxLength).trim() + "...";
-//   }
-// };
 
 const Learning = () => {
   const { learningsId } = useParams();
-  const { data: selectedEvent } = useGetLearningDraftView(learningsId || "");
+  const { data: learningDetail } = useGetLearningDraftView(learningsId || "");
 
-  if (!selectedEvent) {
+  if (!learningDetail) {
     return <div>Event not found!</div>;
   }
 
@@ -36,39 +29,39 @@ const Learning = () => {
       <div className="max-w-4xl lg:max-w-6xl lg:p-6 mx-auto my-12">
         <h2 className="text-sm lg:text-md font-thin mx-4 underline decoration-solid decoration-green-400 underline-offset-[3px]">
           <Link to="/learning-materials">Learning Material</Link> |{" "}
-          {selectedEvent.language}
+          {learningDetail.language}
         </h2>
         <h2 className="text-2xl lg:text-4xl font-bold mx-4 my-1">
-          {selectedEvent.title}
+          {learningDetail.title}
         </h2>
         <p className="text-gray-700 m-4">
-          last updated: {formatDateTime(selectedEvent.updatedat)}
+          last updated: {formatDateTime(learningDetail.updatedat)}
         </p>
         <Carousel>
           <CarouselContent>
-            {selectedEvent?.learning_resource?.map((resource, index) => (
-              <CarouselItem className="h-[550px] sm:h-auto lg:h-auto">
+            {learningDetail?.learning_resource?.map((resource, index) => (
+              <CarouselItem className=" ">
                 <div
                   key={index}
-                  className="mb-2 flex flex-col sm:flex-row bg-[#f5f5f5] justify-between m-3"
+                  className="mb-2 flex flex-col md:flex-row bg-[#f5f5f5] justify-between m-3"
                 >
-                  <h2 className="lg:w-2/5">
+                  <div className="lg:w-2/5 w-full">
                     <h2 className="text-xl font-bold ml-3 my-4">
                       {resource.name}
                     </h2>
                     <span className="block m-5 text-base">
                       {resource.description}
                     </span>
-                  </h2>
-                  <div className="w-full sm:w-[700px] lg:w-3/5">
+                  </div>
+                  <div className="w-full  lg:w-3/5 flex justify-end">
                     {resource.type === "image" ? (
                       <img
                         src={resource.resource}
                         alt={resource.name}
-                        className="w-full rounded-md max-w-md max-h-80"
+                        className="w-full aspect-video rounded-md max-h-[24rem]"
                       />
                     ) : resource.type === "video" ? (
-                      <div className="w-full aspect-video">
+                      <div className="w-full aspect-video max-h-[24]">
                         <iframe
                           className="w-full h-full"
                           src={resource.resource}
@@ -86,36 +79,34 @@ const Learning = () => {
           </CarouselContent>
         </Carousel>
 
-        <div className="m-4">
-          <p className="text-gray-700 mb-2">
-            {selectedEvent?.tags?.map((tag, index) => (
-              <span
-                key={index}
-                className="text-base text-primary rounded-md w-auto border border-[#BBE3AD] bg-secondary px-2 mr-2 py-1"
-              >
-                {tag.tag}
-              </span>
-            ))}
-          </p>
+        <div className="m-4 flex flex-wrap gap-2">
+          {learningDetail?.tags?.map((tag, index) => (
+            <span
+              key={index}
+              className="text-base text-primary rounded-md w-auto border border-[#BBE3AD] bg-secondary px-2 py-1"
+            >
+              {tag.tag}
+            </span>
+          ))}
         </div>
 
         <div className="flex flex-col items-center">
-          <div className="w-5/6 lg:w-3/5">
+          <div className="w-[85%] lg:w-[75%]">
             {/*  */}
             <p className="font-bold text-[20px] 2xl:mt-10 text-gray-700 underline decoration-solid decoration-green-400 underline-offset-[3px] ">
               Overview:
             </p>
             <p className="p-5 mb-5 text-[18px] text-justify indent-10 tracking-wide">
-              {selectedEvent.content}
+              {parse(learningDetail.content || "")}
             </p>
 
             {/* credits */}
             <Accordion type="multiple">
               <AccordionItem value="credits">
                 <AccordionTrigger className=" decoration-green-400">
-                  <b className="my-4">Credits</b>
+                  <h3 className="my-4 font-poppins-semibold">Credits</h3>
                 </AccordionTrigger>
-                {selectedEvent?.learning_credits?.map((credit, index) => (
+                {learningDetail?.learning_credits?.map((credit, index) => (
                   <AccordionContent key={index}>
                     <p className="text-gray-700 font-semibold sm:text-md">
                       {credit.name}
@@ -127,7 +118,9 @@ const Learning = () => {
 
               <AccordionItem value="user-permission">
                 <AccordionTrigger className=" decoration-green-400">
-                  <b className="my-4">User Permissions</b>
+                  <h3 className="my-4 font-poppins-semibold">
+                    User Permissions
+                  </h3>
                 </AccordionTrigger>
                 <AccordionContent>
                   <span className="text-md">
@@ -185,12 +178,12 @@ const Learning = () => {
           {learningsData
             .filter(item =>
               item.tags.some(tag =>
-                selectedEvent.tags.some(
+                learningDetail.tags.some(
                   selectedTag => selectedTag.name === tag.name
                 )
               )
             )
-            .filter(item => item.id !== selectedEvent.id)
+            .filter(item => item.id !== learningDetail.id)
             .slice(0, 3)
             .map((items, key) => (
               <div key={key} className="group flex flex-col shadow-md">

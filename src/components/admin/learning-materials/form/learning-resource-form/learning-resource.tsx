@@ -12,19 +12,22 @@ import { Checkbox } from "../../../../ui/checkbox";
 import usePutLearningFeatured from "../../../../../hooks/api/put/usePutLearningFeatured";
 import DialogAddResource from "../../dialogs/dialog-add-resource/dialog-add-resource";
 import DialogEditResource from "../../dialogs/dialog-edit-resource/dialog-edit-resource";
+import Loader from "../../../../../icons/Loader";
 
 const LearningResourceForm = () => {
   const { learningsId } = useParams();
   const { data: LearningData } = useGetLearningDraftView(learningsId || "");
   console.log(LearningData);
 
-  const { mutateAsync: deleteResource } = useDeleteLearningResource();
+  const { mutateAsync: deleteResource, isLoading: isDeleteLoad } =
+    useDeleteLearningResource();
   const handleDelete = async (id: string) => {
     await deleteResource(id);
     toast.success("Resource Deleted Successfully!");
   };
 
-  const { mutateAsync: putFeatured } = usePutLearningFeatured();
+  const { mutateAsync: putFeatured, isLoading: isFeaturedLoad } =
+    usePutLearningFeatured();
   const handleIsFeatured = async (id: string) => {
     await putFeatured({ materialId: learningsId || "", id: id });
     toast.success("Featured Successfully!");
@@ -137,6 +140,7 @@ const LearningResourceForm = () => {
           </Card>
         ))}
       </div>
+      <Loader isVisible={isFeaturedLoad || isDeleteLoad} />
     </div>
   );
 };

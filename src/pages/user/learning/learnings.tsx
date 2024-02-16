@@ -6,7 +6,7 @@ import parse from "html-react-parser";
 
 const Learnings = () => {
   const { data: learningsData } = useGetLearningPublishedList();
-  console.log(learningsData);
+  console.log(learningsData, "asdasd");
   return (
     <section className="my-12 mx-auto px-4 max-w-screen-xl md:px-8 py-8">
       <div className="text-left">

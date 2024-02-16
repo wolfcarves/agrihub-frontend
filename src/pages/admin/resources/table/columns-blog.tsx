@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
@@ -89,7 +87,7 @@ export const columns: ColumnDef<Blog>[] = [
   {
     accessorKey: "tags",
     header: "Tags",
-    cell: ({ row }) => <div>{row.getValue("tags").join(", ")}</div>
+    cell: ({ row }) => <div>{}</div>
   },
   {
     accessorKey: "status",

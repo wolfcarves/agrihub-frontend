@@ -33,7 +33,7 @@ const Events = () => {
                     src={items.img}
                     loading="lazy"
                     alt={items.title}
-                    className="w-full rounded-lg"
+                    className="w-full rounded-lg max-h-52 min-h-52"
                   />
                   <div className="mt-3 space-y-2">
                     <span className="block text-green-800 text-sm">

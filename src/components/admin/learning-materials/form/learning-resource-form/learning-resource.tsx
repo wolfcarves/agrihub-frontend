@@ -21,6 +21,7 @@ import { toast } from "sonner";
 import { Checkbox } from "../../../../ui/checkbox";
 import usePutLearningFeatured from "../../../../../hooks/api/put/usePutLearningFeatured";
 import DialogAddResource from "../../dialogs/dialog-add-resource/dialog-add-resource";
+import DialogEditResource from "../../dialogs/dialog-edit-resource/dialog-edit-resource";
 
 const LearningResourceForm = () => {
   const { learningsId } = useParams();
@@ -132,6 +133,7 @@ const LearningResourceForm = () => {
             </div>
 
             <div className="flex gap-4">
+              <DialogEditResource resourceId={resource.id} />
               <Button
                 variant="destructive"
                 onClick={() => handleDelete(resource.id)}

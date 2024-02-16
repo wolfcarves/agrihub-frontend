@@ -11,7 +11,7 @@ import {
   PaginationLink,
   PaginationPrevious,
   PaginationNext
-} from "@components/ui/Pagination";
+} from "@components/ui/pagination";
 
 const Blogs = () => {
   const itemsPerPage = 6;
@@ -74,10 +74,7 @@ const Blogs = () => {
       </div>
       <Pagination>
         <PaginationContent>
-          <PaginationPrevious
-            disabled={currentPage === 1}
-            onClick={handlePreviousPage}
-          />
+          <PaginationPrevious onClick={handlePreviousPage} />
           {[...Array(totalPages)].map((_, index) => (
             <PaginationItem key={index}>
               <PaginationLink
@@ -88,11 +85,7 @@ const Blogs = () => {
               </PaginationLink>
             </PaginationItem>
           ))}
-          <PaginationNext
-            disabled={currentPage === totalPages}
-            onClick={handleNextPage}
-            className="my-8"
-          />
+          <PaginationNext onClick={handleNextPage} className="my-8" />
         </PaginationContent>
       </Pagination>
     </div>

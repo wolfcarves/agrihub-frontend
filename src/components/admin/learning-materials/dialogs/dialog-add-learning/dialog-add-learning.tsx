@@ -81,8 +81,8 @@ const DialogAddLearning = () => {
             encType="multipart/form-data"
             className="grid gap-4"
           >
-            <div className="flex-col gap-4">
-              <Label htmlFor="title" className="text-right">
+            <div className="flex flex-col gap-3">
+              <Label htmlFor="title" className=" font-poppins-medium">
                 Title
               </Label>
               <Input

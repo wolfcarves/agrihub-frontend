@@ -41,6 +41,12 @@ import Help from "@pages/user/help/help";
 import Policy from "@pages/user/help/policy";
 import Terms from "@pages/user/help/terms";
 import Feedback from "@pages/user/help/feedback";
+import SettingsLayout from "@pages/user/settings/_layout";
+import UserProfileSettings from "@pages/user/settings/settings-profile";
+import UserAccountSettings from "@pages/user/settings/settings-account";
+import UserEmailSettings from "@pages/user/settings/settings-email";
+import UserPasswordSettings from "@pages/user/settings/settings-password";
+import UserAppearanceSettings from "@pages/user/settings/settings-appearance";
 
 //Admin
 import AdminLayout from "@pages/admin/admin/admin-layout";
@@ -231,6 +237,15 @@ const App = ReactRouter(
         <Route path=":username/:userId" element={<UserProfile />} />
         <Route path=":userId/me" element={<MyProfile />} />
         <Route path=":userId/me/edit" element={<EditProfile />} />
+      </Route>
+
+      {/* Settings */}
+      <Route path="/settings" element={<SettingsLayout />}>
+        <Route path="profile" element={<UserProfileSettings />} />
+        <Route path="account" element={<UserAccountSettings />} />
+        <Route path="email" element={<UserEmailSettings />} />
+        <Route path="authentication" element={<UserPasswordSettings />} />
+        <Route path="appearance" element={<UserAppearanceSettings />} />
       </Route>
 
       {/* others */}

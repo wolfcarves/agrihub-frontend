@@ -133,18 +133,18 @@ export function formatDateTime(dateTimeString: string): string {
 }
 
 export function formatDate(dateString: string): string {
-    const options: Intl.DateTimeFormatOptions = {
-      year: "numeric",
-      month: "short",
-      day: "numeric"
-    };
-    const eventStartDate = new Date(dateString);
-    const formattedDate = `${eventStartDate.toLocaleDateString(
-      "en-US",
-      options
-    )}`;
-    return formattedDate;
-  }
+  const options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "short",
+    day: "numeric"
+  };
+  const eventStartDate = new Date(dateString);
+  const formattedDate = `${eventStartDate.toLocaleDateString(
+    "en-US",
+    options
+  )}`;
+  return formattedDate;
+}
 
 export function formatRoles(role: string) {
   let formatedRole;
@@ -167,3 +167,15 @@ export function formatRoles(role: string) {
   }
   return formatedRole;
 }
+
+export const convertToEmbedLink = (link: string) => {
+  const regex =
+    /^(?:(?:https?:)?\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+  const match = link.match(regex);
+  const videoId = match ? match[1] : null;
+  if (videoId) {
+    return `https://www.youtube.com/embed/${videoId}`;
+  } else {
+    return link;
+  }
+};

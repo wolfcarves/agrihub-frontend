@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "@components/ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Dialog,
   DialogContent,
@@ -13,11 +13,12 @@ import {
 import { Input } from "@components/ui/input";
 import { Label } from "@components/ui/label";
 import * as zod from "zod";
-import useLearningCreateDraftMutation from "../../../../hooks/api/post/useLearningCreateDraftMutation";
+import useLearningCreateDraftMutation from "../../../../../hooks/api/post/useLearningCreateDraftMutation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { Form } from "../../../ui/form";
+import { Form } from "../../../../ui/form";
+import Loader from "../../../../../icons/Loader";
 
 const addLearningMaterialSchema = zod.object({
   title: zod
@@ -30,6 +31,7 @@ interface NewLearningMaterial {
   title: string;
 }
 const DialogAddLearning = () => {
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState<boolean>();
   const form = useForm<NewLearningMaterial>({
     resolver: zodResolver(addLearningMaterialSchema),
@@ -42,7 +44,8 @@ const DialogAddLearning = () => {
     }
   }, [form.formState.errors]);
 
-  const { mutateAsync: addDraftMutate } = useLearningCreateDraftMutation();
+  const { mutateAsync: addDraftMutate, isLoading: addDraftLoading } =
+    useLearningCreateDraftMutation();
 
   const handleSubmitForm = async (data: NewLearningMaterial) => {
     const compiledData: NewLearningMaterial = {
@@ -50,9 +53,10 @@ const DialogAddLearning = () => {
     };
 
     try {
-      await addDraftMutate(compiledData);
+      const response = await addDraftMutate(compiledData);
       toast.success("Draft Created Successfully!");
       setIsOpen(false);
+      navigate(`/admin/resource/learnings/view/${response.data.id}`);
     } catch (e: any) {
       toast.error(e.body.message);
     }
@@ -93,6 +97,7 @@ const DialogAddLearning = () => {
             </DialogFooter>
           </form>
         </Form>
+        <Loader isVisible={addDraftLoading} />
       </DialogContent>
     </Dialog>
   );

@@ -172,10 +172,10 @@ const ContentWhatWeDo: React.FC = () => {
                 {image.description}
               </p>
               <div className="flex items-center mt-2 cursor-pointer">
-                <span className="text-black font-bold uppercase bg-transparent hover:bg-white hover:text-orange-500 px-2 py-1 rounded transition duration-300">
+                <span className="text-black font-bold uppercase bg-transparent hover:bg-white hover:text-green-500 px-2 py-1 rounded transition duration-300">
                   Discover More
                 </span>
-                <IoIosArrowForward className="ml-1 text-orange-500" />
+                <IoIosArrowForward className="ml-1 text-green-500" />
               </div>
             </div>
           </Link>
@@ -218,10 +218,10 @@ const ContentWhatWeDo: React.FC = () => {
                   <p className="ml-4 truncate ...">{items.desc}</p>
                   <Link to={`/blogs/view/${items.blogId}`}>
                     <div className="flex items-center mt-2 ml-2 cursor-pointer">
-                      <span className="text-black font-bold uppercase bg-transparent hover:text-orange-500 px-2 py-1 rounded transition duration-300">
+                      <span className="text-black font-bold uppercase bg-transparent hover:text-green-500 px-2 py-1 rounded transition duration-300">
                         Read More
                       </span>
-                      <IoIosArrowForward className="ml-1 text-orange-500" />
+                      <IoIosArrowForward className="ml-1 text-green-500" />
                     </div>
                   </Link>
                 </div>
@@ -267,7 +267,7 @@ const ContentWhatWeDo: React.FC = () => {
                       <span className="text-black font-bold uppercase bg-transparent hover:text-orange-500 px-2 py-1 rounded transition duration-300">
                         Read More
                       </span>
-                      <IoIosArrowForward className="ml-1 text-orange-500" />
+                      <IoIosArrowForward className="ml-1 text-green-500" />
                     </div>
                   </Link>
                 </div>
@@ -290,11 +290,11 @@ const ContentWhatWeDo: React.FC = () => {
           <div className=" text-black w-full mt-4">
             <p className="text-xl mt-12">{AboutData.description}</p>
             <div className="flex items-center mt-8 cursor-pointer">
-              <span className="text-lg text-black font-bold bg-transparent hover:text-orange-500 rounded transition duration-300">
+              <span className="text-lg text-black font-bold bg-transparent hover:text-green-500 rounded transition duration-300">
                 Learn More
               </span>
 
-              <IoIosArrowForward className="ml-1 text-orange-500" />
+              <IoIosArrowForward className="ml-1 text-green-500" />
             </div>
           </div>
         </div>
@@ -307,23 +307,27 @@ const ContentWhatWeDo: React.FC = () => {
         </header>
         {learningsData.map((items, key) => (
           <div key={key} className="w-full">
-            <img
-              src={items.img}
-              alt={items.title}
-              className="w-full"
-              style={{ maxWidth: "100%" }}
-            />
-            <div className=" text-black w-full mt-4">
-              <p className="text-xl mt-12 truncate ...">{items.content}</p>
-              <div className="flex items-center mt-8 cursor-pointer mb-12">
-                <Link to={`/learning-materials/view/${items.id}`}>
-                  <span className="text-lg text-black font-bold bg-transparent hover:text-orange-500 rounded transition duration-300">
+            <Link to={`/learning-materials/view/${items.id}`}>
+              <img
+                src={items.img}
+                alt={items.title}
+                className="w-full"
+                style={{
+                  maxHeight: "500px",
+                  width: "100%",
+                  objectFit: "cover"
+                }}
+              />
+              <div className=" text-black w-full mt-2">
+                <p className="text-xl mt-4 truncate ...">{items.content}</p>
+                <div className="flex items-center mt-4 cursor-pointer mb-12">
+                  <span className="text-lg text-black font-bold bg-transparent hover:text-green-500 rounded transition duration-300">
                     Learn More
                   </span>
-                </Link>
-                <IoIosArrowForward className="ml-1 text-orange-500" />
+                  <IoIosArrowForward className="ml-1 text-green-500" />
+                </div>
               </div>
-            </div>
+            </Link>
           </div>
         ))}
       </div>

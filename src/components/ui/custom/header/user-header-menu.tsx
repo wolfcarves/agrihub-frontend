@@ -67,6 +67,7 @@ const UserHeaderMenu = () => {
               <span className="font-poppins-medium">Help & Support</span>
             </DropdownMenuItem>
           </Link>
+
           <Link to="/feedback">
             <DropdownMenuItem className="cursor-pointer h-12 gap-2">
               <BiCommentError className="text-foreground/80 text-lg " />
@@ -74,10 +75,12 @@ const UserHeaderMenu = () => {
             </DropdownMenuItem>
           </Link>
 
-          <DropdownMenuItem className="cursor-pointer h-12 gap-2">
-            <IoSettingsOutline className="text-foreground/80 text-lg " />
-            <span className="font-poppins-medium">Settings</span>
-          </DropdownMenuItem>
+          <Link to="/settings/profile">
+            <DropdownMenuItem className="cursor-pointer h-12 gap-2">
+              <IoSettingsOutline className="text-foreground/80 text-lg " />
+              <span className="font-poppins-medium">Settings</span>
+            </DropdownMenuItem>
+          </Link>
 
           <DropdownMenuItem
             className="cursor-pointer h-12 gap-2"

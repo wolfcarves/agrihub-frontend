@@ -69,6 +69,8 @@ export type { ListDraftLearningMaterialsResponse } from './models/ListDraftLearn
 export type { ListFarmMembersResponse } from './models/ListFarmMembersResponse';
 export type { ListInvitationsResponse } from './models/ListInvitationsResponse';
 export type { ListMemberResponse } from './models/ListMemberResponse';
+export type { ListPublishedLearningMaterials } from './models/ListPublishedLearningMaterials';
+export type { ListPublishedLearningMaterialsResponse } from './models/ListPublishedLearningMaterialsResponse';
 export type { ListUser } from './models/ListUser';
 export type { ListUserResponse } from './models/ListUserResponse';
 export type { Member } from './models/Member';
@@ -93,6 +95,7 @@ export type { NewLearningTags } from './models/NewLearningTags';
 export type { NewQuestionSchema } from './models/NewQuestionSchema';
 export type { Pagination } from './models/Pagination';
 export type { PaginationData } from './models/PaginationData';
+export type { PublishedLearningMaterial } from './models/PublishedLearningMaterial';
 export type { PublishLearningMaterialResponse } from './models/PublishLearningMaterialResponse';
 export type { QuestionSchema } from './models/QuestionSchema';
 export type { QuestionsResponse } from './models/QuestionsResponse';

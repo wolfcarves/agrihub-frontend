@@ -12,15 +12,19 @@ import { Button } from "@components/ui/button";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
-import usePutLearningUpdateDraft from "../../../../hooks/api/put/usePutLearningUpdateDraft";
-import { UpdateLearningMaterial } from "../../../../api/openapi";
+import usePutLearningUpdateDraft from "../../../../../hooks/api/put/usePutLearningUpdateDraft";
+import { UpdateLearningMaterial } from "../../../../../api/openapi";
 import { addLearningDetailSchema } from "./schema";
-import { Form, FormField } from "../../../ui/form";
+import { Form, FormField } from "../../../../ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Loader from "../../../../icons/Loader";
+import Loader from "../../../../../icons/Loader";
 import { Input } from "@components/ui/custom/input-admin/input";
-import useGetLearningView from "../../../../hooks/api/get/useGetLearningView";
+import useGetLearningView from "../../../../../hooks/api/get/useGetLearningView";
+import { CiEdit } from "react-icons/ci";
+import { FaRegEdit } from "react-icons/fa";
+import { GrEdit } from "react-icons/gr";
+import { MdOutlineModeEdit } from "react-icons/md";
 
 const LearningDetailForm = () => {
   // details edit
@@ -84,12 +88,13 @@ const LearningDetailForm = () => {
       <form
         onSubmit={form.handleSubmit(handleSubmitForm)}
         encType="multipart/form-data"
+        className="w-full"
       >
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold tracking-tight">Details</h2>
         </div>
-        <div className="flex flex-wrap justify-between gap-4 mb-4">
-          <div className="grid w-full max-w-3xl items-center gap-1.5">
+        <div className="grid grid-cols-12  w-full gap-x-5">
+          <div className=" lg:col-span-9 col-span-12 items-center gap-1.5">
             <Label htmlFor="text">Title</Label>
             <Input
               type="text"
@@ -99,7 +104,7 @@ const LearningDetailForm = () => {
               readOnly={!isEditingDeets}
             />
           </div>
-          <div className="grid w-full max-w-[11rem] items-center gap-1.5">
+          <div className=" lg:col-span-3 col-span-12  items-center gap-1.5">
             <Label htmlFor="email">Language</Label>
             <FormField
               control={form.control}
@@ -148,7 +153,7 @@ const LearningDetailForm = () => {
             <div>
               <Button
                 type="submit"
-                variant="secondary"
+                variant="default"
                 disabled={isDetailLoading}
               >
                 Save
@@ -158,9 +163,10 @@ const LearningDetailForm = () => {
             <Button
               type="button"
               variant="outline"
+              className="gap-1 text-primary border-primary hover:text-white hover:bg-primary"
               onClick={handleEditingDeets}
             >
-              Edit Details
+              <MdOutlineModeEdit size={18} /> Edit Details
             </Button>
           )}
         </div>

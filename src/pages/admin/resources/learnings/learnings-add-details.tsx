@@ -15,10 +15,10 @@ import {
   AlertDialogTrigger
 } from "@components/ui/alert-dialog";
 import { useParams } from "react-router-dom";
-import LearningCreditForm from "../../../../components/admin/form/learning-credit-form/learning-credit";
-import LearningDetailForm from "../../../../components/admin/form/learning-detail-form/learning-detail-form";
-import LearningResourceForm from "../../../../components/admin/form/learning-resource-form/learning-resource";
-import LearningTagsForm from "../../../../components/admin/form/learning-tags-form/learning-tags-form";
+import LearningCreditForm from "../../../../components/admin/learning-materials/form/learning-credit-form/learning-credit";
+import LearningDetailForm from "../../../../components/admin/learning-materials/form/learning-detail-form/learning-detail-form";
+import LearningResourceForm from "../../../../components/admin/learning-materials/form/learning-resource-form/learning-resource";
+import LearningTagsForm from "../../../../components/admin/learning-materials/form/learning-tags-form/learning-tags-form";
 import {
   Accordion,
   AccordionContent,
@@ -97,7 +97,7 @@ const UpdateLearnings = () => {
       <div className="max-w-[60rem] mx-auto">
         <div>
           <LearningDetailForm />
-          <Accordion type="single" collapsible className="w-full">
+          <Accordion type="single" collapsible className="w-full mt-5">
             <AccordionItem value="item-1">
               <AccordionTrigger className="text-lg font-poppins-medium [&[data-state=open]]:text-primary">
                 Tags
@@ -116,7 +116,7 @@ const UpdateLearnings = () => {
             </AccordionItem>
             <AccordionItem value="item-3">
               <AccordionTrigger className="text-lg font-poppins-medium [&[data-state=open]]:text-primary">
-                Credit
+                Credits
               </AccordionTrigger>
               <AccordionContent>
                 <LearningCreditForm />
@@ -190,15 +190,15 @@ const UpdateLearnings = () => {
                       variant="outline"
                       className="border-red-500 text-red-500 hover:text-white hover:bg-red-500"
                     >
-                      Archive
+                      Archieve
                     </Button>
                   </AlertDialogTrigger>
                   <AlertDialogContent>
                     <AlertDialogHeader>
-                      <AlertDialogTitle>Delete Material?</AlertDialogTitle>
+                      <AlertDialogTitle>Archive Material?</AlertDialogTitle>
                       <AlertDialogDescription>
-                        When you delete learning material it will go to archive
-                        and you can recover it from there.
+                        When you archieve learning material it will go to
+                        archieve and you can recover it from there.
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
@@ -208,7 +208,7 @@ const UpdateLearnings = () => {
                         onClick={handleArchive}
                         className="bg-red-600 hover:bg-red-500 hover:text-black"
                       >
-                        Archive
+                        Archieve
                       </AlertDialogAction>
                     </AlertDialogFooter>
                   </AlertDialogContent>

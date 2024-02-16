@@ -14,12 +14,13 @@ import { useState } from "react";
 import { Textarea } from "@components/ui/textarea";
 import { Card } from "@components/ui/card";
 import { useParams } from "react-router-dom";
-import useGetLearningDraftView from "../../../../hooks/api/get/useGetLearningView";
+import useGetLearningDraftView from "../../../../../hooks/api/get/useGetLearningView";
 import AddLearningResourceForm from "./add-learning-resource-form";
-import useDeleteLearningResource from "../../../../hooks/api/delete/useDeleteLearningResource";
+import useDeleteLearningResource from "../../../../../hooks/api/delete/useDeleteLearningResource";
 import { toast } from "sonner";
-import { Checkbox } from "../../../ui/checkbox";
-import usePutLearningFeatured from "../../../../hooks/api/put/usePutLearningFeatured";
+import { Checkbox } from "../../../../ui/checkbox";
+import usePutLearningFeatured from "../../../../../hooks/api/put/usePutLearningFeatured";
+import DialogAddResource from "../../dialogs/dialog-add-resource/dialog-add-resource";
 
 const LearningResourceForm = () => {
   const { learningsId } = useParams();
@@ -41,11 +42,19 @@ const LearningResourceForm = () => {
   return (
     <div>
       {/* add resource */}
-      <div className="flex justify-between items-center mt-4 mb-2">
-        <h2 className="text-md font-bold tracking-tight">List</h2>
+      <div className="flex justify-end mb-4">
+        <DialogAddResource />
       </div>
 
       {/* resource form */}
+      {LearningData?.learning_resource &&
+        LearningData.learning_resource.length <= 0 && (
+          <div className="py-10 flex items-center justify-center">
+            <h4 className="text-gray-500 font-poppins-medium">
+              No Resource Available. Add now...
+            </h4>
+          </div>
+        )}
       {LearningData?.learning_resource?.map((resource, index) => (
         <Card key={index} className="p-4 mb-4">
           <div className="flex flex-wrap justify-between items-end gap-4 mb-8">
@@ -133,15 +142,15 @@ const LearningResourceForm = () => {
           </div>
         </Card>
       ))}
-      <>
+      {/* <>
         {hide && (
           <>
             <hr className="my-8" />
             <AddLearningResourceForm setHide={setHide} />
           </>
         )}
-      </>
-      {hide ? (
+      </> */}
+      {/* {hide ? (
         <div className="flex justify-end">
           <Button variant={"destructive"} onClick={() => setHide(false)}>
             Cancel
@@ -151,7 +160,7 @@ const LearningResourceForm = () => {
         <div className="flex justify-end">
           <Button onClick={() => setHide(true)}>Add more source</Button>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

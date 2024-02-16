@@ -9,6 +9,7 @@ import type { CreateResourceResponse } from '../models/CreateResourceResponse';
 import type { DeleteDraftLearningMaterialResponse } from '../models/DeleteDraftLearningMaterialResponse';
 import type { LearningMaterialViewResponse } from '../models/LearningMaterialViewResponse';
 import type { ListDraftLearningMaterialsResponse } from '../models/ListDraftLearningMaterialsResponse';
+import type { ListPublishedLearningMaterialsResponse } from '../models/ListPublishedLearningMaterialsResponse';
 import type { MessageResponse } from '../models/MessageResponse';
 import type { NewLearningCredits } from '../models/NewLearningCredits';
 import type { NewLearningMaterial } from '../models/NewLearningMaterial';
@@ -118,6 +119,38 @@ formData: NewLearningResource,
     }
 
     /**
+     * Update a resource for a learning material
+     * @returns CreateResourceResponse Successful response
+     * @throws ApiError
+     */
+    public static putApiLearningUpdateResource({
+id,
+formData,
+}: {
+/**
+ * ID of the learning material
+ */
+id: string,
+formData: NewLearningResource,
+}): CancelablePromise<CreateResourceResponse> {
+        return __request(OpenAPI, {
+            method: 'PUT',
+            url: '/api/learning/update/resource/{id}',
+            path: {
+                'id': id,
+            },
+            formData: formData,
+            mediaType: 'multipart/form-data',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
      * Remove a resource from a learning material
      * @returns RemoveResourceResponse Successful response
      * @throws ApiError
@@ -163,6 +196,38 @@ requestBody: NewLearningCredits,
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/learning/create/credits/{id}',
+            path: {
+                'id': id,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Update learning credits
+     * @returns CreateLearningCreditsResponse Successful response
+     * @throws ApiError
+     */
+    public static putApiLearningUpdateCredits({
+id,
+requestBody,
+}: {
+/**
+ * ID of the learning material
+ */
+id: string,
+requestBody: NewLearningCredits,
+}): CancelablePromise<CreateLearningCreditsResponse> {
+        return __request(OpenAPI, {
+            method: 'PUT',
+            url: '/api/learning/update/credits/{id}',
             path: {
                 'id': id,
             },
@@ -371,8 +436,8 @@ perpage?: string,
     }
 
     /**
-     * List draft learning materials
-     * @returns ListDraftLearningMaterialsResponse Successful response
+     * List published learning materials
+     * @returns ListPublishedLearningMaterialsResponse Successful response
      * @throws ApiError
      */
     public static getApiLearningPublished({
@@ -392,7 +457,7 @@ page?: string,
  * Number of items per page (optional)
  */
 perpage?: string,
-}): CancelablePromise<ListDraftLearningMaterialsResponse> {
+}): CancelablePromise<ListPublishedLearningMaterialsResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/learning/published',

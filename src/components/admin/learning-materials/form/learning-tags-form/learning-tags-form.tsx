@@ -1,28 +1,28 @@
-import React, { useState } from "react";
-import { Label } from "../../../ui/label";
+import React, { useEffect, useState } from "react";
+import { Label } from "../../../../ui/label";
 import * as zod from "zod";
-import useGetTagByKeyWord from "../../../../hooks/api/get/useGetTagByKeyword";
-import { Button } from "../../../ui/button";
-import UserTagInputDropdown from "../../../user/account/input/UserTagInput";
-import useLearningCreateTags from "../../../../hooks/api/post/useLearningCreateTags";
+import useGetTagByKeyWord from "../../../../../hooks/api/get/useGetTagByKeyword";
+import { Button } from "../../../../ui/button";
+import UserTagInputDropdown from "../../../../user/account/input/UserTagInput";
+import useLearningCreateTags from "../../../../../hooks/api/post/useLearningCreateTags";
 import { useForm } from "react-hook-form";
-import { NewLearningTags } from "../../../../api/openapi";
+import { NewLearningTags } from "../../../../../api/openapi";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
-import { Form, FormField } from "../../../ui/form";
-import { Card } from "../../../ui/card";
+import { Form, FormField } from "../../../../ui/form";
+import { Card } from "../../../../ui/card";
 import { IoIosClose } from "react-icons/io";
 import SelectTags from "./select-tags";
-import useGetLearningDraftList from "../../../../hooks/api/get/useGetLearningDraftList";
-import useGetLearningDraftView from "../../../../hooks/api/get/useGetLearningView";
-import useDeleteLearningTags from "../../../../hooks/api/delete/useDeleteLearningTags";
-import Loader from "../../../../icons/Loader";
+import useGetLearningDraftList from "../../../../../hooks/api/get/useGetLearningDraftList";
+import useGetLearningDraftView from "../../../../../hooks/api/get/useGetLearningView";
+import useDeleteLearningTags from "../../../../../hooks/api/delete/useDeleteLearningTags";
+import Loader from "../../../../../icons/Loader";
 
 export const addTagsSchema = zod.object({
   tags: zod
     .array(zod.string())
-    .refine(data => data.length <= 1, {
+    .refine(data => data.length >= 1, {
       message: "Please enter at least 1 tag"
     })
     .default([])
@@ -32,16 +32,17 @@ const LearningTagsForm = () => {
   const [tags, setTags] = useState<Array<string>>([]);
   const [idTags, setIdTags] = useState<Array<string>>([]);
   const { data: tagResult } = useGetTagByKeyWord(searchInputTagValue);
-
   const { learningsId } = useParams();
+
+  //get present tags
   const { data: LearningData } = useGetLearningDraftView(learningsId || "");
-  console.log(LearningData);
 
   const form = useForm<NewLearningTags>({
     resolver: zodResolver(addTagsSchema),
     mode: "onBlur"
   });
 
+  //add tags
   const { mutateAsync: deleteResource, isLoading: isDeleteLoading } =
     useDeleteLearningTags();
   const handleDelete = async (id: string) => {
@@ -49,10 +50,18 @@ const LearningTagsForm = () => {
     toast.success("Tags Deleted Successfully!");
   };
 
-  //edit
+  // validations
+  useEffect(() => {
+    if (form.formState.errors.tags) {
+      toast.error(form?.formState?.errors?.tags?.message);
+    }
+  }, [form.formState.errors]);
+
+  //create
   const { mutateAsync: createTagsMutate, isLoading: isTagsLoading } =
     useLearningCreateTags();
 
+  //submit
   const handleSubmitForm = async (data: NewLearningTags) => {
     const compiledData: NewLearningTags = {
       tags: data.tags
@@ -74,14 +83,13 @@ const LearningTagsForm = () => {
   return (
     <div className="mt-4">
       <div className="mb-5">
-        <h3 className="text-md font-bold mb-2">List</h3>
         <div className="flex flex-wrap gap-2">
           {LearningData?.tags?.map((tag, i) => (
             <span
               key={i}
-              className="inline-flex gap-1 items-center rounded-md bg-green-50 pl-2 pr-1 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20"
+              className="inline-flex gap-1 items-center rounded-md bg-green-50 pl-3 pr-2 py-2 text-base font-medium text-green-700 ring-1 ring-inset ring-green-600/20"
             >
-              {tag.tag}{" "}
+              {tag.tag}
               <IoIosClose
                 onClick={() => handleDelete(tag.id)}
                 className=" text-green-600/50 hover:text-red-800/60"
@@ -127,7 +135,10 @@ const LearningTagsForm = () => {
               />
             </div>
             <div className="flex justify-end mt-2">
-              <Button disabled={isTagsLoading} type="submit">
+              <Button
+                disabled={isTagsLoading || tags.length <= 0}
+                type="submit"
+              >
                 Save
               </Button>
             </div>

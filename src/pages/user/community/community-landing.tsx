@@ -22,17 +22,6 @@ const CommunityLanding = () => {
           <h6 className="font-poppins-medium tracking-tight">
             Farm Community on Agrihub
           </h6>
-
-          {isAuthenticated && userData?.role === "member" && (
-            <div>
-              <Link
-                to={"/community/register"}
-                className="text-sm hover:underline"
-              >
-                Register your community?
-              </Link>
-            </div>
-          )}
         </div>
 
         {/* Content */}
@@ -61,10 +50,7 @@ const CommunityLanding = () => {
         </div>
       </div>
 
-      <p>
-        Areas of practice, technology, and provider organizations already on
-        Communities:
-      </p>
+      <p>Farms already on Communities:</p>
 
       <div className="grid grid-cols-6 gap-2 mb-20 mt-10">
         {data?.farms

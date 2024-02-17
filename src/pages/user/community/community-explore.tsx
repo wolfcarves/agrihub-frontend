@@ -13,6 +13,8 @@ import {
 } from "../../../components/ui/select";
 import { useSearchParams } from "react-router-dom";
 import { Pagination } from "../../../components/ui/custom";
+import { Link } from "react-router-dom";
+import RegisterFarm from "./buttons/RegisterFarm";
 
 type SortValues =
   | "District 1"
@@ -58,7 +60,20 @@ const Explore = () => {
     <div className="w-full">
       <div className="p-4">
         <h1 className="font-bold text-4xl">Discover Communities</h1>
-        <div></div>
+        {UserData?.role !== "subfarm_head" &&
+          UserData?.role !== "farm_head" &&
+          UserData?.role !== "farmer" &&
+          UserData?.role !== "asst_admin" &&
+          UserData?.role !== "admin" && (
+            <div className="flex w-full justify-between">
+              <p className=" text-sm max-w-xl">
+                If your farm is affiliated with QCU - Center for Urban
+                Agriculture and Innovation and can not find your community here,
+                you can click register farm button to register your farm
+              </p>
+              <RegisterFarm />
+            </div>
+          )}
       </div>
       <div className="px-4 py-4 flex border-y gap-3 border-border">
         <IoMdSearch size={22} />

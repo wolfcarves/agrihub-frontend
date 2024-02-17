@@ -68,24 +68,19 @@ const Carousels: React.FC = () => {
         <div className="relative gap-5 w-full sm:w-1/2 items-center h-[656px] lg:flex ">
           <div className="flex-1 py-5 sm:mx-auto lg:max-w-max lg:text-left z-40">
             <h3 className="text-3xl text-gray-100 font-semibold md:text-4xl">
-              Join us and be part of{" "}
-              <span className="text-green-400">QCU-CUAI</span>
+              Join our vibrant <span className="text-green-400">community</span>{" "}
+              today!{" "}
             </h3>
             <p className="text-gray-100 leading-relaxed mt-3">
-              Quezon City University - Center for Urban Agriculture and
-              Innovation is a pioneering initiative established in collaboration
-              with the Department of Agriculture - Agriculture Training
-              Institute (DA-ATI) and the Sustainable Development Affairs Unit
-              (SDAU) of the local government. This learning hub is dedicated to
-              developing diverse models of urban farms, addressing the
-              challenges faced by urban farmers, and mainstreaming urban
-              agriculture into Quezon City University's curriculum.
+              Share your farm reports, access valuable resources, and connect
+              with fellow farmers in our interactive forums. Empower your
+              agriculture journey with AgriHub."
             </p>
             <Link
               className="mt-5 px-4 py-2 hover:text-green-800 font-medium hover:bg-gray-50 text-gray-50 bg-green-700 duration-200 rounded-sm inline-flex items-center"
-              to="about"
+              to="community"
             >
-              Know more
+              Join community
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6 ml-1 duration-150"

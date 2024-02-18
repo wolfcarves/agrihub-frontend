@@ -13,3 +13,4 @@ export { default as NavigationMenu } from "./header/user-header-navigation";
 export { default as Pagination } from "./pagination/pagination";
 export { default as UserResponsiveContainer } from "./container/user-reponsive-container";
 export { default as UserHeader } from "./header/user-header";
+export { default as UserTabs } from "./tabs/UserTabs";

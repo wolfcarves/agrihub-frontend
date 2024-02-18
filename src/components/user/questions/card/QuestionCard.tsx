@@ -73,7 +73,7 @@ const QuestionCard = ({
         <>
           {/* Card Title */}
           <div className="flex items-start justify-between ">
-            <Link to={`question/${username}/${id}`} className="w-[80%]">
+            <Link to={`/forum/question/${username}/${id}`} className="w-[80%]">
               <h4 className="text-blue-500 font-poppins-semibold line-clamp-2 hover:opacity-80">
                 {title}
               </h4>

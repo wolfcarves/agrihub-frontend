@@ -35,7 +35,7 @@ const MainLayout = () => {
 
       <UserHeader />
       <Outlet />
-      <UserFooter />
+      {/* <UserFooter /> */}
     </>
   );
 };

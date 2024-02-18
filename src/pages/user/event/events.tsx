@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { eventsData } from "./eventsData";
 import { formatDateTime } from "@components/lib/utils";
+import { Card } from "@components/ui/card";
 
 const Events = () => {
   const ellipsis = (text: string, maxLength: number): string => {
@@ -27,7 +28,7 @@ const Events = () => {
           </div>
           <ul className="grid gap-x-8 gap-y-10 mt-16 sm:grid-cols-2 lg:grid-cols-3">
             {eventsData.map((items, key) => (
-              <p className="w-full mx-auto group sm:max-w-sm" key={key}>
+              <Card className="w-full mx-auto group sm:max-w-sm" key={key}>
                 <Link to={`/events/view/${items.eventId}`}>
                   <img
                     src={items.img}
@@ -35,19 +36,20 @@ const Events = () => {
                     alt={items.title}
                     className="w-full rounded-lg max-h-52 min-h-52"
                   />
-                  <div className="mt-3 space-y-2">
-                    <span className="block text-green-800 text-sm">
-                      {formatDateTime(items.eventStart)} | {items.status}
-                    </span>
-                    <h3 className="text-lg text-gray-800 duration-150 group-hover:text-green-700 font-semibold">
-                      {ellipsis(items.title, 40)}
+                  <div className="mt-3 space-y-2 px-5 pb-5">
+                    <h3 className="text-lg text-gray-800 duration-150 group-hover:text-green-700 font-semibold line-clamp-2">
+                      {items.title}
                     </h3>
-                    <p className="text-gray-600 text-sm duration-150 group-hover:text-gray-800">
-                      {ellipsis(items.desc, 160)}
-                    </p>
+                    <p className="line-clamp-2">{items.desc}</p>
+                    <h5 className="block font-bold text-gray-800">
+                      {items.status} | {formatDateTime(items.eventStart)}
+                    </h5>
+                    <h6 className="text-gray-600 font-bold line-clamp-2">
+                      {items.where}
+                    </h6>
                   </div>
                 </Link>
-              </p>
+              </Card>
             ))}
           </ul>
         </div>

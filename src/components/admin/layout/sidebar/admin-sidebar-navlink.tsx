@@ -16,7 +16,7 @@ const AdminSidebarNavLink = ({
     <NavLink
       className={({ isActive }) =>
         isActive
-          ? "flex gap-2 items-center bg-primary/25 text-green-600 px-5 py-3 select-none border-r-[3px] border-primary"
+          ? "flex gap-2 items-center bg-primary/25 text-green-600 px-5 py-3 select-none border-l-[3px] border-primary"
           : "flex gap-2 items-center text-gray-500 px-5 py-3 hover:bg-primary/10 select-none"
       }
       {...props}

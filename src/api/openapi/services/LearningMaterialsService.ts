@@ -356,6 +356,31 @@ id: string,
     }
 
     /**
+     * View a learning material by ID
+     * @returns LearningMaterialViewResponse Successful response
+     * @throws ApiError
+     */
+    public static getApiLearningViewPublished({
+id,
+}: {
+id: string,
+}): CancelablePromise<LearningMaterialViewResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/learning/view/published/{id}',
+            path: {
+                'id': id,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
      * List draft learning materials
      * @returns ListDraftLearningMaterialsResponse Successful response
      * @throws ApiError
@@ -465,6 +490,34 @@ perpage?: string,
                 'search': search,
                 'page': page,
                 'perpage': perpage,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * List related learning materials
+     * @returns ListPublishedLearningMaterialsResponse Successful response
+     * @throws ApiError
+     */
+    public static getApiLearningRelated({
+tags,
+}: {
+/**
+ * Tags to filter related materials by
+ */
+tags?: Array<string>,
+}): CancelablePromise<ListPublishedLearningMaterialsResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/learning/related',
+            query: {
+                'tags': tags,
             },
             errors: {
                 400: `Validation Error`,

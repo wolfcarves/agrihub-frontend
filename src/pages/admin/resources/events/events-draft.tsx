@@ -5,6 +5,7 @@ import { Input } from "@components/ui/input";
 import { DataTable } from "@components/ui/custom/data-table/data-table";
 import { columns, data } from "../table/columns-event";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
+import useGetEventsDraftList from "../../../../hooks/api/get/useGetEventsDraftList";
 
 const breadcrumbItems = [
   { title: "Resource Management", link: "/admin/resources" },
@@ -12,6 +13,11 @@ const breadcrumbItems = [
   { title: "Drafs", link: "/admin/resource/events-draft" }
 ];
 const EventsDraft = () => {
+  const { data: LearningData } = useGetEventsDraftList(
+    undefined,
+    undefined,
+    undefined
+  );
   return (
     <AdminOutletContainer className="container mx-auto py-10 ">
       <BreadCrumb items={breadcrumbItems} />

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "@components/ui/button";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   Dialog,
   DialogContent,
@@ -13,28 +13,27 @@ import {
 import { Input } from "@components/ui/input";
 import { Label } from "@components/ui/label";
 import * as zod from "zod";
-import useLearningCreateDraftMutation from "../../../../../hooks/api/post/useLearningCreateDraftMutation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { Form } from "../../../../ui/form";
 import Loader from "../../../../../icons/Loader";
+import { NewDraftEvent } from "../../../../../api/openapi";
+import useEventsCreateDraftMutation from "../../../../../hooks/api/post/useEventsCreateDraftMutation";
 
-const addLearningMaterialSchema = zod.object({
+const addEventSchema = zod.object({
   title: zod
     .string({
       required_error: "Title is required."
     })
     .min(3, "Title is too small")
 });
-interface NewLearningMaterial {
-  title: string;
-}
-const DialogAddLearning = () => {
+
+const DialogAddEvent = () => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState<boolean>();
-  const form = useForm<NewLearningMaterial>({
-    resolver: zodResolver(addLearningMaterialSchema),
+  const form = useForm<NewDraftEvent>({
+    resolver: zodResolver(addEventSchema),
     mode: "onBlur"
   });
 
@@ -45,18 +44,18 @@ const DialogAddLearning = () => {
   }, [form.formState.errors]);
 
   const { mutateAsync: addDraftMutate, isLoading: addDraftLoading } =
-    useLearningCreateDraftMutation();
+    useEventsCreateDraftMutation();
 
-  const handleSubmitForm = async (data: NewLearningMaterial) => {
-    const compiledData: NewLearningMaterial = {
+  const handleSubmitForm = async (data: NewDraftEvent) => {
+    const compiledData: NewDraftEvent = {
       title: data.title
     };
 
     try {
       const response = await addDraftMutate(compiledData);
-      toast.success("Draft Created Successfully!");
+      toast.success("Draft Event Created Successfully!");
       setIsOpen(false);
-      navigate(`/admin/resource/learnings/view/${response.data.id}`);
+      navigate(`/admin/resource/events/add/${response.data.id}`);
     } catch (e: any) {
       toast.error(e.body.message);
     }
@@ -69,10 +68,10 @@ const DialogAddLearning = () => {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Add Learning Material</DialogTitle>
+          <DialogTitle>Add Event</DialogTitle>
           <DialogDescription>
-            Create the title of your new learning material first and edit it in
-            drafts section. Click save when you're done.
+            Create the title of your event first and edit it in drafts section.
+            Click save when you're done.
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -88,7 +87,7 @@ const DialogAddLearning = () => {
               <Input
                 id="title"
                 {...form.register("title")}
-                placeholder="insert title of your material"
+                placeholder="insert title of the event"
                 className="col-span-3"
               />
             </div>
@@ -103,4 +102,4 @@ const DialogAddLearning = () => {
   );
 };
 
-export default DialogAddLearning;
+export default DialogAddEvent;

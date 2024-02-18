@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { Card } from "@components/ui/card";
+import React, { useEffect, useMemo, useState } from "react";
 import { Label } from "../../../../ui/label";
 import { Input } from "../../../../ui/input";
 import {
@@ -10,7 +9,6 @@ import {
   SelectValue
 } from "@components/ui/select";
 import { Textarea } from "../../../../ui/textarea";
-import CoverImageUpload from "../../../../ui/custom/image/cover-image-input";
 import { Button } from "../../../../ui/button";
 import { useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -22,11 +20,15 @@ import { Form, FormField } from "../../../../ui/form";
 import Dropzone from "../../../../user/community/dropzone/dropzone";
 import { toast } from "sonner";
 import Loader from "../../../../../icons/Loader";
+import useGetLearningView from "../../../../../hooks/api/get/useGetLearningView";
+import usePutLearningUpdateResource from "../../../../../hooks/api/put/usePutLearningUpdateResource";
 interface AddLearningInterfaceProps {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean | undefined>>;
+  resourceId?: string;
 }
 const AddLearningResourceForm: React.FC<AddLearningInterfaceProps> = ({
-  setIsOpen
+  setIsOpen,
+  resourceId
 }) => {
   const [selectedType, setSelectedType] = useState<string | null>(null);
   const { learningsId } = useParams();
@@ -35,6 +37,23 @@ const AddLearningResourceForm: React.FC<AddLearningInterfaceProps> = ({
     resolver: zodResolver(addResourceSchema),
     mode: "onBlur"
   });
+
+  // get present data
+  const { data: LearningData, isLoading: LearningDataLoading } =
+    useGetLearningView(learningsId || "");
+
+  //get present resource
+  const activeResource = useMemo(() => {
+    return LearningData?.learning_resource?.find(
+      resource => resource.id === resourceId
+    );
+  }, [LearningData, resourceId]);
+
+  useEffect(() => {
+    if (activeResource?.type) {
+      setSelectedType(activeResource.type);
+    }
+  }, [activeResource]);
 
   // validations
   useEffect(() => {
@@ -59,6 +78,10 @@ const AddLearningResourceForm: React.FC<AddLearningInterfaceProps> = ({
   const { mutateAsync: createResourceMutate, isLoading: isResourceLoading } =
     useLearningCreateResource();
 
+  //update
+  const { mutateAsync: updateResourceMutate, isLoading: isUpdateLoading } =
+    usePutLearningUpdateResource();
+
   const handleSubmitForm = async (data: NewLearningResource) => {
     const compiledData: NewLearningResource = {
       name: data.name,
@@ -67,14 +90,21 @@ const AddLearningResourceForm: React.FC<AddLearningInterfaceProps> = ({
       type: data.type,
       image: data.image
     };
-    console.log(compiledData);
 
     try {
-      await createResourceMutate({
-        id: learningsId || "",
-        formData: compiledData
-      });
-      toast.success("Resource Added Successfully!");
+      if (resourceId) {
+        await updateResourceMutate({
+          id: resourceId || "",
+          formData: compiledData
+        });
+        toast.success("Resource Edited Successfully!");
+      } else {
+        await createResourceMutate({
+          id: learningsId || "",
+          formData: compiledData
+        });
+        toast.success("Resource Added Successfully!");
+      }
       setIsOpen(false);
     } catch (e: any) {
       toast.error(e.body.message);
@@ -95,6 +125,7 @@ const AddLearningResourceForm: React.FC<AddLearningInterfaceProps> = ({
               <Input
                 type="text"
                 placeholder="Input resource title"
+                defaultValue={activeResource?.name}
                 {...form.register("name")}
               />
             </div>
@@ -115,12 +146,12 @@ const AddLearningResourceForm: React.FC<AddLearningInterfaceProps> = ({
                     <SelectTrigger>
                       <SelectValue
                         className=" uppercase"
-                        placeholder="Select Type.."
+                        placeholder={activeResource?.type || "Select Type.."}
                       />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="image">Image</SelectItem>
-                      <SelectItem value="video">Video</SelectItem>
+                      <SelectItem value="image">image</SelectItem>
+                      <SelectItem value="video">video</SelectItem>
                     </SelectContent>
                   </Select>
                 )}
@@ -133,6 +164,7 @@ const AddLearningResourceForm: React.FC<AddLearningInterfaceProps> = ({
             <Textarea
               placeholder="insert resource desc"
               className=" focus-visible:ring-primary"
+              defaultValue={activeResource?.description}
               {...form.register("description")}
             />
           </div>
@@ -148,6 +180,11 @@ const AddLearningResourceForm: React.FC<AddLearningInterfaceProps> = ({
                     onChange={value => {
                       form.setValue("image", value);
                     }}
+                    defaultValue={
+                      activeResource?.type === "image"
+                        ? activeResource?.resource
+                        : ""
+                    }
                   />
                 )}
               />
@@ -161,6 +198,11 @@ const AddLearningResourceForm: React.FC<AddLearningInterfaceProps> = ({
               <Input
                 type="text"
                 placeholder="Input a youtube video link"
+                defaultValue={
+                  activeResource?.type === "video"
+                    ? activeResource?.resource
+                    : ""
+                }
                 {...form.register("resource")}
               />
             </div>
@@ -184,7 +226,11 @@ const AddLearningResourceForm: React.FC<AddLearningInterfaceProps> = ({
             </Button>
           </div>
         </div>
-        <Loader isVisible={isResourceLoading} />
+        <Loader
+          isVisible={
+            isResourceLoading || isUpdateLoading || LearningDataLoading
+          }
+        />
       </form>
     </Form>
   );

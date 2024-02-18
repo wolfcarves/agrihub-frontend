@@ -21,9 +21,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Loader from "../../../../../icons/Loader";
 import { Input } from "@components/ui/custom/input-admin/input";
 import useGetLearningView from "../../../../../hooks/api/get/useGetLearningView";
-import { CiEdit } from "react-icons/ci";
-import { FaRegEdit } from "react-icons/fa";
-import { GrEdit } from "react-icons/gr";
 import { MdOutlineModeEdit } from "react-icons/md";
 
 const LearningDetailForm = () => {

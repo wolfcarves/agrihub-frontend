@@ -7,7 +7,7 @@ import "./globals.css";
 import QuestionLayout from "@pages/user/question/question-layout";
 import UserAccountLayout from "@pages/user/account/account-layout";
 import ArticleLayout from "@pages/user/article/_layout";
-import UserProfileLayout from "@pages/user/users/_layout";
+import UserProfileLayout from "@pages/user/users/profile-layout";
 import UserHomeLayout from "@pages/user/home/home-layout";
 import CalendarLayout from "@pages/user/calendar/_layout";
 
@@ -33,7 +33,6 @@ import Calendar from "@pages/user/calendar/calendar";
 import ErrorElement from "@pages/user/common/error";
 import EditProfile from "@pages/user/users/edit-profile";
 import MyProfile from "@pages/user/users/my-profile";
-import UserProfile from "@pages/user/users/user-profile";
 import QuestionAsk from "@pages/user/question/question-ask";
 import HelpsLayout from "@pages/user/help/_layout";
 import Helps from "@pages/user/help/helps";
@@ -170,12 +169,14 @@ const App = ReactRouter(
         <Route path="" element={<Community />} />
         <Route path="explore" element={<Explore />} />
         <Route path="register" element={<CommunityRegister />} />
+
         {/* Public Community */}
         <Route path="explore/:id" element={<CommunityMain />}>
           <Route path="" element={<Overview />} />
           <Route path="crops" element={<Crops />} />
           <Route path="gallery" element={<Gallery />} />
         </Route>
+
         {/* My Community */}
         <Route path="my-community/:id" element={<CommunityMain />}>
           <Route path="" element={<Overview />} />
@@ -233,8 +234,7 @@ const App = ReactRouter(
       </Route>
 
       {/* Profile Page  */}
-      <Route path="/user" element={<UserProfileLayout />}>
-        <Route path=":username/:userId" element={<UserProfile />} />
+      <Route path="/users" element={<UserProfileLayout />}>
         <Route path=":userId/me" element={<MyProfile />} />
         <Route path=":userId/me/edit" element={<EditProfile />} />
       </Route>
@@ -255,6 +255,7 @@ const App = ReactRouter(
     </Route>
 
     {/* Account Page */}
+
     <Route path="/account" element={<UserAccountLayout />}>
       <Route path="login" element={<Login />} />
       <Route path="signup" element={<Signup />} />

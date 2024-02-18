@@ -22,6 +22,7 @@ const UserHeaderMenu = () => {
   const navigate = useNavigate();
   const { data } = useAuth();
   const { mutateAsync: deleteAuthData, isLoading } = useDeleteAuthMutate();
+
   const handleToAdmin = () => {
     navigate(`/admin`);
   };
@@ -40,15 +41,17 @@ const UserHeaderMenu = () => {
         </DropdownMenuTrigger>
 
         <DropdownMenuContent className="w-[20rem]" align="end">
-          <DropdownMenuLabel>
-            <span className="flex items-center gap-3 line-clamp-1 text-md font-poppins-bold capitalize h-10">
-              <img
-                src={data?.avatar ?? ""}
-                className="w-10 h-10 rounded-full border object-cover pointer-events-none select-none "
-              />
-              {data?.firstname + " " + data?.lastname}
-            </span>
-          </DropdownMenuLabel>
+          <Link to="/users/username/me">
+            <DropdownMenuItem className="cursor-pointer h-12 gap-2">
+              <span className="flex items-center gap-3 line-clamp-1 text-md font-poppins-bold capitalize h-10">
+                <img
+                  src={data?.avatar ?? ""}
+                  className="w-10 h-10 rounded-full border object-cover pointer-events-none select-none "
+                />
+                {data?.firstname + " " + data?.lastname}
+              </span>
+            </DropdownMenuItem>
+          </Link>
 
           <DropdownMenuSeparator />
           {data?.role === "admin" && (

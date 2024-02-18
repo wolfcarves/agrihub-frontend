@@ -297,7 +297,7 @@ const App = ReactRouter(
 
         <Route path="events">
           <Route path="" element={<EventsAdmin />} />
-          <Route path="add" element={<AddEvents />} />
+          <Route path="add/:eventId" element={<AddEvents />} />
           <Route path="view/:eventId" element={<UpdateEvents />} />
         </Route>
         <Route path="events-draft" element={<EventsDraft />} />

@@ -50,23 +50,17 @@ export const columns: ColumnDef<LearningMaterial>[] = [
         toast.success("Unarchive Successfully!");
         navigate("/admin/resource/learnings");
       };
+      if (archieveLoading) {
+        return <Loader isVisible={true} />;
+      }
 
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem onClick={handleUnpublish}>
-              Unarchieve
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-          <Loader isVisible={archieveLoading} />
-        </DropdownMenu>
+        <Button
+          className=" bg-black hover:bg-black/80"
+          onClick={handleUnpublish}
+        >
+          Unarchieve
+        </Button>
       );
     }
   }

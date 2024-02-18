@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { FaFacebook, FaLinkedin } from "react-icons/fa";
 
 const About = () => {
   const sliderImages = [
@@ -86,14 +87,79 @@ const About = () => {
     }
   ];
 
+  const team = [
+    {
+      avatar:
+        "https://i0.wp.com/qcu.edu.ph/wp-content/uploads/2024/01/Dr.-Theresita-V.-Atienza-2.jpg?resize=1103%2C1471&ssl=1",
+      name: "Therisita V. Atienza, DEM",
+      title: "University President",
+      desc: "President of Quezon City University",
+      linkedin: "javascript:void(0)",
+      facebook: "https://www.facebook.com/nafecot"
+    },
+    {
+      avatar:
+        "https://scontent.fmnl4-4.fna.fbcdn.net/v/t39.30808-6/363823805_24129508779973344_520851503020788051_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=efb6e6&_nc_eui2=AeElktI30QfUt2CVD6rBQVsskdgkA0_GwaCR2CQDT8bBoJrKeUiryKK7IkfN6ucDzVOff4_k6jL8LWghyGQruXu6&_nc_ohc=SU8HkufxhVwAX9xM9Lk&_nc_ht=scontent.fmnl4-4.fna&oh=00_AfDZtcAkAAu0-wYcJnpN0prHnRpd_qh5y0S7Px7VbJ41og&oe=65D66CB9",
+      name: "Romel O. Sevilla, MBA",
+      title: "Head, Center for Urban Agriculture and Innovation",
+      desc: "",
+      linkedin: "javascript:void(0)",
+      facebook: "https://www.facebook.com/nafecot"
+    },
+    {
+      avatar: "https://randomuser.me/api/portraits/lego/2.jpg",
+      name: "Ms. Justine Angela Mariele D. Sanchez",
+      title: "Administrative Support Staff",
+      desc: "",
+      linkedin:
+        "https://www.linkedin.com/in/sanchez-justine-angela-marielle-d-631882248/",
+      facebook: "javascript:void(0)"
+    },
+    {
+      avatar:
+        "https://scontent.fmnl4-4.fna.fbcdn.net/v/t39.30808-6/416596548_2394468507410078_36177615429189844_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=efb6e6&_nc_eui2=AeHfdzwbKY1OgOTxTaWzNzA_1qHDVfvLXhLWocNV-8teEqwCuktjL5kjAz_BZTYsThqHi18Q7VDx_EBKFI9DxffH&_nc_ohc=jNqisC3mM7MAX_rsieu&_nc_ht=scontent.fmnl4-4.fna&oh=00_AfCSJw8_UkwF4b6Deyv6TPNDPbVmdtrkWxeqAMRtf4T26A&oe=65D4D0C5",
+      name: "Engr. Jaylenon R. Asilo, MMPA",
+      title: "Agriculturist",
+      desc: "Responsible for Partnerships and Collaborations, and Research and Development ",
+      linkedin: "https://www.linkedin.com/in/jaylenon-asilo-561539213/",
+      facebook: "https://www.facebook.com/jaylenon.asilo"
+    },
+    {
+      avatar:
+        "https://scontent.fmnl4-4.fna.fbcdn.net/v/t1.6435-9/45167939_2481348625265211_1486947772711043072_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=7a1959&_nc_eui2=AeFd5acm7obMAF798pJIaGnEqlIP0LVSfkWqUg_QtVJ-RZ7bqXWh-XXg2bHAQGWMCW8Dfvs-JsROMfyOE65wRkHJ&_nc_ohc=AHlycu5tusYAX96gaL1&_nc_ht=scontent.fmnl4-4.fna&oh=00_AfDrKlR9QhDBjgXda6zjObnsJe70COFLXfc1PdlTl_XBDg&oe=65F81877",
+      name: "Engr. Justine F. Malindao",
+      title: "Agriculturist",
+      desc: "Responsible for Training, and Production and Business Development",
+      linkedin: "javascript:void(0)",
+      facebook: "https://www.facebook.com/justin.malindao"
+    },
+    {
+      avatar:
+        "https://scontent.fmnl4-4.fna.fbcdn.net/v/t39.30808-6/345459966_2812898285508264_3995896517700851484_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=9c7eae&_nc_eui2=AeEIIoZ9qVtvikKTOmQ9GEHtcOCk9BJaKZhw4KT0ElopmJMpQIiUlKTnA__f2UziVIDyOc-RR63TAOU0nte1zbC9&_nc_ohc=zL4QdWlcYNoAX851sLL&_nc_ht=scontent.fmnl4-4.fna&oh=00_AfCHXtAPO0dcVAdXnX9JDvLCxH7HUj559NlKtUcEtZrZAg&oe=65D61345",
+      name: "Ms. Jonabelle M. Orain",
+      title: "Farm Worker",
+      desc: "",
+      linkedin: "javascript:void(0)",
+      facebook: "https://www.facebook.com/jona.olshoppe.75"
+    },
+    {
+      avatar: "https://randomuser.me/api/portraits/lego/8.jpg",
+      name: "Mr. Hipolito P Lopez",
+      title: "Farm Worker",
+      desc: "",
+      linkedin: "javascript:void(0)",
+      facebook: "javascript:void(0)"
+    }
+  ];
+
   return (
     <div>
       {/* Header image*/}
       <div className="p-0">
-        <img
+        {/* <img
           className="w-full mt-0"
           src="https://i.imgur.com/8gNnM5D.png"
-        ></img>
+        ></img> */}
       </div>
       {/* Header image */}
       <div className="p-0">
@@ -134,7 +200,6 @@ const About = () => {
           landscape of urban agriculture in Quezon City.{" "}
         </p>
       </div>
-
       <div>
         {/* ... Image ... */}
 
@@ -246,7 +311,6 @@ const About = () => {
           </p>
         </div>
       </div>
-
       {/*Partnership & Funding*/}
       <div className="mt-8 sm:mt-12 lg:mt-16 ">
         <h4 className="text-center font-bold sm:text-2xl md:text-2xl lg:text-xl xl:text-6xl text-gray-600">
@@ -266,7 +330,6 @@ const About = () => {
           </div>
         </div>
       </div>
-
       {/* City Commitment */}
       <div className="mt-8 sm:mt-12 lg:mt-16">
         <h4 className="text-center font-bold sm:text-2xl md:text-2xl lg:text-xl xl:text-6xl text-gray-600">
@@ -282,16 +345,15 @@ const About = () => {
               involving students and stakeholders in the process.
             </p>
           </div>
-          <div className="w-1/2 relative">
+          <div className="w-1/2 relative flex items-center justify-center">
             <img
-              className="absolute top-0 right-0 w-3/4 mr-6 m:mr-12 lg:mr-32 h-auto mt-20 sm:mt-12 lg:mt-16"
+              className=" w-3/4 mr-6 m:mr-12 lg:mr-32 h-auto mt-20 sm:mt-12 lg:mt-16"
               src="https://i.imgur.com/nL9Csob.png"
               alt="Your Image"
             />
           </div>
         </div>
       </div>
-
       {/* President Message */}
       <div className="mt-8 sm:mt-12 lg:mt-28">
         <h4 className="text-center font-bold sm:text-2xl md:text-2xl lg:text-xl xl:text-6xl text-gray-600">
@@ -316,18 +378,50 @@ const About = () => {
           </div>
         </div>
       </div>
-
       {/*Organizational Chart*/}
-      <div className="mt-8 sm:mt-12 lg:mt-16">
-        <h4 className="text-center font-bold sm:text-2xl md:text-2xl lg:text-xl xl:text-6xl text-gray-600">
-          Organizational Chart
-        </h4>
-        <img
-          className="w-full mb-4 sm:mx-0 sm:mb-10 mt-3 sm:mt-12 lg:mt-12 "
-          src="https://i.imgur.com/6xFPkdj.png"
-        />
-      </div>
-
+      <section className="py-14">
+        <div className="max-w-screen-xl mx-auto px-4 text-center md:px-8">
+          <div className="max-w-xl mx-auto">
+            <h3 className="text-gray-800 text-3xl font-semibold sm:text-4xl">
+              Meet our team
+            </h3>
+            <p className="text-gray-600 mt-3">
+              Quezon City University - Center for Urban Agriculture and
+              Innovation Core Members.
+            </p>
+          </div>
+          <div className="mt-12">
+            <ul className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
+              {team.map((item, idx) => (
+                <p key={idx}>
+                  <div className="w-24 h-24 mx-auto">
+                    <img
+                      src={item.avatar}
+                      className="w-full h-full rounded-full object-cover"
+                      alt=""
+                    />
+                  </div>
+                  <div className="mt-2">
+                    <h4 className="text-gray-700 font-semibold sm:text-lg">
+                      {item.name}
+                    </h4>
+                    <p className="text-green-600">{item.title}</p>
+                    <p className="text-gray-600 mt-2">{item.desc}</p>
+                    <div className="mt-4 flex justify-center gap-4 text-gray-400">
+                      <a href={item.facebook}>
+                        <FaFacebook className="h-6 w-6" />
+                      </a>
+                      <a href={item.linkedin}>
+                        <FaLinkedin className="h-6 w-6" />
+                      </a>
+                    </div>
+                  </div>
+                </p>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
       {/* Contact Us */}
       <div className="py-14">
         <div className="max-w-screen-xl mx-auto px-4 text-gray-600 md:px-8">

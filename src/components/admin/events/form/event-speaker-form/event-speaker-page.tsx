@@ -12,6 +12,7 @@ import { FiEdit } from "react-icons/fi";
 import useDeleteEventSpeaker from "../../../../../hooks/api/delete/useDeleteEventSpeaker";
 import { toast } from "sonner";
 import Loader from "../../../../../icons/Loader";
+import DialogEditSpeaker from "../../dialogs/dialog-edit-speaker/dialog-edit-speaker";
 const EventSpeakerPage = () => {
   //get data
   const { eventId } = useParams();
@@ -65,9 +66,7 @@ const EventSpeakerPage = () => {
               className=" focus-visible:ring-0"
             />
           </div>
-          <Button variant="default">
-            <FiEdit />
-          </Button>
+          <DialogEditSpeaker speakerId={speaker.id} />
           <Button
             onClick={() => handleDeleteSpeaker(speaker.id)}
             variant="destructive"

@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useMemo } from "react";
 
 import ProfileImageUpload from "../../../../ui/custom/image/profile-image-input";
 import { Label } from "../../../../ui/label";
@@ -14,11 +14,21 @@ import useEventsCreateSpeaker from "../../../../../hooks/api/post/useEventsCreat
 import { toast } from "sonner";
 import { Form, FormField } from "../../../../ui/form";
 import Loader from "../../../../../icons/Loader";
+import useGetEventsDraftView from "../../../../../hooks/api/get/useGetEventsDraftView";
+import usePutEventsUpdateSpeaker from "../../../../../hooks/api/put/usePutEventsUpdateSpeaker";
 interface formProps {
   setIsOpen: Dispatch<SetStateAction<boolean | undefined>>;
+  speakerId?: string;
 }
-const EventSpeakerForm: React.FC<formProps> = ({ setIsOpen }) => {
+const EventSpeakerForm: React.FC<formProps> = ({ setIsOpen, speakerId }) => {
+  //get data
   const { eventId } = useParams();
+
+  const { data: eventData } = useGetEventsDraftView(eventId || "");
+  //get present speaker
+  const activeSpeaker = useMemo(() => {
+    return eventData?.speaker?.find(speaker => speaker.id === speakerId);
+  }, [eventData, speakerId]);
 
   const form = useForm<NewEventSpeaker>({
     resolver: zodResolver(addEventSpeakerSchema),
@@ -26,18 +36,25 @@ const EventSpeakerForm: React.FC<formProps> = ({ setIsOpen }) => {
   });
 
   // validations
-  //   useEffect(() => {
-  //     if (form.formState.errors.name) {
-  //       toast.error(form?.formState?.errors?.name?.message);
-  //     }
-  //     if (form.formState.errors.title) {
-  //       toast.error(form?.formState?.errors?.title?.message);
-  //     }
-  //   }, [form.formState.errors]);
+  useEffect(() => {
+    if (form.formState.errors.name) {
+      toast.error(form?.formState?.errors?.name?.message);
+    }
+    if (form.formState.errors.title) {
+      toast.error(form?.formState?.errors?.title?.message);
+    }
+    if (form.formState.errors.profile) {
+      toast.error(form?.formState?.errors?.profile?.message);
+    }
+  }, [form.formState.errors]);
 
   //create
   const { mutateAsync: createSpeakerMutate, isLoading: isSpeakerLoading } =
     useEventsCreateSpeaker();
+
+  //create
+  const { mutateAsync: updateSpeakerMutate, isLoading: isUpdateLoading } =
+    usePutEventsUpdateSpeaker();
 
   const handleSubmitForm = async (data: NewEventSpeaker) => {
     const compiledData: NewEventSpeaker = {
@@ -47,11 +64,19 @@ const EventSpeakerForm: React.FC<formProps> = ({ setIsOpen }) => {
     };
 
     try {
-      await createSpeakerMutate({
-        id: eventId || "",
-        formData: compiledData
-      });
-      toast.success("Credit Added Successfully!");
+      if (speakerId) {
+        await updateSpeakerMutate({
+          id: activeSpeaker?.id || "",
+          formData: compiledData
+        });
+        toast.success("Speaker Edited Successfully!");
+      } else {
+        await createSpeakerMutate({
+          id: eventId || "",
+          formData: compiledData
+        });
+        toast.success("Speaker Added Successfully!");
+      }
 
       setIsOpen(false);
     } catch (e: any) {
@@ -71,9 +96,9 @@ const EventSpeakerForm: React.FC<formProps> = ({ setIsOpen }) => {
               name="profile"
               render={() => (
                 <ProfileImageUpload
+                  defaultValue={activeSpeaker?.profile}
                   onChange={value => {
                     form.setValue("profile", value);
-                    console.log(value);
                   }}
                 />
               )}
@@ -85,6 +110,7 @@ const EventSpeakerForm: React.FC<formProps> = ({ setIsOpen }) => {
             <Input
               type="text"
               placeholder="Input speaker name"
+              defaultValue={activeSpeaker?.name}
               {...form.register("name")}
             />
           </div>
@@ -93,6 +119,7 @@ const EventSpeakerForm: React.FC<formProps> = ({ setIsOpen }) => {
             <Input
               type="text"
               placeholder="Input event title"
+              defaultValue={activeSpeaker?.title}
               {...form.register("title")}
             />
           </div>
@@ -105,11 +132,11 @@ const EventSpeakerForm: React.FC<formProps> = ({ setIsOpen }) => {
           >
             Cancel
           </Button>
-          <Button disabled={isSpeakerLoading} type="submit">
+          <Button disabled={isSpeakerLoading || isUpdateLoading} type="submit">
             Save
           </Button>
         </div>
-        <Loader isVisible={isSpeakerLoading} />
+        <Loader isVisible={isSpeakerLoading || isUpdateLoading} />
       </form>
     </Form>
   );

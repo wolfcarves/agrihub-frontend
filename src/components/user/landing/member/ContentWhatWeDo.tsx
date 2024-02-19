@@ -8,10 +8,10 @@ import { Button } from "@components/ui/button";
 import {
   MdDevices,
   MdOutlineAnalytics,
-  MdOutlineCalendarMonth
+  MdOutlineCalendarMonth,
+  MdOutlineForum
 } from "react-icons/md";
 import { RiCommunityLine } from "react-icons/ri";
-import { TbTags } from "react-icons/tb";
 
 const ContentWhatWeDo: React.FC = () => {
   const { data: userData } = useAuth();
@@ -26,18 +26,14 @@ const ContentWhatWeDo: React.FC = () => {
     {
       icon: <MdDevices className="w-6 h-6" />,
       title: "Progressive Web Application",
-      desc: "Experience our platform seamlessly across all devices with our Progressive Web Application (PWA). Enjoy fast loading times and offline access, ensuring you're always connected to your agricultural community."
+      desc: "Discover our Progressive Web Application (PWA), designed to provide a seamless platform experience across all your devices. Whether you're on your smartphone or desktop, access and download our PWA to enjoy our platform effortlessly."
     },
     {
       icon: <MdOutlineAnalytics className="w-6 h-6" />,
       title: "Prescriptive Analytics",
       desc: "Gain actionable insights and recommendations tailored to your farm's needs with our Prescriptive Analytics feature. Utilize data-driven decision-making to optimize your crop yields and resource allocation, maximizing profitability."
     },
-    {
-      icon: <RiCommunityLine className="w-6 h-6" />,
-      title: "Community",
-      desc: "Connect with fellow farmers, agricultural experts, and enthusiasts in our vibrant Community. Share knowledge, experiences, and best practices, fostering collaboration and growth within the agricultural industry."
-    },
+
     {
       icon: (
         <svg
@@ -56,17 +52,22 @@ const ContentWhatWeDo: React.FC = () => {
         </svg>
       ),
       title: "Resources",
-      desc: "Access an extensive library of articles, blogs, learning materials, and a comprehensive planting calendar curated to enhance your agricultural practices. Stay updated with the latest trends, techniques, and insights from other farmers to optimize your farm's productivity."
+      desc: "Access an extensive library of articles, blogs, and learning materials. Stay updated with the latest trends, techniques, and insights from other farmers to optimize your farm's productivity."
     },
     {
       icon: <MdOutlineCalendarMonth className="w-6 h-6" />,
       title: "Planting Calendar",
-      desc: "Stay organized and optimize your planting schedule with our intuitive Planting Calendar."
+      desc: "Stay organized and optimize your planting schedule with our intuitive Planting Calendar. Discover the best crops to plant and harvest each month"
     },
     {
-      icon: <TbTags className="w-6 h-6" />,
-      title: "Tags",
-      desc: "Access personalized recommendations based on your tag preferences."
+      icon: <RiCommunityLine className="w-6 h-6" />,
+      title: "Community",
+      desc: "Connect with fellow farmers, agricultural experts, and enthusiasts in our vibrant Community. Share knowledge, experiences, and best practices, fostering collaboration and growth within the agricultural industry."
+    },
+    {
+      icon: <MdOutlineForum className="w-6 h-6" />,
+      title: "Forums",
+      desc: "Engage in discussions, ask questions, and share insights with a diverse community of farmers, agricultural professionals, and enthusiasts. Exchange ideas, troubleshoot problems, and discover innovative solutions to challenges in farming and agribusiness."
     }
   ];
 
@@ -92,7 +93,7 @@ const ContentWhatWeDo: React.FC = () => {
   return (
     <div className="w-full mx-auto my-0 md:my-15 mb-8">
       {/* our mission part */}
-      <section className="my-5 mb-8">
+      <section className="my-8 mb-14">
         <div className="max-w-screen-xl mx-auto px-4  gap-x-12 justify-between md:flex md:px-8">
           <div className="max-w-xl">
             <h3 className="text-gray-800 text-3xl font-semibold sm:text-4xl">
@@ -161,11 +162,13 @@ const ContentWhatWeDo: React.FC = () => {
       </section>
 
       {/* our focus part */}
-      <section className="m-8 mx-16">
-        <div>
+      <section className="p-4 mt-12 max-w-screen-xl mx-auto">
+        <div className="max-w-xl">
           <h1 className="text-3xl text-gray-800 font-semibold">Our Focus</h1>
           <p className="mt-3 text-gray-500">
-            Latest perspectives, news, and initiatives
+            Explore urban ag innovation with us! Discover how we're
+            revolutionizing farming in Quezon City through technology and
+            community collaboration.
           </p>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-3 sm:grid-cols-2 grid-rows-1 gap-5 my-8">

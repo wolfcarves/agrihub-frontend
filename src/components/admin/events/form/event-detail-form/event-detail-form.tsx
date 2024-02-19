@@ -22,10 +22,23 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import usePutEventsUpdateDraft from "../../../../../hooks/api/put/usePutEventsUpdateDraft";
 import { toast } from "sonner";
 import { Form, FormField } from "../../../../ui/form";
+import Loader from "../../../../../icons/Loader";
+const formatDate = (originalDateString: string) => {
+  const date = new Date(originalDateString);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+  const formattedDateString = `${year}-${month}-${day}T${hours}:${minutes}`;
 
+  return formattedDateString;
+};
 const EventDetailForm = () => {
   const { eventId } = useParams();
-  const { data: eventData } = useGetEventsDraftView(eventId || "");
+  const { data: eventData, isLoading: eventDataLoad } = useGetEventsDraftView(
+    eventId || ""
+  );
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
   console.log(eventData);
@@ -62,19 +75,26 @@ const EventDetailForm = () => {
       event_end: data.event_end,
       location: data.location,
       about: data.about,
-      guide: data.guide
+      guide: data.guide,
+      image: data.image
     };
+    console.log(compiledData);
     try {
       await updateDetailMutate({
         id: eventId || "",
         formData: compiledData
       });
-      toast.success("Learning Detail Updated Successfully!");
+      toast.success("Event Detail Updated Successfully!");
       setIsEditing(false);
     } catch (e: any) {
       toast.error(e.body.message);
     }
   };
+  console.log(form.formState.errors);
+
+  if (eventDataLoad) {
+    return <Loader isVisible={true} />;
+  }
   return (
     <Form {...form}>
       <form
@@ -123,29 +143,25 @@ const EventDetailForm = () => {
 
           {/* when */}
 
-          <div className="grid w-full items-center gap-1.5 md:col-span-3 col-span-12">
-            <Label className=" font-poppins-medium">Start Date</Label>
-            <DatePickerWithPresets />
-          </div>
-          <div className="grid w-full items-center gap-1.5 md:col-span-3 col-span-12">
-            <Label className=" font-poppins-medium">Start Time</Label>
+          <div className="grid w-full items-center gap-1.5 md:col-span-6 col-span-12">
+            <Label className=" font-poppins-medium">Start Date/Time</Label>
             <Input
-              type="time"
-              id="time1"
+              type="datetime-local"
               placeholder="Input event start time"
               readOnly={!isEditing}
+              defaultValue={formatDate(eventData?.event_start || "")}
+              {...form.register("event_start")}
             />
           </div>
-          <div className="grid w-full items-center gap-1.5 md:col-span-3 col-span-12">
-            <Label className=" font-poppins-medium">End Date</Label>
-            <DatePickerWithPresets />
-          </div>
-          <div className="grid w-full items-center gap-1.5 md:col-span-3 col-span-12">
-            <Label className=" font-poppins-medium">End Time</Label>
+
+          <div className="grid w-full items-center gap-1.5 md:col-span-6 col-span-12">
+            <Label className=" font-poppins-medium">End Date/Time</Label>
             <Input
-              type="time"
+              type="datetime-local"
               placeholder="Input event end time"
               readOnly={!isEditing}
+              defaultValue={formatDate(eventData?.event_end || "")}
+              {...form.register("event_end")}
             />
           </div>
 
@@ -156,6 +172,8 @@ const EventDetailForm = () => {
               type="text"
               id="text"
               placeholder="Enter event address here..."
+              {...form.register("location")}
+              defaultValue={eventData?.location}
               readOnly={!isEditing}
             />
           </div>
@@ -163,7 +181,22 @@ const EventDetailForm = () => {
           {/* Event desc */}
           <div className="mt-4  col-span-12">
             <Label className=" font-poppins-medium">About</Label>
-            <RichTextEditorBottom disabled={!isEditing} height={300} />
+            <FormField
+              name="about"
+              control={form.control}
+              render={({ field: { onChange } }) => {
+                return (
+                  <RichTextEditorBottom
+                    disabled={!isEditing}
+                    defaultValue={eventData?.about}
+                    height={300}
+                    onBlur={data => {
+                      onChange(data.html);
+                    }}
+                  />
+                );
+              }}
+            />
           </div>
 
           {/* participation guide */}
@@ -171,19 +204,50 @@ const EventDetailForm = () => {
             <Label className=" font-poppins-medium">
               How to participate guide:
             </Label>
-            <RichTextEditorBottom disabled={!isEditing} height={200} />
+            <FormField
+              name="guide"
+              control={form.control}
+              render={({ field: { onChange } }) => {
+                return (
+                  <RichTextEditorBottom
+                    disabled={!isEditing}
+                    defaultValue={eventData?.guide}
+                    height={200}
+                    onBlur={data => {
+                      onChange(data.html);
+                    }}
+                  />
+                );
+              }}
+            />
           </div>
 
           {/* thumbnail of event */}
-          <div className="mt-4  col-span-12">
+          <div className="mt-4 col-span-12">
             <Label className=" font-poppins-medium">Event Thumbnail</Label>
-            <CoverImageUpload />
+            <FormField
+              control={form.control}
+              name="image"
+              render={() => (
+                <CoverImageUpload
+                  onChange={value => {
+                    form.setValue("image", value);
+                  }}
+                  defaultValue={`https://s3.ap-southeast-1.amazonaws.com/agrihub-bucket/${eventData?.banner}`}
+                  disabled={!isEditing}
+                />
+              )}
+            />
           </div>
-
+          <hr className=" col-span-12" />
           <div className="mt-4 flex justify-end  col-span-12">
             {isEditing ? (
               <div>
-                <Button type="submit" variant="default">
+                <Button
+                  disabled={isDetailLoading}
+                  type="submit"
+                  variant="default"
+                >
                   Save
                 </Button>
               </div>
@@ -199,6 +263,7 @@ const EventDetailForm = () => {
             )}
           </div>
         </div>
+        <Loader isVisible={isDetailLoading} />
       </form>
     </Form>
   );

@@ -6,6 +6,24 @@ import CommunityIllustration from "@assets/images/community.png";
 import useAuth from "@hooks/useAuth";
 import useGetFarmListQuery from "../../../hooks/api/get/useGetFarmListQuery";
 import FarmCard from "../../../components/user/community/farm-card/farm-card";
+import { Card } from "@components/ui/card";
+import ReportIllustration from "@icons/community/ReportIllustration";
+import GalleryIllustration from "@icons/community/GalleryIllustration";
+import RequestIllustration from "@icons/community/RequestIllustration";
+import AnalyticsIllustration from "@icons/community/AnalyticsIllustration";
+import logo from "../../../icons/main-logo.svg";
+import { FaWpforms } from "react-icons/fa6";
+import Analytics from "./tabs/analytics";
+import { MdOutlineForum, MdOutlineUpload } from "react-icons/md";
+import { RiSeedlingLine } from "react-icons/ri";
+import { TbReportAnalytics } from "react-icons/tb";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger
+} from "@components/ui/accordion";
+
 const CommunityLanding = () => {
   const { isAuthenticated, data: userData } = useAuth();
   const { data } = useGetFarmListQuery({
@@ -14,6 +32,29 @@ const CommunityLanding = () => {
     filter: undefined,
     perpage: "3"
   });
+
+  const faqs = [
+    {
+      question: "How can I find my Community?",
+      answer: "User your eyesight "
+    },
+    {
+      question: "How can I join my Community?",
+      answer:
+        "Through farm head invitation or punta ka settings tapos uninstall"
+    },
+    {
+      question: "Who can be accepted as a community farm?",
+      answer:
+        "Through farm head invitation or punta ka settings tapos uninstall"
+    },
+    {
+      question: "How can I regiter my community?",
+      answer:
+        "Through farm head invitation or punta ka settings tapos uninstall"
+    }
+  ];
+
   return (
     <OutletContainer className="min-h-screen">
       <div className="py-10">
@@ -28,13 +69,13 @@ const CommunityLanding = () => {
         <div className="flex">
           <div className="w-full max-w-[25rem] mt-20">
             <h2 className="font-poppins-semibold tracking-tight leading-[2.3rem]">
-              Be a part of growing farm community in Quezon City.
+              Join the community where you belong
             </h2>
 
             <p className="mt-5">
-              Engaging in a farm community is essential for promoting
-              sustainable agriculture, fostering collaboration among farmers,
-              and preserving local economies and traditions.
+              Community helps you find solutions to your farm problem, send
+              reports, and receive resource materials that help you make an
+              informed decision making using our prescriptive analytics.
             </p>
 
             <div className="mt-10">
@@ -50,12 +91,174 @@ const CommunityLanding = () => {
         </div>
       </div>
 
-      <p>Farms already on Communities:</p>
+      <p>Farms who already joined Communities:</p>
 
       <div className="grid grid-cols-6 gap-2 mb-20 mt-10">
         {data?.farms
           ?.filter(farm => farm.id !== userData?.farm_id)
           .map((farm, i) => <FarmCard farm={farm} key={i} />)}
+      </div>
+
+      {/* header */}
+      <div className="max-w-xl mx-auto my-8 text-center">
+        <img src={logo as unknown as string} width={60} className="mx-auto" />
+        <h3 className="text-gray-800 text-3xl font-semibold sm:text-4xl">
+          Community works for you
+        </h3>
+        <p className="text-gray-600 mt-3">
+          Lorem Ipsum is simply dummy text of the printing and typesetting
+          industry.Lorem Ipsum has been the industry's standard dummy.
+        </p>
+      </div>
+
+      {/* features */}
+      <Card className="py-8 px-4">
+        {/* farm reports */}
+        <section className="relative max-w-screen-xl mx-auto py-4 px-4 md:px-8 my-16  ">
+          <div className="relative z-10 gap-5 items-center sm:flex justify-between">
+            <div className="flex-1  sm:mx-auto sm:text-center lg:max-w-max lg:text-left">
+              {/* icons */}
+              <FaWpforms className="h-16 w-16 p-1 text-green-600" />
+              {/* header */}
+              <h3 className="text-3xl text-gray-800 font-semibold md:text-4xl">
+                Send <span className="text-green-600">farm reports</span>
+              </h3>
+              {/* subheader */}
+              <p className="text-gray-500 leading-relaxed mt-3">
+                Takteng yan sumasakit na ulo ko kakaisip mga ilalagay d2
+              </p>
+              <hr className="my-4" />
+              {/* description */}
+              <p className="text-gray-500 leading-relaxed mt-3">
+                ayukonaload ayukonaload ayukonaload ayukonaload ayukonaload
+                papacute nalang aq papacute nalang aq papacute nalang aq
+                papacute nalang aq
+              </p>
+            </div>
+
+            <div className="flex justify-center mt-5 w-1/2 mx-auto lg:mt-0">
+              <ReportIllustration />
+            </div>
+          </div>
+        </section>
+
+        {/* analytics */}
+        <section className="relative max-w-screen-xl mx-auto py-4 px-4 md:px-8 my-16  ">
+          <div className="relative z-10 gap-5 items-center sm:flex justify-between">
+            <div className="flex-1  sm:mx-auto sm:text-center lg:max-w-max lg:text-left">
+              {/* icons */}
+              <TbReportAnalytics className="h-16 w-16 p-1 text-green-600" />
+              {/* header */}
+              <h3 className="text-3xl text-gray-800 font-semibold md:text-4xl">
+                Use <span className="text-green-600">prescrive analysis</span>
+              </h3>
+              {/* subheader */}
+              <p className="text-gray-500 leading-relaxed mt-3">
+                Takteng yan sumasakit na ulo ko kakaisip mga ilalagay d2
+              </p>
+              <hr className="my-4" />
+              {/* description */}
+              <p className="text-gray-500 leading-relaxed mt-3">
+                ayukonaload ayukonaload ayukonaload ayukonaload ayukonaload
+                papacute nalang aq papacute nalang aq papacute nalang aq
+                papacute nalang aq
+              </p>
+            </div>
+
+            <div className="flex justify-center mt-5 w-1/2 mx-auto lg:mt-0">
+              <AnalyticsIllustration />
+            </div>
+          </div>
+        </section>
+
+        {/* request  */}
+        <section className="relative max-w-screen-xl mx-auto py-4 px-4 md:px-8 my-16  ">
+          <div className="relative z-10 gap-5 items-center sm:flex justify-between">
+            <div className="flex-1  sm:mx-auto sm:text-center lg:max-w-max lg:text-left">
+              {/* icons */}
+              <RiSeedlingLine className="h-16 w-16 p-1 text-green-600" />
+              {/* header */}
+              <h3 className="text-3xl text-gray-800 font-semibold md:text-4xl">
+                Request <span className="text-green-600">seedlings</span>
+              </h3>
+              {/* subheader */}
+              <p className="text-gray-500 leading-relaxed mt-3">
+                Takteng yan sumasakit na ulo ko kakaisip mga ilalagay d2
+              </p>
+              <hr className="my-4" />
+              {/* description */}
+              <p className="text-gray-500 leading-relaxed mt-3">
+                ayukonaload ayukonaload ayukonaload ayukonaload ayukonaload
+                papacute nalang aq papacute nalang aq papacute nalang aq
+                papacute nalang aq
+              </p>
+            </div>
+
+            <div className="flex justify-center mt-5 w-1/2 mx-auto lg:mt-0">
+              <RequestIllustration />
+            </div>
+          </div>
+        </section>
+
+        {/* gallery */}
+        <section className="relative max-w-screen-xl mx-auto py-4 px-4 md:px-8 my-16  ">
+          <div className="relative z-10 gap-5 items-center sm:flex justify-between">
+            <div className="flex-1  sm:mx-auto sm:text-center lg:max-w-max lg:text-left">
+              {/* icons */}
+              <MdOutlineUpload className="h-16 w-16 p-1 text-green-600" />
+              {/* header */}
+              <h3 className="text-3xl text-gray-800 font-semibold md:text-4xl">
+                Upload{" "}
+                <span className="text-green-600">farm and harvest images</span>
+              </h3>
+              {/* subheader */}
+              <p className="text-gray-500 leading-relaxed mt-3">
+                Takteng yan sumasakit na ulo ko kakaisip mga ilalagay d2
+              </p>
+              <hr className="my-4" />
+              {/* description */}
+              <p className="text-gray-500 leading-relaxed mt-3">
+                ayukonaload ayukonaload ayukonaload ayukonaload ayukonaload
+                papacute nalang aq papacute nalang aq papacute nalang aq
+                papacute nalang aq
+              </p>
+            </div>
+
+            <div className="flex justify-center mt-5 w-1/2 mx-auto lg:mt-0">
+              <GalleryIllustration />
+            </div>
+          </div>
+        </section>
+      </Card>
+
+      <div className="py-16">
+        <div className="max-w-xl mx-auto my-8 text-center">
+          <MdOutlineForum className="h-16 w-16 p-1 text-green-600 mx-auto" />
+          <h3 className="text-gray-800 text-3xl font-semibold sm:text-4xl">
+            You have questions. We have answers.
+          </h3>
+          <p className="text-gray-600 mt-3">
+            Explore content from{" "}
+            <Link
+              to="/help-center"
+              className="text-green-700 font-bold hover:underline"
+            >
+              Help Center
+            </Link>
+          </p>
+        </div>
+        <div className="flex justify-center my-12">
+          <Accordion type="multiple" className="max-w-2xl w-full">
+            {faqs.map((faq, index) => (
+              <AccordionItem key={index} value={`item-${index}`}>
+                <AccordionTrigger className="hover:no-underline font-semibold">
+                  {faq.question}
+                </AccordionTrigger>
+                <AccordionContent>{faq.answer}</AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
       </div>
     </OutletContainer>
   );

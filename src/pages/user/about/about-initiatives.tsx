@@ -6,9 +6,9 @@ import React from "react";
 const AboutInitiatives = () => {
   return (
     <div>
-      <Imagebanner/>
-      <ContentInitiatives/>
-        </div>
+      <Imagebanner />
+      <ContentInitiatives />
+    </div>
   );
 };
 

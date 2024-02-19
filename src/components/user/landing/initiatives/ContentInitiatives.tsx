@@ -1,8 +1,15 @@
 import React, { useState } from "react";
-import ReadMoreButton from "../Button/ReadMore";
-import { useNavigate } from "react-router-dom";
-import { blogsData } from "@pages/user/blog/blogs-data";
-import SeeMore from "../Button/SeeMore";
+import { blogData, blog_image } from "../../../../constants/data";
+import { Link } from "react-router-dom";
+import { formatDateTime } from "@components/lib/utils";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationPrevious,
+  PaginationNext
+} from "@components/ui/pagination";
 
 export const ellipsis = (text: string, maxLength: number): string => {
   if (text.length <= maxLength) {
@@ -13,61 +20,93 @@ export const ellipsis = (text: string, maxLength: number): string => {
 };
 
 const ContentInitiatives: React.FC = () => {
-  const navigate = useNavigate();
+  const itemsPerPage = 4;
+  const [currentPage, setCurrentPage] = useState(1);
 
-  const [showAll, setShowAll] = useState(false);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedData = blogData
+    .sort(function (a, b) {
+      return ("" + b.createdAt).localeCompare(a.createdAt);
+    })
+    .filter(item => item.category === "Initiatives")
+    .slice(startIndex, endIndex);
 
-  const blogsCategory = blogsData.filter((item) => item.category === "Initiative").sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  const totalPages = Math.ceil(blogData.length / itemsPerPage);
 
-  const visibleBlogs = showAll ? blogsData.filter((item) => item.category === "Initiative") : blogsCategory.slice(0, 4);
-
-  visibleBlogs.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-
-  const handleCardClick = (blogId: string) => {
-    navigate(`/blogs/view/${blogId}`);
+  const handlePreviousPage = () => {
+    setCurrentPage(currentPage - 1);
   };
 
-  const handleSeeMoreClick = () => {
-    setShowAll(true);
-  };
-
-  const handleSeeLessClick = () => {
-    setShowAll(false);
-    const targetElem = document.getElementById("grid_container");
-    if (targetElem) {
-      targetElem.scrollIntoView({ behavior: "smooth" });
-    }
+  const handleNextPage = () => {
+    setCurrentPage(currentPage + 1);
   };
 
   return (
-    <div className="container" id="grid_container">
-      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-8 p-10 mx-auto">
-        {visibleBlogs.map((item) => (
-          <div
-            key={item.blogId}
-            className="flex flex-col items-start bg-gray-100 rounded-lg shadow-lg"
-            style={{ cursor: "pointer" }}
-            onClick={() => handleCardClick(item.blogId)}
-          >
-            <img
-              src={item.img}
-              alt={`Image ${item.blogId}`}
-              className="w-full h-80 rounded-t-lg object-cover"
-            />
-            <div className="p-4">
-              <p className="text-left uppercase font-bold">{item.title}</p>
-              <p className="text-left mt-5 mb-5 overflow-hidden text-ellipsis two-line-clamp">
-                {ellipsis(item.desc, 180)}
-              </p>
-              <ReadMoreButton text="Read more" to={`/blogs/view/${item.blogId}`} />
-            </div>
-          </div>
-        ))}
+    <div className="px-28 pb-8">
+      <div className="grid grid-cols-3 lg:grid-cols-2 sm:grid-cols-2 grid-rows-2 gap-5">
+        {paginatedData.map((item, index) => {
+          const correspondingImages = blog_image.filter(
+            image => image.blogId === item.blogId
+          );
+          const thumbnail = correspondingImages.find(image => image.thumbnail);
+          return (
+            <Link to={`/blogs/view/${item.blogId}`} key={index}>
+              <div className="group flex flex-col">
+                <div className="max-h-370px max-w-750px ">
+                  <img
+                    src={thumbnail ? thumbnail.image : "fallback_image_url"}
+                    loading="lazy"
+                    alt={item.title}
+                    className="w-full rounded-t-lg max-h-64 min-h-64 object-cover"
+                  />
+                </div>
+
+                <div className="mt-3 pb-3">
+                  <h5 className="text-gray-600 pt-1 text-sm">
+                    {formatDateTime(item.createdAt)}
+                  </h5>
+                  <div className="flex-row grid-flow-row py-3">
+                    <span className="">
+                      {item.tags.map(tags => (
+                        <span className="text-base text-primary rounded-md w-32 border border-[#BBE3AD] bg-secondary px-2 mr-2 py-1 text-center">
+                          {tags}
+                        </span>
+                      ))}
+                    </span>
+                  </div>
+                  <h5 className="font-bold mt-1">
+                    {item.category}{" "}
+                    <span className="text-green-700">{">"}</span>
+                  </h5>
+                  <h1 className="text-gray-800 duration-150 group-hover:text-green-700 font-semibold text-lg">
+                    {ellipsis(item.title, 30)}
+                  </h1>
+                  <p className="text-sm me-8 text-justify">
+                    {ellipsis(item.content, 180)}
+                  </p>
+                </div>
+              </div>
+            </Link>
+          );
+        })}
       </div>
-      {!showAll && blogsCategory.length > 4 && (
-        <SeeMore onClick={handleSeeMoreClick} text="See More" />
-      )}
-      {showAll && <SeeMore onClick={handleSeeLessClick} text="See Less" />}
+      <Pagination>
+        <PaginationContent>
+          <PaginationPrevious onClick={handlePreviousPage} />
+          {[...Array(totalPages)].map((_, index) => (
+            <PaginationItem key={index}>
+              <PaginationLink
+                isActive={index + 1 === currentPage}
+                onClick={() => setCurrentPage(index + 1)}
+              >
+                {index + 1}
+              </PaginationLink>
+            </PaginationItem>
+          ))}
+          <PaginationNext onClick={handleNextPage} className="my-8" />
+        </PaginationContent>
+      </Pagination>
     </div>
   );
 };

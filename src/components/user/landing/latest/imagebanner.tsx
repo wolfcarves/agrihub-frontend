@@ -18,7 +18,7 @@ const Imagebanner: React.FC = () => {
                 style={{ fontFamily: "Arial Black" }}
                 className="text-4xl lg:text-6xl xl:text-7xl font-bold text-neutral-300 text-center lg:text-left xl:text-left"
               >
-                LASTEST NEWS
+                LATEST NEWS
               </h1>
             </div>
           </div>

@@ -6,7 +6,7 @@ type BaseDivderProps = React.DetailedHTMLProps<
 >;
 
 interface DividerProps extends BaseDivderProps {
-  $title: string;
+  $title: string | JSX.Element;
   $color: string;
 }
 

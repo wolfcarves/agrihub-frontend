@@ -63,7 +63,7 @@ const QuestionCommentForm = ({ answerId }: QuestionCommentFormProps) => {
         render={({ field: { onChange } }) => {
           return (
             <>
-              <div className="flex gap-2 w-full">
+              <div className="flex gap-2 max-w-[43rem] ">
                 <Avatar className="border">
                   <AvatarImage
                     src={user.data?.avatar}
@@ -85,7 +85,7 @@ const QuestionCommentForm = ({ answerId }: QuestionCommentFormProps) => {
                   />
                 ) : (
                   <>
-                    <div className="h-10 flex justify-center items-center w-full border mx-auto rounded-lg shadow-md ">
+                    <div className="h-10 flex justify-center items-center w-full border mx-auto rounded-lg shadow-md">
                       <LoadingSpinner className="text-xl" />
                     </div>
                     <ActivityIndicator />
@@ -112,35 +112,3 @@ const QuestionCommentForm = ({ answerId }: QuestionCommentFormProps) => {
 };
 
 export default QuestionCommentForm;
-
-/*
-  return !isPostCommentLoading ? (
-            <div className="flex gap-2 w-full">
-              <Avatar className="border">
-                <AvatarImage
-                  src={user.data?.avatar}
-                  className="object-cover pointer-events-none select-none "
-                />
-                <AvatarFallback>A</AvatarFallback>
-              </Avatar>
-
-              <RichTextEditor
-                allowImagePaste={false}
-                withToolbar={false}
-                onChange={({ charSize }) => {
-                  setAnswerLength(charSize ?? 0);
-                }}
-                onBlur={data => {
-                  onChange(data.html);
-                }}
-              />
-            </div>
-          ) : (
-            <>
-              <div className="min-h-[5rem] flex justify-center items-center w-full border mx-auto rounded-lg ">
-                <LoadingSpinner className="text-xl" />
-              </div>
-              <ActivityIndicator />
-            </>
-          );
-*/

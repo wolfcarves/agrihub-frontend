@@ -68,8 +68,7 @@ const Carousels: React.FC = () => {
         <div className="relative gap-5 w-full sm:w-1/2 items-center h-[656px] lg:flex ">
           <div className="flex-1 py-5 sm:mx-auto lg:max-w-max lg:text-left z-40">
             <h3 className="text-3xl text-gray-100 font-semibold md:text-4xl">
-              Join our vibrant <span className="text-green-400">community</span>{" "}
-              today!{" "}
+              Join our <span className="text-green-400">community</span> today!{" "}
             </h3>
             <p className="text-gray-100 leading-relaxed mt-3">
               Share your farm reports, access valuable resources, and connect

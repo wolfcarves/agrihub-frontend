@@ -28,7 +28,7 @@ export const adminNavigation = [
     nav: [
       {
         title: "",
-        name: "",
+        name: "Analytics",
         href: "/admin/analytics"
       }
     ]

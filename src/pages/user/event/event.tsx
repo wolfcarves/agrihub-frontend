@@ -3,6 +3,15 @@ import { useParams } from "react-router-dom";
 import { eventsData } from "./eventsData";
 import { formatDateTime } from "@components/lib/utils";
 import { Link } from "react-router-dom";
+import { Card } from "@components/ui/card";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious
+} from "@components/ui/carousel";
+import { blog_image } from "src/constants/data";
 
 const Event = () => {
   const { eventId } = useParams();
@@ -132,6 +141,49 @@ const Event = () => {
             <p>{selectedEvent.participateGuide}</p>
           </div>
         </div>
+      </div>
+      <div className="max-w-screen-xl my-8 mx-16">
+        <h3 className="mb-3 font-bold">Upcoming Events</h3>
+      </div>
+      <div className="mx-16 mb-16">
+        <Carousel className="w-full">
+          <CarouselContent className="-ml-1">
+            {eventsData.map(
+              (items, key) =>
+                items.status === "upcoming" && (
+                  <CarouselItem
+                    className="pl-1 md:basis-1/2 lg:basis-1/3"
+                    key={key}
+                  >
+                    <Card className="w-full mx-auto group sm:max-w-sm">
+                      <Link to={`/events/view/${items.eventId}`}>
+                        <img
+                          src={items.img}
+                          loading="lazy"
+                          alt={items.title}
+                          className="w-full rounded-lg max-h-52 min-h-52"
+                        />
+                        <div className="mt-3 space-y-2 px-5 pb-5">
+                          <h3 className="text-lg text-gray-800 duration-150 group-hover:text-green-700 font-semibold line-clamp-2">
+                            {items.title}
+                          </h3>
+                          <p className="line-clamp-2">{items.desc}</p>
+                          <h5 className="block font-bold text-gray-800">
+                            {items.status} | {formatDateTime(items.eventStart)}
+                          </h5>
+                          <h6 className="text-gray-600 font-bold line-clamp-2">
+                            {items.where}
+                          </h6>
+                        </div>
+                      </Link>
+                    </Card>
+                  </CarouselItem>
+                )
+            )}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
       </div>
     </div>
   );

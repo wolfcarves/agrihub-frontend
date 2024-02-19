@@ -9,9 +9,21 @@ import DialogAddSpeaker from "../../dialogs/dialog-add-speaker/dialog-add-speake
 import useGetEventsDraftView from "../../../../../hooks/api/get/useGetEventsDraftView";
 import { useParams } from "react-router-dom";
 import { FiEdit } from "react-icons/fi";
+import useDeleteEventSpeaker from "../../../../../hooks/api/delete/useDeleteEventSpeaker";
+import { toast } from "sonner";
+import Loader from "../../../../../icons/Loader";
 const EventSpeakerPage = () => {
+  //get data
   const { eventId } = useParams();
   const { data: eventData } = useGetEventsDraftView(eventId || "");
+
+  //delete speaker
+  const { mutateAsync: deleteSpeaker, isLoading: isDeleteLoading } =
+    useDeleteEventSpeaker();
+  const handleDeleteSpeaker = async (id: string) => {
+    await deleteSpeaker(id);
+    toast.success("Speaker Deleted Successfully!");
+  };
   return (
     <div className="w-full">
       <div className="flex justify-between items-center mt-4 mb-2">
@@ -56,11 +68,15 @@ const EventSpeakerPage = () => {
           <Button variant="default">
             <FiEdit />
           </Button>
-          <Button variant="destructive">
+          <Button
+            onClick={() => handleDeleteSpeaker(speaker.id)}
+            variant="destructive"
+          >
             <FaRegTrashAlt />
           </Button>
         </div>
       ))}
+      <Loader isVisible={isDeleteLoading} />
     </div>
   );
 };

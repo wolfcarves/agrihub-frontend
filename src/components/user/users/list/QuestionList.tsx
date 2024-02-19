@@ -16,7 +16,7 @@ const ProfileQuestionList = ({ data, isLoading }: ProfileQuestionListProps) => {
 
   return (
     <div className="flex flex-col gap-5 mx-auto w-full max-w-[60rem] py-10">
-      <h5 className="font-bold ">Recent Posts</h5>
+      <h5 className="font-poppins-medium">Recent Posts</h5>
 
       {isLoading ? (
         <ActivityIndicator />
@@ -42,6 +42,7 @@ const ProfileQuestionList = ({ data, isLoading }: ProfileQuestionListProps) => {
                     id={id}
                     title={title}
                     description={question}
+                    userId={user?.id}
                     userAvatarSrc={user?.avatar}
                     username={user?.username}
                     vote={vote?.type as "upvote" | "downvote"}

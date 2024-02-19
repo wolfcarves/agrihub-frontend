@@ -5,7 +5,6 @@ import React, { useState } from "react";
 import Toolbar from "./Toolbar";
 import { Extensions, Editor } from "@tiptap/react";
 import CharacterCount from "@tiptap/extension-character-count";
-import HardBreak from "@tiptap/extension-hard-break";
 
 interface RichTextEditorProps
   extends Omit<
@@ -122,10 +121,16 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
       const hardBreakPattern = /(<br>\s*)+/g;
       const emptyParagraphPattern = /(<p class="min-h-\[1rem\]"><\/p>)+/g;
 
+      const preCodePatternOpenTag =
+        /<pre><code class="language-typescriptreact">/g;
+      const preCodePatternCloseTag = /(<\/code><\/pre>)/g;
+
       let html = editor
         ?.getHTML()
         .replace(hardBreakPattern, "<br>")
-        .replace(emptyParagraphPattern, `<br>`);
+        .replace(emptyParagraphPattern, `<br>`)
+        .replace(preCodePatternOpenTag, `<p class="min-h-[1rem]">`)
+        .replace(preCodePatternCloseTag, "</p>");
 
       const lastTag = html.slice(html.length - 4, html.length);
 

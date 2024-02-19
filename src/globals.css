@@ -292,19 +292,17 @@
   top: 0px;
   /* background: linear-gradient(45deg, #e91414, #f82626, #c42424, #ff0000, #df1b1b, #dd3434,
       #ff0000, #c51919, #c92323, #ff0000); */
-  background: linear-gradient(
-    45deg,
-    #ff0000,
-    #ff00005d,
-    #ff0000,
-    #ff00005d,
-    #ff0000,
-    #ff00005d,
-    #ff0000,
-    #ff00005d,
-    #ff0000,
-    #ff00005d
-  );
+  background: linear-gradient(45deg,
+      #ff0000,
+      #ff00005d,
+      #ff0000,
+      #ff00005d,
+      #ff0000,
+      #ff00005d,
+      #ff0000,
+      #ff00005d,
+      #ff0000,
+      #ff00005d);
   background-size: 400%;
   width: calc(100% + 0px);
   height: calc(100% + 2px);
@@ -339,7 +337,7 @@
 }
 
 .tiptap {
-  > * + * {
+  >*+* {
     margin-top: 0.75em;
   }
 
@@ -361,8 +359,16 @@ ol {
   list-style-type: decimal;
 }
 
+pre,
+code {
+  display: flex;
+  flex-wrap: wrap;
+  word-break: break-all;
+}
+
 @layer utilities {
   @variants responsive {
+
     /* Hide scrollbar for Chrome, Safari and Opera */
     .no-scrollbar::-webkit-scrollbar {
       display: none;

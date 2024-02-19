@@ -1,15 +1,19 @@
 import React, { useRef, useState } from "react";
-import { FaRegTrashCan } from "react-icons/fa6";
-import { Button } from "../../button";
 import { FaRegUserCircle } from "react-icons/fa";
-import { IoCamera } from "react-icons/io5";
 
 interface SingleImageUploadProps {
-  onChange: (file: Blob) => void;
+  onChange?: (file: Blob) => void;
+  defaultValue?: string;
+  disabled?: boolean;
 }
 
-const ProfileImageUpload: React.FC<SingleImageUploadProps> = ({ onChange }) => {
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
+const ProfileImageUpload: React.FC<SingleImageUploadProps> = ({
+  onChange,
+  disabled,
+  defaultValue
+}) => {
+  const [imagePreview, setImagePreview] = useState<string>(defaultValue || "");
+
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,6 +59,7 @@ const ProfileImageUpload: React.FC<SingleImageUploadProps> = ({ onChange }) => {
         capture="environment"
         id="cameraInput"
         ref={inputRef}
+        disabled={disabled}
       />
     </div>
   );

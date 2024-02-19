@@ -33,6 +33,13 @@ const EventSpeakerPage = () => {
       </div>
 
       {/* speaker */}
+      {eventData?.speaker && eventData.speaker.length <= 0 && (
+        <div className="py-10 flex items-center justify-center">
+          <h4 className="text-gray-500 font-poppins-medium">
+            No Speaker Available. Add now...
+          </h4>
+        </div>
+      )}
 
       {eventData?.speaker?.map((speaker, i) => (
         <div

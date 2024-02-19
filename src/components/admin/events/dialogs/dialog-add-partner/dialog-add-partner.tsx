@@ -11,8 +11,9 @@ import {
 import { Button } from "../../../../ui/button";
 import { IoMdAdd } from "react-icons/io";
 import EventSpeakerForm from "../../form/event-speaker-form/event-speaker-form";
+import EventPartnerForm from "../../form/event-partner-form/event-partner-form";
 
-const DialogAddSpeaker = () => {
+const DialogAddPartner = () => {
   const [isOpen, setIsOpen] = useState<boolean>();
   return (
     <Dialog open={isOpen}>
@@ -22,20 +23,21 @@ const DialogAddSpeaker = () => {
           variant={"outline"}
           onClick={() => setIsOpen(true)}
         >
-          <IoMdAdd size={16} /> Add Speaker
+          <IoMdAdd size={16} /> Add Partner
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Add Speaker</DialogTitle>
+          <DialogTitle>Add Event Partners</DialogTitle>
           <DialogDescription>
-            Fill out the form to add speaker. Click save when you're done.
+            Fill out the form to add Event Partners. Click save when you're
+            done.
           </DialogDescription>
         </DialogHeader>
-        <EventSpeakerForm setIsOpen={setIsOpen} />
+        <EventPartnerForm setIsOpen={setIsOpen} />
       </DialogContent>
     </Dialog>
   );
 };
 
-export default DialogAddSpeaker;
+export default DialogAddPartner;

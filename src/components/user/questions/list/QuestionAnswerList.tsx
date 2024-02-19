@@ -8,11 +8,7 @@ interface QuestionAnswerListProps {
   isRefetching?: boolean;
 }
 
-const QuestionAnswerList = ({
-  data,
-  isLoading,
-  isRefetching
-}: QuestionAnswerListProps) => {
+const QuestionAnswerList = ({ data, isLoading }: QuestionAnswerListProps) => {
   const hasAnswer = data?.question?.answers;
 
   return (

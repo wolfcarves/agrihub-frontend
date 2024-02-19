@@ -20,8 +20,8 @@ const QuestionsList = ({ data, isLoading }: QuestionsListProps) => {
   const navigate = useNavigate();
   const user = useAuth();
   const { mutateAsync: questionVoteMutate } = useQuestionVoteMutation();
-  // const { mutateAsync: questionDeleteVoteMutate } =
-  //   useQuestionDeleteVoteMutation();
+  const { mutateAsync: questionDeleteVoteMutate } =
+    useQuestionDeleteVoteMutation();
 
   //For winking ;)
   const [countDown, setCountdown] = useState<number>(0);
@@ -31,22 +31,25 @@ const QuestionsList = ({ data, isLoading }: QuestionsListProps) => {
   const handleQuestionVote = async (
     id: string,
     type: "upvote" | "downvote",
-    currentVote: "upvote" | "downvote" | null | undefined
+    previousVote: "upvote" | "downvote" | null | undefined,
+    voteId: string | undefined
   ) => {
     try {
-      //for deleting vote but ain't working
-      //  await questionDeleteVoteMutate(id);
-      if (type !== currentVote && user.isAuthenticated) {
-        if (countDown === 0 && type === "upvote") {
-          runCountDown();
+      if (user.isAuthenticated) {
+        if (voteId && type === previousVote) {
+          await questionDeleteVoteMutate(voteId);
+        } else {
+          if (countDown === 0 && type === "upvote") {
+            runCountDown();
+          }
+
+          await questionVoteMutate({
+            id,
+            requestBody: { type }
+          });
+
+          toast.info(`Successfully ${type} a question`);
         }
-
-        await questionVoteMutate({
-          id,
-          requestBody: { type }
-        });
-
-        toast.info(`Successfully ${type} a question`);
       }
     } catch (error: any) {
       toast.error(error.body.message);
@@ -106,11 +109,11 @@ const QuestionsList = ({ data, isLoading }: QuestionsListProps) => {
 
   return (
     <div className="flex flex-col gap-7 pb-20">
-      {isWinkVisible && (
+      {/* {isWinkVisible && (
         <div className="fixed flex z-50 inset-0">
           <img src={winkSrc} />
         </div>
-      )}
+      )} */}
 
       {data?.questions?.map(
         ({
@@ -141,7 +144,8 @@ const QuestionsList = ({ data, isLoading }: QuestionsListProps) => {
                 handleQuestionVote(
                   id!,
                   "upvote",
-                  vote?.type as "upvote" | "downvote" | null | undefined
+                  vote?.type as "upvote" | "downvote" | null | undefined,
+                  vote?.id
                 );
               }}
               onDownVoteBtnClick={e => {
@@ -149,7 +153,8 @@ const QuestionsList = ({ data, isLoading }: QuestionsListProps) => {
                 handleQuestionVote(
                   id!,
                   "downvote",
-                  vote?.type as "upvote" | "downvote" | null | undefined
+                  vote?.type as "upvote" | "downvote" | null | undefined,
+                  vote?.id
                 );
               }}
               onAnswerBtnClick={() => {

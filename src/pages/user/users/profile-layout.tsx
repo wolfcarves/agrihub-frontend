@@ -3,7 +3,7 @@ import { UsePagination } from "@providers/PaginationProvider";
 
 const UserProfileLayout = () => {
   return (
-    <div className="container py-5">
+    <div className="container ">
       <Outlet />
     </div>
   );

@@ -7,8 +7,7 @@ import {
   DialogContent,
   DialogDescription,
   DialogHeader,
-  DialogTitle,
-  DialogTrigger
+  DialogTitle
 } from "@components/ui/dialog";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { LuUpload } from "react-icons/lu";
@@ -29,11 +28,11 @@ const ProfileImage = () => {
 
   return (
     <Dialog>
-      <div className="relative flex items-end justify-center border rounded-lg min-h-[20rem] ">
+      <div className="relative flex items-end justify-center rounded-b-lg min-h-[22rem]">
         <div className="absolute inset-0 cursor-pointer">
           <img
             src={BackgroundImage}
-            className="h-full w-full object-cover object-center rounded-lg"
+            className="h-full w-full object-cover object-center rounded-b-lg"
           />
         </div>
 
@@ -46,7 +45,7 @@ const ProfileImage = () => {
         >
           <img
             src={userAvatar}
-            className="h-full w-full absolute inset-0 object-cover object-center rounded-lg group-hover:brightness-110 "
+            className="h-full w-full absolute inset-0 object-cover object-center group-hover:brightness-110 "
           />
 
           <input

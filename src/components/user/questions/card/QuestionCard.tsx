@@ -8,10 +8,23 @@ import TagChip from "../chip/TagChip";
 import { Link } from "react-router-dom";
 import QuestionUserProfileButton from "../button/QuestionUserProfileButton";
 import useAuth from "@hooks/useAuth";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger
+} from "@components/ui/dropdown-menu";
+import { IoBookmark } from "react-icons/io5";
+import { MdReportProblem } from "react-icons/md";
+import { FaRegTrashCan } from "react-icons/fa6";
+import { FaRegEdit } from "react-icons/fa";
 
 interface QuestionCardProps {
   id?: string;
   title?: string;
+  userId?: string;
   username?: string;
   userAvatarSrc?: string;
   description?: string | Node;
@@ -31,6 +44,7 @@ interface QuestionCardProps {
 const QuestionCard = ({
   id,
   title,
+  userId,
   username,
   userAvatarSrc,
   description,
@@ -45,7 +59,6 @@ const QuestionCard = ({
   onShareBtnClick
 }: QuestionCardProps) => {
   const user = useAuth();
-  const isSameUser = user?.data?.username === username;
 
   const purifiedDescription = DOMPurify.sanitize(description ?? "", {
     USE_PROFILES: {
@@ -67,7 +80,7 @@ const QuestionCard = ({
   return (
     <div
       className="flex flex-col rounded-xl hover:bg-neutral-300 duration-200 h-max w-full"
-      key={`${id} + ${title}`}
+      key={id}
     >
       <div className="flex flex-col bg-white border p-3 sm:p-5 rounded-xl min-h-[20rem] h-full max-h-[25rem] hover:shadow-sm hover:-translate-y-2 hover:-translate-x-2 duration-200">
         <>
@@ -79,14 +92,51 @@ const QuestionCard = ({
               </h4>
             </Link>
 
-            <button
-              className="text-xl p-2 rounded-md hover:bg-accent opacity-80 hover:opacity-100 duration-200"
-              onClick={e => {
-                e.preventDefault();
-              }}
-            >
-              <BsThreeDots />
-            </button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <span
+                  className="text-xl p-1.5 rounded-md hover:bg-accent opacity-80 hover:opacity-100 cursor-pointer duration-200"
+                  onClick={e => {
+                    e.preventDefault();
+                  }}
+                >
+                  <BsThreeDots />
+                </span>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-[12rem]" align="end">
+                {user.data?.id === userId ? (
+                  <>
+                    <DropdownMenuItem className="rounded-md cursor-pointer py-2.5 ">
+                      <FaRegEdit className="text-lg opacity-90" />
+                      <span className="ps-2 font-poppins-semibold opacity-90">
+                        Edit
+                      </span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem className="rounded-md cursor-pointer py-2.5 ">
+                      <FaRegTrashCan className="text-lg opacity-90" />
+                      <span className="ps-2 font-poppins-semibold opacity-90">
+                        Delete
+                      </span>
+                    </DropdownMenuItem>
+                  </>
+                ) : (
+                  <>
+                    <DropdownMenuItem className="rounded-md cursor-pointer py-2.5 ">
+                      <IoBookmark className="text-xl opacity-90" />
+                      <span className="ps-2 font-poppins-semibold opacity-90">
+                        Save
+                      </span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem className="rounded-md cursor-pointer py-2.5 ">
+                      <MdReportProblem className="text-xl opacity-90" />
+                      <span className="ps-2 font-poppins-semibold opacity-90">
+                        Report
+                      </span>
+                    </DropdownMenuItem>
+                  </>
+                )}
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
 
           {/* Name and Tags */}
@@ -113,8 +163,8 @@ const QuestionCard = ({
             {...{ answerCount }}
             {...{ voteCount }}
             {...{ onAnswerBtnClick }}
-            onUpVoteBtnClick={!isSameUser ? onUpVoteBtnClick : undefined}
-            onDownVoteBtnClick={!isSameUser ? onDownVoteBtnClick : undefined}
+            onUpVoteBtnClick={onUpVoteBtnClick}
+            onDownVoteBtnClick={onDownVoteBtnClick}
             {...{ onShareBtnClick }}
           />
         </>

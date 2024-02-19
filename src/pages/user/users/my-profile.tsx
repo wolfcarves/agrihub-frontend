@@ -13,14 +13,17 @@ const MyProfile = () => {
       perpage: "10"
     });
 
-  const postCount = questionData?.questions?.filter(
-    q => q.user?.id === user.data?.id
-  ).length;
-
   return (
     <>
       <ProfileImage />
-      <ProfileTitle postCount={postCount} />
+      <ProfileTitle
+        fullname={user.data?.firstname + " " + user.data?.lastname}
+        username={user.data?.username}
+        postCount={
+          questionData?.questions?.filter(q => q.user?.id === user.data?.id)
+            .length
+        }
+      />
       <ProfileTabs />
       <ProfileQuestionList data={questionData} isLoading={isQuestionLoading} />
     </>

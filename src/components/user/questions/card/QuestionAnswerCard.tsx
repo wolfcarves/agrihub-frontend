@@ -3,7 +3,7 @@ import QuestionFeedbackPanel from "../panel/QuestionFeedbackPanel";
 import { Link } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/avatar";
 import DOMPurify from "dompurify";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import QuestionCommentForm from "../form/QuestionCommentForm/QuestionCommentForm";
 import useAuth from "@hooks/useAuth";
 
@@ -13,29 +13,15 @@ interface QuestionAnswerListProps {
   isRefetching?: boolean;
 }
 
-const QuestionAnswerCard = ({
-  data,
-  isRefetching
-}: QuestionAnswerListProps) => {
+const QuestionAnswerCard = ({ data }: QuestionAnswerListProps) => {
   const user = useAuth();
   const [addComment, setAddComment] = useState<boolean>(false);
   const [expandComment, setExpandComment] = useState<boolean>(false);
   const parentRef = useRef<HTMLDivElement>(null);
   const purifyAnswer = DOMPurify.sanitize(data?.answer ?? "");
 
-  console.log(expandComment);
-
   const showCommentForm =
     addComment || (expandComment && user?.isAuthenticated);
-
-  // useEffect(() => {
-  //   console.log(isRefetching);
-
-  //   if (isRefetching) {
-  //     setAddComment(true);
-  //     setExpandComment(true);
-  //   }
-  // }, [isRefetching]);
 
   return (
     <div className="relative w-full">
@@ -97,8 +83,6 @@ const QuestionAnswerCard = ({
         </div>
       </div>
 
-      {/* Lagyan natin label baka tanong tanong nanaman jan si mam impang , asan comment jan asan yung ganto yung ganto bruh */}
-
       {data?.comments && data?.comments.length > 1 && (
         <span className="flex ps-10 ms-auto gap-2 py-2 text-sm">Comments</span>
       )}
@@ -111,7 +95,7 @@ const QuestionAnswerCard = ({
 
           return (
             <div
-              className="flex ps-10 ms-auto gap-2 py-2 "
+              className="flex ps-10 ms-auto gap-2 py-2"
               key={`${c} + ${index}`}
               onLoad={e => {
                 parentRef.current?.style?.setProperty(
@@ -120,7 +104,7 @@ const QuestionAnswerCard = ({
                 );
               }}
             >
-              <div className="flex relative h-max rounded-full ">
+              <div className="flex relative h-max rounded-full">
                 <Link to="/" className="font-poppins-medium hover:opacity-80">
                   <Avatar className="border">
                     <AvatarImage
@@ -141,13 +125,13 @@ const QuestionAnswerCard = ({
               </div>
 
               <div className="">
-                <div className="w-full min-w-[12.5rem] border p-3 rounded-lg">
-                  <Link to="/" className="font-poppins-medium hover:underline ">
+                <div className="min-w-[12.5rem] border max-w-[40rem] p-3 rounded-lg">
+                  <Link to="/" className="font-poppins-medium hover:underline">
                     {c.user?.username}
                   </Link>
 
                   <p
-                    className="mt-2"
+                    className="mt-2 w-full break-all "
                     dangerouslySetInnerHTML={{
                       __html: purifyComment
                     }}

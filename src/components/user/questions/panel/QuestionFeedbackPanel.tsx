@@ -4,7 +4,6 @@ import { TiArrowForwardOutline } from "react-icons/ti";
 import { LuBookmark } from "react-icons/lu";
 import { PiArrowFatUpFill } from "react-icons/pi";
 import { PiArrowFatDownFill } from "react-icons/pi";
-import { FaRegComment } from "react-icons/fa6";
 import withRequireAuth from "@higher-order/account/withRequireAuth";
 import QuestionFeedBackPanelButton from "../button/QuestionFeedBackPanelButton";
 import { FiPlusCircle } from "react-icons/fi";

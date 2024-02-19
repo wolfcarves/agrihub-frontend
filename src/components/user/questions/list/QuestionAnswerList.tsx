@@ -27,9 +27,11 @@ const QuestionAnswerList = ({ data, isLoading }: QuestionAnswerListProps) => {
         </div>
       )}
 
-      {data?.question?.answers?.map(data => {
-        return <QuestionAnswerCard key={data.id} data={data} />;
-      })}
+      {data?.question?.answers
+        ?.map(data => {
+          return <QuestionAnswerCard key={data.id} data={data} />;
+        })
+        .reverse()}
     </div>
   );
 };

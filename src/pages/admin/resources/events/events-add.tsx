@@ -1,22 +1,8 @@
 import React from "react";
 import BreadCrumb from "@components/ui/custom/breadcrumb/breadcrumb";
 import AdminOutletContainer from "@components/admin/layout/container/AdminOutletContainer";
-import { Input } from "@components/ui/input";
-import { Label } from "@components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from "@components/ui/select";
-import RichTextEditor from "@components/ui/custom/rich-text-editor/RichTextEditor";
 import { Button } from "@components/ui/button";
-import CoverImageUpload from "@components/ui/custom/image/cover-image-input";
-import ProfileImageUpload from "@components/ui/custom/image/profile-image-input";
-import { Form } from "@components/ui/form";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -34,11 +20,15 @@ import {
   AccordionItem,
   AccordionTrigger
 } from "@components/ui/accordion";
-import { DatePickerWithPresets } from "@components/ui/date-preset-picker";
-import { FaRegTrashAlt } from "react-icons/fa";
 import EventDetailForm from "../../../../components/admin/events/form/event-detail-form/event-detail-form";
 import EventSpeakerPage from "../../../../components/admin/events/form/event-speaker-form/event-speaker-page";
 import EventPartnerPage from "../../../../components/admin/events/form/event-partner-form/event-partner-page";
+import useGetEventsDraftView from "../../../../hooks/api/get/useGetEventsDraftView";
+import useDeleteEventDraft from "../../../../hooks/api/delete/useDeleteEventDraft";
+import { toast } from "sonner";
+import usePutEventsUnpublish from "../../../../hooks/api/put/usePutEventsUnpublish";
+import useDeleteEventArchive from "../../../../hooks/api/delete/useDeleteEventArchive";
+import usePutEventsPublish from "../../../../hooks/api/put/usePutEventsPublish";
 
 const breadcrumbItems = [
   { title: "Resource Management", link: "/admin/resources" },
@@ -47,27 +37,41 @@ const breadcrumbItems = [
 ];
 
 const AddEvents = () => {
-  const [speakerCount, setSpeakerCount] = useState(1);
-  const [partnersCount, setPartnerCount] = useState(1);
+  const navigate = useNavigate();
+  const { eventId } = useParams();
+  const { data: eventData } = useGetEventsDraftView(eventId || "");
+  console.log(eventData);
 
-  const handleAddSpeaker = (e: any) => {
-    e.preventDefault();
-    setSpeakerCount(prevCount => prevCount + 1); // Increment speaker count
+  const { mutateAsync: deleteDraft } = useDeleteEventDraft();
+  const handleDeleteDraft = async () => {
+    await deleteDraft(eventId || "");
+    toast.success("Draft Deleted Successfully!");
+    navigate("/admin/resource/events-draft");
   };
 
-  const handleDeleteSpeaker = (index: number, e: any) => {
-    e.preventDefault();
-    setSpeakerCount(prevCount => prevCount - 1);
+  const { mutateAsync: unpublishMaterial } = usePutEventsUnpublish();
+  const handleUnpublish = async () => {
+    await unpublishMaterial(eventId || "");
+    toast.success("Unpublished Successfully!");
+    navigate("/admin/resource/events-draft");
   };
 
-  const handleAddPartner = (e: any) => {
-    e.preventDefault();
-    setPartnerCount(prevCount => prevCount + 1); // Increment speaker count
+  const { mutateAsync: archiveMaterial } = useDeleteEventArchive();
+  const handleArchive = async () => {
+    await archiveMaterial(eventId || "");
+    toast.success("Archive Successfully!");
+    navigate("/admin/resource/events-archives");
   };
 
-  const handleDeletePartner = (index: number, e: any) => {
-    e.preventDefault();
-    setPartnerCount(prevCount => prevCount - 1);
+  const { mutateAsync: publishMaterial } = usePutEventsPublish();
+  const handlePublish = async () => {
+    try {
+      await publishMaterial(eventId || "");
+      toast.success("Published Successfully!");
+      navigate("/admin/resource/events");
+    } catch (e: any) {
+      toast.error(e.body.message);
+    }
   };
 
   return (
@@ -106,62 +110,118 @@ const AddEvents = () => {
 
           {/* ==================================bu-ons======================================== */}
           <div className="flex gap-4 justify-end mt-4">
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button variant="ghost" className="hover:bg-red-500">
-                  Discard
-                </Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>
-                    Are you sure you want to discard?
-                  </AlertDialogTitle>
-                  <AlertDialogDescription>
-                    This action cannot be undone. This will permanently delete
-                    all your progress from our website.
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <Link to="/admin/resource/events">
-                    <AlertDialogAction className="bg-red-600 hover:bg-red-500 hover:text-black">
-                      Discard
-                    </AlertDialogAction>
-                  </Link>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
+            {eventData?.status === "draft" ? (
+              <>
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button
+                      variant="destructive"
+                      className="hover:border-red-500"
+                    >
+                      Delete
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Delete Draft?</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        When you delete learning material draft it will be
+                        remove totally in our system
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
 
-            <Link to="/admin/resource/events-draft">
-              <Button variant="outline" className="hover:border-green-500">
-                Save Draft
-              </Button>
-            </Link>
+                      <AlertDialogAction
+                        onClick={handleDeleteDraft}
+                        className="bg-red-600 hover:bg-red-500 hover:text-black"
+                      >
+                        Delete
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button>Publish Material</Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>
+                        Are you sure you want to upload this material?
+                      </AlertDialogTitle>
+                      <AlertDialogDescription>
+                        This learning material can be seen publicly by the users
+                        when published, make sure to review everything before
+                        publishing.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
 
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button>Post Event</Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>
-                    Are you sure you want to upload this event?
-                  </AlertDialogTitle>
-                  <AlertDialogDescription>
-                    This event can be seen publicly by the users when posted, if
-                    you want to archive the event you can visit the archive
-                    management in admin
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <Link to="/admin/resource/events">
-                    <AlertDialogAction>Post</AlertDialogAction>
-                  </Link>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
+                      <AlertDialogAction onClick={handlePublish}>
+                        Publish
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              </>
+            ) : (
+              <>
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className="border-red-500 text-red-500 hover:text-white hover:bg-red-500"
+                    >
+                      Archieve
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Archive Material?</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        When you archieve learning material it will go to
+                        archieve and you can recover it from there.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+
+                      <AlertDialogAction
+                        onClick={handleArchive}
+                        className="bg-red-600 hover:bg-red-500 hover:text-black"
+                      >
+                        Archieve
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button variant={"destructive"}>Unpublish Material</Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>
+                        Are you sure you want to unpublish this material?
+                      </AlertDialogTitle>
+                      <AlertDialogDescription>
+                        This learning material will can't be seen in public
+                        anymore.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+
+                      <AlertDialogAction onClick={handleUnpublish}>
+                        Unpublish
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              </>
+            )}
           </div>
         </>
       </div>

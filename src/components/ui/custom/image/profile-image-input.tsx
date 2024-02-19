@@ -1,81 +1,66 @@
 import React, { useRef, useState } from "react";
-import { FaRegTrashCan } from "react-icons/fa6";
-import { Button } from "../../button";
 import { FaRegUserCircle } from "react-icons/fa";
 
 interface SingleImageUploadProps {
-  onChange: (files: Blob[]) => void;
+  onChange?: (file: Blob) => void;
+  defaultValue?: string;
+  disabled?: boolean;
 }
 
-const ProfileImageUpload: React.FC<SingleImageUploadProps> = ({ onChange }) => {
-  const [imagePreviews, setImagePreviews] = useState<
-    { url: string; file: File }[]
-  >([]);
+const ProfileImageUpload: React.FC<SingleImageUploadProps> = ({
+  onChange,
+  disabled,
+  defaultValue
+}) => {
+  const [imagePreview, setImagePreview] = useState<string>(defaultValue || "");
+
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
+    const file = e.target.files && e.target.files[0];
 
-    if (files) {
-      const newImagePreviews = Array.from(files).map(file => ({
-        url: URL.createObjectURL(file),
-        file
-      }));
-
-      setImagePreviews(prevPreviews => [...prevPreviews, ...newImagePreviews]);
-      onChange(newImagePreviews.map(image => image.file));
+    if (file && onChange) {
+      onChange(file);
+    }
+    if (file) {
+      showImagePreview(file);
     }
   };
 
-  const handleDelete = (
-    index: number,
-    e: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    e.preventDefault();
-    const updatedPreviews = [...imagePreviews];
-    const deletedImage = updatedPreviews.splice(index, 1)[0];
-    URL.revokeObjectURL(deletedImage.url);
-    setImagePreviews(updatedPreviews);
-    onChange(updatedPreviews.map(image => image.file));
-  };
-
-  const handleUploadButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    inputRef.current?.click();
+  const showImagePreview = (file: File) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      setImagePreview(reader.result as string);
+    };
+    reader.readAsDataURL(file);
   };
 
   return (
-    <div>
+    <div
+      className={` flex flex-col items-center justify-center h-[2.6rem] w-[2.6rem] border-dashed rounded-lg cursor-pointer bg-primary hover:bg-primary/80`}
+      onClick={() => inputRef.current?.click()}
+    >
+      {imagePreview ? (
+        <img
+          src={imagePreview}
+          alt="Uploaded"
+          className=" h-[2.6rem] w-[2.6rem] rounded-lg object-cover object-center"
+        />
+      ) : (
+        <div className="flex flex-col items-center justify-center ">
+          <FaRegUserCircle size={20} className=" text-white" />
+        </div>
+      )}
       <input
         type="file"
         accept="image/*"
         onChange={handleInputChange}
         className="hidden"
-        multiple
+        capture="environment"
+        id="cameraInput"
         ref={inputRef}
+        disabled={disabled}
       />
-      {imagePreviews.length === 0 && (
-        <Button className="w-full p-2 -mb-1" onClick={handleUploadButtonClick}>
-          <FaRegUserCircle className="m-1" size={18} />
-        </Button>
-      )}
-      <div className="flex flex-wrap mt-2">
-        {imagePreviews.map((preview, index) => (
-          <div key={index} className="relative">
-            <img
-              src={preview.url}
-              alt={`Uploaded ${index + 1}`}
-              className="h-[3rem] w-[4.9rem] rounded-lg shadow-md object-cover object-center m-1"
-            />
-            <button
-              className="absolute top-0 right-0 text-white bg-red-600 rounded-full p-1 cursor-pointer"
-              onClick={e => handleDelete(index, e)}
-            >
-              <FaRegTrashCan />
-            </button>
-          </div>
-        ))}
-      </div>
     </div>
   );
 };

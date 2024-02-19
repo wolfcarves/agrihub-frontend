@@ -24,7 +24,7 @@ const UserHeaderMenu = () => {
   const { mutateAsync: deleteAuthData, isLoading } = useDeleteAuthMutate();
 
   const handleToAdmin = () => {
-    navigate(`/admin`);
+    navigate(`/admin/dashboard`);
   };
 
   return (

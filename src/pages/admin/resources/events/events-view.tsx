@@ -36,7 +36,7 @@ const breadcrumbItems = [
   { title: "Add New Event", link: "/admin/resource/blogs/add" }
 ];
 
-const AddEvents = () => {
+const ViewEvents = () => {
   const navigate = useNavigate();
   const { eventId } = useParams();
   const { data: eventData } = useGetEventsDraftView(eventId || "");
@@ -229,4 +229,4 @@ const AddEvents = () => {
   );
 };
 
-export default AddEvents;
+export default ViewEvents;

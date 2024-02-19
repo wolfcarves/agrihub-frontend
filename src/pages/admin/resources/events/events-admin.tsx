@@ -8,6 +8,7 @@ import withAuthGuard from "@higher-order/account/withAuthGuard";
 import { Button } from "@components/ui/button";
 import { useNavigate } from "react-router-dom";
 import DialogAddEvent from "../../../../components/admin/events/dialogs/dialog-add-event/dialog-add-event";
+import TableEventsPublished from "../../../../components/admin/events/table/table-events-published/table-events-published";
 
 const breadcrumbItems = [
   { title: "Resource Management", link: "/admin/resources" },
@@ -29,8 +30,7 @@ const EventsAdmin = () => {
       </div>
       <p className="text-sm text-muted-foreground">Manage all events.</p>
       <hr className="my-4" />
-      <Input placeholder="Search title..." className="max-w-sm my-4" />
-      <DataTable columns={columns} data={data} />
+      <TableEventsPublished />
     </AdminOutletContainer>
   );
 };

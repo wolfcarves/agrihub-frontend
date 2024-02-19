@@ -88,7 +88,7 @@ const AddLearningResourceForm: React.FC<AddLearningInterfaceProps> = ({
       description: data.description,
       resource: data.resource,
       type: data.type,
-      image: data.image
+      image: selectedType === "image" ? data.image : undefined
     };
 
     try {

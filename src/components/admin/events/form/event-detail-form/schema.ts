@@ -49,4 +49,5 @@ export const addEventDetailSchema = zod.object({
         file?.size === undefined ? true : file.size <= MAX_IMAGE_FILE_SIZE,
       "Maximum image file size is 10MB"
     )
+    .optional()
 });

@@ -18,6 +18,7 @@ import DialogEditPartner from "../../dialogs/dialog-edit-partner/dialog-edit-par
 import useDeleteEventPartner from "../../../../../hooks/api/delete/useDeleteEventPartner";
 import { toast } from "sonner";
 import Loader from "../../../../../icons/Loader";
+import { Checkbox } from "../../../../ui/checkbox";
 
 const EventPartnerPage = () => {
   const { eventId } = useParams();
@@ -67,6 +68,7 @@ const EventPartnerPage = () => {
               className=" focus-visible:ring-0"
             />
           </div>
+
           <DialogEditPartner partnerId={partner.id} />
           <Button
             onClick={() => handleDeleteSpeaker(partner.id)}

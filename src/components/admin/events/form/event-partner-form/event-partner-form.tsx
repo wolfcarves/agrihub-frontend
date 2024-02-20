@@ -37,11 +37,13 @@ const EventPartnerForm: React.FC<formProps> = ({ setIsOpen, partnerId }) => {
     return eventData?.partnership?.find(partner => partner.id === partnerId);
   }, [eventData, partnerId]);
 
-  console.log(activePartner);
-
   const form = useForm<NewEventPartnership>({
     resolver: zodResolver(addEventPartnerSchema),
-    mode: "onBlur"
+    mode: "onBlur",
+    defaultValues: {
+      organizer: activePartner?.organizer ? activePartner.organizer : false,
+      type: activePartner?.type ? activePartner.type : undefined
+    }
   });
 
   // validations
@@ -88,9 +90,8 @@ const EventPartnerForm: React.FC<formProps> = ({ setIsOpen, partnerId }) => {
           id: eventId || "",
           formData: compiledData
         });
+        toast.success("Partner Added Successfully!");
       }
-
-      toast.success("Partner Edited Successfully!");
       setIsOpen(false);
     } catch (e: any) {
       toast.error(e.body.message);
@@ -138,11 +139,7 @@ const EventPartnerForm: React.FC<formProps> = ({ setIsOpen, partnerId }) => {
                   defaultValue={field.value}
                 >
                   <SelectTrigger className="">
-                    <SelectValue
-                      placeholder={
-                        activePartner?.type ? activePartner.type : "Choose"
-                      }
-                    />
+                    <SelectValue placeholder={"Select"} />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="Seminar">Partnership</SelectItem>
@@ -160,7 +157,11 @@ const EventPartnerForm: React.FC<formProps> = ({ setIsOpen, partnerId }) => {
               name="organizer"
               render={({ field }) => (
                 <FormItem className="flex w-full  items-center gap-1.5">
-                  <Checkbox className="mt-1" onCheckedChange={field.onChange} />
+                  <Checkbox
+                    className="mt-1"
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
                   <Label className="font-poppins-medium ">Organizer</Label>
                 </FormItem>
               )}
@@ -174,12 +175,15 @@ const EventPartnerForm: React.FC<formProps> = ({ setIsOpen, partnerId }) => {
             >
               Cancel
             </Button>
-            <Button disabled={isPartnerLoading} type="submit">
+            <Button
+              disabled={isPartnerLoading || isUpdateLoading}
+              type="submit"
+            >
               Save
             </Button>
           </div>
         </div>
-        <Loader isVisible={isPartnerLoading} />
+        <Loader isVisible={isPartnerLoading || isUpdateLoading} />
       </form>
     </Form>
   );

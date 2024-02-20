@@ -72,6 +72,9 @@ export const columns: ColumnDef<EventDetails>[] = [
             <Link to={`/admin/resource/events/view/${payment.id}`}>
               <DropdownMenuItem>View/update article</DropdownMenuItem>
             </Link>
+            <Link to={`/events/view/${payment.id}`}>
+              <DropdownMenuItem>View event in page</DropdownMenuItem>
+            </Link>
           </DropdownMenuContent>
         </DropdownMenu>
       );

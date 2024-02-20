@@ -55,7 +55,7 @@ const DialogAddEvent = () => {
       const response = await addDraftMutate(compiledData);
       toast.success("Draft Event Created Successfully!");
       setIsOpen(false);
-      navigate(`/admin/resource/events/add/${response.data.id}`);
+      navigate(`/admin/resource/events/view/${response.data.id}`);
     } catch (e: any) {
       toast.error(e.body.message);
     }

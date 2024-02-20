@@ -84,7 +84,7 @@ import UpdateBlogs from "@pages/admin/resources/blogs/blogs-update";
 import BlogsDraft from "@pages/admin/resources/blogs/blogs-draft";
 import BlogsArchive from "@pages/admin/resources/blogs/blogs-archive";
 import EventsAdmin from "@pages/admin/resources/events/events-admin";
-import AddEvents from "@pages/admin/resources/events/events-add";
+import AddEvents from "@pages/admin/resources/events/events-view";
 import UpdateEvents from "@pages/admin/resources/events/events-update";
 import EventsDraft from "@pages/admin/resources/events/events-draft";
 import EventsArchive from "@pages/admin/resources/events/events-archive";
@@ -133,6 +133,7 @@ import CommunityProfile from "./pages/user/community/community-profile";
 import InviteFarm from "./pages/user/invitation/invite-farm";
 import InviteLayout from "./pages/user/invitation/invite-layout";
 import CropsReportView from "./pages/user/community/tabs/crops-report/crops-report-view";
+import ViewEvents from "@pages/admin/resources/events/events-view";
 
 const App = ReactRouter(
   <>
@@ -297,8 +298,7 @@ const App = ReactRouter(
 
         <Route path="events">
           <Route path="" element={<EventsAdmin />} />
-          <Route path="add/:eventId" element={<AddEvents />} />
-          <Route path="view/:eventId" element={<UpdateEvents />} />
+          <Route path="view/:eventId" element={<ViewEvents />} />
         </Route>
         <Route path="events-draft" element={<EventsDraft />} />
         <Route path="events-archives" element={<EventsArchive />} />

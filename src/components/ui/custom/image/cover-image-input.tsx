@@ -4,7 +4,7 @@ import { Button } from "../../button";
 import { FiUploadCloud } from "react-icons/fi";
 
 interface CoverImageUploadProps {
-  onChange?: (blob: Blob | null) => void;
+  onChange?: (blob: Blob | undefined) => void; // Update the type to allow undefined
   disabled?: boolean;
   defaultValue?: string;
 }
@@ -33,7 +33,7 @@ const CoverImageUpload: React.FC<CoverImageUploadProps> = ({
     e.preventDefault();
     URL.revokeObjectURL(imagePreview || "");
     setImagePreview(null);
-    onChange?.(null);
+    onChange?.(undefined); // Pass undefined instead of null
   };
 
   const handleUploadButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -52,7 +52,11 @@ const CoverImageUpload: React.FC<CoverImageUploadProps> = ({
         disabled={disabled}
       />
       {imagePreview === null && (
-        <Button className="w-full p-2" onClick={handleUploadButtonClick}>
+        <Button
+          className="w-full p-2"
+          disabled={disabled}
+          onClick={handleUploadButtonClick}
+        >
           <FiUploadCloud className="mr-1" size={18} />
           Upload
         </Button>
@@ -65,13 +69,14 @@ const CoverImageUpload: React.FC<CoverImageUploadProps> = ({
               alt="Uploaded"
               className="h-auto w-auto max-h-[70vh] rounded-lg shadow-md object-cover object-center m-1"
             />
-            <button
-              className="absolute top-0 right-0 text-white bg-red-600 rounded-full p-1 cursor-pointer"
-              onClick={handleDelete}
-              disabled={disabled}
-            >
-              <FaRegTrashCan />
-            </button>
+            {!disabled && (
+              <button
+                className="absolute top-0 right-0 text-white bg-red-600 rounded-full p-1 cursor-pointer"
+                onClick={handleDelete}
+              >
+                <FaRegTrashCan />
+              </button>
+            )}
           </div>
         )}
       </div>

@@ -13,8 +13,11 @@ import {
   DropdownMenuTrigger
 } from "@components/ui/dropdown-menu";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { EventDetails } from "../../../../../api/openapi";
+import Loader from "../../../../../icons/Loader";
+import usePutEventsUnarchieve from "../../../../../hooks/api/put/usePutEventsUnarchieve";
+import { toast } from "sonner";
 
 export const columns: ColumnDef<EventDetails>[] = [
   {
@@ -51,29 +54,26 @@ export const columns: ColumnDef<EventDetails>[] = [
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const payment = row.original;
+      const material = row.original;
+      const navigate = useNavigate();
+      const { mutateAsync: unarchiveMaterial, isLoading: archieveLoading } =
+        usePutEventsUnarchieve();
+      const handleUnpublish = async () => {
+        await unarchiveMaterial(material.id || "");
+        toast.success("Unarchive Successfully!");
+        navigate("/admin/resource/events");
+      };
+      if (archieveLoading) {
+        return <Loader isVisible={true} />;
+      }
 
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id || "")}
-            >
-              Copy event ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <Link to={`/admin/resource/events/view/${payment.id}`}>
-              <DropdownMenuItem>View/update article</DropdownMenuItem>
-            </Link>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <Button
+          className=" bg-black hover:bg-black/80"
+          onClick={handleUnpublish}
+        >
+          Unarchieve
+        </Button>
       );
     }
   }

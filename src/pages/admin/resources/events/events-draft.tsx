@@ -14,11 +14,6 @@ const breadcrumbItems = [
   { title: "Drafs", link: "/admin/resource/events-draft" }
 ];
 const EventsDraft = () => {
-  const { data: LearningData } = useGetEventsDraftList(
-    undefined,
-    undefined,
-    undefined
-  );
   return (
     <AdminOutletContainer className="container mx-auto py-10 ">
       <BreadCrumb items={breadcrumbItems} />

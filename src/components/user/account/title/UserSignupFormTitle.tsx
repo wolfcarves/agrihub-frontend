@@ -1,16 +1,27 @@
-import { useNavigate } from "react-router-dom";
+import AgrihubLogo from "@icons/AgrihubLogo";
+import { Link } from "react-router-dom";
 
 const UserSignupFormTitle = () => {
-  const navigate = useNavigate();
-
   return (
     <>
-      <span className="font-semibold">Step 1 of 2</span>
-      <h2 className="font-semibold">Create an account</h2>
-      <span>Already have an account? </span>
-      <button onClick={() => navigate("/account/login")}>
-        <span className="text-lime-500">Sign in</span>
-      </button>
+      <Link
+        to="/"
+        className="border w-max rounded-xl p-1 hover:scale-[1.10] hover:shadow-sm duration-200"
+      >
+        <AgrihubLogo className="w-[2rem]" />
+      </Link>
+
+      <div className="flex flex-col gap-2 py-5 ">
+        <h5 className="font-poppins-semibold text-foreground/90">
+          Create an account
+        </h5>
+        <h6 className="text-[#808188]">
+          Have an account already?{" "}
+          <Link to="/account/login" className="text-foreground">
+            Login here
+          </Link>
+        </h6>
+      </div>
     </>
   );
 };

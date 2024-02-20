@@ -5,6 +5,8 @@ import { toast } from "sonner";
 import { useState, useEffect } from "react";
 import useDeleteAuthMutate from "@hooks/api/delete/useDeleteAuthMutate";
 
+const RESEND_MAX_COUNTDOWN = 30;
+
 const UserVerifyEmailForm = () => {
   const { mutateAsync: resendEmail, isLoading: isResendEmailLoading } =
     useUserSendVerification();
@@ -12,7 +14,7 @@ const UserVerifyEmailForm = () => {
   const { mutateAsync: deleteAuth, isLoading: isDeleteAuthLoading } =
     useDeleteAuthMutate();
 
-  const [countDown, setCountdown] = useState(3);
+  const [countDown, setCountdown] = useState(RESEND_MAX_COUNTDOWN);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -29,7 +31,7 @@ const UserVerifyEmailForm = () => {
   const handleResendEmail = async () => {
     try {
       await resendEmail();
-      setCountdown(3);
+      setCountdown(RESEND_MAX_COUNTDOWN);
     } catch (err: any) {
       toast.error(err.body.message);
     }
@@ -49,32 +51,32 @@ const UserVerifyEmailForm = () => {
         <img src={Illustartion as unknown as string} width={280} />
       </div>
 
-      <div className="flex flex-col w-full gap-5 h-max ">
+      {countDown !== 0 && (
+        <div className="flex flex-col text-center pb-10">
+          <h2>{countDown}</h2>
+          <span>Resend after </span>
+        </div>
+      )}
+
+      <div className="flex flex-col w-full gap-3 h-max ">
         <Button
+          className="w-full"
           type="submit"
-          size={"lg"}
           disabled={isResendEmailLoading || countDown !== 0}
           onClick={handleResendEmail}
         >
-          Resend Email
+          Resend
         </Button>
 
         <Button
+          className="w-full"
           type="submit"
           variant={"outline"}
-          size={"lg"}
           onClick={handleDeleteAuth}
           disabled={isDeleteAuthLoading}
         >
-          Logout
+          Use another email instead
         </Button>
-
-        {countDown !== 0 && (
-          <div className="flex flex-col text-center">
-            <span>Send again</span>
-            <span>After {countDown} seconds</span>
-          </div>
-        )}
       </div>
     </>
   );

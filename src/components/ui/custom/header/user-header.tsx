@@ -73,13 +73,13 @@ const AuthButtonsGroup = () => {
     <div className="flex gap-3">
       <>
         <Link to="/account/login">
-          <Button variant="link">Login</Button>
+          <Button variant="link" className="text-sm">
+            Login
+          </Button>
         </Link>
 
         <Link to="/account/signup">
-          <Button variant="default_border" className="px-7">
-            Signup
-          </Button>
+          <Button className="px-7 text-sm">Signup</Button>
         </Link>
       </>
     </div>

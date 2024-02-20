@@ -10,7 +10,6 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage
 } from "@components/ui/form";
 import {
@@ -21,7 +20,7 @@ import {
   SelectValue
 } from "@components/ui/select";
 import { SelectGroup } from "@radix-ui/react-select";
-import { Input } from "@components/ui/input";
+import { Input } from "@components/ui/custom";
 import { Button } from "@components/ui/button";
 
 export default function UserSetupAccountForm() {
@@ -63,7 +62,7 @@ export default function UserSetupAccountForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmitForm)}
-        className="mt-10 space-y-3"
+        className="mt-10 space-y-5"
       >
         <div>
           <FormField
@@ -72,9 +71,8 @@ export default function UserSetupAccountForm() {
             defaultValue=""
             render={({ field, fieldState }) => (
               <FormItem>
-                <FormLabel>Firstname</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input {...field} placeholder="Firstname" />
                 </FormControl>
                 <FormMessage>{fieldState.error?.message}</FormMessage>
               </FormItem>
@@ -89,9 +87,8 @@ export default function UserSetupAccountForm() {
             defaultValue=""
             render={({ field, fieldState }) => (
               <FormItem>
-                <FormLabel>Lastname</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input {...field} placeholder="Lastname" />
                 </FormControl>
                 <FormMessage>{fieldState.error?.message}</FormMessage>
               </FormItem>
@@ -111,12 +108,11 @@ export default function UserSetupAccountForm() {
               defaultValue={String(MONTHS[0].value)}
               render={({ field, fieldState }) => (
                 <FormItem>
-                  <FormLabel>Month</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={String(field.value)}
                   >
-                    <FormControl className="rounded-lg h-11">
+                    <FormControl className="rounded-2xl bg-white h-11 shadow-sm">
                       <SelectTrigger>
                         <SelectValue placeholder="" />
                       </SelectTrigger>
@@ -124,7 +120,11 @@ export default function UserSetupAccountForm() {
                     <SelectContent>
                       <SelectGroup>
                         {MONTHS.map(({ label, value }) => (
-                          <SelectItem key={label} value={value}>
+                          <SelectItem
+                            key={label}
+                            value={value}
+                            className="cursor-pointer"
+                          >
                             {label}
                           </SelectItem>
                         ))}
@@ -144,12 +144,11 @@ export default function UserSetupAccountForm() {
               defaultValue={String(years[0].value)}
               render={({ field, fieldState }) => (
                 <FormItem>
-                  <FormLabel>Year</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={String(field.value)}
                   >
-                    <FormControl className="rounded-lg h-11">
+                    <FormControl className="rounded-2xl bg-white h-11 shadow-sm">
                       <SelectTrigger>
                         <SelectValue placeholder="" />
                       </SelectTrigger>
@@ -157,7 +156,11 @@ export default function UserSetupAccountForm() {
                     <SelectContent className="max-h-[300px]">
                       <SelectGroup>
                         {years.map(({ label, value }) => (
-                          <SelectItem key={label} value={value}>
+                          <SelectItem
+                            key={label}
+                            value={value}
+                            className="cursor-pointer"
+                          >
                             {label}
                           </SelectItem>
                         ))}
@@ -178,9 +181,8 @@ export default function UserSetupAccountForm() {
             defaultValue=""
             render={({ field, fieldState }) => (
               <FormItem>
-                <FormLabel>Present Address</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input {...field} placeholder="Home Address" />
                 </FormControl>
                 <FormMessage>{fieldState.error?.message}</FormMessage>
               </FormItem>
@@ -188,13 +190,20 @@ export default function UserSetupAccountForm() {
           />
         </div>
 
-        <div className="pt-10">
+        <div className="flex flex-col  gap-3 pt-10">
           <Button
             className="w-full"
-            size={"lg"}
-            disabled={isUserSetupAccountLoading || isUserSetupAccountSuccess}
+            isLoading={isUserSetupAccountLoading || isUserSetupAccountSuccess}
           >
             Continue
+          </Button>
+
+          <Button
+            className="w-full"
+            variant="outline"
+            isLoading={isUserSetupAccountLoading || isUserSetupAccountSuccess}
+          >
+            Use another account instead
           </Button>
         </div>
       </form>

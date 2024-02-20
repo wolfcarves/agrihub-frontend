@@ -33,13 +33,15 @@ const Input = (
           $isError
             ? "border border-red-500"
             : $errorMessage && "border border-red-500"
-        }`}
+        } bg-white rounded-2xl text-base border shadow-sm`}
         {...props}
       />
 
-      <div className="h-5 ">
-        <span className="text-red-500">{$errorMessage}</span>
-      </div>
+      {$errorMessage && (
+        <div className="h-5">
+          <span className="text-red-500">{$errorMessage}</span>
+        </div>
+      )}
     </div>
   );
 };

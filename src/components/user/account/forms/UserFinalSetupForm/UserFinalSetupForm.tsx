@@ -11,7 +11,7 @@ import {
   FormLabel,
   FormMessage
 } from "@components/ui/form";
-import { Input } from "@components/ui/input";
+import { Input } from "@components/ui/custom";
 import { Button } from "@components/ui/button";
 import UserTagInputDropdown from "@components/user/account/input/UserTagInput";
 import useGetTagByKeyWord from "@hooks/api/get/useGetTagByKeyword";
@@ -70,21 +70,14 @@ const UserFinalSetupForm = () => {
       <form
         onSubmit={form.handleSubmit(handleOnSubmitForm)}
         encType="multipart/form-data"
-        className="space-y-3"
       >
-        <div>
+        <div className="py-2">
           <FormField
             name="username"
             control={form.control}
             defaultValue=""
             render={({ field, fieldState }) => (
-              <FormItem>
-                <FormLabel>Username</FormLabel>
-                <FormControl>
-                  <Input {...field} />
-                </FormControl>
-                <FormMessage>{fieldState.error?.message}</FormMessage>
-              </FormItem>
+              <Input {...field} placeholder="Username" />
             )}
           />
         </div>
@@ -136,8 +129,8 @@ const UserFinalSetupForm = () => {
           </div>
         </div>
 
-        <div className="-z-10">
-          <h5 className="pb-2">Agricultural tags that interest you : </h5>
+        <div className="mt-5 -z-10">
+          <h5 className="pb-3">Agricultural tags that interest you : </h5>
 
           <UserTagInputDropdown
             option={tagResult}
@@ -149,7 +142,7 @@ const UserFinalSetupForm = () => {
 
           <Button
             className="relative w-full mt-10"
-            disabled={isUserFinalSetupLoading || isUserFinalSetupSuccess}
+            isLoading={isUserFinalSetupLoading || isUserFinalSetupSuccess}
           >
             Continue
           </Button>

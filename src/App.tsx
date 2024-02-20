@@ -104,6 +104,16 @@ import QuestionsReported from "@pages/admin/forums/questions-reported";
 import QuestionsArchive from "@pages/admin/forums/questions-archive";
 import TagsAdmin from "@pages/admin/forums/tags-admin";
 
+import HelpsAdmin from "@pages/admin/website/help/helps-admin";
+import HelpAdmin from "@pages/admin/website/help/help-admin";
+import FeedbackAdmin from "@pages/admin/website/feedback/feedback-admin";
+
+import HomeAdmin from "@pages/admin/website/home/home-admin";
+import ClientAdmin from "@pages/admin/website/client/client-admin";
+import AboutAdmin from "@pages/admin/website/about/about-admin";
+import PrivacyAdmin from "@pages/admin/website/privacy/privacy-admin";
+import TermsAdmin from "@pages/admin/website/terms/terms-admin";
+
 import RecordUsers from "@pages/admin/users/record-users";
 import UsersReported from "@pages/admin/users/users-reported";
 import UsersBanned from "@pages/admin/users/users-banned";
@@ -114,7 +124,7 @@ import DisabledAdmin from "@pages/admin/admins/disabled-admin";
 import ActivityLog from "@pages/admin/activities/activity-log";
 
 // Providers
-import UserLayout from "@pages/user/layout/main-layout";
+import UserLayout from "@pages/user/layout/_layout";
 import AboutLayout from "./pages/user/about/_layout";
 import CommunityRegister from "./pages/user/community/community-register";
 import FarmApplication from "./pages/admin/farm-application/farm-application";
@@ -339,6 +349,18 @@ const App = ReactRouter(
         <Route path="admin-disabled" element={<DisabledAdmin />} />
 
         <Route path="activity-logs" element={<ActivityLog />} />
+      </Route>
+
+      <Route path="website">
+        <Route path="help-center" element={<HelpsAdmin />} />
+        <Route path="help-center/sub-categories" element={<HelpAdmin />} />
+        <Route path="user-feedback" element={<FeedbackAdmin />} />
+        <Route path="home" element={<HomeAdmin />} />
+        <Route path="client-details" element={<ClientAdmin />} />
+        <Route path="home" element={<HomeAdmin />} />
+        <Route path="about-us" element={<AboutAdmin />} />
+        <Route path="privacy-policy" element={<PrivacyAdmin />} />
+        <Route path="terms-conditions" element={<TermsAdmin />} />
       </Route>
     </Route>
   </>

@@ -3,7 +3,7 @@ import { IoAnalyticsSharp } from "react-icons/io5";
 import { GiFarmTractor } from "react-icons/gi";
 import { MdOutlineSource } from "react-icons/md";
 import { MdOutlineForum } from "react-icons/md";
-import { FaRegUser } from "react-icons/fa";
+import { FaRegEdit, FaRegUser } from "react-icons/fa";
 import { MdOutlineAdminPanelSettings } from "react-icons/md";
 import { RxActivityLog } from "react-icons/rx";
 
@@ -222,6 +222,53 @@ export const adminNavigation = [
         title: "",
         name: "Disabled Accounts",
         href: "/admin/record/admin-disabled"
+      }
+    ]
+  },
+  {
+    href: "/admin/website",
+    name: "Website Management",
+    icon: <FaRegEdit size={24} />,
+    nav: [
+      {
+        title: "",
+        name: "Center for Urban Agriculture and Innovation",
+        href: "/admin/website/client-details"
+      },
+      {
+        title: "",
+        name: "Home Page",
+        href: "/admin/website/home"
+      },
+      {
+        title: "",
+        name: "About Us",
+        href: "/admin/website/about-us"
+      },
+      {
+        title: "",
+        name: "Privacy Policy",
+        href: "/admin/website/privacy-policy"
+      },
+      {
+        title: "",
+        name: "Terms and Conditions",
+        href: "/admin/website/terms-conditions"
+      },
+      {
+        title: "",
+        name: "User Feedbacks",
+        href: "/admin/website/user-feedback"
+      },
+      {
+        title: "",
+        name: "Help Center",
+        href: "/admin/website/help-center"
+      },
+      {
+        title: "",
+        name: "Crops",
+        href: "/admin/website/crops"
       }
     ]
   },

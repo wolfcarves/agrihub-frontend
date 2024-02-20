@@ -29,6 +29,10 @@ export type NewCropRequest = {
      */
     growth_span: string;
     /**
+     * Indicates whether the crop yields
+     */
+    isyield: boolean;
+    /**
      * Binary data of the crop image
      */
     image: Blob;

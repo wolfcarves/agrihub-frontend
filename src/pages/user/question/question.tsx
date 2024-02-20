@@ -5,19 +5,49 @@ import OutletContainer from "@components/user/questions/container/OutletContaine
 import useGetViewQuestion from "@hooks/api/get/useGetViewQuestion";
 import { useParams } from "react-router-dom";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
+import LoadingSpinner from "@icons/LoadingSpinner";
+import QuestionAnswerForm from "@components/user/questions/form/QuestionAnswerForm/QuestionAnswerForm";
+import useAuth from "@hooks/useAuth";
 
 const Question = () => {
   const { questionId } = useParams();
+  const { isAuthenticated } = useAuth();
+  const {
+    data: questionData,
+    isLoading: isQuestionDataLoading,
+    isRefetching: isQuestionDataRefetching
+  } = useGetViewQuestion(questionId ?? "");
 
-  const { data: questionData } = useGetViewQuestion(questionId ?? "");
+  if (isQuestionDataLoading) {
+    return (
+      <div className="flex justify-center py-10 w-full min-h-[60rem] ">
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
+  if (!questionId) {
+    return (
+      <div className="flex justify-center py-10 w-full min-h-[60rem] ">
+        <h1>Question not found</h1>
+      </div>
+    );
+  }
 
   return (
-    <OutletContainer className="px-0 md:px-7 xl:px-10">
+    <OutletContainer className="px-2 md:px-7 xl:px-10 min-h-[40rem]">
       <QuestionBackButton />
       <QuestionPostBody data={questionData} />
-      <QuestionAnswerList data={questionData} />
+      <QuestionAnswerList
+        data={questionData}
+        isLoading={isQuestionDataLoading}
+        isRefetching={isQuestionDataRefetching}
+      />
+      {isAuthenticated && (
+        <QuestionAnswerForm questionId={questionData?.question?.id} />
+      )}
     </OutletContainer>
   );
 };
 
-export default withAuthGuard(Question, ["guest", "member"]);
+export default Question;

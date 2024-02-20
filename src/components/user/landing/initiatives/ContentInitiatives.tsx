@@ -1,86 +1,112 @@
-import React from "react";
-import ReadMoreButton from "../Button/ReadMore";
+import React, { useState } from "react";
+import { blogData, blog_image } from "../../../../constants/data";
+import { Link } from "react-router-dom";
+import { formatDateTime } from "@components/lib/utils";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationPrevious,
+  PaginationNext
+} from "@components/ui/pagination";
 
-import image1 from "@assets/images/Initiatives-1.png";
-import image2 from "@assets/images/initiatives-2.png";
-import image3 from "@assets/images/Initiatives-3.png";
-import image4 from "@assets/images/Initiatives-4.png";
-
-interface ImageData {
-  id: number;
-  image: string; 
-  title: string;
-  description: string;
-}
-
-const imageData: ImageData[] = [
-  {
-    id: 1,
-    image: image1,
-    title: "Initiatives",
-    description: "Lorem ipsum dolor sit amet..."
-  },
-  {
-    id: 2,
-    image: image2,
-    title: "Initiatives",
-    description: "Sa pangalawang araw ng workshop..."
-  },
-  {
-    id: 3,
-    image: image3,
-    title: "Initiatives",
-    description: "Nagsama-sama ang mga lider ng mga Urban Farms..."
-  },
-  {
-    id: 4,
-    image: image4,
-    title: "Initiatives",
-    description:
-      "Bumaba sa Barangay Gulod ang Center for Urban Agriculture and Innovation (CUAI) upang..."
+export const ellipsis = (text: string, maxLength: number): string => {
+  if (text.length <= maxLength) {
+    return text;
+  } else {
+    return text.substring(0, maxLength).trim() + "...";
   }
-];
+};
 
 const ContentInitiatives: React.FC = () => {
-  const handleCardClick = (id: number) => {
-    console.log(`Card clicked with id: ${id}`);
+  const itemsPerPage = 4;
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedData = blogData
+    .sort(function (a, b) {
+      return ("" + b.createdAt).localeCompare(a.createdAt);
+    })
+    .filter(item => item.category === "Initiatives")
+    .slice(startIndex, endIndex);
+
+  const totalPages = Math.ceil(blogData.length / itemsPerPage);
+
+  const handlePreviousPage = () => {
+    setCurrentPage(currentPage - 1);
+  };
+
+  const handleNextPage = () => {
+    setCurrentPage(currentPage + 1);
   };
 
   return (
-    <div className="flex flex-col justify-center items-center w-full p-10">
-      {imageData
-        .reduce((rows: ImageData[][], item: ImageData, index: number) => {
-          if (index % 2 === 0) {
-            rows.push([]);
-          }
-          rows[rows.length - 1].push(item);
-          return rows;
-        }, [])
-        .map((row: ImageData[], rowIndex: number) => (
-          <div key={rowIndex} className="flex flex-row justify-center w-full">
-            {row.map((item: ImageData) => (
-              <div
-                key={item.id}
-                className="flex flex-col items-start m-4 bg-gray-100 rounded-lg shadow-lg w-2/5 h-1/4"
-                onClick={() => handleCardClick(item.id)}
-                style={{ cursor: "pointer" }}
-              >
-                <img
-                  src={item.image}
-                  alt={`Image ${item.id}`}
-                  className="w-full h-80 rounded-t-lg object-cover"
-                />
-                <div className="p-4">
-                  <p className="text-left uppercase font-bold">{item.title}</p>
-                  <p className="text-left mt-5 mb-5 overflow-hidden text-ellipsis two-line-clamp">
-                    {item.description}
+    <div className="px-28 pb-8">
+      <div className="grid grid-cols-3 lg:grid-cols-2 sm:grid-cols-2 grid-rows-2 gap-5">
+        {paginatedData.map((item, index) => {
+          const correspondingImages = blog_image.filter(
+            image => image.blogId === item.blogId
+          );
+          const thumbnail = correspondingImages.find(image => image.thumbnail);
+          return (
+            <Link to={`/blogs/view/${item.blogId}`} key={index}>
+              <div className="group flex flex-col">
+                <div className="max-h-370px max-w-750px ">
+                  <img
+                    src={thumbnail ? thumbnail.image : "fallback_image_url"}
+                    loading="lazy"
+                    alt={item.title}
+                    className="w-full rounded-t-lg max-h-64 min-h-64 object-cover"
+                  />
+                </div>
+
+                <div className="mt-3 pb-3">
+                  <h5 className="text-gray-600 pt-1 text-sm">
+                    {formatDateTime(item.createdAt)}
+                  </h5>
+                  <div className="flex-row grid-flow-row py-3">
+                    <span className="">
+                      {item.tags.map(tags => (
+                        <span className="text-base text-primary rounded-md w-32 border border-[#BBE3AD] bg-secondary px-2 mr-2 py-1 text-center">
+                          {tags}
+                        </span>
+                      ))}
+                    </span>
+                  </div>
+                  <h5 className="font-bold mt-1">
+                    {item.category}{" "}
+                    <span className="text-green-700">{">"}</span>
+                  </h5>
+                  <h1 className="text-gray-800 duration-150 group-hover:text-green-700 font-semibold text-lg">
+                    {ellipsis(item.title, 30)}
+                  </h1>
+                  <p className="text-sm me-8 text-justify">
+                    {ellipsis(item.content, 180)}
                   </p>
-                  <ReadMoreButton text="read more" />
                 </div>
               </div>
-            ))}
-          </div>
-        ))}
+            </Link>
+          );
+        })}
+      </div>
+      <Pagination>
+        <PaginationContent>
+          <PaginationPrevious onClick={handlePreviousPage} />
+          {[...Array(totalPages)].map((_, index) => (
+            <PaginationItem key={index}>
+              <PaginationLink
+                isActive={index + 1 === currentPage}
+                onClick={() => setCurrentPage(index + 1)}
+              >
+                {index + 1}
+              </PaginationLink>
+            </PaginationItem>
+          ))}
+          <PaginationNext onClick={handleNextPage} className="my-8" />
+        </PaginationContent>
+      </Pagination>
     </div>
   );
 };

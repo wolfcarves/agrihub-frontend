@@ -14,6 +14,7 @@ import { GiThreeLeaves } from "react-icons/gi";
 import { FiEye } from "react-icons/fi";
 import { FaRegNewspaper } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const UserFooter = () => {
   const navigate = useNavigate();
@@ -28,6 +29,9 @@ const UserFooter = () => {
   };
   const navigateNews = () => {
     navigate("/about/latest");
+  };
+  const navigateLearning = () => {
+    navigate("/learning-materials");
   };
   return (
     <div className="bg-[#404040] p-10">
@@ -56,7 +60,10 @@ const UserFooter = () => {
           </div>
         </div>
 
-        <div className="hover:bg-[#464646] text-white pt-2 pb-8 pl-4 rounded-lg md:col-span-2 col-span-5 flex flex-col justify-between">
+        <div
+          onClick={navigateLearning}
+          className="hover:bg-[#464646] text-white pt-2 pb-8 pl-4 rounded-lg md:col-span-2 col-span-5 flex flex-col justify-between"
+        >
           <div>
             <GiThreeLeaves size={31} />
             <div className=" font-semibold my-1">Learning Hub</div>
@@ -107,8 +114,12 @@ const UserFooter = () => {
       </div>
       <div className="flex justify-between px-2">
         <div className="flex items-center justify-center font-bold text-[0.7rem] gap-2 text-white">
-          <BsTelephone size={20} />{" "}
-          <span className="md:block hidden ">091237418238</span>
+          <a href="tel:09082559914">
+            <BsTelephone size={20} />{" "}
+          </a>
+          <a href="tel:09082559914" className="md:block hidden">
+            09082559914
+          </a>
           <span>|</span>
           <span
             onClick={navigateAbout}
@@ -122,9 +133,15 @@ const UserFooter = () => {
           <span className=" font-thin md:block hidden">
             FOLLOW US ON SOCIAL MEDIA
           </span>
-          <RiFacebookCircleLine size={22} />
-          <RiYoutubeLine size={22} />
-          <RiTiktokLine size={22} />
+          <a href="https://www.facebook.com/centerforurbanagri/">
+            <RiFacebookCircleLine size={22} />
+          </a>
+          <a href="https://www.youtube.com/@qcenterforurbanagri">
+            <RiYoutubeLine size={22} />
+          </a>
+          <a href="https://www.tiktok.com/@centerforurbanagr">
+            <RiTiktokLine size={22} />
+          </a>
         </div>
       </div>
       <hr className="border-t border-[#767676] my-2" />
@@ -132,7 +149,18 @@ const UserFooter = () => {
         <p className="text-[#A2A2A2] text-[.70rem] w-[70%]">
           Agrihub is an Urban Farming Data Sharing Platform, Philippines, 673
           Quirino Highway, San Bartolome, Novaliches Q.C. © 2024 Agrihub. All
-          rights reserved. Privacy Policy and Terms of Use.
+          rights reserved.{" "}
+          <Link to="/privacy-policy" className="hover:underline">
+            Privacy Policy
+          </Link>
+          {" | "}
+          <Link to="/terms-condition" className="hover:underline">
+            Terms of Use
+          </Link>
+          {" | "}
+          <Link to="/helps" className="hover:underline">
+            Help center
+          </Link>
         </p>
       </div>
     </div>

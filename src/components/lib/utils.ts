@@ -59,10 +59,12 @@ export function timeAgo(timestamp: string) {
 
 export function timeAgo2(timestamp: string) {
   const currentDate: any = new Date();
-  
+
   // Truncate microseconds and parse the date
   const parsedTimestamp = timestamp.substring(0, 19);
-  const previousDate: any = new Date(Date.parse(parsedTimestamp.replace(" ", "T") + "Z"));
+  const previousDate: any = new Date(
+    Date.parse(parsedTimestamp.replace(" ", "T") + "Z")
+  );
 
   const seconds = Math.floor((currentDate - previousDate) / 1000);
   const minutes = Math.floor(seconds / 60);
@@ -111,3 +113,69 @@ export function timeAgo2(timestamp: string) {
 
   return result;
 }
+
+export function formatDateTime(dateTimeString: string): string {
+  const options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true,
+    timeZone: "UTC"
+  };
+  const eventStartDate = new Date(dateTimeString);
+  const formattedDateTime = `${eventStartDate.toLocaleDateString(
+    "en-US",
+    options
+  )}`;
+  return formattedDateTime;
+}
+
+export function formatDate(dateString: string): string {
+  const options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "short",
+    day: "numeric"
+  };
+  const eventStartDate = new Date(dateString);
+  const formattedDate = `${eventStartDate.toLocaleDateString(
+    "en-US",
+    options
+  )}`;
+  return formattedDate;
+}
+
+export function formatRoles(role: string) {
+  let formatedRole;
+
+  switch (role) {
+    case "member":
+      formatedRole = "Member";
+      break;
+    case "admin":
+      formatedRole = "Admin";
+      break;
+    case "farm_head":
+      formatedRole = "Farm Head";
+      break;
+    case "farmer":
+      formatedRole = "Farmer";
+      break;
+    default:
+      formatedRole = "Undefined";
+  }
+  return formatedRole;
+}
+
+export const convertToEmbedLink = (link: string) => {
+  const regex =
+    /^(?:(?:https?:)?\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+  const match = link.match(regex);
+  const videoId = match ? match[1] : null;
+  if (videoId) {
+    return `https://www.youtube.com/embed/${videoId}`;
+  } else {
+    return link;
+  }
+};

@@ -1,6 +1,7 @@
 import { ComponentType, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import useGetMyProfileQuery from "@hooks/api/get/useGetMyProfileQuery";
+import Loader from "../../icons/Loader";
 
 type AllowedRoles =
   | "member"
@@ -16,23 +17,79 @@ export default function withAuthGuard<P extends object>(
   allowedRoles: Array<AllowedRoles>
 ) {
   const NewComponent = (props: P) => {
-    const pathname = useLocation().pathname;
     const navigate = useNavigate();
-    const { data: authData, isFetched: isAuthDataFetched } =
-      useGetMyProfileQuery();
+    const pathname = useLocation().pathname;
+
+    const {
+      data: authData,
+      isFetched: isAuthDataFetched,
+      isLoading,
+      isError
+    } = useGetMyProfileQuery();
 
     useEffect(() => {
-      const verificationLevel = authData?.verification_level;
-      const userRole = authData?.role as AllowedRoles;
+      const userRole = (authData?.role as AllowedRoles) ?? "guest";
+      const isAllowed = allowedRoles.includes(userRole);
 
-      const isAllowed = allowedRoles.includes(userRole ?? "guest");
+      if (!isAllowed && userRole) {
+        navigate("/", { replace: true });
+      }
 
-      if (isAuthDataFetched) {
-        if (!isAllowed) {
-          navigate("/", { replace: true });
+      //has user data
+      if (isAuthDataFetched && authData?.id) {
+        const verificationLevel = authData?.verification_level as
+          | "1"
+          | "2"
+          | "3"
+          | "4";
+
+        const redirectPaths = [
+          "/account/verify-email",
+          "/account/setup-account",
+          "/account/final-setup"
+        ];
+
+        switch (verificationLevel) {
+          case "1":
+            if (pathname !== redirectPaths["0"])
+              navigate(redirectPaths[0], { replace: true });
+            break;
+          case "2":
+            if (pathname !== redirectPaths["1"])
+              navigate(redirectPaths[1], { replace: true });
+            break;
+          case "3":
+            if (pathname !== redirectPaths["2"])
+              navigate(redirectPaths[2], { replace: true });
+            break;
+          case "4":
+            if (pathname === redirectPaths["2"])
+              navigate("/", { replace: true });
+            break;
         }
+      }
+    }, [
+      authData,
+      authData?.role,
+      authData?.verification_level,
+      isAuthDataFetched,
+      isError,
+      navigate,
+      pathname
+    ]);
 
-        const verificationLevelPaths = {
+    if (isLoading) {
+      return <Loader />;
+    }
+
+    return <Component {...props} />;
+  };
+
+  return NewComponent;
+}
+
+/*
+const verificationLevelPaths = {
           "1": "/account/verify-email",
           "2": "/account/setup-account",
           "3": "/account/final-setup",
@@ -44,39 +101,11 @@ export default function withAuthGuard<P extends object>(
             verificationLevel as keyof typeof verificationLevelPaths
           ];
 
-        //force redirect to account proccess unless the verification is already 4
-        if (verificationLevel && pathname !== respectivePath) {
-          if (verificationLevel !== "4") {
-            navigate(respectivePath, { replace: true });
-          }
+        if (pathname !== respectivePath && verificationLevel !== "4") {
+          navigate(respectivePath, { replace: true });
         }
 
-        // Redirect user to homepage when he tried to access login,signup etc while the verif. level is already 4
-        if (
-          pathname ===
-            verificationLevelPaths[
-              "0" as keyof typeof verificationLevelPaths
-            ] ||
-          pathname ===
-            verificationLevelPaths[
-              "1" as keyof typeof verificationLevelPaths
-            ] ||
-          pathname ===
-            verificationLevelPaths["2" as keyof typeof verificationLevelPaths]
-        ) {
+        if (!isAllowed) {
           navigate("/", { replace: true });
         }
-      }
-    }, [
-      authData?.role,
-      authData?.verification_level,
-      isAuthDataFetched,
-      navigate,
-      pathname
-    ]);
-
-    return <Component {...props} />;
-  };
-
-  return NewComponent;
-}
+*/

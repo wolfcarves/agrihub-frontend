@@ -20,4 +20,5 @@ export type UserSchema = {
     avatar: string;
     role: string;
     bio: string;
+    farm_id?: string;
 };

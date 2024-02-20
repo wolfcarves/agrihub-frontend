@@ -19,7 +19,7 @@ const PaginationPreviousLabel = ({ page }: { page: number }) => {
     page !== 1 &&
     !!page && (
       <PaginationItem>
-        <PaginationPrevious href="#" />
+        <PaginationPrevious />
       </PaginationItem>
     )
   );
@@ -35,7 +35,7 @@ const PaginationNextLabel = ({
   return (
     page !== totalPages && (
       <PaginationItem>
-        <PaginationNext href="#" />
+        <PaginationNext />
       </PaginationItem>
     )
   );
@@ -71,13 +71,16 @@ const Pagination = ({
         }
         previousLabel={<PaginationPreviousLabel page={params.page} />}
         nextLabel={
-          <PaginationNextLabel page={params.page} totalPages={totalPages} />
+          <>
+            {totalPages !== 1 && (
+              <PaginationNextLabel page={params.page} totalPages={totalPages} />
+            )}
+          </>
         }
         pageLabelBuilder={page => {
           return (
             <PaginationItem>
               <PaginationLink
-                href="#"
                 isActive={
                   page === params.page
                     ? true
@@ -93,13 +96,12 @@ const Pagination = ({
         }}
         className="flex items-center mx-auto w-max list-none"
         pageCount={totalPages}
-        forcePage={params.page - 1}
+        forcePage={params.page ? params.page - 1 : 0}
         onPageChange={({ selected }) => {
           const selectedPage = String(selected + 1);
 
           searchParams.set("page", selectedPage);
           setSearchParams(searchParams);
-
           window.scrollTo(0, 0);
         }}
         {...props}

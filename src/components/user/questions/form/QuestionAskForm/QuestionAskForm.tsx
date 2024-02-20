@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { askQuestionSchema } from "./schema";
@@ -13,13 +13,14 @@ import useGetTagByKeyWord from "@hooks/api/get/useGetTagByKeyword";
 import { Form, FormField } from "@components/ui/form";
 import QuestionBackButton from "@components/user/questions/button/QuestionBackButton";
 import OutletContainer from "@components/user/questions/container/OutletContainer";
+import ActivityIndicator from "@icons/ActivityIndicator";
 
 const QuestionAskForm = () => {
   const [searchInputTagValue, setSearchInputTagValue] = useState<string>("");
   const { data: tagResult } = useGetTagByKeyWord(searchInputTagValue);
 
   const form = useForm<QuestionSchema>({
-    // resolver: zodResolver(askQuestionSchema),
+    resolver: zodResolver(askQuestionSchema),
     mode: "onBlur"
   });
 
@@ -27,17 +28,16 @@ const QuestionAskForm = () => {
     if (form.formState.errors.title) {
       toast.error(form.formState.errors.title.message);
     }
-
     if (form.formState.errors.tags) {
       toast.error(form.formState.errors.tags.message);
     }
-
     if (form.formState.errors.question) {
       toast.error(form.formState.errors.question.message);
     }
   }, [form.formState.errors]);
 
-  const { mutateAsync: questionAskMutate } = useQuestionAskMutation();
+  const { mutateAsync: questionAskMutate, isLoading: isQuestionAskLoading } =
+    useQuestionAskMutation();
 
   const handleSubmitForm = async (data: QuestionSchema) => {
     const compiledData: QuestionSchema = {
@@ -109,6 +109,7 @@ const QuestionAskForm = () => {
               Be specific and imagine you’re asking a question to another
               person.
             </p>
+
             <FormField
               name="title"
               control={form.control}
@@ -134,14 +135,17 @@ const QuestionAskForm = () => {
               control={form.control}
               render={({ field: { onChange } }) => {
                 return (
-                  <RichTextEditor
-                    onBlur={data => {
-                      onChange(data.html);
-                      data?.files?.then(blobs => {
-                        form.setValue("imagesrc", blobs);
-                      });
-                    }}
-                  />
+                  <div className="flex">
+                    <RichTextEditor
+                      onBlur={data => {
+                        onChange(data.html);
+                        data?.files?.then(blobs => {
+                          form.setValue("imagesrc", blobs);
+                        });
+                      }}
+                      height={300}
+                    />
+                  </div>
                 );
               }}
             />
@@ -165,12 +169,11 @@ const QuestionAskForm = () => {
                   return (
                     <UserTagInputDropdown
                       option={tagResult}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      onChange={e => {
                         setSearchInputTagValue(e.target.value);
-                        onChange(e.target.value);
                       }}
                       onTagsValueChange={e => {
-                        form.setValue("tags", e);
+                        onChange(e);
                       }}
                     />
                   );
@@ -179,8 +182,14 @@ const QuestionAskForm = () => {
             </div>
           </div>
 
+          {isQuestionAskLoading && <ActivityIndicator />}
+
           <div className="mt-10">
-            <Button className="px-7" type="submit">
+            <Button
+              className="px-7"
+              type="submit"
+              disabled={isQuestionAskLoading}
+            >
               Post your question
             </Button>
           </div>

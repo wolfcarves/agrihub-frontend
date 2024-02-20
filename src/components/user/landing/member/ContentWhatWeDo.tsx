@@ -1,307 +1,272 @@
-import React from 'react';
-import { IoIosArrowForward } from 'react-icons/io';
+import React from "react";
+import { Link } from "react-router-dom";
+import useAuth from "@hooks/useAuth";
+import useGetFarmListQuery from "@hooks/api/get/useGetFarmListQuery";
+import FarmCard from "@components/user/community/farm-card/farm-card";
+import { blogData, blog_image } from "../../../../constants/data";
+import { Button } from "@components/ui/button";
+import {
+  MdDevices,
+  MdOutlineAnalytics,
+  MdOutlineCalendarMonth,
+  MdOutlineForum
+} from "react-icons/md";
+import { RiCommunityLine } from "react-icons/ri";
 
-interface ImageData {
-  id: number;
-  imageUrl: string;
-  altText: string;
-  description: string;
-}
-
-interface FeaturedInitiatives {
-    id: number;
-    title: string;
-    description: string;
-  }
-
-  interface AboutData {
-    id: number;
-    imageUrl: string;
-    altText: string;
-    description: string;
-  }
-
-  interface LearningHubData {
-    id: number;
-    imageUrl: string;
-    altText: string;
-    description: string;
-  }
-  
 const ContentWhatWeDo: React.FC = () => {
+  const { data: userData } = useAuth();
+  const { data } = useGetFarmListQuery({
+    search: undefined,
+    page: "1",
+    filter: undefined,
+    perpage: "3"
+  });
 
-    const AboutData: AboutData = {
-        id: 1,
-        imageUrl: 'https://via.placeholder.com/900x300',
-        altText: 'Placeholder Image',
-        description: 'Description for your image. asdasdsadsadsadsasadsadsadsadsaddasd sadsadsadsadsadsadsad asdasda dasdsadasd sadasdasdsa asasdasasas sadsadasd asdasdasdasdasd f asasd asd asdadadasdasda asdasas asdd ',
-      };
+  const features = [
+    {
+      icon: <MdDevices className="w-6 h-6" />,
+      title: "Progressive Web Application",
+      desc: "Discover our Progressive Web Application (PWA), designed to provide a seamless platform experience across all your devices. Whether you're on your smartphone or desktop, access and download our PWA to enjoy our platform effortlessly."
+    },
+    {
+      icon: <MdOutlineAnalytics className="w-6 h-6" />,
+      title: "Prescriptive Analytics",
+      desc: "Gain actionable insights and recommendations tailored to your farm's needs with our Prescriptive Analytics feature. Utilize data-driven decision-making to optimize your crop yields and resource allocation, maximizing profitability."
+    },
 
-  const mockImageData: ImageData[] = [
     {
-      id: 1,
-      imageUrl: 'https://via.placeholder.com/150',
-      altText: 'Image 1',
-      description: 'Description for Image 1',
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="w-6 h-6"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M6.429 9.75L2.25 12l4.179 2.25m0-4.5l5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L21.75 12l-4.179 2.25m0 0l4.179 2.25L12 21.75 2.25 16.5l4.179-2.25m11.142 0l-5.571 3-5.571-3"
+          />
+        </svg>
+      ),
+      title: "Resources",
+      desc: "Access an extensive library of articles, blogs, and learning materials. Stay updated with the latest trends, techniques, and insights from other farmers to optimize your farm's productivity."
     },
     {
-      id: 2,
-      imageUrl: 'https://via.placeholder.com/150',
-      altText: 'Image 2',
-      description: 'Description for Image 2',
+      icon: <MdOutlineCalendarMonth className="w-6 h-6" />,
+      title: "Planting Calendar",
+      desc: "Stay organized and optimize your planting schedule with our intuitive Planting Calendar. Discover the best crops to plant and harvest each month"
     },
     {
-      id: 3,
-      imageUrl: 'https://via.placeholder.com/150',
-      altText: 'Image 3',
-      description: 'Description for Image 3',
+      icon: <RiCommunityLine className="w-6 h-6" />,
+      title: "Community",
+      desc: "Connect with fellow farmers, agricultural experts, and enthusiasts in our vibrant Community. Share knowledge, experiences, and best practices, fostering collaboration and growth within the agricultural industry."
     },
+    {
+      icon: <MdOutlineForum className="w-6 h-6" />,
+      title: "Forums",
+      desc: "Engage in discussions, ask questions, and share insights with a diverse community of farmers, agricultural professionals, and enthusiasts. Exchange ideas, troubleshoot problems, and discover innovative solutions to challenges in farming and agribusiness."
+    }
   ];
 
-  const FeaturedInitiatives: FeaturedInitiatives[] = [
+  const stats = [
     {
-      id: 1,
-      title: 'initiative',
-      description: 'The QC urban farmers successfully learned Permaculture in a workshop.',
+      data: "700+",
+      title: "Farms"
     },
     {
-      id: 2,
-      title: 'initiative',
-      description: 'The QC urban farmers successfully learned Permaculture in a workshop.',
+      data: "21k+",
+      title: "Farmers Registered"
     },
     {
-      id: 3,
-      title: 'initiative',
-      description: 'The QC urban farmers successfully learned Permaculture in a workshop.',
-    },
-  ];
-
-  const mockLearningHubData: LearningHubData[] = [
-    {
-      id: 1,
-      imageUrl: 'https://via.placeholder.com/900x300',
-      altText: 'Placeholder Image 1',
-      description: 'wan',
+      data: "36k+",
+      title: "Answers Given"
     },
     {
-      id: 2,
-      imageUrl: 'https://via.placeholder.com/900x300',
-      altText: 'Placeholder Image 2',
-      description: 'tu',
-    },
-    {
-      id: 3,
-      imageUrl: 'https://via.placeholder.com/900x300',
-      altText: 'Placeholder Image 3',
-      description: 'tri',
-    },
+      data: "30M+",
+      title: "Total Resources"
+    }
   ];
 
   return (
-    //WHAT WE DO
-    <div className="w-full mx-auto my-0 md:my-15">
-      <div className="flex flex-col h-screen">
-        <header className="text-2xl md:text-4xl lg:text-7xl font-bold pt-8 mx-auto m-12 text-center">
-          Header Title
-        </header>
-        <div className="flex flex-col items-center gap-8 md:flex-row md:justify-center md:gap-4 md:mt-8">
-          {mockImageData.map((image) => (
-            <div key={image.id} className="flex flex-col items-center">
-              <img
-                src={image.imageUrl}
-                alt={image.altText}
-                className="w-full md:w-[calc(85vw/3)] h-auto md:h-[calc(60vw/3)] object-cover"
-              />
-              <p className="mt-4 text-center text-sm md:text-base lg:text-lg">
-                {image.description}
-              </p>
-              <div className="flex items-center mt-2 ml-2 cursor-pointer">
-                <span className="text-black font-bold uppercase bg-transparent hover:bg-white hover:text-orange-500 px-2 py-1 rounded transition duration-300">
-                  Read More
-                </span>
-                <IoIosArrowForward className="ml-1 text-orange-500" />
-              </div>
+    <div className="w-full mx-auto my-0 md:my-15 mb-8">
+      {/* our mission part */}
+      <section className="my-8 mb-14">
+        <div className="max-w-screen-xl mx-auto px-4  gap-x-12 justify-between md:flex md:px-8">
+          <div className="max-w-xl">
+            <h3 className="text-gray-800 text-3xl font-semibold sm:text-4xl">
+              Our Mission
+            </h3>
+            <p className="mt-3 text-gray-600">
+              To showcase and provide innovative farming technology to the
+              communities to become productive in adapting urban agriculture in
+              a modern way through collaboration and capacity building.
+            </p>
+          </div>
+          <div className="flex items-center">
+            <div className="flex-none mt-4 md:mt-0">
+              <Link
+                to="/about"
+                className="inline-block py-2 px-4 text-white font-medium bg-green-600 duration-150 hover:bg-green-500 active:bg-green-700 rounded-lg shadow-md hover:shadow-none"
+              >
+                Learn more
+              </Link>
             </div>
-          ))}
+          </div>
         </div>
+      </section>
 
+      {/* our approach part */}
+      <section className="relative py-16 bg-gray-900">
+        <div className="relative z-10 max-w-screen-xl mx-auto px-4 text-gray-300 justify-between gap-24 lg:flex md:px-8">
+          <div className="w-full">
+            <h3 className="text-white text-3xl font-semibold sm:text-4xl">
+              Our Approach
+            </h3>
+            <p className="mt-3">
+              To build a progressive web application that foster a sense of
+              community among urban farmers, and agricultural experts, providing
+              a platform to bridge the knowledge gap and enhance the growth and
+              effectiveness of urban agriculture in the context of ongoing
+              urbanization in Quezon City. Following this approach, Agrihub
+              focuses on number key areas.
+            </p>
+          </div>
+          <div className="mt-12 lg:mt-0">
+            <ul className="grid gap-8 sm:grid-cols-2">
+              {features.map((item, idx) => (
+                <li key={idx} className="flex gap-x-4">
+                  <div className="flex-none w-12 h-12 bg-gray-700 text-green-400 rounded-lg flex items-center justify-center">
+                    {item.icon}
+                  </div>
+                  <div>
+                    <h4 className="text-lg text-gray-100 font-semibold">
+                      {item.title}
+                    </h4>
+                    <p className="mt-3">{item.desc}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+        <div
+          className="absolute inset-0 max-w-md mx-auto h-72 blur-[118px]"
+          style={{
+            background:
+              "linear-gradient(152.92deg, rgba(102, 252, 132, 0.2) 4.54%, rgba(121, 249, 121, 0.26) 34.2%, rgba(102, 252, 132, 0.1) 77.55%)"
+          }}
+        ></div>
+      </section>
 
-      <div className="flex flex-col h-screen mt-10">
-      <div className="flex justify-center p-4">
-        <div className="w-5/6">
-          <div className="flex flex-col md:flex-row gap-4 md:gap-8">
-            <div className="md:w-1/2 flex justify-center items-center">
-              <h2 className="text-4xl md:text-7xl font-bold mb-4">Featured Initiatives</h2>
-            </div>
+      {/* our focus part */}
+      <section className="p-4 mt-12 max-w-screen-xl mx-auto">
+        <div className="max-w-xl">
+          <h1 className="text-3xl text-gray-800 font-semibold">Our Focus</h1>
+          <p className="mt-3 text-gray-500">
+            Explore urban ag innovation with us! Discover how we're
+            revolutionizing farming in Quezon City through technology and
+            community collaboration.
+          </p>
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 sm:grid-cols-2 grid-rows-1 gap-5 my-8">
+          {blogData
+            .filter(item => item.category === "Our Focus")
+            .slice(0, 3) // Limiting to 3 items
+            .map((item, index) => {
+              const correspondingImages = blog_image.filter(
+                image => image.blogId === item.blogId
+              );
+              const thumbnail = correspondingImages.find(
+                image => image.thumbnail
+              );
+              return (
+                <Link to={`/blogs/view/${item.blogId}`} key={index}>
+                  <div className="group flex flex-col">
+                    <div className="max-h-370px max-w-750px overflow-hidden">
+                      <img
+                        src={thumbnail ? thumbnail.image : "fallback_image_url"}
+                        loading="lazy"
+                        alt={item.title}
+                        className="w-full rounded-lg max-h-64 min-h-64 object-cover group-hover:scale-110 duration-300"
+                      />
+                    </div>
 
-            <div className="md:w-1/2 bg-gray-100 p-6">
-              <h2 className="text-2xl font-bold mb-4">Column 2</h2>
-              <p>Vivamus volutpat, libero sed sollicitudin interdum, libero odio tincidunt nisi.</p>
-              <div className="flex items-center mt-2 ml-2 cursor-pointer">
-              <span className="text-black font-bold uppercase bg-transparent hover:text-orange-500 px-2 py-1 rounded transition duration-300">
-                Read More
-              </span>
-              <IoIosArrowForward className="ml-1 text-orange-500" />
-            </div>
+                    <div className="mt-3">
+                      <h5 className="font-bold mt-1">
+                        {item.category}{" "}
+                        <span className="text-green-700">{">"}</span>
+                      </h5>
+                      <h1 className="text-gray-800 duration-150 group-hover:text-green-700 font-semibold text-lg line-clamp-2">
+                        {item.title}
+                      </h1>
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
+        </div>
+        <div className="flex justify-center mt-5">
+          <Link to="/about/our-focus" className="w-full">
+            <Button variant="outline" className="w-full">
+              See More
+            </Button>
+          </Link>
+        </div>
+      </section>
+
+      {/* vision part */}
+      <section className="py-14">
+        <div className="max-w-screen-xl mx-auto px-4 text-gray-600 md:px-8">
+          <div className="max-w-2xl mx-auto text-center">
+            <h3 className="text-gray-800 text-3xl font-semibold sm:text-4xl">
+              Our Vision Continues
+            </h3>
+            <p className="mt-3">
+              To be recognized as one of the model projects in Quezon City that
+              can support food security and contribute to the sustainability and
+              innovation of urban agriculture through modern technologies.
+            </p>
+          </div>
+          <div className="mt-12">
+            <ul className="flex flex-col items-center justify-center gap-y-10 sm:flex-row sm:flex-wrap lg:divide-x">
+              {stats.map((item, idx) => (
+                <p key={idx} className="text-center px-12 md:px-16">
+                  <h4 className="text-4xl text-green-600 font-semibold">
+                    {item.data}
+                  </h4>
+                  <p className="mt-3 font-medium">{item.title}</p>
+                </p>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* farms part */}
+      <div className="py-8">
+        <div className="max-w-screen-xl mx-auto px-4 md:px-8">
+          <div className="max-w-xl mx-auto text-center">
+            <h3 className="text-gray-800 text-3xl font-semibold sm:text-4xl">
+              Who's using AgriHub?
+            </h3>
+            <p className="text-gray-600 mt-3">
+              This are some of the registered farm within the community{" "}
+              <Link to="/community/explore">explore</Link>
+            </p>
+          </div>
+          <div className="mt-12 flex justify-between">
+            <div className="grid grid-cols-6 gap-2">
+              {data?.farms
+                ?.filter(farm => farm.id !== userData?.farm_id)
+                .map((farm, i) => <FarmCard farm={farm} key={i} />)}
             </div>
           </div>
         </div>
       </div>
-
-      <div className="flex justify-center p-4">
-        <div className="w-5/6">
-          <div className="flex flex-col md:flex-row gap-4 md:gap-8">
-          <div className="md:w-1/3 bg-gray-100 p-6">
-              <h2 className="text-2xl font-bold mb-4">Column 2</h2>
-              <p>Vivamus volutpat, libero sed sollicitudin interdum, libero odio tincidunt nisi.</p>
-              <div className="flex items-center mt-2 ml-2 cursor-pointer">
-              <span className="text-black font-bold uppercase bg-transparent hover:text-orange-500 px-2 py-1 rounded transition duration-300">
-                Read More
-              </span>
-              <IoIosArrowForward className="ml-1 text-orange-500" />
-            </div>
-            </div>
-
-            <div className="md:w-1/3 bg-gray-100 p-6">
-              <h2 className="text-2xl font-bold mb-4">Column 2</h2>
-              <p>Vivamus volutpat, libero sed sollicitudin interdum, libero odio tincidunt nisi.</p>
-              <div className="flex items-center mt-2 ml-2 cursor-pointer">
-              <span className="text-black font-bold uppercase bg-transparent hover:text-orange-500 px-2 py-1 rounded transition duration-300">
-                Read More
-              </span>
-              <IoIosArrowForward className="ml-1 text-orange-500" />
-            </div>
-            </div>
-
-            <div className="md:w-1/3 bg-gray-100 p-6">
-              <h2 className="text-2xl font-bold mb-4">Column 2</h2>
-              <p>Vivamus volutpat, libero sed sollicitudin interdum, libero odio tincidunt nisi.</p>
-              <div className="flex items-center mt-2 ml-2 cursor-pointer">
-              <span className="text-black font-bold uppercase bg-transparent hover:text-orange-500 px-2 py-1 rounded transition duration-300">
-                Read More
-              </span>
-              <IoIosArrowForward className="ml-1 text-orange-500" />
-            </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      
-      <div className="flex justify-center p-4">
-        <div className="w-5/6">
-          <div className="flex flex-col md:flex-row gap-4 md:gap-8">
-            <div className="md:w-1/2 flex justify-center items-center">
-              <h2 className="text-4xl md:text-7xl font-bold mb-4">Latest News</h2>
-            </div>
-
-            <div className="md:w-1/2 bg-gray-100 p-6">
-              <h2 className="text-2xl font-bold mb-4">Column 2</h2>
-              <p>Vivamus volutpat, libero sed sollicitudin interdum, libero odio tincidunt nisi.</p>
-              <div className="flex items-center mt-2 ml-2 cursor-pointer">
-              <span className="text-black font-bold uppercase bg-transparent hover:text-orange-500 px-2 py-1 rounded transition duration-300">
-                Read More
-              </span>
-              <IoIosArrowForward className="ml-1 text-orange-500" />
-            </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="flex justify-center p-4">
-        <div className="w-5/6">
-          <div className="flex flex-col md:flex-row gap-4 md:gap-8">
-            <div className="md:w-1/3 bg-gray-100 p-6">
-              <h2 className="text-2xl font-bold mb-4">Column 2</h2>
-              <p>Vivamus volutpat, libero sed sollicitudin interdum, libero odio tincidunt nisi.</p>
-              <div className="flex items-center mt-2 ml-2 cursor-pointer">
-              <span className="text-black font-bold uppercase bg-transparent hover:text-orange-500 px-2 py-1 rounded transition duration-300">
-                Read More
-              </span>
-              <IoIosArrowForward className="ml-1 text-orange-500" />
-            </div>
-            </div>
-
-            <div className="md:w-1/3 bg-gray-100 p-6">
-              <h2 className="text-2xl font-bold mb-4">Column 2</h2>
-              <p>Vivamus volutpat, libero sed sollicitudin interdum, libero odio tincidunt nisi.</p>
-              <div className="flex items-center mt-2 ml-2 cursor-pointer">
-              <span className="text-black font-bold uppercase bg-transparent hover:text-orange-500 px-2 py-1 rounded transition duration-300">
-                Read More
-              </span>
-              <IoIosArrowForward className="ml-1 text-orange-500" />
-            </div>
-            </div>
-
-            <div className="md:w-1/3 bg-gray-100 p-6">
-              <h2 className="text-2xl font-bold mb-4">Column 2</h2>
-              <p>Vivamus volutpat, libero sed sollicitudin interdum, libero odio tincidunt nisi.</p>
-              <div className="flex items-center mt-2 ml-2 cursor-pointer">
-              <span className="text-black font-bold uppercase bg-transparent hover:text-orange-500 px-2 py-1 rounded transition duration-300">
-                Read More
-              </span>
-              <IoIosArrowForward className="ml-1 text-orange-500" />
-            </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-  
-      <header className="text-4xl md:text-7xl font-bold pt-8 mx-auto m-12 text-center">About Us</header>
-      <div className="w-4/5 mx-auto flex flex-col justify-center items-center">
-        <img
-          src={AboutData.imageUrl}
-          alt={AboutData.altText}
-          className="w-full"
-          style={{ maxWidth: '100%' }}
-        />
-        <div className=' text-black w-full mt-4'>
-          <p className="text-xl">{AboutData.description}</p>
-          <div className="flex items-center mt-8 cursor-pointer">
-              <span className="text-black font-bold uppercase bg-transparent hover:text-orange-500 rounded transition duration-300">
-                Learn More
-              </span>
-              <IoIosArrowForward className="ml-1 text-orange-500" />
-            </div>
-        </div>
-      </div> 
-
-
-
-      <div className="w-4/5 mx-auto flex flex-col justify-center items-center">
-      <header className="text-4xl md:text-7xl font-bold pt-8 mx-auto m-12 text-center">
-        Learning Hub
-      </header>
-      {mockLearningHubData.map((data) => (
-        <div key={data.id} className="w-full">
-          <img
-            src={data.imageUrl}
-            alt={data.altText}
-            className="w-full"
-            style={{ maxWidth: '100%' }}
-          />
-          <div className=' text-black w-full mt-4'>
-            <p className="text-xl">{data.description}</p>
-            <div className="flex items-center mt-8 cursor-pointer mb-8">
-              <span className="text-black font-bold uppercase bg-transparent hover:text-orange-500 rounded transition duration-300">
-                Learn More
-              </span>
-              <IoIosArrowForward className="ml-1 text-orange-500" />
-            </div>
-          </div>
-        </div>
-      ))}
     </div>
-
-      
-    </div>
-    </div>
-
-
-</div>
-
   );
 };
 

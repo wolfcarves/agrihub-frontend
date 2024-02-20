@@ -2,7 +2,7 @@ import React from "react";
 import { UserAuth } from "../../../../providers/AuthProvider";
 import { IoAddOutline } from "react-icons/io5";
 import { Textarea } from "../../../ui/textarea";
-import useQuestionAnswer from "../../../../hooks/api/post/useQuestionAnswer";
+import useQuestionAnswer from "../../../../hooks/api/post/useQuestionAnswerMutation";
 import { AddAnswer } from "./schema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";

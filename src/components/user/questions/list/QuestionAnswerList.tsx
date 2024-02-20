@@ -1,4 +1,3 @@
-import React from "react";
 import { QuestionViewSchema } from "@api/openapi";
 import QuestionAnswerCard from "../card/QuestionAnswerCard";
 import LoadingSpinner from "@icons/LoadingSpinner";
@@ -6,6 +5,7 @@ import LoadingSpinner from "@icons/LoadingSpinner";
 interface QuestionAnswerListProps {
   data?: QuestionViewSchema;
   isLoading?: boolean;
+  isRefetching?: boolean;
 }
 
 const QuestionAnswerList = ({ data, isLoading }: QuestionAnswerListProps) => {
@@ -13,8 +13,8 @@ const QuestionAnswerList = ({ data, isLoading }: QuestionAnswerListProps) => {
 
   return (
     <div className="mt-12">
-      <h5 className="text-foreground font-poppins-semibold line-clamp-3 hover:opacity-90">
-        Answers 32
+      <h5 className="text-foreground font-poppins-semibold line-clamp-3 hover:opacity-90 mb-10">
+        Answers {data?.question?.answer_count}
       </h5>
 
       {isLoading && (
@@ -27,9 +27,11 @@ const QuestionAnswerList = ({ data, isLoading }: QuestionAnswerListProps) => {
         </div>
       )}
 
-      {data?.question?.answers?.map(data => {
-        return <QuestionAnswerCard key={`${data}`} data={data} />;
-      })}
+      {data?.question?.answers
+        ?.map(data => {
+          return <QuestionAnswerCard key={data.id} data={data} />;
+        })
+        .reverse()}
     </div>
   );
 };

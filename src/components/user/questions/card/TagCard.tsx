@@ -1,74 +1,26 @@
-import React from "react";
+import { Link } from "react-router-dom";
 
-const TagCard = () => {
-  const mockData = [
-    {
-      title: "Title 1",
-      description:
-        "Long description texription texription texription texription texription texription texription texription texription texription texription texription texription texription texription text goes here. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam gravida nunc sed libero lacinia, ut fermentum ipsum ultrices adsadsadsadsad."
-    },
-    {
-      title: "Title 2",
-      description: "Short description text"
-    },
-    {
-      title: "Title 3",
-      description: "Another short description"
-    },
-    {
-      title: "Title 4",
-      description:
-        "Yet another short description sfsadsad sdasdasd asdasdasdas asdasd sad asdsa sadsa dasdasd asd aasdsa sad asdsad sad sad "
-    },
-    {
-      title: "Title 5",
-      description:
-        "Yet another short description sfsadsad sdasdasd asdasdasdas asdasd sad asdsa sadsa dasdasd asd aasdsa sad asdsad sad sad "
-    },
-    {
-      title: "Title 6",
-      description:
-        "Yet another short description sfsadsad sdasdasd asdasdasdas asdasd sad asdsa sadsa dasdasd asd aasdsa sad asdsad sad sad "
-    },
-    {
-      title: "Title 7",
-      description: "Yet a"
-    },
-    {
-      title: "Title 1",
-      description:
-        "Long description texription texription texription texription texription texription texription texription texription texription texription texription texription texription texription text goes here. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam gravida nunc sed libero lacinia, ut fermentum ipsum ultrices adsadsadsadsad."
-    }
-  ];
+interface TagCardProps {
+  id?: string;
+  title?: string;
+  description?: string;
+  questionTotal?: string;
+}
 
+const TagCard = ({ id, title, description, questionTotal }: TagCardProps) => {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-8">
-      {mockData.map((data, index) => (
-        <div
-          key={index}
-          className="flex flex-col border-2 border-gray-500 rounded-lg h-full hover:border-green-500"
-        >
-          <div className="flex-shrink-0 p-2"></div>
-          <div className="flex flex-col flex-grow h-full">
-            <h2 className="text-xl font-bold truncate p-2 cursor-pointer">
-              {data.title}
-            </h2>
-            <h4
-              className="text-md text-gray-600 overflow-hidden p-2 cursor-pointer"
-              style={{
-                display: "-webkit-box",
-                WebkitLineClamp: 5,
-                WebkitBoxOrient: "vertical",
-                overflow: "hidden",
-                textOverflow: "ellipsis"
-              }}
-            >
-              {data.description}
-            </h4>
-          </div>
-        </div>
-      ))}
-    </div>
+    <Link
+      to={`/forum?tag=${title}`}
+      className="flex flex-col max-w-[20rem] w-full border rounded-sm px-4 py-4 hover:shadow-md cursor-pointer"
+    >
+      <span>
+        <span className="text-base text-primary rounded-md w-auto border border-[#BBE3AD] bg-secondary px-2 py-1">
+          {title}
+        </span>
+      </span>
+      <p className="text-sm my-2 line-clamp-4">{description}</p>
+      <span className="text-sm">{questionTotal} questions</span>
+    </Link>
   );
 };
 

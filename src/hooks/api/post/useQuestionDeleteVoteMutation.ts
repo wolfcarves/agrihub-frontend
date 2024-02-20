@@ -9,9 +9,11 @@ export default function useQuestionDeleteVoteMutation() {
 
   return useMutation({
     mutationKey: [useQuestionDeletAnswerKey()],
-    mutationFn: async (id: string) => {
+    mutationFn: async (voteId: string | undefined) => {
+      if (!voteId) throw new Error("voteId is undefined");
+
       const response = await ForumsService.deleteApiForumsVoteDelete({
-        id
+        id: voteId
       });
 
       return response.message;

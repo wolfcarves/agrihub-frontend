@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import LoadingSpinner from "@icons/LoadingSpinner";
 import { AiOutlineCloseCircle } from "react-icons/ai";
@@ -16,13 +16,15 @@ interface UserTagInputDropdownProps {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onTagsValueChange?: (e: string[]) => void;
   isError?: boolean;
+  disabled?: boolean;
 }
 
 const UserTagInputDropdown = ({
   option,
   onChange,
   onTagsValueChange,
-  isError
+  isError,
+  disabled
 }: UserTagInputDropdownProps) => {
   const [tags, setTags] = useState<Array<string>>([]);
   const [idTags, setIdTags] = useState<Array<string>>([]);
@@ -41,7 +43,7 @@ const UserTagInputDropdown = ({
 
   useEffect(() => {
     if (onTagsValueChange) onTagsValueChange(idTags);
-  }, [idTags]);
+  }, [idTags, tags]);
 
   const renderTag = useCallback(
     ({
@@ -56,9 +58,16 @@ const UserTagInputDropdown = ({
           key={tag}
           className={`${
             isError && "border border-red-500"
-          } && max-h-7 border m-0.5 border-primary-3/80 bg-primary-1/40 rounded-sm w-[100px] px-2 py-1`}
+          } && max-h-7 border m-0.5 border-primary-3/80 bg-primary-1/40 rounded-sm w-[150px] px-2 py-1`}
           onClick={() => {
-            setTags([...tags.filter(val => val !== tag)]);
+            const tagIndex = tags.indexOf(tag);
+
+            if (tagIndex !== -1) {
+              setIdTags(
+                idTags.slice(0, tagIndex).concat(idTags.slice(tagIndex + 1))
+              );
+              setTags(tags.filter(val => val !== tag));
+            }
           }}
         >
           <div className="flex gap-1 items-center">
@@ -87,7 +96,12 @@ const UserTagInputDropdown = ({
             tags.indexOf(tag_name) !== -1 ? "bg-green-200" : ""
           } border flex flex-col gap-3 text-start col-span-1 h-full hover:bg-green-100 hover:cursor-pointer duration-100 p-2 rounded-md`}
           onClick={() => {
-            setIdTags([...idTags, id]);
+            if (!idTags.includes(id)) {
+              setIdTags([...idTags, id]);
+            } else {
+              setIdTags(t => t.filter(t => t !== id));
+            }
+
             handleToggleTag(tag_name);
           }}
         >
@@ -122,6 +136,7 @@ const UserTagInputDropdown = ({
           onChange={onChange}
           onFocus={() => setIsInputTagFocused(true)}
           className="outline-0 flex-1 h-full px-3 py-3 rounded-lg"
+          disabled={disabled}
         />
 
         <div

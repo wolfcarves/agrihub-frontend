@@ -41,7 +41,9 @@ const EventPartnerForm: React.FC<formProps> = ({ setIsOpen, partnerId }) => {
     resolver: zodResolver(addEventPartnerSchema),
     mode: "onBlur",
     defaultValues: {
-      organizer: activePartner?.organizer ? activePartner.organizer : false,
+      organizer: activePartner?.organizer
+        ? String(activePartner.organizer)
+        : "",
       type: activePartner?.type ? activePartner.type : undefined
     }
   });
@@ -159,7 +161,7 @@ const EventPartnerForm: React.FC<formProps> = ({ setIsOpen, partnerId }) => {
                 <FormItem className="flex w-full  items-center gap-1.5">
                   <Checkbox
                     className="mt-1"
-                    checked={field.value}
+                    checked={Boolean(field.value)}
                     onCheckedChange={field.onChange}
                   />
                   <Label className="font-poppins-medium ">Organizer</Label>

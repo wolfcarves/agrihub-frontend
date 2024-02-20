@@ -22,5 +22,5 @@ export const addEventPartnerSchema = zod.object({
       "Maximum image file size is 10MB"
     )
     .optional(),
-  organizer: zod.boolean().optional()
+  organizer: zod.string().optional()
 });

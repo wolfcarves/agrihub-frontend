@@ -72,7 +72,7 @@ export const columns: ColumnDef<EventDetails>[] = [
           className=" bg-black hover:bg-black/80"
           onClick={handleUnpublish}
         >
-          Unarchieve
+          Unarchive
         </Button>
       );
     }

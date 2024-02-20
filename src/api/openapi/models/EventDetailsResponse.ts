@@ -19,6 +19,7 @@ export type EventDetailsResponse = {
     status?: string;
     guide?: string;
     published_date?: string;
+    type?: string;
     createdat: string;
     updatedat: string;
     partnership?: Array<EventPartnership>;

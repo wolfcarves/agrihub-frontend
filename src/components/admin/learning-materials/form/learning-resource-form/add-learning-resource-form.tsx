@@ -212,7 +212,9 @@ const AddLearningResourceForm: React.FC<AddLearningInterfaceProps> = ({
           <div className="flex gap-2">
             <Button
               type="reset"
-              onClick={() => setIsOpen(false)}
+              onClick={() => {
+                setIsOpen(false);
+              }}
               variant={"outline"}
             >
               Close

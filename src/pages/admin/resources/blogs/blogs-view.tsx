@@ -30,6 +30,7 @@ import {
   AlertDialogTrigger
 } from "@components/ui/alert-dialog";
 import Capture from "@components/user/community/capture/capture";
+import BlogDetailForm from "../../../../components/admin/blogs/form/blog-detail-form/blog-detail-form";
 
 const breadcrumbItems = [
   { title: "Resource Management", link: "/admin/resources" },
@@ -53,52 +54,8 @@ const ViewBlogs = () => {
       </p>
       <hr className="my-4" />
       <div className="max-w-[60rem] mx-auto">
-        <form>
-          <div className="flex flex-wrap justify-between gap-4 mb-4">
-            <div className="grid w-full max-w-[11rem] items-center gap-1.5">
-              <Label htmlFor="email">Category</Label>
-              <Select>
-                <SelectTrigger className="">
-                  <SelectValue placeholder="Choose" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="News">News</SelectItem>
-                  <SelectItem value="Initiatives">Initiatives</SelectItem>
-                  <SelectItem value="Story">Story</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="grid w-full max-w-3xl items-center gap-1.5">
-              <Label htmlFor="text">Title</Label>
-              <Input type="text" id="text" placeholder="Input blog title" />
-            </div>
-          </div>
-
-          {/* input content */}
-          <div>
-            <Label htmlFor="text">Content</Label>
-            <RichTextEditor height={300} />
-          </div>
-
-          {/* input author name and title */}
-          <div className="flex gap-4 my-6">
-            <div className="grid w-full items-center gap-1.5">
-              <Label htmlFor="text">Author</Label>
-              <Input
-                type="text"
-                id="text"
-                placeholder="e.g. Engr. Jaylenon R. Asilo, MMPA"
-              />
-            </div>
-            <div className="grid w-full items-center gap-1.5">
-              <Label htmlFor="text">Autor Title's</Label>
-              <Input type="text" id="text" placeholder="e.g. Agriculturist" />
-            </div>
-          </div>
-
-          {/* upload image */}
-          <Label>Add blog thumbnail</Label>
-          <Capture />
+        <>
+          <BlogDetailForm />
           <br />
           <Label>Add other images</Label>
           <MultiImageUpload />
@@ -181,7 +138,7 @@ const ViewBlogs = () => {
               </AlertDialogContent>
             </AlertDialog>
           </div>
-        </form>
+        </>
       </div>
     </AdminOutletContainer>
   );

@@ -12,7 +12,7 @@ const UserAccountHeader = () => {
           navigate("/");
         }}
       >
-        <AgrihubLogo size="base" />
+        <AgrihubLogo />
       </div>
     </div>
   );

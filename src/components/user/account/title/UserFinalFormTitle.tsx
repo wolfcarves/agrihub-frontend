@@ -1,13 +1,13 @@
 const UserFinalFormTitle = () => {
   return (
     <>
-      <div className="text-center">
-        <h2 className="font-semibold">What are you into?</h2>
+      <div className="space-y-2 text-center pb-10">
+        <h2>What are you into?</h2>
         <div className="flex flex-col">
-          <span>
+          <h5>
             Picking tags will help us show you much <br /> more relevant
             questions and answers.
-          </span>
+          </h5>
         </div>
       </div>
     </>

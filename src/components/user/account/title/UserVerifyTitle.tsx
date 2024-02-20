@@ -1,7 +1,7 @@
 const UserVerifyTitle = () => {
   return (
-    <div className="text-center">
-      <h1 className="font-semibold">Verify your email address</h1>
+    <div className="flex flex-col gap-1 text-center">
+      <h2>Verify your email address</h2>
       <span>Check your email & click the link to activate your account</span>
     </div>
   );

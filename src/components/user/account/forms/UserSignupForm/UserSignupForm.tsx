@@ -7,23 +7,20 @@ import {
   leminCroppedCaptcha
 } from "@leminnow/react-lemin-cropped-captcha";
 import { useState } from "react";
-import { UserRegisterSchema } from "@api/openapi";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage
 } from "@components/ui/form";
-import { Input } from "@components/ui/input";
+import { Input } from "@components/ui/custom";
 import { Button } from "@components/ui/button";
-import LoadingSpinner from "@icons/LoadingSpinner";
 import { toast } from "sonner";
 
 const CAPTCHA_CONTAINER_ID = import.meta.env.VITE_CAPTCHA_CONTAINER_ID;
 const CAPTCHA_ID = import.meta.env.VITE_CAPTCHA_ID;
-const CAPTCHA_PRIVATE_KEY = import.meta.env.VITE_CAPTCHA_PRIVATE_KEY;
+// const CAPTCHA_PRIVATE_KEY = import.meta.env.VITE_CAPTCHA_PRIVATE_KEY;
 
 const UserSignupForm = () => {
   const { getCaptcha } = leminCroppedCaptcha;
@@ -47,20 +44,20 @@ const UserSignupForm = () => {
         getCaptcha().getCaptchaValue().answer !== "" ? true : false;
 
       if (isVerified) {
-        const { answer, challenge_id } = getCaptcha().getCaptchaValue();
+        // const { answer, challenge_id } = getCaptcha().getCaptchaValue();
 
-        const raw = {
-          email: data.email,
-          password: data.password,
-          confirmPassword: data.confirmPassword,
-          privateKey: CAPTCHA_PRIVATE_KEY,
-          challengeId: challenge_id,
-          answer
-        } as UserRegisterSchema & {
-          privateKey: string;
-          challengeId: string;
-          answer: string;
-        };
+        // const raw = {
+        //   email: data.email,
+        //   password: data.password,
+        //   confirmPassword: data.confirmPassword,
+        //   privateKey: CAPTCHA_PRIVATE_KEY,
+        //   challengeId: challenge_id,
+        //   answer
+        // } as UserRegisterSchema & {
+        //   privateKey: string;
+        //   challengeId: string;
+        //   answer: string;
+        // };
 
         await signUpUser(data);
       } else {
@@ -73,77 +70,87 @@ const UserSignupForm = () => {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSignupSubmit)}
-        className="space-y-3 mt-5"
-      >
-        <FormField
-          name="email"
-          control={form.control}
-          defaultValue=""
-          render={({ field, fieldState }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input type="text" {...field} />
-              </FormControl>
-              <FormMessage>{fieldState.error?.message}</FormMessage>
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          name="password"
-          control={form.control}
-          defaultValue=""
-          render={({ field, fieldState }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <Input type="password" {...field} />
-              </FormControl>
-              <FormMessage>{fieldState.error?.message}</FormMessage>
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          name="confirmPassword"
-          control={form.control}
-          defaultValue=""
-          render={({ field, fieldState }) => (
-            <FormItem>
-              <FormLabel>Confirm Password</FormLabel>
-              <FormControl>
-                <Input type="password" {...field} />
-              </FormControl>
-              <FormMessage>{fieldState.error?.message}</FormMessage>
-            </FormItem>
-          )}
-        />
-
-        <div className="py-7 text-black">
-          <LeminCroppedCaptchaContainer
-            containerId={CAPTCHA_CONTAINER_ID}
-            captchaId={CAPTCHA_ID}
-            onVerify={(status: boolean) => setCaptchaError(!status)}
-          />
-          <div className="py-2">
-            {captchaError && (
-              <span className="text-center text-danger-500">Enter captcha</span>
+      <form onSubmit={form.handleSubmit(onSignupSubmit)}>
+        <div className="flex flex-col gap-2">
+          <FormField
+            control={form.control}
+            name="email"
+            defaultValue=""
+            render={({ field, fieldState }) => (
+              <FormItem>
+                <FormControl>
+                  <Input
+                    {...field}
+                    type="email"
+                    placeholder="Email or username"
+                  />
+                </FormControl>
+                <FormMessage>{fieldState.error?.message}</FormMessage>
+              </FormItem>
             )}
-          </div>
-        </div>
+          />
 
-        <div>
-          <Button
-            variant={"default"}
-            size={"lg"}
-            className="w-full"
-            disabled={isSignUpUserLoading || isSignUpUserSuccess}
-          >
-            {!isSignUpUserLoading ? "Continue" : <LoadingSpinner />}
-          </Button>
+          <FormField
+            control={form.control}
+            name="password"
+            defaultValue=""
+            render={({ field, fieldState }) => (
+              <FormItem>
+                <FormControl>
+                  <Input
+                    {...field}
+                    type="password"
+                    placeholder="Create password"
+                  />
+                </FormControl>
+                <FormMessage>{fieldState.error?.message}</FormMessage>
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="confirmPassword"
+            defaultValue=""
+            render={({ field, fieldState }) => (
+              <FormItem>
+                <FormControl>
+                  <Input
+                    {...field}
+                    type="password"
+                    placeholder="Confirm password"
+                  />
+                </FormControl>
+                <FormMessage>{fieldState.error?.message}</FormMessage>
+              </FormItem>
+            )}
+          />
+
+          <div className="py-7 text-black">
+            <LeminCroppedCaptchaContainer
+              containerId={CAPTCHA_CONTAINER_ID}
+              captchaId={CAPTCHA_ID}
+              onVerify={(status: boolean) => setCaptchaError(!status)}
+            />
+
+            <div className="py-2">
+              {captchaError && (
+                <span className="text-center text-danger-500">
+                  Enter captcha
+                </span>
+              )}
+            </div>
+          </div>
+
+          <div>
+            <Button
+              type="submit"
+              className="w-full rounded-2xl hover:opacity-90 bg-green-500"
+              isLoading={isSignUpUserLoading || isSignUpUserSuccess}
+            >
+              Create
+            </Button>
+          </div>
         </div>
       </form>
     </Form>

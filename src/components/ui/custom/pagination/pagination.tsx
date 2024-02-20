@@ -96,7 +96,7 @@ const Pagination = ({
         }}
         className="flex items-center mx-auto w-max list-none"
         pageCount={totalPages}
-        forcePage={params.page - 1}
+        forcePage={params.page ? params.page - 1 : 0}
         onPageChange={({ selected }) => {
           const selectedPage = String(selected + 1);
 

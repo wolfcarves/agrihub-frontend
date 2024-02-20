@@ -84,9 +84,11 @@ const QuestionCard = ({
     >
       <div className="flex flex-col bg-white border p-3 sm:p-5 rounded-xl min-h-[20rem] h-full max-h-[25rem] hover:shadow-sm hover:-translate-y-2 hover:-translate-x-2 duration-200">
         <>
-          {/* Card Title */}
           <div className="flex items-start justify-between ">
-            <Link to={`/forum/question/${username}/${id}`} className="w-[80%]">
+            <Link
+              to={`/forum/question/${username}/${id}`}
+              className="break-all pe-10"
+            >
               <h4 className="text-blue-500 font-poppins-semibold line-clamp-2 hover:opacity-80">
                 {title}
               </h4>

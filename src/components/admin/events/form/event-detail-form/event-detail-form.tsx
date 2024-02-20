@@ -46,7 +46,10 @@ const EventDetailForm = () => {
   //form
   const form = useForm<UpdateDraftEvent>({
     resolver: zodResolver(addEventDetailSchema),
-    mode: "onBlur"
+    mode: "onBlur",
+    defaultValues: {
+      type: eventData?.type
+    }
   });
 
   // validations
@@ -127,7 +130,7 @@ const EventDetailForm = () => {
                   onValueChange={field.onChange}
                   defaultValue={field.value}
                 >
-                  <SelectTrigger disabled={!isEditing} className="">
+                  <SelectTrigger className="">
                     <SelectValue placeholder="Choose" />
                   </SelectTrigger>
                   <SelectContent>
@@ -224,7 +227,7 @@ const EventDetailForm = () => {
 
           {/* thumbnail of event */}
           <div className="mt-4 col-span-12">
-            <Label className=" font-poppins-medium">Event Thumbnail</Label>
+            <Label className=" font-poppins-medium">Event Banner</Label>
             <FormField
               control={form.control}
               name="image"

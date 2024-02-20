@@ -143,7 +143,7 @@ const ViewEvents = () => {
                 </AlertDialog>
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
-                    <Button>Publish Material</Button>
+                    <Button>Publish Event</Button>
                   </AlertDialogTrigger>
                   <AlertDialogContent>
                     <AlertDialogHeader>
@@ -174,14 +174,14 @@ const ViewEvents = () => {
                       variant="outline"
                       className="border-red-500 text-red-500 hover:text-white hover:bg-red-500"
                     >
-                      Archieve
+                      Archive
                     </Button>
                   </AlertDialogTrigger>
                   <AlertDialogContent>
                     <AlertDialogHeader>
                       <AlertDialogTitle>Archive Material?</AlertDialogTitle>
                       <AlertDialogDescription>
-                        When you archieve learning material it will go to
+                        When you archive learning material it will go to
                         archieve and you can recover it from there.
                       </AlertDialogDescription>
                     </AlertDialogHeader>
@@ -192,7 +192,7 @@ const ViewEvents = () => {
                         onClick={handleArchive}
                         className="bg-red-600 hover:bg-red-500 hover:text-black"
                       >
-                        Archieve
+                        Archive
                       </AlertDialogAction>
                     </AlertDialogFooter>
                   </AlertDialogContent>

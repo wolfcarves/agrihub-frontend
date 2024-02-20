@@ -4,7 +4,7 @@ import { DataTable } from "../../../../ui/custom/data-table/data-table";
 import { columns } from "./columns";
 import useGetEventArchiveList from "../../../../../hooks/api/get/useGetEventArchiveList";
 
-const TableEventsArchieve = () => {
+const TableEventsArchive = () => {
   const { data: eventsData } = useGetEventArchiveList(
     undefined,
     undefined,
@@ -18,4 +18,4 @@ const TableEventsArchieve = () => {
   );
 };
 
-export default TableEventsArchieve;
+export default TableEventsArchive;

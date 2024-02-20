@@ -1,8 +1,8 @@
 const UserSetupAccountTitle = () => {
   return (
     <>
-      <span className="font-semibold">Step 2 of 2 </span>
-      <h1 className="font-semibold">Complete your profile</h1>
+      <h1>Complete your profile</h1>
+      <span>Fill up the neccessary details</span>
     </>
   );
 };

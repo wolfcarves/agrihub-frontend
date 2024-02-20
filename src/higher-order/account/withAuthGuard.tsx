@@ -28,15 +28,20 @@ export default function withAuthGuard<P extends object>(
     } = useGetMyProfileQuery();
 
     useEffect(() => {
+      const userRole = (authData?.role as AllowedRoles) ?? "guest";
+      const isAllowed = allowedRoles.includes(userRole);
+
+      if (!isAllowed && userRole) {
+        navigate("/", { replace: true });
+      }
+
       //has user data
-      if (isAuthDataFetched && !isError) {
+      if (isAuthDataFetched && authData?.id) {
         const verificationLevel = authData?.verification_level as
           | "1"
           | "2"
           | "3"
           | "4";
-        const userRole = authData?.role as AllowedRoles;
-        const isAllowed = allowedRoles.includes(userRole);
 
         const redirectPaths = [
           "/account/verify-email",
@@ -61,10 +66,6 @@ export default function withAuthGuard<P extends object>(
             if (pathname === redirectPaths["2"])
               navigate("/", { replace: true });
             break;
-        }
-
-        if (!isAllowed && userRole) {
-          navigate("/", { replace: true });
         }
       }
     }, [

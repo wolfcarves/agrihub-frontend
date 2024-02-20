@@ -44,12 +44,20 @@ export default {
       extrabold: "800"
     },
     fontFamily: {
+      //poppins
       "poppins-thin": ["poppins-thin"],
       "poppins-regular": ["poppins-regular"],
       "poppins-medium": ["poppins-medium"],
       "poppins-semibold": ["poppins-semibold"],
       "poppins-bold": ["poppins-bold"],
-      "poppins-extrabold": ["poppins-extrabold"]
+      "poppins-extrabold": ["poppins-extrabold"],
+      // inter
+      "inter-thin": ["inter-thin"],
+      "inter-regular": ["inter-regular"],
+      "inter-medium": ["inter-medium"],
+      "inter-semibold": ["inter-semibold"],
+      "inter-bold": ["inter-bold"],
+      "inter-extrabold": ["inter-extrabold"]
     },
     extend: {
       colors: {
@@ -90,7 +98,8 @@ export default {
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)"
+        sm: "calc(var(--radius) - 4px)",
+        "2xl": "14px"
       },
       keyframes: {
         "accordion-down": {

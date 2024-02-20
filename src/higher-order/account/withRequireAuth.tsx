@@ -26,7 +26,7 @@ export function withRequireAuth<T extends object>(Component: ComponentType<T>) {
 
             <div className="flex flex-col py-10 gap-3">
               <Link to="/account/signup">
-                <Button className="w-full" size="lg" variant="default_border">
+                <Button className="w-full" size="lg">
                   Create an account
                 </Button>
               </Link>
@@ -36,7 +36,7 @@ export function withRequireAuth<T extends object>(Component: ComponentType<T>) {
               </div>
 
               <Link to="/account/login">
-                <Button className="w-full" size="lg" variant="outline_border">
+                <Button className="w-full" size="lg" variant="outline">
                   Login instead
                 </Button>
               </Link>

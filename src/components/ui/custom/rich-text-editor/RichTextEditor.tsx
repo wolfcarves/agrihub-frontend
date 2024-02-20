@@ -1,9 +1,8 @@
-import { useEditor, EditorContent, EditorContentProps } from "@tiptap/react";
+import { useEditor, EditorContent, EditorContentProps, Extensions, Editor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
 import React, { useState } from "react";
 import Toolbar from "./Toolbar";
-import { Extensions, Editor } from "@tiptap/react";
 import CharacterCount from "@tiptap/extension-character-count";
 
 interface RichTextEditorProps

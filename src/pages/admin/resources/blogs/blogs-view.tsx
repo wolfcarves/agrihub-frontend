@@ -37,7 +37,7 @@ const breadcrumbItems = [
   { title: "Add New Blogs", link: "/admin/resource/blogs/add" }
 ];
 
-const AddBlogs = () => {
+const ViewBlogs = () => {
   const [searchInputTagValue, setSearchInputTagValue] = useState<string>("");
   const { data: tagResult } = useGetTagByKeyWord(searchInputTagValue);
 
@@ -114,12 +114,12 @@ const AddBlogs = () => {
             </Label>
 
             <div className="">
-              <UserTagInputDropdown
+              {/* <UserTagInputDropdown
                 option={tagResult}
                 onChange={e => {
                   setSearchInputTagValue(e.target.value);
                 }}
-              />
+              /> */}
             </div>
           </div>
 
@@ -187,4 +187,4 @@ const AddBlogs = () => {
   );
 };
 
-export default AddBlogs;
+export default ViewBlogs;

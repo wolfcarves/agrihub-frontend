@@ -106,8 +106,9 @@ const CommunityLanding = () => {
           Community works for you
         </h3>
         <p className="text-gray-600 mt-3">
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry.Lorem Ipsum has been the industry's standard dummy.
+          In joining a community, you can be a part of a growing urban farming
+          community where you can do your part as a member. These features will
+          help you access the services of the Agrihub:
         </p>
       </div>
 
@@ -125,14 +126,13 @@ const CommunityLanding = () => {
               </h3>
               {/* subheader */}
               <p className="text-gray-500 leading-relaxed mt-3">
-                Takteng yan sumasakit na ulo ko kakaisip mga ilalagay d2
+                Keep track of essential farming records.
               </p>
               <hr className="my-4" />
               {/* description */}
               <p className="text-gray-500 leading-relaxed mt-3">
-                ayukonaload ayukonaload ayukonaload ayukonaload ayukonaload
-                papacute nalang aq papacute nalang aq papacute nalang aq
-                papacute nalang aq
+                Creating a farm report enables you to evaluate your Urban Farm
+                records to help with the farming plan and for future references.
               </p>
             </div>
 
@@ -150,18 +150,20 @@ const CommunityLanding = () => {
               <TbReportAnalytics className="h-16 w-16 p-1 text-green-600" />
               {/* header */}
               <h3 className="text-3xl text-gray-800 font-semibold md:text-4xl">
-                Use <span className="text-green-600">prescrive analysis</span>
+                Use{" "}
+                <span className="text-green-600">prescriptive analysis</span>
               </h3>
               {/* subheader */}
               <p className="text-gray-500 leading-relaxed mt-3">
-                Takteng yan sumasakit na ulo ko kakaisip mga ilalagay d2
+                Analyze historical farming data with advanced analytical
+                approach.
               </p>
               <hr className="my-4" />
               {/* description */}
               <p className="text-gray-500 leading-relaxed mt-3">
-                ayukonaload ayukonaload ayukonaload ayukonaload ayukonaload
-                papacute nalang aq papacute nalang aq papacute nalang aq
-                papacute nalang aq
+                Optimize your farm's yields with our AI-Powered prescriptive
+                analytics to gain access with actionable insights and farming
+                recommendations.
               </p>
             </div>
 
@@ -183,14 +185,14 @@ const CommunityLanding = () => {
               </h3>
               {/* subheader */}
               <p className="text-gray-500 leading-relaxed mt-3">
-                Takteng yan sumasakit na ulo ko kakaisip mga ilalagay d2
+                Communities can send a request to get needed seedlings.
               </p>
               <hr className="my-4" />
               {/* description */}
               <p className="text-gray-500 leading-relaxed mt-3">
-                ayukonaload ayukonaload ayukonaload ayukonaload ayukonaload
-                papacute nalang aq papacute nalang aq papacute nalang aq
-                papacute nalang aq
+                Enhance your urban farm's production by requesting seedlings
+                that aligns with your daily farm needs and environmental
+                conditions.
               </p>
             </div>
 
@@ -213,14 +215,13 @@ const CommunityLanding = () => {
               </h3>
               {/* subheader */}
               <p className="text-gray-500 leading-relaxed mt-3">
-                Takteng yan sumasakit na ulo ko kakaisip mga ilalagay d2
+                Showcase the highlights of your farm with photos.
               </p>
               <hr className="my-4" />
               {/* description */}
               <p className="text-gray-500 leading-relaxed mt-3">
-                ayukonaload ayukonaload ayukonaload ayukonaload ayukonaload
-                papacute nalang aq papacute nalang aq papacute nalang aq
-                papacute nalang aq
+                Encourage other farmers and communities by uploading images of
+                your urban farm and yields in your community gallery.
               </p>
             </div>
 
@@ -240,7 +241,7 @@ const CommunityLanding = () => {
           <p className="text-gray-600 mt-3">
             Explore content from{" "}
             <Link
-              to="/help-center"
+              to="/helps"
               className="text-green-700 font-bold hover:underline"
             >
               Help Center

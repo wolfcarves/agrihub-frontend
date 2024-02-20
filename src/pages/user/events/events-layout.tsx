@@ -1,11 +1,11 @@
-import { UserResponsiveContainer } from "@components/ui/custom";
 import { Outlet } from "react-router-dom";
+import { UserResponsiveContainer } from "@components/ui/custom";
 
 const EventsLayout = () => {
   return (
-    <UserResponsiveContainer className="container flex flex-col">
+    <div className="flex flex-col">
       <Outlet />
-    </UserResponsiveContainer>
+    </div>
   );
 };
 

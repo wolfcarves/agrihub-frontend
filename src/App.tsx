@@ -124,7 +124,7 @@ import DisabledAdmin from "@pages/admin/admins/disabled-admin";
 import ActivityLog from "@pages/admin/activities/activity-log";
 
 // Providers
-import UserLayout from "@pages/user/layout/_layout";
+import UserLayout from "@pages/user/layout/main-layout";
 import AboutLayout from "./pages/user/about/_layout";
 import CommunityRegister from "./pages/user/community/community-register";
 import FarmApplication from "./pages/admin/farm-application/farm-application";

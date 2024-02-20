@@ -51,13 +51,6 @@ export default {
       "poppins-semibold": ["poppins-semibold"],
       "poppins-bold": ["poppins-bold"],
       "poppins-extrabold": ["poppins-extrabold"],
-      // lato
-      "lato-thin": ["lato-thin"],
-      "lato-regular": ["lato-regular"],
-      "lato-medium": ["lato-medium"],
-      "lato-semibold": ["lato-semibold"],
-      "lato-bold": ["lato-bold"],
-      "lato-extrabold": ["lato-extrabold"],
       // inter
       "inter-thin": ["inter-thin"],
       "inter-regular": ["inter-regular"],

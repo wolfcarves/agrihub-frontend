@@ -44,52 +44,6 @@
   font-weight: 800;
 }
 
-/* Lato */
-
-
-/* Light */
-@font-face {
-  font-family: lato-light;
-  src: url("/fonts/Lato/Lato-Light.ttf");
-  font-weight: 300;
-}
-
-/* Regular */
-@font-face {
-  font-family: lato-regular;
-  src: url("/fonts/Lato/Lato-Regular.ttf");
-  font-weight: 400;
-}
-
-/* Medium */
-@font-face {
-  font-family: lato-medium;
-  src: url("/fonts/Lato/Lato-Medium.ttf");
-  font-weight: 500;
-}
-
-/* SemiBold */
-@font-face {
-  font-family: lato-semibold;
-  src: url("/fonts/Lato/Lato-SemiBold.ttf");
-  font-weight: 600;
-}
-
-/* Bold */
-@font-face {
-  font-family: lato-bold;
-  src: url("/fonts/Lato/Lato-Bold.ttf");
-  font-weight: 700;
-}
-
-/* Extra Bold */
-@font-face {
-  font-family: lato-extrabold;
-  src: url("/fonts/Lato/Lato-ExtraBold.ttf");
-  font-weight: 800;
-}
-
-
 /* Inter */
 
 /* Light */

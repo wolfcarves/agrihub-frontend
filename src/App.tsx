@@ -147,6 +147,7 @@ import SeedlingPending from "@pages/admin/farms/seedling-pending";
 import MainLayout from "@pages/user/layout/main-layout";
 import SeedlingAccepted from "@pages/admin/farms/seedling-accepted";
 import SeedlingRejected from "@pages/admin/farms/seedling-rejected";
+import AnalyticsAdmin from "@pages/admin/analytics/analytics-admin";
 
 const App = ReactRouter(
   <>
@@ -282,7 +283,7 @@ const App = ReactRouter(
 
     <Route path="/admin" element={<AdminLayout />}>
       <Route path="dashboard" element={<OverviewAdmin />} />
-      <Route path="analytics" element={<AdminLogin />} />
+      <Route path="analytics" element={<AnalyticsAdmin />} />
 
       {/* Community  */}
       <Route path="farm" element={<Farms />} />

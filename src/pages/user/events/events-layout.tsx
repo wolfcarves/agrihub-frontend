@@ -1,5 +1,4 @@
 import { Outlet } from "react-router-dom";
-import { UserResponsiveContainer } from "@components/ui/custom";
 
 const EventsLayout = () => {
   return (

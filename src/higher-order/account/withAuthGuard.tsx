@@ -37,10 +37,12 @@ export default function withAuthGuard<P extends object>(
     }
 
     useEffect(() => {
-      if (authData?.id && userRole !== "admin") {
+      if ((authData?.id && userRole !== "admin") || true) {
         const level = Number(authData?.verification_level) - 1;
 
-        if (level === 4) return;
+        if (pathname === "/account/final-setup") {
+          return;
+        }
 
         navigate(RedirectRoutes[level], { replace: true });
       }

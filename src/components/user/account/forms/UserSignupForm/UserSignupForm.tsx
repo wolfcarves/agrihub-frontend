@@ -83,6 +83,7 @@ const UserSignupForm = () => {
                     {...field}
                     type="email"
                     placeholder="Email or username"
+                    $isError={fieldState?.error && true}
                   />
                 </FormControl>
                 <FormMessage>{fieldState.error?.message}</FormMessage>
@@ -101,6 +102,7 @@ const UserSignupForm = () => {
                     {...field}
                     type="password"
                     placeholder="Create password"
+                    $isError={fieldState?.error && true}
                   />
                 </FormControl>
                 <FormMessage>{fieldState.error?.message}</FormMessage>
@@ -119,6 +121,7 @@ const UserSignupForm = () => {
                     {...field}
                     type="password"
                     placeholder="Confirm password"
+                    $isError={fieldState?.error && true}
                   />
                 </FormControl>
                 <FormMessage>{fieldState.error?.message}</FormMessage>

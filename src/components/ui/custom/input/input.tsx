@@ -1,10 +1,4 @@
-import {
-  useId,
-  DetailedHTMLProps,
-  InputHTMLAttributes,
-  forwardRef,
-  ForwardedRef
-} from "react";
+import { useId, forwardRef, ForwardedRef } from "react";
 import {
   Input as ShadInput,
   InputProps as ShadInputProps

@@ -5,7 +5,7 @@ import { columns } from "./columns";
 import useGetBlogsDraftList from "../../../../../hooks/api/get/useGetBlogsDraftList";
 
 const TableBlogsDraft = () => {
-  const { data: eventsData } = useGetBlogsDraftList(
+  const { data: blogsData } = useGetBlogsDraftList(
     undefined,
     undefined,
     undefined
@@ -13,7 +13,7 @@ const TableBlogsDraft = () => {
   return (
     <div>
       <Input placeholder="Search title..." className="max-w-sm my-4" />
-      <DataTable columns={columns} data={eventsData?.data || []} />
+      <DataTable columns={columns} data={blogsData?.data || []} />
     </div>
   );
 };

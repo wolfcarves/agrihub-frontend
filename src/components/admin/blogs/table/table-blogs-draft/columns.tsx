@@ -15,32 +15,26 @@ import {
 
 import { Link } from "react-router-dom";
 import { Blog } from "../../../../../api/openapi";
+import { format } from "date-fns";
 
 export const columns: ColumnDef<Blog>[] = [
   {
-    accessorKey: "createdAt",
+    accessorKey: "createdat",
     header: "Created At",
-    cell: ({ row }) => <div>{row.getValue("createdAt")}</div>
+    cell: ({ row }) => format(new Date(row.original.createdat || ""), "PPP")
   },
   {
-    accessorKey: "updatedAt",
+    accessorKey: "updatedat",
     header: "Updated At",
-    cell: ({ row }) => <div>{row.getValue("updatedAt")}</div>
+    cell: ({ row }) => format(new Date(row.original.updatedat || ""), "PPP")
   },
   {
     accessorKey: "title",
-    header: "Title",
-    cell: ({ row }) => <div>{row.getValue("title")}</div>
+    header: "Title"
   },
   {
     accessorKey: "author",
-    header: "Author",
-    cell: ({ row }) => <div>{row.getValue("author")}</div>
-  },
-  {
-    accessorKey: "tags",
-    header: "Tags",
-    cell: ({ row }) => <div>{}</div>
+    header: "Author"
   },
   {
     accessorKey: "status",
@@ -71,9 +65,6 @@ export const columns: ColumnDef<Blog>[] = [
             <DropdownMenuSeparator />
             <Link to={`/admin/resource/blogs/view/${payment.id}`}>
               <DropdownMenuItem>View/update article</DropdownMenuItem>
-            </Link>
-            <Link to={`/blogs/view/${payment.id}`}>
-              <DropdownMenuItem>View article in page</DropdownMenuItem>
             </Link>
           </DropdownMenuContent>
         </DropdownMenu>

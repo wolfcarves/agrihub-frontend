@@ -1,8 +1,11 @@
 import * as zod from "zod";
 
 export const cropAddReportSchema = zod.object({
-  crop_id: zod.string().min(1, { message: "Crop is Required" }),
+  crop_id: zod.string().optional(),
   planted_qty: zod.string().min(1, { message: "Planted quantity is Required" }),
+  is_other: zod.boolean().optional(),
+  isyield: zod.boolean().optional(),
+  c_name: zod.string().min(1, { message: "Crop Name is Required" }).optional(),
   harvested_qty: zod
     .string()
     .min(1, { message: "Harvested quantity is Required" }),

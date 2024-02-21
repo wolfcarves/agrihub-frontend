@@ -21,11 +21,20 @@ import Loader from "../../../../../icons/Loader";
 const CommunityAddCropReportForm = () => {
   const navigate = useNavigate();
   const [check, setCheck] = useState<CheckedState>(false);
-
+  const [isCrop, setIsCrop] = useState<boolean>(true);
   const form = useForm<NewCommunityCropReport>({
     resolver: zodResolver(cropAddReportSchema),
     mode: "onBlur"
   });
+
+  useEffect(() => {
+    if (form.watch("crop_id") === "") {
+      setIsCrop(false);
+    } else {
+      setIsCrop(true);
+    }
+  }, [form.watch("crop_id")]);
+  console.log(isCrop);
 
   useEffect(() => {
     if (form.formState.errors.crop_id) {
@@ -86,6 +95,9 @@ const CommunityAddCropReportForm = () => {
 
     const compiledData: NewCommunityCropReport = {
       crop_id: data.crop_id,
+      c_name: data.c_name,
+      is_other: data.is_other,
+      isyield: data.isyield,
       planted_qty: data.planted_qty,
       harvested_qty: data.harvested_qty,
       withered_crops: data.withered_crops,
@@ -129,6 +141,50 @@ const CommunityAddCropReportForm = () => {
             className="h-9 rounded-md"
           />
         </div>
+        {!isCrop && (
+          <>
+            <div className="flex items-center space-x-2 md:col-span-3 col-span-12 pl-2">
+              <FormField
+                control={form.control}
+                name="is_other"
+                render={({ field }) => (
+                  <>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                    <Label>Is Other</Label>
+                  </>
+                )}
+              />
+            </div>
+            <div className="flex items-center space-x-2 md:col-span-3 col-span-12 pl-2">
+              <FormField
+                control={form.control}
+                name="isyield"
+                render={({ field }) => (
+                  <>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                    <Label>Is Yielded</Label>
+                  </>
+                )}
+              />
+            </div>
+            <div className="md:col-span-6 col-span-12">
+              <Label>Crop Name</Label>
+              <Input
+                {...form.register("c_name")}
+                type="text"
+                className="h-9 rounded-md"
+                required={!isCrop}
+              />
+            </div>
+          </>
+        )}
+
         <div className="md:col-span-6 col-span-12">
           <Label>Harvested Quantity</Label>
           <Input

@@ -157,6 +157,7 @@ export type { UpdateBlogRequest } from './models/UpdateBlogRequest';
 export type { UpdateBlogResponse } from './models/UpdateBlogResponse';
 export type { UpdateCommunityFarmRequest } from './models/UpdateCommunityFarmRequest';
 export type { UpdateCommunityFarmResponse } from './models/UpdateCommunityFarmResponse';
+export type { UpdateCropRequest } from './models/UpdateCropRequest';
 export type { UpdateDraftEvent } from './models/UpdateDraftEvent';
 export type { UpdateDraftEventResponse } from './models/UpdateDraftEventResponse';
 export type { UpdateDraftResponse } from './models/UpdateDraftResponse';

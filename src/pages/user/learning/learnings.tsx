@@ -1,11 +1,26 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { formatDate } from "@components/lib/utils";
+import React, { useMemo } from "react";
+import { Link, useSearchParams } from "react-router-dom";
+import { convertToEmbedLink, formatDate } from "@components/lib/utils";
 import useGetLearningPublishedList from "../../../hooks/api/get/useGetLearningPublishedList";
 import parse from "html-react-parser";
+import { Pagination } from "../../../components/ui/custom";
 
 const Learnings = () => {
-  const { data: learningsData } = useGetLearningPublishedList();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const params = useMemo(() => {
+    return {
+      currentPage: Number(searchParams.get("page")) ?? 1
+    };
+  }, [searchParams]);
+  const { data: learningsData, isLoading } = useGetLearningPublishedList({
+    perpage: "6",
+    page: String(params.currentPage) ?? "1"
+  });
+
+  const totalPages =
+    learningsData?.pagination?.total_pages ?? params.currentPage + 1;
+
   console.log(learningsData, "asdasd");
   return (
     <section className="my-12 mx-auto px-4 max-w-screen-xl md:px-8 py-8">
@@ -24,12 +39,26 @@ const Learnings = () => {
             key={key}
           >
             <Link to={`/learning-materials/view/${items.id}`}>
-              <img
-                src={`https://s3.ap-southeast-1.amazonaws.com/agrihub-bucket/${items.thumbnail.resource}`}
-                loading="lazy"
-                alt={items.title}
-                className="w-full h-48 object-cover rounded-t-md"
-              />
+              <div className="h-48 rounded-t-md">
+                {items.thumbnail.type === "image" ? (
+                  <img
+                    src={items.thumbnail.resource}
+                    alt={items.thumbnail.id}
+                    className="w-full aspect-video object-cover object-center rounded-md h-48 rounded-t-md"
+                  />
+                ) : items.thumbnail.type === "video" ? (
+                  <div className="w-full aspect-video h-48 rounded-t-md">
+                    <iframe
+                      className="w-full h-full rounded-t-md"
+                      src={convertToEmbedLink(items.thumbnail.resource || "")}
+                      title={items.thumbnail.id}
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                    ></iframe>
+                  </div>
+                ) : null}
+              </div>
 
               <div className="flex items-center mt-2 pt-3 ml-4 mr-2">
                 <div className="">
@@ -62,6 +91,9 @@ const Learnings = () => {
             </Link>
           </article>
         ))}
+      </div>
+      <div className="mt-10">
+        <Pagination totalPages={totalPages} isLoading={isLoading} />
       </div>
     </section>
   );

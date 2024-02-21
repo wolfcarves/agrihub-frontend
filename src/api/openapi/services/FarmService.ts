@@ -23,8 +23,6 @@ import type { FarmListResponse } from '../models/FarmListResponse';
 import type { ListFarmMembersResponse } from '../models/ListFarmMembersResponse';
 import type { ListInvitationsResponse } from '../models/ListInvitationsResponse';
 import type { NewCommunityFarmGallery } from '../models/NewCommunityFarmGallery';
-import type { NewCropRequest } from '../models/NewCropRequest';
-import type { NewCropResponse } from '../models/NewCropResponse';
 import type { NewFarmApplication } from '../models/NewFarmApplication';
 import type { NewFarmerInvitationRequest } from '../models/NewFarmerInvitationRequest';
 import type { NewFarmRequest } from '../models/NewFarmRequest';
@@ -523,29 +521,6 @@ perpage?: string,
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/farm/crop/find',
-        });
-    }
-
-    /**
-     * Create a new crop
-     * @returns NewCropResponse Crop created successfully
-     * @throws ApiError
-     */
-    public static postApiFarmCrop({
-formData,
-}: {
-formData: NewCropRequest,
-}): CancelablePromise<NewCropResponse> {
-        return __request(OpenAPI, {
-            method: 'POST',
-            url: '/api/farm/crop',
-            formData: formData,
-            mediaType: 'multipart/form-data',
-            errors: {
-                400: `Validation Error`,
-                401: `Unauthorized`,
-                500: `Server Error`,
-            },
         });
     }
 

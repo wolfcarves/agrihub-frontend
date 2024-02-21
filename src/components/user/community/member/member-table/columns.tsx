@@ -57,16 +57,15 @@ export const columns: ColumnDef<FarmMember>[] = [
       const user = row.original;
       const navigate = useNavigate();
       const handleProfile = () => {
-        navigate(`/user/${user.username}/${user.id}`);
+        navigate(`/users/${user.id}/me`);
       };
       return (
-        <Button
-          variant={"outline_border"}
-          className=" text-xs h-7 px-3 focus-visible:ring-0 "
+        <button
+          className="hover:text-primary hover:underline"
           onClick={handleProfile}
         >
           View Profile
-        </Button>
+        </button>
       );
     }
   }

@@ -127,7 +127,7 @@ const Analytics = () => {
               <SuggestionsModal />
             </div>
           </div>
-          <div className=" col-span-4 border border-border mt-6 p-4 pb-8 rounded-lg flex flex-col ">
+          <div className=" lg:col-span-4 col-span-12 border border-border mt-6 p-4 pb-8 rounded-lg flex flex-col ">
             <div className=" font-semibold text-lg">Growth Rate</div>
             <div className="flex-grow grid place-items-center">
               <div className="text-center">

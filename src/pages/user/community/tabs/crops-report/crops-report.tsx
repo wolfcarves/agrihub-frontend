@@ -1,5 +1,6 @@
 import React from "react";
 import CropsReportTable from "../../../../../components/user/community/crops-report/crops-report-table/crops-report-table";
+import withAuthGuard from "../../../../../higher-order/account/withAuthGuard";
 
 const CropsReport = () => {
   return (
@@ -13,4 +14,4 @@ const CropsReport = () => {
   );
 };
 
-export default CropsReport;
+export default withAuthGuard(CropsReport, ["farm_head"]);

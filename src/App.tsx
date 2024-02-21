@@ -121,7 +121,6 @@ import DisabledAdmin from "@pages/admin/admins/disabled-admin";
 import ActivityLog from "@pages/admin/activities/activity-log";
 
 // Providers
-import UserLayout from "@pages/user/layout/main-layout";
 import AboutLayout from "./pages/user/about/_layout";
 import CommunityRegister from "./pages/user/community/community-register";
 import FarmApplication from "./pages/admin/farm-application/farm-application";
@@ -141,11 +140,15 @@ import InviteFarm from "./pages/user/invitation/invite-farm";
 import InviteLayout from "./pages/user/invitation/invite-layout";
 import CropsReportView from "./pages/user/community/tabs/crops-report/crops-report-view";
 import ViewEvents from "@pages/admin/resources/events/events-view";
+import SeedlingPending from "@pages/admin/farms/seedling-pending";
+import MainLayout from "@pages/user/layout/main-layout";
+import SeedlingAccepted from "@pages/admin/farms/seedling-accepted";
+import SeedlingRejected from "@pages/admin/farms/seedling-rejected";
 import ViewBlogs from "./pages/admin/resources/blogs/blogs-view";
 
 const App = ReactRouter(
   <>
-    <Route path="/" element={<UserLayout />} errorElement={<ErrorElement />}>
+    <Route path="/" element={<MainLayout />} errorElement={<ErrorElement />}>
       {/* Landing Page */}
 
       <Route path="/" element={<UserHomeLayout />}>
@@ -291,6 +294,10 @@ const App = ReactRouter(
         <Route path="farm-request" element={<FarmApplication />} />
         <Route path="farm-request/:id" element={<FarmApplicationView />} />
         <Route path="farm-rejected" element={<FarmsRejected />} />
+
+        <Route path="seedling-pending" element={<SeedlingPending />} />
+        <Route path="seedling-accepted" element={<SeedlingAccepted />} />
+        <Route path="seedling-rejected" element={<SeedlingRejected />} />
       </Route>
 
       {/* Resources */}

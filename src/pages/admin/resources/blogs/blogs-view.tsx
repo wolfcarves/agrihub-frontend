@@ -19,6 +19,12 @@ import UserTagInputDropdown from "@components/user/account/input/UserTagInput";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger
+} from "@components/ui/accordion";
+import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -31,6 +37,8 @@ import {
 } from "@components/ui/alert-dialog";
 import Capture from "@components/user/community/capture/capture";
 import BlogDetailForm from "../../../../components/admin/blogs/form/blog-detail-form/blog-detail-form";
+import BlogImageForm from "../../../../components/admin/blogs/form/blog-image-form/blog-image-form";
+import BlogTagsForm from "../../../../components/admin/blogs/form/blog-tags-form/blog-tags-form";
 
 const breadcrumbItems = [
   { title: "Resource Management", link: "/admin/resources" },
@@ -56,29 +64,25 @@ const ViewBlogs = () => {
       <div className="max-w-[60rem] mx-auto">
         <>
           <BlogDetailForm />
-          <br />
-          <Label>Add other images</Label>
-          <MultiImageUpload />
-          {/* tag section */}
-          <div className="mt-4">
-            <h3 className="text-foreground text-md font-poppins-bold">
-              Add Tags
-            </h3>
 
-            <Label>
-              Add up to 5 tags to describe what your blog is about. Start typing
-              to see suggestions.
-            </Label>
-
-            <div className="">
-              {/* <UserTagInputDropdown
-                option={tagResult}
-                onChange={e => {
-                  setSearchInputTagValue(e.target.value);
-                }}
-              /> */}
-            </div>
-          </div>
+          <Accordion type="single" collapsible className="w-full my-10">
+            <AccordionItem value="item-1">
+              <AccordionTrigger className="text-lg font-poppins-medium [&[data-state=open]]:text-primary">
+                Images
+              </AccordionTrigger>
+              <AccordionContent>
+                <BlogImageForm />
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-2">
+              <AccordionTrigger className="text-lg font-poppins-medium [&[data-state=open]]:text-primary">
+                Tags
+              </AccordionTrigger>
+              <AccordionContent>
+                <BlogTagsForm />
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
 
           <div className="flex gap-4 justify-end mt-4">
             <AlertDialog>

@@ -3,22 +3,19 @@ import { LearningMaterialsService } from "../../../api/openapi";
 
 export const GET_LEARNING_PUBLISHED_LIST = () =>
   "GET_LEARNING_PUBLISHED_LIST_KEY";
-
-export default function useGetLearningPublishedList(
-  search?: string,
-  page?: string,
-  perpage?: string
-) {
+interface ApplicationsParams {
+  search?: string;
+  page?: string;
+  perpage?: string;
+}
+export default function useGetLearningPublishedList(data: ApplicationsParams) {
   return useQuery({
-    queryKey: [GET_LEARNING_PUBLISHED_LIST(), page, search],
+    queryKey: [GET_LEARNING_PUBLISHED_LIST()],
     queryFn: async () => {
-      const data = await LearningMaterialsService.getApiLearningPublished({
-        search,
-        page,
-        perpage
-      });
-      return data;
-    },
-    keepPreviousData: true
+      const response =
+        await LearningMaterialsService.getApiLearningPublished(data);
+
+      return response;
+    }
   });
 }

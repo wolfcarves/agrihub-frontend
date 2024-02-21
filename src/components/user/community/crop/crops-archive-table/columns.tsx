@@ -63,7 +63,7 @@ export const columns: ColumnDef<ArchivedCrop>[] = [
 
       return (
         <Button onClick={handleDelete} className="bg-[#27272A]">
-          Unarchieve
+          Unarchive
         </Button>
       );
     }

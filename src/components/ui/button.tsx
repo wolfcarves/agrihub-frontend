@@ -11,9 +11,9 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-primary text-white border rounded-2xl hover:opacity-90 shadow-sm focus:ring-2 ring-primary",
+          "bg-primary text-white border rounded-2xl hover:opacity-90 shadow-sm  focus:ring-2 ring-primary",
         default_rounded:
-          "bg-primary rounded-full text-primary-foreground hover:bg-primary",
+          "bg-primary rounded-full text-primary-foreground shadow-sm hover:bg-primary hover:opacity-90",
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive",
         outline:
@@ -45,8 +45,22 @@ export interface ButtonProps
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, isLoading, ...props }, ref) => {
+  (
+    {
+      className,
+      variant: vrt = "default",
+      size,
+      asChild = false,
+      isLoading,
+      ...props
+    },
+    ref
+  ) => {
+    let variant = vrt;
+
     const Comp = asChild ? Slot : "button";
+
+    if (isLoading) variant = "outline";
 
     return (
       <div className="relative">
@@ -58,8 +72,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           >
             <LoadingSpinner
               className={`${
-                variant === "default" && "text-white"
-              } text-lg w-max h-max`}
+                variant === "outline" && "text-[#222222]"
+              } text-lg z-50 text-white`}
             />
           </Comp>
         ) : (

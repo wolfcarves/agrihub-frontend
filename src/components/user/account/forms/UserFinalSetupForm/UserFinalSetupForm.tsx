@@ -3,19 +3,13 @@ import { useForm } from "react-hook-form";
 import { UserFinalSetup, userFinalSetup } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import useUserFinalSetup from "@hooks/api/post/useUserFinalSetup";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
-} from "@components/ui/form";
+import { Form, FormField } from "@components/ui/form";
 import { Input } from "@components/ui/custom";
 import { Button } from "@components/ui/button";
 import UserTagInputDropdown from "@components/user/account/input/UserTagInput";
 import useGetTagByKeyWord from "@hooks/api/get/useGetTagByKeyword";
 import { toast } from "sonner";
+import useDeleteAuthMutate from "@hooks/api/delete/useDeleteAuthMutate";
 
 const UserFinalSetupForm = () => {
   const inputFileRef = useRef<HTMLInputElement | null>(null);
@@ -24,6 +18,9 @@ const UserFinalSetupForm = () => {
   const [tags, setTags] = useState<string[]>();
 
   const { data: tagResult } = useGetTagByKeyWord(searchInputTagValue);
+
+  const { mutateAsync: deleteAuth, isLoading: isDeleteAuthLoading } =
+    useDeleteAuthMutate();
 
   useEffect(() => {}, [searchInputTagValue, tagResult]);
 
@@ -53,14 +50,17 @@ const UserFinalSetupForm = () => {
 
     try {
       const length = tags?.length || 0;
+
       if (length >= 2) {
         return await userFinalSetupMutate(data);
       }
+
       throw new Error("Please select atleast 2 tags");
     } catch (e: any) {
       if (e.message === "Please select atleast 2 tags") {
         return toast(e.message);
       }
+
       toast(e.body.message);
     }
   };
@@ -76,9 +76,7 @@ const UserFinalSetupForm = () => {
             name="username"
             control={form.control}
             defaultValue=""
-            render={({ field, fieldState }) => (
-              <Input {...field} placeholder="Username" />
-            )}
+            render={({ field }) => <Input {...field} placeholder="Username" />}
           />
         </div>
 
@@ -145,6 +143,15 @@ const UserFinalSetupForm = () => {
             isLoading={isUserFinalSetupLoading || isUserFinalSetupSuccess}
           >
             Continue
+          </Button>
+
+          <Button
+            className="w-full mt-3"
+            variant="outline"
+            onClick={() => deleteAuth()}
+            isLoading={isDeleteAuthLoading}
+          >
+            Use another account instead
           </Button>
         </div>
       </form>

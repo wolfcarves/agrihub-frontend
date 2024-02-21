@@ -12,6 +12,12 @@ type AllowedRoles =
   | "asst_admin"
   | "admin";
 
+enum RedirectRoutes {
+  "/account/verify-email",
+  "/account/setup-account",
+  "/account/final-setup"
+}
+
 export default function withAuthGuard<P extends object>(
   Component: ComponentType<P>,
   allowedRoles: Array<AllowedRoles>
@@ -23,62 +29,28 @@ export default function withAuthGuard<P extends object>(
     const {
       data: authData,
       isFetched: isAuthDataFetched,
-      isLoading,
-      isError
+      isLoading: isAuthDataLoading
     } = useGetMyProfileQuery();
 
     useEffect(() => {
       const userRole = (authData?.role as AllowedRoles) ?? "guest";
       const isAllowed = allowedRoles.includes(userRole);
 
-      if (!isAllowed && userRole) {
+      if (!isAllowed) {
         navigate("/", { replace: true });
       }
 
-      //has user data
-      if (isAuthDataFetched && authData?.id) {
-        const verificationLevel = authData?.verification_level as
-          | "1"
-          | "2"
-          | "3"
-          | "4";
+      //has session
+      if (authData?.id && isAuthDataFetched && userRole !== "admin") {
+        const level = Number(authData?.verification_level) - 1;
 
-        const redirectPaths = [
-          "/account/verify-email",
-          "/account/setup-account",
-          "/account/final-setup"
-        ];
+        if (level === 4) return;
 
-        switch (verificationLevel) {
-          case "1":
-            if (pathname !== redirectPaths["0"])
-              navigate(redirectPaths[0], { replace: true });
-            break;
-          case "2":
-            if (pathname !== redirectPaths["1"])
-              navigate(redirectPaths[1], { replace: true });
-            break;
-          case "3":
-            if (pathname !== redirectPaths["2"])
-              navigate(redirectPaths[2], { replace: true });
-            break;
-          case "4":
-            if (pathname === redirectPaths["2"])
-              navigate("/", { replace: true });
-            break;
-        }
+        navigate(RedirectRoutes[level], { replace: true });
       }
-    }, [
-      authData,
-      authData?.role,
-      authData?.verification_level,
-      isAuthDataFetched,
-      isError,
-      navigate,
-      pathname
-    ]);
+    }, [navigate, pathname, authData]);
 
-    if (isLoading) {
+    if (isAuthDataLoading) {
       return <Loader />;
     }
 
@@ -87,25 +59,3 @@ export default function withAuthGuard<P extends object>(
 
   return NewComponent;
 }
-
-/*
-const verificationLevelPaths = {
-          "1": "/account/verify-email",
-          "2": "/account/setup-account",
-          "3": "/account/final-setup",
-          "4": "/"
-        };
-
-        const respectivePath =
-          verificationLevelPaths[
-            verificationLevel as keyof typeof verificationLevelPaths
-          ];
-
-        if (pathname !== respectivePath && verificationLevel !== "4") {
-          navigate(respectivePath, { replace: true });
-        }
-
-        if (!isAllowed) {
-          navigate("/", { replace: true });
-        }
-*/

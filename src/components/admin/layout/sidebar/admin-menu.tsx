@@ -69,11 +69,25 @@ export const adminNavigation = [
         name: "Pending",
         href: "/admin/farm/farm-request"
       },
-
       {
         title: "",
         name: "Rejected",
         href: "/admin/farm/farm-rejected"
+      },
+      {
+        title: "Seedling Request",
+        name: "Pending",
+        href: "/admin/farm/seedling-pending"
+      },
+      {
+        title: "",
+        name: "Accepted",
+        href: "/admin/farm/seedling-accepted"
+      },
+      {
+        title: "",
+        name: "Rejected",
+        href: "/admin/farm/seedling-rejected"
       }
     ]
   },

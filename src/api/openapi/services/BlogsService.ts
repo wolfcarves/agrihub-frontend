@@ -6,8 +6,10 @@ import type { BlogDraft } from '../models/BlogDraft';
 import type { BlogViewResponse } from '../models/BlogViewResponse';
 import type { CreateBlogImageResponse } from '../models/CreateBlogImageResponse';
 import type { CreateBlogTagsResponse } from '../models/CreateBlogTagsResponse';
+import type { CreateEventTagsRequest } from '../models/CreateEventTagsRequest';
 import type { DraftBlogListResponse } from '../models/DraftBlogListResponse';
 import type { MessageResponse } from '../models/MessageResponse';
+import type { PublishedBlogListResponse } from '../models/PublishedBlogListResponse';
 import type { PublishedBlogResponse } from '../models/PublishedBlogResponse';
 import type { UpdateBlogRequest } from '../models/UpdateBlogRequest';
 import type { UpdateBlogResponse } from '../models/UpdateBlogResponse';
@@ -167,8 +169,10 @@ id: string,
      */
     public static postApiBlogsCreateTags({
 id,
+requestBody,
 }: {
 id: string,
+requestBody: CreateEventTagsRequest,
 }): CancelablePromise<CreateBlogTagsResponse> {
         return __request(OpenAPI, {
             method: 'POST',
@@ -176,6 +180,8 @@ id: string,
             path: {
                 'id': id,
             },
+            body: requestBody,
+            mediaType: 'application/json',
             errors: {
                 400: `Validation Error`,
                 401: `Unauthorized`,
@@ -436,6 +442,80 @@ id: string,
             url: '/api/blogs/published/{id}',
             path: {
                 'id': id,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Retrieve a list of published blogs
+     * @returns PublishedBlogListResponse List of published blogs retrieved successfully
+     * @throws ApiError
+     */
+    public static getApiBlogsPublishedList({
+search,
+page,
+perpage,
+}: {
+/**
+ * Search term
+ */
+search?: string,
+/**
+ * Page number
+ */
+page?: string,
+/**
+ * Number of items per page
+ */
+perpage?: string,
+}): CancelablePromise<PublishedBlogListResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/blogs/published/list',
+            query: {
+                'search': search,
+                'page': page,
+                'perpage': perpage,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Update thumbnail for a blog
+     * @returns MessageResponse Thumbnail updated successfully
+     * @throws ApiError
+     */
+    public static putApiBlogsThumbnail({
+id,
+blogId,
+}: {
+/**
+ * The ID of the thumbnail to update
+ */
+id: string,
+/**
+ * The ID of the blog associated with the thumbnail
+ */
+blogId: string,
+}): CancelablePromise<MessageResponse> {
+        return __request(OpenAPI, {
+            method: 'PUT',
+            url: '/api/blogs/thumbnail/{id}/{blog_id}',
+            path: {
+                'id': id,
+                'blog_id': blogId,
             },
             errors: {
                 400: `Validation Error`,

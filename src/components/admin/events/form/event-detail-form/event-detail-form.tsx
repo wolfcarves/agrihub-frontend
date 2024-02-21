@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Input } from "@components/ui/custom/input-admin/input";
 import { Label } from "@components/ui/label";
 import {
@@ -23,6 +23,7 @@ import usePutEventsUpdateDraft from "../../../../../hooks/api/put/usePutEventsUp
 import { toast } from "sonner";
 import { Form, FormField } from "../../../../ui/form";
 import Loader from "../../../../../icons/Loader";
+import { format } from "date-fns";
 const formatDate = (originalDateString: string) => {
   const date = new Date(originalDateString);
   const year = date.getFullYear();
@@ -41,29 +42,53 @@ const EventDetailForm = () => {
   );
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
-  console.log(eventData);
-
   //form
   const form = useForm<UpdateDraftEvent>({
     resolver: zodResolver(addEventDetailSchema),
     mode: "onBlur",
     defaultValues: {
-      type: eventData?.type
+      type: eventData?.type || "Seminar",
+      image: eventData?.banner || ""
     }
   });
 
+  useEffect(() => {
+    const startDate = new Date(form.watch("event_start") || "");
+    const endDate = new Date(form.watch("event_end") || "");
+
+    const timeDifference = endDate.getTime() - startDate.getTime();
+
+    const daysDifference = timeDifference / (1000 * 3600 * 24);
+
+    if (daysDifference <= 1) {
+      toast.warning(
+        "Warning: The event end date is 1 day away from the start date."
+      );
+    }
+  }, [form.watch("event_start"), form.watch("event_end")]);
+  console.log(form.watch("event_start"), form.watch("event_end"));
+
   // validations
-  // useEffect(() => {
-  //   if (form.formState.errors.language) {
-  //     toast.error(form?.formState?.errors?.language?.message);
-  //   }
-  //   if (form.formState.errors.title) {
-  //     toast.error(form?.formState?.errors?.title?.message);
-  //   }
-  //   if (form.formState.errors.content) {
-  //     toast.error(form?.formState?.errors?.content?.message);
-  //   }
-  // }, [form.formState.errors]);
+  useEffect(() => {
+    if (form.formState.errors.title) {
+      toast.error(form?.formState?.errors?.title?.message);
+    }
+    if (form.formState.errors.type) {
+      toast.error(form?.formState?.errors?.type?.message);
+    }
+    if (form.formState.errors.event_start) {
+      toast.error(form?.formState?.errors?.event_start?.message);
+    }
+    if (form.formState.errors.event_end) {
+      toast.error(form?.formState?.errors?.event_end?.message);
+    }
+    if (form.formState.errors.location) {
+      toast.error(form?.formState?.errors?.location?.message);
+    }
+    if (form.formState.errors.image) {
+      toast.error(form?.formState?.errors?.image?.message);
+    }
+  }, [form.formState.errors]);
 
   //edit
   const { mutateAsync: updateDetailMutate, isLoading: isDetailLoading } =
@@ -71,6 +96,14 @@ const EventDetailForm = () => {
 
   //submit form
   const handleSubmitForm = async (data: UpdateDraftEvent) => {
+    if (data.event_start === data.event_end) {
+      form.setError("event_end", {
+        type: "manual",
+        message: "The event time and date can't be the same"
+      });
+      return null;
+    }
+
     const compiledData: UpdateDraftEvent = {
       title: data.title,
       type: data.type,
@@ -81,7 +114,7 @@ const EventDetailForm = () => {
       guide: data.guide,
       image: data.image
     };
-    console.log(compiledData);
+
     try {
       await updateDetailMutate({
         id: eventId || "",
@@ -93,7 +126,8 @@ const EventDetailForm = () => {
       toast.error(e.body.message);
     }
   };
-  console.log(form.formState.errors);
+
+  const todayDateTime = format(new Date(), "yyyy-MM-dd'T'HH:mm");
 
   if (eventDataLoad) {
     return <Loader isVisible={true} />;
@@ -130,7 +164,7 @@ const EventDetailForm = () => {
                   onValueChange={field.onChange}
                   defaultValue={field.value}
                 >
-                  <SelectTrigger className="">
+                  <SelectTrigger disabled={!isEditing} className="">
                     <SelectValue placeholder="Choose" />
                   </SelectTrigger>
                   <SelectContent>
@@ -154,6 +188,7 @@ const EventDetailForm = () => {
               readOnly={!isEditing}
               defaultValue={formatDate(eventData?.event_start || "")}
               {...form.register("event_start")}
+              min={todayDateTime}
             />
           </div>
 
@@ -165,6 +200,7 @@ const EventDetailForm = () => {
               readOnly={!isEditing}
               defaultValue={formatDate(eventData?.event_end || "")}
               {...form.register("event_end")}
+              min={todayDateTime}
             />
           </div>
 
@@ -236,7 +272,7 @@ const EventDetailForm = () => {
                   onChange={value => {
                     form.setValue("image", value);
                   }}
-                  defaultValue={`https://s3.ap-southeast-1.amazonaws.com/agrihub-bucket/${eventData?.banner}`}
+                  defaultValue={eventData?.banner}
                   disabled={!isEditing}
                 />
               )}

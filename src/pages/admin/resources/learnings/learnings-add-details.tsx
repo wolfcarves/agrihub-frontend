@@ -190,7 +190,7 @@ const UpdateLearnings = () => {
                       variant="outline"
                       className="border-red-500 text-red-500 hover:text-white hover:bg-red-500"
                     >
-                      Archieve
+                      Archive
                     </Button>
                   </AlertDialogTrigger>
                   <AlertDialogContent>
@@ -208,7 +208,7 @@ const UpdateLearnings = () => {
                         onClick={handleArchive}
                         className="bg-red-600 hover:bg-red-500 hover:text-black"
                       >
-                        Archieve
+                        Archive
                       </AlertDialogAction>
                     </AlertDialogFooter>
                   </AlertDialogContent>

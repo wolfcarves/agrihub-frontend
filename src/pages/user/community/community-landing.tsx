@@ -36,22 +36,23 @@ const CommunityLanding = () => {
   const faqs = [
     {
       question: "How can I find my Community?",
-      answer: "User your eyesight "
+      answer:
+        "You can navigate to your Community by clicking > Community > My Community. This will allow you to access your community details such as Farm Members, Crops, Analytics and Farm Gallery."
     },
     {
-      question: "How can I join my Community?",
+      question: "How can I join a Community?",
       answer:
-        "Through farm head invitation or punta ka settings tapos uninstall"
+        "In joining a community, you can go to the Community > Explore. In the Explore section, you can find a community where you desire to join. However, we require you to have an account in Agrihub in order to join a community."
     },
     {
       question: "Who can be accepted as a community farm?",
       answer:
-        "Through farm head invitation or punta ka settings tapos uninstall"
+        "A community farm requires to be a part of Joy of Urban Farming community with proper required documents in order to qualify as a community in Agrihub. In order to register your farm, land owners must apply for idle land tax exemption through email application, letter duly accomplished application for waiver of idle land tax for food security, latest photos of land, and at least one copy of any of the following documents: latest real property tax official receipt/ tax bill, tax declaration, or land title."
     },
     {
-      question: "How can I regiter my community?",
+      question: "How can I register my urban farm community in the Agrihub?",
       answer:
-        "Through farm head invitation or punta ka settings tapos uninstall"
+        "You can register your farm by navigating to Community > Explore > Register Farm. From there, you can fill up the form with the necessary details such as Farm Name, Farm Size, District, Street, Barangay, Farm Ownership, Farm Type, Valid ID Type, and Farm Photo to register your community. After successfully filling up the form, you need to wait for atleast 7 days for the Admins to review your application."
     }
   ];
 

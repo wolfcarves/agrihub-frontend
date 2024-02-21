@@ -145,7 +145,7 @@ const UserSignupForm = () => {
           <div>
             <Button
               type="submit"
-              className="w-full rounded-2xl hover:opacity-90 bg-green-500"
+              className="w-full"
               isLoading={isSignUpUserLoading || isSignUpUserSuccess}
             >
               Create

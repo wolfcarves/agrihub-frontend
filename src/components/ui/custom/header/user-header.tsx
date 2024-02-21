@@ -79,7 +79,9 @@ const AuthButtonsGroup = () => {
         </Link>
 
         <Link to="/account/signup">
-          <Button className="px-7 text-sm">Signup</Button>
+          <Button variant="default_rounded" className="px-7 text-sm">
+            Signup
+          </Button>
         </Link>
       </>
     </div>

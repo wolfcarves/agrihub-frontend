@@ -10,4 +10,4 @@ const QuestionTags = () => {
   );
 };
 
-export default QuestionTags
+export default QuestionTags;

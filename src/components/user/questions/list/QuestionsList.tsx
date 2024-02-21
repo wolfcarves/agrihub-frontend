@@ -102,7 +102,7 @@ const QuestionsList = ({ data, isLoading }: QuestionsListProps) => {
   if (isLoading) {
     return (
       <div className="flex justify-center items-center pt-10">
-        <LoadingSpinner />
+        <LoadingSpinner className="text-primary" />
       </div>
     );
   }

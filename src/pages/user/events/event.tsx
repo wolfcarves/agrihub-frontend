@@ -4,10 +4,10 @@ import EventTitle from "@components/user/event/title/EventTitle";
 
 const Event = () => {
   return (
-    <>
+    <div className="container">
       <EventTitle />
       <EventDetailsList />
-    </>
+    </div>
   );
 };
 

@@ -1,13 +1,11 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-
 import useLoginUserMutation from "@hooks/api/post/useUserLoginMutation";
 import { UserLoginSchema as LoginRequestSchema } from "@api/openapi";
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/custom";
 import { toast } from "sonner";
 import { UserLogin, UserLoginSchema } from "./schema";
-
 import {
   Form,
   FormControl,
@@ -15,9 +13,11 @@ import {
   FormItem,
   FormMessage
 } from "@components/ui/form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const UserLoginForm = () => {
+  const navigate = useNavigate();
+
   const form = useForm<UserLogin>({
     resolver: zodResolver(UserLoginSchema),
     mode: "onBlur",
@@ -54,6 +54,7 @@ const UserLoginForm = () => {
                       {...field}
                       type="email"
                       placeholder="Email or username"
+                      $isError={fieldState?.error && true}
                     />
                   </FormControl>
                   <FormMessage>{fieldState.error?.message}</FormMessage>
@@ -68,7 +69,12 @@ const UserLoginForm = () => {
               render={({ field, fieldState }) => (
                 <FormItem>
                   <FormControl>
-                    <Input {...field} type="password" placeholder="Password" />
+                    <Input
+                      {...field}
+                      type="password"
+                      placeholder="Password"
+                      $isError={fieldState?.error && true}
+                    />
                   </FormControl>
                   <FormMessage>{fieldState.error?.message}</FormMessage>
                 </FormItem>
@@ -95,11 +101,18 @@ const UserLoginForm = () => {
         >
           Forgot Password
         </Link>
+
         <span className="text-foreground/70">
           Don't have an account?{" "}
-          <Link to="/account/signup" className="text-black hover:opacity-90">
+          <span
+            className="text-primary/80 hover:opacity-90 cursor-pointer"
+            onClick={e => {
+              e.preventDefault();
+              navigate("/account/signup");
+            }}
+          >
             Signup
-          </Link>
+          </span>
         </span>
       </div>
     </>

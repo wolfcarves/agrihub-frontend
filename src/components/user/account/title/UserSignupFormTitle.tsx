@@ -1,7 +1,10 @@
 import AgrihubLogo from "@icons/AgrihubLogo";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const UserSignupFormTitle = () => {
+  const navigate = useNavigate();
+
   return (
     <>
       <Link
@@ -15,12 +18,20 @@ const UserSignupFormTitle = () => {
         <h5 className="font-poppins-semibold text-foreground/90">
           Create an account
         </h5>
-        <h6 className="text-[#808188]">
-          Have an account already?{" "}
-          <Link to="/account/login" className="text-foreground">
-            Login here
-          </Link>
-        </h6>
+
+        <div className="flex gap-1">
+          <h6 className="text-[#808188]">Have an account already? </h6>
+
+          <span
+            className="hover:opacity-90 text-primary/80 cursor-pointer"
+            onClick={e => {
+              e.preventDefault();
+              navigate("/account/login");
+            }}
+          >
+            Signup
+          </span>
+        </div>
       </div>
     </>
   );

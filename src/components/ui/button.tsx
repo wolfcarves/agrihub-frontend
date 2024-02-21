@@ -70,11 +70,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             className={cn(buttonVariants({ variant, size, className }))}
             ref={ref}
           >
-            <LoadingSpinner
-              className={`${
-                variant === "outline" && "text-[#222222]"
-              } text-lg z-50 text-white`}
-            />
+            <LoadingSpinner className="text-lg z-50 text-[#222222]" />
           </Comp>
         ) : (
           <Comp

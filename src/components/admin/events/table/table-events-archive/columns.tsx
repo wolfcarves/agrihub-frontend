@@ -18,22 +18,25 @@ import { EventDetails } from "../../../../../api/openapi";
 import Loader from "../../../../../icons/Loader";
 import usePutEventsUnarchieve from "../../../../../hooks/api/put/usePutEventsUnarchieve";
 import { toast } from "sonner";
+import { format } from "date-fns";
 
 export const columns: ColumnDef<EventDetails>[] = [
   {
-    accessorKey: "createdAt",
+    accessorKey: "createdat",
     header: "Created At",
-    cell: ({ row }) => <div>{row.getValue("createdAt")}</div>
+    cell: ({ row }) => format(new Date(row.original.createdat || ""), "PPP")
   },
   {
-    accessorKey: "eventStart",
+    accessorKey: "event_start",
     header: "Event Start",
-    cell: ({ row }) => <div>{row.getValue("eventStart")}</div>
+    cell: ({ row }) =>
+      format(new Date(row.original.event_start || ""), "PPP' 'HH:mm aaaa")
   },
   {
     accessorKey: "eventEnd",
     header: "Event End",
-    cell: ({ row }) => <div>{row.getValue("eventEnd")}</div>
+    cell: ({ row }) =>
+      format(new Date(row.original.event_end || ""), "PPP' 'HH:mm aaaa")
   },
   {
     accessorKey: "title",

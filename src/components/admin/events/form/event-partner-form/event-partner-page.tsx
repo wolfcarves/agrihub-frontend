@@ -23,6 +23,7 @@ import { Checkbox } from "../../../../ui/checkbox";
 const EventPartnerPage = () => {
   const { eventId } = useParams();
   const { data: eventData } = useGetEventsDraftView(eventId || "");
+  console.log(eventData);
 
   //delete speaker
   const { mutateAsync: deletePartner, isLoading: isDeleteLoading } =
@@ -39,43 +40,57 @@ const EventPartnerPage = () => {
         <DialogAddPartner />
       </div>
 
+      {eventData?.partnership && eventData.partnership.length <= 0 && (
+        <div className="py-10 flex items-center justify-center">
+          <h4 className="text-gray-500 font-poppins-medium">
+            No Partners Available. Add now...
+          </h4>
+        </div>
+      )}
+
       {eventData?.partnership?.map((partner, i) => (
-        <div
-          key={i}
-          className="flex flex-wrap justify-between items-end gap-4 mb-4"
-        >
-          <div className="grid items-center gap-1.5">
+        <div key={i} className="grid grid-cols-12 gap-4 mb-4">
+          <div className="grid col-span-1 items-end gap-1.5">
             <ProfileImageUpload defaultValue={partner.logo} disabled={true} />
           </div>
 
-          <div className="grid w-full max-w-[23rem] items-center gap-1.5">
-            <Label>Name</Label>
+          <div className="grid w-full md:col-span-3 col-span-12 items-center gap-1.5">
+            <Label className=" font-poppins-medium">Name</Label>
             <Input
               type="text"
               placeholder="e.g. SamSanTech Inc."
-              defaultValue={partner.name}
+              value={partner.name}
               readOnly
               className=" focus-visible:ring-0"
             />
           </div>
 
-          <div className="grid w-full max-w-[23rem] items-center gap-1.5">
-            <Label>Type</Label>
+          <div className="grid w-full md:col-span-4 col-span-12 items-center gap-1.5">
+            <Label className=" font-poppins-medium">Type</Label>
             <Input
               type="text"
-              defaultValue={partner.type}
+              value={partner.type}
               readOnly
               className=" focus-visible:ring-0"
             />
           </div>
+          <div className="flex w-full mt-3 justify-center md:col-span-2 col-span-12 items-center gap-1.5">
+            <Checkbox className="" checked={partner.organizer} />
+            <Label className="font-poppins-medium ">Organizer</Label>
+          </div>
 
-          <DialogEditPartner partnerId={partner.id} />
-          <Button
-            onClick={() => handleDeleteSpeaker(partner.id)}
-            variant="destructive"
-          >
-            <FaRegTrashAlt />
-          </Button>
+          <div className="md:col-span-1 col-span-6 flex items-end">
+            <DialogEditPartner partnerId={partner.id} />
+          </div>
+          <div className="md:col-span-1 col-span-6 justify-end flex items-end">
+            <Button
+              onClick={() => handleDeleteSpeaker(partner.id)}
+              variant="destructive"
+              className=""
+            >
+              <FaRegTrashAlt />
+            </Button>
+          </div>
         </div>
       ))}
       <Loader isVisible={isDeleteLoading} />

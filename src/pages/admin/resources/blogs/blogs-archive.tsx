@@ -2,9 +2,7 @@ import React from "react";
 import AdminOutletContainer from "@components/admin/layout/container/AdminOutletContainer";
 import BreadCrumb from "@components/ui/custom/breadcrumb/breadcrumb";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
-import { data, columns } from "../table/columns-blog";
-import { DataTable } from "@components/ui/custom/data-table/data-table";
-import { Input } from "@components/ui/input";
+import TableBlogsArchive from "../../../../components/admin/blogs/table/table-blogs-archive/table-blogs-archive";
 
 const breadcrumbItems = [
   { title: "Resource Management", link: "/admin/resources" },
@@ -18,8 +16,7 @@ const BlogsArchive = () => {
       <h2 className="text-3xl font-bold tracking-tight">Blogs Archive</h2>
       <p className="text-sm text-muted-foreground">Manage blogs archive.</p>
       <hr className="my-4" />
-      <Input placeholder="Search title..." className="max-w-sm my-4" />
-      <DataTable columns={columns} data={data} />
+      <TableBlogsArchive />
     </AdminOutletContainer>
   );
 };

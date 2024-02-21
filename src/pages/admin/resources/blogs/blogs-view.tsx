@@ -1,8 +1,29 @@
 import React from "react";
 import BreadCrumb from "@components/ui/custom/breadcrumb/breadcrumb";
 import AdminOutletContainer from "@components/admin/layout/container/AdminOutletContainer";
+import { Input } from "@components/ui/input";
+import { Label } from "@components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from "@components/ui/select";
+import RichTextEditor from "@components/ui/custom/rich-text-editor/RichTextEditor";
 import { Button } from "@components/ui/button";
+import MultiImageUpload from "@components/user/community/multi-image-input/multi-image-input";
+import { Form } from "@components/ui/form";
+import useGetTagByKeyWord from "@hooks/api/get/useGetTagByKeyword";
+import UserTagInputDropdown from "@components/user/account/input/UserTagInput";
+import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger
+} from "@components/ui/accordion";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -14,61 +35,56 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger
 } from "@components/ui/alert-dialog";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger
-} from "@components/ui/accordion";
-import EventDetailForm from "../../../../components/admin/events/form/event-detail-form/event-detail-form";
-import EventSpeakerPage from "../../../../components/admin/events/form/event-speaker-form/event-speaker-page";
-import EventPartnerPage from "../../../../components/admin/events/form/event-partner-form/event-partner-page";
-import useGetEventsDraftView from "../../../../hooks/api/get/useGetEventsDraftView";
-import useDeleteEventDraft from "../../../../hooks/api/delete/useDeleteEventDraft";
+import Capture from "@components/user/community/capture/capture";
+import BlogDetailForm from "../../../../components/admin/blogs/form/blog-detail-form/blog-detail-form";
+import BlogImageForm from "../../../../components/admin/blogs/form/blog-image-form/blog-image-form";
+import BlogTagsForm from "../../../../components/admin/blogs/form/blog-tags-form/blog-tags-form";
+import useGetBlogsDraftView from "../../../../hooks/api/get/useGetBlogsDraftView";
 import { toast } from "sonner";
-import usePutEventsUnpublish from "../../../../hooks/api/put/usePutEventsUnpublish";
-import useDeleteEventArchive from "../../../../hooks/api/delete/useDeleteEventArchive";
-import usePutEventsPublish from "../../../../hooks/api/put/usePutEventsPublish";
+import useDeleteBlogDraft from "../../../../hooks/api/delete/useDeleteBlogDraft";
+import usePutBlogsUnpublish from "../../../../hooks/api/put/usePutBlogsUnpublish";
+import useDeleteBlogArchive from "../../../../hooks/api/delete/useDeleteBlogArchive";
+import usePutBlogsPublish from "../../../../hooks/api/put/usePutBlogsPublish";
 
 const breadcrumbItems = [
   { title: "Resource Management", link: "/admin/resources" },
-  { title: "Events", link: "/admin/resource/events" },
-  { title: "Add New Event", link: "/admin/resource/blogs/add" }
+  { title: "Blogs", link: "/admin/resource/blogs" },
+  { title: "Add New Blogs", link: "/admin/resource/blogs/add" }
 ];
 
-const ViewEvents = () => {
+const ViewBlogs = () => {
   const navigate = useNavigate();
-  const { eventId } = useParams();
-  const { data: eventData } = useGetEventsDraftView(eventId || "");
-  console.log(eventData);
+  const { blogId } = useParams();
+  const { data: blogData } = useGetBlogsDraftView(blogId || "");
+  console.log(blogData);
 
-  const { mutateAsync: deleteDraft } = useDeleteEventDraft();
+  const { mutateAsync: deleteDraft } = useDeleteBlogDraft();
   const handleDeleteDraft = async () => {
-    await deleteDraft(eventId || "");
+    await deleteDraft(blogId || "");
     toast.success("Draft Deleted Successfully!");
-    navigate("/admin/resource/events-draft");
+    navigate("/admin/resource/blogs-drafts");
   };
 
-  const { mutateAsync: unpublishMaterial } = usePutEventsUnpublish();
+  const { mutateAsync: unpublishMaterial } = usePutBlogsUnpublish();
   const handleUnpublish = async () => {
-    await unpublishMaterial(eventId || "");
+    await unpublishMaterial(blogId || "");
     toast.success("Unpublished Successfully!");
-    navigate("/admin/resource/events-draft");
+    navigate("/admin/resource/blogs-drafts");
   };
 
-  const { mutateAsync: archiveMaterial } = useDeleteEventArchive();
+  const { mutateAsync: archiveMaterial } = useDeleteBlogArchive();
   const handleArchive = async () => {
-    await archiveMaterial(eventId || "");
+    await archiveMaterial(blogId || "");
     toast.success("Archive Successfully!");
-    navigate("/admin/resource/events-archives");
+    navigate("/admin/resource/blogs-archives");
   };
 
-  const { mutateAsync: publishMaterial } = usePutEventsPublish();
+  const { mutateAsync: publishMaterial } = usePutBlogsPublish();
   const handlePublish = async () => {
     try {
-      await publishMaterial(eventId || "");
+      await publishMaterial(blogId || "");
       toast.success("Published Successfully!");
-      navigate("/admin/resource/events");
+      navigate("/admin/resource/blogs");
     } catch (e: any) {
       toast.error(e.body.message);
     }
@@ -78,39 +94,38 @@ const ViewEvents = () => {
     <AdminOutletContainer>
       <BreadCrumb items={breadcrumbItems} />
       <div className="flex justify-between items-center">
-        <h2 className="text-3xl font-bold tracking-tight">New Event Form</h2>
+        <h2 className="text-3xl font-bold tracking-tight">New Blog Form</h2>
       </div>
       <p className="text-sm text-muted-foreground">
-        Add new event here and complete all required fields for publication.
+        Add new blog here and complete all required fields for publication.
         Click 'Publish' to make your article public.
       </p>
       <hr className="my-4" />
       <div className="max-w-[60rem] mx-auto">
         <>
-          <EventDetailForm />
+          <BlogDetailForm />
 
           <Accordion type="single" collapsible className="w-full my-10">
             <AccordionItem value="item-1">
               <AccordionTrigger className="text-lg font-poppins-medium [&[data-state=open]]:text-primary">
-                Speaker
+                Images
               </AccordionTrigger>
               <AccordionContent>
-                <EventSpeakerPage />
+                <BlogImageForm />
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-2">
               <AccordionTrigger className="text-lg font-poppins-medium [&[data-state=open]]:text-primary">
-                Event Partners
+                Tags
               </AccordionTrigger>
               <AccordionContent>
-                <EventPartnerPage />
+                <BlogTagsForm />
               </AccordionContent>
             </AccordionItem>
           </Accordion>
 
-          {/* ==================================bu-ons======================================== */}
           <div className="flex gap-4 justify-end mt-4">
-            {eventData?.status === "draft" ? (
+            {blogData?.status === "draft" ? (
               <>
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
@@ -125,8 +140,8 @@ const ViewEvents = () => {
                     <AlertDialogHeader>
                       <AlertDialogTitle>Delete Draft?</AlertDialogTitle>
                       <AlertDialogDescription>
-                        When you delete blog draft it will be remove totally in
-                        our system
+                        When you delete learning material draft it will be
+                        remove totally in our system
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
@@ -143,7 +158,7 @@ const ViewEvents = () => {
                 </AlertDialog>
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
-                    <Button>Publish</Button>
+                    <Button>Publish Event</Button>
                   </AlertDialogTrigger>
                   <AlertDialogContent>
                     <AlertDialogHeader>
@@ -151,7 +166,7 @@ const ViewEvents = () => {
                         Are you sure you want to upload this material?
                       </AlertDialogTitle>
                       <AlertDialogDescription>
-                        This publish event can be seen publicly by the users
+                        This learning material can be seen publicly by the users
                         when published, make sure to review everything before
                         publishing.
                       </AlertDialogDescription>
@@ -181,8 +196,8 @@ const ViewEvents = () => {
                     <AlertDialogHeader>
                       <AlertDialogTitle>Archive Material?</AlertDialogTitle>
                       <AlertDialogDescription>
-                        When you archive event it will go to archieve and you
-                        can recover it from there.
+                        When you archive learning material it will go to
+                        archieve and you can recover it from there.
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
@@ -207,7 +222,8 @@ const ViewEvents = () => {
                         Are you sure you want to unpublish this material?
                       </AlertDialogTitle>
                       <AlertDialogDescription>
-                        This event will can't be seen in public anymore.
+                        This learning material will can't be seen in public
+                        anymore.
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
@@ -228,4 +244,4 @@ const ViewEvents = () => {
   );
 };
 
-export default ViewEvents;
+export default ViewBlogs;

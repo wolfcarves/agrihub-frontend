@@ -14,36 +14,27 @@ import {
 } from "@components/ui/dropdown-menu";
 
 import { Link } from "react-router-dom";
-import { EventDetails } from "../../../../../api/openapi";
+import { Blog } from "../../../../../api/openapi";
 import { format } from "date-fns";
 
-export const columns: ColumnDef<EventDetails>[] = [
+export const columns: ColumnDef<Blog>[] = [
   {
     accessorKey: "createdat",
     header: "Created At",
     cell: ({ row }) => format(new Date(row.original.createdat || ""), "PPP")
   },
   {
-    accessorKey: "event_start",
-    header: "Event Start",
-    cell: ({ row }) =>
-      format(new Date(row.original.event_start || ""), "PPP' 'HH:mm aaaa")
-  },
-  {
-    accessorKey: "eventEnd",
-    header: "Event End",
-    cell: ({ row }) =>
-      format(new Date(row.original.event_end || ""), "PPP' 'HH:mm aaaa")
+    accessorKey: "updatedat",
+    header: "Updated At",
+    cell: ({ row }) => format(new Date(row.original.updatedat || ""), "PPP")
   },
   {
     accessorKey: "title",
-    header: "Title",
-    cell: ({ row }) => <div>{row.getValue("title")}</div>
+    header: "Title"
   },
   {
-    accessorKey: "type",
-    header: "Type",
-    cell: ({ row }) => <div>{row.getValue("type")}</div>
+    accessorKey: "author",
+    header: "Author"
   },
   {
     accessorKey: "status",
@@ -69,14 +60,14 @@ export const columns: ColumnDef<EventDetails>[] = [
             <DropdownMenuItem
               onClick={() => navigator.clipboard.writeText(payment.id || "")}
             >
-              Copy event ID
+              Copy blog ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <Link to={`/admin/resource/events/view/${payment.id}`}>
+            <Link to={`/admin/resource/blogs/view/${payment.id}`}>
               <DropdownMenuItem>View/update article</DropdownMenuItem>
             </Link>
-            <Link to={`/events/view/${payment.id}`}>
-              <DropdownMenuItem>View event in page</DropdownMenuItem>
+            <Link to={`/blogs/view/${payment.id}`}>
+              <DropdownMenuItem>View article in page</DropdownMenuItem>
             </Link>
           </DropdownMenuContent>
         </DropdownMenu>

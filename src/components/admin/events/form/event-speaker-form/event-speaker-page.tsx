@@ -1,5 +1,4 @@
 import React from "react";
-
 import ProfileImageUpload from "../../../../ui/custom/image/profile-image-input";
 import { Label } from "../../../../ui/label";
 import { Input } from "../../../../ui/input";
@@ -8,7 +7,6 @@ import { Button } from "../../../../ui/button";
 import DialogAddSpeaker from "../../dialogs/dialog-add-speaker/dialog-add-speaker";
 import useGetEventsDraftView from "../../../../../hooks/api/get/useGetEventsDraftView";
 import { useParams } from "react-router-dom";
-import { FiEdit } from "react-icons/fi";
 import useDeleteEventSpeaker from "../../../../../hooks/api/delete/useDeleteEventSpeaker";
 import { toast } from "sonner";
 import Loader from "../../../../../icons/Loader";
@@ -54,20 +52,20 @@ const EventSpeakerPage = () => {
           </div>
 
           <div className="grid w-full max-w-[23rem] items-center gap-1.5">
-            <Label>Name</Label>
+            <Label className=" font-poppins-medium">Name</Label>
             <Input
               readOnly
-              defaultValue={speaker.name}
+              value={speaker.name}
               type="text"
               placeholder="Input speaker name"
               className=" focus-visible:ring-0"
             />
           </div>
           <div className="grid w-full max-w-[23rem] items-center gap-1.5">
-            <Label>Type</Label>
+            <Label className=" font-poppins-medium">Type</Label>
             <Input
               readOnly
-              defaultValue={speaker.title}
+              value={speaker.title}
               type="text"
               placeholder="Input event title"
               className=" focus-visible:ring-0"

@@ -75,7 +75,7 @@ const UserVerifyEmailForm = () => {
           onClick={handleDeleteAuth}
           disabled={isDeleteAuthLoading}
         >
-          Use another email instead
+          Use other account instead
         </Button>
       </div>
     </>

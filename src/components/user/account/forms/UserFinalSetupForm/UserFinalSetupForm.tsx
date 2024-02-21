@@ -155,7 +155,7 @@ const UserFinalSetupForm = () => {
             onClick={() => deleteAuth()}
             isLoading={isDeleteAuthLoading}
           >
-            Use another account instead
+            Use other account instead
           </Button>
         </div>
       </form>

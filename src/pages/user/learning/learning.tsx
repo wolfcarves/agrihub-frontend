@@ -14,13 +14,13 @@ import {
   AccordionItem,
   AccordionTrigger
 } from "@components/ui/accordion";
-import useGetLearningDraftView from "@hooks/api/get/useGetLearningView";
 import Autoplay from "embla-carousel-autoplay";
+import useGetLearningViewPublic from "../../../hooks/api/get/useGetLearningViewPublic";
 
 const Learning = () => {
   const { learningsId } = useParams();
-  const { data: learningDetail } = useGetLearningDraftView(learningsId || "");
-  console.log(learningDetail);
+  const { data: learningDetail } = useGetLearningViewPublic(learningsId || "");
+
   if (!learningDetail) {
     return <div>Event not found!</div>;
   }
@@ -28,10 +28,10 @@ const Learning = () => {
   return (
     <>
       <div className="max-w-4xl lg:max-w-6xl lg:p-6 mx-auto my-12">
-        <h2 className="text-sm lg:text-md font-thin mx-4 underline decoration-solid decoration-green-400 underline-offset-[3px]">
+        <div className="text-sm lg:text-md font-thin mx-4 underline decoration-solid decoration-green-400 underline-offset-[3px]">
           <Link to="/learning-materials">Learning Material</Link> |{" "}
           {learningDetail.language}
-        </h2>
+        </div>
         <h2 className="text-2xl lg:text-4xl font-bold mx-4 my-1">
           {learningDetail.title}
         </h2>
@@ -69,7 +69,7 @@ const Learning = () => {
                       <img
                         src={resource.resource}
                         alt={resource.name}
-                        className="w-full aspect-video rounded-md max-h-[24rem]"
+                        className="w-full aspect-video object-cover object-center rounded-md max-h-[24rem]"
                       />
                     ) : resource.type === "video" ? (
                       <div className="w-full aspect-video max-h-[24]">
@@ -107,9 +107,9 @@ const Learning = () => {
             <p className="font-bold text-[20px] 2xl:mt-10 text-gray-700 underline decoration-solid decoration-green-400 underline-offset-[3px] ">
               Overview:
             </p>
-            <p className="p-5 mb-5 text-[18px] text-justify indent-10 tracking-wide">
+            <div className="p-5 mb-5 text-[18px] text-justify indent-10 tracking-wide">
               {parse(learningDetail.content || "")}
-            </p>
+            </div>
 
             {/* credits */}
             <Accordion type="multiple">

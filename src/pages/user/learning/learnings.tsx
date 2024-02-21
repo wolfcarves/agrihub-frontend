@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { formatDate } from "@components/lib/utils";
+import { convertToEmbedLink, formatDate } from "@components/lib/utils";
 import useGetLearningPublishedList from "../../../hooks/api/get/useGetLearningPublishedList";
 import parse from "html-react-parser";
 
@@ -24,12 +24,26 @@ const Learnings = () => {
             key={key}
           >
             <Link to={`/learning-materials/view/${items.id}`}>
-              <img
-                src={`https://s3.ap-southeast-1.amazonaws.com/agrihub-bucket/${items.thumbnail.resource}`}
-                loading="lazy"
-                alt={items.title}
-                className="w-full h-48 object-cover rounded-t-md"
-              />
+              <div className="h-48 rounded-t-md">
+                {items.thumbnail.type === "image" ? (
+                  <img
+                    src={items.thumbnail.resource}
+                    alt={items.thumbnail.id}
+                    className="w-full aspect-video object-cover object-center rounded-md h-48 rounded-t-md"
+                  />
+                ) : items.thumbnail.type === "video" ? (
+                  <div className="w-full aspect-video h-48 rounded-t-md">
+                    <iframe
+                      className="w-full h-full rounded-t-md"
+                      src={convertToEmbedLink(items.thumbnail.resource || "")}
+                      title={items.thumbnail.id}
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                    ></iframe>
+                  </div>
+                ) : null}
+              </div>
 
               <div className="flex items-center mt-2 pt-3 ml-4 mr-2">
                 <div className="">

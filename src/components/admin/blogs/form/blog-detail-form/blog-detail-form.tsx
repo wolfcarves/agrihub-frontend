@@ -19,7 +19,6 @@ import { toast } from "sonner";
 import { Form, FormField } from "../../../../ui/form";
 import Loader from "../../../../../icons/Loader";
 import RichTextEditor from "../../../../ui/custom/rich-text-editor/RichTextEditor";
-import Capture from "../../../../user/community/capture/capture";
 import useGetBlogsDraftView from "../../../../../hooks/api/get/useGetBlogsDraftView";
 import usePutBlogsUpdateDraft from "../../../../../hooks/api/put/usePutBlogsUpdateDraft";
 
@@ -40,27 +39,24 @@ const BlogDetailForm = () => {
     }
   });
 
-  // // validations
-  // useEffect(() => {
-  //   if (form.formState.errors.title) {
-  //     toast.error(form?.formState?.errors?.title?.message);
-  //   }
-  //   if (form.formState.errors.type) {
-  //     toast.error(form?.formState?.errors?.type?.message);
-  //   }
-  //   if (form.formState.errors.event_start) {
-  //     toast.error(form?.formState?.errors?.event_start?.message);
-  //   }
-  //   if (form.formState.errors.event_end) {
-  //     toast.error(form?.formState?.errors?.event_end?.message);
-  //   }
-  //   if (form.formState.errors.location) {
-  //     toast.error(form?.formState?.errors?.location?.message);
-  //   }
-  //   if (form.formState.errors.image) {
-  //     toast.error(form?.formState?.errors?.image?.message);
-  //   }
-  // }, [form.formState.errors]);
+  // validations
+  useEffect(() => {
+    if (form.formState.errors.title) {
+      toast.error(form?.formState?.errors?.title?.message);
+    }
+    if (form.formState.errors.category) {
+      toast.error(form?.formState?.errors?.category?.message);
+    }
+    if (form.formState.errors.author) {
+      toast.error(form?.formState?.errors?.author?.message);
+    }
+    if (form.formState.errors.author_title) {
+      toast.error(form?.formState?.errors?.author_title?.message);
+    }
+    if (form.formState.errors.content) {
+      toast.error(form?.formState?.errors?.content?.message);
+    }
+  }, [form.formState.errors]);
 
   //edit
   const { mutateAsync: updateDetailMutate, isLoading: isDetailLoading } =
@@ -87,8 +83,6 @@ const BlogDetailForm = () => {
       toast.error(e.body.message);
     }
   };
-
-  console.log(form.formState.errors);
   if (blogDataLoad) {
     return <Loader isVisible={true} />;
   }
@@ -101,11 +95,9 @@ const BlogDetailForm = () => {
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold tracking-tight">Event Details</h2>
         </div>
-
-        {/* title and type */}
         <div className=" grid grid-cols-12 gap-5">
           <div className="grid w-full col-span-3 items-center gap-1.5">
-            <Label htmlFor="email">Category</Label>
+            <Label className=" font-poppins-medium">Category</Label>
 
             <FormField
               control={form.control}
@@ -128,7 +120,7 @@ const BlogDetailForm = () => {
             />
           </div>
           <div className="grid w-full col-span-9 items-center gap-1.5">
-            <Label>Title</Label>
+            <Label className=" font-poppins-medium">Title</Label>
             <Input
               defaultValue={blogData?.title}
               readOnly={!isEditing}
@@ -137,9 +129,27 @@ const BlogDetailForm = () => {
             />
           </div>
 
-          {/* input content */}
+          <div className="grid w-full col-span-6 items-center gap-1.5">
+            <Label className=" font-poppins-medium">Author</Label>
+            <Input
+              defaultValue={blogData?.author}
+              readOnly={!isEditing}
+              {...form.register("author")}
+              placeholder="e.g. Engr. Jaylenon R. Asilo, MMPA"
+            />
+          </div>
+          <div className="grid w-full col-span-6 items-center gap-1.5">
+            <Label className=" font-poppins-medium">Autor Title's</Label>
+            <Input
+              defaultValue={blogData?.author_title}
+              readOnly={!isEditing}
+              {...form.register("author_title")}
+              placeholder="e.g. Agriculturist"
+            />
+          </div>
+
           <div className=" col-span-12">
-            <Label htmlFor="text">Content</Label>
+            <Label className=" font-poppins-medium">Content</Label>
             <FormField
               name="content"
               control={form.control}
@@ -156,33 +166,6 @@ const BlogDetailForm = () => {
                 );
               }}
             />
-          </div>
-
-          {/* input author name and title */}
-
-          <div className="grid w-full col-span-6 items-center gap-1.5">
-            <Label>Author</Label>
-            <Input
-              defaultValue={blogData?.author}
-              readOnly={!isEditing}
-              {...form.register("author")}
-              placeholder="e.g. Engr. Jaylenon R. Asilo, MMPA"
-            />
-          </div>
-          <div className="grid w-full col-span-6 items-center gap-1.5">
-            <Label>Autor Title's</Label>
-            <Input
-              defaultValue={blogData?.author_title}
-              readOnly={!isEditing}
-              {...form.register("author_title")}
-              placeholder="e.g. Agriculturist"
-            />
-          </div>
-
-          {/* upload image */}
-          <div className=" col-span-12">
-            <Label>Add blog thumbnail</Label>
-            <Capture />
           </div>
           <hr className=" col-span-12" />
           <div className="mt-4 flex justify-end  col-span-12">

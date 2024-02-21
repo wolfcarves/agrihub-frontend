@@ -408,12 +408,12 @@ const About = () => {
                     <p className="text-green-600">{item.title}</p>
                     <p className="text-gray-600 mt-2">{item.desc}</p>
                     <div className="mt-4 flex justify-center gap-4 text-gray-400">
-                      <a href={item.facebook}>
+                      {/* <a href={item.facebook}>
                         <FaFacebook className="h-6 w-6" />
                       </a>
                       <a href={item.linkedin}>
                         <FaLinkedin className="h-6 w-6" />
-                      </a>
+                      </a> */}
                     </div>
                   </div>
                 </p>

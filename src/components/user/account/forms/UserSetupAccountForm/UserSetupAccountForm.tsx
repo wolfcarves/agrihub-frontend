@@ -22,6 +22,7 @@ import {
 import { SelectGroup } from "@radix-ui/react-select";
 import { Input } from "@components/ui/custom";
 import { Button } from "@components/ui/button";
+import useDeleteAuthMutate from "@hooks/api/delete/useDeleteAuthMutate";
 
 export default function UserSetupAccountForm() {
   const form = useForm<UserSetupAccount>({
@@ -35,6 +36,9 @@ export default function UserSetupAccountForm() {
     isLoading: isUserSetupAccountLoading,
     isSuccess: isUserSetupAccountSuccess
   } = useUserSetupAccount();
+
+  const { mutateAsync: deleteAuth, isLoading: isDeleteAuthLoading } =
+    useDeleteAuthMutate();
 
   const onSubmitForm = async (data: UserSetupAccount) => {
     const refinedData = {
@@ -201,7 +205,8 @@ export default function UserSetupAccountForm() {
           <Button
             className="w-full"
             variant="outline"
-            isLoading={isUserSetupAccountLoading || isUserSetupAccountSuccess}
+            onClick={() => deleteAuth()}
+            isLoading={isDeleteAuthLoading}
           >
             Use another account instead
           </Button>

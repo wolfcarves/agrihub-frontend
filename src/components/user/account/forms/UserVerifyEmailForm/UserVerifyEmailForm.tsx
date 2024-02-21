@@ -60,9 +60,9 @@ const UserVerifyEmailForm = () => {
 
       <div className="flex flex-col w-full gap-3 h-max ">
         <Button
-          className="w-full"
           type="submit"
-          disabled={isResendEmailLoading || countDown !== 0}
+          className="w-full"
+          isLoading={isResendEmailLoading || countDown !== 0}
           onClick={handleResendEmail}
         >
           Resend

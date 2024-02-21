@@ -22,4 +22,4 @@ const CropsReportAdd = () => {
   );
 };
 
-export default CropsReportAdd;
+export default withAuthGuard(CropsReportAdd, ["farm_head"]);

@@ -17,19 +17,24 @@ export default function useLoginUserMutation() {
 
       return response;
     },
-    onSuccess: userAuth => {
+    onSuccess: ({ user }) => {
       queryClient.invalidateQueries({ queryKey: [GET_MY_PROFILE_KEY()] });
 
-      switch (userAuth?.user?.verification_level) {
-        case "4":
-          if (userAuth?.user?.role === "admin") navigate("/admin/dashboard");
-
-          break;
+      if (user?.role === "admin") {
+        navigate("/admin/dashboard", { replace: true });
       }
-    },
 
-    onError: (e: any) => {
-      console.log(e);
+      if (user?.role === "member") {
+        navigate("/");
+      }
+
+      if (
+        user?.role === "farm_head" ||
+        user?.role === "subfarm_head" ||
+        user?.role === "farmer"
+      ) {
+        navigate("/community");
+      }
     }
   });
 }

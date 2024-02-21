@@ -26,29 +26,25 @@ export default function withAuthGuard<P extends object>(
     const navigate = useNavigate();
     const pathname = useLocation().pathname;
 
-    const {
-      data: authData,
-      isFetched: isAuthDataFetched,
-      isLoading: isAuthDataLoading
-    } = useGetMyProfileQuery();
+    const { data: authData, isLoading: isAuthDataLoading } =
+      useGetMyProfileQuery();
+
+    const userRole = authData?.id ? (authData?.role as AllowedRoles) : "guest";
+    const isAllowed = allowedRoles.includes(userRole);
+
+    if (!isAllowed && userRole !== "admin") {
+      navigate("/", { replace: true });
+    }
 
     useEffect(() => {
-      const userRole = (authData?.role as AllowedRoles) ?? "guest";
-      const isAllowed = allowedRoles.includes(userRole);
-
-      if (!isAllowed) {
-        navigate("/", { replace: true });
-      }
-
-      //has session
-      if (authData?.id && isAuthDataFetched && userRole !== "admin") {
+      if (authData?.id && userRole !== "admin") {
         const level = Number(authData?.verification_level) - 1;
 
         if (level === 4) return;
 
         navigate(RedirectRoutes[level], { replace: true });
       }
-    }, [navigate, pathname, authData]);
+    }, [authData, pathname, userRole, isAllowed]);
 
     if (isAuthDataLoading) {
       return <Loader />;

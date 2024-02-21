@@ -125,8 +125,8 @@ const ViewEvents = () => {
                     <AlertDialogHeader>
                       <AlertDialogTitle>Delete Draft?</AlertDialogTitle>
                       <AlertDialogDescription>
-                        When you delete learning material draft it will be
-                        remove totally in our system
+                        When you delete blog draft it will be remove totally in
+                        our system
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
@@ -143,7 +143,7 @@ const ViewEvents = () => {
                 </AlertDialog>
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
-                    <Button>Publish Event</Button>
+                    <Button>Publish</Button>
                   </AlertDialogTrigger>
                   <AlertDialogContent>
                     <AlertDialogHeader>
@@ -151,7 +151,7 @@ const ViewEvents = () => {
                         Are you sure you want to upload this material?
                       </AlertDialogTitle>
                       <AlertDialogDescription>
-                        This learning material can be seen publicly by the users
+                        This publish event can be seen publicly by the users
                         when published, make sure to review everything before
                         publishing.
                       </AlertDialogDescription>
@@ -181,8 +181,8 @@ const ViewEvents = () => {
                     <AlertDialogHeader>
                       <AlertDialogTitle>Archive Material?</AlertDialogTitle>
                       <AlertDialogDescription>
-                        When you archive learning material it will go to
-                        archieve and you can recover it from there.
+                        When you archive event it will go to archieve and you
+                        can recover it from there.
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
@@ -207,8 +207,7 @@ const ViewEvents = () => {
                         Are you sure you want to unpublish this material?
                       </AlertDialogTitle>
                       <AlertDialogDescription>
-                        This learning material will can't be seen in public
-                        anymore.
+                        This event will can't be seen in public anymore.
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>

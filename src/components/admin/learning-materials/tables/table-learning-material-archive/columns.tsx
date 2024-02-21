@@ -59,7 +59,7 @@ export const columns: ColumnDef<LearningMaterial>[] = [
           className=" bg-black hover:bg-black/80"
           onClick={handleUnpublish}
         >
-          Unarchieve
+          Unarchive
         </Button>
       );
     }

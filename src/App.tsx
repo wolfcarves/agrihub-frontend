@@ -79,13 +79,10 @@ import FarmersReported from "@pages/admin/farms/farmers-reported";
 
 import Resource from "@pages/admin/resources/resource";
 import BlogsAdmin from "@pages/admin/resources/blogs/blogs-admin";
-import AddBlogs from "@pages/admin/resources/blogs/blogs-add";
-import UpdateBlogs from "@pages/admin/resources/blogs/blogs-update";
 import BlogsDraft from "@pages/admin/resources/blogs/blogs-draft";
 import BlogsArchive from "@pages/admin/resources/blogs/blogs-archive";
 import EventsAdmin from "@pages/admin/resources/events/events-admin";
 import AddEvents from "@pages/admin/resources/events/events-view";
-import UpdateEvents from "@pages/admin/resources/events/events-update";
 import EventsDraft from "@pages/admin/resources/events/events-draft";
 import EventsArchive from "@pages/admin/resources/events/events-archive";
 import LearningsAdmin from "@pages/admin/resources/learnings/learnings-admin";
@@ -147,6 +144,7 @@ import SeedlingPending from "@pages/admin/farms/seedling-pending";
 import MainLayout from "@pages/user/layout/main-layout";
 import SeedlingAccepted from "@pages/admin/farms/seedling-accepted";
 import SeedlingRejected from "@pages/admin/farms/seedling-rejected";
+import ViewBlogs from "./pages/admin/resources/blogs/blogs-view";
 import AnalyticsAdmin from "@pages/admin/analytics/analytics-admin";
 
 const App = ReactRouter(
@@ -308,8 +306,8 @@ const App = ReactRouter(
       <Route path="resource">
         <Route path="blogs">
           <Route path="" element={<BlogsAdmin />} />
-          <Route path="add" element={<AddBlogs />} />
-          <Route path="view/:blogId" element={<UpdateBlogs />} />
+
+          <Route path="view/:blogId" element={<ViewBlogs />} />
         </Route>
         <Route path="blogs-drafts" element={<BlogsDraft />} />
         <Route path="blogs-archives" element={<BlogsArchive />} />

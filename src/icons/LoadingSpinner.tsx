@@ -7,9 +7,7 @@ type BaseDivProps = React.DetailedHTMLProps<
 
 const LoadingSpinner = ({ className }: BaseDivProps) => {
   return (
-    <div
-      className={`${className} animate-spin w-max h-max text-primary text-5xl`}
-    >
+    <div className={`animate-spin w-max h-max text-5xl ${className} `}>
       <AiOutlineLoading />
     </div>
   );

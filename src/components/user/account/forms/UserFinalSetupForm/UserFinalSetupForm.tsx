@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { UserFinalSetup, userFinalSetup } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -21,8 +21,6 @@ const UserFinalSetupForm = () => {
 
   const { mutateAsync: deleteAuth, isLoading: isDeleteAuthLoading } =
     useDeleteAuthMutate();
-
-  useEffect(() => {}, [searchInputTagValue, tagResult]);
 
   const form = useForm<UserFinalSetup>({
     resolver: zodResolver(userFinalSetup),
@@ -76,7 +74,13 @@ const UserFinalSetupForm = () => {
             name="username"
             control={form.control}
             defaultValue=""
-            render={({ field }) => <Input {...field} placeholder="Username" />}
+            render={({ field, fieldState }) => (
+              <Input
+                placeholder="Username"
+                $isError={fieldState?.error && true}
+                {...field}
+              />
+            )}
           />
         </div>
 
@@ -151,7 +155,7 @@ const UserFinalSetupForm = () => {
             onClick={() => deleteAuth()}
             isLoading={isDeleteAuthLoading}
           >
-            Use another account instead
+            Use other account instead
           </Button>
         </div>
       </form>

@@ -12,14 +12,22 @@ const AboutSection = () => {
         <IoIosInformationCircleOutline className="text-primary text-xl" />
         About
       </h4>
-      <div className="px-4">
+      <div className="px-4 flex flex-col gap-2">
         <div className="grid grid-cols-12 mb-1">
-          <span className=" font-poppins-medium col-span-2">Description</span>
-          <span className=" col-span-10">{farmDetails?.description}</span>
+          <span className=" font-poppins-medium lg:col-span-2 col-span-12">
+            Description
+          </span>
+          <span className=" lg:col-span-10 col-span-12">
+            {farmDetails?.description}
+          </span>
         </div>
         <div className="grid grid-cols-12 ">
-          <span className=" font-poppins-medium col-span-2">Land Size</span>
-          <span className=" col-span-10">{farmDetails?.size} &#x33A1;</span>
+          <span className=" font-poppins-medium lg:col-span-2 col-span-12">
+            Land Size
+          </span>
+          <span className=" lg:col-span-10 col-span-12">
+            {farmDetails?.size} &#x33A1;
+          </span>
         </div>
       </div>
     </div>

@@ -17,6 +17,10 @@ export type CropReport = {
      */
     userid?: string;
     /**
+     * An array of actual farm image files
+     */
+    p_season?: Array<string>;
+    /**
      * The name of the crop (null if not set)
      */
     crop_name?: string;

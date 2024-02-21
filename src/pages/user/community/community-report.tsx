@@ -10,4 +10,4 @@ const CommunityReport = () => {
   );
 };
 
-export default withAuthGuard(CommunityReport, ["farm_head"]);
+export default CommunityReport;

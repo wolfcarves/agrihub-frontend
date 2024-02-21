@@ -6,6 +6,9 @@
 export type NewCommunityCropReport = {
     crop_id?: string;
     planted_qty?: number;
+    is_other?: boolean;
+    isyield?: boolean;
+    c_name?: string;
     harvested_qty?: number;
     withered_crops?: number;
     date_planted?: string;

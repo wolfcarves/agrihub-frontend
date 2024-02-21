@@ -6,13 +6,13 @@ const EventBanner = () => {
       <div className="absolute inset-0 bg-foreground/40">
         <img
           alt="banner"
-          src="https://images.unsplash.com/photo-1560493676-04071c5f467b?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          className="object-cover w-full h-full brightness-90"
+          src="https://plus.unsplash.com/premium_photo-1668930508685-af79c83e23af?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          className="object-cover w-full h-full brightness-75"
         />
       </div>
 
       <div className="flex flex-col items-center justify-center z-10 text-center  w-full h-full">
-        <h1 className="text-[10rem] text-white font-poppins-semibold uppercase sm:tracking-[10px] sm:-me-[10px] h-[13rem] -mt-12 bg-clip-text bg-gradient-to-r from-primary to-amber-500 text-transparent">
+        <h1 className="text-[10rem] font-poppins-semibold uppercase sm:tracking-[10px] sm:-me-[10px] h-[13rem] -mt-12 bg-clip-text bg-gradient-to-r text-transparent from-green-200 via-slate-50 to-green-200 ">
           Events
         </h1>
 

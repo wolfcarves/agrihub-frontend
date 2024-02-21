@@ -43,7 +43,7 @@ const EventPartnerForm: React.FC<formProps> = ({ setIsOpen, partnerId }) => {
     defaultValues: {
       organizer: activePartner?.organizer
         ? String(activePartner.organizer)
-        : "",
+        : undefined,
       type: activePartner?.type ? activePartner.type : undefined
     }
   });
@@ -77,9 +77,9 @@ const EventPartnerForm: React.FC<formProps> = ({ setIsOpen, partnerId }) => {
       type: data.type,
       name: data.name,
       logo: data.logo,
-      organizer: data.organizer
+      organizer: String(data.organizer) === "true" ? "true" : ""
     };
-
+    console.log(compiledData);
     try {
       if (partnerId) {
         await updatePartnerMutate({
@@ -144,9 +144,9 @@ const EventPartnerForm: React.FC<formProps> = ({ setIsOpen, partnerId }) => {
                     <SelectValue placeholder={"Select"} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="Seminar">Partnership</SelectItem>
-                    <SelectItem value="Webinar">Sponsored</SelectItem>
-                    <SelectItem value="Workshop">Supported</SelectItem>
+                    <SelectItem value="Partnership">Partnership</SelectItem>
+                    <SelectItem value="Sponsored">Sponsored</SelectItem>
+                    <SelectItem value="Supported">Supported</SelectItem>
                     <SelectItem value="Others">Others</SelectItem>
                   </SelectContent>
                 </Select>

@@ -36,12 +36,14 @@ const SelectCrop: React.FC<SelectCropProps> = ({ field, form }) => {
             variant="outline"
             role="combobox"
             className={cn(
-              "w-full justify-between",
+              "w-full justify-between border-border text-sm rounded py-0 ",
               !field.value && "text-muted-foreground"
             )}
           >
             {field.value
               ? farmCrops?.find(crops => crops.id === field.value)?.name
+              : field.value === ""
+              ? "Others"
               : "Select language"}
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
@@ -68,6 +70,20 @@ const SelectCrop: React.FC<SelectCropProps> = ({ field, form }) => {
                   {crops.name}
                 </CommandItem>
               ))}
+              <CommandItem
+                value=""
+                onSelect={() => {
+                  form.setValue("crop_id", "");
+                }}
+              >
+                <Check
+                  className={cn(
+                    "mr-2 h-4 w-4",
+                    "" === field.value ? "opacity-100" : "opacity-0"
+                  )}
+                />
+                Others
+              </CommandItem>
             </CommandGroup>
           </Command>
         </PopoverContent>

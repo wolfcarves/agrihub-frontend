@@ -32,6 +32,7 @@ export type NewCropRequest = {
      * Indicates whether the crop yields
      */
     isyield: boolean;
+    p_season: Array<string>;
     /**
      * Binary data of the crop image
      */

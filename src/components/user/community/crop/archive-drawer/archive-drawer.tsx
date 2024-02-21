@@ -8,7 +8,7 @@ const ArchiveDrawer = () => {
     <Drawer shouldScaleBackground={true}>
       <DrawerTrigger asChild>
         <Button variant={"outline"} className=" gap-2">
-          <LuFolderArchive size={15} /> Archieve List
+          <LuFolderArchive size={15} /> Archive List
         </Button>
       </DrawerTrigger>
       <DrawerContent vaul-drawer-wrapper>

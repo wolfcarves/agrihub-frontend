@@ -6,14 +6,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@components/ui/dropdown-menu";
-import useDeleteAuthMutate from "@hooks/api/delete/useDeleteAuthMutate";
-import useAuth from "@hooks/useAuth";
 import { PiBell, PiBellFill } from "react-icons/pi";
 import React, { useMemo, useState } from "react";
 import useGetUserNotifications from "@hooks/api/get/useGetUserNotifications";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import usePutUserNotificationRead from "../../../../hooks/api/put/usePutUserNotificationRead";
+import { timeAgo } from "@components/lib/utils";
 
 //Refactor nalang dapat dito naka .map pero ang mahalaga masaya tayong mga pilipino
 const HeaderNotification = () => {
@@ -93,11 +92,15 @@ const HeaderNotification = () => {
             <>Loading</>
           ) : (
             <>
-              {userNotifications?.notifications?.map((item, index) => {
-                return (
+              {userNotifications &&
+              userNotifications.notifications &&
+              userNotifications.notifications.length > 0 ? (
+                userNotifications.notifications.map((item, index) => (
                   <React.Fragment key={index}>
                     <DropdownMenuItem
-                      className="flex flex-col  justify-start items-start cursor-pointer min-h-20"
+                      className={`flex flex-col justify-start items-start cursor-pointer min-h-20 ${
+                        item.viewed ? "" : "bg-gray-200 font-bold"
+                      }`}
                       onClick={() =>
                         handleReadNotification(item.redirect_to, item.id)
                       }
@@ -105,10 +108,18 @@ const HeaderNotification = () => {
                       <span className="font-poppins-medium text-sm mt-2 opacity-70">
                         {item.body}
                       </span>
+                      <span>
+                        {timeAgo(item.createdat as unknown as string)}
+                      </span>
                     </DropdownMenuItem>
+                    <hr className="my-1" />
                   </React.Fragment>
-                );
-              })}
+                ))
+              ) : (
+                <div className="flex flex-col justify-center items-center cursor-pointer min-h-20">
+                  notification received yet
+                </div>
+              )}
             </>
           )}
         </DropdownMenuContent>

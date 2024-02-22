@@ -16,7 +16,6 @@ import {
 } from "@components/ui/dialog";
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
-import agrihub from "@icons/main-logo.svg";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
 
 const breadcrumbItems = [
@@ -121,7 +120,7 @@ const HelpsAdmin = () => {
                     <h4 className="text-gray-800 font-semibold">
                       {item.title}
                     </h4>
-                    <p className="text-gray-600 text-sm">{item.desc}</p>
+                    <p className="text-gray-600 text-sm">{item.answer}</p>
                   </div>
                 </div>
               </Link>

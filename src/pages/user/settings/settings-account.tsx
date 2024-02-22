@@ -2,13 +2,8 @@ import React from "react";
 import { Label } from "@components/ui/label";
 import { Input } from "@components/ui/input";
 import { Button } from "@components/ui/button";
-import UserTagInputDropdown from "@components/user/account/input/UserTagInput";
-import useGetTagByKeyWord from "@hooks/api/get/useGetTagByKeyword";
-import { useState } from "react";
 
 const UserAccountSettings = () => {
-  const [searchInputTagValue, setSearchInputTagValue] = useState<string>("");
-  const { data: tagResult } = useGetTagByKeyWord(searchInputTagValue);
   return (
     <div className="w-full m-8">
       <div className="flex justify-between items-center">
@@ -44,16 +39,6 @@ const UserAccountSettings = () => {
                     className="mt-1"
                     disabled
                   />
-                </div>
-              </div>
-
-              {/* 2nd line */}
-              <div>
-                <div className="flex gap-4 mt-4">
-                  <div className="w-full">
-                    <Label className="font-bold">Tags Watching</Label>
-                    <UserTagInputDropdown option={tagResult} />
-                  </div>
                 </div>
               </div>
 

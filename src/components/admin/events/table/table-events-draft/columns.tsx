@@ -62,7 +62,7 @@ export const columns: ColumnDef<EventDetails>[] = [
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <Link to={`/admin/resource/events/view/${payment.id}`}>
-              <DropdownMenuItem>View/update article</DropdownMenuItem>
+              <DropdownMenuItem>View/update event</DropdownMenuItem>
             </Link>
           </DropdownMenuContent>
         </DropdownMenu>

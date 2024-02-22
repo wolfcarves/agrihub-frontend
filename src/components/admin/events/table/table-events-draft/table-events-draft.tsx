@@ -1,18 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import { Input } from "../../../../ui/input";
 import { DataTable } from "../../../../ui/custom/data-table/data-table";
 import useGetEventsDraftList from "../../../../../hooks/api/get/useGetEventsDraftList";
 import { columns } from "./columns";
+import useDebounce from "../../../../../hooks/utils/useDebounce";
 
 const TableEventsDraft = () => {
-  const { data: eventsData } = useGetEventsDraftList(
-    undefined,
-    undefined,
-    undefined
-  );
+  const [search, setSearch] = useState<string | undefined>("");
+  const { data: eventsData } = useGetEventsDraftList(search, "1", "20");
+  const debouncedSearch = useDebounce((value: string) => {
+    setSearch(value);
+  }, 100);
   return (
     <div>
-      <Input placeholder="Search title..." className="max-w-sm my-4" />
+      <Input
+        placeholder="Search title..."
+        className="max-w-sm my-4"
+        value={search}
+        onChange={e => debouncedSearch(e.target.value)}
+      />
       <DataTable columns={columns} data={eventsData?.data || []} />
     </div>
   );

@@ -12,49 +12,19 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@components/ui/dropdown-menu";
+import { FarmData } from "@api/openapi";
+import { useNavigate } from "react-router-dom";
 
-export const data: Farm[] = [
+export const columns: ColumnDef<FarmData>[] = [
   {
-    id: "f1",
-    createdAt: "2023-01-15",
-    farm: "Sunshine Farm",
-    district: "District 1",
-    location: "123 Main Street"
-  },
-  {
-    id: "f2",
-    createdAt: "2023-02-20",
-    farm: "Green Acres",
-    district: "District 4",
-    location: "456 Elm Street"
-  },
-  {
-    id: "f3",
-    createdAt: "2023-03-10",
-    farm: "Golden Fields",
-    district: "District 3",
-    location: "789 Oak Street"
-  }
-];
-
-export type Farm = {
-  id: string;
-  createdAt: string;
-  farm: string;
-  district: string;
-  location: string;
-};
-
-export const columns: ColumnDef<Farm>[] = [
-  {
-    accessorKey: "createdAt",
+    accessorKey: "createdat",
     header: "Created At",
-    cell: ({ row }) => <div>{row.getValue("createdAt")}</div>
+    cell: ({ row }) => <div>{row.getValue("createdat")}</div>
   },
   {
-    accessorKey: "farm",
+    accessorKey: "farm_name",
     header: "Farm",
-    cell: ({ row }) => <div>{row.getValue("farm")}</div>
+    cell: ({ row }) => <div>{row.getValue("farm_name")}</div>
   },
   {
     accessorKey: "district",
@@ -67,28 +37,35 @@ export const columns: ColumnDef<Farm>[] = [
     cell: ({ row }) => <div>{row.getValue("location")}</div>
   },
   {
+    header: "Actions",
     id: "actions",
-    enableHiding: false,
     cell: ({ row }) => {
-      const payment = row.original;
-
+      const farm = row.original;
+      const navigate = useNavigate();
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
+            <Button
+              variant="ghost"
+              className="h-1 w-8 p-0 focus-visible:ring-0 "
+            >
               <MoreHorizontal className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
+              onClick={() => navigate(`/admin/farm/application/${farm.id}`)}
             >
-              Copy farmt ID
+              View
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => navigate(`/community/explore/${farm.id}`)}
+            >
+              View in Community
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View farm details</DropdownMenuItem>
+            <DropdownMenuItem>Delete</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

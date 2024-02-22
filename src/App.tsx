@@ -124,7 +124,7 @@ import ActivityLog from "@pages/admin/activities/activity-log";
 import AboutLayout from "./pages/user/about/_layout";
 import CommunityRegister from "./pages/user/community/community-register";
 import FarmApplication from "./pages/admin/farm-application/farm-application";
-import FarmApplicationView from "./pages/admin/farm-application/farm-application-view";
+import FarmApplicationView from "@pages/admin/farm-application/farm-application-view";
 import CommunityMain from "./pages/user/community/community-main";
 import CommunityCrop from "./pages/user/community/community-crops";
 import Overview from "./pages/user/community/tabs/overview";
@@ -293,9 +293,8 @@ const App = ReactRouter(
         <Route path="accounts-banned" element={<FarmersBanned />} />
 
         <Route path="farm-approved" element={<FarmsAdmin />} />
-        {/* <Route path="farm-request" element={<FarmsPending />} /> */}
-        <Route path="farm-request" element={<FarmApplication />} />
-        <Route path="farm-request/:id" element={<FarmApplicationView />} />
+        <Route path="farm-request" element={<FarmsPending />} />
+        <Route path="application/:id" element={<FarmApplicationView />} />
         <Route path="farm-rejected" element={<FarmsRejected />} />
 
         <Route path="seedling-pending" element={<SeedlingPending />} />

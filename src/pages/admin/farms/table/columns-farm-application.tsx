@@ -13,66 +13,25 @@ import {
   DropdownMenuTrigger
 } from "@components/ui/dropdown-menu";
 
-export const data: FarmApplication[] = [
-  {
-    id: "fa1",
-    createdAt: "2023-01-15",
-    farm: "Sunshine Farm",
-    district: "District 3",
-    applicant: "John Doe",
-    location: "123 Main Street",
-    status: "pending"
-  },
-  {
-    id: "fa2",
-    createdAt: "2023-02-20",
-    farm: "Green Acres",
-    district: "District 1",
-    applicant: "Jane Smith",
-    location: "456 Elm Street",
-    status: "approved"
-  },
-  {
-    id: "fa3",
-    createdAt: "2023-03-10",
-    farm: "Golden Fields",
-    district: "District 1",
-    applicant: "Alice Johnson",
-    location: "789 Oak Street",
-    status: "rejected"
-  }
-];
+import { FarmApplicationData } from "@api/openapi";
+import { formatDate } from "@components/lib/utils";
+import { useNavigate } from "react-router-dom";
 
-export type FarmApplication = {
-  id: string;
-  createdAt: string;
-  farm: string;
-  district: string;
-  applicant: string;
-  location: string;
-  status: "pending" | "approved" | "rejected";
-};
-
-export const columns: ColumnDef<FarmApplication>[] = [
+export const columns: ColumnDef<FarmApplicationData>[] = [
   {
-    accessorKey: "createdAt",
+    accessorKey: "createdat",
     header: "Created At",
-    cell: ({ row }) => <div>{row.getValue("createdAt")}</div>
+    cell: ({ row }) => <div>{formatDate(row.getValue("createdat"))}</div>
   },
   {
-    accessorKey: "farm",
+    accessorKey: "farm_name",
     header: "Farm",
-    cell: ({ row }) => <div>{row.getValue("farm")}</div>
+    cell: ({ row }) => <div>{row.getValue("farm_name")}</div>
   },
   {
     accessorKey: "district",
     header: "District",
     cell: ({ row }) => <div>{row.getValue("district")}</div>
-  },
-  {
-    accessorKey: "applicant",
-    header: "Applicant",
-    cell: ({ row }) => <div>{row.getValue("applicant")}</div>
   },
   {
     accessorKey: "location",
@@ -85,30 +44,30 @@ export const columns: ColumnDef<FarmApplication>[] = [
     cell: ({ row }) => <div>{row.getValue("status")}</div>
   },
   {
+    header: "Actions",
     id: "actions",
-    enableHiding: false,
     cell: ({ row }) => {
-      const payment = row.original;
-
+      const farm = row.original;
+      const navigate = useNavigate();
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
+            <Button
+              variant="ghost"
+              className="h-1 w-8 p-0 focus-visible:ring-0 "
+            >
               <MoreHorizontal className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
+              onClick={() => navigate(`/admin/farm/application/${farm.id}`)}
             >
-              Copy application ID
+              View
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View application</DropdownMenuItem>
-            <DropdownMenuItem>Approve application</DropdownMenuItem>
-            <DropdownMenuItem>Reject application</DropdownMenuItem>
+            <DropdownMenuItem>Delete</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

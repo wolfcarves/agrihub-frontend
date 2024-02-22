@@ -2,9 +2,10 @@ import React from "react";
 import AdminOutletContainer from "@components/admin/layout/container/AdminOutletContainer";
 import BreadCrumb from "../../../components/ui/custom/breadcrumb/breadcrumb";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
-import { data, columns } from "./table/columns-farm-application";
+import { columns } from "./table/columns-farm-application";
 import { DataTable } from "@components/ui/custom/data-table/data-table";
 import { Input } from "@components/ui/input";
+import useGetFarmApplicationList from "@hooks/api/get/useGetFarmApplicationsList";
 
 const breadcrumbItems = [
   { title: "Farm Management", link: "/admin/farm" },
@@ -12,6 +13,13 @@ const breadcrumbItems = [
   { title: "Rejected Application", link: "/admin/farm/farm-rejected" }
 ];
 const FarmsRejected = () => {
+  const { data: applications } = useGetFarmApplicationList({
+    search: "",
+    page: "",
+    filter: "rejected",
+    perpage: "10"
+  });
+
   return (
     <AdminOutletContainer className="container mx-auto py-10 ">
       <BreadCrumb items={breadcrumbItems} />
@@ -23,7 +31,7 @@ const FarmsRejected = () => {
       </p>
       <hr className="my-4" />
       <Input placeholder="Search title..." className="max-w-sm my-4" />
-      <DataTable columns={columns} data={data} />
+      <DataTable columns={columns} data={applications?.applications || []} />
     </AdminOutletContainer>
   );
 };

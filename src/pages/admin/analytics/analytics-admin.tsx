@@ -142,11 +142,11 @@ const AnalyticsAdmin = () => {
                 </div>
 
                 <div className="flex-grow grid">
-                  <div className="text-left">
+                  {/* <div className="text-left">
                     <div className=" text-gray-400 font-medium">
                       86% from last harvest
                     </div>
-                  </div>
+                  </div> */}
                   <Label className=" text-gray-400 text-left">
                     Sharon Farm is not doing well!!! Current plant growth is
                     lower than average growth by 80.28%.
@@ -177,11 +177,11 @@ const AnalyticsAdmin = () => {
                       <div className="text-left font-semibold text-lg">
                         <span className="text-red-500">54% </span>Growth Rate
                       </div>
-                      <div className="text-left">
+                      {/* <div className="text-left">
                         <div className=" text-gray-400 font-medium">
                           86% from last harvest
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>
@@ -215,11 +215,11 @@ const AnalyticsAdmin = () => {
                       <div className="text-left font-semibold text-lg">
                         <span className="text-red-500">59% </span>Growth Rate
                       </div>
-                      <div className="text-left">
+                      {/* <div className="text-left">
                         <div className=" text-gray-400 font-medium">
                           86% from last harvest
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>
@@ -253,11 +253,11 @@ const AnalyticsAdmin = () => {
                       <div className="text-left font-semibold text-lg">
                         <span className="text-red-500">60% </span>Growth Rate
                       </div>
-                      <div className="text-left">
+                      {/* <div className="text-left">
                         <div className=" text-gray-400 font-medium">
                           86% from last harvest
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>

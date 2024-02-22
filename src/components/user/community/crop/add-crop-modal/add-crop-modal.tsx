@@ -6,7 +6,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger
-} from "../../../../ui/dialog";
+} from "../../../../ui/custom/dialog/dialog";
 import { Button } from "../../../../ui/button";
 import { PiPottedPlant } from "react-icons/pi";
 import CommunityAddCropForm from "../../form/CommunityAddCrop/CommunityAddCropForm";
@@ -16,7 +16,7 @@ const AddCropModal = () => {
   return (
     <Dialog open={isOpen}>
       <DialogTrigger asChild>
-        <Button>
+        <Button onClick={() => setIsOpen(true)}>
           <PiPottedPlant size={16} className="mr-1" /> Add Crop
         </Button>
       </DialogTrigger>

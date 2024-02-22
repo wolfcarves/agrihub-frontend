@@ -77,6 +77,7 @@ export type { FarmerTotalHarvestedResponse } from './models/FarmerTotalHarvested
 export type { FarmListResponse } from './models/FarmListResponse';
 export type { FarmMember } from './models/FarmMember';
 export type { GrowthRateResponse } from './models/GrowthRateResponse';
+export type { HarvestedWitheredData } from './models/HarvestedWitheredData';
 export type { InvitationItem } from './models/InvitationItem';
 export type { LandingPageDetails } from './models/LandingPageDetails';
 export type { LandingPageDetailsResponse } from './models/LandingPageDetailsResponse';
@@ -97,6 +98,7 @@ export type { ListInvitationsResponse } from './models/ListInvitationsResponse';
 export type { ListMemberResponse } from './models/ListMemberResponse';
 export type { ListPublishedLearningMaterials } from './models/ListPublishedLearningMaterials';
 export type { ListPublishedLearningMaterialsResponse } from './models/ListPublishedLearningMaterialsResponse';
+export type { ListRelatedLearningMaterialsResponse } from './models/ListRelatedLearningMaterialsResponse';
 export type { ListUser } from './models/ListUser';
 export type { ListUserResponse } from './models/ListUserResponse';
 export type { Member } from './models/Member';

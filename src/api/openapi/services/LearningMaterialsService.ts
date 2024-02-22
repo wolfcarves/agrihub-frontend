@@ -10,6 +10,7 @@ import type { DeleteDraftLearningMaterialResponse } from '../models/DeleteDraftL
 import type { LearningMaterialViewResponse } from '../models/LearningMaterialViewResponse';
 import type { ListDraftLearningMaterialsResponse } from '../models/ListDraftLearningMaterialsResponse';
 import type { ListPublishedLearningMaterialsResponse } from '../models/ListPublishedLearningMaterialsResponse';
+import type { ListRelatedLearningMaterialsResponse } from '../models/ListRelatedLearningMaterialsResponse';
 import type { MessageResponse } from '../models/MessageResponse';
 import type { NewLearningCredits } from '../models/NewLearningCredits';
 import type { NewLearningMaterial } from '../models/NewLearningMaterial';
@@ -502,7 +503,7 @@ perpage?: string,
 
     /**
      * List related learning materials
-     * @returns ListPublishedLearningMaterialsResponse Successful response
+     * @returns ListRelatedLearningMaterialsResponse Successful response
      * @throws ApiError
      */
     public static getApiLearningRelated({
@@ -512,7 +513,7 @@ tags,
  * Tags to filter related materials by
  */
 tags?: Array<string>,
-}): CancelablePromise<ListPublishedLearningMaterialsResponse> {
+}): CancelablePromise<ListRelatedLearningMaterialsResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/learning/related',

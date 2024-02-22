@@ -12,6 +12,7 @@ import type { FarmerGraphStackedBarResponse } from '../models/FarmerGraphStacked
 import type { FarmerGraphTotalHarvestResponse } from '../models/FarmerGraphTotalHarvestResponse';
 import type { FarmerTotalHarvestedResponse } from '../models/FarmerTotalHarvestedResponse';
 import type { GrowthRateResponse } from '../models/GrowthRateResponse';
+import type { HarvestedWitheredData } from '../models/HarvestedWitheredData';
 import type { LearningMaterialReport } from '../models/LearningMaterialReport';
 import type { NewCommunityCropReport } from '../models/NewCommunityCropReport';
 
@@ -278,6 +279,24 @@ id: string,
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/reports/learning-materials',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Update harvested and withered data for each month
+     * @returns HarvestedWitheredData Array of harvested and withered data for each month
+     * @throws ApiError
+     */
+    public static getApiReportsAdminGraphHarvestedWithered(): CancelablePromise<Array<HarvestedWitheredData>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/reports/admin/graph/harvested-withered',
             errors: {
                 400: `Validation Error`,
                 401: `Unauthorized`,

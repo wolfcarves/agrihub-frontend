@@ -1,16 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import imageagri from "@assets/images/Ellipse-agrilogo.png";
 import { useParams } from "react-router-dom";
-import { blogData } from "../../../constants/data";
 import {
   Carousel,
   CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious
+  CarouselItem
 } from "@components/ui/carousel";
 import useGetBlogsPublishyIdQuery from "@hooks/api/get/useGetBlogsPublishyIdQuery";
 import DOMPurify from "dompurify";
+import LoadingSpinner from "@icons/LoadingSpinner";
 
 export const ellipsis = (text: string, maxLength: number): string => {
   if (text.length <= maxLength) {
@@ -23,17 +21,17 @@ export const ellipsis = (text: string, maxLength: number): string => {
 const Blog = () => {
   const blogId = useParams().blogId;
 
-  const { data } = useGetBlogsPublishyIdQuery(blogId ?? "");
+  const { data, isLoading } = useGetBlogsPublishyIdQuery(blogId ?? "");
 
   const thumbnail = data?.images.filter(d => d.thumbnail)[0].image;
 
-  const [mainImage, setMainImage] = useState<string>(thumbnail || "");
+  const [mainImage, setMainImage] = useState<string | undefined>(
+    thumbnail ?? ""
+  );
 
-  // const [showAllBlogs, setShowAllBlogs] = useState<boolean>(false);
-
-  // const suggestedBlogs = showAllBlogs
-  //   ? blogData.filter(blogsData => blogsData.blogId !== blogId)
-  //   : blogData.filter(blogsData => blogsData.blogId !== blogId).slice(0, 3);
+  useEffect(() => {
+    setMainImage(thumbnail);
+  }, [thumbnail]);
 
   const d = new Date(data?.createdat ?? "");
 
@@ -49,11 +47,18 @@ const Blog = () => {
     <>
       <div>
         <div className="py-10 pb-56 px-8 mt-2">
-          <img
-            src={mainImage}
-            loading="lazy"
-            className="w-full object-contain object-center mb-5 h-[35rem]"
-          />
+          {mainImage && (
+            <img
+              src={mainImage}
+              className="w-full object-contain object-center mb-5 h-[35rem]"
+            />
+          )}
+
+          {isLoading && (
+            <div className="h-[30rem] pb-10 flex">
+              <LoadingSpinner className="text-primary text-xl m-auto" />
+            </div>
+          )}
 
           <Carousel className="mx-auto w-max">
             <CarouselContent className="-ml-1">
@@ -101,6 +106,7 @@ const Blog = () => {
         </div>
       </div>
 
+      {/* <h3 className="px-10 mt-20 mb-5"> Suggested Blogs </h3>
       {/* <h3 className="px-10 mt-20 mb-5"> Suggested Blogs </h3>
       <div className="grid grid-cols-1 lg:grid-cols-3 sm:grid-cols-2 grid-rows-1 gap-20 px-10">
         {suggestedBlogs.map((item, key) => (

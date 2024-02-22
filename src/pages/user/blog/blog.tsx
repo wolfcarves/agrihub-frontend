@@ -107,6 +107,7 @@ const Blog = () => {
       </div>
 
       {/* <h3 className="px-10 mt-20 mb-5"> Suggested Blogs </h3>
+      {/* <h3 className="px-10 mt-20 mb-5"> Suggested Blogs </h3>
       <div className="grid grid-cols-1 lg:grid-cols-3 sm:grid-cols-2 grid-rows-1 gap-20 px-10">
         {suggestedBlogs.map((item, key) => (
           <div key={key} className="group flex flex-col">

@@ -60,18 +60,18 @@ export const adminNavigation = [
         href: "/admin/farm/accounts-banned"
       },
       {
-        title: "Farm Requests",
+        title: "Farms",
         name: "Farms",
         href: "/admin/farm/farm-approved"
       },
       {
         title: "",
-        name: "Pending",
+        name: "Farm Request",
         href: "/admin/farm/farm-request"
       },
       {
         title: "",
-        name: "Rejected",
+        name: "Rejected Request",
         href: "/admin/farm/farm-rejected"
       },
       {

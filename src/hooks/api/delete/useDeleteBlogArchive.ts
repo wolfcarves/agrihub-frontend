@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { EventsService } from "@api/openapi";
+import { BlogsService, EventsService } from "@api/openapi";
 import { GET_BLOGS_PUBLISH_LIST } from "../get/useGetBlogsPublishList";
 
 const useDeleteBlogArchiveKey = () => "DELETE_BLOG_ARCHIVE_KEY";
@@ -9,7 +9,7 @@ export default function useDeleteBlogArchive() {
 
   return useMutation([useDeleteBlogArchiveKey()], {
     async mutationFn(id: string) {
-      const response = await EventsService.deleteApiEventsArchive({
+      const response = await BlogsService.deleteApiBlogsArchive({
         id
       });
 

@@ -126,6 +126,7 @@ const BlogDetailForm = () => {
               readOnly={!isEditing}
               {...form.register("title")}
               placeholder="Input blog title"
+              type="text"
             />
           </div>
 
@@ -135,14 +136,16 @@ const BlogDetailForm = () => {
               defaultValue={blogData?.author}
               readOnly={!isEditing}
               {...form.register("author")}
+              type="text"
               placeholder="e.g. Engr. Jaylenon R. Asilo, MMPA"
             />
           </div>
           <div className="grid w-full col-span-6 items-center gap-1.5">
-            <Label className=" font-poppins-medium">Autor Title's</Label>
+            <Label className=" font-poppins-medium">Author’s Title</Label>
             <Input
               defaultValue={blogData?.author_title}
               readOnly={!isEditing}
+              type="text"
               {...form.register("author_title")}
               placeholder="e.g. Agriculturist"
             />

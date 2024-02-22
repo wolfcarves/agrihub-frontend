@@ -103,7 +103,7 @@ const BlogTagsForm = () => {
           className="pb-[2rem]"
         >
           <Card className="p-4 mb-4">
-            <h3 className="text-md font-bold">Add Tags</h3>
+            <h3 className="text-md font-bold">Select Tags</h3>
             <Label>
               Add up to 5 tags to describe what your blog is about. Start typing
               to see suggestions.
@@ -137,7 +137,7 @@ const BlogTagsForm = () => {
                 disabled={isTagsLoading || tags.length <= 0}
                 type="submit"
               >
-                Save
+                Add
               </Button>
             </div>
           </Card>

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { BlogsService } from "../../../api/openapi";
+import { BlogsService } from "@api/openapi";
 
 export const GET_BLOGS_PUBLISH_LIST = () => "GET_BLOGS_PUBLISH_LIST_KEY";
 
@@ -11,12 +11,13 @@ export default function useGetBlogsPublishList(
   return useQuery({
     queryKey: [GET_BLOGS_PUBLISH_LIST(), search, page, perpage],
     queryFn: async () => {
-      const data = await BlogsService.getApiBlogsPublishedList({
+      const response = await BlogsService.getApiBlogsPublishedList({
         search,
         page,
         perpage
       });
-      return data;
+
+      return response;
     },
     keepPreviousData: true
   });

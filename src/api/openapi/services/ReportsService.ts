@@ -289,14 +289,36 @@ id: string,
     }
 
     /**
-     * Update harvested and withered data for each month
+     * Retrieve harvested and withered data for a specific period
      * @returns HarvestedWitheredData Array of harvested and withered data for each month
      * @throws ApiError
      */
-    public static getApiReportsAdminGraphHarvestedWithered(): CancelablePromise<Array<HarvestedWitheredData>> {
+    public static getApiReportsAdminGraphHarvestedWithered({
+year,
+start,
+end,
+}: {
+/**
+ * The year for which data is requested
+ */
+year?: string,
+/**
+ * The start date for the period
+ */
+start?: string,
+/**
+ * The end date for the period
+ */
+end?: string,
+}): CancelablePromise<Array<HarvestedWitheredData>> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/reports/admin/graph/harvested-withered',
+            query: {
+                'year': year,
+                'start': start,
+                'end': end,
+            },
             errors: {
                 400: `Validation Error`,
                 401: `Unauthorized`,

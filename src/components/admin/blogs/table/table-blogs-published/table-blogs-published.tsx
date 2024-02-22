@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Input } from "../../../../ui/input";
 import { DataTable } from "../../../../ui/custom/data-table/data-table";
 import { columns } from "./columns";
-import useGetBlogsPublishList from "../../../../../hooks/api/get/useGetBlogsPublishList";
+import useGetBlogsPublishList from "../../../../../hooks/api/get/useGetBlogsPublishListQuery";
 import useDebounce from "../../../../../hooks/utils/useDebounce";
 
 const TableBlogsPublished = () => {

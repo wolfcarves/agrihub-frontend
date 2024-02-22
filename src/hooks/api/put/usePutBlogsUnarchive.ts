@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { BlogsService } from "@api/openapi";
-import { GET_BLOGS_PUBLISH_LIST } from "../get/useGetBlogsPublishList";
+import { GET_BLOGS_PUBLISH_LIST } from "../get/useGetBlogsPublishListQuery";
 
 const usePutBlogsUnarchiveKey = () => "PUT_BLOGS_UNARCHIEVE_KEY";
 

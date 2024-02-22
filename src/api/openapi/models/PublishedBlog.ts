@@ -15,6 +15,7 @@ export type PublishedBlog = {
     is_archived?: boolean;
     createdat?: string;
     updatedat?: string;
+    thumbnail?: string;
     tags?: Array<{
 id?: string;
 tag?: string;

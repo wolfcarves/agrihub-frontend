@@ -54,7 +54,7 @@ import CommunityLayout from "./pages/user/community/community-layout";
 import Explore from "@pages/user/community/community-explore";
 import Community from "@pages/user/community/community";
 import Blog from "./pages/user/blog/blog";
-import BlogLayout from "./pages/user/blog/_layout";
+import BlogLayout from "./pages/user/blog/blogs-layout";
 import Blogs from "./pages/user/blog/blogs";
 import Event from "@pages/user/events/event";
 import EventsLayout from "@pages/user/events/events-layout";

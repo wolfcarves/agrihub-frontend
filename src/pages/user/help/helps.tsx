@@ -18,7 +18,7 @@ const Helps = () => {
             </div>
 
             <p className="text-gray-600 max-w-lg mx-auto text-lg mb-2">
-              How can we help you?
+              Welcome to the AgriHub Help Center!
             </p>
             <div className="relative">
               <svg
@@ -59,7 +59,9 @@ const Helps = () => {
                     <h4 className="text-gray-800 font-semibold">
                       {item.title}
                     </h4>
-                    <p className="text-gray-600 text-sm">{item.answer}</p>
+                    <p className="text-gray-600 text-sm line-clamp-3">
+                      {item.answer}
+                    </p>
                   </div>
                 </div>
               </Link>

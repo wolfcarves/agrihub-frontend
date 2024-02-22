@@ -34,7 +34,7 @@ const UserFooter = () => {
     navigate("/learning-materials");
   };
   return (
-    <div className="bg-[#404040] p-10">
+    <div className="bg-[#404040] p-10 mt-auto">
       <div className="flex justify-center items-center gap-1">
         <img className="h-[3.5rem]" src={qcu} />
         <img className="h-[5.4rem]" src={agrihub} />

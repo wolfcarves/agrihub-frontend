@@ -16,28 +16,6 @@ type AnchorProps = React.DetailedHTMLProps<
 
 const resources: { title: string; href: string; description: string }[] = [
   {
-    title: "Articles",
-    href: "/articles",
-    description:
-      "A modal dialog that interrupts the user with important content and expects a response."
-  },
-  {
-    title: "Blogs",
-    href: "/blogs",
-    description: "For sighted users to preview content available behind a link."
-  },
-  {
-    title: "Events",
-    href: "/events",
-    description:
-      "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar."
-  },
-  {
-    title: "About",
-    href: "/about",
-    description: "Visually or semantically separates content."
-  },
-  {
     title: "Learning Materials",
     href: "/learning-materials",
     description:
@@ -47,6 +25,28 @@ const resources: { title: string; href: string; description: string }[] = [
     title: "Planting Calendar",
     href: "/planting-calendar",
     description: "Tandang tanda ko pa nung panahon ng tagtuyot"
+  },
+  {
+    title: "Events",
+    href: "/events",
+    description:
+      "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar."
+  },
+  {
+    title: "Blogs",
+    href: "/blogs",
+    description: "For sighted users to preview content available behind a link."
+  },
+  {
+    title: "Articles",
+    href: "/articles",
+    description:
+      "A modal dialog that interrupts the user with important content and expects a response."
+  },
+  {
+    title: "About",
+    href: "/about",
+    description: "Visually or semantically separates content."
   }
 ];
 

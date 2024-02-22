@@ -82,7 +82,7 @@ const UserSignupForm = () => {
                   <Input
                     {...field}
                     type="email"
-                    placeholder="Email or username"
+                    placeholder="Email"
                     $isError={fieldState?.error && true}
                   />
                 </FormControl>

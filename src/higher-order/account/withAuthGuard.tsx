@@ -40,11 +40,12 @@ export default function withAuthGuard<P extends object>(
       if (authData?.id && userRole !== "admin") {
         const level = Number(authData?.verification_level) - 1;
 
-        if (level === 4) return;
+        if (pathname === "/account/final-setup" && level === 3)
+          navigate("/", { replace: true });
 
-        navigate(RedirectRoutes[level], { replace: true });
+        if (level !== 3) navigate(RedirectRoutes[level], { replace: true });
       }
-    }, [authData, pathname, userRole, isAllowed]);
+    }, [pathname, userRole, isAllowed, authData?.verification_level]);
 
     if (isAuthDataLoading) {
       return <Loader />;

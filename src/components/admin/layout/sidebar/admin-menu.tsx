@@ -44,21 +44,21 @@ export const adminNavigation = [
         name: "Overview",
         href: "/admin/farm"
       },
-      {
-        title: "Farmers",
-        name: "Farmers",
-        href: "/admin/farm/farmers"
-      },
-      {
-        title: "",
-        name: "Reported Accounts",
-        href: "/admin/farm/accounts-reported"
-      },
-      {
-        title: "",
-        name: "Banned Accounts",
-        href: "/admin/farm/accounts-banned"
-      },
+      // {
+      //   title: "Farmers",
+      //   name: "Farmers",
+      //   href: "/admin/farm/farmers"
+      // },
+      // {
+      //   title: "",
+      //   name: "Reported Accounts",
+      //   href: "/admin/farm/accounts-reported"
+      // },
+      // {
+      //   title: "",
+      //   name: "Banned Accounts",
+      //   href: "/admin/farm/accounts-banned"
+      // },
       {
         title: "Farms",
         name: "Farms",
@@ -146,23 +146,23 @@ export const adminNavigation = [
         title: "",
         name: "Archive",
         href: "/admin/resource/learnings-archives"
-      },
-
-      {
-        title: "Articles",
-        name: "All Articles",
-        href: "/admin/resource/articles"
-      },
-      {
-        title: "",
-        name: "Draft",
-        href: "/admin/resource/articles-draft"
-      },
-      {
-        title: "",
-        name: "Archive",
-        href: "/admin/resource/articles-archives"
       }
+
+      // {
+      //   title: "Articles",
+      //   name: "All Articles",
+      //   href: "/admin/resource/articles"
+      // },
+      // {
+      //   title: "",
+      //   name: "Draft",
+      //   href: "/admin/resource/articles-draft"
+      // },
+      // {
+      //   title: "",
+      //   name: "Archive",
+      //   href: "/admin/resource/articles-archives"
+      // }
     ]
   },
 

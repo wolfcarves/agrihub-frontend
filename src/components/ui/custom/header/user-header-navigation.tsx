@@ -24,7 +24,7 @@ const resources: { title: string; href: string; description: string }[] = [
   {
     title: "Planting Calendar",
     href: "/planting-calendar",
-    description: "Tandang tanda ko pa nung panahon ng tagtuyot"
+    description: "Plant and Harvest base on best season for crop"
   },
   {
     title: "Events",
@@ -37,12 +37,12 @@ const resources: { title: string; href: string; description: string }[] = [
     href: "/blogs",
     description: "For sighted users to preview content available behind a link."
   },
-  {
-    title: "Articles",
-    href: "/articles",
-    description:
-      "A modal dialog that interrupts the user with important content and expects a response."
-  },
+  // {
+  //   title: "Articles",
+  //   href: "/articles",
+  //   description:
+  //     "A modal dialog that interrupts the user with important content and expects a response."
+  // },
   {
     title: "About",
     href: "/about",

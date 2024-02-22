@@ -98,8 +98,7 @@ const About = () => {
       facebook: "https://www.facebook.com/nafecot"
     },
     {
-      avatar:
-        "https://scontent.fmnl4-4.fna.fbcdn.net/v/t39.30808-6/363823805_24129508779973344_520851503020788051_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=efb6e6&_nc_eui2=AeElktI30QfUt2CVD6rBQVsskdgkA0_GwaCR2CQDT8bBoJrKeUiryKK7IkfN6ucDzVOff4_k6jL8LWghyGQruXu6&_nc_ohc=SU8HkufxhVwAX9xM9Lk&_nc_ht=scontent.fmnl4-4.fna&oh=00_AfDZtcAkAAu0-wYcJnpN0prHnRpd_qh5y0S7Px7VbJ41og&oe=65D66CB9",
+      avatar: "https://randomuser.me/api/portraits/lego/6.jpg",
       name: "Romel O. Sevilla, MBA",
       title: "Head, Center for Urban Agriculture and Innovation",
       desc: "",
@@ -116,8 +115,7 @@ const About = () => {
       facebook: "javascript:void(0)"
     },
     {
-      avatar:
-        "https://scontent.fmnl4-4.fna.fbcdn.net/v/t39.30808-6/416596548_2394468507410078_36177615429189844_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=efb6e6&_nc_eui2=AeHfdzwbKY1OgOTxTaWzNzA_1qHDVfvLXhLWocNV-8teEqwCuktjL5kjAz_BZTYsThqHi18Q7VDx_EBKFI9DxffH&_nc_ohc=jNqisC3mM7MAX_rsieu&_nc_ht=scontent.fmnl4-4.fna&oh=00_AfCSJw8_UkwF4b6Deyv6TPNDPbVmdtrkWxeqAMRtf4T26A&oe=65D4D0C5",
+      avatar: "https://randomuser.me/api/portraits/lego/3.jpg",
       name: "Engr. Jaylenon R. Asilo, MMPA",
       title: "Agriculturist",
       desc: "Responsible for Partnerships and Collaborations, and Research and Development ",
@@ -125,8 +123,7 @@ const About = () => {
       facebook: "https://www.facebook.com/jaylenon.asilo"
     },
     {
-      avatar:
-        "https://scontent.fmnl4-4.fna.fbcdn.net/v/t1.6435-9/45167939_2481348625265211_1486947772711043072_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=7a1959&_nc_eui2=AeFd5acm7obMAF798pJIaGnEqlIP0LVSfkWqUg_QtVJ-RZ7bqXWh-XXg2bHAQGWMCW8Dfvs-JsROMfyOE65wRkHJ&_nc_ohc=AHlycu5tusYAX96gaL1&_nc_ht=scontent.fmnl4-4.fna&oh=00_AfDrKlR9QhDBjgXda6zjObnsJe70COFLXfc1PdlTl_XBDg&oe=65F81877",
+      avatar: "https://randomuser.me/api/portraits/lego/4.jpg",
       name: "Engr. Justine F. Malindao",
       title: "Agriculturist",
       desc: "Responsible for Training, and Production and Business Development",
@@ -134,8 +131,7 @@ const About = () => {
       facebook: "https://www.facebook.com/justin.malindao"
     },
     {
-      avatar:
-        "https://scontent.fmnl4-4.fna.fbcdn.net/v/t39.30808-6/345459966_2812898285508264_3995896517700851484_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=9c7eae&_nc_eui2=AeEIIoZ9qVtvikKTOmQ9GEHtcOCk9BJaKZhw4KT0ElopmJMpQIiUlKTnA__f2UziVIDyOc-RR63TAOU0nte1zbC9&_nc_ohc=zL4QdWlcYNoAX851sLL&_nc_ht=scontent.fmnl4-4.fna&oh=00_AfCHXtAPO0dcVAdXnX9JDvLCxH7HUj559NlKtUcEtZrZAg&oe=65D61345",
+      avatar: "https://randomuser.me/api/portraits/lego/3.jpg",
       name: "Ms. Jonabelle M. Orain",
       title: "Farm Worker",
       desc: "",

@@ -16,6 +16,7 @@ import {
 import useFarmAddCropMutation from "../../../../../hooks/api/post/useFarmAddCropMutation";
 import useGetFarmAllCropsQuery from "../../../../../hooks/api/get/useGetFarmAllCropsQuery";
 import { useParams } from "react-router-dom";
+import Loader from "../../../../../icons/Loader";
 
 const addCropCommunitySchema = zod.object({
   cropId: zod
@@ -99,11 +100,20 @@ const CommunityAddCropForm: React.FC<CommunityAddCropFormProps> = ({
           />
         </div>
 
-        <div className="flex justify-end col-span-12">
+        <div className="flex justify-end gap-1 col-span-12 mt-4">
+          <Button
+            disabled={isFarmCropLoading}
+            onClick={() => setIsOpen(false)}
+            variant={"secondary"}
+            type="button"
+          >
+            Close
+          </Button>
           <Button disabled={isFarmCropLoading} type="submit">
             Save
           </Button>
         </div>
+        <Loader isVisible={isFarmCropLoading} />
       </form>
     </Form>
   );

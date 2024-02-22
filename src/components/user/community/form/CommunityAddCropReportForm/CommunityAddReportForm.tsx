@@ -96,7 +96,7 @@ const CommunityAddCropReportForm = () => {
     const compiledData: NewCommunityCropReport = {
       crop_id: data.crop_id,
       c_name: data.c_name,
-      is_other: data.is_other,
+      is_other: !isCrop ? true : undefined,
       isyield: data.isyield,
       planted_qty: data.planted_qty,
       harvested_qty: data.harvested_qty,
@@ -143,22 +143,7 @@ const CommunityAddCropReportForm = () => {
         </div>
         {!isCrop && (
           <>
-            <div className="flex items-center space-x-2 md:col-span-3 col-span-12 pl-2">
-              <FormField
-                control={form.control}
-                name="is_other"
-                render={({ field }) => (
-                  <>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                    <Label>Is Other</Label>
-                  </>
-                )}
-              />
-            </div>
-            <div className="flex items-center space-x-2 md:col-span-3 col-span-12 pl-2">
+            <div className="flex items-center space-x-2 md:col-span-6 col-span-12 pl-2">
               <FormField
                 control={form.control}
                 name="isyield"

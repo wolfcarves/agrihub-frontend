@@ -68,10 +68,10 @@ const DialogAddBlogs = () => {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Add Blog</DialogTitle>
+          <DialogTitle>Create Blog</DialogTitle>
           <DialogDescription>
-            Create the title of your blog first and edit it in drafts section.
-            Click save when you're done.
+            Create the title of your blog first and edit it in the drafts
+            section. Click create when you're done.
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -87,12 +87,12 @@ const DialogAddBlogs = () => {
               <Input
                 id="title"
                 {...form.register("title")}
-                placeholder="insert title of the event"
+                placeholder="Insert Title of the Event"
                 className="col-span-3"
               />
             </div>
             <DialogFooter>
-              <Button type="submit">Save Draft</Button>
+              <Button type="submit">Create</Button>
             </DialogFooter>
           </form>
         </Form>

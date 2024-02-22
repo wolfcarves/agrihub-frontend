@@ -9,7 +9,7 @@ export default function useGetBlogsPublishList(
   perpage?: string
 ) {
   return useQuery({
-    queryKey: [GET_BLOGS_PUBLISH_LIST()],
+    queryKey: [GET_BLOGS_PUBLISH_LIST(), search, page, perpage],
     queryFn: async () => {
       const data = await BlogsService.getApiBlogsPublishedList({
         search,

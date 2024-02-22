@@ -10,7 +10,7 @@ interface ApplicationsParams {
 }
 export default function useGetLearningPublishedList(data: ApplicationsParams) {
   return useQuery({
-    queryKey: [GET_LEARNING_PUBLISHED_LIST()],
+    queryKey: [GET_LEARNING_PUBLISHED_LIST(), ...[data]],
     queryFn: async () => {
       const response =
         await LearningMaterialsService.getApiLearningPublished(data);

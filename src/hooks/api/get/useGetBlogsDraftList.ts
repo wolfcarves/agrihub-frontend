@@ -9,7 +9,7 @@ export default function useGetBlogsDraftList(
   perpage?: string
 ) {
   return useQuery({
-    queryKey: [GET_BLOGS_DRAFT_LIST()],
+    queryKey: [GET_BLOGS_DRAFT_LIST(), search, page, perpage],
     queryFn: async () => {
       const data = await BlogsService.getApiBlogsDraftList({
         search,

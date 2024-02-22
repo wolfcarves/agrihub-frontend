@@ -10,7 +10,7 @@ type EventsParams = {
 export const GET_EVENTS_PUBLISHED_LIST = () => "GET_EVENTS_PUBLISHED_LIST_KEY";
 export default function useGetEventPublishedListQuery(data: EventsParams) {
   return useQuery({
-    queryKey: [GET_EVENTS_PUBLISHED_LIST()],
+    queryKey: [GET_EVENTS_PUBLISHED_LIST(), ...[data]],
     queryFn: async () => {
       const response = await EventsService.getApiEventsPublishedList({
         ...data

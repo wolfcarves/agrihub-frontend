@@ -55,13 +55,13 @@ const BlogImageForm = () => {
                 onCheckedChange={() => handleIsFeatured(image.id)}
               />
               <label className="text-sm font-poppins-medium leading-none">
-                Thumbnail
+                Mark as thumbnail
               </label>
             </div>
           </div>
         ))}
       </div>
-      <Label className=" font-poppins-medium">Add other images</Label>
+      <Label className=" font-poppins-medium">Upload Images</Label>
       <DialogAddImages />
       <Loader isVisible={isFeaturedLoad || isDeleteLoading} />
     </div>

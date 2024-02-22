@@ -18,13 +18,22 @@ import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { format } from "date-fns";
 import usePutFarmCropUnarchive from "../../../../../hooks/api/put/usePutFarmCropUnarchive";
 import { toast } from "sonner";
+import { Avatar, AvatarFallback, AvatarImage } from "../../../../ui/avatar";
 
 export const columns: ColumnDef<ArchivedCrop>[] = [
   {
     accessorKey: "image",
     header: "Image",
     cell: ({ row }) => (
-      <img src={row.original.image} className="w-10 h-10 border" />
+      <Avatar className="w-10 h-10 border rounded">
+        <AvatarImage
+          src={row.original.image}
+          className="w-10 h-10 border rounded"
+        />
+        <AvatarFallback className="rounded">
+          {row.original.name.charAt(0)}
+        </AvatarFallback>
+      </Avatar>
     )
   },
   {

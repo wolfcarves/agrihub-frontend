@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -11,30 +11,29 @@ import { Button } from "../../../../ui/button";
 import { DataTable } from "../../../../ui/custom/data-table/data-table";
 import { columns } from "./columns";
 import useGetLearningPublishedList from "../../../../../hooks/api/get/useGetLearningPublishedList";
+import useDebounce from "../../../../../hooks/utils/useDebounce";
 
 const TableLearningMaterial = () => {
-  const { data: LearningData } = useGetLearningPublishedList(
-    undefined,
-    undefined,
-    undefined
-  );
+  const [search, setSearch] = useState<string | undefined>("");
+  const { data: LearningData } = useGetLearningPublishedList({
+    perpage: "20",
+    page: "1",
+    search: search
+  });
+
+  const debouncedSearch = useDebounce((value: string) => {
+    setSearch(value);
+  }, 100);
 
   return (
     <div className="w-full">
       <div className="flex items-center py-4">
-        <Input placeholder="Search title..." className="max-w-sm" />
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              Columns <ChevronDown className="ml-2 h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuCheckboxItem className="capitalize">
-              Test
-            </DropdownMenuCheckboxItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <Input
+          placeholder="Search title..."
+          className="max-w-sm"
+          value={search}
+          onChange={e => debouncedSearch(e.target.value)}
+        />
       </div>
       <DataTable columns={columns} data={LearningData?.data || []} />
     </div>

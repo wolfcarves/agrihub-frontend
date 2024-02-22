@@ -15,6 +15,11 @@ import { TbReportAnalytics } from "react-icons/tb";
 import CropStats from "../../../components/user/community/crop/crop-stats/crop-stats";
 import OutletContainer from "../../../components/user/questions/container/OutletContainer";
 import { FaArrowLeftLong } from "react-icons/fa6";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage
+} from "../../../components/ui/avatar";
 
 const CommunityCrop = () => {
   const navigate = useNavigate();
@@ -31,10 +36,16 @@ const CommunityCrop = () => {
         <FaArrowLeftLong /> Back
       </div>
       <div className="grid grid-cols-12 gap-4">
-        <img
+        {/* <img
           src={CropData?.image}
           className=" md:col-span-3 col-span-12 h-[15rem] object-fill object-center rounded-md hover:shadow-md border place-self-center"
-        />
+        /> */}
+        <Avatar className="md:col-span-3 col-span-12 h-[15rem] w-full rounded object-fill object-center hover:shadow-md border place-self-center">
+          <AvatarImage className="rounded" src={CropData?.image} />
+          <AvatarFallback className="rounded text-2xl">
+            {CropData?.crop_name?.charAt(0)}
+          </AvatarFallback>
+        </Avatar>
         <div className=" md:col-span-9 col-span-12 md:px-0 px-4">
           <h2 className=" font-poppins-semibold  text-green-700 leading-tight ">
             {CropData?.crop_name}

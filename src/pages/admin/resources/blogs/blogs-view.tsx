@@ -1,23 +1,8 @@
 import React from "react";
 import BreadCrumb from "@components/ui/custom/breadcrumb/breadcrumb";
 import AdminOutletContainer from "@components/admin/layout/container/AdminOutletContainer";
-import { Input } from "@components/ui/input";
-import { Label } from "@components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from "@components/ui/select";
-import RichTextEditor from "@components/ui/custom/rich-text-editor/RichTextEditor";
 import { Button } from "@components/ui/button";
-import MultiImageUpload from "@components/user/community/multi-image-input/multi-image-input";
-import { Form } from "@components/ui/form";
-import useGetTagByKeyWord from "@hooks/api/get/useGetTagByKeyword";
-import UserTagInputDropdown from "@components/user/account/input/UserTagInput";
-import { useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   Accordion,
   AccordionContent,
@@ -35,7 +20,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger
 } from "@components/ui/alert-dialog";
-import Capture from "@components/user/community/capture/capture";
 import BlogDetailForm from "../../../../components/admin/blogs/form/blog-detail-form/blog-detail-form";
 import BlogImageForm from "../../../../components/admin/blogs/form/blog-image-form/blog-image-form";
 import BlogTagsForm from "../../../../components/admin/blogs/form/blog-tags-form/blog-tags-form";
@@ -45,6 +29,7 @@ import useDeleteBlogDraft from "../../../../hooks/api/delete/useDeleteBlogDraft"
 import usePutBlogsUnpublish from "../../../../hooks/api/put/usePutBlogsUnpublish";
 import useDeleteBlogArchive from "../../../../hooks/api/delete/useDeleteBlogArchive";
 import usePutBlogsPublish from "../../../../hooks/api/put/usePutBlogsPublish";
+import Loader from "../../../../icons/Loader";
 
 const breadcrumbItems = [
   { title: "Resource Management", link: "/admin/resources" },
@@ -58,28 +43,32 @@ const ViewBlogs = () => {
   const { data: blogData } = useGetBlogsDraftView(blogId || "");
   console.log(blogData);
 
-  const { mutateAsync: deleteDraft } = useDeleteBlogDraft();
+  const { mutateAsync: deleteDraft, isLoading: draftLoading } =
+    useDeleteBlogDraft();
   const handleDeleteDraft = async () => {
     await deleteDraft(blogId || "");
     toast.success("Draft Deleted Successfully!");
     navigate("/admin/resource/blogs-drafts");
   };
 
-  const { mutateAsync: unpublishMaterial } = usePutBlogsUnpublish();
+  const { mutateAsync: unpublishMaterial, isLoading: unpublishLoading } =
+    usePutBlogsUnpublish();
   const handleUnpublish = async () => {
     await unpublishMaterial(blogId || "");
     toast.success("Unpublished Successfully!");
     navigate("/admin/resource/blogs-drafts");
   };
 
-  const { mutateAsync: archiveMaterial } = useDeleteBlogArchive();
+  const { mutateAsync: archiveMaterial, isLoading: archiveLoading } =
+    useDeleteBlogArchive();
   const handleArchive = async () => {
     await archiveMaterial(blogId || "");
     toast.success("Archive Successfully!");
     navigate("/admin/resource/blogs-archives");
   };
 
-  const { mutateAsync: publishMaterial } = usePutBlogsPublish();
+  const { mutateAsync: publishMaterial, isLoading: publishLoading } =
+    usePutBlogsPublish();
   const handlePublish = async () => {
     try {
       await publishMaterial(blogId || "");
@@ -108,7 +97,7 @@ const ViewBlogs = () => {
           <Accordion type="single" collapsible className="w-full my-10">
             <AccordionItem value="item-1">
               <AccordionTrigger className="text-lg font-poppins-medium [&[data-state=open]]:text-primary">
-                Images
+                Add Preview Images
               </AccordionTrigger>
               <AccordionContent>
                 <BlogImageForm />
@@ -116,7 +105,7 @@ const ViewBlogs = () => {
             </AccordionItem>
             <AccordionItem value="item-2">
               <AccordionTrigger className="text-lg font-poppins-medium [&[data-state=open]]:text-primary">
-                Tags
+                Add Tags
               </AccordionTrigger>
               <AccordionContent>
                 <BlogTagsForm />
@@ -158,7 +147,7 @@ const ViewBlogs = () => {
                 </AlertDialog>
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
-                    <Button>Publish Event</Button>
+                    <Button>Publish</Button>
                   </AlertDialogTrigger>
                   <AlertDialogContent>
                     <AlertDialogHeader>
@@ -222,8 +211,9 @@ const ViewBlogs = () => {
                         Are you sure you want to unpublish this material?
                       </AlertDialogTitle>
                       <AlertDialogDescription>
-                        This learning material will can't be seen in public
-                        anymore.
+                        This learning material will not be visible to the public
+                        anymore. However, you can publish it again if you decide
+                        to make this blog visible to anyone.
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
@@ -239,6 +229,11 @@ const ViewBlogs = () => {
             )}
           </div>
         </>
+        <Loader
+          isVisible={
+            draftLoading || unpublishLoading || archiveLoading || publishLoading
+          }
+        />
       </div>
     </AdminOutletContainer>
   );

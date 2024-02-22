@@ -16,10 +16,14 @@ import {
 } from "@components/ui/accordion";
 import Autoplay from "embla-carousel-autoplay";
 import useGetLearningViewPublic from "../../../hooks/api/get/useGetLearningViewPublic";
+import useGetLeaningRelated from "../../../hooks/api/get/useGetLeaningRelated";
 
 const Learning = () => {
   const { learningsId } = useParams();
   const { data: learningDetail } = useGetLearningViewPublic(learningsId || "");
+  const { data: relateds } = useGetLeaningRelated(
+    learningDetail?.tags?.map(tag => tag.tag)
+  );
 
   if (!learningDetail) {
     return <div>Event not found!</div>;
@@ -185,40 +189,49 @@ const Learning = () => {
       </h1>
       <br></br>
       <div className="flex justify-center w-full mb-4">
-        {/* <div className="w-full p-8 sm:p-4 xl:mx-32 2xl:px-56 grid grid-cols-1 sm:grid-cols-3 grid-rows-1 gap-5 mb-12">
-          {learningsData
-            .filter(item =>
-              item.tags.some(tag =>
-                learningDetail.tags.some(
-                  selectedTag => selectedTag.name === tag.name
-                )
-              )
-            )
-            .filter(item => item.id !== learningDetail.id)
-            .slice(0, 3)
+        <div className=" mx-32 grid grid-cols-12">
+          {relateds
+            ?.filter(item => item.id !== learningsId)
             .map((items, key) => (
-              <div key={key} className="group flex flex-col shadow-md">
+              <div
+                key={key}
+                className="lg:col-span-4 md:col-span-6 col-span-12 flex flex-col shadow-md"
+              >
                 <Link to={`/learning-materials/view/${items.id} `}>
-                  <div className="max-w-300px h-[300px] overflow-hidden">
-                    <img
-                      src={items.img}
-                      loading="lazy"
-                      alt={items.title}
-                      className="w-full h-full object-cover max-h-300px max-w-750px  group-hover:scale-105 transition-transform duration-300"
-                    />
+                  <div className=" overflow-hidden">
+                    {items.thumbnail.type === "image" ? (
+                      <img
+                        src={`https://s3.ap-southeast-1.amazonaws.com/agrihub-bucket/${items.thumbnail.resource}`}
+                        alt={items.thumbnail.id}
+                        className="w-full aspect-video object-cover object-center rounded-md h-48 rounded-t-md"
+                      />
+                    ) : items.thumbnail.type === "video" ? (
+                      <div className="w-full aspect-video  rounded-t-md">
+                        <iframe
+                          className="w-full h-full rounded-t-md"
+                          src={convertToEmbedLink(
+                            items.thumbnail.resource || ""
+                          )}
+                          title={items.thumbnail.id}
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          allowFullScreen
+                        ></iframe>
+                      </div>
+                    ) : null}
                   </div>
                   <div className="p-4">
                     <h5 className="text-black pt-1 text-sm lg:text-[18px] font-bold mx-2 mb-4">
                       {items.title}
                     </h5>
                     <p className="text-sm me-3 line-clamp-4 text-justify m-2">
-                      {items.content}
+                      {parse(items.content || "")}
                     </p>
                   </div>
                 </Link>
               </div>
             ))}
-        </div> */}
+        </div>
       </div>
     </>
   );

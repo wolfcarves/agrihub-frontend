@@ -9,7 +9,7 @@ export default function useGetEventArchiveList(
   perpage?: string
 ) {
   return useQuery({
-    queryKey: [GET_EVENTS_ARCHIVE_LIST()],
+    queryKey: [GET_EVENTS_ARCHIVE_LIST(), search, page, perpage],
     queryFn: async () => {
       const data = await EventsService.getApiEventsArchivedList({
         search,

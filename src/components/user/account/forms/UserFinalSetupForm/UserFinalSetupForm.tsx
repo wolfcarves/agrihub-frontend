@@ -6,18 +6,12 @@ import useUserFinalSetup from "@hooks/api/post/useUserFinalSetup";
 import { Form, FormField } from "@components/ui/form";
 import { Input } from "@components/ui/custom";
 import { Button } from "@components/ui/button";
-import UserTagInputDropdown from "@components/user/account/input/UserTagInput";
-import useGetTagByKeyWord from "@hooks/api/get/useGetTagByKeyword";
 import { toast } from "sonner";
 import useDeleteAuthMutate from "@hooks/api/delete/useDeleteAuthMutate";
 
 const UserFinalSetupForm = () => {
   const inputFileRef = useRef<HTMLInputElement | null>(null);
   const [imgFile, setImgFile] = useState<File | undefined>();
-  const [searchInputTagValue, setSearchInputTagValue] = useState<string>("");
-  const [tags, setTags] = useState<string[]>();
-
-  const { data: tagResult } = useGetTagByKeyWord(searchInputTagValue);
 
   const { mutateAsync: deleteAuth, isLoading: isDeleteAuthLoading } =
     useDeleteAuthMutate();
@@ -42,23 +36,12 @@ const UserFinalSetupForm = () => {
   const handleOnSubmitForm = async (rawData: UserFinalSetup) => {
     const data = {
       avatar: rawData.avatar[0],
-      username: rawData.username,
-      tags: tags
+      username: rawData.username
     };
 
     try {
-      const length = tags?.length || 0;
-
-      if (length >= 2) {
-        return await userFinalSetupMutate(data);
-      }
-
-      throw new Error("Please select atleast 2 tags");
+      return await userFinalSetupMutate(data);
     } catch (e: any) {
-      if (e.message === "Please select atleast 2 tags") {
-        return toast(e.message);
-      }
-
       toast(e.body.message);
     }
   };
@@ -100,7 +83,6 @@ const UserFinalSetupForm = () => {
             <input
               {...form.register("avatar")}
               type="file"
-              name="avatar"
               accept="image/jpeg,image/jpg,image/png"
               ref={e => {
                 formRef(e);
@@ -132,16 +114,6 @@ const UserFinalSetupForm = () => {
         </div>
 
         <div className="mt-5 -z-10">
-          <h5 className="pb-3">Agricultural tags that interest you : </h5>
-
-          <UserTagInputDropdown
-            option={tagResult}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              setSearchInputTagValue(e.target.value);
-            }}
-            onTagsValueChange={e => setTags(e)}
-          />
-
           <Button
             className="relative w-full mt-10"
             isLoading={isUserFinalSetupLoading || isUserFinalSetupSuccess}

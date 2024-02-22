@@ -19,7 +19,7 @@ const MainLayout = () => {
   }, [location]);
 
   return (
-    <>
+    <div className="flex flex-col min-h-[90rem]">
       <LoadingBar
         ref={loader}
         color="rgb(59 130 246)"
@@ -36,7 +36,7 @@ const MainLayout = () => {
       <UserHeader />
       <Outlet />
       <UserFooter />
-    </>
+    </div>
   );
 };
 

@@ -1,6 +1,7 @@
 import { Drawer, DrawerContent, DrawerTrigger } from "@components/ui/drawer";
 import { CropData } from "@api/openapi";
 import { MONTHS } from "@pages/user/calendar/calendar";
+import { Link } from "react-router-dom";
 
 interface PlantingCalendarCardProps extends CropData {}
 
@@ -22,15 +23,29 @@ const GridItem = ({
 const PlantingCalendarCard = ({
   name,
   description,
-  image,
-  planting_season,
-  seedling_season,
-  harvest_season,
-  growth_span,
-  isyield
+  image
 }: PlantingCalendarCardProps) => {
   return (
-    <div className="flex shadow-sm bg-white h-40 md:h-52 w-full rounded-2xl overflow-hidden">
+    <div className="flex flex-col items-center py-10 px-10">
+      <Link to={String(name)}>
+        <img
+          src={image}
+          className="w-40 rounded-full aspect-square object-cover border hover:brightness-110"
+        />
+      </Link>
+
+      <div className="space-y-2 text-center pt-4 pb-0">
+        <h5 className="font-poppins-medium">{name}</h5>
+        <p>{description}</p>
+      </div>
+    </div>
+  );
+};
+
+export default PlantingCalendarCard;
+
+/*
+ <div className="flex shadow-sm bg-white h-40 md:h-52 w-full rounded-2xl overflow-hidden">
       <div className="h-full w-[50%] md:min-w-[13rem]">
         <img src={image} className="object-cover h-full w-full" />
       </div>
@@ -78,23 +93,4 @@ const PlantingCalendarCard = ({
         </Drawer>
       </div>
     </div>
-  );
-};
-
-export default PlantingCalendarCard;
-
-/*
- <button className="relative flex flex-col h-[13rem] w-full max-w-[40rem] rounded-sm overflow-hidden p-3">
-      <div className="absolute start-0 top-0 -z-10 h-full w-full bg-gradient-to-r from-[#e6fcec] via-[#e6fcec] to-100%" />
-
-      <h5>{title}</h5>
-      <p className="text-start mt-5 line-clamp-6 pe-20 lg:pe-32">
-        {description}
-      </p>
-
-      <img
-        src={imgSrc}
-        className="absolute top-0 end-0 w-[15rem] h-full -z-20"
-      />
-    </button>
 */

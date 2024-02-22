@@ -4,7 +4,7 @@
 /* eslint-disable */
 
 export type UserProfile = {
-    avatar?: Blob;
-    username?: string;
-    tags?: Array<string>;
+  avatar?: Blob;
+  username?: string;
+  tags?: Array<string>;
 };

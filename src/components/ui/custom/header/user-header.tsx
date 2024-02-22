@@ -31,7 +31,7 @@ const UserHeaderSearchBar = () => {
 
   return (
     <>
-      <div className="hidden sm:flex gap-10  items-center h-full py-3">
+      <div className="hidden sm:flex gap-10 items-center h-full py-3">
         <Link to="/">
           <AgrihubLogo />
         </Link>

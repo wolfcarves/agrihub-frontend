@@ -9,7 +9,7 @@ import UserAccountLayout from "@pages/user/account/account-layout";
 import ArticleLayout from "@pages/user/article/_layout";
 import UserProfileLayout from "@pages/user/users/profile-layout";
 import UserHomeLayout from "@pages/user/home/home-layout";
-import CalendarLayout from "@pages/user/calendar/_layout";
+import CalendarLayout from "@pages/user/calendar/calendar-layout";
 
 //Pages
 import Home from "./pages/user/home/home";
@@ -146,6 +146,7 @@ import SeedlingAccepted from "@pages/admin/farms/seedling-accepted";
 import SeedlingRejected from "@pages/admin/farms/seedling-rejected";
 import ViewBlogs from "./pages/admin/resources/blogs/blogs-view";
 import AnalyticsAdmin from "@pages/admin/analytics/analytics-admin";
+import CropView from "@pages/user/calendar/crop-view";
 
 const App = ReactRouter(
   <>
@@ -238,6 +239,7 @@ const App = ReactRouter(
       {/* Planting Calendar Page */}
       <Route path="/planting-calendar" element={<CalendarLayout />}>
         <Route path="" element={<Calendar />} />
+        <Route path=":cropName" element={<CropView />} />
       </Route>
 
       {/* Help Center Page */}

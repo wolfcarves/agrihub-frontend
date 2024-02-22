@@ -29,7 +29,7 @@ const UserSignupFormTitle = () => {
               navigate("/account/login");
             }}
           >
-            Signup
+            Login
           </span>
         </div>
       </div>

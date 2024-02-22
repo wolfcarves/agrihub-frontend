@@ -6,21 +6,15 @@ import { Link } from "react-router-dom";
 
 interface EventsCardProps extends EventDetails {}
 
+const S3_BASE_URL = import.meta.env.VITE_S3_BUCKET_BASEURL;
+
 const EventsCard = ({
   about,
   banner,
-  createdat,
-  event_end,
   event_start,
-  guide,
   id,
-  is_archived,
   location,
-  published_date,
-  status,
-  title,
-  type,
-  updatedat
+  title
 }: EventsCardProps) => {
   const d = new Date(event_start as string);
 
@@ -39,7 +33,7 @@ const EventsCard = ({
       <div className="w-full lg:px-14">
         <img
           alt="events-background-image"
-          src={banner}
+          src={S3_BASE_URL + banner}
           className="w-full h-[20rem] object-cover"
         />
       </div>

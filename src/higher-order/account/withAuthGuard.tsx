@@ -40,7 +40,7 @@ export default function withAuthGuard<P extends object>(
       if (authData?.id && userRole !== "admin") {
         const level = Number(authData?.verification_level) - 1;
 
-        if (level === 4) return;
+        if (level === 3) return;
 
         navigate(RedirectRoutes[level], { replace: true });
       }

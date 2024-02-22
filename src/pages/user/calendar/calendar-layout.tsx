@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 
 const CalendarLayout = () => {
   return (
-    <UserResponsiveContainer>
+    <UserResponsiveContainer className="px-1 ">
       <Outlet />
     </UserResponsiveContainer>
   );

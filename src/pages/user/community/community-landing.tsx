@@ -13,7 +13,6 @@ import RequestIllustration from "@icons/community/RequestIllustration";
 import AnalyticsIllustration from "@icons/community/AnalyticsIllustration";
 import logo from "../../../icons/main-logo.svg";
 import { FaWpforms } from "react-icons/fa6";
-import Analytics from "./tabs/analytics";
 import { MdOutlineForum, MdOutlineUpload } from "react-icons/md";
 import { RiSeedlingLine } from "react-icons/ri";
 import { TbReportAnalytics } from "react-icons/tb";
@@ -25,7 +24,7 @@ import {
 } from "@components/ui/accordion";
 
 const CommunityLanding = () => {
-  const { isAuthenticated, data: userData } = useAuth();
+  const { data: userData } = useAuth();
   const { data } = useGetFarmListQuery({
     search: undefined,
     page: "1",
@@ -233,6 +232,7 @@ const CommunityLanding = () => {
         </section>
       </Card>
 
+      {/* faqs */}
       <div className="py-16">
         <div className="max-w-xl mx-auto my-8 text-center">
           <MdOutlineForum className="h-16 w-16 p-1 text-green-600 mx-auto" />
@@ -240,7 +240,7 @@ const CommunityLanding = () => {
             You have questions. We have answers.
           </h3>
           <p className="text-gray-600 mt-3">
-            Explore content from{" "}
+            Explore content from our{" "}
             <Link
               to="/helps"
               className="text-green-700 font-bold hover:underline"
@@ -249,11 +249,13 @@ const CommunityLanding = () => {
             </Link>
           </p>
         </div>
+
+        {/* FAQs accordion */}
         <div className="flex justify-center my-12">
           <Accordion type="multiple" className="max-w-2xl w-full">
             {faqs.map((faq, index) => (
               <AccordionItem key={index} value={`item-${index}`}>
-                <AccordionTrigger className="hover:no-underline font-semibold">
+                <AccordionTrigger className="hover:no-underline font-semibold text-left">
                   {faq.question}
                 </AccordionTrigger>
                 <AccordionContent>{faq.answer}</AccordionContent>

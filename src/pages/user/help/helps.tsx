@@ -49,9 +49,9 @@ const Helps = () => {
           <ul className="mt-5 grid gap-8 sm:grid-cols-2 lg:grid-cols-3 sm:mx-32">
             {helpList.map(item => (
               <Link
-                to={`/helps/${item.ref}`}
+                to={`/helps/${item.title}`}
                 className="border rounded-lg"
-                key={item.ref}
+                key={item.title}
               >
                 <div className="flex items-start justify-center p-4">
                   <div className="space-y-2 text-center">
@@ -59,7 +59,7 @@ const Helps = () => {
                     <h4 className="text-gray-800 font-semibold">
                       {item.title}
                     </h4>
-                    <p className="text-gray-600 text-sm">{item.desc}</p>
+                    <p className="text-gray-600 text-sm">{item.answer}</p>
                   </div>
                 </div>
               </Link>

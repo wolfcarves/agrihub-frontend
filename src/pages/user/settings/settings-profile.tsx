@@ -11,10 +11,6 @@ const UserProfileSettings = () => {
       <div className="flex justify-between items-center">
         <h2 className="text-3xl font-bold tracking-tight">Public Profile</h2>
       </div>
-      {/* <p className="text-sm text-muted-foreground">
-        Add new articles here and complete all required fields for publication.
-        Click 'Publish' to make your article public.
-      </p> */}
       <hr className="my-4" />
       <div className=" mx-auto">
         <form>

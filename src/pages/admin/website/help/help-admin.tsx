@@ -80,6 +80,10 @@ const HelpAdmin = () => {
                     onChange={e => setNewSubCategory(e.target.value)}
                     className="col-span-3"
                   />
+                  <Label className="mt-1">
+                    Don't use special characters in title, question mark(?) is
+                    automatically added at the end of the text
+                  </Label>
                 </div>
               </div>
               <DialogFooter>
@@ -123,12 +127,12 @@ const HelpAdmin = () => {
         </Card>
       ) : (
         subCategories.map((subCategory, index) => (
-          <Card key={index} className="w-full px-8 py-4 gap-4">
+          <Card key={index} className="w-full px-8 py-4 gap-4 my-4">
             <div className="w-full">
               <div className="flex gap-4">
                 <Input
                   type="text"
-                  value={subCategory}
+                  defaultValue={subCategory}
                   disabled={editingIndex !== index}
                 />
                 <div className="flex gap-4 items-center">

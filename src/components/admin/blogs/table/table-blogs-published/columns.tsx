@@ -64,10 +64,10 @@ export const columns: ColumnDef<Blog>[] = [
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <Link to={`/admin/resource/blogs/view/${payment.id}`}>
-              <DropdownMenuItem>View/update article</DropdownMenuItem>
+              <DropdownMenuItem>View/update blog</DropdownMenuItem>
             </Link>
             <Link to={`/blogs/view/${payment.id}`}>
-              <DropdownMenuItem>View article in page</DropdownMenuItem>
+              <DropdownMenuItem>View blog in page</DropdownMenuItem>
             </Link>
           </DropdownMenuContent>
         </DropdownMenu>

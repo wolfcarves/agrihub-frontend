@@ -93,7 +93,7 @@ const BlogDetailForm = () => {
         encType="multipart/form-data"
       >
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-bold tracking-tight">Event Details</h2>
+          <h2 className="text-xl font-bold tracking-tight">Blog Details</h2>
         </div>
         <div className=" grid grid-cols-12 gap-5">
           <div className="grid w-full col-span-3 items-center gap-1.5">

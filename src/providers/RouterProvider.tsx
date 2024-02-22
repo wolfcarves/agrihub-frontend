@@ -8,7 +8,7 @@ const ReactRouterProvider = () => {
     <>
       <RouterProvider router={App} />
       <Toaster />
-      <ShadCnToast richColors theme="light" />
+      <ShadCnToast richColors theme="light" toastOptions={{ duration: 1000 }} />
     </>
   );
 };

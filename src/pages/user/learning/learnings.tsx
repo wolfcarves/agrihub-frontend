@@ -21,7 +21,6 @@ const Learnings = () => {
   const totalPages =
     learningsData?.pagination?.total_pages ?? params.currentPage + 1;
 
-  console.log(learningsData, "asdasd");
   return (
     <section className="my-12 mx-auto px-4 max-w-screen-xl md:px-8 py-8">
       <div className="text-left">
@@ -42,7 +41,7 @@ const Learnings = () => {
               <div className="h-48 rounded-t-md">
                 {items.thumbnail.type === "image" ? (
                   <img
-                    src={items.thumbnail.resource}
+                    src={`https://s3.ap-southeast-1.amazonaws.com/agrihub-bucket/${items.thumbnail.resource}`}
                     alt={items.thumbnail.id}
                     className="w-full aspect-video object-cover object-center rounded-md h-48 rounded-t-md"
                   />

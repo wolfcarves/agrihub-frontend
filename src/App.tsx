@@ -133,12 +133,12 @@ import Crops from "./pages/user/community/tabs/crops";
 import Members from "./pages/user/community/tabs/members";
 import Gallery from "./pages/user/community/tabs/gallery";
 import CommunityReport from "./pages/user/community/community-report";
-import CropsReport from "./pages/user/community/tabs/crops-report/crops-report";
-import CropsReportAdd from "./pages/user/community/tabs/crops-report/crops-report-add";
+import CropsReport from "./pages/user/community/reports/crops-report/crops-report";
+import CropsReportAdd from "./pages/user/community/reports/crops-report/crops-report-add";
 import CommunityProfile from "./pages/user/community/community-profile";
 import InviteFarm from "./pages/user/invitation/invite-farm";
 import InviteLayout from "./pages/user/invitation/invite-layout";
-import CropsReportView from "./pages/user/community/tabs/crops-report/crops-report-view";
+import CropsReportView from "./pages/user/community/reports/crops-report/crops-report-view";
 import ViewEvents from "@pages/admin/resources/events/events-view";
 import SeedlingPending from "@pages/admin/farms/seedling-pending";
 import MainLayout from "@pages/user/layout/main-layout";
@@ -147,6 +147,8 @@ import SeedlingRejected from "@pages/admin/farms/seedling-rejected";
 import ViewBlogs from "./pages/admin/resources/blogs/blogs-view";
 import AnalyticsAdmin from "@pages/admin/analytics/analytics-admin";
 import CropView from "@pages/user/calendar/crop-view";
+import CommunityRequest from "./pages/user/community/community-request";
+import SeedlingsRequest from "./pages/user/community/request/seedlings-request/seedlings-request";
 
 const App = ReactRouter(
   <>
@@ -209,6 +211,10 @@ const App = ReactRouter(
           <Route path="" element={<CropsReport />} />
           <Route path="add" element={<CropsReportAdd />} />
           <Route path="view/:cropId" element={<CropsReportView />} />
+        </Route>
+        {/* Request */}
+        <Route path="request/:id" element={<CommunityRequest />}>
+          <Route path="" element={<SeedlingsRequest />} />
         </Route>
       </Route>
 

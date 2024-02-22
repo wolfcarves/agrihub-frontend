@@ -15,6 +15,11 @@ import { format } from "date-fns";
 import CropStats from "../../../../../components/user/community/crop/crop-stats/crop-stats";
 import { TbReportAnalytics } from "react-icons/tb";
 import Loader from "../../../../../icons/Loader";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage
+} from "../../../../../components/ui/avatar";
 
 const CropsReportView = () => {
   const { cropId } = useParams();
@@ -35,10 +40,12 @@ const CropsReportView = () => {
         <FaArrowLeftLong /> Back
       </div>
       <div className="grid grid-cols-12 gap-4">
-        <img
-          src={CropReport?.image}
-          className=" md:col-span-3 col-span-12 h-[15rem] object-fill object-center rounded-md hover:shadow-md border place-self-center"
-        />
+        <Avatar className="md:col-span-3 col-span-12 h-[15rem] w-full rounded object-fill object-center hover:shadow-md border place-self-center">
+          <AvatarImage className="rounded" src={CropReport?.image} />
+          <AvatarFallback className="rounded text-2xl">
+            {CropReport?.crop_name?.charAt(0)}
+          </AvatarFallback>
+        </Avatar>
         <div className=" md:col-span-9 col-span-12 md:px-0 px-4">
           <h2 className=" font-poppins-semibold  text-green-700 leading-tight ">
             {CropReport?.crop_name}

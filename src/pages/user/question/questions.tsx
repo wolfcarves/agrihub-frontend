@@ -3,12 +3,11 @@ import QuestionsInputAddQuestion from "@components/user/questions/input/Question
 import QuestionsList from "@components/user/questions/list/QuestionsList";
 import { Pagination } from "@components/ui/custom";
 import useGetQuestionsQuery from "@hooks/api/get/useGetQuestionsQuery";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import QuestionsFilterSelect, {
   SortValues
 } from "@components/user/questions/select/QuestionsFilterSelect";
 import OutletContainer from "@components/user/questions/container/OutletContainer";
-import withAuthGuard from "@higher-order/account/withAuthGuard";
 import QuestionsTitleTag from "@components/user/questions/title/QuestionsTitleTag";
 
 const Questions = () => {

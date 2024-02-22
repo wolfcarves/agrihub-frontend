@@ -52,7 +52,6 @@ const UserLoginForm = () => {
                   <FormControl>
                     <Input
                       {...field}
-                      type="email"
                       placeholder="Email or username"
                       $isError={fieldState?.error && true}
                     />

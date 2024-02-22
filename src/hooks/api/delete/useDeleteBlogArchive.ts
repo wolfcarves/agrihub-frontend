@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { BlogsService, EventsService } from "@api/openapi";
-import { GET_BLOGS_PUBLISH_LIST } from "../get/useGetBlogsPublishList";
+import { GET_BLOGS_PUBLISH_LIST } from "../get/useGetBlogsPublishListQuery";
 
 const useDeleteBlogArchiveKey = () => "DELETE_BLOG_ARCHIVE_KEY";
 

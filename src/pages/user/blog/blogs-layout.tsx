@@ -6,13 +6,12 @@ const BlogLayout = () => {
   const location = useLocation();
 
   useEffect(() => {
-    // Check if the current path is exactly '/community'
     if (location.pathname === "/community") {
       navigate("/community/explore");
     }
   }, [navigate, location.pathname]);
   return (
-    <div className="">
+    <div className="container">
       <Outlet />
     </div>
   );

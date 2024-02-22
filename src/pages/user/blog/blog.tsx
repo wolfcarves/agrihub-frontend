@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import imageagri from "@assets/images/Ellipse-agrilogo.png";
-import { formatDateTime } from "@components/lib/utils";
-import { useParams, Link } from "react-router-dom";
-import { blogData, blog_image } from "../../../constants/data";
+import { useParams } from "react-router-dom";
+import { blogData } from "../../../constants/data";
 import {
   Carousel,
   CarouselContent,
@@ -10,7 +9,8 @@ import {
   CarouselNext,
   CarouselPrevious
 } from "@components/ui/carousel";
-import { Button } from "@components/ui/button";
+import useGetBlogsPublishyIdQuery from "@hooks/api/get/useGetBlogsPublishyIdQuery";
+import DOMPurify from "dompurify";
 
 export const ellipsis = (text: string, maxLength: number): string => {
   if (text.length <= maxLength) {
@@ -21,84 +21,87 @@ export const ellipsis = (text: string, maxLength: number): string => {
 };
 
 const Blog = () => {
-  const { blogId } = useParams<{ blogId: string }>();
+  const blogId = useParams().blogId;
 
-  const selectedEvent = blogData.find(event => event.blogId === blogId);
+  const { data } = useGetBlogsPublishyIdQuery(blogId ?? "");
 
-  if (!selectedEvent) {
-    return <div>Event not found!</div>;
-  }
+  const thumbnail = data?.images.filter(d => d.thumbnail)[0].image;
 
-  const [mainImage, setMainImage] = useState<string | null>(
-    blog_image.find(image => image.blogId === blogId && image.thumbnail)
-      ?.image || null
-  );
+  const [mainImage, setMainImage] = useState<string>(thumbnail || "");
 
-  const [showAllBlogs, setShowAllBlogs] = useState<boolean>(false);
+  // const [showAllBlogs, setShowAllBlogs] = useState<boolean>(false);
 
-  const suggestedBlogs = showAllBlogs
-    ? blogData.filter(blogsData => blogsData.blogId !== blogId)
-    : blogData.filter(blogsData => blogsData.blogId !== blogId).slice(0, 3);
+  // const suggestedBlogs = showAllBlogs
+  //   ? blogData.filter(blogsData => blogsData.blogId !== blogId)
+  //   : blogData.filter(blogsData => blogsData.blogId !== blogId).slice(0, 3);
+
+  const d = new Date(data?.createdat ?? "");
+
+  const createDate = d.toLocaleString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric"
+  });
+
+  const htmlContent = DOMPurify.sanitize(data?.content ?? "");
 
   return (
     <>
       <div>
-        <div className="py-4 px-8 mt-2">
+        <div className="py-10 pb-56 px-8 mt-2">
           <img
-            src={mainImage || imageagri}
+            src={mainImage}
             loading="lazy"
-            alt={selectedEvent.title}
-            className="w-full object-cover object-center mb-5"
+            className="w-full object-contain object-center mb-5 h-[35rem]"
           />
-          <div className="mx-8">
-            <Carousel className="w-full">
-              <CarouselContent className="-ml-1">
-                {blog_image
-                  .filter(image => image.blogId === blogId)
-                  .map((image, index) => (
-                    <CarouselItem
-                      key={index}
-                      className="pl-1 md:basis-1/2 lg:basis-1/5"
-                      onClick={() => setMainImage(image.image)}
-                    >
-                      <div>
-                        <div className="flex items-center justify-center">
-                          <img
-                            src={image.image}
-                            alt={`Image ${index}`}
-                            className="w-full h-auto"
-                          />
-                        </div>
-                      </div>
-                    </CarouselItem>
-                  ))}
-              </CarouselContent>
-              <CarouselPrevious />
-              <CarouselNext />
-            </Carousel>
-          </div>
+
+          <Carousel className="mx-auto w-max">
+            <CarouselContent className="-ml-1">
+              {data?.images.map((image, index) => (
+                <CarouselItem
+                  key={index}
+                  className="pl-1 md:basis-1/2 lg:basis-1/5 cursor-pointer"
+                  onClick={() => setMainImage(image.image)}
+                >
+                  <div className="flex items-center justify-center">
+                    <img
+                      src={image.image}
+                      alt={`Image ${index}`}
+                      className="w-80 h-max aspect-square object-cover"
+                    />
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+          </Carousel>
+
           <div className="flex items-center justify-center gap-2 py-5">
             <img src={imageagri} alt="logo" />
-            <h5>
-              Center for Urban Agriculture &nbsp;| &nbsp;
-              {formatDateTime(selectedEvent.createdAt)}
-            </h5>
+            <h5>Center for Urban Agriculture &nbsp;| &nbsp; {createDate}</h5>
           </div>
+
           <h1 className="text-gray-800 duration-150 font-semibold text-center">
-            {selectedEvent.title}
+            {data?.title}
           </h1>
-          <div className="flex justify-center">
-            {selectedEvent.tags.map(tags => (
+
+          <div className="flex justify-center py-10">
+            {data?.tags.map(({ tag }) => (
               <p className="text-base text-primary rounded-md w-auto border border-[#BBE3AD] bg-secondary px-2 mr-2 py-1">
-                {tags}
+                {tag}
               </p>
             ))}
           </div>
-          <p className="pt-5 text-justify">{selectedEvent.content}</p>
+
+          <p
+            className="pt-16 text-justify"
+            dangerouslySetInnerHTML={{
+              __html: htmlContent
+            }}
+          />
         </div>
       </div>
 
-      <h3 className="px-10 mt-20 mb-5"> Suggested Blogs </h3>
+      {/* <h3 className="px-10 mt-20 mb-5"> Suggested Blogs </h3>
       <div className="grid grid-cols-1 lg:grid-cols-3 sm:grid-cols-2 grid-rows-1 gap-20 px-10">
         {suggestedBlogs.map((item, key) => (
           <div key={key} className="group flex flex-col">
@@ -139,7 +142,7 @@ const Blog = () => {
             See More
           </Button>
         )}
-      </div>
+      </div> */}
     </>
   );
 };

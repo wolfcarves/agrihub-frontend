@@ -60,7 +60,7 @@ const Blog = () => {
             </div>
           )}
 
-          <Carousel className="mx-auto w-max">
+          <Carousel className="mx-auto w-full">
             <CarouselContent className="-ml-1">
               {data?.images.map((image, index) => (
                 <CarouselItem

@@ -28,10 +28,10 @@ const ProfileImage = () => {
 
   return (
     <Dialog>
-      <div className="relative flex items-end justify-center rounded-b-lg min-h-[22rem]">
-        <div className="absolute inset-0 cursor-pointer">
+      <div className="relative flex items-end justify-center min-h-[22rem]">
+        <div className="absolute inset-0 cursor-pointer border border-t-0 rounded-b-lg ">
           <img
-            src={BackgroundImage}
+            src="https://images.unsplash.com/photo-1636955735635-b4c0fd54f360?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             className="h-full w-full object-cover object-center rounded-b-lg"
           />
         </div>

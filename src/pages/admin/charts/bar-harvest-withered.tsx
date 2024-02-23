@@ -12,7 +12,7 @@ import {
 const BarHarvestWithered = () => {
   const [selectedYear, setSelectedYear] = useState<string>("2024");
   const [startMonth, setStartMonth] = useState<string>("1");
-  const [endMonth, setEndMonth] = useState<string>("3");
+  const [endMonth, setEndMonth] = useState<string>("12");
   const { data: barChartData, isLoading } = useGetMonthlyWithered({
     year: selectedYear,
     start: startMonth,

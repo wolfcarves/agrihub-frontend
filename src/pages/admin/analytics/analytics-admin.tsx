@@ -26,6 +26,7 @@ import useGetReportFavouriteCrops from "../../../hooks/api/get/useGetReportFavou
 const AnalyticsAdmin = () => {
   const { data: lowestGrowth } = useGetReportAdminGrowthrate();
   const { data: favouriteCrop } = useGetReportFavouriteCrops();
+  console.log(lowestGrowth);
 
   const Crops = [
     {
@@ -120,7 +121,7 @@ const AnalyticsAdmin = () => {
           </Card>
 
           {/* main farm lowest growth rate */}
-          {lowestGrowth?.slice(0, 1).map((item, i) => (
+          {lowestGrowth?.map((item, i) => (
             <Card
               key={i}
               className="col-span-12 md:col-span-3 row-span-3 md:col-start-10 shadow-sm shadow-orange-500 border-red-500"
@@ -136,7 +137,7 @@ const AnalyticsAdmin = () => {
                   </div>
                   <div>
                     <div className="flex flex-col items-center justify-center">
-                      <h3 className="text-gray-800 text-3xl font-semibold sm:text-xl">
+                      <h3 className="text-gray-800 text-3xl font-semibold sm:text-xl line-clamp-2">
                         {item.farm_name}
                       </h3>
                       <div className="text-[3em] p-0 m-0 leading-none text-red-500">
@@ -165,50 +166,44 @@ const AnalyticsAdmin = () => {
           ))}
 
           {/* other farm that got lowest growth rare */}
-          {lowestGrowth?.slice(1).map((item, i) => (
-            <Card
-              key={i}
-              className="col-span-12 md:col-span-3 row-span-2 md:col-start-10 md:row-start-4"
-            >
-              <div className="flex justify-center items-center h-full">
-                <div className=" mx-auto p-5">
-                  <div>
-                    <div className="flex items-center justify-center">
-                      <div className="h-16 w-16 mx-auto">
-                        <img
-                          src={item.avatar}
-                          className="w-16 h-16 rounded-full"
-                          alt=""
-                        />
-                      </div>
 
-                      <div>
-                        <h3 className="text-gray-800 text-3xl font-semibold sm:text-xl line-clamp-2">
-                          {item.farm_name}
-                        </h3>
-                        <div className="text-left font-semibold text-lg">
-                          <span className="text-red-500">
-                            {Number(item.avg_growth_rate).toFixed(0)}%{" "}
-                          </span>
-                          Growth Rate
-                        </div>
-                        {/* <div className="text-left">
-                        <div className=" text-gray-400 font-medium">
-                          86% from last harvest
-                        </div>
-                      </div> */}
+          {/* <Card
+            key={i}
+            className="col-span-12 md:col-span-3 row-span-2 md:col-start-10 md:row-start-4"
+          >
+            <div className="flex justify-center items-center h-full">
+              <div className=" mx-auto p-5">
+                <div>
+                  <div className="flex items-center justify-center">
+                    <div className="h-16 w-16 mx-auto">
+                      <img
+                        src={item.avatar}
+                        className="w-16 h-16 rounded-full"
+                        alt=""
+                      />
+                    </div>
+
+                    <div>
+                      <h3 className="text-gray-800 text-3xl font-semibold sm:text-xl line-clamp-2">
+                        {item.farm_name}
+                      </h3>
+                      <div className="text-left font-semibold text-lg">
+                        <span className="text-red-500">
+                          {Number(item.avg_growth_rate).toFixed(0)}%{" "}
+                        </span>
+                        Growth Rate
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </Card>
-          ))}
+            </div>
+          </Card> */}
 
           <Card className="col-span-12 md:col-span-9 row-span-7 md:row-span-7 md:row-start-3 md:row-end-10 p-5">
             {/* Farm harvested */}
             <div>
-              <h2 className="text-xl font-bold tracking-tight">
+              <h2 className="text-xl font-bold tracking-tight ">
                 Farm harvest and withered each month
               </h2>
               <BarHarvestWithered />

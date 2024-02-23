@@ -353,7 +353,7 @@ end?: string,
      * @returns FarmWithGrowthRate OK
      * @throws ApiError
      */
-    public static getApiReportsAdminLowestGrowthRate(): CancelablePromise<FarmWithGrowthRate> {
+    public static getApiReportsAdminLowestGrowthRate(): CancelablePromise<Array<FarmWithGrowthRate>> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/reports/admin/lowest/growth-rate',

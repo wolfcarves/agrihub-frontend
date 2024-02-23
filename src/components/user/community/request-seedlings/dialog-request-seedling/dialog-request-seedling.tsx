@@ -23,6 +23,7 @@ import useRequestSeedlingCreate from "../../../../../hooks/api/post/useRequestSe
 import { NewSeedlingRequest } from "../../../../../api/openapi";
 import SelectCrop from "../../select-crop/select-crop";
 import { Textarea } from "../../../../ui/textarea";
+import SelectCropAll from "../../select-crop-all/select-crop-all";
 
 const addRequestSchema = zod.object({
   crop_id: zod
@@ -110,7 +111,9 @@ const DialogRequestSeedling = () => {
               <FormField
                 control={form.control}
                 name="crop_id"
-                render={({ field }) => <SelectCrop field={field} form={form} />}
+                render={({ field }) => (
+                  <SelectCropAll other={true} field={field} form={form} />
+                )}
               />
             </div>
             {!isCrop && (

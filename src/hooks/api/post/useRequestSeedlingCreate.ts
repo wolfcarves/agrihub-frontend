@@ -1,11 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import {
-  FarmRequestService,
-  LearningMaterialsService,
-  NewLearningCredits,
-  NewSeedlingRequest
-} from "@api/openapi";
-import { GET_LEARNING_VIEW } from "../get/useGetLearningView";
+import { FarmRequestService, NewSeedlingRequest } from "@api/openapi";
+import { GET_REQUEST_SEEDLING_LIST } from "../get/useGetRequestSeedlingList";
 
 const useRequestSeedlingCreateKey = () => "CREATE_REQUEST_SEEDLING_KEY";
 
@@ -23,7 +18,9 @@ export default function useRequestSeedlingCreate() {
       return response;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [GET_LEARNING_VIEW()] });
+      queryClient.invalidateQueries({
+        queryKey: [GET_REQUEST_SEEDLING_LIST()]
+      });
     }
   });
 }

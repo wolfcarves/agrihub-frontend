@@ -60,21 +60,6 @@ export const columns: ColumnDef<SeedlingRequestListItem>[] = [
       );
     }
   },
-  {
-    accessorKey: "delivery_date",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Delivery
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => format(new Date(row.original.delivery_date || ""), "PPP")
-  },
 
   {
     header: "Actions",

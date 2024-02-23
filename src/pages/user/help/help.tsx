@@ -52,7 +52,9 @@ const Help = () => {
             .filter(qa => qa.q === ref)
             .map((qa, index) => (
               <div key={index} className="space-y-3 mt-6 px-8 col-span-2">
-                <h4 className="text-gray-800 text-xl font-semibold ">{qa.q}</h4>
+                <h4 className="text-gray-800 text-xl font-semibold ">
+                  {qa.q}?
+                </h4>
                 <p className="text-gray-500">{qa.a}</p>
               </div>
             ))}
@@ -67,7 +69,7 @@ const Help = () => {
           <div className={`space-y-3 mt-6 px-8 col-start-3 `}>
             {help.map((question, index) => (
               <Link key={index} to={`/helps/${question.q}`}>
-                <p className="hover:underline">{question.q}</p>
+                <p className="hover:underline">{question.q}?</p>
               </Link>
             ))}
           </div>

@@ -1,6 +1,7 @@
 import React from "react";
 import useGetEventPublishedByIdQuery from "@hooks/api/get/useGetEventPublishedByIdQuery";
 import { useParams } from "react-router-dom";
+import DOMPurify from "dompurify";
 
 const EventTitle = () => {
   const params = useParams();
@@ -22,6 +23,8 @@ const EventTitle = () => {
 
   const endEvent =
     e?.toLocaleDateString("en-US", dateOptions) + " " + e?.toLocaleTimeString();
+
+  const htmlContent = DOMPurify.sanitize(eventData?.about ?? "");
 
   return (
     <div className="flex flex-col lg:flex-row pt-20">
@@ -55,7 +58,13 @@ const EventTitle = () => {
 
         <div className="pt-5 sm:pt-10 pb-3">
           <h4 className="font-poppins-medium">About this event</h4>
-          <p className="pt-5">{eventData?.about}</p>
+
+          <p
+            className="pt-5"
+            dangerouslySetInnerHTML={{
+              __html: htmlContent
+            }}
+          />
         </div>
       </div>
 

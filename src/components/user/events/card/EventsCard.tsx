@@ -3,6 +3,7 @@ import { Divider } from "@components/ui/custom";
 import { FaArrowRight } from "react-icons/fa6";
 import { EventDetails } from "@api/openapi";
 import { Link } from "react-router-dom";
+import DOMPurify from "dompurify";
 
 interface EventsCardProps extends EventDetails {}
 
@@ -21,6 +22,8 @@ const EventsCard = ({
   const month = d.toString().split(" ")[1];
   const day = d.toString().split(" ")[2];
   const year = d.toString().split(" ")[3];
+
+  const htmlContent = DOMPurify.sanitize(about ?? "");
 
   return (
     <div className="flex flex-col lg:flex-row gap-5 lg:gap-0 justiy-between py-10">
@@ -47,7 +50,12 @@ const EventsCard = ({
           {location}
         </span>
 
-        <p className="text-black/70 line-clamp-5">{about}</p>
+        <p
+          className="text-black/70 line-clamp-5"
+          dangerouslySetInnerHTML={{
+            __html: htmlContent
+          }}
+        />
 
         <Divider className="py-3 mt-auto" />
 

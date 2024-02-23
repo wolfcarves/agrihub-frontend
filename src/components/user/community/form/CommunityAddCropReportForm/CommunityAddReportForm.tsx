@@ -130,7 +130,9 @@ const CommunityAddCropReportForm = () => {
           <FormField
             control={form.control}
             name="crop_id"
-            render={({ field }) => <SelectCrop field={field} form={form} />}
+            render={({ field }) => (
+              <SelectCrop other={true} field={field} form={form} />
+            )}
           />
         </div>
         <div className="md:col-span-6 col-span-12">

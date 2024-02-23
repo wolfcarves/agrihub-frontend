@@ -20,8 +20,14 @@ import {
   MdReportGmailerrorred
 } from "react-icons/md";
 import { Link } from "react-router-dom";
+import useGetReportAdminGrowthrate from "../../../hooks/api/get/useGetReportAdminGrowthrate";
+import useGetReportFavouriteCrops from "../../../hooks/api/get/useGetReportFavouriteCrops";
 
 const AnalyticsAdmin = () => {
+  const { data: lowestGrowth } = useGetReportAdminGrowthrate();
+  const { data: favouriteCrop } = useGetReportFavouriteCrops();
+  console.log(lowestGrowth);
+
   const Crops = [
     {
       id: "1",
@@ -115,167 +121,89 @@ const AnalyticsAdmin = () => {
           </Card>
 
           {/* main farm lowest growth rate */}
-          <Card className="col-span-12 md:col-span-3 row-span-3 md:col-start-10 shadow-sm shadow-orange-500 border-red-500">
-            <div className="flex justify-center items-center h-full">
-              <div className=" mx-auto p-5">
-                <div className="h-24 w-24 mx-auto">
-                  <img
-                    src="https://images.unsplash.com/photo-1560493676-04071c5f467b?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                    className="w-full h-full rounded-full"
-                    alt=""
-                  />
-                </div>
-                <div>
-                  <div className="flex items-center justify-center">
-                    <div className="text-[3em] p-0 m-0 leading-none text-red-500">
-                      52%
-                    </div>
-                    <div>
-                      <h3 className="text-gray-800 text-3xl font-semibold sm:text-xl">
-                        Sharon Farm
+          {lowestGrowth?.map((item, i) => (
+            <Card
+              key={i}
+              className="col-span-12 md:col-span-3 row-span-3 md:col-start-10 shadow-sm shadow-orange-500 border-red-500"
+            >
+              <div className="flex justify-center items-center h-full">
+                <div className=" mx-auto p-5">
+                  <div className="h-24 w-24 mx-auto">
+                    <img
+                      src={item.avatar}
+                      className="w-full h-full rounded-full"
+                      alt=""
+                    />
+                  </div>
+                  <div>
+                    <div className="flex flex-col items-center justify-center">
+                      <h3 className="text-gray-800 text-3xl font-semibold sm:text-xl line-clamp-2">
+                        {item.farm_name}
                       </h3>
+                      <div className="text-[3em] p-0 m-0 leading-none text-red-500">
+                        {Number(item.avg_growth_rate).toFixed(0)}%
+                      </div>
                       <div className="text-left font-semibold text-lg">
                         Growth Rate
                       </div>
                     </div>
                   </div>
-                </div>
 
-                <div className="flex-grow grid">
-                  {/* <div className="text-left">
+                  <div className="flex-grow grid">
+                    {/* <div className="text-left">
                     <div className=" text-gray-400 font-medium">
                       86% from last harvest
                     </div>
                   </div> */}
-                  <Label className=" text-gray-400 text-left">
-                    Sharon Farm is not doing well!!! Current plant growth is
-                    lower than average growth by 80.28%.
-                  </Label>
+                    {/* <Label className=" text-gray-400 text-left">
+                      Sharon Farm is not doing well!!! Current plant growth is
+                      lower than average growth by 80.28%.
+                    </Label> */}
+                  </div>
                 </div>
               </div>
-            </div>
-          </Card>
+            </Card>
+          ))}
 
           {/* other farm that got lowest growth rare */}
-          <Card className="col-span-12 md:col-span-3 row-span-2 md:col-start-10 md:row-start-4">
+
+          {/* <Card
+            key={i}
+            className="col-span-12 md:col-span-3 row-span-2 md:col-start-10 md:row-start-4"
+          >
             <div className="flex justify-center items-center h-full">
               <div className=" mx-auto p-5">
                 <div>
                   <div className="flex items-center justify-center">
                     <div className="h-16 w-16 mx-auto">
                       <img
-                        src="https://images.unsplash.com/photo-1560493676-04071c5f467b?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                        className="w-full h-full rounded-full"
+                        src={item.avatar}
+                        className="w-16 h-16 rounded-full"
                         alt=""
                       />
                     </div>
 
                     <div>
-                      <h3 className="text-gray-800 text-3xl font-semibold sm:text-xl line-clamp-1">
-                        Sharon Farm
+                      <h3 className="text-gray-800 text-3xl font-semibold sm:text-xl line-clamp-2">
+                        {item.farm_name}
                       </h3>
                       <div className="text-left font-semibold text-lg">
-                        <span className="text-red-500">54% </span>Growth Rate
+                        <span className="text-red-500">
+                          {Number(item.avg_growth_rate).toFixed(0)}%{" "}
+                        </span>
+                        Growth Rate
                       </div>
-                      {/* <div className="text-left">
-                        <div className=" text-gray-400 font-medium">
-                          86% from last harvest
-                        </div>
-                      </div> */}
                     </div>
                   </div>
                 </div>
-
-                <div className="flex-grow grid">
-                  <Label className=" text-gray-400 text-left">
-                    Sharon Farm is not doing well!!! Current plant growth is
-                    lower than average growth by 80.28%.
-                  </Label>
-                </div>
               </div>
             </div>
-          </Card>
-          <Card className="col-span-12 md:col-span-3 row-span-2 md:col-start-10 md:row-start-6">
-            <div className="flex justify-center items-center h-full">
-              <div className=" mx-auto p-5">
-                <div>
-                  <div className="flex items-center justify-center">
-                    <div className="h-16 w-16 mx-auto">
-                      <img
-                        src="https://images.unsplash.com/photo-1560493676-04071c5f467b?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                        className="w-full h-full rounded-full"
-                        alt=""
-                      />
-                    </div>
-
-                    <div>
-                      <h3 className="text-gray-800 text-3xl font-semibold sm:text-xl line-clamp-1">
-                        Sharon Farm
-                      </h3>
-                      <div className="text-left font-semibold text-lg">
-                        <span className="text-red-500">59% </span>Growth Rate
-                      </div>
-                      {/* <div className="text-left">
-                        <div className=" text-gray-400 font-medium">
-                          86% from last harvest
-                        </div>
-                      </div> */}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex-grow grid">
-                  <Label className=" text-gray-400 text-left">
-                    Sharon Farm is not doing well!!! Current plant growth is
-                    lower than average growth by 80.28%.
-                  </Label>
-                </div>
-              </div>
-            </div>
-          </Card>
-          <Card className="col-span-12 md:col-span-3 row-span-2 md:col-start-10 md:row-start-8">
-            <div className="flex justify-center items-center h-full">
-              <div className=" mx-auto p-5">
-                <div>
-                  <div className="flex items-center justify-center">
-                    <div className="h-16 w-16 mx-auto">
-                      <img
-                        src="https://images.unsplash.com/photo-1560493676-04071c5f467b?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                        className="w-full h-full rounded-full"
-                        alt=""
-                      />
-                    </div>
-
-                    <div>
-                      <h3 className="text-gray-800 text-3xl font-semibold sm:text-xl line-clamp-1">
-                        Sharon Farm
-                      </h3>
-                      <div className="text-left font-semibold text-lg">
-                        <span className="text-red-500">60% </span>Growth Rate
-                      </div>
-                      {/* <div className="text-left">
-                        <div className=" text-gray-400 font-medium">
-                          86% from last harvest
-                        </div>
-                      </div> */}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex-grow grid">
-                  <Label className=" text-gray-400 text-left">
-                    Sharon Farm is not doing well!!! Current plant growth is
-                    lower than average growth by 80.28%.
-                  </Label>
-                </div>
-              </div>
-            </div>
-          </Card>
+          </Card> */}
 
           <Card className="col-span-12 md:col-span-9 row-span-7 md:row-span-7 md:row-start-3 md:row-end-10 p-5">
             {/* Farm harvested */}
             <div>
-              <h2 className="text-xl font-bold tracking-tight">
+              <h2 className="text-xl font-bold tracking-tight ">
                 Farm harvest and withered each month
               </h2>
               <BarHarvestWithered />
@@ -291,35 +219,35 @@ const AnalyticsAdmin = () => {
                 Top planted crops in communities
               </p>
               <Carousel className="w-full">
-                <CarouselPrevious />
-                <CarouselNext />
                 <CarouselContent className="-ml-1">
-                  {Crops.map(crop => (
+                  {favouriteCrop?.map((crop, i) => (
                     <CarouselItem
-                      key={crop.id}
+                      key={i}
                       className="pl-1 md:basis-1/2 lg:basis-1/3"
                     >
                       <div className="p-1">
                         <div className="bg-white shadow-md rounded-lg overflow-hidden">
                           <img
                             src={crop.image}
-                            alt={crop.name}
                             className="w-full h-48 object-cover"
                           />
                           <div className="p-4">
-                            <h5 className="text-lg font-bold">{crop.name}</h5>
+                            <h5 className="text-lg font-bold">
+                              {crop.crop_name}
+                            </h5>
                             <ul className="mt-3 text-sm flex justify-between w-full">
                               <div>
                                 <div className="flex">
                                   <PiPottedPlantLight size={20} />{" "}
-                                  {crop.planted}
+                                  {crop.total_planted}
                                 </div>
                                 planted
                               </div>
 
                               <div>
                                 <div className="flex">
-                                  <GiPlantRoots size={20} /> {crop.harvested}
+                                  <GiPlantRoots size={20} />{" "}
+                                  {crop.total_harvested}
                                 </div>
                                 harvested
                               </div>
@@ -327,7 +255,7 @@ const AnalyticsAdmin = () => {
                               <div>
                                 <div className="flex">
                                   <PiPottedPlantLight size={20} />{" "}
-                                  {crop.withered}
+                                  {crop.total_withered}
                                 </div>
                                 withered
                               </div>

@@ -11,6 +11,8 @@ import type { FarmerGraphPiechartResponse } from '../models/FarmerGraphPiechartR
 import type { FarmerGraphStackedBarResponse } from '../models/FarmerGraphStackedBarResponse';
 import type { FarmerGraphTotalHarvestResponse } from '../models/FarmerGraphTotalHarvestResponse';
 import type { FarmerTotalHarvestedResponse } from '../models/FarmerTotalHarvestedResponse';
+import type { FarmWithGrowthRate } from '../models/FarmWithGrowthRate';
+import type { FavouriteCropData } from '../models/FavouriteCropData';
 import type { GrowthRateResponse } from '../models/GrowthRateResponse';
 import type { HarvestedWitheredData } from '../models/HarvestedWitheredData';
 import type { LearningMaterialReport } from '../models/LearningMaterialReport';
@@ -325,6 +327,36 @@ end?: string,
                 404: `Not Found Error`,
                 500: `Server Error`,
             },
+        });
+    }
+
+    /**
+     * Retrieve data for favourite crops
+     * @returns FavouriteCropData Array of favourite crops data
+     * @throws ApiError
+     */
+    public static getApiReportsAdminFavouriteCrops(): CancelablePromise<Array<FavouriteCropData>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/reports/admin/favourite/crops',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Get farms with the lowest average growth rate
+     * @returns FarmWithGrowthRate OK
+     * @throws ApiError
+     */
+    public static getApiReportsAdminLowestGrowthRate(): CancelablePromise<Array<FarmWithGrowthRate>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/reports/admin/lowest/growth-rate',
         });
     }
 

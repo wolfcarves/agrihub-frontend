@@ -14,6 +14,7 @@ import { cn } from "../../../lib/utils";
 import { useParams } from "react-router-dom";
 import { NewCommunityCropReport } from "../../../../api/openapi";
 import { UseFormSetValue } from "react-hook-form";
+import useGetCropsQuery from "../../../../hooks/api/get/useGetCropsQuery";
 
 interface SelectCropProps {
   field: {
@@ -25,9 +26,8 @@ interface SelectCropProps {
   };
   other?: boolean;
 }
-const SelectCrop: React.FC<SelectCropProps> = ({ field, form, other }) => {
-  const { id } = useParams();
-  const { data: farmCrops } = useGetFarmCropsQuery(id || "");
+const SelectCropAll: React.FC<SelectCropProps> = ({ field, form, other }) => {
+  const { data: farmCrops } = useGetCropsQuery();
 
   return (
     <div>
@@ -95,4 +95,4 @@ const SelectCrop: React.FC<SelectCropProps> = ({ field, form, other }) => {
   );
 };
 
-export default SelectCrop;
+export default SelectCropAll;

@@ -4,6 +4,7 @@ import useAuth from "@hooks/useAuth";
 import { useLocation } from "react-router-dom";
 import { PiListMagnifyingGlass, PiNewspaper, PiUsers } from "react-icons/pi";
 import useCommunityAutorization from "../../../../hooks/utils/useCommunityAutorization";
+import { CiSquareQuestion } from "react-icons/ci";
 
 const CommunitySidebar = () => {
   const pathname = useLocation().pathname;
@@ -30,6 +31,13 @@ const CommunitySidebar = () => {
           to={`/community/reports/${UserData.farm_id}`}
           title="Reports"
           logo={<PiNewspaper size={20} />}
+        />
+      )}
+      {UserData?.farm_id && isAuthenticated && isAllowed && (
+        <UserSidebarNavLink
+          to={`/community/request/${UserData.farm_id}`}
+          title="Request"
+          logo={<CiSquareQuestion size={20} />}
         />
       )}
     </UserSidebar>

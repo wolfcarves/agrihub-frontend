@@ -76,6 +76,8 @@ export type { FarmerTotalHarvestedData } from './models/FarmerTotalHarvestedData
 export type { FarmerTotalHarvestedResponse } from './models/FarmerTotalHarvestedResponse';
 export type { FarmListResponse } from './models/FarmListResponse';
 export type { FarmMember } from './models/FarmMember';
+export type { FarmWithGrowthRate } from './models/FarmWithGrowthRate';
+export type { FavouriteCropData } from './models/FavouriteCropData';
 export type { GrowthRateResponse } from './models/GrowthRateResponse';
 export type { HarvestedWitheredData } from './models/HarvestedWitheredData';
 export type { InvitationItem } from './models/InvitationItem';

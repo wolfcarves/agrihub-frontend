@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { BlogsService } from "@api/openapi";
+import { GET_BLOGS_DRAFT_VIEW } from "../get/useGetBlogsDraftView";
 
 const useBlogsCreateDraftMutationKey = () => "BLOGS_CREATE_DRAFT_MUTATION_KEY";
 
@@ -21,7 +22,7 @@ export default function useBlogsCreateDraftMutation() {
       return response;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [] });
+      queryClient.invalidateQueries({ queryKey: [GET_BLOGS_DRAFT_VIEW()] });
     }
   });
 }

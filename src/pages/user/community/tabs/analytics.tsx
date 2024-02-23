@@ -18,7 +18,7 @@ const Analytics = () => {
   const { data: harvestChart } = useGetReportTotalHarvestChart();
   const { data: growthChart } = useGetReportGrowthChart();
   const { data: growthRate } = useGetReportGrowthRate();
-  console.log(growthRate);
+
   const chartOptions = {
     responsive: true,
     maintainAspectRatio: false,

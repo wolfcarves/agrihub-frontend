@@ -16,6 +16,17 @@ import { NewCommunityCropReport } from "../../../../api/openapi";
 import { UseFormSetValue } from "react-hook-form";
 import useGetCropsQuery from "../../../../hooks/api/get/useGetCropsQuery";
 import { ScrollArea } from "../../../ui/scroll-area";
+const languages = [
+  { label: "English", value: "en" },
+  { label: "French", value: "fr" },
+  { label: "German", value: "de" },
+  { label: "Spanish", value: "es" },
+  { label: "Portuguese", value: "pt" },
+  { label: "Russian", value: "ru" },
+  { label: "Japanese", value: "ja" },
+  { label: "Korean", value: "ko" },
+  { label: "Chinese", value: "zh" }
+] as const;
 
 interface SelectCropProps {
   field: {
@@ -56,11 +67,11 @@ const SelectCropAll: React.FC<SelectCropProps> = ({ field, form, other }) => {
 
             <CommandEmpty>No Crop found.</CommandEmpty>
             <CommandGroup>
-              <ScrollArea className="h-[40vh]">
+              <ScrollArea className="max-h-[40vh]">
                 {farmCrops?.map(crops => (
                   <CommandItem
-                    value={crops.id}
-                    key={crops.id}
+                    value={crops.name}
+                    key={crops.name}
                     onSelect={() => {
                       form.setValue("crop_id", crops.id);
                     }}
@@ -76,7 +87,7 @@ const SelectCropAll: React.FC<SelectCropProps> = ({ field, form, other }) => {
                 ))}
                 {other && (
                   <CommandItem
-                    value=""
+                    value="Others"
                     onSelect={() => {
                       form.setValue("crop_id", "");
                     }}

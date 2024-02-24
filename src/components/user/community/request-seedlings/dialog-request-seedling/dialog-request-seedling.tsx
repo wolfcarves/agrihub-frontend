@@ -9,7 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger
-} from "@components/ui/dialog";
+} from "@components/ui/custom/dialog/dialog";
 import { Input } from "@components/ui/input";
 import { Label } from "@components/ui/label";
 import * as zod from "zod";
@@ -91,7 +91,7 @@ const DialogRequestSeedling = () => {
   return (
     <Dialog open={isOpen}>
       <DialogTrigger asChild>
-        <Button>+Add</Button>
+        <Button onClick={() => setIsOpen(true)}>+Add</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
@@ -146,8 +146,15 @@ const DialogRequestSeedling = () => {
               <Textarea {...form.register("note")} className="col-span-3" />
             </div>
             <DialogFooter>
+              <Button
+                variant={"secondary"}
+                type="button"
+                onClick={() => setIsOpen(false)}
+              >
+                Close
+              </Button>
               <Button type="submit" disabled={addRequestLoading}>
-                Save Draft
+                Save
               </Button>
             </DialogFooter>
           </form>

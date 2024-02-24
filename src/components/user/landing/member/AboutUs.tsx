@@ -176,7 +176,7 @@ const About = () => {
           University's curriculum.
         </p>
         <p className="text-sm md:text-base lg:text-lg px-16 sm:px-44 lg:px-44 leading-relaxed py-3">
-          The center received funding of P14.5MM from DA-ATI to establish a
+          The center received financial assistance from DA-ATI to establish a
           dynamic learning environment on the QCU campus. Notable innovations
           include a bee farm, supported by the QCU cooperative, with staff
           trained in beekeeping by the Agriculture Producers Cooperative.
@@ -318,10 +318,10 @@ const About = () => {
           </div>
           <div className="w-2/3">
             <p className="text-sm md:text-base lg:text-lg  ml-4 m:ml-12 lg:ml-0 px-5 sm:px-6 lg:px-44 mt-3 sm:mt-12 lg:mt-36 leading-relaxed py-2 ">
-              In partnership with DA-ATI, we have received funding amounting to
-              P14.5MM to establish the center on the QCU campus. This financial
-              support enables us to create a dynamic learning environment and
-              implement cutting-edge projects.
+              In partnership with DA-ATI, we have received funding to establish
+              the center on the QCU campus. This financial support enables us to
+              create a dynamic learning environment and implement cutting-edge
+              projects.
             </p>
           </div>
         </div>
@@ -366,10 +366,10 @@ const About = () => {
 
           <div className="w-2/3">
             <p className="text-sm md:text-base lg:text-lg px-5 sm:px-6 lg:px-44   ml-4 m:ml-12 lg:ml-0 mt-2 sm:mt-4 lg:mt-36 leading-relaxed py-2 ">
-              In partnership with DA-ATI, we have received funding amounting to
-              P14.5MM to establish the center on the QCU campus. This financial
-              support enables us to create a dynamic learning environment and
-              implement cutting-edge projects.
+              Emphasizing the university's commitment to sustainability with our
+              vast campus grounds, we aim to maximize it by incorporating
+              programs and projects that are aligned with the development goals
+              of the city government
             </p>
           </div>
         </div>

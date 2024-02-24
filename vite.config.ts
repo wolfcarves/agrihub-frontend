@@ -7,7 +7,7 @@ import path from "path";
 // https://vitejs.dev/config/
 export default defineConfig({
   root: "./",
-  base: "./",
+  base: ".",
 
   server: {
     watch: {

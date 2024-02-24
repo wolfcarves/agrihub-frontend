@@ -40,7 +40,7 @@ const UserHeaderSearchBar = () => {
       </div>
 
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
-        <div className="flex sm:hidden items-center gap-10 h-full ">
+        <div className="flex sm:hidden items-center gap-10 h-full">
           <div className="flex items-center gap-4">
             <SheetTrigger
               className="text-xl opacity-75"

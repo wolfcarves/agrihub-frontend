@@ -34,7 +34,6 @@ const Blogs = () => {
                 <div className="max-h-370px max-w-750px">
                   <img
                     src={item?.thumbnail}
-                    loading="lazy"
                     alt={item.title}
                     className="w-full rounded-lg max-h-64 min-h-64 object-cover"
                   />

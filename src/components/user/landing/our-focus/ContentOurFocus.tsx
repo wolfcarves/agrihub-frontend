@@ -53,7 +53,6 @@ const ContentOurFocus: React.FC = () => {
               <div className="max-h-370px max-w-750px ">
                 <img
                   src="\src\assets\images\bannerchildren'smonth.jpg"
-                  loading="lazy"
                   alt="Our Focus"
                   className="w-full rounded-lg max-h-64 min-h-64 object-cover"
                 />
@@ -79,7 +78,6 @@ const ContentOurFocus: React.FC = () => {
               <div className="max-h-370px max-w-750px ">
                 <img
                   src="\src\assets\images\bannerchildren'smonth.jpg"
-                  loading="lazy"
                   alt="Our Focus"
                   className="w-full rounded-t-lg max-h-64 min-h-64 object-cover"
                 />
@@ -105,7 +103,6 @@ const ContentOurFocus: React.FC = () => {
               <div className="max-h-370px max-w-750px ">
                 <img
                   src="\src\assets\images\bannerchildren'smonth.jpg"
-                  loading="lazy"
                   alt="Our Focus"
                   className="w-full rounded-t-lg max-h-64 min-h-64 object-cover"
                 />

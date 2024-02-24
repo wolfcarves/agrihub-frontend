@@ -4,7 +4,9 @@
 /* eslint-disable */
 import type { ListMemberResponse } from '../models/ListMemberResponse';
 import type { ListUserResponse } from '../models/ListUserResponse';
+import type { MessageResponse } from '../models/MessageResponse';
 import type { UserSchema } from '../models/UserSchema';
+import type { UserUpdateProfile } from '../models/UserUpdateProfile';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -78,6 +80,36 @@ username: string,
             },
             errors: {
                 404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Update user profile
+     * @returns MessageResponse Success
+     * @throws ApiError
+     */
+    public static putApiUserProfile({
+id,
+formData,
+}: {
+/**
+ * User ID
+ */
+id: string,
+formData: UserUpdateProfile,
+}): CancelablePromise<MessageResponse> {
+        return __request(OpenAPI, {
+            method: 'PUT',
+            url: '/api/user/profile/{id}',
+            path: {
+                'id': id,
+            },
+            formData: formData,
+            mediaType: 'multipart/form-data',
+            errors: {
+                401: `Unauthorized`,
                 500: `Server Error`,
             },
         });

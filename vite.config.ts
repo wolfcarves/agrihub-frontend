@@ -7,6 +7,7 @@ import path from "path";
 // https://vitejs.dev/config/
 export default defineConfig({
   root: "./",
+  base: ".",
 
   server: {
     watch: {
@@ -70,7 +71,7 @@ export default defineConfig({
       },
       registerType: "autoUpdate",
       workbox: {
-        importScripts: ["./sw.js"],
+        // importScripts: ["./sw.js"],
         clientsClaim: true,
         skipWaiting: true
       },

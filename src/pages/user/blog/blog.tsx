@@ -114,7 +114,6 @@ const Blog = () => {
             <div className="max-h-370px max-w-750px">
               <img
                 src={mainImage || imageagri}
-                loading="lazy"
                 alt={item.title}
                 className="w-full rounded-lg max-h-370px max-w-750px"
               />

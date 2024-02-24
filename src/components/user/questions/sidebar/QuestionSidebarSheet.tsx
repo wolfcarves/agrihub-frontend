@@ -30,8 +30,9 @@ const QuestionSidebarSheet = ({
   };
 
   return (
+    // border-r-0
     <UserSidebar
-      className={`block sm:hidden border-r-0 ${className}`}
+      className={`block sm:hidden overflow-y-auto ${className}`}
       {...props}
     >
       <UserSidebarNavLink

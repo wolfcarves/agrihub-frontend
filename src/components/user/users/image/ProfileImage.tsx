@@ -1,4 +1,3 @@
-import BackgroundImage from "@assets/images/rodel.jpg";
 import useAuth from "@hooks/useAuth";
 import { useRef, useState } from "react";
 import DefaultAvatar from "@assets/images/avatar.png";

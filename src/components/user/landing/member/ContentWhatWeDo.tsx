@@ -188,7 +188,6 @@ const ContentWhatWeDo: React.FC = () => {
                     <div className="max-h-370px max-w-750px overflow-hidden">
                       <img
                         src={thumbnail ? thumbnail.image : "fallback_image_url"}
-                        loading="lazy"
                         alt={item.title}
                         className="w-full rounded-lg max-h-64 min-h-64 object-cover group-hover:scale-110 duration-300"
                       />
@@ -233,12 +232,12 @@ const ContentWhatWeDo: React.FC = () => {
           <div className="mt-12">
             <ul className="flex flex-col items-center justify-center gap-y-10 sm:flex-row sm:flex-wrap lg:divide-x">
               {stats.map((item, idx) => (
-                <p key={idx} className="text-center px-12 md:px-16">
+                <div key={idx} className="text-center px-12 md:px-16">
                   <h4 className="text-4xl text-green-600 font-semibold">
                     {item.data}
                   </h4>
                   <p className="mt-3 font-medium">{item.title}</p>
-                </p>
+                </div>
               ))}
             </ul>
           </div>

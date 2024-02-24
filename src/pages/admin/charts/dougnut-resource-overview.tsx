@@ -2,17 +2,16 @@ import React from "react";
 import { Doughnut } from "react-chartjs-2";
 
 const DoughnutResource = () => {
-  const DATA_COUNT = 5;
+  const DATA_COUNT = 4;
   const NUMBER_CFG = { count: DATA_COUNT, min: 0, max: 100 };
 
   const data = {
-    labels: ["Articles", "Blogs", "Learning Materials", "Events"],
+    labels: ["Blogs", "Learning Materials", "Events"],
     datasets: [
       {
-        label: "Dataset 1",
-        data: [45, 25, 15, 32],
+        label: "",
+        data: [45, 25, 15],
         backgroundColor: [
-          "rgba(255, 99, 132)",
           "rgba(255, 159, 64)",
           "rgba(255, 205, 86)",
           "rgba(75, 192, 192)",

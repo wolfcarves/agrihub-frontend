@@ -11,8 +11,8 @@ const EventBanner = () => {
         />
       </div>
 
-      <div className="flex flex-col items-center justify-center z-10 text-center  w-full h-full">
-        <h1 className="text-[10rem] font-poppins-semibold uppercase sm:tracking-[10px] sm:-me-[10px] h-[13rem] -mt-12 bg-clip-text bg-gradient-to-r text-transparent from-green-200 via-slate-50 to-green-200 ">
+      <div className="flex flex-col items-center justify-center z-10 text-center w-full h-full">
+        <h1 className="text-9xl md:text-[8rem] font-poppins-semibold uppercase sm:tracking-[10px] sm:-me-[10px] bg-clip-text bg-gradient-to-r text-transparent from-green-200 via-slate-50 to-green-200">
           Events
         </h1>
 

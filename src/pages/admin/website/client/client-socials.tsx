@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Button } from "@components/ui/button";
 import { Card } from "@components/ui/card";
 import { Input } from "@components/ui/input";
-import { ComboboxSocialMedia } from "../components/combobox-social-media";
 import { FaTrashCan } from "react-icons/fa6";
 
 interface SocialMediaItem {
@@ -47,7 +46,6 @@ const ClientSocials = () => {
           socialMediaList.map(socialMedia => (
             <Card key={socialMedia.id} className="p-5 mb-4">
               <div className="flex flex-wrap sm:flex-nowrap w-full gap-4 items-center">
-                <ComboboxSocialMedia />
                 <Input
                   type="text"
                   id="link"

@@ -12,11 +12,11 @@ type AllowedRoles =
   | "asst_admin"
   | "admin";
 
-enum RedirectRoutes {
+const redirectRoutes = [
   "/account/verify-email",
   "/account/setup-account",
   "/account/final-setup"
-}
+];
 
 export default function withAuthGuard<P extends object>(
   Component: ComponentType<P>,
@@ -43,7 +43,11 @@ export default function withAuthGuard<P extends object>(
         if (pathname === "/account/final-setup" && level === 3)
           navigate("/", { replace: true });
 
-        if (level !== 3) navigate(RedirectRoutes[level], { replace: true });
+        if (level === 3 && redirectRoutes.includes(pathname)) {
+          navigate("/", { replace: true });
+        }
+
+        if (level !== 3) navigate(redirectRoutes[level], { replace: true });
       }
     }, [pathname, userRole, isAllowed, authData?.verification_level]);
 

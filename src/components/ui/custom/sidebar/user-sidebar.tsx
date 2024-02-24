@@ -11,7 +11,7 @@ const UserSidebarContainer = ({
     className={`sticky top-20 border-r h-[calc(100vh-3.5rem)] w-full sm:max-w-[250px] py-10 px-5 ${className}`}
     {...props}
   >
-    <div className="relative overflow-hidden h-full">{children}</div>
+    <div className="relative overflow-auto">{children}</div>
   </div>
 );
 

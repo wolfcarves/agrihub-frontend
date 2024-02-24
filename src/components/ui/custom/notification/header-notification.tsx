@@ -14,7 +14,6 @@ import { toast } from "sonner";
 import usePutUserNotificationRead from "../../../../hooks/api/put/usePutUserNotificationRead";
 import { timeAgo } from "@components/lib/utils";
 
-//Refactor nalang dapat dito naka .map pero ang mahalaga masaya tayong mga pilipino
 const HeaderNotification = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 

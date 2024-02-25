@@ -10,6 +10,8 @@ import { PiCheckFatBold } from "react-icons/pi";
 import Unauthorized from "@pages/user/common/unauthorized";
 
 const UserResetPasswordForm = () => {
+  return <>Testing for Production</>;
+
   const { register, formState, handleSubmit } = useForm<ResetPasswordType>({
     mode: "onSubmit",
     reValidateMode: "onChange",
@@ -17,8 +19,9 @@ const UserResetPasswordForm = () => {
     resolver: zodResolver(resetPasswordSchema)
   });
 
-  const token = useParams().token;
-  const { isError: isCheckTokenError } = useGetAuthCheckTokenQuery(token ?? "");
+  const token = useParams().token ?? "";
+
+  const { isError: isCheckTokenError } = useGetAuthCheckTokenQuery(token);
   const {
     mutateAsync: resetPasswordMutate,
     isLoading: isResetPasswordLoading,
@@ -32,7 +35,7 @@ const UserResetPasswordForm = () => {
   const handleResetPassword = async (data: ResetPasswordType) => {
     try {
       await resetPasswordMutate({
-        token: token ?? "",
+        token: token,
         requestBody: {
           ...data
         }

@@ -6,8 +6,8 @@ import "../../../../globals.css";
 import AdminSidebarNavLink from "./admin-sidebar-navlink";
 
 const AdminSidebar = () => {
-  const [open, setOpen] = useState(false);
-  const [clickedItem, setClickedItem] = useState("");
+  const [clickedItem, setClickedItem] = useState("Overview");
+  const [open, setOpen] = useState(true);
 
   const handleClick = (itemName: string) => {
     if (clickedItem === itemName) {
@@ -20,7 +20,7 @@ const AdminSidebar = () => {
 
   return (
     <>
-      <nav className="top-0 left-0 w-20 h-full border-r bg-white space-y-8">
+      <nav className="top-0 left-0 w-20 h-full border-r bg-white space-y-8 hidden sm:block">
         <div className="flex flex-col h-full">
           <div className="h-20 flex items-center justify-center px-8">
             <Link to="/admin/dashboard" className="flex-none">
@@ -55,7 +55,7 @@ const AdminSidebar = () => {
 
       <div
         className={`top-0 left-0 h-full border-r bg-white space-y-8 overflow-y-auto overflow-x-hidden no-scrollbar sm:relative ml-[4.5rem] sm:ml-0 absolute z-40 ${
-          open ? "block w-80 " : "hidden w-0"
+          open ? "sm:block hidden w-80" : "sm:hidden block w-0"
         }`}
       >
         <div className={`${open ? "block w-64" : "hidden w-0"} my-10`}>

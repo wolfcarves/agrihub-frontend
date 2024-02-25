@@ -149,6 +149,8 @@ import AnalyticsAdmin from "@pages/admin/analytics/analytics-admin";
 import CropView from "@pages/user/calendar/crop-view";
 import CommunityRequest from "./pages/user/community/community-request";
 import SeedlingsRequest from "./pages/user/community/request/seedlings-request/seedlings-request";
+import ForgotPassword from "@pages/user/account/forgot-password";
+import ResetPassword from "@pages/user/account/reset-password";
 
 const App = ReactRouter(
   <>
@@ -283,8 +285,8 @@ const App = ReactRouter(
       <Route path="verify-email" element={<VerifyEmail />} />
       <Route path="setup-account" element={<SetupAccount />} />
       <Route path="final-setup" element={<FinalSetup />} />
-      {/*<Route path="forgot-password" element={`forgot-password`} />
-      <Route path="reset-password" element={`reset-password`} />*/}
+      <Route path="forgot-password" element={<ForgotPassword />} />
+      <Route path="reset-password/:token" element={<ResetPassword />} />
     </Route>
 
     <Route path="/admin" element={<AdminLayout />}>

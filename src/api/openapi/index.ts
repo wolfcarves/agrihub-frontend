@@ -145,9 +145,11 @@ export type { ReadNotificationResponse } from './models/ReadNotificationResponse
 export type { RemoveLearningCreditsResponse } from './models/RemoveLearningCreditsResponse';
 export type { RemoveLearningTagsResponse } from './models/RemoveLearningTagsResponse';
 export type { RemoveResourceResponse } from './models/RemoveResourceResponse';
+export type { ResetPasswordRequestBody } from './models/ResetPasswordRequestBody';
 export type { SeedlingRequest } from './models/SeedlingRequest';
 export type { SeedlingRequestListAllResponse } from './models/SeedlingRequestListAllResponse';
 export type { SeedlingRequestListItem } from './models/SeedlingRequestListItem';
+export type { SendResetTokenRequestBody } from './models/SendResetTokenRequestBody';
 export type { ServerError } from './models/ServerError';
 export type { SetFeaturedLearningMaterialResponse } from './models/SetFeaturedLearningMaterialResponse';
 export type { SubfarmOverviewResponse } from './models/SubfarmOverviewResponse';

@@ -7,7 +7,7 @@ import path from "path";
 // https://vitejs.dev/config/
 export default defineConfig({
   root: "./",
-  base: ".",
+  base: "./",
 
   server: {
     watch: {
@@ -46,39 +46,39 @@ export default defineConfig({
 
   plugins: [
     react(),
-    reactRefresh(),
-    VitePWA({
-      injectRegister: false,
-      manifest: {
-        name: "AgriHub",
-        short_name: "AgriHub",
-        start_url: "/account/login",
-        background_color: "#ffffff",
-        theme_color: "#000000",
-        display: "standalone",
-        icons: [
-          {
-            src: "/agrihub-logo-192-192.png",
-            sizes: "192x192",
-            type: "image/png"
-          },
-          {
-            src: "/agrihub-logo-512-512.png",
-            type: "image/png",
-            sizes: "512x512"
-          }
-        ]
-      },
-      registerType: "autoUpdate",
-      workbox: {
-        // importScripts: ["./sw.js"],
-        clientsClaim: true,
-        skipWaiting: true
-      },
-      devOptions: {
-        enabled: true,
-        type: "module"
-      }
-    })
+    reactRefresh()
+    // VitePWA({
+    //   injectRegister: false,
+    //   manifest: {
+    //     name: "AgriHub",
+    //     short_name: "AgriHub",
+    //     start_url: "/account/login",
+    //     background_color: "#ffffff",
+    //     theme_color: "#000000",
+    //     display: "standalone",
+    //     icons: [
+    //       {
+    //         src: "/agrihub-logo-192-192.png",
+    //         sizes: "192x192",
+    //         type: "image/png"
+    //       },
+    //       {
+    //         src: "/agrihub-logo-512-512.png",
+    //         type: "image/png",
+    //         sizes: "512x512"
+    //       }
+    //     ]
+    //   },
+    //   registerType: "autoUpdate",
+    //   workbox: {
+    //     importScripts: ["./sw.js"],
+    //     clientsClaim: true,
+    //     skipWaiting: true
+    //   },
+    //   devOptions: {
+    //     enabled: true,
+    //     type: "module"
+    //   }
+    // })
   ]
 });

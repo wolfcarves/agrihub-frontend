@@ -5,8 +5,6 @@
 
 export type UserUpdateProfile = {
     avatar?: Blob;
-    username?: string;
-    email?: string;
     firstname?: string;
     lastname?: string;
     birthdate?: string;
@@ -14,6 +12,5 @@ export type UserUpdateProfile = {
     zipcode?: string;
     district?: string;
     municipality?: string;
-    verification_level?: string;
     bio?: string;
 };

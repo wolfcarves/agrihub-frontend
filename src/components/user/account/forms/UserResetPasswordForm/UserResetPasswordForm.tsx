@@ -10,8 +10,6 @@ import { PiCheckFatBold } from "react-icons/pi";
 import Unauthorized from "@pages/user/common/unauthorized";
 
 const UserResetPasswordForm = () => {
-  return <>Testing for Production</>;
-
   const { register, formState, handleSubmit } = useForm<ResetPasswordType>({
     mode: "onSubmit",
     reValidateMode: "onChange",

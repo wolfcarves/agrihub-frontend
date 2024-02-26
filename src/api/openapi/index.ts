@@ -106,6 +106,8 @@ export type { ListUserResponse } from './models/ListUserResponse';
 export type { Member } from './models/Member';
 export type { Members } from './models/Members';
 export type { MessageResponse } from './models/MessageResponse';
+export type { NewAdminRequestBody } from './models/NewAdminRequestBody';
+export type { NewAdminResponseData } from './models/NewAdminResponseData';
 export type { NewAnswerResponse } from './models/NewAnswerResponse';
 export type { NewCommentResponse } from './models/NewCommentResponse';
 export type { NewCommunityCropReport } from './models/NewCommunityCropReport';
@@ -145,7 +147,9 @@ export type { ReadNotificationResponse } from './models/ReadNotificationResponse
 export type { RemoveLearningCreditsResponse } from './models/RemoveLearningCreditsResponse';
 export type { RemoveLearningTagsResponse } from './models/RemoveLearningTagsResponse';
 export type { RemoveResourceResponse } from './models/RemoveResourceResponse';
+export type { ReportQuestionRequestBody } from './models/ReportQuestionRequestBody';
 export type { ResetPasswordRequestBody } from './models/ResetPasswordRequestBody';
+export type { SavedQuestionsResponse } from './models/SavedQuestionsResponse';
 export type { SeedlingRequest } from './models/SeedlingRequest';
 export type { SeedlingRequestListAllResponse } from './models/SeedlingRequestListAllResponse';
 export type { SeedlingRequestListItem } from './models/SeedlingRequestListItem';
@@ -187,6 +191,7 @@ export { VoteAnswerSuccessResponse } from './models/VoteAnswerSuccessResponse';
 export type { VoteResponseSchema } from './models/VoteResponseSchema';
 export type { ZodValidationError } from './models/ZodValidationError';
 
+export { AccessService } from './services/AccessService';
 export { AccountService } from './services/AccountService';
 export { AuthService } from './services/AuthService';
 export { BlogsService } from './services/BlogsService';

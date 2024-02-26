@@ -4,7 +4,7 @@
 
 /* Light */
 @font-face {
-  font-family: poppins-light;
+  font-family: poppins-thin;
   src: url("/fonts/Poppins/Poppins-Light.ttf");
   font-weight: 300;
 }
@@ -34,6 +34,13 @@
 @font-face {
   font-family: poppins-bold;
   src: url("/fonts/Poppins/Poppins-Bold.ttf");
+  font-weight: 700;
+}
+
+/* Bold */
+@font-face {
+  font-family: poppins-extra;
+  src: url("/fonts/Poppins/Poppins-ExtraBold.ttf");
   font-weight: 700;
 }
 

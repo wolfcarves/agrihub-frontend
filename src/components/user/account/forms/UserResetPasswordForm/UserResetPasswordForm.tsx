@@ -13,7 +13,6 @@ const UserResetPasswordForm = () => {
   const { register, formState, handleSubmit } = useForm<ResetPasswordType>({
     mode: "onSubmit",
     reValidateMode: "onChange",
-
     resolver: zodResolver(resetPasswordSchema)
   });
 

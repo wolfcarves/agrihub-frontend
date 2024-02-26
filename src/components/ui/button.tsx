@@ -11,7 +11,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-primary text-white border rounded-2xl hover:opacity-90 shadow-sm  focus:ring-2 ring-primary",
+          "bg-primary text-white rounded-2xl hover:opacity-90 shadow-sm focus:ring-2 ring-primary",
         default_rounded:
           "bg-primary rounded-full text-primary-foreground shadow-sm hover:bg-primary hover:opacity-90",
         destructive:
@@ -20,7 +20,7 @@ const buttonVariants = cva(
           "border border-gray-400 bg-background rounded-2xl hover:bg-accent hover:text-accent-foreground",
         secondary:
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
+        ghost: "bg-background hover:bg-accent hover:text-accent-foreground",
         link: "text-foreground underline-offset-4 hover:underline"
       },
       size: {

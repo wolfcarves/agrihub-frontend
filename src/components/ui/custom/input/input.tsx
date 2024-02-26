@@ -35,12 +35,12 @@ const Input = (
       />
 
       {type === "password" && (
-        <button
-          className="absolute bottom-0 top-0 end-3 text-lg text-gray-400"
+        <span
+          className="absolute top-[0.75rem] end-3 cursor-pointer text-lg text-gray-400"
           onClick={() => setShowText(prev => !prev)}
         >
           {showText ? <PiEyeSlash /> : <PiEyeLight />}
-        </button>
+        </span>
       )}
 
       {$errorMessage && (

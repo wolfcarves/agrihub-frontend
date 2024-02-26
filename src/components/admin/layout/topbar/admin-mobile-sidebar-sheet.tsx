@@ -32,7 +32,7 @@ const AdminMobileSidebarSheet = ({
 
   return (
     <UserSidebar
-      className={`block sm:hidden overflow-y-auto ${className}`}
+      className={`block sm:hidden overflow-y-auto no-scrollbar ${className}`}
       {...props}
     >
       <Accordion type="single" collapsible className="w-full border-none mb-16">

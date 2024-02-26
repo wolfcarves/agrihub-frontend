@@ -11,23 +11,22 @@ const DoughnutResource = () => {
       {
         label: "",
         data: [45, 25, 15],
-        backgroundColor: [
-          "rgba(255, 159, 64)",
-          "rgba(255, 205, 86)",
-          "rgba(75, 192, 192)",
-          "rgba(54, 162, 235)",
-          "rgba(153, 102, 255)",
-          "rgba(201, 203, 207)"
-        ]
+        backgroundColor: ["#4F6F52", "#739072", "#D2E3C8"]
       }
     ]
   };
 
-  return (
-    <div className="flex-col justify-center text-center items-center">
-      <Doughnut data={data} />
-    </div>
-  );
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      y: {
+        beginAtZero: true
+      }
+    }
+  };
+
+  return <Doughnut data={data} options={options} />;
 };
 
 export default DoughnutResource;

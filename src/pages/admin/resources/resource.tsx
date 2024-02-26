@@ -28,21 +28,13 @@ const Resource = () => {
         </Card>
         <Card className="col-span-full md:col-span-3 md:col-start-4">
           <CardHeader>
-            <CardTitle>189</CardTitle>
-            <CardDescription>
-              Total Articles Created, 29 in still in draft and 30 is archived.
-            </CardDescription>
-          </CardHeader>
-        </Card>
-        <Card className="col-span-full md:col-span-3 md:col-start-4 md:row-start-2">
-          <CardHeader>
             <CardTitle>132</CardTitle>
             <CardDescription>
               Total Blogs Posted, 28 is still in draft and 42 is archived.
             </CardDescription>
           </CardHeader>
         </Card>
-        <Card className="col-span-full md:col-span-3 md:col-start-4 md:row-start-3">
+        <Card className="col-span-full md:col-span-3 md:col-start-4 md:row-start-2">
           <CardHeader>
             <CardTitle>190</CardTitle>
             <CardDescription>
@@ -51,7 +43,7 @@ const Resource = () => {
             </CardDescription>
           </CardHeader>
         </Card>
-        <Card className="col-span-full md:col-span-3 md:col-start-4 md:row-start-4">
+        <Card className="col-span-full md:col-span-3 md:col-start-4 md:row-start-3">
           <CardHeader>
             <CardTitle>89</CardTitle>
             <CardDescription>
@@ -60,6 +52,7 @@ const Resource = () => {
             </CardDescription>
           </CardHeader>
         </Card>
+        {/* <Card className="col-span-full md:col-span-3 md:col-start-4 md:row-start-4"></Card> */}
       </div>
     </AdminOutletContainer>
   );

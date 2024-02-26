@@ -42,7 +42,9 @@ const Forums = () => {
           <CardHeader>
             Comparison of total question and answer each month
           </CardHeader>
-          <LineForumOverview />
+          <div className="h-96">
+            <LineForumOverview />
+          </div>
         </Card>
       </div>
     </AdminOutletContainer>

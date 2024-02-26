@@ -67,7 +67,7 @@ const SelectCropAll: React.FC<SelectCropProps> = ({ field, form, other }) => {
 
             <CommandEmpty>No Crop found.</CommandEmpty>
             <CommandGroup>
-              <ScrollArea className="max-h-[40vh]">
+              <div className="max-h-[40vh] overflow-x-auto custom-scroll">
                 {farmCrops?.map(crops => (
                   <CommandItem
                     value={crops.name}
@@ -101,7 +101,7 @@ const SelectCropAll: React.FC<SelectCropProps> = ({ field, form, other }) => {
                     Others
                   </CommandItem>
                 )}
-              </ScrollArea>
+              </div>
             </CommandGroup>
           </Command>
         </PopoverContent>

@@ -16,6 +16,9 @@ import {
 import { Button } from "../../../../ui/button";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { format } from "date-fns";
+import useDeleteRequestSeedlingCancel from "../../../../../hooks/api/delete/useDeleteRequestSeedlingCancel";
+import { toast } from "sonner";
+import Loader from "../../../../../icons/Loader";
 
 export const columns: ColumnDef<SeedlingRequestListItem>[] = [
   {
@@ -65,23 +68,30 @@ export const columns: ColumnDef<SeedlingRequestListItem>[] = [
     header: "Actions",
     id: "actions",
     cell: ({ row }) => {
+      const { mutateAsync: rejectSeedling, isLoading: isSeedlingLoad } =
+        useDeleteRequestSeedlingCancel();
+      const handleDelete = async () => {
+        try {
+          await rejectSeedling(row.original.id || "");
+          toast.success("Request Cancelled!");
+        } catch (e: any) {
+          toast.error(e.body.message);
+        }
+      };
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
+        row.original.status === "pending" && (
+          <>
+            {" "}
             <Button
-              variant="ghost"
-              className="h-1 w-8 p-0 focus-visible:ring-0 "
+              onClick={handleDelete}
+              variant={"destructive"}
+              className="text-xs p-3 h-5"
             >
-              <MoreHorizontal className="h-4 w-4" />
+              Cancel
             </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem>View</DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Delete</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+            <Loader isVisible={isSeedlingLoad} />
+          </>
+        )
       );
     }
   }

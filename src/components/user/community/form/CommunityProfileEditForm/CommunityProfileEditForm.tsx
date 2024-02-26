@@ -142,12 +142,13 @@ const CommunityProfileEditForm = () => {
           <div className=" flex flex-col justify-start lg:col-span-5 col-span-12">
             <h6 className=" font-poppins-semibold">Size</h6>
             <p className=" text-sm text-gray-500">
-              Changes will update community land size
+              Changes will update land size in square meters
             </p>
           </div>
           <Input
             defaultValue={farmDetails?.size}
             {...form.register("size")}
+            type="number"
             className=" lg:col-span-6 col-span-12 focus-visible:ring-0 border-2"
           />
         </div>

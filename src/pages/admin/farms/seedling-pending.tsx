@@ -5,6 +5,7 @@ import withAuthGuard from "@higher-order/account/withAuthGuard";
 import { data, columns } from "./table/columns-seedling";
 import { DataTable } from "@components/ui/custom/data-table/data-table";
 import { Input } from "@components/ui/input";
+import TableSeedlingPending from "../../../components/admin/seedling-request/table-seedling-pending/table-seedling-pending";
 
 const breadcrumbItems = [
   { title: "Farm Management", link: "/admin/farm" },
@@ -22,8 +23,7 @@ const SeedlingPending = () => {
         Manage pendong seedling request of farms.
       </p>
       <hr className="my-4" />
-      <Input placeholder="Search title..." className="max-w-sm my-4" />
-      <DataTable columns={columns} data={data} />
+      <TableSeedlingPending />
     </AdminOutletContainer>
   );
 };

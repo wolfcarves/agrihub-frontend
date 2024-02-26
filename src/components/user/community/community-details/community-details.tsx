@@ -65,9 +65,7 @@ const CommunityDetails = () => {
                   )
                 ) : isAuthenticated ? (
                   <Button className="md:text-sm text-xs">Join</Button>
-                ) : (
-                  <Button className="md:text-sm text-xs">Login to join</Button>
-                )}
+                ) : null}
               </div>
 
               <div className="flex justify-end items-center w-full  gap-3 text-gray-500 md:text-[1.2rem] text-base">

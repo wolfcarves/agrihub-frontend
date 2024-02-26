@@ -55,7 +55,6 @@ export const columns: ColumnDef<EventDetails>[] = [
     enableHiding: false,
     cell: ({ row }) => {
       const payment = row.original;
-
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -75,7 +74,7 @@ export const columns: ColumnDef<EventDetails>[] = [
             <Link to={`/admin/resource/events/view/${payment.id}`}>
               <DropdownMenuItem>View/update event</DropdownMenuItem>
             </Link>
-            <Link to={`/events/view/${payment.id}`}>
+            <Link to={`/events/${payment.id}`}>
               <DropdownMenuItem>View event in page</DropdownMenuItem>
             </Link>
           </DropdownMenuContent>

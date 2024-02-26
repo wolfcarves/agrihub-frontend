@@ -1,21 +1,20 @@
 import ContentWhatWeDo from "@components/user/landing/member/ContentWhatWeDo";
-import ContentWhatWeDoMember from "@components/user/landing/member/ContentWhatWeDoMember";
 import Carousel from "@components/user/landing/member/carousel/Carousel";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
 import React from "react";
+import { Helmet } from "react-helmet-async";
 
 interface HomeProps {}
 
 const Home: React.FC<HomeProps> = () => {
-  const renderContent = () => {
-    return <ContentWhatWeDo />;
-  };
-
   return (
-    <div>
+    <>
+      <Helmet>
+        <title>Welcome | Agrihub</title>
+      </Helmet>
       <Carousel />
-      {renderContent()}
-    </div>
+      <ContentWhatWeDo />;
+    </>
   );
 };
 

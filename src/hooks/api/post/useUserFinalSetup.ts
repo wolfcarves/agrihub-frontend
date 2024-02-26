@@ -12,8 +12,6 @@ export default function useUserFinalSetup() {
 
   return useMutation([useUserFinalSetupKey()], {
     mutationFn: async (data: UserProfile) => {
-      console.log(data);
-
       const response = await AccountService.postApiAccountSetupProfile({
         formData: data
       });

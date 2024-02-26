@@ -12,8 +12,15 @@ import {
   MdOutlineForum
 } from "react-icons/md";
 import { RiCommunityLine } from "react-icons/ri";
+import useCmsLandingDetailsQuery from "@hooks/api/get/useCmsLandingDetailsQuery";
 
 const ContentWhatWeDo: React.FC = () => {
+  const { data: cmsData } = useCmsLandingDetailsQuery();
+
+  const { id, approach, approach_items, createdat, images } = {
+    ...cmsData
+  };
+
   const { data: userData } = useAuth();
   const { data } = useGetFarmListQuery({
     search: undefined,
@@ -93,10 +100,29 @@ const ContentWhatWeDo: React.FC = () => {
   return (
     <div className="w-full mx-auto my-0 md:my-15 mb-8">
       {/* our mission part */}
-      <section className="my-8 mb-14">
+
+      <div className="container flex flex-col md:flex-row gap-10 justify-between md:items-center py-6 md:py-10 lg:py-14">
+        <div className="space-y-3 w-full max-w-[40rem]">
+          <h3 className="text-4xl font-poppins-semibold tracking-tight">
+            Our Mission
+          </h3>
+
+          <p>
+            To showcase and provide innovative farming technology to the
+            communities to become productive in adapting urban agriculture in a
+            modern way through collaboration and capacity building.
+          </p>
+        </div>
+
+        <Button className="w-max" variant="default">
+          Learn more
+        </Button>
+      </div>
+
+      {/* <section className="my-8 mb-14">
         <div className="max-w-screen-xl mx-auto px-4  gap-x-12 justify-between md:flex md:px-8">
           <div className="max-w-xl">
-            <h3 className="text-gray-800 text-3xl font-semibold sm:text-4xl">
+            <h3 className="text-gray-800 text-3xl font-poppins-semibold sm:text-4xl">
               Our Mission
             </h3>
             <p className="mt-3 text-gray-600">
@@ -116,7 +142,7 @@ const ContentWhatWeDo: React.FC = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* our approach part */}
       <section className="relative py-16 bg-gray-900">
@@ -125,17 +151,24 @@ const ContentWhatWeDo: React.FC = () => {
             <h3 className="text-white text-3xl font-semibold sm:text-4xl">
               Our Approach
             </h3>
-            <p className="mt-3">
-              To build a progressive web application that foster a sense of
-              community among urban farmers, and agricultural experts, providing
-              a platform to bridge the knowledge gap and enhance the growth and
-              effectiveness of urban agriculture in the context of ongoing
-              urbanization in Quezon City. Following this approach, Agrihub
-              focuses on number key areas.
-            </p>
+            <p className="mt-3">{approach}</p>
           </div>
           <div className="mt-12 lg:mt-0">
             <ul className="grid gap-8 sm:grid-cols-2">
+              {/* {approach_items?.map((item, idx) => (
+                <li key={idx} className="flex gap-x-4">
+                  <div className="flex-none w-12 h-12 bg-gray-700 text-green-400 rounded-lg flex items-center justify-center">
+                    {item.icon}
+                  </div>
+                  <div>
+                    <h4 className="text-lg text-gray-100 font-semibold">
+                      {item.title}
+                    </h4>
+                    <p className="mt-3">{item.description}</p>
+                  </div>
+                </li>
+              ))} */}
+
               {features.map((item, idx) => (
                 <li key={idx} className="flex gap-x-4">
                   <div className="flex-none w-12 h-12 bg-gray-700 text-green-400 rounded-lg flex items-center justify-center">

@@ -15,6 +15,18 @@ import { useParams } from "react-router-dom";
 import { NewCommunityCropReport } from "../../../../api/openapi";
 import { UseFormSetValue } from "react-hook-form";
 import useGetCropsQuery from "../../../../hooks/api/get/useGetCropsQuery";
+import { ScrollArea } from "../../../ui/scroll-area";
+const languages = [
+  { label: "English", value: "en" },
+  { label: "French", value: "fr" },
+  { label: "German", value: "de" },
+  { label: "Spanish", value: "es" },
+  { label: "Portuguese", value: "pt" },
+  { label: "Russian", value: "ru" },
+  { label: "Japanese", value: "ja" },
+  { label: "Korean", value: "ko" },
+  { label: "Chinese", value: "zh" }
+] as const;
 
 interface SelectCropProps {
   field: {
@@ -51,42 +63,45 @@ const SelectCropAll: React.FC<SelectCropProps> = ({ field, form, other }) => {
         </PopoverTrigger>
         <PopoverContent className="w-[21rem] p-0" side="bottom" align="start">
           <Command>
-            <CommandInput placeholder="Search language..." />
-            <CommandEmpty>No language found.</CommandEmpty>
+            <CommandInput placeholder="Search Crop..." />
+
+            <CommandEmpty>No Crop found.</CommandEmpty>
             <CommandGroup>
-              {farmCrops?.map(crops => (
-                <CommandItem
-                  value={crops.id}
-                  key={crops.id}
-                  onSelect={() => {
-                    form.setValue("crop_id", crops.id);
-                  }}
-                >
-                  <Check
-                    className={cn(
-                      "mr-2 h-4 w-4",
-                      crops.id === field.value ? "opacity-100" : "opacity-0"
-                    )}
-                  />
-                  {crops.name}
-                </CommandItem>
-              ))}
-              {other && (
-                <CommandItem
-                  value=""
-                  onSelect={() => {
-                    form.setValue("crop_id", "");
-                  }}
-                >
-                  <Check
-                    className={cn(
-                      "mr-2 h-4 w-4",
-                      "" === field.value ? "opacity-100" : "opacity-0"
-                    )}
-                  />
-                  Others
-                </CommandItem>
-              )}
+              <div className="max-h-[40vh] overflow-x-auto custom-scroll">
+                {farmCrops?.map(crops => (
+                  <CommandItem
+                    value={crops.name}
+                    key={crops.name}
+                    onSelect={() => {
+                      form.setValue("crop_id", crops.id);
+                    }}
+                  >
+                    <Check
+                      className={cn(
+                        "mr-2 h-4 w-4",
+                        crops.id === field.value ? "opacity-100" : "opacity-0"
+                      )}
+                    />
+                    {crops.name}
+                  </CommandItem>
+                ))}
+                {other && (
+                  <CommandItem
+                    value="Others"
+                    onSelect={() => {
+                      form.setValue("crop_id", "");
+                    }}
+                  >
+                    <Check
+                      className={cn(
+                        "mr-2 h-4 w-4",
+                        "" === field.value ? "opacity-100" : "opacity-0"
+                      )}
+                    />
+                    Others
+                  </CommandItem>
+                )}
+              </div>
             </CommandGroup>
           </Command>
         </PopoverContent>

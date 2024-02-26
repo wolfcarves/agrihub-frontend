@@ -38,7 +38,9 @@ const Farms = () => {
           </CardHeader>
         </Card>
         <Card className="col-span-full p-5">
-          <BarDistrictOverview />
+          <div className="h-96">
+            <BarDistrictOverview />
+          </div>
         </Card>
       </div>
     </AdminOutletContainer>

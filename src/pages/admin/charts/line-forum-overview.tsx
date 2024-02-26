@@ -32,15 +32,25 @@ const LineForumOverview = () => {
       {
         label: "Answer",
         data: [30, 40, 70, 20, 50, 10, 90, 60, 45, 75, 35, 80],
-        borderColor: "rgb(54, 162, 235)",
-        backgroundColor: "rgba(54, 162, 235, 0.5)"
+        borderColor: "rgb(46, 139, 87)",
+        backgroundColor: "rgba(46, 139, 87, 0.5)"
       }
     ]
   };
 
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      y: {
+        beginAtZero: true
+      }
+    }
+  };
+
   return (
     <>
-      <Line data={data} />
+      <Line data={data} options={options} />
     </>
   );
 };

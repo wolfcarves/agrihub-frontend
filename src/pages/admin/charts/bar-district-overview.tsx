@@ -11,35 +11,50 @@ const BarDistrictOverview = () => {
     "District 6"
   ];
 
+  const farmsData = [65, 59, 80, 81, 56, 55];
+  const harvestData = [30, 45, 60, 75, 50, 40];
+
   const data = {
     labels: labels,
     datasets: [
       {
         label: "Farms",
-        data: [65, 59, 80, 81, 56, 55],
+        data: farmsData,
         backgroundColor: [
-          "rgba(255, 99, 132, 0.2)",
-          "rgba(255, 159, 64, 0.2)",
-          "rgba(255, 205, 86, 0.2)",
-          "rgba(75, 192, 192, 0.2)",
-          "rgba(54, 162, 235, 0.2)",
-          "rgba(153, 102, 255, 0.2)",
-          "rgba(201, 203, 207, 0.2)"
-        ],
-        borderColor: [
-          "rgb(255, 99, 132)",
-          "rgb(255, 159, 64)",
-          "rgb(255, 205, 86)",
-          "rgb(75, 192, 192)",
-          "rgb(54, 162, 235)",
-          "rgb(153, 102, 255)",
-          "rgb(201, 203, 207)"
-        ],
-        borderWidth: 1
+          "rgba(183, 235, 199, 1)",
+          "rgba(149, 220, 167, 1)",
+          "rgba(111, 195, 136, 1)",
+          "rgba(65, 171, 104, 1)",
+          "rgba(29, 138, 79, 1)",
+          "rgba(7, 89, 52, 1)"
+        ]
+      },
+      {
+        label: "Harvest",
+        data: harvestData,
+        backgroundColor: [
+          "rgba(183, 235, 199, 0.5)",
+          "rgba(149, 220, 167, 0.5)",
+          "rgba(111, 195, 136, 0.5)",
+          "rgba(65, 171, 104, 0.5)",
+          "rgba(29, 138, 79, 0.5)",
+          "rgba(7, 89, 52, 0.5)"
+        ]
       }
     ]
   };
-  return <Bar data={data} />;
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      y: {
+        beginAtZero: true
+      }
+    }
+  };
+
+  return <Bar data={data} options={options} />;
 };
 
 export default BarDistrictOverview;

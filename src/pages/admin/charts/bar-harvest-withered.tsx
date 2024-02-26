@@ -41,21 +41,20 @@ const BarHarvestWithered = () => {
       {
         label: "Harvested",
         data: barChartData?.map(item => item.harvested),
-        backgroundColor: "rgba(92, 184, 92, 0.2)",
+        backgroundColor: "rgba(144, 238, 144, 0.2)",
         borderColor: "rgba(92, 184, 92, 1)",
         borderWidth: 1
       },
       {
         label: "Withered",
         data: barChartData?.map(item => item.withered),
-        backgroundColor: "rgba(217, 83, 79, 0.2)",
+        backgroundColor: "rgba(255, 182, 193, 0.5)",
         borderColor: "rgba(217, 83, 79, 1)",
         borderWidth: 1
       }
     ]
   };
 
-  // Chart configuration
   const options = {
     plugins: {
       title: {
@@ -69,7 +68,7 @@ const BarHarvestWithered = () => {
         stacked: true
       },
       y: {
-        stacked: true
+        beginAtZero: true
       }
     }
   };
@@ -90,11 +89,14 @@ const BarHarvestWithered = () => {
   ];
 
   return (
-    <div>
-      <div>
-        <div className="flex gap-4 items-end">
+    <>
+      <div className="flex justify-between flex-wrap sm:flex-nowrap">
+        <h2 className="text-xl font-bold tracking-tight ">
+          Farm harvest and withered each month
+        </h2>
+        <div className="flex gap-4 justify-end">
           <Select onValueChange={e => handleChangeYear(e)}>
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="w-auto">
               <SelectValue placeholder="Year" />
             </SelectTrigger>
             <SelectContent>
@@ -104,7 +106,7 @@ const BarHarvestWithered = () => {
           </Select>
 
           <Select onValueChange={e => handleChangeStartMonth(e)}>
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="w-auto">
               <SelectValue placeholder="Month From" />
             </SelectTrigger>
             <SelectContent>
@@ -117,7 +119,7 @@ const BarHarvestWithered = () => {
           </Select>
 
           <Select onValueChange={e => handleChangeEndMonth(e)}>
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="w-auto">
               <SelectValue placeholder="Month To" />
             </SelectTrigger>
             <SelectContent>
@@ -152,9 +154,12 @@ const BarHarvestWithered = () => {
           </div>
         </div>
       ) : (
-        <Bar data={data} options={options} height={100} />
+        <>
+          <hr className="my-2" />
+          <Bar data={data} options={options} />
+        </>
       )}
-    </div>
+    </>
   );
 };
 

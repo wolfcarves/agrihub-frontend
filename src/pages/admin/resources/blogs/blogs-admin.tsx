@@ -25,4 +25,4 @@ const BlogsAdmin = () => {
   );
 };
 
-export default withAuthGuard(BlogsAdmin, ["admin", "asst_admin"]);
+export default withAuthGuard(BlogsAdmin, ["admin", "asst_admin"], "blog");

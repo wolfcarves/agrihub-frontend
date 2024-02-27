@@ -6,12 +6,13 @@ import { TbMessageCircleQuestion } from "react-icons/tb";
 import { IoBookmarkOutline } from "react-icons/io5";
 import useAuth from "@hooks/useAuth";
 import { useLocation } from "react-router-dom";
+import { FiUsers } from "react-icons/fi";
 
 type QuestionSidebarProps = ComponentProps<"div">;
 
 const QuestionSidebar = ({ className, ...props }: QuestionSidebarProps) => {
   const pathname = useLocation().pathname;
-  const { isAuthenticated } = useAuth();
+  const { data, isAuthenticated } = useAuth();
 
   return (
     <UserSidebar className={`hidden sm:block ${className}`} {...props}>
@@ -19,12 +20,12 @@ const QuestionSidebar = ({ className, ...props }: QuestionSidebarProps) => {
         to="/forum"
         title="Questions"
         logo={<TbMessageCircleQuestion size={20} />}
-        end={pathname === "/forum/tags"}
+        end={pathname === "/forum/tags" || pathname === "/forum/users"}
       />
 
       {isAuthenticated && (
         <UserSidebarNavLink
-          to="/forum/saved"
+          to={`/users/${data?.id}/me/saved`}
           title="Saved"
           logo={<IoBookmarkOutline size={20} />}
           end
@@ -35,6 +36,13 @@ const QuestionSidebar = ({ className, ...props }: QuestionSidebarProps) => {
         to="/forum/tags"
         title="Tags"
         logo={<BsTags size={20} />}
+        end
+      />
+
+      <UserSidebarNavLink
+        to="/forum/users"
+        title="Users"
+        logo={<FiUsers size={20} />}
         end
       />
     </UserSidebar>

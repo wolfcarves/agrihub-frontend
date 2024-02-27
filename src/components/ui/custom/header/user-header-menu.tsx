@@ -53,7 +53,7 @@ const UserHeaderMenu = () => {
           </Link>
 
           <DropdownMenuSeparator />
-          {data?.role === "admin" && (
+          {(data?.role === "admin" || data?.role === "asst_admin") && (
             <DropdownMenuItem
               onClick={handleToAdmin}
               className="cursor-pointer h-12 gap-2"

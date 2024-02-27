@@ -1,12 +1,12 @@
 import React from "react";
-import { QuestionsResponse } from "@api/openapi";
+import { SavedQuestionsResponse } from "@api/openapi";
 import { useNavigate } from "react-router-dom";
 import ActivityIndicator from "@icons/ActivityIndicator";
 import QuestionCard from "@components/user/questions/card/QuestionCard";
 import LoadingSpinner from "@icons/LoadingSpinner";
 
 interface ProfileQuestionSavedListProps {
-  data?: QuestionsResponse;
+  data?: SavedQuestionsResponse;
   isLoading?: boolean;
 }
 
@@ -38,7 +38,8 @@ const ProfileQuestionSavedList = ({
               vote_count,
               answer_count,
               createdat,
-              vote
+              vote,
+              saved_id
             }) => {
               return (
                 <QuestionCard
@@ -47,6 +48,7 @@ const ProfileQuestionSavedList = ({
                   title={title}
                   description={question}
                   userId={user?.id}
+                  savedId={saved_id}
                   userAvatarSrc={user?.avatar}
                   username={user?.username}
                   vote={vote?.type as "upvote" | "downvote"}

@@ -4,10 +4,14 @@ import { adminNavigation } from "./admin-menu";
 import { Link } from "react-router-dom";
 import "../../../../globals.css";
 import AdminSidebarNavLink from "./admin-sidebar-navlink";
+import useGetMyProfileQuery from "@hooks/api/get/useGetMyProfileQuery";
 
 const AdminSidebar = () => {
   const [clickedItem, setClickedItem] = useState("Overview");
   const [open, setOpen] = useState(true);
+
+  const { data: authData, isLoading: isAuthDataLoading } =
+    useGetMyProfileQuery();
 
   const handleClick = (itemName: string) => {
     if (clickedItem === itemName) {
@@ -33,21 +37,33 @@ const AdminSidebar = () => {
           </div>
           <div className="flex-1 flex flex-col h-full">
             <ul className="px-4 text-sm font-medium flex-1">
-              {adminNavigation.map((item, idx) => (
-                <div key={idx}>
-                  <button
-                    onClick={() => handleClick(item.name)}
-                    className={`relative flex items-center justify-center gap-x-2 text-gray-600 p-2 rounded-lg  hover:bg-green-50 active:bg-green-100 duration-150 group ${
-                      clickedItem === item.name ? "bg-gray-200" : ""
-                    }`}
-                  >
-                    <div className="text-gray-500">{item.icon}</div>
-                    <span className="absolute left-14 p-1 px-1.5 rounded-md whitespace-nowrap text-xs text-white bg-gray-800 hidden group-hover:inline-block group-focus:hidden duration-150">
-                      {item.name}
-                    </span>
-                  </button>
-                </div>
-              ))}
+              {adminNavigation.map((item, idx) => {
+                const checkAuthorization = authData?.[item.module];
+                // let checkSubModule: boolean
+
+                // if (item.name === "Resources Management"){
+                //   item.nav.
+                // }
+                if (!checkAuthorization) {
+                  return <></>;
+                }
+
+                return (
+                  <div key={idx}>
+                    <button
+                      onClick={() => handleClick(item.name)}
+                      className={`relative flex items-center justify-center gap-x-2 text-gray-600 p-2 rounded-lg  hover:bg-green-50 active:bg-green-100 duration-150 group ${
+                        clickedItem === item.name ? "bg-gray-200" : ""
+                      }`}
+                    >
+                      <div className="text-gray-500">{item.icon}</div>
+                      <span className="absolute left-14 p-1 px-1.5 rounded-md whitespace-nowrap text-xs text-white bg-gray-800 hidden group-hover:inline-block group-focus:hidden duration-150">
+                        {item.name}
+                      </span>
+                    </button>
+                  </div>
+                );
+              })}
             </ul>
           </div>
         </div>
@@ -67,20 +83,28 @@ const AdminSidebar = () => {
               {adminNavigation
                 .filter(item => item.name === clickedItem)
                 .map((item, idx) =>
-                  item.nav.map((navItem, navIdx) => (
-                    <>
-                      <h5 className="px-4 font-bold text-gray-800">
-                        {navItem.title}
-                      </h5>
-                      <AdminSidebarNavLink
-                        to={navItem.href}
-                        key={`${idx}-${navIdx}`}
-                        logo
-                        end={true}
-                        title={navItem.name}
-                      ></AdminSidebarNavLink>
-                    </>
-                  ))
+                  item.nav.map((navItem, navIdx) => {
+                    const checkAuthorization = authData?.[navItem.module];
+
+                    if (!checkAuthorization) {
+                      return <></>;
+                    }
+
+                    return (
+                      <>
+                        <h5 className="px-4 font-bold text-gray-800">
+                          {navItem.title}
+                        </h5>
+                        <AdminSidebarNavLink
+                          to={navItem.href}
+                          key={`${idx}-${navIdx}`}
+                          logo
+                          end={true}
+                          title={navItem.name}
+                        ></AdminSidebarNavLink>
+                      </>
+                    );
+                  })
                 )}
             </ul>
           </div>

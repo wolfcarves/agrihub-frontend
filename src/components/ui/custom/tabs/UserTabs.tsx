@@ -1,13 +1,14 @@
 import { useState } from "react";
 
 interface UserTabsProps {
+  index: number;
   options: any;
   onChange?: (e: string) => void;
 }
 
-const UserTabs = ({ options, onChange }: UserTabsProps) => {
+const UserTabs = ({ index = 0, options, onChange }: UserTabsProps) => {
   const [selectedTab, setSelectedTab] = useState<(typeof options)[number]>(
-    options[0]
+    options[index]
   );
 
   return (

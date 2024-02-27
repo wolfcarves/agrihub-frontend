@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { BsThreeDots } from "react-icons/bs";
 import DOMPurify from "dompurify";
@@ -20,13 +20,17 @@ import { FaRegTrashCan } from "react-icons/fa6";
 import { FaRegEdit } from "react-icons/fa";
 import useForumsSaveQuestionMutation from "@hooks/api/post/useForumsSaveQuestionMutation";
 import { toast } from "sonner";
-import useGetSavedQuestions from "@hooks/api/get/useGetSavedQuestions";
+import useGetSavedQuestions, {
+  GET_SAVED_QUESTION_KEY
+} from "@hooks/api/get/useGetSavedQuestions";
 import useForumsDeleteSaveQuestionMutation from "@hooks/api/post/useForumsDeleteSaveQuestionMutation";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface QuestionCardProps {
   id?: string;
   title?: string;
   userId?: string;
+  savedId?: string;
   username?: string;
   userAvatarSrc?: string;
   description?: string | Node;
@@ -47,6 +51,7 @@ const QuestionCard = ({
   id,
   title,
   userId,
+  savedId,
   username,
   userAvatarSrc,
   description,
@@ -60,6 +65,8 @@ const QuestionCard = ({
   onAnswerBtnClick,
   onShareBtnClick
 }: QuestionCardProps) => {
+  const queryClient = useQueryClient();
+
   const user = useAuth();
   const { mutateAsync: saveQuestion } = useForumsSaveQuestionMutation();
 
@@ -100,7 +107,10 @@ const QuestionCard = ({
       await deleteSavedQuestion(
         savedQuestionsData?.questions?.find(q => q.id === id)?.saved_id ?? ""
       );
+
       toast.info(`Successfully unsaved a question`);
+
+      queryClient.invalidateQueries({ queryKey: [GET_SAVED_QUESTION_KEY()] });
     } catch (error: any) {
       console.log(error.body.message);
     }
@@ -137,7 +147,7 @@ const QuestionCard = ({
               <DropdownMenuContent className="w-[12rem]" align="end">
                 {user.data?.id === userId ? (
                   <>
-                    <DropdownMenuItem className="rounded-md cursor-pointer py-2.5 ">
+                    <DropdownMenuItem className="rounded-md cursor-pointer py-2.5">
                       <FaRegEdit className="text-lg opacity-90" />
                       <span className="ps-2 font-poppins-semibold opacity-90">
                         Edit
@@ -158,10 +168,21 @@ const QuestionCard = ({
                         handleSaveQuestion();
                       }}
                     >
-                      <IoBookmarksOutline className="text-lg opacity-90" />
-                      <span className="ps-2 font-poppins-semibold opacity-90">
-                        Save
-                      </span>
+                      {!savedId ? (
+                        <>
+                          <IoBookmarksOutline className="text-lg opacity-90" />
+                          <span className="ps-2 font-poppins-semibold opacity-90">
+                            Save
+                          </span>
+                        </>
+                      ) : (
+                        <>
+                          <IoBookmarksOutline className="text-lg opacity-90" />
+                          <span className="ps-2 font-poppins-semibold opacity-90">
+                            Unsave
+                          </span>
+                        </>
+                      )}
                     </DropdownMenuItem>
 
                     <DropdownMenuItem className="rounded-md cursor-pointer py-2.5 ">

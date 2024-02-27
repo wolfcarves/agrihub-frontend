@@ -58,4 +58,8 @@ const Resource = () => {
   );
 };
 
-export default withAuthGuard(Resource, ["admin", "asst_admin"]);
+export default withAuthGuard(
+  Resource,
+  ["admin", "asst_admin"],
+  "blog" || "event" || "learning"
+);

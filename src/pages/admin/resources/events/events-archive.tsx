@@ -21,4 +21,4 @@ const EventsArchive = () => {
   );
 };
 
-export default withAuthGuard(EventsArchive, ["admin", "asst_admin"]);
+export default withAuthGuard(EventsArchive, ["admin", "asst_admin"], "event");

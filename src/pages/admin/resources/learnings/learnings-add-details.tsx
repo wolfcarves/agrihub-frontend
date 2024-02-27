@@ -31,6 +31,7 @@ import useDeleteLearningUnpublish from "../../../../hooks/api/delete/useDeleteLe
 import useDeleteLearningArchive from "../../../../hooks/api/delete/useDeleteLearningArchive";
 import usePutLearningPublish from "../../../../hooks/api/put/usePutLearningPublish";
 import useGetLearningView from "../../../../hooks/api/get/useGetLearningView";
+import withAuthGuard from "@higher-order/account/withAuthGuard";
 
 const UpdateLearnings = () => {
   const { learningsId } = useParams();
@@ -245,4 +246,8 @@ const UpdateLearnings = () => {
   );
 };
 
-export default UpdateLearnings;
+export default withAuthGuard(
+  UpdateLearnings,
+  ["admin", "asst_admin"],
+  "learning"
+);

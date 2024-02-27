@@ -74,4 +74,4 @@ const TagsAdmin = () => {
   );
 };
 
-export default withAuthGuard(TagsAdmin, ["admin", "asst_admin"]);
+export default withAuthGuard(TagsAdmin, ["admin", "asst_admin"], "forums");

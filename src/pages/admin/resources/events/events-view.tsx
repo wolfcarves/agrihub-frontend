@@ -29,6 +29,7 @@ import { toast } from "sonner";
 import usePutEventsUnpublish from "../../../../hooks/api/put/usePutEventsUnpublish";
 import useDeleteEventArchive from "../../../../hooks/api/delete/useDeleteEventArchive";
 import usePutEventsPublish from "../../../../hooks/api/put/usePutEventsPublish";
+import withAuthGuard from "@higher-order/account/withAuthGuard";
 
 const breadcrumbItems = [
   { title: "Resource Management", link: "/admin/resources" },
@@ -228,4 +229,4 @@ const ViewEvents = () => {
   );
 };
 
-export default ViewEvents;
+export default withAuthGuard(ViewEvents, ["admin", "asst_admin"], "event");

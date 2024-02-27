@@ -28,4 +28,8 @@ const QuestionsArchive = () => {
   );
 };
 
-export default withAuthGuard(QuestionsArchive, ["admin", "asst_admin"]);
+export default withAuthGuard(
+  QuestionsArchive,
+  ["admin", "asst_admin"],
+  "forums"
+);

@@ -19,7 +19,7 @@ const SuggestionsModal = () => {
   console.log(LearningMaterials);
   return (
     <Dialog>
-      <DialogTrigger className="bg-red-300 rounded-lg flex items-center p-1 w-full gap-2 px-2">
+      <DialogTrigger className="bg-red-300 rounded-lg flex items-center p-1 w-full gap-2 px-2 ">
         <IoIosWarning className="text-xl text-red-500" />
         <p className="text-white text-xs">
           Action Needed: Monthly Growth Dips Below 1.37% -{" "}

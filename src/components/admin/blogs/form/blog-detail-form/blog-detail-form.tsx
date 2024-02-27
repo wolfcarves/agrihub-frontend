@@ -113,7 +113,7 @@ const BlogDetailForm = () => {
                   <SelectContent>
                     <SelectItem value="News">News</SelectItem>
                     <SelectItem value="Initiatives">Initiatives</SelectItem>
-                    <SelectItem value="Story">Story</SelectItem>
+                    <SelectItem value="Our Focus">Our Focus</SelectItem>
                   </SelectContent>
                 </Select>
               )}

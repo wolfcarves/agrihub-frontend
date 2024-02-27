@@ -1,7 +1,4 @@
 import React from "react";
-import imageData1 from "@assets/images/About us.png";
-import imageData2 from "@assets/images/Our-focus-BLOG.png";
-import imageData3 from "@assets/images/Initiatives-1.png";
 import { FaArrowRightLong } from "react-icons/fa6";
 import {
   Carousel,
@@ -19,16 +16,7 @@ const Carousels: React.FC = () => {
 
   const { data: cmsData } = useCmsLandingDetailsQuery();
 
-  const {
-    id,
-    approach,
-    approach_items,
-    createdat,
-    cta_description,
-    cta_header,
-    images,
-    updatedat
-  } = {
+  const { cta_description, cta_header, images } = {
     ...cmsData
   };
 
@@ -51,7 +39,6 @@ const Carousels: React.FC = () => {
               </CarouselItem>
             );
           })}
-          x
         </CarouselContent>
       </Carousel>
 
@@ -68,56 +55,6 @@ const Carousels: React.FC = () => {
           Community <FaArrowRightLong className="ms-3" />
         </Button>
       </div>
-    </div>
-  );
-
-  return (
-    <div className="relative">
-      <div className="min-h-[40rem] overflow-hidden border border-red-500">
-        {/* <Carousel
-          plugins={[plugin.current]}
-          opts={{
-            loop: true
-          }}
-        >
-          <CarouselContent className="h-full w-full m-0">
-            <CarouselItem className="p-0">
-              <img
-                src={imageData1}
-                className="h-full w-full object-cover brightness-50"
-              />
-            </CarouselItem>
-            <CarouselItem className="p-0">
-              <img
-                src={imageData2}
-                className="h-full w-full object-cover brightness-50"
-              />
-            </CarouselItem>
-            <CarouselItem className="p-0">
-              <img
-                src={imageData3}
-                className="h-full w-full object-cover brightness-50"
-              />
-            </CarouselItem>
-          </CarouselContent>
-        </Carousel> */}
-      </div>
-
-      {/* <div className="absolute max-w-[55rem] h-max z-10 space-y-2 px-2">
-        <h1 className="text-2xl sm:text-6xl lg:text-9xl text-gray-100 font-poppins-semibold">
-          Join our <span className="text-primary">community</span> today!
-        </h1>
-
-        <h4 className="text-md sm:text-lg text-gray-100 font-poppins-thin ">
-          Share your farm reports, access valuable resources, and connect with
-          fellow farmers in our interactive forums. Empower your agriculture
-          journey with AgriHub."
-        </h4>
-
-        <Button className="mt-10" variant="default">
-          Learn more <FaArrowRightLong className="ms-3" />
-        </Button>
-      </div> */}
     </div>
   );
 };

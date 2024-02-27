@@ -5,8 +5,6 @@ import { toast } from "sonner";
 import useQuestionVoteMutation from "@hooks/api/post/useQuestionVoteMutation";
 import QuestionCard from "../card/QuestionCard";
 import useQuestionDeleteVoteMutation from "@hooks/api/post/useQuestionDeleteVoteMutation";
-import wink from "@assets/images/wink.gif";
-import { useState } from "react";
 import useAuth from "@hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 
@@ -18,15 +16,11 @@ interface QuestionsListProps {
 
 const QuestionsList = ({ data, isLoading }: QuestionsListProps) => {
   const navigate = useNavigate();
-  const user = useAuth();
+  const authData = useAuth();
+
   const { mutateAsync: questionVoteMutate } = useQuestionVoteMutation();
   const { mutateAsync: questionDeleteVoteMutate } =
     useQuestionDeleteVoteMutation();
-
-  //For winking ;)
-  const [countDown, setCountdown] = useState<number>(0);
-  const [isWinkVisible, setIsWinkVisible] = useState<boolean>(false);
-  const [winkSrc, setWinkSrc] = useState<string>("");
 
   const handleQuestionVote = async (
     id: string,
@@ -35,43 +29,19 @@ const QuestionsList = ({ data, isLoading }: QuestionsListProps) => {
     voteId: string | undefined
   ) => {
     try {
-      if (user.isAuthenticated) {
+      if (authData?.isAuthenticated) {
         if (voteId && type === previousVote) {
           await questionDeleteVoteMutate(voteId);
         } else {
-          if (countDown === 0 && type === "upvote") {
-            runCountDown();
-          }
-
           await questionVoteMutate({
             id,
             requestBody: { type }
           });
-
-          toast.info(`Successfully ${type} a question`);
         }
       }
     } catch (error: any) {
       toast.error(error.body.message);
     }
-  };
-
-  const runCountDown = () => {
-    setWinkSrc(wink + "?a=" + Math.random());
-    setIsWinkVisible(true);
-    setCountdown(4);
-
-    const interval = setInterval(() => {
-      setCountdown(prev => {
-        if (prev === 1) {
-          setIsWinkVisible(false);
-          clearInterval(interval);
-        }
-        return prev - 1;
-      });
-    }, 1000);
-
-    return () => clearInterval(interval);
   };
 
   const handleShare = async (
@@ -109,12 +79,6 @@ const QuestionsList = ({ data, isLoading }: QuestionsListProps) => {
 
   return (
     <div className="flex flex-col gap-7 pb-20">
-      {/* {isWinkVisible && (
-        <div className="fixed flex z-50 inset-0">
-          <img src={winkSrc} />
-        </div>
-      )} */}
-
       {data?.questions?.map(
         ({
           id,
@@ -129,8 +93,9 @@ const QuestionsList = ({ data, isLoading }: QuestionsListProps) => {
         }) => {
           return (
             <QuestionCard
-              key={`${id} + ${title}`}
+              key={id}
               id={id}
+              userId={user?.id}
               title={title}
               description={question}
               userAvatarSrc={user?.avatar}

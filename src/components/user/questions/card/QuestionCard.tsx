@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { BsThreeDots } from "react-icons/bs";
 import DOMPurify from "dompurify";
@@ -12,14 +12,16 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@components/ui/dropdown-menu";
-import { IoBookmark } from "react-icons/io5";
-import { MdReportProblem } from "react-icons/md";
+import { IoBookmarksOutline } from "react-icons/io5";
+import { GoReport } from "react-icons/go";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { FaRegEdit } from "react-icons/fa";
+import useForumsSaveQuestionMutation from "@hooks/api/post/useForumsSaveQuestionMutation";
+import { toast } from "sonner";
+import useGetSavedQuestions from "@hooks/api/get/useGetSavedQuestions";
+import useForumsDeleteSaveQuestionMutation from "@hooks/api/post/useForumsDeleteSaveQuestionMutation";
 
 interface QuestionCardProps {
   id?: string;
@@ -59,6 +61,13 @@ const QuestionCard = ({
   onShareBtnClick
 }: QuestionCardProps) => {
   const user = useAuth();
+  const { mutateAsync: saveQuestion } = useForumsSaveQuestionMutation();
+
+  //to determine if the question is already saved
+  const { data: savedQuestionsData } = useGetSavedQuestions();
+
+  const { mutateAsync: deleteSavedQuestion } =
+    useForumsDeleteSaveQuestionMutation();
 
   const purifiedDescription = DOMPurify.sanitize(description ?? "", {
     USE_PROFILES: {
@@ -77,17 +86,37 @@ const QuestionCard = ({
     }
   });
 
+  const handleSaveQuestion = async () => {
+    try {
+      const isAlreadySaved = savedQuestionsData?.questions?.find(
+        q => q.id === id
+      );
+
+      if (!isAlreadySaved) {
+        await saveQuestion(id ?? "");
+        toast.info(`Successfully saved a question`);
+      }
+
+      await deleteSavedQuestion(
+        savedQuestionsData?.questions?.find(q => q.id === id)?.saved_id ?? ""
+      );
+      toast.info(`Successfully unsaved a question`);
+    } catch (error: any) {
+      console.log(error.body.message);
+    }
+  };
+
   return (
     <div
-      className="flex flex-col rounded-xl hover:bg-neutral-300 duration-200 h-max w-full"
+      className="flex flex-col rounded-xl hover:bg-neutral-300 duration-200 h-max w-full max-w-[47rem]"
       key={id}
     >
       <div className="flex flex-col bg-white border p-3 sm:p-5 rounded-xl min-h-[20rem] h-full max-h-[25rem] hover:shadow-sm hover:-translate-y-2 hover:-translate-x-2 duration-200">
         <>
-          <div className="flex items-start justify-between ">
+          <div className="flex items-start justify-between">
             <Link
               to={`/forum/question/${username}/${id}`}
-              className="break-all pe-10"
+              className="pe-10 max-w-[40rem] "
             >
               <h4 className="text-blue-500 font-poppins-semibold line-clamp-2 hover:opacity-80">
                 {title}
@@ -123,14 +152,20 @@ const QuestionCard = ({
                   </>
                 ) : (
                   <>
-                    <DropdownMenuItem className="rounded-md cursor-pointer py-2.5 ">
-                      <IoBookmark className="text-xl opacity-90" />
+                    <DropdownMenuItem
+                      className="rounded-md cursor-pointer py-2.5 "
+                      onClick={() => {
+                        handleSaveQuestion();
+                      }}
+                    >
+                      <IoBookmarksOutline className="text-lg opacity-90" />
                       <span className="ps-2 font-poppins-semibold opacity-90">
                         Save
                       </span>
                     </DropdownMenuItem>
+
                     <DropdownMenuItem className="rounded-md cursor-pointer py-2.5 ">
-                      <MdReportProblem className="text-xl opacity-90" />
+                      <GoReport className="text-lg opacity-90" />
                       <span className="ps-2 font-poppins-semibold opacity-90">
                         Report
                       </span>

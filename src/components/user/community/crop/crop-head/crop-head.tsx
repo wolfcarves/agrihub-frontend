@@ -11,7 +11,7 @@ const CropHead = () => {
   const isAllowed = allowedRoles.includes(data?.role || "");
   const isMember = id === data?.farm_id;
   return (
-    <div className="flex items-center justify-between">
+    <div className="flex md:flex-row flex-col items-center justify-between">
       <h3 className=" font-poppins-medium">Crops</h3>
       {isMember && isAllowed && (
         <div className="flex items-center gap-2">

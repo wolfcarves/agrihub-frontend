@@ -67,7 +67,7 @@ const FormSeedlingRequest: React.FC<RequestType> = ({
   const handleSubmitForm = async (data: AcceptSeedlingRequest) => {
     const compiledData: AcceptSeedlingRequest = {
       delivery_date: data.delivery_date,
-      quantity_approve: data.quantity_approve
+      quantity_approve: Number(data.quantity_approve)
     };
 
     try {

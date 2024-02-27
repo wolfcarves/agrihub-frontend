@@ -17,4 +17,4 @@ const AdminLayout = () => {
   );
 };
 
-export default withAuthGuard(AdminLayout, ["admin"]);
+export default withAuthGuard(AdminLayout, ["admin", "asst_admin"]);

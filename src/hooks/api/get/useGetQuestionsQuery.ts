@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { ForumsService } from "../../../api/openapi";
+import { ForumsService } from "@api/openapi";
 
 export type SearchParams = {
   search?: string;

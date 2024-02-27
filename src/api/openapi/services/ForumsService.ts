@@ -165,7 +165,7 @@ filter?: 'newest' | 'active' | 'trending',
      * @returns any Success message
      * @throws ApiError
      */
-    public static postApiReportQuestion({
+    public static postApiForumsReportQuestion({
 id,
 requestBody,
 }: {
@@ -179,7 +179,7 @@ message?: string;
 }> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/api/report/question/{id}',
+            url: '/api/forums/report/question/{id}',
             path: {
                 'id': id,
             },
@@ -188,7 +188,7 @@ message?: string;
             errors: {
                 400: `Validation Error`,
                 401: `Unauthorized Error`,
-                404: `Validation Error`,
+                404: `Not Found Error`,
                 500: `Server Error`,
             },
         });

@@ -461,6 +461,7 @@ id: string,
 search,
 page,
 perpage,
+filter,
 }: {
 /**
  * Search term
@@ -470,10 +471,11 @@ search?: string,
  * Page number
  */
 page?: string,
+perpage?: string,
 /**
  * Number of items per page
  */
-perpage?: string,
+filter?: 'News' | 'Initiatives' | 'Our Focus',
 }): CancelablePromise<PublishedBlogListResponse> {
         return __request(OpenAPI, {
             method: 'GET',
@@ -482,6 +484,7 @@ perpage?: string,
                 'search': search,
                 'page': page,
                 'perpage': perpage,
+                'filter': filter,
             },
             errors: {
                 400: `Validation Error`,

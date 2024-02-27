@@ -18,9 +18,31 @@ const redirectRoutes = [
   "/account/final-setup"
 ];
 
+type AdminAccess = {
+  id: string;
+  farms: boolean;
+  learning: boolean;
+  event: boolean;
+  blog: boolean;
+  forums: boolean;
+  admin: boolean;
+  cuai: boolean;
+  home: boolean;
+  about: boolean;
+  privacy_policy: boolean;
+  terms_and_conditions: boolean;
+  user_feedback: boolean;
+  crops: boolean;
+  help_center: boolean;
+  activity_logs: boolean;
+};
+
+export type module_keys = keyof AdminAccess;
+
 export default function withAuthGuard<P extends object>(
   Component: ComponentType<P>,
-  allowedRoles: Array<AllowedRoles>
+  allowedRoles: Array<AllowedRoles>,
+  module?: module_keys
 ) {
   const NewComponent = (props: P) => {
     const navigate = useNavigate();
@@ -37,6 +59,15 @@ export default function withAuthGuard<P extends object>(
     }
 
     useEffect(() => {
+      if (userRole === "asst_admin" && module) {
+        const checkAuthorization = authData?.[module];
+        console.log(checkAuthorization);
+
+        if (!checkAuthorization) {
+          navigate("/admin/dashboard", { replace: true });
+        }
+      }
+
       if (authData?.id && userRole !== "admin") {
         const level = Number(authData?.verification_level) - 1;
 

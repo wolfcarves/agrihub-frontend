@@ -2,9 +2,10 @@ import { useState } from "react";
 
 interface UserTabsProps {
   options: any;
+  onChange?: (e: string) => void;
 }
 
-const UserTabs = ({ options }: UserTabsProps) => {
+const UserTabs = ({ options, onChange }: UserTabsProps) => {
   const [selectedTab, setSelectedTab] = useState<(typeof options)[number]>(
     options[0]
   );
@@ -30,6 +31,7 @@ const UserTabs = ({ options }: UserTabsProps) => {
               } relative h-full w-full text-sm  z-10 tracking-wide`}
               onClick={() => {
                 setSelectedTab(title);
+                onChange && onChange(title);
               }}
             >
               {title}

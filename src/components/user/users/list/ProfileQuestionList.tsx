@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import ActivityIndicator from "@icons/ActivityIndicator";
 import QuestionCard from "@components/user/questions/card/QuestionCard";
 import useAuth from "@hooks/useAuth";
+import LoadingSpinner from "@icons/LoadingSpinner";
 
 interface ProfileQuestionListProps {
   data?: QuestionsResponse;
@@ -14,8 +15,12 @@ const ProfileQuestionList = ({ data, isLoading }: ProfileQuestionListProps) => {
   const navigate = useNavigate();
   const user = useAuth();
 
+  if (isLoading) {
+    return <LoadingSpinner className="text-primary text-lg mx-auto mt-10" />;
+  }
+
   return (
-    <div className="flex flex-col gap-5 mx-auto w-full max-w-[60rem] py-10">
+    <div className="flex flex-col gap-5 mx-auto w-full max-w-[50rem] py-10">
       <h5 className="font-poppins-medium">Recent Posts</h5>
 
       {isLoading ? (

@@ -12,6 +12,8 @@ import type { NewQuestionSchema } from '../models/NewQuestionSchema';
 import type { QuestionSchema } from '../models/QuestionSchema';
 import type { QuestionsResponse } from '../models/QuestionsResponse';
 import type { QuestionViewSchema } from '../models/QuestionViewSchema';
+import type { ReportQuestionRequestBody } from '../models/ReportQuestionRequestBody';
+import type { SavedQuestionsResponse } from '../models/SavedQuestionsResponse';
 import type { VoteAnswerSchema } from '../models/VoteAnswerSchema';
 import type { VoteAnswerSuccessResponse } from '../models/VoteAnswerSuccessResponse';
 import type { VoteResponseSchema } from '../models/VoteResponseSchema';
@@ -21,6 +23,176 @@ import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
 
 export class ForumsService {
+
+    /**
+     * Save a question
+     * @returns any Saved Question Successfully
+     * @throws ApiError
+     */
+    public static postApiForumsSaveQuestion({
+id,
+}: {
+/**
+ * The ID of the question to be saved
+ */
+id: string,
+}): CancelablePromise<{
+message?: string;
+}> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/forums/save/question/{id}',
+            path: {
+                'id': id,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Remove a  saved question
+     * @returns any Removed Question Successfully
+     * @throws ApiError
+     */
+    public static deleteApiForumsRemoveSavedQuestion({
+id,
+}: {
+/**
+ * The ID of the question to be removed
+ */
+id: string,
+}): CancelablePromise<{
+message?: string;
+}> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/forums/remove/saved/question/{id}',
+            path: {
+                'id': id,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Delete a question
+     * @returns any Deleted Question Successfully
+     * @throws ApiError
+     */
+    public static deleteApiForumsDeleteQuestion({
+id,
+}: {
+/**
+ * The ID of the question to be deleted
+ */
+id: string,
+}): CancelablePromise<{
+message?: string;
+}> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/forums/delete/question/{id}',
+            path: {
+                'id': id,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Get Saved Questions Data
+     * @returns SavedQuestionsResponse Success
+     * @throws ApiError
+     */
+    public static getApiForumsSavedQuestions({
+search,
+page,
+perpage,
+filter,
+}: {
+/**
+ * Search term for forums (optional)
+ */
+search?: string,
+/**
+ * Page number (optional)
+ */
+page?: string,
+/**
+ * Number of items per page (optional, default 10)
+ */
+perpage?: string,
+/**
+ * Filter criteria (optional, default newest)
+ */
+filter?: 'newest' | 'active' | 'trending',
+}): CancelablePromise<SavedQuestionsResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/forums/saved/questions',
+            query: {
+                'search': search,
+                'page': page,
+                'perpage': perpage,
+                'filter': filter,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized Error`,
+                404: `Validation Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Report a question
+     * @returns any Success message
+     * @throws ApiError
+     */
+    public static postApiReportQuestion({
+id,
+requestBody,
+}: {
+/**
+ * ID of the question to report
+ */
+id: string,
+requestBody: ReportQuestionRequestBody,
+}): CancelablePromise<{
+message?: string;
+}> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/report/question/{id}',
+            path: {
+                'id': id,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized Error`,
+                404: `Validation Error`,
+                500: `Server Error`,
+            },
+        });
+    }
 
     /**
      * Get Questions Data

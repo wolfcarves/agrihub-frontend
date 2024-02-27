@@ -4,7 +4,6 @@ import QuestionAnswerList from "@components/user/questions/list/QuestionAnswerLi
 import OutletContainer from "@components/user/questions/container/OutletContainer";
 import useGetViewQuestion from "@hooks/api/get/useGetViewQuestion";
 import { useParams } from "react-router-dom";
-import withAuthGuard from "@higher-order/account/withAuthGuard";
 import LoadingSpinner from "@icons/LoadingSpinner";
 import QuestionAnswerForm from "@components/user/questions/form/QuestionAnswerForm/QuestionAnswerForm";
 import useAuth from "@hooks/useAuth";
@@ -21,7 +20,7 @@ const Question = () => {
   if (isQuestionDataLoading) {
     return (
       <div className="flex justify-center py-10 w-full min-h-[60rem] ">
-        <LoadingSpinner />
+        <LoadingSpinner className="text-primary" />
       </div>
     );
   }

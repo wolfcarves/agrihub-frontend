@@ -39,7 +39,7 @@ const QuestionPostBody = ({ data }: QuestionPostBodyProps) => {
   return (
     <>
       <div className="pb-5 mb-5">
-        <h1 className="text-xl text-foreground font-poppins-semibold hover:opacity-90">
+        <h1 className="text-xl text-foreground font-poppins-semibold hover:opacity-90 max-w-2xl break-words">
           {data?.question?.title}
         </h1>
       </div>

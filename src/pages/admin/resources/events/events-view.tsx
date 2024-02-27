@@ -29,6 +29,7 @@ import { toast } from "sonner";
 import usePutEventsUnpublish from "../../../../hooks/api/put/usePutEventsUnpublish";
 import useDeleteEventArchive from "../../../../hooks/api/delete/useDeleteEventArchive";
 import usePutEventsPublish from "../../../../hooks/api/put/usePutEventsPublish";
+import Loader from "../../../../icons/Loader";
 
 const breadcrumbItems = [
   { title: "Resource Management", link: "/admin/resources" },
@@ -42,28 +43,32 @@ const ViewEvents = () => {
   const { data: eventData } = useGetEventsDraftView(eventId || "");
   console.log(eventData);
 
-  const { mutateAsync: deleteDraft } = useDeleteEventDraft();
+  const { mutateAsync: deleteDraft, isLoading: deleteLoad } =
+    useDeleteEventDraft();
   const handleDeleteDraft = async () => {
     await deleteDraft(eventId || "");
     toast.success("Draft Deleted Successfully!");
     navigate("/admin/resource/events-draft");
   };
 
-  const { mutateAsync: unpublishMaterial } = usePutEventsUnpublish();
+  const { mutateAsync: unpublishMaterial, isLoading: unpublishLoad } =
+    usePutEventsUnpublish();
   const handleUnpublish = async () => {
     await unpublishMaterial(eventId || "");
     toast.success("Unpublished Successfully!");
     navigate("/admin/resource/events-draft");
   };
 
-  const { mutateAsync: archiveMaterial } = useDeleteEventArchive();
+  const { mutateAsync: archiveMaterial, isLoading: archiveLoad } =
+    useDeleteEventArchive();
   const handleArchive = async () => {
     await archiveMaterial(eventId || "");
     toast.success("Archive Successfully!");
     navigate("/admin/resource/events-archives");
   };
 
-  const { mutateAsync: publishMaterial } = usePutEventsPublish();
+  const { mutateAsync: publishMaterial, isLoading: publishLoad } =
+    usePutEventsPublish();
   const handlePublish = async () => {
     try {
       await publishMaterial(eventId || "");
@@ -224,6 +229,9 @@ const ViewEvents = () => {
           </div>
         </>
       </div>
+      <Loader
+        isVisible={deleteLoad || unpublishLoad || archiveLoad || publishLoad}
+      />
     </AdminOutletContainer>
   );
 };

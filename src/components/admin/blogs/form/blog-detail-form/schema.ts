@@ -11,8 +11,9 @@ export const addBlogsDetailSchema = zod.object({
     .string({
       required_error: "Category is required."
     })
-    .min(1, "Please enter at least 5 characters")
-    .max(100, "Category is too long"),
+
+    .max(100, "Category is too long")
+    .optional(),
   content: zod
     .string({
       required_error: "Content is required."

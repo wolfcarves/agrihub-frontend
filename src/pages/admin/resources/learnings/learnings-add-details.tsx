@@ -31,6 +31,7 @@ import useDeleteLearningUnpublish from "../../../../hooks/api/delete/useDeleteLe
 import useDeleteLearningArchive from "../../../../hooks/api/delete/useDeleteLearningArchive";
 import usePutLearningPublish from "../../../../hooks/api/put/usePutLearningPublish";
 import useGetLearningView from "../../../../hooks/api/get/useGetLearningView";
+import Loader from "../../../../icons/Loader";
 
 const UpdateLearnings = () => {
   const { learningsId } = useParams();
@@ -39,28 +40,32 @@ const UpdateLearnings = () => {
     useGetLearningView(learningsId || "");
   console.log(LearningData);
 
-  const { mutateAsync: deleteDraft } = useDeleteLearningDraftDelete();
+  const { mutateAsync: deleteDraft, isLoading: deleteLoad } =
+    useDeleteLearningDraftDelete();
   const handleDeleteDraft = async () => {
     await deleteDraft(learningsId || "");
     toast.success("Draft Deleted Successfully!");
     navigate("/admin/resource/learnings");
   };
 
-  const { mutateAsync: unpublishMaterial } = useDeleteLearningUnpublish();
+  const { mutateAsync: unpublishMaterial, isLoading: unpublishLoad } =
+    useDeleteLearningUnpublish();
   const handleUnpublish = async () => {
     await unpublishMaterial(learningsId || "");
     toast.success("Unpublished Successfully!");
     navigate("/admin/resource/learnings-draft");
   };
 
-  const { mutateAsync: archiveMaterial } = useDeleteLearningArchive();
+  const { mutateAsync: archiveMaterial, isLoading: archiveLoad } =
+    useDeleteLearningArchive();
   const handleArchive = async () => {
     await archiveMaterial(learningsId || "");
     toast.success("Archive Successfully!");
     navigate("/admin/resource/learnings-archives");
   };
 
-  const { mutateAsync: publishMaterial } = usePutLearningPublish();
+  const { mutateAsync: publishMaterial, isLoading: publishLoad } =
+    usePutLearningPublish();
   const handlePublish = async () => {
     try {
       await publishMaterial(learningsId || "");
@@ -240,6 +245,9 @@ const UpdateLearnings = () => {
             )}
           </div>
         </div>
+        <Loader
+          isVisible={deleteLoad || archiveLoad || publishLoad || unpublishLoad}
+        />
       </div>
     </AdminOutletContainer>
   );

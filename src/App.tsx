@@ -179,6 +179,7 @@ const App = ReactRouter(
           <Route path="tags" element={<QuestionTags />} />
           <Route path="ask" element={<QuestionAsk />} />
           <Route path="question/:username/:questionId" element={<Question />} />
+          <Route path="users" element={<>Hello</>} />
         </>
       </Route>
 
@@ -258,7 +259,8 @@ const App = ReactRouter(
 
       {/* Profile Page  */}
       <Route path="/users" element={<UserProfileLayout />}>
-        <Route path=":userId/me" element={<MyProfile />} />
+        <Route path=":userId/me/" element={<MyProfile />} />
+        <Route path=":userId/me/:saved" element={<MyProfile />} />
         <Route path=":userId/me/edit" element={<EditProfile />} />
       </Route>
 
@@ -350,7 +352,6 @@ const App = ReactRouter(
         <Route path="questions" element={<QuestionsAdmin />} />
         <Route path="question-reported" element={<QuestionsReported />} />
         <Route path="question-archive" element={<QuestionsArchive />} />
-
         <Route path="tags" element={<TagsAdmin />} />
       </Route>
 

@@ -8,11 +8,11 @@ export type SearchParams = {
   filter?: "newest" | "active" | "trending";
 };
 
-export const GET_QUESTION_KEY = () => "GET_SAVED_QUESTION_KEY";
+export const GET_SAVED_QUESTION_KEY = () => "GET_SAVED_QUESTION_KEY";
 
 export default function useGetSavedQuestions(data?: SearchParams) {
   return useQuery({
-    queryKey: [GET_QUESTION_KEY(), data?.page, data?.filter],
+    queryKey: [GET_SAVED_QUESTION_KEY(), data?.page, data?.filter],
     queryFn: async () => {
       const response = await ForumsService.getApiForumsSavedQuestions(
         data ?? {}

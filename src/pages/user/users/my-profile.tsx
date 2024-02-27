@@ -7,13 +7,16 @@ import { UserTabs } from "@components/ui/custom";
 import { useState } from "react";
 import ProfileQuestionSavedList from "@components/user/users/list/ProfileQuestionSavedList";
 import useGetSavedQuestions from "@hooks/api/get/useGetSavedQuestions";
+import { useParams } from "react-router-dom";
 
 const options = ["Posts", "Saved"] as const;
 
 const MyProfile = () => {
   const user = useAuth();
-  const [currentTab, setCurrentTab] = useState<(typeof options)[number]>(
-    options[0]
+  const params = useParams();
+
+  const [currentIndex, setCurrentIndex] = useState<number>(
+    params?.saved ? 1 : 0
   );
 
   const { data: questionData, isLoading: isQuestionLoading } =
@@ -36,10 +39,14 @@ const MyProfile = () => {
         }
       />
       <UserTabs
+        index={currentIndex}
         options={options}
-        onChange={value => setCurrentTab(value as (typeof options)[number])}
+        onChange={value => {
+          setCurrentIndex(options.indexOf(value as "Posts" | "Saved"));
+        }}
       />
-      {currentTab === "Posts" ? (
+
+      {currentIndex === 0 ? (
         <ProfileQuestionList
           data={questionData}
           isLoading={isQuestionLoading}

@@ -39,7 +39,15 @@ export const columns: ColumnDef<SeedlingRequestListItem>[] = [
   },
   {
     accessorKey: "name",
-    header: "Crop"
+    header: "Crop",
+    cell: ({ row }) => {
+      const cropName = row.original;
+      if (cropName.other) {
+        return <p>{cropName.other}</p>;
+      } else {
+        return <p>{cropName.name}</p>;
+      }
+    }
   },
   {
     accessorKey: "quantity_request",
@@ -120,7 +128,7 @@ export const columns: ColumnDef<SeedlingRequestListItem>[] = [
                   <Label>Requested</Label>
                   <Input
                     type="text"
-                    value={request.name}
+                    value={request.name ? request.name : request.other}
                     disabled
                     className="disabled:opacity-100"
                   />

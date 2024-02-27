@@ -36,6 +36,10 @@ import {
 } from "@components/ui/alert-dialog";
 import { Badge } from "@components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/ui/tabs";
+import { Input } from "@components/ui/input";
+import { Label } from "@components/ui/label";
+import { Textarea } from "@components/ui/textarea";
+import RichTextEditor from "@components/ui/custom/rich-text-editor/RichTextEditor";
 
 export const data: ReportedUser[] = [
   {
@@ -140,7 +144,13 @@ export const columns: ColumnDef<ReportedUser>[] = [
               {/* modal */}
               <DialogContent className="">
                 <DialogHeader>
-                  <DialogTitle>ReportID</DialogTitle>
+                  <div className="flex justify-between items-center">
+                    <DialogTitle>ReportID</DialogTitle>
+                    <div>
+                      <Badge className="bg-red-500">High</Badge> |{" "}
+                      <Badge>Reviewed</Badge>
+                    </div>
+                  </div>
                 </DialogHeader>
 
                 <Tabs defaultValue="report">
@@ -148,8 +158,30 @@ export const columns: ColumnDef<ReportedUser>[] = [
                     <TabsTrigger value="report">Report</TabsTrigger>
                     <TabsTrigger value="user">User</TabsTrigger>
                   </TabsList>
+                  {/* report tab */}
                   <TabsContent value="report">
-                    Make changes to your account here.
+                    <div>
+                      <div className="flex gap-4">
+                        <Input
+                          type="text"
+                          defaultValue="issued warning"
+                          disabled
+                        />
+                        <Input type="date" />
+                      </div>
+                      <div className="mt-2">
+                        <Label>Reason</Label>
+                        <Textarea />
+                      </div>
+                      <div className="mt-2">
+                        <Label>Evidence</Label>
+                        <RichTextEditor />
+                      </div>
+                      <div className="mt-2">
+                        <Label>Notes</Label>
+                        <Textarea />
+                      </div>
+                    </div>
                   </TabsContent>
                   {/* user tab */}
                   <TabsContent value="user">
@@ -229,7 +261,27 @@ export const columns: ColumnDef<ReportedUser>[] = [
                         </AlertDialogFooter>
                       </AlertDialogContent>
                     </AlertDialog>
-                    <Button type="submit">PROFILE</Button>
+                    <AlertDialog>
+                      <AlertDialogTrigger>
+                        <Button variant="outline">Warning</Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>
+                            Send Warning to user
+                          </AlertDialogTitle>
+                          <AlertDialogDescription>
+                            This action will send a notification to user about
+                            the action he've done.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogAction>Send</AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                    <Button>Notes</Button>
                   </div>
                 </DialogFooter>
               </DialogContent>

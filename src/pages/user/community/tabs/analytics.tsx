@@ -117,14 +117,14 @@ const Analytics = () => {
   return (
     <>
       <div className="py-10 px-4">
-        <div className=" border-black border-1 p-1 grid grid-cols-12 gap-x-4 gap-y-[4rem]">
+        <SuggestionsModal />
+        <div className=" border-black border-1 p-1 grid grid-cols-12 gap-x-4 gap-y-[4rem] my-4">
           <div className=" xl:col-span-8 col-span-12">
             <h5 className="font-poppins-medium">
               Total Withered & Total Harvest
             </h5>
             <div className="h-[400px]  border border-border p-4 rounded-lg">
               <Bar data={stackBarData} options={optionsBar} />
-              <SuggestionsModal />
             </div>
           </div>
           <div className=" lg:col-span-4 col-span-12 border border-border mt-6 p-4 pb-8 rounded-lg flex flex-col ">

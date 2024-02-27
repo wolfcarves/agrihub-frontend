@@ -28,4 +28,8 @@ const LearningsDraft = () => {
   );
 };
 
-export default withAuthGuard(LearningsDraft, ["admin", "asst_admin"]);
+export default withAuthGuard(
+  LearningsDraft,
+  ["admin", "asst_admin"],
+  "learning"
+);

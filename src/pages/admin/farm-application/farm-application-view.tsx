@@ -23,6 +23,7 @@ import {
   DialogTrigger
 } from "@components/ui/dialog";
 import Autoplay from "embla-carousel-autoplay";
+import withAuthGuard from "@higher-order/account/withAuthGuard";
 
 const FarmApplicationView = () => {
   const navigate = useNavigate();
@@ -212,4 +213,8 @@ const FarmApplicationView = () => {
   );
 };
 
-export default FarmApplicationView;
+export default withAuthGuard(
+  FarmApplicationView,
+  ["admin", "asst_admin"],
+  "farms"
+);

@@ -50,4 +50,4 @@ const ClientAdmin = () => {
   );
 };
 
-export default withAuthGuard(ClientAdmin, ["admin", "asst_admin"]);
+export default withAuthGuard(ClientAdmin, ["admin", "asst_admin"], "cuai");

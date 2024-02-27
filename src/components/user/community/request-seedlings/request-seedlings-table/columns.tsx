@@ -33,6 +33,14 @@ export const columns: ColumnDef<SeedlingRequestListItem>[] = [
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
+    },
+    cell: ({ row }) => {
+      const cropName = row.original;
+      if (cropName.other) {
+        return <p>{cropName.other}</p>;
+      } else {
+        return <p>{cropName.name}</p>;
+      }
     }
   },
   {

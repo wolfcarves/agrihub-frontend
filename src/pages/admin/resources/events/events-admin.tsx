@@ -35,4 +35,4 @@ const EventsAdmin = () => {
   );
 };
 
-export default withAuthGuard(EventsAdmin, ["admin", "asst_admin"]);
+export default withAuthGuard(EventsAdmin, ["admin", "asst_admin"], "event");

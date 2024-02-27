@@ -23,4 +23,4 @@ const QuestionsAdmin = () => {
   );
 };
 
-export default withAuthGuard(QuestionsAdmin, ["admin", "asst_admin"]);
+export default withAuthGuard(QuestionsAdmin, ["admin", "asst_admin"], "forums");

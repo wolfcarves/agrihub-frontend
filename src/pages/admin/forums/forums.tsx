@@ -51,4 +51,4 @@ const Forums = () => {
   );
 };
 
-export default withAuthGuard(Forums, ["admin", "asst_admin"]);
+export default withAuthGuard(Forums, ["admin", "asst_admin"], "forums");

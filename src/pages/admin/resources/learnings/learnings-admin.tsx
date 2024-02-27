@@ -29,4 +29,8 @@ const LearningsAdmin = () => {
   );
 };
 
-export default withAuthGuard(LearningsAdmin, ["admin", "asst_admin"]);
+export default withAuthGuard(
+  LearningsAdmin,
+  ["admin", "asst_admin"],
+  "learning"
+);

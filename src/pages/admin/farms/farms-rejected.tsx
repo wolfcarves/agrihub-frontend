@@ -9,7 +9,7 @@ import useGetFarmApplicationList from "@hooks/api/get/useGetFarmApplicationsList
 
 const breadcrumbItems = [
   { title: "Farm Management", link: "/admin/farm" },
-  { title: "Farms", link: "/admin/farm/farms" },
+  { title: "Farms", link: "/admin/farm/farm-approved" },
   { title: "Rejected Application", link: "/admin/farm/farm-rejected" }
 ];
 const FarmsRejected = () => {
@@ -36,4 +36,4 @@ const FarmsRejected = () => {
   );
 };
 
-export default withAuthGuard(FarmsRejected, ["admin", "asst_admin"]);
+export default withAuthGuard(FarmsRejected, ["admin", "asst_admin"], "farms");

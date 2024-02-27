@@ -33,4 +33,4 @@ const FarmsAdmin = () => {
   );
 };
 
-export default withAuthGuard(FarmsAdmin, ["admin", "asst_admin"]);
+export default withAuthGuard(FarmsAdmin, ["admin", "asst_admin"], "farms");

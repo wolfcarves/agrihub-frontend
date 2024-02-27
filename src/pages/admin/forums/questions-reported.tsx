@@ -28,4 +28,8 @@ const QuestionsReported = () => {
   );
 };
 
-export default withAuthGuard(QuestionsReported, ["admin", "asst_admin"]);
+export default withAuthGuard(
+  QuestionsReported,
+  ["admin", "asst_admin"],
+  "forums"
+);

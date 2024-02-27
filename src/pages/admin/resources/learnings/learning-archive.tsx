@@ -28,4 +28,8 @@ const LearningsArchive = () => {
   );
 };
 
-export default withAuthGuard(LearningsArchive, ["admin", "asst_admin"]);
+export default withAuthGuard(
+  LearningsArchive,
+  ["admin", "asst_admin"],
+  "learning"
+);

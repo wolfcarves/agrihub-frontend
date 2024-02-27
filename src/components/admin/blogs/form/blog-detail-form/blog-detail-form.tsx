@@ -35,7 +35,7 @@ const BlogDetailForm = () => {
     resolver: zodResolver(addBlogsDetailSchema),
     mode: "onBlur",
     defaultValues: {
-      category: blogData?.category || ""
+      category: blogData?.category
     }
   });
 
@@ -93,7 +93,9 @@ const BlogDetailForm = () => {
         encType="multipart/form-data"
       >
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-bold tracking-tight">Blog Details</h2>
+          <h2 className="text-xl font-bold tracking-tight">
+            Blog Details - {blogData?.title}
+          </h2>
         </div>
         <div className=" grid grid-cols-12 gap-5">
           <div className="grid w-full col-span-3 items-center gap-1.5">
@@ -108,7 +110,7 @@ const BlogDetailForm = () => {
                   defaultValue={field.value}
                 >
                   <SelectTrigger disabled={!isEditing} className="">
-                    <SelectValue placeholder="Choose" />
+                    <SelectValue placeholder={blogData?.category || "Choose"} />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="News">News</SelectItem>
@@ -122,11 +124,11 @@ const BlogDetailForm = () => {
           <div className="grid w-full col-span-9 items-center gap-1.5">
             <Label className=" font-poppins-medium">Title</Label>
             <Input
-              defaultValue={blogData?.title}
-              readOnly={!isEditing}
-              {...form.register("title")}
               placeholder="Input blog title"
               type="text"
+              readOnly={!isEditing}
+              defaultValue={blogData?.title}
+              {...form.register("title")}
             />
           </div>
 

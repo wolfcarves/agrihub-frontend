@@ -25,4 +25,4 @@ const DisabledAdmin = () => {
   );
 };
 
-export default withAuthGuard(DisabledAdmin, ["admin", "asst_admin"]);
+export default withAuthGuard(DisabledAdmin, ["admin", "asst_admin"], "admin");

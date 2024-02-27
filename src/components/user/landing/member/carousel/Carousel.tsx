@@ -8,6 +8,7 @@ import {
 import Autoplay from "embla-carousel-autoplay";
 import { Button } from "@components/ui/button";
 import useCmsLandingDetailsQuery from "@hooks/api/get/useCmsLandingDetailsQuery";
+import { Link } from "react-router-dom";
 
 const Carousels: React.FC = () => {
   const plugin = React.useRef(
@@ -51,9 +52,11 @@ const Carousels: React.FC = () => {
           {cta_description}
         </h4>
 
-        <Button className="mt-10" variant="default">
-          Community <FaArrowRightLong className="ms-3" />
-        </Button>
+        <Link to="/community">
+          <Button className="mt-10" variant="default">
+            Community <FaArrowRightLong className="ms-3" />
+          </Button>
+        </Link>
       </div>
     </div>
   );

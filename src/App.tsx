@@ -151,6 +151,7 @@ import CommunityRequest from "./pages/user/community/community-request";
 import SeedlingsRequest from "./pages/user/community/request/seedlings-request/seedlings-request";
 import ForgotPassword from "@pages/user/account/forgot-password";
 import ResetPassword from "@pages/user/account/reset-password";
+import SetPermissionAdmin from "./pages/admin/admins/permission-admin";
 
 const App = ReactRouter(
   <>
@@ -296,8 +297,9 @@ const App = ReactRouter(
       <Route path="analytics" element={<AnalyticsAdmin />} />
 
       {/* Community  */}
-      <Route path="farm" element={<Farms />} />
       <Route path="farm">
+        <Route path="" element={<Farms />} />
+
         <Route path="farmers" element={<FarmersAdmin />} />
         <Route path="accounts-reported" element={<FarmersReported />} />
         <Route path="accounts-banned" element={<FarmersBanned />} />
@@ -347,8 +349,9 @@ const App = ReactRouter(
       </Route>
 
       {/* Forums */}
-      <Route path="forum" element={<Forums />} />
       <Route path="forum">
+        <Route path="" element={<Forums />} />
+
         <Route path="questions" element={<QuestionsAdmin />} />
         <Route path="question-reported" element={<QuestionsReported />} />
         <Route path="question-archive" element={<QuestionsArchive />} />
@@ -362,6 +365,7 @@ const App = ReactRouter(
         <Route path="user-banned" element={<UsersBanned />} />
 
         <Route path="admins" element={<RecordAdmins />} />
+        <Route path="admins/set-permission" element={<SetPermissionAdmin />} />
         <Route path="admin-disabled" element={<DisabledAdmin />} />
 
         <Route path="activity-logs" element={<ActivityLog />} />

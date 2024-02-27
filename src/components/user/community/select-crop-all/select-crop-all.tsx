@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "../../../ui/popover";
 import { Button } from "../../../ui/button";
 import { Check, ChevronsUpDown } from "lucide-react";
@@ -40,10 +40,11 @@ interface SelectCropProps {
 }
 const SelectCropAll: React.FC<SelectCropProps> = ({ field, form, other }) => {
   const { data: farmCrops } = useGetCropsQuery();
+  const [open, setOpen] = useState(false);
 
   return (
     <div>
-      <Popover>
+      <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
             variant="outline"
@@ -65,15 +66,26 @@ const SelectCropAll: React.FC<SelectCropProps> = ({ field, form, other }) => {
           <Command>
             <CommandInput placeholder="Search Crop..." />
 
-            <CommandEmpty>No Crop found.</CommandEmpty>
+            <CommandEmpty className="py-1">
+              <p
+                onClick={() => {
+                  form.setValue("crop_id", "");
+                  setOpen(false);
+                }}
+                className=" cursor-pointer hover:bg-[#F1F5F9] py-2 text-center text-sm "
+              >
+                Add Other Crop
+              </p>
+            </CommandEmpty>
             <CommandGroup>
-              <div className="max-h-[40vh] overflow-x-auto custom-scroll">
+              <ScrollArea className="max-h-[40vh] overflow-y-auto custom-scroll touch-auto">
                 {farmCrops?.map(crops => (
                   <CommandItem
                     value={crops.name}
                     key={crops.name}
                     onSelect={() => {
                       form.setValue("crop_id", crops.id);
+                      setOpen(false);
                     }}
                   >
                     <Check
@@ -90,6 +102,7 @@ const SelectCropAll: React.FC<SelectCropProps> = ({ field, form, other }) => {
                     value="Others"
                     onSelect={() => {
                       form.setValue("crop_id", "");
+                      setOpen(false);
                     }}
                   >
                     <Check
@@ -101,7 +114,7 @@ const SelectCropAll: React.FC<SelectCropProps> = ({ field, form, other }) => {
                     Others
                   </CommandItem>
                 )}
-              </div>
+              </ScrollArea>
             </CommandGroup>
           </Command>
         </PopoverContent>

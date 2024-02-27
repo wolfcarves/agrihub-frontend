@@ -24,4 +24,8 @@ const ActivityLog = () => {
   );
 };
 
-export default withAuthGuard(ActivityLog, ["admin", "asst_admin"]);
+export default withAuthGuard(
+  ActivityLog,
+  ["admin", "asst_admin"],
+  "activity_logs"
+);

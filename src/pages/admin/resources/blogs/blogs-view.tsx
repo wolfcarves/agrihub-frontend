@@ -30,6 +30,7 @@ import usePutBlogsUnpublish from "../../../../hooks/api/put/usePutBlogsUnpublish
 import useDeleteBlogArchive from "../../../../hooks/api/delete/useDeleteBlogArchive";
 import usePutBlogsPublish from "../../../../hooks/api/put/usePutBlogsPublish";
 import Loader from "../../../../icons/Loader";
+import withAuthGuard from "@higher-order/account/withAuthGuard";
 
 const breadcrumbItems = [
   { title: "Resource Management", link: "/admin/resources" },
@@ -239,4 +240,4 @@ const ViewBlogs = () => {
   );
 };
 
-export default ViewBlogs;
+export default withAuthGuard(ViewBlogs, ["admin", "asst_admin"], "blog");

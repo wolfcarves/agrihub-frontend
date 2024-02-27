@@ -12,6 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@components/ui/dropdown-menu";
+import { Link } from "react-router-dom";
 
 export const data: Admin[] = [
   {
@@ -97,7 +98,9 @@ export const columns: ColumnDef<Admin>[] = [
               Copy admin ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View admin</DropdownMenuItem>
+            <Link to="/admin/record/admins/set-permission">
+              <DropdownMenuItem>View admin</DropdownMenuItem>
+            </Link>
           </DropdownMenuContent>
         </DropdownMenu>
       );

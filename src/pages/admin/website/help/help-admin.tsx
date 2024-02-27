@@ -170,4 +170,4 @@ const HelpAdmin = () => {
   );
 };
 
-export default withAuthGuard(HelpAdmin, ["admin", "asst_admin"]);
+export default withAuthGuard(HelpAdmin, ["admin", "asst_admin"], "help_center");

@@ -35,6 +35,7 @@ import {
   AlertDialogTrigger
 } from "@components/ui/alert-dialog";
 import { Badge } from "@components/ui/badge";
+import { Link } from "react-router-dom";
 
 export const data: User[] = [
   {
@@ -197,6 +198,7 @@ export const columns: ColumnDef<User>[] = [
                   <div className="flex justify-end items-center gap-2">
                     <Button variant="ghost">Back</Button>
                     <AlertDialog>
+                      {/* ban alert dailog */}
                       <AlertDialogTrigger>
                         <Button variant="destructive">Ban</Button>
                       </AlertDialogTrigger>
@@ -209,7 +211,9 @@ export const columns: ColumnDef<User>[] = [
                           </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
-                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <Link to="/admin/record/user-banned">
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          </Link>
                           <AlertDialogAction>Continue</AlertDialogAction>
                         </AlertDialogFooter>
                       </AlertDialogContent>

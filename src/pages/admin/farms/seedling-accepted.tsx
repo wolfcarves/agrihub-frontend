@@ -28,4 +28,8 @@ const SeedlingAccepted = () => {
   );
 };
 
-export default withAuthGuard(SeedlingAccepted, ["admin", "asst_admin"]);
+export default withAuthGuard(
+  SeedlingAccepted,
+  ["admin", "asst_admin"],
+  "farms"
+);

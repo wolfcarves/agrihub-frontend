@@ -78,7 +78,9 @@ const DialogRequestSeedling = () => {
       quantity_request: Number(data.quantity_request),
       note: data.note
     };
-
+    if (compiledData.other) {
+      delete compiledData.crop_id;
+    }
     try {
       await addRequestMutate({ requestBody: compiledData });
       toast.success("Seedling Requested Successfully!");
@@ -137,6 +139,8 @@ const DialogRequestSeedling = () => {
                 type="number"
                 placeholder="Quantity"
                 className="col-span-3"
+                min={0}
+                max={10000}
               />
             </div>
             <div className="flex flex-col gap-3">

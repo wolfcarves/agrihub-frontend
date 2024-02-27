@@ -27,4 +27,8 @@ const PrivacyAdmin = () => {
   );
 };
 
-export default withAuthGuard(PrivacyAdmin, ["admin", "asst_admin"]);
+export default withAuthGuard(
+  PrivacyAdmin,
+  ["admin", "asst_admin"],
+  "privacy_policy"
+);

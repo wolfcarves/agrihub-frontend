@@ -78,7 +78,7 @@ const QuestionsList = ({ data, isLoading }: QuestionsListProps) => {
   }
 
   return (
-    <div className="flex flex-col gap-7 pb-20">
+    <div className="flex flex-col pb-20">
       {data?.questions?.map(
         ({
           id,

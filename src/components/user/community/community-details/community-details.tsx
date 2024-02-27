@@ -8,13 +8,14 @@ import useCommunityAutorization from "../../../../hooks/utils/useCommunityAutori
 import { FaSquareFacebook } from "react-icons/fa6";
 import { IoLogoInstagram } from "react-icons/io5";
 import { FaYoutube } from "react-icons/fa";
+import Loader from "../../../../icons/Loader";
 
 const CommunityDetails = () => {
   const navigate = useNavigate();
   const { isAuthenticated, data: UserData } = useAuth();
   const { id } = useParams();
   const { isMember, isAllowed } = useCommunityAutorization();
-  const { data: farmDetails } = useGetFarmViewQuery(id || "");
+  const { data: farmDetails, isLoading } = useGetFarmViewQuery(id || "");
 
   const handleEdit = () => {
     navigate(`/community/my-community/${UserData?.farm_id}/profile`);
@@ -77,6 +78,7 @@ const CommunityDetails = () => {
           </div>
         </div>
       </div>
+      <Loader isVisible={isLoading} />
     </div>
   );
 };

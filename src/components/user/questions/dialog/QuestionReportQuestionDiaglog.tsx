@@ -36,7 +36,7 @@ const QuestionReportQuestionDiaglog = ({
             </DialogTitle>
 
             <DialogDescription>
-              <h6 className="mt-1">Reason:</h6>
+              <h6 className="mt-5">Reason:</h6>
               <Input ref={inputRef} />
             </DialogDescription>
 

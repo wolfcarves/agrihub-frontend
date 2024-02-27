@@ -9,6 +9,7 @@ import QuestionsFilterSelect, {
 } from "@components/user/questions/select/QuestionsFilterSelect";
 import OutletContainer from "@components/user/questions/container/OutletContainer";
 import QuestionsTitleTag from "@components/user/questions/title/QuestionsTitleTag";
+import { Helmet } from "react-helmet-async";
 
 const Questions = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -37,16 +38,22 @@ const Questions = () => {
   };
 
   return (
-    <OutletContainer>
-      <QuestionsInputAddQuestion />
-      <QuestionsTitleTag title={params.tag} />
-      <QuestionsFilterSelect
-        selected={params.sortBy}
-        onFilterChange={handleFilterChange}
-      />
-      <QuestionsList data={questionData} isLoading={isQuestionLoading} />
-      <Pagination totalPages={totalPages} isLoading={isQuestionLoading} />
-    </OutletContainer>
+    <>
+      <Helmet>
+        <title>Questions | Agrihub</title>
+      </Helmet>
+
+      <OutletContainer>
+        <QuestionsInputAddQuestion />
+        <QuestionsTitleTag title={params.tag} />
+        <QuestionsFilterSelect
+          selected={params.sortBy}
+          onFilterChange={handleFilterChange}
+        />
+        <QuestionsList data={questionData} isLoading={isQuestionLoading} />
+        <Pagination totalPages={totalPages} isLoading={isQuestionLoading} />
+      </OutletContainer>
+    </>
   );
 };
 

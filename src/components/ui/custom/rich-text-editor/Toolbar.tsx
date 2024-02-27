@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Editor } from "@tiptap/react";
 import {
   FaBold,
@@ -19,6 +19,8 @@ type ToolbarProps = {
 };
 
 const Toolbar: React.FC<ToolbarProps> = ({ editor, onImageUpload }) => {
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const addImage = async (data: React.ChangeEvent<HTMLInputElement>) => {
     const file = data.target?.files?.[0];
 
@@ -47,8 +49,8 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor, onImageUpload }) => {
     <>
       <button
         onClick={e => {
-          e.preventDefault();
           editor.chain().focus().toggleBold().run();
+          e.preventDefault();
         }}
         className={`p-2 rounded-md ${
           editor.isActive("bold") ? "bg-primary text-white" : ""
@@ -56,6 +58,7 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor, onImageUpload }) => {
       >
         <FaBold />
       </button>
+
       <button
         onClick={e => {
           e.preventDefault();
@@ -67,6 +70,7 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor, onImageUpload }) => {
       >
         <FaItalic />
       </button>
+
       <button
         onClick={e => {
           e.preventDefault();
@@ -77,6 +81,7 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor, onImageUpload }) => {
       >
         <FaUndo />
       </button>
+
       <button
         onClick={e => {
           e.preventDefault();
@@ -113,6 +118,7 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor, onImageUpload }) => {
       >
         <FaListUl />
       </button>
+
       <button
         onClick={e => {
           e.preventDefault();
@@ -135,18 +141,26 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor, onImageUpload }) => {
         <FaMinus />
       </button>
 
-      <button className="relative flex items-center gap-3 active:text-white p-2 rounded-md hover:bg-primary ">
+      <button
+        className="relative flex items-center gap-3 active:text-white p-2 rounded-md hover:bg-primary"
+        onClick={e => {
+          e.preventDefault();
+          inputRef?.current?.click();
+        }}
+      >
         <FaRegImage />
-        <input
-          type="file"
-          value={[]}
-          accept="image/png, image/jpg, image/jpeg"
-          className="absolute opacity-0 inset-0 m-auto"
-          onChange={data => {
-            addImage(data);
-          }}
-        />
       </button>
+
+      <input
+        ref={inputRef}
+        type="file"
+        value={[]}
+        accept="image/png, image/jpg, image/jpeg"
+        className="absolute opacity-0 inset-0 m-auto hidden"
+        onChange={data => {
+          addImage(data);
+        }}
+      />
     </>
   );
 };

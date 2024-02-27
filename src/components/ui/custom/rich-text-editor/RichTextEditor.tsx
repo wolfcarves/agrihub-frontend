@@ -1,7 +1,12 @@
-import { useEditor, EditorContent, EditorContentProps, Extensions, Editor } from "@tiptap/react";
+import React, { useState } from "react";
+import {
+  useEditor,
+  EditorContent,
+  EditorContentProps,
+  Extensions
+} from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
-import React, { useState } from "react";
 import Toolbar from "./Toolbar";
 import CharacterCount from "@tiptap/extension-character-count";
 
@@ -43,7 +48,6 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
   allowImagePaste = true,
   height,
   disabled = false,
-
   defaultValue,
   ...props
 }) => {
@@ -98,10 +102,6 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
     },
     onBlur: ({ editor }) => {
       const { doc } = editor.state;
-
-      editor.commands.setContent(editor?.getHTML(), false, {
-        preserveWhitespace: "full"
-      });
 
       doc.descendants(node => {
         if (node.type.name === "image") {
@@ -177,16 +177,14 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
     >
       {withToolbar && (
         <div className="bg-[#DCF2D3] p-1 flex gap-1">
-          <Toolbar
-            editor={editor as Editor}
-            onImageUpload={handleImageUpload}
-          />
+          <Toolbar editor={editor} onImageUpload={handleImageUpload} />
         </div>
       )}
+
       <EditorContent
         editor={editor}
-        {...{ props }}
         style={{ minHeight: height }}
+        {...{ props }}
       />
     </div>
   );

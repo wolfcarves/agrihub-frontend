@@ -101,7 +101,7 @@ const FormSeedlingRequest: React.FC<RequestType> = ({
         <div className="w-full">
           <Label>Requested</Label>
           <Input
-            value={seedlingData.name}
+            value={seedlingData.name ? seedlingData.name : seedlingData.other}
             readOnly
             className=" focus-visible:ring-0"
           />
@@ -127,12 +127,18 @@ const FormSeedlingRequest: React.FC<RequestType> = ({
           <div className="flex w-full gap-4 mb-4">
             <div className="w-full">
               <Label>Delivery Date</Label>
-              <Input type="date" {...form.register("delivery_date")} />
+              <Input type="date" {...form.register("delivery_date")} required />
             </div>
 
             <div className="w-1/3">
               <Label>Quantity</Label>
-              <Input type="number" {...form.register("quantity_approve")} />
+              <Input
+                type="number"
+                {...form.register("quantity_approve")}
+                min={0}
+                max={10000}
+                required
+              />
             </div>
           </div>
 

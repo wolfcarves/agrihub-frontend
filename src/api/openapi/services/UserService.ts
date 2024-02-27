@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { AdminListResponse } from '../models/AdminListResponse';
 import type { ListMemberResponse } from '../models/ListMemberResponse';
 import type { ListUserResponse } from '../models/ListUserResponse';
 import type { MessageResponse } from '../models/MessageResponse';
@@ -13,6 +14,52 @@ import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
 
 export class UserService {
+
+    /**
+     * Get a list of administrators
+     * @returns AdminListResponse A list of administrators
+     * @throws ApiError
+     */
+    public static getApiUserAdmins({
+search,
+page,
+perpage,
+filter,
+}: {
+/**
+ * Search query string
+ */
+search?: string,
+/**
+ * Page number
+ */
+page?: string,
+/**
+ * Number of items per page
+ */
+perpage?: string,
+/**
+ * Filter by banned or active administrators
+ */
+filter?: 'active' | 'banned',
+}): CancelablePromise<AdminListResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/user/admins',
+            query: {
+                'search': search,
+                'page': page,
+                'perpage': perpage,
+                'filter': filter,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
 
     /**
      * Get a list of users

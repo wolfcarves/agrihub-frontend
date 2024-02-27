@@ -6,7 +6,11 @@ const UserReponsiveContainer = ({
   children,
   className
 }: UserResponsiveContainer) => {
-  return <div className={`${className} container flex`}>{children}</div>;
+  return (
+    <div className={`${className} container flex justify-between`}>
+      {children}
+    </div>
+  );
 };
 
 export default UserReponsiveContainer;

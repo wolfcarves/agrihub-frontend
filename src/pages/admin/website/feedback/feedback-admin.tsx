@@ -32,4 +32,8 @@ const FeedbackAdmin = () => {
   );
 };
 
-export default withAuthGuard(FeedbackAdmin, ["admin", "asst_admin"]);
+export default withAuthGuard(
+  FeedbackAdmin,
+  ["admin", "asst_admin"],
+  "user_feedback"
+);

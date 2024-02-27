@@ -25,4 +25,4 @@ const EventsDraft = () => {
   );
 };
 
-export default withAuthGuard(EventsDraft, ["admin", "asst_admin"]);
+export default withAuthGuard(EventsDraft, ["admin", "asst_admin"], "event");

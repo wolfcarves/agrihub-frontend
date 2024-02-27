@@ -21,4 +21,4 @@ const BlogsArchive = () => {
   );
 };
 
-export default withAuthGuard(BlogsArchive, ["admin", "asst_admin"]);
+export default withAuthGuard(BlogsArchive, ["admin", "asst_admin"], "blog");

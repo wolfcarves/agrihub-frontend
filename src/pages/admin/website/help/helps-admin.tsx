@@ -132,4 +132,8 @@ const HelpsAdmin = () => {
   );
 };
 
-export default withAuthGuard(HelpsAdmin, ["admin", "asst_admin"]);
+export default withAuthGuard(
+  HelpsAdmin,
+  ["admin", "asst_admin"],
+  "help_center"
+);

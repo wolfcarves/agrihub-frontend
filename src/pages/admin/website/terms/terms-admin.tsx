@@ -30,4 +30,8 @@ const TermsAdmin = () => {
   );
 };
 
-export default withAuthGuard(TermsAdmin, ["admin", "asst_admin"]);
+export default withAuthGuard(
+  TermsAdmin,
+  ["admin", "asst_admin"],
+  "terms_and_conditions"
+);

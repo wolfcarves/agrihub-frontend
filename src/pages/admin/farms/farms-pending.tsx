@@ -34,4 +34,4 @@ const FarmsPending = () => {
   );
 };
 
-export default withAuthGuard(FarmsPending, ["admin", "asst_admin"]);
+export default withAuthGuard(FarmsPending, ["admin", "asst_admin"], "farms");

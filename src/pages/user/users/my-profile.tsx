@@ -37,6 +37,7 @@ const MyProfile = () => {
           questionData?.questions?.filter(q => q.user?.id === user.data?.id)
             .length
         }
+        saveCount={savedQuestionData?.questions?.length}
       />
       <UserTabs
         index={currentIndex}

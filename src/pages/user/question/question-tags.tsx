@@ -1,10 +1,9 @@
 import OutletContainer from "@components/user/questions/container/OutletContainer";
 import TagList from "@components/user/questions/list/TagList";
-import withAuthGuard from "@higher-order/account/withAuthGuard";
 
 const QuestionTags = () => {
   return (
-    <OutletContainer>
+    <OutletContainer className="p-10 pb-20">
       <TagList />
     </OutletContainer>
   );

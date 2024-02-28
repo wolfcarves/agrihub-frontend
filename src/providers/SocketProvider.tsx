@@ -55,26 +55,26 @@ const SocketProvider = (props: { children: React.ReactNode }) => {
       socket.on(data?.id ?? "", payload => showNotification(payload));
     }
 
-    if ("serviceWorker" in navigator) {
-      const handleServiceWorker = async () => {
-        try {
-          const register = await navigator.serviceWorker.register("sw.js");
+    // if ("serviceWorker" in navigator) {
+    //   const handleServiceWorker = async () => {
+    //     try {
+    //       const register = await navigator.serviceWorker.register("sw.js");
 
-          const subscription = await register.pushManager.subscribe({
-            userVisibleOnly: true,
-            applicationServerKey: import.meta.env.VITE_VAPID_PUBLIC_KEY
-          });
+    //       const subscription = await register.pushManager.subscribe({
+    //         userVisibleOnly: true,
+    //         applicationServerKey: import.meta.env.VITE_VAPID_PUBLIC_KEY
+    //       });
 
-          await axiosInstance.post(
-            "/api/notification/subscribe",
-            subscription as any
-          );
-        } catch (error) {
-          console.log(error);
-        }
-      };
-      handleServiceWorker();
-    }
+    //       await axiosInstance.post(
+    //         "/api/notification/subscribe",
+    //         subscription as any
+    //       );
+    //     } catch (error) {
+    //       console.log(error);
+    //     }
+    //   };
+    //   handleServiceWorker();
+    // }
 
     return () => {
       socket.off("data?.id" ?? "", () => console.log("unlisten"));

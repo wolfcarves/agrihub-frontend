@@ -1,13 +1,18 @@
-import useAuth from "@hooks/useAuth";
 import React from "react";
 
 interface ProfileTitleProps {
   fullname?: string;
   username?: string;
   postCount?: number;
+  saveCount?: number;
 }
 
-const ProfileTitle = ({ fullname, username, postCount }: ProfileTitleProps) => {
+const ProfileTitle = ({
+  fullname,
+  username,
+  postCount,
+  saveCount
+}: ProfileTitleProps) => {
   return (
     <>
       <div className="pt-20">
@@ -22,6 +27,13 @@ const ProfileTitle = ({ fullname, username, postCount }: ProfileTitleProps) => {
           <span className="font-poppins-semibold">{postCount}</span>
           <span className="opacity-40 font-poppins-semibold uppercase">
             Posts
+          </span>
+        </div>
+
+        <div className="flex flex-col gap-1.5 text-center">
+          <span className="font-poppins-semibold">{saveCount}</span>
+          <span className="opacity-40 font-poppins-semibold uppercase">
+            Saved
           </span>
         </div>
       </div>

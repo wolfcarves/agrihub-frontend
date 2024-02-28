@@ -34,7 +34,7 @@ function QuestionsFilterSelect({
   ...props
 }: QuestionsFilterProps) {
   return (
-    <div className="ms-auto py-10">
+    <div className="w-full max-w-[45rem] mx-auto py-10">
       <Select onValueChange={onFilterChange} {...props}>
         <SelectTrigger className="w-[120px] rounded-lg text-foreground font-poppins-medium capitalize h-11 bg-white">
           <SelectValue placeholder={selected ?? sortOptions[0].label} />

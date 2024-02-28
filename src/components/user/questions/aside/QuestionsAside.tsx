@@ -6,7 +6,6 @@ import {
 } from "@components/ui/custom";
 import { Link } from "react-router-dom";
 import useGetPopularTagsQuery from "@hooks/api/get/useGetPopularTagsQuery";
-import TagChip from "../chip/TagChip";
 import LoadingSpinner from "@icons/LoadingSpinner";
 
 const QuestionsAside = () => {
@@ -14,7 +13,8 @@ const QuestionsAside = () => {
 
   return (
     <UserAside className="hidden lg:flex">
-      <UserAsideTitle>Related</UserAsideTitle>
+      <UserAsideTitle>Tags</UserAsideTitle>
+
       <UserAsideItemContent className="mt-5">
         {isTagsLoading ? (
           <LoadingSpinner className="mx-auto text-md text-green-700" />
@@ -27,8 +27,9 @@ const QuestionsAside = () => {
         )}
       </UserAsideItemContent>
 
-      <UserAsideTitle className="mt-5">Discover Tags</UserAsideTitle>
-      <UserAsideItemContent className="mt-5 flex flex-wrap gap-x-1 gap-y-2">
+      {/* <UserAsideTitle className="mt-5">Discover Tags</UserAsideTitle>
+
+      <UserAsideItemContent className="mt-5 flex flex-wrap gap-x-1 gap-y-2 w-[16rem]">
         {isTagsLoading ? (
           <LoadingSpinner className="mx-auto text-md text-green-700" />
         ) : (
@@ -40,7 +41,7 @@ const QuestionsAside = () => {
             );
           })
         )}
-      </UserAsideItemContent>
+      </UserAsideItemContent> */}
     </UserAside>
   );
 };

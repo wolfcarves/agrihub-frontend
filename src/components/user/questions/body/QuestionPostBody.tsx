@@ -39,7 +39,10 @@ const QuestionPostBody = ({ data }: QuestionPostBodyProps) => {
   return (
     <>
       <div className="pb-5 mb-5">
-        <h1 className="text-xl text-foreground font-poppins-semibold hover:opacity-90 max-w-2xl break-words">
+        <h1
+          className="text-xl text-foreground font-poppins-semibold hover:opacity-90"
+          style={{ overflowWrap: "anywhere" }}
+        >
           {data?.question?.title}
         </h1>
       </div>
@@ -53,7 +56,7 @@ const QuestionPostBody = ({ data }: QuestionPostBodyProps) => {
       </div>
 
       <div className="flex justify-between">
-        <div className="flex flex-col">
+        <div className="flex flex-col" style={{ overflowWrap: "anywhere" }}>
           {parse(data?.question?.question ?? "", {
             replace: domNode => {
               if (domNode instanceof Element) {
@@ -84,7 +87,7 @@ const QuestionPostBody = ({ data }: QuestionPostBodyProps) => {
               }}
             />
 
-            <span className=" font-semibold">{data?.question?.vote_count}</span>
+            <span className="font-semibold">{data?.question?.vote_count}</span>
 
             <QuestionVoteButton
               variant="downvote"

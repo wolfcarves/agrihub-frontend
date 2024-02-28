@@ -63,7 +63,7 @@ const QuestionCommentForm = ({ answerId }: QuestionCommentFormProps) => {
         render={({ field: { onChange } }) => {
           return (
             <>
-              <div className="flex gap-2 max-w-[43rem] ">
+              <div className="flex gap-2 max-w-[43rem]">
                 <Avatar className="border">
                   <AvatarImage
                     src={user.data?.avatar}
@@ -97,16 +97,18 @@ const QuestionCommentForm = ({ answerId }: QuestionCommentFormProps) => {
         }}
       />
 
-      {!isPostCommentLoading && (
-        <button
-          className={`${
-            answerLength === 0 && "opacity-60 pointer-events-none"
-          } flex mt-5 ms-auto text-sm border py-2 px-3 rounded-full cursor-pointer hover:bg-accent`}
-          disabled={answerLength === 0}
-        >
-          Add Comment
-        </button>
-      )}
+      <div className="flex gap-2 max-w-[43rem]">
+        {!isPostCommentLoading && (
+          <button
+            className={`${
+              answerLength === 0 && "opacity-60 pointer-events-none"
+            } flex mt-5 ms-auto text-sm border py-2 px-3 rounded-full cursor-pointer hover:bg-accent`}
+            disabled={answerLength === 0}
+          >
+            Add Comment
+          </button>
+        )}
+      </div>
     </form>
   );
 };

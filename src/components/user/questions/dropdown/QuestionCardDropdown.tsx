@@ -42,6 +42,7 @@ const QuestionCardDropdown = ({ items }: QuestionCardDropdownProps) => {
       <DropdownMenuContent className="flex w-max" align="end">
         {items?.map(({ label, icon, onClick }) => (
           <DropdownMenuItemAuth
+            key={label}
             className="flex flex-row w-full rounded-md cursor-pointer py-2.5 px-3 hover:bg-accent"
             onClick={onClick}
           >

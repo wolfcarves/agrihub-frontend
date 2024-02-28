@@ -37,7 +37,10 @@ const LearningDetailForm = () => {
   //form
   const form = useForm<UpdateLearningMaterial>({
     resolver: zodResolver(addLearningDetailSchema),
-    mode: "onBlur"
+    mode: "onBlur",
+    defaultValues: {
+      language: LearningData?.language
+    }
   });
 
   // validations
@@ -112,7 +115,13 @@ const LearningDetailForm = () => {
                   defaultValue={field.value || LearningData?.language}
                 >
                   <SelectTrigger disabled={!isEditingDeets}>
-                    <SelectValue placeholder={`${LearningData?.language}`} />
+                    <SelectValue
+                      placeholder={
+                        LearningData?.language
+                          ? LearningData?.language
+                          : "Select"
+                      }
+                    />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="Tagalog">Tagalog</SelectItem>

@@ -7,6 +7,8 @@ export type { AcceptedFarmApplicationData } from './models/AcceptedFarmApplicati
 export type { AcceptFarmApplicationResponse } from './models/AcceptFarmApplicationResponse';
 export type { AcceptSeedlingRequest } from './models/AcceptSeedlingRequest';
 export type { AddFarmCropResponse } from './models/AddFarmCropResponse';
+export type { AdminListResponse } from './models/AdminListResponse';
+export type { AdminUser } from './models/AdminUser';
 export type { Answer } from './models/Answer';
 export type { AnswersSchema } from './models/AnswersSchema';
 export type { ApplicantData } from './models/ApplicantData';

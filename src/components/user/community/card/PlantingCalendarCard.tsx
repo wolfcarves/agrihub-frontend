@@ -1,24 +1,7 @@
-import { Drawer, DrawerContent, DrawerTrigger } from "@components/ui/drawer";
 import { CropData } from "@api/openapi";
-import { MONTHS } from "@pages/user/calendar/calendar";
 import { Link } from "react-router-dom";
 
 interface PlantingCalendarCardProps extends CropData {}
-
-const GridItem = ({
-  title,
-  value
-}: {
-  title?: string;
-  value?: string | boolean;
-}) => {
-  return (
-    <div className="p-2">
-      <h3 className="font-poppins-semibold text-md sm:text-xl">{title} :</h3>
-      <h4 className="mt-3 text-base sm:text-lg">{value}</h4>
-    </div>
-  );
-};
 
 const PlantingCalendarCard = ({
   name,
@@ -36,7 +19,7 @@ const PlantingCalendarCard = ({
 
       <div className="space-y-2 text-center pt-4 pb-0">
         <h5 className="font-poppins-medium">{name}</h5>
-        <p>{description}</p>
+        <p className="line-clamp-2">{description}</p>
       </div>
     </div>
   );

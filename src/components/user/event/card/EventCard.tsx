@@ -1,14 +1,16 @@
 import React from "react";
 import { EventSpeaker } from "@api/openapi";
 import { Divider } from "@components/ui/custom";
+import { Label } from "@components/ui/label";
 
 interface EventCardProps {
   title?: string;
   item?: string;
   avatar?: string;
+  position?: string;
 }
 
-const EventCard = ({ title, item, avatar }: EventCardProps) => {
+const EventCard = ({ title, item, avatar, position }: EventCardProps) => {
   return (
     <div>
       {title && (
@@ -31,8 +33,10 @@ const EventCard = ({ title, item, avatar }: EventCardProps) => {
               className="w-10 h-10 bg-black/10 rounded-full me-2"
             />
           )}
-
-          <span className="text-md truncate">{item}</span>
+          <div className="text-left">
+            <div className="text-md truncate">{item}</div>
+            {position && <Label className="truncate">{position}</Label>}
+          </div>
         </div>
       </div>
     </div>

@@ -40,6 +40,7 @@ const EventDetailForm = () => {
   const { data: eventData, isLoading: eventDataLoad } = useGetEventsDraftView(
     eventId || ""
   );
+  console.log(eventData);
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
   //form
@@ -47,7 +48,7 @@ const EventDetailForm = () => {
     resolver: zodResolver(addEventDetailSchema),
     mode: "onBlur",
     defaultValues: {
-      type: eventData?.type || "Seminar",
+      type: eventData?.type,
       image: eventData?.banner || ""
     }
   });
@@ -165,7 +166,9 @@ const EventDetailForm = () => {
                   defaultValue={field.value}
                 >
                   <SelectTrigger disabled={!isEditing} className="">
-                    <SelectValue placeholder="Choose" />
+                    <SelectValue
+                      placeholder={eventData?.type ? eventData?.type : "Choose"}
+                    />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="Seminar">Seminar</SelectItem>
@@ -272,7 +275,12 @@ const EventDetailForm = () => {
                   onChange={value => {
                     form.setValue("image", value);
                   }}
-                  defaultValue={eventData?.banner}
+                  defaultValue={
+                    eventData?.banner ===
+                    "https://s3.ap-southeast-1.amazonaws.com/agrihub-bucket/"
+                      ? undefined
+                      : eventData?.banner
+                  }
                   disabled={!isEditing}
                 />
               )}

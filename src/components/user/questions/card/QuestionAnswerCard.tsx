@@ -6,6 +6,9 @@ import DOMPurify from "dompurify";
 import { useRef, useState } from "react";
 import QuestionCommentForm from "../form/QuestionCommentForm/QuestionCommentForm";
 import useAuth from "@hooks/useAuth";
+import useForumsVoteAnswerMutation from "@hooks/api/post/useForumsVoteAnswerMutation";
+import useForumsDeleteVoteAnswerMutation from "@hooks/api/post/useForumsDeleteVoteAnswerMutation";
+import { MdOutlineEdit, MdOutlineDelete } from "react-icons/md";
 
 interface QuestionAnswerListProps {
   data?: Answer;
@@ -19,9 +22,28 @@ const QuestionAnswerCard = ({ data }: QuestionAnswerListProps) => {
   const [expandComment, setExpandComment] = useState<boolean>(false);
   const parentRef = useRef<HTMLDivElement>(null);
   const purifyAnswer = DOMPurify.sanitize(data?.answer ?? "");
+  const isAnswerOwned = data?.user?.id === user?.data?.id;
 
   const showCommentForm =
     addComment || (expandComment && user?.isAuthenticated);
+
+  const { mutateAsync: voteAnswer } = useForumsVoteAnswerMutation();
+  const { mutateAsync: deleteVoteAnswer } = useForumsDeleteVoteAnswerMutation();
+
+  const handleVoteAnswer = async (
+    id?: string,
+    type?: "upvote" | "downvote"
+  ) => {
+    try {
+      if (data?.vote?.type !== undefined) {
+        return await deleteVoteAnswer({ id: data?.vote?.id });
+      }
+
+      await voteAnswer({ id, type });
+    } catch (error: any) {
+      console.log(error.body.message);
+    }
+  };
 
   return (
     <div className="relative w-full">
@@ -44,8 +66,23 @@ const QuestionAnswerCard = ({ data }: QuestionAnswerListProps) => {
             className={`${
               data?.isaccepted &&
               "accepted-answer text-white border-red-700 border-2"
-            }  border p-2 sm:p-3 rounded-lg`}
+            }  relative border p-2 sm:p-3 rounded-lg group`}
           >
+            {isAnswerOwned && (
+              <div className="hidden group-hover:flex gap-1 absolute -bottom-3 end-3">
+                <div className="w-8 h-8 rounded-full border bg-background">
+                  <button className="w-full h-full">
+                    <MdOutlineEdit className="m-auto" />
+                  </button>
+                </div>
+                <div className="w-8 h-8 rounded-full border bg-background">
+                  <button className="w-full h-full">
+                    <MdOutlineDelete className="m-auto" />
+                  </button>
+                </div>
+              </div>
+            )}
+
             <Link to="/" className="font-poppins-medium hover:underline ">
               {data?.user?.username}
             </Link>
@@ -59,9 +96,14 @@ const QuestionAnswerCard = ({ data }: QuestionAnswerListProps) => {
           </div>
 
           <QuestionFeedbackPanel
-            onUpVoteBtnClick={() => {}}
-            onDownVoteBtnClick={() => {}}
-            voteCount={data?.total_vote_count ?? ""}
+            onUpVoteBtnClick={() => {
+              handleVoteAnswer(data?.id, "upvote");
+            }}
+            onDownVoteBtnClick={() => {
+              handleVoteAnswer(data?.id, "downvote");
+            }}
+            vote={(data?.vote?.type as "upvote" | "downvote") ?? undefined}
+            voteCount={data?.upvote_count ?? ""}
             onCommentBtnClick={
               user?.isAuthenticated
                 ? () => {
@@ -116,11 +158,11 @@ const QuestionAnswerCard = ({ data }: QuestionAnswerListProps) => {
                 </Link>
 
                 <div
-                  className={`-z-50 absolute w-8 h-7 -start-[1.30rem] bottom-4 rounded-b-md border-l-[2.5px] border-b-[2.5px] border-gray-200/90`}
+                  className={`-z-50 absolute w-6 h-7 -start-[1.30rem] bottom-4 rounded-bl-md border-l-[1px] border-b-[1px] border-gray-200/90`}
                 />
                 <div
                   ref={parentRef}
-                  className={`-z-50 absolute w-0.5 -start-[1.30rem] bottom-6 rounded-b-md border-l-[2.5px] border-b-[2.5px] border-gray-200/90`}
+                  className={`-z-50 absolute w-0.5 -start-[1.30rem] bottom-6 rounded-b-md border-l-[1px] border-b-[1px] border-gray-200/90`}
                 />
               </div>
 
@@ -137,12 +179,6 @@ const QuestionAnswerCard = ({ data }: QuestionAnswerListProps) => {
                     }}
                   />
                 </div>
-
-                <QuestionFeedbackPanel
-                  onUpVoteBtnClick={() => {}}
-                  onDownVoteBtnClick={() => {}}
-                  voteCount={data?.total_vote_count ?? ""}
-                />
               </div>
             </div>
           );

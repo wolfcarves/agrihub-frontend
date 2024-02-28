@@ -222,7 +222,9 @@ const QuestionCard = ({
             </div>
 
             {/* Content Body */}
-            <div className="line-clamp-5">{contentHtml}</div>
+            <div className="line-clamp-5" style={{ overflowWrap: "anywhere" }}>
+              {contentHtml}
+            </div>
 
             {/* Actions */}
             <QuestionFeedbackPanel

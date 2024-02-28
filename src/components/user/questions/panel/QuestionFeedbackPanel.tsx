@@ -6,7 +6,8 @@ import { PiArrowFatUpFill } from "react-icons/pi";
 import { PiArrowFatDownFill } from "react-icons/pi";
 import withRequireAuth from "@higher-order/account/withRequireAuth";
 import QuestionFeedBackPanelButton from "../button/QuestionFeedBackPanelButton";
-import { FiPlusCircle } from "react-icons/fi";
+import { FaRegComment } from "react-icons/fa";
+import { IoIosArrowDropdown } from "react-icons/io";
 
 interface QuestionFeedbackPanelProps {
   vote?: "upvote" | "downvote";
@@ -38,7 +39,7 @@ const QuestionFeedbackPanel = ({
   onShareBtnClick
 }: QuestionFeedbackPanelProps) => {
   return (
-    <div className="flex gap-2 items-center mt-auto pt-3">
+    <div className="flex gap-1.5 items-center mt-auto pt-3">
       {onSaveBtnClick && (
         <div className="flex gap-3 h-8 border rounded-lg">
           <QuestionFeedBackPanelButton title="Save" icon={<LuBookmark />} />
@@ -93,8 +94,8 @@ const QuestionFeedbackPanel = ({
           onClick={onCommentBtnClick}
         >
           <AuthenticatedQuestionFeedBackPanelButton
-            title="Add comment"
-            icon={<FiPlusCircle className="text-base" />}
+            title="Comment"
+            icon={<FaRegComment className="text-base" />}
           />
         </div>
       )}
@@ -105,8 +106,8 @@ const QuestionFeedbackPanel = ({
           onClick={onCommentExpandBtnClick}
         >
           <QuestionFeedBackPanelButton
-            title="See All Comments"
-            icon={<FiPlusCircle className="text-base" />}
+            title="Expand"
+            icon={<IoIosArrowDropdown className="text-md" />}
           />
         </div>
       )}

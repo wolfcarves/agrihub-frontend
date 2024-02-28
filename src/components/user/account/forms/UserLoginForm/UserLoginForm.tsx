@@ -34,7 +34,7 @@ const UserLoginForm = () => {
     try {
       await userLogin(data);
     } catch (e: any) {
-      toast.error("Invalid username or password");
+      toast.error(e.body.message);
     }
   };
 

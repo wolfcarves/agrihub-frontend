@@ -26,4 +26,4 @@ const AboutAdmin = () => {
   );
 };
 
-export default withAuthGuard(AboutAdmin, ["admin", "asst_admin"]);
+export default withAuthGuard(AboutAdmin, ["admin", "asst_admin"], "about");

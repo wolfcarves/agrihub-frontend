@@ -249,7 +249,7 @@ export const adminNavigation: AdminNavigationItem[] = [
     href: "/admin/record/users",
     name: "Users Management",
     icon: <FaRegUser size={24} />,
-    module: "id",
+    module: "users",
     nav: [
       {
         title: "Records",
@@ -261,13 +261,13 @@ export const adminNavigation: AdminNavigationItem[] = [
         title: "",
         name: "Reported Accounts",
         href: "/admin/record/user-reported",
-        module: "id"
+        module: "users"
       },
       {
         title: "",
         name: "Banned Accounts",
         href: "/admin/record/user-banned",
-        module: "id"
+        module: "users"
       }
     ]
   },

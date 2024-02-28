@@ -22,7 +22,7 @@ export default function useBlogsCreateDraftMutation() {
       return response;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [GET_BLOGS_DRAFT_VIEW()] });
+      queryClient.invalidateQueries({ queryKey: [] });
     }
   });
 }

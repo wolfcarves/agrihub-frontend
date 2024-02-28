@@ -43,6 +43,7 @@ import {
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { ScrollArea } from "@components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/avatar";
+import TableAdminList from "../../../components/admin/admins/table-admin-list/table-admin-list";
 
 const RecordAdmins: React.FC = () => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
@@ -221,8 +222,7 @@ const RecordAdmins: React.FC = () => {
         </Dialog>
       </div>
       <hr className="my-4" />
-      <Input placeholder="Search title..." className="max-w-sm my-4" />
-      <DataTable columns={columns} data={data} />
+      <TableAdminList />
     </AdminOutletContainer>
   );
 };

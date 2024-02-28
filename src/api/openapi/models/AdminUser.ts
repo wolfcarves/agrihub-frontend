@@ -3,27 +3,11 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type UserSchema = {
+export type AdminUser = {
     id?: string;
-    userid?: string;
-    farms?: boolean;
-    learning?: boolean;
-    event?: boolean;
-    blog?: boolean;
-    forums?: boolean;
-    admin?: boolean;
-    cuai?: boolean;
-    home?: boolean;
-    about?: boolean;
-    users?: boolean;
-    privacy_policy?: boolean;
-    terms_and_conditions?: boolean;
-    user_feedback?: boolean;
-    crops?: boolean;
-    help_center?: boolean;
-    activity_logs?: boolean;
     username?: string;
     email?: string;
+    password?: string;
     firstname?: string;
     lastname?: string;
     birthdate?: string;
@@ -33,10 +17,10 @@ export type UserSchema = {
     district?: string;
     municipality?: string;
     verification_level?: string;
-    bio?: any;
+    bio?: string;
     role?: string;
     createdat?: string;
     updatedat?: string;
     isbanned?: boolean;
-    farm_id?: string | null;
+    farm_id?: string;
 };

@@ -4,7 +4,9 @@ import UserResponsiveContainer from "@components/ui/custom/container/user-repons
 const QuestionLayoutContainer = ({ children }: { children: ReactNode }) => {
   return (
     <>
-      <UserResponsiveContainer>{children}</UserResponsiveContainer>
+      <UserResponsiveContainer className="px-1">
+        {children}
+      </UserResponsiveContainer>
     </>
   );
 };

@@ -34,7 +34,7 @@ const Question = () => {
   }
 
   return (
-    <OutletContainer className="px-2 md:px-7 xl:px-10 min-h-[40rem]">
+    <OutletContainer className="pt-14 pb-24 px-1.5 sm:px-3 md:px-7 xl:px-10 min-h-[40rem]">
       <QuestionBackButton />
       <QuestionPostBody data={questionData} />
       <QuestionAnswerList

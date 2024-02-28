@@ -8,6 +8,7 @@ import { useState } from "react";
 import ProfileQuestionSavedList from "@components/user/users/list/ProfileQuestionSavedList";
 import useGetSavedQuestions from "@hooks/api/get/useGetSavedQuestions";
 import { useParams } from "react-router-dom";
+import withAuthGuard from "@higher-order/account/withAuthGuard";
 
 const options = ["Posts", "Saved"] as const;
 
@@ -37,6 +38,7 @@ const MyProfile = () => {
           questionData?.questions?.filter(q => q.user?.id === user.data?.id)
             .length
         }
+        saveCount={savedQuestionData?.questions?.length}
       />
       <UserTabs
         index={currentIndex}
@@ -61,4 +63,10 @@ const MyProfile = () => {
   );
 };
 
-export default MyProfile;
+export default withAuthGuard(MyProfile, [
+  "member",
+  "farmer",
+  "farm_head",
+  "asst_admin",
+  "admin"
+]);

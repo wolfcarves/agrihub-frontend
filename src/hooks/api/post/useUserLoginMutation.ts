@@ -20,7 +20,7 @@ export default function useLoginUserMutation() {
     onSuccess: ({ user }) => {
       queryClient.invalidateQueries({ queryKey: [GET_MY_PROFILE_KEY()] });
 
-      if (user?.role === "admin") {
+      if (user?.role === "admin" || "asst_admin") {
         navigate("/admin/dashboard", { replace: true });
       }
 

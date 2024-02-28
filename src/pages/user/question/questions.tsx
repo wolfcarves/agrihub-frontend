@@ -43,7 +43,7 @@ const Questions = () => {
         <title>Questions | Agrihub</title>
       </Helmet>
 
-      <OutletContainer>
+      <OutletContainer className="pt-10 pb-32 sm:px-2">
         <QuestionsInputAddQuestion />
         <QuestionsTitleTag title={params.tag} />
         <QuestionsFilterSelect

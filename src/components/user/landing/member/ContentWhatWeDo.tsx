@@ -13,6 +13,7 @@ import {
 } from "react-icons/md";
 import { RiCommunityLine } from "react-icons/ri";
 import useCmsLandingDetailsQuery from "@hooks/api/get/useCmsLandingDetailsQuery";
+import useGetBlogsPublishList from "@hooks/api/get/useGetBlogsPublishListQuery";
 
 const ContentWhatWeDo: React.FC = () => {
   const { data: cmsData } = useCmsLandingDetailsQuery();
@@ -97,6 +98,8 @@ const ContentWhatWeDo: React.FC = () => {
     }
   ];
 
+  const { data: blogData } = useGetBlogsPublishList();
+
   return (
     <div className="w-full mx-auto my-0 md:my-15 mb-8">
       {/* our mission part */}
@@ -119,31 +122,6 @@ const ContentWhatWeDo: React.FC = () => {
         </Button>
       </div>
 
-      {/* <section className="my-8 mb-14">
-        <div className="max-w-screen-xl mx-auto px-4  gap-x-12 justify-between md:flex md:px-8">
-          <div className="max-w-xl">
-            <h3 className="text-gray-800 text-3xl font-poppins-semibold sm:text-4xl">
-              Our Mission
-            </h3>
-            <p className="mt-3 text-gray-600">
-              To showcase and provide innovative farming technology to the
-              communities to become productive in adapting urban agriculture in
-              a modern way through collaboration and capacity building.
-            </p>
-          </div>
-          <div className="flex items-center">
-            <div className="flex-none mt-4 md:mt-0">
-              <Link
-                to="/about"
-                className="inline-block py-2 px-4 text-white font-medium bg-green-600 duration-150 hover:bg-green-500 active:bg-green-700 rounded-lg shadow-md hover:shadow-none"
-              >
-                Learn more
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section> */}
-
       {/* our approach part */}
       <section className="relative py-16 bg-gray-900">
         <div className="relative z-10 max-w-screen-xl mx-auto px-4 text-gray-300 justify-between gap-24 lg:flex md:px-8">
@@ -155,20 +133,6 @@ const ContentWhatWeDo: React.FC = () => {
           </div>
           <div className="mt-12 lg:mt-0">
             <ul className="grid gap-8 sm:grid-cols-2">
-              {/* {approach_items?.map((item, idx) => (
-                <li key={idx} className="flex gap-x-4">
-                  <div className="flex-none w-12 h-12 bg-gray-700 text-green-400 rounded-lg flex items-center justify-center">
-                    {item.icon}
-                  </div>
-                  <div>
-                    <h4 className="text-lg text-gray-100 font-semibold">
-                      {item.title}
-                    </h4>
-                    <p className="mt-3">{item.description}</p>
-                  </div>
-                </li>
-              ))} */}
-
               {features.map((item, idx) => (
                 <li key={idx} className="flex gap-x-4">
                   <div className="flex-none w-12 h-12 bg-gray-700 text-green-400 rounded-lg flex items-center justify-center">
@@ -205,22 +169,16 @@ const ContentWhatWeDo: React.FC = () => {
           </p>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-3 sm:grid-cols-2 grid-rows-1 gap-5 my-8">
-          {blogData
-            .filter(item => item.category === "Our Focus")
-            .slice(0, 3) // Limiting to 3 items
+          {blogData?.data
+            ?.filter(item => item.category === "Our Focus")
+            .slice(0, 3)
             .map((item, index) => {
-              const correspondingImages = blog_image.filter(
-                image => image.blogId === item.blogId
-              );
-              const thumbnail = correspondingImages.find(
-                image => image.thumbnail
-              );
               return (
-                <Link to={`/blogs/view/${item.blogId}`} key={index}>
+                <Link to={`/blogs/view/${item.id}`} key={index}>
                   <div className="group flex flex-col">
                     <div className="max-h-370px max-w-750px overflow-hidden">
                       <img
-                        src={thumbnail ? thumbnail.image : "fallback_image_url"}
+                        src={item?.thumbnail}
                         alt={item.title}
                         className="w-full rounded-lg max-h-64 min-h-64 object-cover group-hover:scale-110 duration-300"
                       />
@@ -232,7 +190,7 @@ const ContentWhatWeDo: React.FC = () => {
                         <span className="text-green-700">{">"}</span>
                       </h5>
                       <h1 className="text-gray-800 duration-150 group-hover:text-green-700 font-semibold text-lg line-clamp-2">
-                        {item.title}
+                        {item?.title}
                       </h1>
                     </div>
                   </div>

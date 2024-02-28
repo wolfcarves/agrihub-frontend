@@ -6,7 +6,6 @@ import useGetEventPublishedByIdQuery from "@hooks/api/get/useGetEventPublishedBy
 const EventDetailsList = () => {
   const params = useParams();
   const { data: eventData } = useGetEventPublishedByIdQuery(String(params.id));
-
   const dateOptions = {
     month: "short",
     day: "numeric",
@@ -23,8 +22,10 @@ const EventDetailsList = () => {
       <div className="flex flex-col gap-3 flex-1 px-0 md:px-10">
         <div className="mt-10 text-center">
           <EventCard title="Speaker" />
-          {eventData?.speaker?.map(({ name, profile }) => {
-            return <EventCard avatar={profile} item={name} />;
+          {eventData?.speaker?.map(({ name, profile, title: position }) => {
+            return (
+              <EventCard avatar={profile} item={name} position={position} />
+            );
           })}
 
           <EventCard title="Organizers" />

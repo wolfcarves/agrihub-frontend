@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from "react";
 import imageagri from "@assets/images/Ellipse-agrilogo.png";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import {
   Carousel,
   CarouselContent,
-  CarouselItem
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious
 } from "@components/ui/carousel";
 import useGetBlogsPublishyIdQuery from "@hooks/api/get/useGetBlogsPublishyIdQuery";
 import DOMPurify from "dompurify";
 import LoadingSpinner from "@icons/LoadingSpinner";
+import useGetBlogsPublishList from "@hooks/api/get/useGetBlogsPublishListQuery";
+import Autoplay from "embla-carousel-autoplay";
 
 export const ellipsis = (text: string, maxLength: number): string => {
   if (text.length <= maxLength) {
@@ -35,6 +39,8 @@ const Blog = () => {
 
   const d = new Date(data?.createdat ?? "");
 
+  const { data: blogData } = useGetBlogsPublishList();
+
   const createDate = d.toLocaleString("en-US", {
     month: "long",
     day: "numeric",
@@ -46,11 +52,11 @@ const Blog = () => {
   return (
     <>
       <div>
-        <div className="py-10 pb-56 px-8 mt-2">
+        <div className="pt-10 px-8 mt-2">
           {mainImage && (
             <img
               src={mainImage}
-              className="w-full object-contain object-center mb-5 h-[35rem]"
+              className="w-full mx-auto max-w-5xl object-contain object-center h-[35rem]"
             />
           )}
 
@@ -60,7 +66,18 @@ const Blog = () => {
             </div>
           )}
 
-          <Carousel className="mx-auto w-full">
+          <Carousel
+            className="mx-auto max-w-5xl"
+            opts={{
+              align: "start",
+              loop: true
+            }}
+            plugins={[
+              Autoplay({
+                delay: 5000
+              })
+            ]}
+          >
             <CarouselContent className="-ml-1">
               {data?.images.map((image, index) => (
                 <CarouselItem
@@ -72,7 +89,7 @@ const Blog = () => {
                     <img
                       src={image.image}
                       alt={`Image ${index}`}
-                      className="w-80 h-max aspect-square object-cover"
+                      className="aspect-video object-cover"
                     />
                   </div>
                 </CarouselItem>
@@ -98,7 +115,7 @@ const Blog = () => {
           </div>
 
           <p
-            className="pt-16 text-justify"
+            className="pt-4 text-justify max-w-5xl mx-auto"
             dangerouslySetInnerHTML={{
               __html: htmlContent
             }}
@@ -106,48 +123,60 @@ const Blog = () => {
         </div>
       </div>
 
-      {/* <h3 className="px-10 mt-20 mb-5"> Suggested Blogs </h3>
-      {/* <h3 className="px-10 mt-20 mb-5"> Suggested Blogs </h3>
-      <div className="grid grid-cols-1 lg:grid-cols-3 sm:grid-cols-2 grid-rows-1 gap-20 px-10">
-        {suggestedBlogs.map((item, key) => (
-          <div key={key} className="group flex flex-col">
-            <div className="max-h-370px max-w-750px">
-              <img
-                src={mainImage || imageagri}
-                alt={item.title}
-                className="w-full rounded-lg max-h-370px max-w-750px"
-              />
-            </div>
-            <Link to={`/blogs/view/${item.blogId}`}>
-              <div className="mt-3">
-                <h5 className="text-gray-600 pt-1 text-sm lg:text-sm sm:text-xs line-clamp-1">
-                  {formatDateTime(item.createdAt)}
-                </h5>
-                <h5 className="font-bold mt-1">
-                  {item.category} <span className="text-green-700">{">"}</span>
-                </h5>
-                <h1 className="text-gray-800 duration-150 group-hover:text-green-700 font-semibold pt-1 text-md lg:text-lg xs:text-xs line-clamp-1">
-                  {ellipsis(item.title, 30)}
-                </h1>
-                <p className="text-sm me-8 text-justify lg:text-md sm:text-xs">
-                  {ellipsis(item.content, 180)}
-                </p>
-              </div>
-            </Link>
-          </div>
-        ))}
+      <h3 className="px-10 mt-20 mb-5 max-w-5xl mx-auto"> Suggested Blogs </h3>
+      <div className="mb-16 mx-auto max-w-5xl">
+        <Carousel
+          className="m-4"
+          opts={{
+            align: "start",
+            loop: true
+          }}
+        >
+          {/* <CarouselPrevious />
+          <CarouselNext /> */}
+          <CarouselContent className="-ml-2 md:-ml-4">
+            {blogData?.data?.slice(0, 5).map((item, index) => {
+              const htmlContent = DOMPurify.sanitize(item?.content ?? "");
+
+              return (
+                <CarouselItem className="pl-2 md:pl-4 max-w-sm" key={index}>
+                  <Link to={`/blogs/view/${item.id}`}>
+                    <div className="group flex flex-col">
+                      <div className="max-h-370px max-w-750px">
+                        <img
+                          src={item?.thumbnail}
+                          alt={item.title}
+                          className="w-full rounded-lg max-h-64 min-h-64 object-cover"
+                        />
+                      </div>
+
+                      <div className="mt-3">
+                        <h5 className="text-gray-600 pt-1 text-sm">
+                          {createDate}
+                        </h5>
+                        <h5 className="font-bold mt-1">
+                          {item.category}
+                          <span className="text-green-700">{"   >"}</span>
+                        </h5>
+                        <h1 className="text-gray-800 duration-150 group-hover:text-green-700 font-semibold text-lg">
+                          {item?.title}
+                        </h1>
+
+                        <p
+                          className="text-sm me-8 text-justify line-clamp-3"
+                          dangerouslySetInnerHTML={{
+                            __html: htmlContent
+                          }}
+                        />
+                      </div>
+                    </div>
+                  </Link>
+                </CarouselItem>
+              );
+            })}
+          </CarouselContent>
+        </Carousel>
       </div>
-      <div className="flex justify-center mx-8 my-5 w-auto">
-        {!showAllBlogs && (
-          <Button
-            variant="outline"
-            onClick={() => setShowAllBlogs(true)}
-            className="w-full"
-          >
-            See More
-          </Button>
-        )}
-      </div> */}
     </>
   );
 };

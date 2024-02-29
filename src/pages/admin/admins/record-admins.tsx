@@ -44,6 +44,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { ScrollArea } from "@components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/avatar";
 import TableAdminList from "../../../components/admin/admins/table-admin-list/table-admin-list";
+import DialogCreateAdmin from "../../../components/admin/admins/dialog-create-admin/dialog-create-admin";
 
 const RecordAdmins: React.FC = () => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
@@ -101,73 +102,7 @@ const RecordAdmins: React.FC = () => {
               </Select>
 
               <div className="flex justify-end mt-2">
-                {selectedOption === "new" && (
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <Button>create new</Button>
-                    </DialogTrigger>
-                    <DialogContent className="sm:max-w-[425px]">
-                      <DialogHeader>
-                        <DialogTitle>Create New Admin</DialogTitle>
-                      </DialogHeader>
-                      <div className="grid gap-4 py-4">
-                        <div className="">
-                          <Label className="text-right">Email</Label>
-                          <Input
-                            id="email"
-                            defaultValue="Pedro Duarte"
-                            className="mt-1"
-                            type="email"
-                          />
-                        </div>
-                        <div className="">
-                          <Label className="text-right">Password</Label>
-                          <Input
-                            id="password"
-                            defaultValue="@peduarte"
-                            className="mt-1"
-                            type="password"
-                          />
-                        </div>
-                        <div className="">
-                          <Label className="text-right">Confirm Password</Label>
-                          <Input
-                            id="confirm-password"
-                            defaultValue="@peduarte"
-                            className="mt-1"
-                            type="password"
-                          />
-                        </div>
-                      </div>
-                      <DialogFooter>
-                        <AlertDialog>
-                          <AlertDialogTrigger asChild>
-                            <Button variant="outline">Create Account</Button>
-                          </AlertDialogTrigger>
-                          <AlertDialogContent>
-                            <AlertDialogHeader>
-                              <AlertDialogTitle>
-                                Are you sure you want to create this account as
-                                admin?
-                              </AlertDialogTitle>
-                              <AlertDialogDescription>
-                                This action cannot be undone. This will send an
-                                verification email to the user and will register
-                                them as assistant admin of AgriHub.
-                              </AlertDialogDescription>
-                            </AlertDialogHeader>
-                            <AlertDialogFooter>
-                              <AlertDialogCancel>Cancel</AlertDialogCancel>
-                              <Link to="/admin/record/admins/set-permission">
-                                <AlertDialogAction>Continue</AlertDialogAction>
-                              </Link>
-                            </AlertDialogFooter>
-                          </AlertDialogContent>
-                        </AlertDialog>
-                      </DialogFooter>
-                    </DialogContent>
-                  </Dialog>
-                )}
+                {selectedOption === "new" && <DialogCreateAdmin />}
 
                 {selectedOption === "existing" && (
                   <Dialog>

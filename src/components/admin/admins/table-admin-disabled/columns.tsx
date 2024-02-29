@@ -10,9 +10,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@components/ui/dropdown-menu";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AdminUser } from "../../../../api/openapi";
 import { format } from "date-fns";
+import { toast } from "sonner";
+import usePutUserAdminEnable from "../../../../hooks/api/put/usePutUserAdminEnable";
+import Loader from "../../../../icons/Loader";
 
 export const columns: ColumnDef<AdminUser>[] = [
   {
@@ -25,11 +28,8 @@ export const columns: ColumnDef<AdminUser>[] = [
     header: "Username"
   },
   {
-    accessorKey: "firstname",
-    header: "Full Name",
-    cell: ({ row }) => (
-      <div>{`${row.original.firstname} ${row.original.lastname}`}</div>
-    )
+    accessorKey: "email",
+    header: "Email"
   },
   {
     accessorKey: "isbanned",
@@ -47,7 +47,18 @@ export const columns: ColumnDef<AdminUser>[] = [
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const payment = row.original;
+      const users = row.original;
+      const navigate = useNavigate();
+      const { mutateAsync: enableAdmin, isLoading: activeLoading } =
+        usePutUserAdminEnable();
+      const handleEnable = async () => {
+        await enableAdmin(users.id || "");
+        toast.success("Enabled Successfully!");
+        navigate("/admin/record/admins");
+      };
+      if (activeLoading) {
+        return <Loader isVisible={true} />;
+      }
 
       return (
         <DropdownMenu>
@@ -60,7 +71,7 @@ export const columns: ColumnDef<AdminUser>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id || "")}
+              onClick={() => navigator.clipboard.writeText(users.id || "")}
             >
               Copy admin ID
             </DropdownMenuItem>
@@ -68,6 +79,9 @@ export const columns: ColumnDef<AdminUser>[] = [
             <Link to="/admin/record/admins/set-permission">
               <DropdownMenuItem>View admin</DropdownMenuItem>
             </Link>
+            <DropdownMenuItem onClick={handleEnable}>
+              Enable admin
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

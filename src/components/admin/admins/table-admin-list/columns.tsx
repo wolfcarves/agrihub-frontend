@@ -10,9 +10,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@components/ui/dropdown-menu";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AdminUser } from "../../../../api/openapi";
 import { format } from "date-fns";
+import Loader from "../../../../icons/Loader";
+import { toast } from "sonner";
+import useDeleteUserAdminDisable from "../../../../hooks/api/delete/useDeleteUserAdminDisable";
 
 export const columns: ColumnDef<AdminUser>[] = [
   {
@@ -25,11 +28,8 @@ export const columns: ColumnDef<AdminUser>[] = [
     header: "Username"
   },
   {
-    accessorKey: "firstname",
-    header: "Full Name",
-    cell: ({ row }) => (
-      <div>{`${row.original.firstname} ${row.original.lastname}`}</div>
-    )
+    accessorKey: "email",
+    header: "Email"
   },
   {
     accessorKey: "isbanned",
@@ -47,7 +47,18 @@ export const columns: ColumnDef<AdminUser>[] = [
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const payment = row.original;
+      const users = row.original;
+      const navigate = useNavigate();
+      const { mutateAsync: disableAdmin, isLoading: activeLoading } =
+        useDeleteUserAdminDisable();
+      const handleDisable = async () => {
+        await disableAdmin(users.id || "");
+        toast.success("Disabled Successfully!");
+        navigate("/admin/record/admin-disabled");
+      };
+      if (activeLoading) {
+        return <Loader isVisible={true} />;
+      }
 
       return (
         <DropdownMenu>
@@ -60,7 +71,7 @@ export const columns: ColumnDef<AdminUser>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id || "")}
+              onClick={() => navigator.clipboard.writeText(users.id || "")}
             >
               Copy admin ID
             </DropdownMenuItem>
@@ -68,6 +79,9 @@ export const columns: ColumnDef<AdminUser>[] = [
             <Link to="/admin/record/admins/set-permission">
               <DropdownMenuItem>View admin</DropdownMenuItem>
             </Link>
+            <DropdownMenuItem onClick={handleDisable}>
+              Disable Admin
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

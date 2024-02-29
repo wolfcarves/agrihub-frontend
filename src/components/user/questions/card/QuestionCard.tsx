@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import DOMPurify from "dompurify";
-import QuestionFeedbackPanel from "../panel/QuestionFeedbackPanel";
 import parse, { Element } from "html-react-parser";
 import TagChip from "../chip/TagChip";
 import { Link } from "react-router-dom";
@@ -23,6 +22,15 @@ import useForumsReportQuestionMutation from "@hooks/api/post/useForumsReportQues
 import QuestionDeleteQuestionDialog from "../dialog/QuestionDeleteQuestionDialog";
 import QuestionReportQuestionDiaglog from "../dialog/QuestionReportQuestionDiaglog";
 import QuestionCardDropdown from "../dropdown/QuestionCardDropdown";
+import {
+  PiArrowFatUp,
+  PiArrowFatDown,
+  PiArrowFatUpFill,
+  PiArrowFatDownFill
+} from "react-icons/pi";
+import { LuMessagesSquare } from "react-icons/lu";
+import { TiArrowForwardOutline } from "react-icons/ti";
+import QuestionFeedbackPanel from "../panel/QuestionFeedbackPanel";
 
 interface QuestionCardProps {
   id?: string;
@@ -132,8 +140,9 @@ const QuestionCard = ({
 
   const handleReportQuestion = async (reason: string) => {
     try {
-      if (reason.length < 3) toast.error("Please enter atleast 3 characters");
-      if (reason.length > 30) toast.error("Input is too long");
+      if (reason.length < 3)
+        return toast.error("Please enter atleast 3 characters");
+      if (reason.length > 60) return toast.error("Input is too long");
 
       await reportQuestion({ id: id ?? "", reason });
 
@@ -228,13 +237,42 @@ const QuestionCard = ({
 
             {/* Actions */}
             <QuestionFeedbackPanel
-              {...{ vote }}
-              {...{ answerCount }}
-              {...{ voteCount }}
-              {...{ onAnswerBtnClick }}
-              onUpVoteBtnClick={onUpVoteBtnClick}
-              onDownVoteBtnClick={onDownVoteBtnClick}
-              {...{ onShareBtnClick }}
+              items={[
+                {
+                  icon:
+                    vote === "upvote" ? (
+                      <PiArrowFatUpFill className="text-primary" />
+                    ) : (
+                      <PiArrowFatUp />
+                    ),
+                  requireAuth: true,
+                  onClick: onUpVoteBtnClick
+                },
+                {
+                  label: voteCount,
+                  isButton: false
+                },
+                {
+                  icon:
+                    vote === "downvote" ? (
+                      <PiArrowFatDownFill className="text-red-500" />
+                    ) : (
+                      <PiArrowFatDown />
+                    ),
+                  requireAuth: true,
+                  onClick: onDownVoteBtnClick
+                },
+                {
+                  icon: <LuMessagesSquare />,
+                  label: answerCount + " Answers",
+                  onClick: onAnswerBtnClick
+                },
+                {
+                  icon: <TiArrowForwardOutline />,
+                  label: "Share",
+                  onClick: onShareBtnClick
+                }
+              ]}
             />
           </>
         </div>

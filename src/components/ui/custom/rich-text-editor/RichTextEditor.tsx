@@ -171,7 +171,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
 
   return (
     <div
-      className={`shadow-md border border-border rounded-md w-full max-w-[60rem] flex flex-col ${
+      className={`shadow-md border border-border rounded-md w-full flex flex-col ${
         disabled ? "opacity-50 pointer-events-none" : ""
       }`}
     >

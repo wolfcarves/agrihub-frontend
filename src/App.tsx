@@ -152,6 +152,8 @@ import SeedlingsRequest from "./pages/user/community/request/seedlings-request/s
 import ForgotPassword from "@pages/user/account/forgot-password";
 import ResetPassword from "@pages/user/account/reset-password";
 import SetPermissionAdmin from "./pages/admin/admins/permission-admin";
+import CropsAdmin from "@pages/admin/website/crops/crops-admin";
+import AddCropsAdmin from "./pages/admin/website/crops/crops-add";
 
 const App = ReactRouter(
   <>
@@ -381,6 +383,8 @@ const App = ReactRouter(
         <Route path="about-us" element={<AboutAdmin />} />
         <Route path="privacy-policy" element={<PrivacyAdmin />} />
         <Route path="terms-conditions" element={<TermsAdmin />} />
+        <Route path="crops" element={<CropsAdmin />} />
+        <Route path="crops/add" element={<AddCropsAdmin />} />
       </Route>
     </Route>
   </>

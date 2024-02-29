@@ -62,6 +62,66 @@ filter?: 'active' | 'banned',
     }
 
     /**
+     * Disable Admin Account
+     * @returns any Account disabled successfully
+     * @throws ApiError
+     */
+    public static deleteApiUserAdminDisable({
+id,
+}: {
+/**
+ * The ID of the event to be archived
+ */
+id: string,
+}): CancelablePromise<{
+message?: string;
+}> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/user/admin/disable/{id}',
+            path: {
+                'id': id,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Disable Admin Account
+     * @returns any Account disabled successfully
+     * @throws ApiError
+     */
+    public static postApiUserAdminEnable({
+id,
+}: {
+/**
+ * The ID of the event to be archived
+ */
+id: string,
+}): CancelablePromise<{
+message?: string;
+}> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/user/admin/enable/{id}',
+            path: {
+                'id': id,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
      * Get a list of users
      * @returns ListUserResponse Success. Returns a list of users.
      * @throws ApiError

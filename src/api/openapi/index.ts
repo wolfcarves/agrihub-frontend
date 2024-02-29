@@ -163,6 +163,7 @@ export type { Tag } from './models/Tag';
 export type { TagList } from './models/TagList';
 export type { TagsSchema } from './models/TagsSchema';
 export type { UnpublishLearningMaterialResponse } from './models/UnpublishLearningMaterialResponse';
+export type { UpdateAccessControl } from './models/UpdateAccessControl';
 export type { UpdateApproachRequest } from './models/UpdateApproachRequest';
 export type { UpdateApproachResponse } from './models/UpdateApproachResponse';
 export type { UpdateBlogRequest } from './models/UpdateBlogRequest';

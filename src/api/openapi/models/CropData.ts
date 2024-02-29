@@ -33,6 +33,7 @@ export type CropData = {
      */
     harvest_season?: string;
     p_season?: Array<string>;
+    companion?: Array<string>;
     /**
      * Indicates whether the crop yields
      */

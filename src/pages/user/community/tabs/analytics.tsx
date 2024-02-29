@@ -111,13 +111,20 @@ const Analytics = () => {
   };
 
   useEffect(() => {
-    toast.warning("Action Needed");
+    if (
+      growthRate?.average_growth_rate &&
+      growthRate?.average_growth_rate <= 85.0
+    ) {
+      toast.warning("Action Needed. Growth Rate Is Below 85%");
+    }
   }, []);
 
   return (
     <>
       <div className="py-10 px-4">
-        <SuggestionsModal />
+        {growthRate?.average_growth_rate &&
+          growthRate?.average_growth_rate <= 85.0 && <SuggestionsModal />}
+
         <div className=" border-black border-1 p-1 grid grid-cols-12 gap-x-4 gap-y-[4rem] my-4">
           <div className=" xl:col-span-8 col-span-12">
             <h5 className="font-poppins-medium">
@@ -131,7 +138,14 @@ const Analytics = () => {
             <div className=" font-semibold text-lg">Growth Rate</div>
             <div className="flex-grow grid place-items-center">
               <div className="text-center">
-                <div className="text-[4rem] p-0 m-0 leading-none text-primary">
+                <div
+                  className={`text-[4rem] p-0 m-0 leading-none  ${
+                    growthRate?.average_growth_rate &&
+                    growthRate?.average_growth_rate <= 85.0
+                      ? " text-orange-600"
+                      : "text-primary"
+                  } `}
+                >
                   {growthRate?.average_growth_rate}%
                 </div>
                 <div className=" text-gray-400 font-medium flex items-center justify-center">

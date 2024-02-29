@@ -1,5 +1,4 @@
 import { Answer } from "@api/openapi";
-import QuestionFeedbackPanel from "../panel/QuestionFeedbackPanel";
 import { Link } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/avatar";
 import DOMPurify from "dompurify";
@@ -10,6 +9,16 @@ import useForumsVoteAnswerMutation from "@hooks/api/post/useForumsVoteAnswerMuta
 import useForumsDeleteVoteAnswerMutation from "@hooks/api/post/useForumsDeleteVoteAnswerMutation";
 import { MdOutlineEdit, MdOutlineDelete } from "react-icons/md";
 
+import {
+  PiArrowFatUp,
+  PiArrowFatDown,
+  PiArrowFatUpFill,
+  PiArrowFatDownFill
+} from "react-icons/pi";
+import { FaRegComment } from "react-icons/fa";
+import { IoIosArrowDropdown } from "react-icons/io";
+import QuestionFeedbackPanel from "../panel/QuestionFeedbackPanel";
+
 interface QuestionAnswerListProps {
   data?: Answer;
   isLoading?: boolean;
@@ -17,15 +26,27 @@ interface QuestionAnswerListProps {
 }
 
 const QuestionAnswerCard = ({ data }: QuestionAnswerListProps) => {
-  const user = useAuth();
+  const {
+    id,
+    user,
+    isaccepted,
+    answer,
+    comments,
+    createdat,
+    vote,
+    total_vote_count,
+    upvote_count
+  } = { ...data };
+
+  const userAuth = useAuth();
   const [addComment, setAddComment] = useState<boolean>(false);
   const [expandComment, setExpandComment] = useState<boolean>(false);
   const parentRef = useRef<HTMLDivElement>(null);
-  const purifyAnswer = DOMPurify.sanitize(data?.answer ?? "");
-  const isAnswerOwned = data?.user?.id === user?.data?.id;
+  const purifyAnswer = DOMPurify.sanitize(answer ?? "");
+  const isAnswerOwned = id === userAuth?.data?.id;
 
   const showCommentForm =
-    addComment || (expandComment && user?.isAuthenticated);
+    addComment || (expandComment && userAuth?.isAuthenticated);
 
   const { mutateAsync: voteAnswer } = useForumsVoteAnswerMutation();
   const { mutateAsync: deleteVoteAnswer } = useForumsDeleteVoteAnswerMutation();
@@ -35,8 +56,8 @@ const QuestionAnswerCard = ({ data }: QuestionAnswerListProps) => {
     type?: "upvote" | "downvote"
   ) => {
     try {
-      if (data?.vote?.type !== undefined) {
-        return await deleteVoteAnswer({ id: data?.vote?.id });
+      if (vote?.type !== undefined) {
+        return await deleteVoteAnswer({ id: vote?.id });
       }
 
       await voteAnswer({ id, type });
@@ -53,7 +74,7 @@ const QuestionAnswerCard = ({ data }: QuestionAnswerListProps) => {
           <Link to="/" className="font-poppins-medium hover:opacity-80">
             <Avatar className="border">
               <AvatarImage
-                src={data?.user?.avatar ?? ""}
+                src={user?.avatar ?? ""}
                 className="object-cover pointer-events-none select-none "
               />
               <AvatarFallback>A</AvatarFallback>
@@ -64,8 +85,7 @@ const QuestionAnswerCard = ({ data }: QuestionAnswerListProps) => {
         <div className="flex flex-col">
           <div
             className={`${
-              data?.isaccepted &&
-              "accepted-answer text-white border-red-700 border-2"
+              isaccepted && "accepted-answer text-white border-red-700 border-2"
             }  relative border p-2 sm:p-3 rounded-lg group`}
           >
             {isAnswerOwned && (
@@ -84,7 +104,7 @@ const QuestionAnswerCard = ({ data }: QuestionAnswerListProps) => {
             )}
 
             <Link to="/" className="font-poppins-medium hover:underline ">
-              {data?.user?.username}
+              {user?.username}
             </Link>
 
             <p
@@ -96,42 +116,64 @@ const QuestionAnswerCard = ({ data }: QuestionAnswerListProps) => {
           </div>
 
           <QuestionFeedbackPanel
-            onUpVoteBtnClick={() => {
-              handleVoteAnswer(data?.id, "upvote");
-            }}
-            onDownVoteBtnClick={() => {
-              handleVoteAnswer(data?.id, "downvote");
-            }}
-            vote={(data?.vote?.type as "upvote" | "downvote") ?? undefined}
-            voteCount={data?.upvote_count ?? ""}
-            onCommentBtnClick={
-              user?.isAuthenticated
-                ? () => {
-                    setAddComment(true);
-                    setExpandComment(true);
+            items={[
+              {
+                icon:
+                  vote?.type === "upvote" ? (
+                    <PiArrowFatUpFill className="text-primary" />
+                  ) : (
+                    <PiArrowFatUp />
+                  ),
+                requireAuth: true,
+                onClick: () => handleVoteAnswer(data?.id, "upvote")
+              },
+              {
+                label: String(upvote_count),
+                isButton: false
+              },
+              {
+                icon:
+                  vote?.type === "downvote" ? (
+                    <PiArrowFatDownFill className="text-red-500" />
+                  ) : (
+                    <PiArrowFatDown />
+                  ),
+                requireAuth: true,
+                onClick: () => handleVoteAnswer(data?.id, "downvote")
+              },
+              {
+                icon: <FaRegComment className="text-base" />,
+                label: "Comment",
+                onClick: userAuth?.isAuthenticated
+                  ? () => {
+                      setAddComment(true);
+                      setExpandComment(true);
+                    }
+                  : undefined
+              },
+              comments?.length && comments?.length > 1 && !expandComment
+                ? {
+                    icon: <IoIosArrowDropdown className="text-md" />,
+                    label: "Expand",
+                    onClick: () => {
+                      setExpandComment(prev => !prev);
+                    }
                   }
-                : undefined
-            }
-            onCommentExpandBtnClick={
-              data?.comments?.length &&
-              data?.comments?.length > 1 &&
-              !expandComment
-                ? () => {
-                    setExpandComment(true);
+                : {
+                    isVisible: false
                   }
-                : undefined
-            }
+            ]}
           />
         </div>
       </div>
 
-      {data?.comments && data?.comments.length > 1 && (
+      {comments && comments.length > 1 && (
         <span className="flex ps-10 ms-auto gap-2 py-2 text-sm">Comments</span>
       )}
 
       {/* Comments */}
-      {data?.comments
-        ?.slice(0, expandComment ? data?.comments?.length : 1)
+      {comments
+        ?.slice(0, expandComment ? comments?.length : 1)
         .map((c, index) => {
           const purifyComment = DOMPurify.sanitize(c.comment ?? "");
 
@@ -188,11 +230,12 @@ const QuestionAnswerCard = ({ data }: QuestionAnswerListProps) => {
         <div className="flex flex-col gap-3 ps-10 mt-2">
           <span className="ps-12 text-sm">
             You're commenting to{" "}
-            {data?.user?.username === user?.data?.username
+            {user?.username === userAuth?.data?.username
               ? "yourself"
-              : data?.user?.username}
+              : user?.username}
           </span>
-          <QuestionCommentForm answerId={data?.id} />
+
+          <QuestionCommentForm answerId={id} />
         </div>
       )}
     </div>

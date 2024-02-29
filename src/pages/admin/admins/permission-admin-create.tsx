@@ -18,11 +18,12 @@ import {
   AlertDialogTrigger
 } from "@components/ui/alert-dialog";
 import { Link, useNavigate } from "react-router-dom";
-import { useSelector } from "../../../redux/store";
+import { useDispatch, useSelector } from "../../../redux/store";
 import useAccessCreateAdmin from "../../../hooks/api/post/useAccessCreateAdmin";
 import { NewAdminRequestBody } from "../../../api/openapi";
 import { toast } from "sonner";
 import Loader from "../../../icons/Loader";
+import { setEmail, setPassword } from "../../../redux/slices/adminSlice";
 
 const breadcrumbItems = [
   { title: "Admin Management", link: "/admin/record/admins" },
@@ -30,6 +31,7 @@ const breadcrumbItems = [
 ];
 const PermissionAdminCreate = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { email, password } = useSelector(state => state.admin);
 
   const [allowAll, setAllowAll] = useState<boolean>(false);
@@ -43,9 +45,20 @@ const PermissionAdminCreate = () => {
     setBlogs(isChecked);
   };
 
+  useEffect(() => {
+    if (learningMaterials && events && blogs) {
+      setAllowAll(true);
+    } else {
+      setAllowAll(false);
+    }
+  }, [learningMaterials, events, blogs, allowAll]);
+
   const [forumManagement, setForumManagement] = useState<boolean>(false);
   const [userManagement, setUserManagement] = useState<boolean>(false);
   const [adminManagement, setAdminManagement] = useState<boolean>(false);
+  const [communityManagement, setCommunityManagement] =
+    useState<boolean>(false);
+  const [activityLog, setActivityLogs] = useState<boolean>(false);
 
   const [allowAllManagement, setAllowAllManagement] = useState<boolean>(false);
   const [clientDetails, setClientDetails] = useState<boolean>(false);
@@ -69,6 +82,33 @@ const PermissionAdminCreate = () => {
     setCropsManagement(isChecked);
   };
 
+  useEffect(() => {
+    if (
+      clientDetails &&
+      homePage &&
+      aboutUs &&
+      privacyPolicy &&
+      termsAndConditions &&
+      userFeedbacks &&
+      helpCenter &&
+      cropsManagement
+    ) {
+      setAllowAllManagement(true);
+    } else {
+      setAllowAllManagement(false);
+    }
+  }, [
+    allowAllManagement,
+    homePage,
+    clientDetails,
+    aboutUs,
+    privacyPolicy,
+    termsAndConditions,
+    userFeedbacks,
+    helpCenter,
+    cropsManagement
+  ]);
+
   //edit
   const { mutateAsync: createAdminMutate, isLoading: isCreateLoading } =
     useAccessCreateAdmin();
@@ -79,13 +119,13 @@ const PermissionAdminCreate = () => {
       email: email,
       password: password,
       access: {
-        farms: false,
+        farms: communityManagement,
         learning: learningMaterials,
         event: events,
         blog: blogs,
         forums: forumManagement,
         admin: adminManagement,
-        cuai: true,
+        cuai: clientDetails,
         home: homePage,
         about: aboutUs,
         users: userManagement,
@@ -94,7 +134,7 @@ const PermissionAdminCreate = () => {
         user_feedback: userFeedbacks,
         crops: cropsManagement,
         help_center: helpCenter,
-        activity_logs: true
+        activity_logs: activityLog
       }
     };
 
@@ -104,6 +144,8 @@ const PermissionAdminCreate = () => {
       });
       toast.success("Admin Created Successfully!");
       navigate(`/admin/record/admins`);
+      dispatch(setEmail(""));
+      dispatch(setPassword(""));
     } catch (e: any) {
       toast.error(e.body.message);
     }
@@ -139,6 +181,7 @@ const PermissionAdminCreate = () => {
             </Card>
           </div>
           <hr className="my-4" />
+
           {/* community */}
           <Card className="my-4 p-5">
             <div className="flex justify-between items-center">
@@ -153,7 +196,10 @@ const PermissionAdminCreate = () => {
                   reject them.
                 </p>
               </div>
-              <Switch />
+              <Switch
+                checked={communityManagement}
+                onCheckedChange={setCommunityManagement}
+              />
             </div>
           </Card>
 
@@ -283,6 +329,22 @@ const PermissionAdminCreate = () => {
                 checked={adminManagement}
                 onCheckedChange={setAdminManagement}
               />
+            </div>
+          </Card>
+
+          {/* logs */}
+          <Card className="my-4 p-5">
+            <div className="flex justify-between items-center">
+              <div>
+                <h2 className="text-lg font-bold tracking-tight">
+                  Activity Logs
+                </h2>
+                <p className="text-sm text-muted-foreground max-w-2xl">
+                  Turning on this permission allows users to access activity
+                  logs of other admin
+                </p>
+              </div>
+              <Switch checked={activityLog} onCheckedChange={setActivityLogs} />
             </div>
           </Card>
 

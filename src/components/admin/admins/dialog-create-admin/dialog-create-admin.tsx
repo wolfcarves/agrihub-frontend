@@ -25,7 +25,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useDispatch } from "../../../../redux/store";
 import { setEmail, setPassword } from "../../../../redux/slices/adminSlice";
-
+const isValidEmail = (email: string) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
 const DialogCreateAdmin = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -35,6 +38,10 @@ const DialogCreateAdmin = () => {
   const handleAdminCredits = () => {
     if (!email) {
       toast.error("Email is Required");
+      return null;
+    }
+    if (!isValidEmail(email)) {
+      toast.error("Invalid Email");
       return null;
     }
     if (!pass || !cpass) {
@@ -66,6 +73,7 @@ const DialogCreateAdmin = () => {
               className="mt-1"
               placeholder="Enter admin email..."
               type="email"
+              value={email}
               onChange={e => setEmails(e.target.value)}
             />
           </div>
@@ -76,6 +84,7 @@ const DialogCreateAdmin = () => {
               className="mt-1"
               placeholder="Enter admin password..."
               type="password"
+              value={pass}
               onChange={e => setPass(e.target.value)}
             />
           </div>
@@ -86,6 +95,7 @@ const DialogCreateAdmin = () => {
               className="mt-1"
               placeholder="Confirm admin password..."
               type="password"
+              value={cpass}
               onChange={e => setCpass(e.target.value)}
             />
           </div>

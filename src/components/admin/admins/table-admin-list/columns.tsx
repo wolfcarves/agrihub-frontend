@@ -76,7 +76,7 @@ export const columns: ColumnDef<AdminUser>[] = [
               Copy admin ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <Link to="/admin/record/admins/set-permission">
+            <Link to={`/admin/record/admins/set-permission/${users.id}`}>
               <DropdownMenuItem>View admin</DropdownMenuItem>
             </Link>
             <DropdownMenuItem onClick={handleDisable}>

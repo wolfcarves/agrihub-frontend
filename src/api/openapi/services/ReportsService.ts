@@ -357,6 +357,12 @@ end?: string,
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/reports/admin/lowest/growth-rate',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
         });
     }
 

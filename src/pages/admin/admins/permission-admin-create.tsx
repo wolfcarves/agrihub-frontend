@@ -17,24 +17,22 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger
 } from "@components/ui/alert-dialog";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import Loader from "../../../icons/Loader";
-import useGetAccessViewQuery from "../../../hooks/api/get/useGetAccessViewQuery";
-import usePutAccessUpdate from "../../../hooks/api/put/usePutAccessUpdate";
-import { UpdateAccessControl } from "../../../api/openapi";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "../../../redux/store";
+import useAccessCreateAdmin from "../../../hooks/api/post/useAccessCreateAdmin";
+import { NewAdminRequestBody } from "../../../api/openapi";
 import { toast } from "sonner";
+import Loader from "../../../icons/Loader";
+import { setEmail, setPassword } from "../../../redux/slices/adminSlice";
 
 const breadcrumbItems = [
   { title: "Admin Management", link: "/admin/record/admins" },
   { title: "Set Permission", link: "/admin/record/admins/set-permission" }
 ];
-const SetPermissionAdmin = () => {
+const PermissionAdminCreate = () => {
   const navigate = useNavigate();
-  const { userId } = useParams();
-  const { data: adminData, isLoading: adminLoad } = useGetAccessViewQuery(
-    userId || ""
-  );
-  console.log(adminData);
+  const dispatch = useDispatch();
+  const { email, password } = useSelector(state => state.admin);
 
   const [allowAll, setAllowAll] = useState<boolean>(false);
   const [learningMaterials, setLearningMaterials] = useState<boolean>(false);
@@ -111,73 +109,52 @@ const SetPermissionAdmin = () => {
     cropsManagement
   ]);
 
-  useEffect(() => {
-    if (!adminLoad) {
-      setLearningMaterials(adminData?.learning || false);
-      setEvents(adminData?.event || false);
-      setBlogs(adminData?.blog || false);
-      setCommunityManagement(adminData?.farms || false);
-      setForumManagement(adminData?.forums || false);
-      setUserManagement(adminData?.users || false);
-      setAdminManagement(adminData?.admin || false);
-      setActivityLogs(adminData?.activity_logs || false);
-      setLearningMaterials(adminData?.learning || false);
-      setClientDetails(adminData?.cuai || false);
-      setHomePage(adminData?.home || false);
-      setAboutUs(adminData?.about || false);
-      setPrivacyPolicy(adminData?.privacy_policy || false);
-      setTermsAndConditions(adminData?.terms_and_conditions || false);
-      setUserFeedbacks(adminData?.user_feedback || false);
-      setHelpCenter(adminData?.help_center || false);
-      setCropsManagement(adminData?.crops || false);
-    }
-  }, [adminData]);
-
   //edit
-  const { mutateAsync: updateAdminMutate, isLoading: isUpdateLoading } =
-    usePutAccessUpdate();
+  const { mutateAsync: createAdminMutate, isLoading: isCreateLoading } =
+    useAccessCreateAdmin();
 
   //submit form
   const handleSubmitForm = async () => {
-    const compiledData: UpdateAccessControl = {
-      farms: communityManagement,
-      learning: learningMaterials,
-      event: events,
-      blog: blogs,
-      forums: forumManagement,
-      admin: adminManagement,
-      cuai: clientDetails,
-      home: homePage,
-      about: aboutUs,
-      users: userManagement,
-      privacy_policy: privacyPolicy,
-      terms_and_conditions: termsAndConditions,
-      user_feedback: userFeedbacks,
-      crops: cropsManagement,
-      help_center: helpCenter,
-      activity_logs: activityLog
+    const compiledData: NewAdminRequestBody = {
+      email: email,
+      password: password,
+      access: {
+        farms: communityManagement,
+        learning: learningMaterials,
+        event: events,
+        blog: blogs,
+        forums: forumManagement,
+        admin: adminManagement,
+        cuai: clientDetails,
+        home: homePage,
+        about: aboutUs,
+        users: userManagement,
+        privacy_policy: privacyPolicy,
+        terms_and_conditions: termsAndConditions,
+        user_feedback: userFeedbacks,
+        crops: cropsManagement,
+        help_center: helpCenter,
+        activity_logs: activityLog
+      }
     };
 
     try {
-      await updateAdminMutate({
-        id: userId || "",
+      await createAdminMutate({
         requestBody: compiledData
       });
-      toast.success("Admin Access Updated Successfully!");
+      toast.success("Admin Created Successfully!");
       navigate(`/admin/record/admins`);
+      dispatch(setEmail(""));
+      dispatch(setPassword(""));
     } catch (e: any) {
       toast.error(e.body.message);
     }
   };
 
-  if (adminLoad) {
-    return <Loader isVisible={true} />;
-  }
-
   return (
     <AdminOutletContainer className="container mx-auto py-10 ">
       <BreadCrumb items={breadcrumbItems} />
-      <h2 className="text-3xl font-bold tracking-tight">Update admin access</h2>
+      <h2 className="text-3xl font-bold tracking-tight">Create admin access</h2>
       <p className="text-sm text-muted-foreground">Set what admin can do</p>
       <hr className="my-4" />
       <form>
@@ -197,13 +174,8 @@ const SetPermissionAdmin = () => {
                 className="w-10 h-10 rounded-full"
               />
               <div>
-                <span className="block text-gray-700 text-sm font-medium">
-                  {adminData?.firstname &&
-                    adminData.lastname &&
-                    `${adminData?.firstname} ${adminData?.lastname}`}
-                </span>
-                <span className="block text-gray-700 text-xs">
-                  {adminData?.email}
+                <span className="block text-gray-700 text-sm font-poppins-medium">
+                  {email}
                 </span>
               </div>
             </Card>
@@ -549,10 +521,9 @@ const SetPermissionAdmin = () => {
                     Are you sure about this settings?
                   </AlertDialogTitle>
                   <AlertDialogDescription>
-                    This action will give access to "{adminData?.email}" to the
-                    access turned on, make sure you allow the right access. You
-                    can edit admin access permission by going to Admin
-                    Management
+                    This action will give access to "{email}" to the access
+                    turned on, make sure you allow the right access. You can
+                    edit admin access permission by going to Admin Management
                     {">"}edit admin.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
@@ -568,13 +539,13 @@ const SetPermissionAdmin = () => {
           </div>
         </Card>
       </form>
-      <Loader isVisible={isUpdateLoading} />
+      <Loader isVisible={isCreateLoading} />
     </AdminOutletContainer>
   );
 };
 
 export default withAuthGuard(
-  SetPermissionAdmin,
+  PermissionAdminCreate,
   ["admin", "asst_admin"],
   "admin"
 );

@@ -44,6 +44,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { ScrollArea } from "@components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/avatar";
 import TableAdminList from "../../../components/admin/admins/table-admin-list/table-admin-list";
+import DialogCreateAdmin from "../../../components/admin/admins/dialog-create-admin/dialog-create-admin";
 
 const RecordAdmins: React.FC = () => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
@@ -79,147 +80,7 @@ const RecordAdmins: React.FC = () => {
         </div>
 
         {/* new admin */}
-        <Dialog>
-          <DialogTrigger>
-            <Button variant="outline">+ New Admin</Button>
-          </DialogTrigger>
-          <DialogContent className="p-5 flex justify-center text-center">
-            <div className="my-4 w-full">
-              <h2 className="text-md font-bold mb-2 tracking-tight text-left">
-                Admin Accounts
-              </h2>
-              <Select onValueChange={e => handleChangeAdminAccount(e)}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select a way for adding new admin" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="existing">
-                    set existing account as admin
-                  </SelectItem>
-                  <SelectItem value="new">create new admin account</SelectItem>
-                </SelectContent>
-              </Select>
-
-              <div className="flex justify-end mt-2">
-                {selectedOption === "new" && (
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <Button>create new</Button>
-                    </DialogTrigger>
-                    <DialogContent className="sm:max-w-[425px]">
-                      <DialogHeader>
-                        <DialogTitle>Create New Admin</DialogTitle>
-                      </DialogHeader>
-                      <div className="grid gap-4 py-4">
-                        <div className="">
-                          <Label className="text-right">Email</Label>
-                          <Input
-                            id="email"
-                            defaultValue="Pedro Duarte"
-                            className="mt-1"
-                            type="email"
-                          />
-                        </div>
-                        <div className="">
-                          <Label className="text-right">Password</Label>
-                          <Input
-                            id="password"
-                            defaultValue="@peduarte"
-                            className="mt-1"
-                            type="password"
-                          />
-                        </div>
-                        <div className="">
-                          <Label className="text-right">Confirm Password</Label>
-                          <Input
-                            id="confirm-password"
-                            defaultValue="@peduarte"
-                            className="mt-1"
-                            type="password"
-                          />
-                        </div>
-                      </div>
-                      <DialogFooter>
-                        <AlertDialog>
-                          <AlertDialogTrigger asChild>
-                            <Button variant="outline">Create Account</Button>
-                          </AlertDialogTrigger>
-                          <AlertDialogContent>
-                            <AlertDialogHeader>
-                              <AlertDialogTitle>
-                                Are you sure you want to create this account as
-                                admin?
-                              </AlertDialogTitle>
-                              <AlertDialogDescription>
-                                This action cannot be undone. This will send an
-                                verification email to the user and will register
-                                them as assistant admin of AgriHub.
-                              </AlertDialogDescription>
-                            </AlertDialogHeader>
-                            <AlertDialogFooter>
-                              <AlertDialogCancel>Cancel</AlertDialogCancel>
-                              <Link to="/admin/record/admins/set-permission">
-                                <AlertDialogAction>Continue</AlertDialogAction>
-                              </Link>
-                            </AlertDialogFooter>
-                          </AlertDialogContent>
-                        </AlertDialog>
-                      </DialogFooter>
-                    </DialogContent>
-                  </Dialog>
-                )}
-
-                {selectedOption === "existing" && (
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <Button>Set existing</Button>
-                    </DialogTrigger>
-                    <DialogContent className="sm:max-w-[425px]">
-                      <DialogHeader>
-                        <DialogTitle>Set a New Admin</DialogTitle>
-                      </DialogHeader>
-                      <div className="grid grid-cols-12 gap-4 py-4">
-                        <Input
-                          placeholder="Search person..."
-                          className=" col-span-12 focus-visible:ring-0"
-                        />
-                        <ScrollArea className=" col-span-12 h-[47vh] overflow-y-auto ">
-                          {MemberList?.map((user, i) => (
-                            <div
-                              key={i}
-                              className="w-full grid grid-cols-12 px-2 border-y py-2"
-                            >
-                              <Avatar className=" col-span-2">
-                                <AvatarImage src={user.avatar} />
-                                <AvatarFallback>
-                                  {user?.firstname?.charAt(0)}
-                                </AvatarFallback>
-                              </Avatar>
-                              <div className="flex flex-col col-span-7 select-none">
-                                <span className=" font-poppins-medium line-clamp-1">{`${user?.firstname} ${user?.lastname}`}</span>
-                                <span className=" text-xs text-gray-500">
-                                  {user?.email}
-                                </span>
-                              </div>
-                              <div className=" col-span-3 flex justify-center">
-                                <Button variant="outline">Select</Button>
-                              </div>
-                            </div>
-                          ))}
-                        </ScrollArea>
-                      </div>
-                      <DialogFooter>
-                        <Link to="/admin/record/admins/set-permission">
-                          <Button type="submit">Set as admin</Button>
-                        </Link>
-                      </DialogFooter>
-                    </DialogContent>
-                  </Dialog>
-                )}
-              </div>
-            </div>
-          </DialogContent>
-        </Dialog>
+        <DialogCreateAdmin />
       </div>
       <hr className="my-4" />
       <TableAdminList />

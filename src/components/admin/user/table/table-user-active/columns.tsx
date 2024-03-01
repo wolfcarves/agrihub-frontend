@@ -45,6 +45,9 @@ import {
 } from "../../../../ui/alert-dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "../../../../ui/avatar";
 import { formatDateString } from "../../../../lib/utils";
+import useUserBanUsersMutation from "../../../../../hooks/api/post/useUserBanUsersMutation";
+import Loader from "../../../../../icons/Loader";
+import { toast } from "sonner";
 
 export const columns: ColumnDef<ListUser>[] = [
   {
@@ -75,7 +78,17 @@ export const columns: ColumnDef<ListUser>[] = [
     enableHiding: false,
     cell: ({ row }) => {
       const user = row.original;
-      console.log(user);
+      const navigate = useNavigate();
+      const { mutateAsync: banUserMutation, isLoading: banLoading } =
+        useUserBanUsersMutation();
+      const handleUnpublish = async () => {
+        await banUserMutation(user.id || "");
+        toast.success("User Banned Successfully!");
+        navigate("/admin/record/user-banned");
+      };
+      if (banLoading) {
+        return <Loader isVisible={true} />;
+      }
 
       return (
         <Dialog>
@@ -115,9 +128,15 @@ export const columns: ColumnDef<ListUser>[] = [
                 <h4 className="text-gray-700 font-semibold sm:text-lg justify-center items-center flex gap-2">
                   {`${user.firstname} ${user.lastname}`}{" "}
                   <Badge
-                    className={`${user.isbanned ? "bg-red-600" : "bg-primary"}`}
+                    className={`${
+                      Number(user.verification_level) <= 3
+                        ? "bg-orange-600"
+                        : "bg-primary"
+                    }`}
                   >
-                    {user.isbanned ? "Banned" : "Verified"}
+                    {Number(user.verification_level) <= 3
+                      ? "Semi-Verified"
+                      : "Verified"}
                   </Badge>
                 </h4>
                 <p className="text-center">
@@ -174,10 +193,10 @@ export const columns: ColumnDef<ListUser>[] = [
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                      <Link to="/admin/record/user-banned">
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      </Link>
-                      <AlertDialogAction>Continue</AlertDialogAction>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction onClick={handleUnpublish}>
+                        Continue
+                      </AlertDialogAction>
                     </AlertDialogFooter>
                   </AlertDialogContent>
                 </AlertDialog>

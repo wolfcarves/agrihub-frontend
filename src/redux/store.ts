@@ -9,12 +9,14 @@ import {
 import userSlice from "./slices/userSlice";
 import questionViewSlice from "./slices/questionViewSlice";
 import sidebarSlice from "./slices/sidebarSlice";
+import adminSlice from "./slices/adminSlice";
 
 export const store = configureStore({
   reducer: {
     user: userSlice,
     questionView: questionViewSlice,
-    sidebar: sidebarSlice
+    sidebar: sidebarSlice,
+    admin: adminSlice
   }
 });
 

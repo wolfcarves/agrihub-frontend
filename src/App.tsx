@@ -152,6 +152,7 @@ import SeedlingsRequest from "./pages/user/community/request/seedlings-request/s
 import ForgotPassword from "@pages/user/account/forgot-password";
 import ResetPassword from "@pages/user/account/reset-password";
 import SetPermissionAdmin from "./pages/admin/admins/permission-admin";
+import PermissionAdminCreate from "./pages/admin/admins/permission-admin-create";
 import CropsAdmin from "@pages/admin/website/crops/crops-admin";
 import AddCropsAdmin from "./pages/admin/website/crops/crops-add";
 
@@ -182,7 +183,6 @@ const App = ReactRouter(
           <Route path="tags" element={<QuestionTags />} />
           <Route path="ask" element={<QuestionAsk />} />
           <Route path="question/:username/:questionId" element={<Question />} />
-          <Route path="users" element={<>Hello</>} />
         </>
       </Route>
 
@@ -365,9 +365,12 @@ const App = ReactRouter(
         <Route path="users" element={<RecordUsers />} />
         <Route path="user-reported" element={<UsersReported />} />
         <Route path="user-banned" element={<UsersBanned />} />
-
         <Route path="admins" element={<RecordAdmins />} />
-        <Route path="admins/set-permission" element={<SetPermissionAdmin />} />
+        <Route
+          path="admins/set-permission/:userId"
+          element={<SetPermissionAdmin />}
+        />
+        <Route path="admins/create" element={<PermissionAdminCreate />} />
         <Route path="admin-disabled" element={<DisabledAdmin />} />
 
         <Route path="activity-logs" element={<ActivityLog />} />

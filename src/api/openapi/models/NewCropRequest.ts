@@ -33,6 +33,7 @@ export type NewCropRequest = {
      */
     isyield: boolean;
     p_season: Array<string>;
+    companion?: Array<string>;
     /**
      * Binary data of the crop image
      */

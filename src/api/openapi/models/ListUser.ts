@@ -8,24 +8,21 @@ export type ListUser = {
      * The ID of the user
      */
     id?: string;
-    /**
-     * The timestamp when the user was created
-     */
-    createdat?: string;
-    /**
-     * The full name of the user
-     */
-    fullname?: string;
-    /**
-     * The email address of the user
-     */
+    username?: string;
     email?: string;
-    /**
-     * The name of the user
-     */
-    name?: string;
-    /**
-     * The verification level of the user
-     */
+    firstname?: string;
+    lastname?: string;
+    birthdate?: string;
+    present_address?: string;
+    avatar?: string;
+    zipcode?: string;
+    district?: string;
+    municipality?: string;
     verification_level?: string;
+    bio?: any;
+    role?: string;
+    createdat?: string;
+    updatedat?: string;
+    isbanned?: boolean;
+    farm_id?: string | null;
 };

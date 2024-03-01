@@ -5,15 +5,13 @@ import useAuth from "../hooks/useAuth";
 import axios from "axios";
 import { useQueryClient } from "@tanstack/react-query";
 
-// const api_uri =
-//   import.meta.env.VITE_DEV_STATE === "development"
-//     ? "http://localhost:3000"
-//     : "https://qc-agrihub.xyz";
-
-const api_uri = "https://qc-agrihub.xyz";
+const api_uri =
+  import.meta.env.VITE_DEV_STATE === "production"
+    ? "https://qc-agrihub.xyz"
+    : "http://localhost:3000";
 
 const axiosInstance = axios.create({
-  baseURL: api_uri,
+  baseURL: "https://qc-agrihub.xyz",
   withCredentials: true
 });
 
@@ -49,32 +47,32 @@ const SocketProvider = (props: { children: React.ReactNode }) => {
   useEffect(() => {
     requestNotificationPermission();
 
-    if (data?.role === "admin") {
-      socket.on("admin", payload => showNotification(payload));
-    } else {
-      socket.on(data?.id ?? "", payload => showNotification(payload));
-    }
-
-    // if ("serviceWorker" in navigator) {
-    //   const handleServiceWorker = async () => {
-    //     try {
-    //       const register = await navigator.serviceWorker.register("sw.js");
-
-    //       const subscription = await register.pushManager.subscribe({
-    //         userVisibleOnly: true,
-    //         applicationServerKey: import.meta.env.VITE_VAPID_PUBLIC_KEY
-    //       });
-
-    //       await axiosInstance.post(
-    //         "/api/notification/subscribe",
-    //         subscription as any
-    //       );
-    //     } catch (error) {
-    //       console.log(error);
-    //     }
-    //   };
-    //   handleServiceWorker();
+    // if (data?.role === "admin") {
+    //   socket.on("admin", payload => showNotification(payload));
+    // } else {
+    //   socket.on(data?.id ?? "", payload => showNotification(payload));
     // }
+
+    if ("serviceWorker" in navigator) {
+      const handleServiceWorker = async () => {
+        try {
+          const register = await navigator.serviceWorker.register("/sw.js");
+
+          const subscription = await register.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: import.meta.env.VITE_VAPID_PUBLIC_KEY
+          });
+
+          await axiosInstance.post(
+            "/api/notification/subscribe",
+            subscription as any
+          );
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      handleServiceWorker();
+    }
 
     return () => {
       socket.off("data?.id" ?? "", () => console.log("unlisten"));

@@ -1,61 +1,83 @@
 import useAuth from "@hooks/useAuth";
 import { useRef, useState } from "react";
-import DefaultAvatar from "@assets/images/avatar.png";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle
-} from "@components/ui/dialog";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { LuUpload } from "react-icons/lu";
+import useUpdateUserProfileMutation from "./useUpdateUserProfileMutation";
+import ProfileUploadPhotoDialog from "../dialog/ProfileUploadPhotoDialog";
+import { toast } from "sonner";
 
 const ProfileImage = () => {
   const user = useAuth();
+  const { mutateAsync: updateUserProfile, isLoading: isUpdateUserLoading } =
+    useUpdateUserProfileMutation();
 
   const [profileImgFile, setProfileImgFile] = useState<File>();
-  const profileRef = useRef<HTMLInputElement>(null);
-  const [isPopOverOpen, setIsPopOverOpen] = useState<boolean>(false);
+  const imageRef = useRef<HTMLInputElement>(null);
 
+  const handleUploadPhoto = async (file?: Blob | null) => {
+    try {
+      if (file) {
+        await updateUserProfile({
+          id: user?.data?.id ?? "",
+          formData: {
+            avatar: file
+          }
+        });
+
+        setIsUploadDialogOpen(prev => !prev);
+        return;
+      }
+
+      toast.error("File not found.");
+    } catch (error: any) {
+      console.log(error.body.message);
+    }
+  };
+
+  const handleRemovePhoto = async () => {
+    toast.info("You can't remove your photo at the meantime.");
+
+    // try {
+    //   const res = await updateUserProfile({
+    //     id: user?.data?.id ?? "",
+    //     formData: {
+    //       avatar: undefined
+    //     }
+    //   });
+    //   console.log(res.message);
+    // } catch (error: any) {
+    //   console.log(error.body.message);
+    // }
+  };
+
+  const [isUploadDialogOpen, setIsUploadDialogOpen] = useState<boolean>(false);
+  const [isPopOverOpen, setIsPopOverOpen] = useState<boolean>(false);
   const existingAvatar = user.data?.avatar;
-  const userAvatar = profileImgFile
-    ? URL.createObjectURL(profileImgFile)
-    : existingAvatar
-    ? existingAvatar
-    : DefaultAvatar;
 
   return (
-    <Dialog>
-      <div className="relative flex items-end justify-center min-h-[22rem]">
-        <div className="absolute inset-0 cursor-pointer border border-t-0 rounded-b-lg ">
-          <img
-            src="https://images.unsplash.com/photo-1636955735635-b4c0fd54f360?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            className="h-full w-full object-cover object-center rounded-b-lg"
-          />
-        </div>
-
+    <>
+      <div className="relative flex items-end justify-center min-h-[15rem]">
         <div
           className="group w-[12rem] aspect-square border-4 border-slate-200 active:scale-90 active:ring-4 ring-slate-200 rounded-full translate-y-14 bg-white cursor-pointer overflow-hidden duration-100"
           onClick={() => {
             setIsPopOverOpen(prev => !prev);
-            // profileRef.current?.click();
           }}
         >
           <img
-            src={userAvatar}
+            src={existingAvatar}
             className="h-full w-full absolute inset-0 object-cover object-center group-hover:brightness-110 "
           />
 
           <input
-            ref={profileRef}
+            ref={imageRef}
             type="file"
+            accept="image/jpg,image/jpeg,image/png"
             className="hidden"
             onChange={e => {
               if (e.target.files) {
-                setProfileImgFile(
-                  e.target.files[0] ? e.target.files[0] : profileImgFile
-                );
+                setProfileImgFile(e.target.files[0]);
+              } else {
+                toast.error("Failed to upload photo");
               }
             }}
           />
@@ -64,14 +86,24 @@ const ProfileImage = () => {
         {isPopOverOpen && (
           <>
             <div className="flex flex-col p-1 pt-3 h-28 w-full max-w-[25rem] bg-white absolute -bottom-[190px] z-10 border rounded-md ">
-              <button className="flex gap-3 items-center h-full text-sm hover:bg-black/10 rounded-md px-2">
+              <button
+                className="flex gap-3 items-center h-full text-sm hover:bg-black/10 rounded-md px-2"
+                onClick={() => {
+                  setIsUploadDialogOpen(true);
+                }}
+              >
                 <LuUpload className="text-lg" />
                 <span className="font-poppins-bold text-black/80">
                   Upload Photo
                 </span>
               </button>
 
-              <button className="flex gap-3 items-center h-full text-sm hover:bg-black/10 rounded-md px-2">
+              <button
+                className="flex gap-3 items-center h-full text-sm hover:bg-black/10 rounded-md px-2"
+                onClick={() => {
+                  handleRemovePhoto();
+                }}
+              >
                 <FaRegTrashCan className="text-lg" />
                 <span className="font-poppins-bold text-black/80">
                   Remove Photo
@@ -84,16 +116,22 @@ const ProfileImage = () => {
         )}
       </div>
 
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Are you absolutely sure?</DialogTitle>
-          <DialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
-          </DialogDescription>
-        </DialogHeader>
-      </DialogContent>
-    </Dialog>
+      <ProfileUploadPhotoDialog
+        open={isUploadDialogOpen}
+        image={profileImgFile}
+        isLoading={isUpdateUserLoading}
+        onOpenChange={() => {
+          setIsUploadDialogOpen(prev => !prev);
+        }}
+        onChangePhotoClick={() => {
+          imageRef?.current?.click();
+        }}
+        onSaveClick={file => {
+          handleUploadPhoto(file);
+        }}
+        onCancelClick={() => setIsUploadDialogOpen(prev => !prev)}
+      />
+    </>
   );
 };
 

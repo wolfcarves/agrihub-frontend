@@ -198,7 +198,15 @@
   }
 }
 
-.custom-scroll::-webkit-scrollbar {
+.avatar-dimmed {
+  width: '100%';
+  height: '100%';
+  margin: auto;
+  background: radial-gradient(circle at center 50%, transparent, transparent 65%, #2b2b2b21 50px);
+  overflow: hidden;
+}
+
+.custom-scroll::-we kit-scrollbar {
   width: 5px;
 }
 

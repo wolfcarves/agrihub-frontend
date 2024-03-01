@@ -3,13 +3,13 @@ import { AuthService, UserLoginSchema } from "@api/openapi";
 import { GET_MY_PROFILE_KEY } from "../get/useGetMyProfileQuery";
 import { useNavigate } from "react-router-dom";
 
-const useLoginUserKey = () => "user_login";
+export const LOGIN_USER_KEY = () => "LOGIN_USER_KEY";
 
 export default function useLoginUserMutation() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  return useMutation([useLoginUserKey()], {
+  return useMutation([LOGIN_USER_KEY()], {
     async mutationFn(data: UserLoginSchema) {
       const response = await AuthService.postApiAuthLogin({
         requestBody: data

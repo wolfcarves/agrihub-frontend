@@ -117,5 +117,5 @@ export default {
       }
     }
   },
-  plugins: [tailwindAnimate]
+  plugins: [tailwindAnimate, require("autoprefixer")]
 };

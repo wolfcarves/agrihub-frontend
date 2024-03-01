@@ -7,7 +7,7 @@ const QuestionLayout = () => {
   const pathname = useLocation().pathname;
 
   const sidebarNoneRenderPaths = ["/forum/ask"];
-  const asideNoneRenderPaths = ["/forum/tags"];
+  const asideNoneRenderPaths = ["/forum/tags", "/forum/users"];
   const sidebarRender = sidebarNoneRenderPaths.includes(pathname);
   const asideRender = asideNoneRenderPaths.includes(pathname);
 

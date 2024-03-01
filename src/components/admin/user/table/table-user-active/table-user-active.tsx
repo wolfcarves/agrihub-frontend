@@ -4,16 +4,20 @@ import { columns } from "./columns";
 import useDebounce from "@hooks/utils/useDebounce";
 import { DataTable } from "../../../../ui/custom/data-table/data-table";
 import useGetUserActiveList from "../../../../../hooks/api/get/useGetUserActiveList";
+import StatePagination from "../../../../user/community/state-pagination/state-pagination";
 
 const TableUserActive = () => {
   const [search, setSearch] = useState<string | undefined>("");
-  const { data: userData } = useGetUserActiveList({
+  const [page, setPage] = useState<number>(1);
+  const { data: userData, isLoading } = useGetUserActiveList({
     perpage: "20",
-    page: "1",
+    page: String(page),
     search: search,
     filter: undefined
   });
-  console.log(userData);
+  const onPageChange = (newPage: number) => {
+    setPage(newPage);
+  };
 
   const debouncedSearch = useDebounce((value: string) => {
     setSearch(value);
@@ -30,6 +34,15 @@ const TableUserActive = () => {
         />
       </div>
       <DataTable columns={columns} data={userData?.users || []} />
+      <div className="mt-4">
+        {!isLoading && (
+          <StatePagination
+            currentPage={Number(userData?.pagination?.page)}
+            totalPages={Number(userData?.pagination?.total_pages)}
+            onPageChange={onPageChange}
+          />
+        )}
+      </div>
     </div>
   );
 };

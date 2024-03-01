@@ -70,7 +70,7 @@ export default defineConfig({
       },
       registerType: "autoUpdate",
       workbox: {
-        // importScripts: ["./sw.js"],
+        importScripts: ["./sw.js"],
         clientsClaim: true,
         skipWaiting: true
       },

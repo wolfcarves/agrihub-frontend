@@ -80,7 +80,7 @@ const StatePagination = ({
       {currentPage !== 1 && (
         <PaginationPrevious
           onClick={() => onPageChange(currentPage - 1)}
-          className="gap-1 pl-2.5 cursor-pointer"
+          className="gap-1 pl-2.5 cursor-pointer select-none"
         >
           Previous
         </PaginationPrevious>
@@ -90,7 +90,7 @@ const StatePagination = ({
       {currentPage !== totalPages && (
         <PaginationNext
           onClick={() => onPageChange(currentPage + 1)}
-          className="gap-1 pr-2.5 cursor-pointer"
+          className="gap-1 pr-2.5 cursor-pointer select-none"
         >
           Next
         </PaginationNext>

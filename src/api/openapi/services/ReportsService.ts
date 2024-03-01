@@ -6,6 +6,8 @@ import type { CommunityCropReportsResponse } from '../models/CommunityCropReport
 import type { CropReportResponse } from '../models/CropReportResponse';
 import type { CropReportViewResponse } from '../models/CropReportViewResponse';
 import type { CropStatisticsResponse } from '../models/CropStatisticsResponse';
+import type { DetailedResourceCount } from '../models/DetailedResourceCount';
+import type { DistrictFarmData } from '../models/DistrictFarmData';
 import type { FarmerGraphGrowthHarvestResponse } from '../models/FarmerGraphGrowthHarvestResponse';
 import type { FarmerGraphPiechartResponse } from '../models/FarmerGraphPiechartResponse';
 import type { FarmerGraphStackedBarResponse } from '../models/FarmerGraphStackedBarResponse';
@@ -13,10 +15,13 @@ import type { FarmerGraphTotalHarvestResponse } from '../models/FarmerGraphTotal
 import type { FarmerTotalHarvestedResponse } from '../models/FarmerTotalHarvestedResponse';
 import type { FarmWithGrowthRate } from '../models/FarmWithGrowthRate';
 import type { FavouriteCropData } from '../models/FavouriteCropData';
+import type { ForumCount } from '../models/ForumCount';
 import type { GrowthRateResponse } from '../models/GrowthRateResponse';
 import type { HarvestedWitheredData } from '../models/HarvestedWitheredData';
 import type { LearningMaterialReport } from '../models/LearningMaterialReport';
+import type { MonthlyGrowthRate } from '../models/MonthlyGrowthRate';
 import type { NewCommunityCropReport } from '../models/NewCommunityCropReport';
+import type { ResourceCount } from '../models/ResourceCount';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -353,10 +358,129 @@ end?: string,
      * @returns FarmWithGrowthRate OK
      * @throws ApiError
      */
-    public static getApiReportsAdminLowestGrowthRate(): CancelablePromise<Array<FarmWithGrowthRate>> {
+    public static getApiReportsAdminLowestGrowthRate({
+order,
+}: {
+order?: 'asc' | 'desc',
+}): CancelablePromise<Array<FarmWithGrowthRate>> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/reports/admin/lowest/growth-rate',
+            query: {
+                'order': order,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Get monthly growth rate
+     * @returns MonthlyGrowthRate Monthly growth rate data
+     * @throws ApiError
+     */
+    public static getApiReportsAdminGrowthRateMonthly({
+year,
+start,
+end,
+}: {
+/**
+ * The year to filter the data
+ */
+year?: string,
+/**
+ * The start date to filter the data
+ */
+start?: string,
+/**
+ * The end date to filter the data
+ */
+end?: string,
+}): CancelablePromise<MonthlyGrowthRate> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/reports/admin/growth-rate/monthly',
+            query: {
+                'year': year,
+                'start': start,
+                'end': end,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Get count of resources
+     * @returns ResourceCount Count of resources
+     * @throws ApiError
+     */
+    public static getApiReportsAdminResourcesCount(): CancelablePromise<ResourceCount> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/reports/admin/resources/count',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Get detailed count of resources
+     * @returns DetailedResourceCount Detailed count of resources
+     * @throws ApiError
+     */
+    public static getApiReportsAdminResourcesCountDetailed(): CancelablePromise<DetailedResourceCount> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/reports/admin/resources/count/detailed',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Get farms count and total harvest by district
+     * @returns DistrictFarmData Farms count and total harvest by district
+     * @throws ApiError
+     */
+    public static getApiReportsAdminFarmsDistrict(): CancelablePromise<Array<DistrictFarmData>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/reports/admin/farms/district',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Get count of forums, forum answers, and forum tags
+     * @returns ForumCount Count of forums, forum answers, and forum tags
+     * @throws ApiError
+     */
+    public static getApiReportsForumsCount(): CancelablePromise<ForumCount> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/reports/forums/count',
             errors: {
                 400: `Validation Error`,
                 401: `Unauthorized`,

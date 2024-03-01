@@ -159,6 +159,7 @@ message?: string;
 search,
 page,
 perpage,
+filter,
 }: {
 /**
  * Search term
@@ -172,6 +173,10 @@ page?: string,
  * Number of items per page
  */
 perpage?: string,
+/**
+ * Filter by banned or active administrators
+ */
+filter?: 'pending' | 'warned',
 }): CancelablePromise<{
 users?: Array<ReportedUser>;
 pagination?: PaginationData;
@@ -183,6 +188,7 @@ pagination?: PaginationData;
                 'search': search,
                 'page': page,
                 'perpage': perpage,
+                'filter': filter,
             },
             errors: {
                 400: `Validation Error`,
@@ -262,7 +268,6 @@ message?: string;
 search,
 page,
 perpage,
-filter,
 }: {
 /**
  * Search query string
@@ -276,10 +281,6 @@ page?: string,
  * Number of items per page
  */
 perpage?: string,
-/**
- * Filter by banned or active administrators
- */
-filter?: 'active' | 'banned',
 }): CancelablePromise<AdminListResponse> {
         return __request(OpenAPI, {
             method: 'GET',
@@ -288,7 +289,6 @@ filter?: 'active' | 'banned',
                 'search': search,
                 'page': page,
                 'perpage': perpage,
-                'filter': filter,
             },
             errors: {
                 400: `Validation Error`,

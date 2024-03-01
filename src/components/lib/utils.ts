@@ -227,3 +227,8 @@ export function formatDateString(inputDate: string) {
   const formattedDate = `${month} ${addOrdinalSuffix(day)}, ${year}`;
   return formattedDate;
 }
+
+export function formatImage(img: string) {
+  const formattedImg = `https://s3.ap-southeast-1.amazonaws.com/agrihub-bucket/${img}`;
+  return formattedImg;
+}

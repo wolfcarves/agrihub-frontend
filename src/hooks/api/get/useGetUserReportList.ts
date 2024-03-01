@@ -5,6 +5,7 @@ type HookParams = {
   search?: string;
   page?: string;
   perpage?: string;
+  filter?: "pending" | "warned" | undefined;
 };
 export const GET_USER_REPORT_LIST = () => "GET_USER_REPORT_LIST_KEY";
 export default function useGetUserReportList(data: HookParams) {

@@ -81,7 +81,7 @@ export const columns: ColumnDef<ListUser>[] = [
       const navigate = useNavigate();
       const { mutateAsync: banUserMutation, isLoading: banLoading } =
         useUserBanUsersMutation();
-      const handleUnpublish = async () => {
+      const handleBan = async () => {
         await banUserMutation(user.id || "");
         toast.success("User Banned Successfully!");
         navigate("/admin/record/user-banned");
@@ -194,7 +194,7 @@ export const columns: ColumnDef<ListUser>[] = [
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                       <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      <AlertDialogAction onClick={handleUnpublish}>
+                      <AlertDialogAction onClick={handleBan}>
                         Continue
                       </AlertDialogAction>
                     </AlertDialogFooter>

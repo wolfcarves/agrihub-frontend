@@ -179,3 +179,51 @@ export const convertToEmbedLink = (link: string) => {
     return link;
   }
 };
+
+export function formatDateString(inputDate: string) {
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ];
+
+  const date = new Date(inputDate);
+
+  // Check if the date is valid
+  if (isNaN(date.getTime())) {
+    return "Invalid Date";
+  }
+
+  const month = months[date.getMonth()];
+  const day = date.getDate();
+  const year = date.getFullYear();
+
+  // Function to add ordinal suffix to the day
+  const addOrdinalSuffix = (day: number) => {
+    if (day >= 11 && day <= 13) {
+      return day + "th";
+    }
+    switch (day % 10) {
+      case 1:
+        return day + "st";
+      case 2:
+        return day + "nd";
+      case 3:
+        return day + "rd";
+      default:
+        return day + "th";
+    }
+  };
+
+  const formattedDate = `${month} ${addOrdinalSuffix(day)}, ${year}`;
+  return formattedDate;
+}

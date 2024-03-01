@@ -1,9 +1,6 @@
 import { io } from "socket.io-client";
 
 const DEV_STATE = import.meta.env.VITE_DEV_STATE;
-const URL =
-  DEV_STATE === "production"
-    ? "https://qc-agrihub.xyz/"
-    : "http://localhost:3000";
+const URL = "https://qc-agrihub.xyz";
 
 export const socket = io(URL as string);

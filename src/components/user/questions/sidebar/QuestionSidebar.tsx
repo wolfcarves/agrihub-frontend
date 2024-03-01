@@ -38,13 +38,6 @@ const QuestionSidebar = ({ className, ...props }: QuestionSidebarProps) => {
         logo={<BsTags size={20} />}
         end
       />
-
-      <UserSidebarNavLink
-        to="/forum/users"
-        title="Users"
-        logo={<FiUsers size={20} />}
-        end
-      />
     </UserSidebar>
   );
 };

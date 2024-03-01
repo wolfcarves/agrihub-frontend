@@ -20,7 +20,7 @@ const ProfileQuestionList = ({ data, isLoading }: ProfileQuestionListProps) => {
   }
 
   return (
-    <div className="flex flex-col gap-5 mx-auto w-full max-w-[50rem] py-10">
+    <div className="flex flex-col mx-auto w-full max-w-[50rem] py-10">
       <h5 className="font-poppins-medium">Recent Posts</h5>
 
       {isLoading ? (

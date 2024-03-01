@@ -183,7 +183,6 @@ const App = ReactRouter(
           <Route path="tags" element={<QuestionTags />} />
           <Route path="ask" element={<QuestionAsk />} />
           <Route path="question/:username/:questionId" element={<Question />} />
-          <Route path="users" element={<>Hello</>} />
         </>
       </Route>
 

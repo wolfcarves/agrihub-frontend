@@ -3,9 +3,11 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { AcceptSeedlingRequest } from '../models/AcceptSeedlingRequest';
+import type { FarmOverview } from '../models/FarmOverview';
 import type { MessageResponse } from '../models/MessageResponse';
 import type { NewSeedlingRequest } from '../models/NewSeedlingRequest';
 import type { NewSeedlingResponse } from '../models/NewSeedlingResponse';
+import type { RequestCount } from '../models/RequestCount';
 import type { SeedlingRequestListAllResponse } from '../models/SeedlingRequestListAllResponse';
 import type { SeedlingRequestListItem } from '../models/SeedlingRequestListItem';
 
@@ -186,6 +188,42 @@ message?: string;
             path: {
                 'id': id,
             },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Get count of pending and accepted requests
+     * @returns RequestCount Count of pending and accepted requests
+     * @throws ApiError
+     */
+    public static getApiRequestCount(): CancelablePromise<RequestCount> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/request/count',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Get overview of farm reports
+     * @returns FarmOverview Overview of farm reports
+     * @throws ApiError
+     */
+    public static getApiReportsFarmsOverview(): CancelablePromise<FarmOverview> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/reports/farms/overview',
             errors: {
                 400: `Validation Error`,
                 401: `Unauthorized`,

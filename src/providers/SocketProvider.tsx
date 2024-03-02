@@ -56,7 +56,14 @@ const SocketProvider = (props: { children: React.ReactNode }) => {
     if ("serviceWorker" in navigator) {
       const handleServiceWorker = async () => {
         try {
-          const register = await navigator.serviceWorker.register("/sw.js");
+          const register = await navigator.serviceWorker.register(
+            import.meta.env.MODE === "production"
+              ? "/sw.js"
+              : "/dev-sw.js?dev-sw",
+            {
+              type: import.meta.env.MODE === "production" ? "classic" : "module"
+            }
+          );
 
           const subscription = await register.pushManager.subscribe({
             userVisibleOnly: true,

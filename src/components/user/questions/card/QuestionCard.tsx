@@ -218,6 +218,7 @@ const QuestionCard = ({
             {/* Name and Tags */}
             <div className="flex flex-wrap gap-3 justify-between items-center py-5 ">
               <QuestionUserProfileButton
+                userId={userId}
                 avatarSrc={userAvatarSrc}
                 username={username}
                 createdAt={createdat}

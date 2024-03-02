@@ -5,10 +5,18 @@ import { IoCamera } from "react-icons/io5";
 
 interface DropzoneProps {
   onChange?: (blob: Blob) => void;
+  disabled?: boolean;
+  defaultValue?: string;
 }
 
-const CaptureWithDelete: React.FC<DropzoneProps> = ({ onChange }) => {
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
+const CaptureWithDelete: React.FC<DropzoneProps> = ({
+  onChange,
+  disabled,
+  defaultValue
+}) => {
+  const [imagePreview, setImagePreview] = useState<string | null>(
+    defaultValue || null
+  );
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,15 +48,16 @@ const CaptureWithDelete: React.FC<DropzoneProps> = ({ onChange }) => {
       onClick={() => inputRef.current?.click()}
     >
       {imagePreview ? (
-        <div className="relative">
+        <div className="relative overflow-hidden">
           <img
             src={imagePreview}
             alt="Uploaded"
-            className="h-64 w-full rounded-lg object-cover object-center"
+            className="w-full object-cover "
           />
           <button
             className="absolute top-0 right-0 text-white bg-red-600 rounded-full p-1 cursor-pointer"
             onClick={handleDelete}
+            disabled={disabled}
           >
             <FaRegTrashAlt />
           </button>
@@ -66,7 +75,7 @@ const CaptureWithDelete: React.FC<DropzoneProps> = ({ onChange }) => {
         capture="environment"
         id="cameraInput"
         ref={inputRef}
-        disabled={!!imagePreview}
+        disabled={!!imagePreview || disabled}
       />
     </div>
   );

@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import useAuth from "@hooks/useAuth";
 import useGetFarmListQuery from "@hooks/api/get/useGetFarmListQuery";
 import FarmCard from "@components/user/community/farm-card/farm-card";
-import { blogData, blog_image } from "../../../../constants/data";
 import { Button } from "@components/ui/button";
 import {
   MdDevices,
@@ -18,7 +17,7 @@ import useGetBlogsPublishList from "@hooks/api/get/useGetBlogsPublishListQuery";
 const ContentWhatWeDo: React.FC = () => {
   const { data: cmsData } = useCmsLandingDetailsQuery();
 
-  const { id, approach, approach_items, createdat, images } = {
+  const { approach } = {
     ...cmsData
   };
 

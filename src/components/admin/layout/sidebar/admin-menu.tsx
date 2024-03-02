@@ -117,6 +117,12 @@ export const adminNavigation: AdminNavigationItem[] = [
         name: "Rejected",
         href: "/admin/farm/seedling-rejected",
         module: "farms"
+      },
+      {
+        title: "Farm Problems",
+        name: "Problems List",
+        href: "/admin/farm/problems",
+        module: "farms"
       }
     ]
   },

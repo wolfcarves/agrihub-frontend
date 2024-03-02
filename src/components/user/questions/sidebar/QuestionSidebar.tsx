@@ -24,8 +24,9 @@ const QuestionSidebar = ({ className, ...props }: QuestionSidebarProps) => {
       />
 
       {isAuthenticated && (
+        // users/930772412524068865/Docrammer
         <UserSidebarNavLink
-          to={`/users/${data?.id}/saved`}
+          to={`/users/${data?.id}/${data?.username}/saved`}
           title="Saved"
           logo={<IoBookmarkOutline size={20} />}
           end

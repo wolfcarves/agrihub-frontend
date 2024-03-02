@@ -27,11 +27,13 @@ import { Checkbox } from "../../../../ui/checkbox";
 import DataPrivacyDialog from "../../../../ui/custom/data-privacy-dialog/data-privacy-dialog";
 import SelectBarangay from "../../select-barangay/select-barangay";
 import ReviewDialog from "../../review-dialog/review-dialog";
+import { CheckedState } from "@radix-ui/react-checkbox";
 
 const CommunityRegisterForm = () => {
   const [isDialogOpen, setDialogOpen] = useState<boolean>(false);
   const [dialogReview, setDialogReview] = useState<boolean>();
   const [district, setDistrict] = useState<string>("");
+  const [check, setCheck] = useState<CheckedState>(false);
 
   useEffect(() => {
     setDialogOpen(true);
@@ -74,6 +76,9 @@ const CommunityRegisterForm = () => {
     if (form.formState.errors.farm_actual_images) {
       toast.error(form.formState.errors.farm_actual_images.message?.toString());
     }
+    if (form.formState.errors.root) {
+      toast.error(form.formState.errors.root.message?.toString());
+    }
   }, [form.formState.errors]);
 
   const { mutateAsync: farmApplyMutate, isLoading: isFarmApplyLoading } =
@@ -87,6 +92,14 @@ const CommunityRegisterForm = () => {
     }
   };
   const handleSubmitForm = async (data: RegisterCommunitySchema) => {
+    if (!check) {
+      form.setError("root", {
+        type: "manual",
+        message:
+          "Oops! It looks like you forgot to agree to the terms and conditions."
+      });
+      return null;
+    }
     // setDialogReview(true);
     const compiledData: NewFarmApplication = {
       farm_name: data.farm_name,
@@ -253,8 +266,11 @@ const CommunityRegisterForm = () => {
             />
           </div>
           <div className="flex items-center space-x-2 col-span-12">
-            <Checkbox id="terms" />
-            <Label htmlFor="terms">
+            <Checkbox
+              checked={check}
+              onCheckedChange={checked => setCheck(checked)}
+            />
+            <Label>
               Accept{" "}
               <span className="text-primary underline">
                 terms and conditions

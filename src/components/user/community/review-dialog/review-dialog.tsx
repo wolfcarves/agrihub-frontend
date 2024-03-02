@@ -17,7 +17,9 @@ interface ReviewDialogProps {
   dialogReview: boolean | undefined;
   setDialogReview: Dispatch<SetStateAction<boolean | undefined>>;
   form: UseFormReturn<RegisterCommunitySchema>;
-  handleSubmitForm: (data: RegisterCommunitySchema) => Promise<void>;
+  handleSubmitForm: (
+    data: RegisterCommunitySchema
+  ) => Promise<null | undefined>;
 }
 
 const ReviewDialog: React.FC<ReviewDialogProps> = ({

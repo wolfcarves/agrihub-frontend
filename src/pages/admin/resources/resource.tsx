@@ -9,12 +9,15 @@ import {
 } from "@components/ui/card";
 import DoughnutResource from "../charts/dougnut-resource-overview";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
+import useGetReportResourceCountDetailed from "../../../hooks/api/get/useGetReportResourceCountDetailed";
 
 const breadcrumbItems = [
   { title: "Resource Management", link: "/admin/resources" }
 ];
 
 const Resource = () => {
+  const { data: resourceCount } = useGetReportResourceCountDetailed();
+  console.log(resourceCount);
   return (
     <AdminOutletContainer>
       <BreadCrumb items={breadcrumbItems} />
@@ -28,27 +31,29 @@ const Resource = () => {
         </Card>
         <Card className="col-span-full md:col-span-3 md:col-start-4">
           <CardHeader>
-            <CardTitle>132</CardTitle>
+            <CardTitle>{resourceCount?.blogs}</CardTitle>
             <CardDescription>
-              Total Blogs Posted, 28 is still in draft and 42 is archived.
+              Total Blogs Posted, {resourceCount?.draft_blogs} is still in draft
+              and {resourceCount?.archived_blogs} is archived.
             </CardDescription>
           </CardHeader>
         </Card>
         <Card className="col-span-full md:col-span-3 md:col-start-4 md:row-start-2">
           <CardHeader>
-            <CardTitle>190</CardTitle>
+            <CardTitle>{resourceCount?.all_learning_materials}</CardTitle>
             <CardDescription>
-              Total Learning Materials Created, 40 is still in draft and 43 is
-              archived.
+              Total Learning Materials Created,{" "}
+              {resourceCount?.draft_learning_material} is still in draft and{" "}
+              {resourceCount?.archived_learning_material} is archived.
             </CardDescription>
           </CardHeader>
         </Card>
         <Card className="col-span-full md:col-span-3 md:col-start-4 md:row-start-3">
           <CardHeader>
-            <CardTitle>89</CardTitle>
+            <CardTitle>{resourceCount?.events}</CardTitle>
             <CardDescription>
-              Total Events Created, 84 is already over and there is 5 upcoming
-              event.
+              Total Events Created, {resourceCount?.upcoming_events} upcoming
+              events event.
             </CardDescription>
           </CardHeader>
         </Card>

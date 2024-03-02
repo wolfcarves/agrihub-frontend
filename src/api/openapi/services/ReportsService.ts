@@ -16,6 +16,7 @@ import type { FarmerTotalHarvestedResponse } from '../models/FarmerTotalHarveste
 import type { FarmWithGrowthRate } from '../models/FarmWithGrowthRate';
 import type { FavouriteCropData } from '../models/FavouriteCropData';
 import type { ForumCount } from '../models/ForumCount';
+import type { ForumOverview } from '../models/ForumOverview';
 import type { GrowthRateResponse } from '../models/GrowthRateResponse';
 import type { HarvestedWitheredData } from '../models/HarvestedWitheredData';
 import type { LearningMaterialReport } from '../models/LearningMaterialReport';
@@ -481,6 +482,34 @@ end?: string,
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/reports/forums/count',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Get overview of forum questions and answers by month
+     * @returns ForumOverview Overview of forum questions and answers by month
+     * @throws ApiError
+     */
+    public static getApiReportsForumsOverview({
+year,
+}: {
+/**
+ * The year to filter the overview
+ */
+year?: string,
+}): CancelablePromise<Array<ForumOverview>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/reports/forums/overview',
+            query: {
+                'year': year,
+            },
             errors: {
                 400: `Validation Error`,
                 401: `Unauthorized`,

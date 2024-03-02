@@ -158,9 +158,7 @@ const DataPrivacyDialog = ({ isDialogOpen, setDialogOpen }: any) => {
           </div>
         </ScrollArea>
         <DialogFooter>
-          <Button onClick={() => setDialogOpen(false)} type="submit">
-            Continue
-          </Button>
+          <Button onClick={() => setDialogOpen(false)}>Continue</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

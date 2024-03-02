@@ -1,16 +1,20 @@
 import React from "react";
 import { Doughnut } from "react-chartjs-2";
+import useGetReportResourceCount from "../../../hooks/api/get/useGetReportResourceCount";
 
 const DoughnutResource = () => {
-  const DATA_COUNT = 4;
-  const NUMBER_CFG = { count: DATA_COUNT, min: 0, max: 100 };
+  const { data: resourceCount } = useGetReportResourceCount();
 
   const data = {
     labels: ["Blogs", "Learning Materials", "Events"],
     datasets: [
       {
         label: "",
-        data: [45, 25, 15],
+        data: [
+          resourceCount?.blogs,
+          resourceCount?.learning_materials,
+          resourceCount?.events
+        ],
         backgroundColor: ["#4F6F52", "#739072", "#D2E3C8"]
       }
     ]

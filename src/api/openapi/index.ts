@@ -54,6 +54,8 @@ export type { DeleteDraftLearningMaterialResponse } from './models/DeleteDraftLe
 export type { DeleteSuccessMessage } from './models/DeleteSuccessMessage';
 export type { DeleteVoteAnswerResponse } from './models/DeleteVoteAnswerResponse';
 export type { DeleteVoteForumResponse } from './models/DeleteVoteForumResponse';
+export type { DetailedResourceCount } from './models/DetailedResourceCount';
+export type { DistrictFarmData } from './models/DistrictFarmData';
 export type { DraftBlogListResponse } from './models/DraftBlogListResponse';
 export type { ErrorResponse } from './models/ErrorResponse';
 export type { Event } from './models/Event';
@@ -78,8 +80,10 @@ export type { FarmerTotalHarvestedData } from './models/FarmerTotalHarvestedData
 export type { FarmerTotalHarvestedResponse } from './models/FarmerTotalHarvestedResponse';
 export type { FarmListResponse } from './models/FarmListResponse';
 export type { FarmMember } from './models/FarmMember';
+export type { FarmOverview } from './models/FarmOverview';
 export type { FarmWithGrowthRate } from './models/FarmWithGrowthRate';
 export type { FavouriteCropData } from './models/FavouriteCropData';
+export type { ForumCount } from './models/ForumCount';
 export type { GrowthRateResponse } from './models/GrowthRateResponse';
 export type { HarvestedWitheredData } from './models/HarvestedWitheredData';
 export type { InvitationItem } from './models/InvitationItem';
@@ -153,7 +157,9 @@ export type { RemoveLearningTagsResponse } from './models/RemoveLearningTagsResp
 export type { RemoveResourceResponse } from './models/RemoveResourceResponse';
 export type { ReportedUser } from './models/ReportedUser';
 export type { ReportQuestionRequestBody } from './models/ReportQuestionRequestBody';
+export type { RequestCount } from './models/RequestCount';
 export type { ResetPasswordRequestBody } from './models/ResetPasswordRequestBody';
+export type { ResourceCount } from './models/ResourceCount';
 export type { SavedQuestionsResponse } from './models/SavedQuestionsResponse';
 export type { SeedlingRequest } from './models/SeedlingRequest';
 export type { SeedlingRequestListAllResponse } from './models/SeedlingRequestListAllResponse';
@@ -209,7 +215,6 @@ export { FarmRequestService } from './services/FarmRequestService';
 export { ForumsService } from './services/ForumsService';
 export { LearningMaterialsService } from './services/LearningMaterialsService';
 export { NotificationService } from './services/NotificationService';
-export { ReportService } from './services/ReportService';
 export { ReportsService } from './services/ReportsService';
 export { TagsService } from './services/TagsService';
 export { UploaderService } from './services/UploaderService';

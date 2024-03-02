@@ -40,7 +40,7 @@ const UserHeaderMenu = () => {
         </DropdownMenuTrigger>
 
         <DropdownMenuContent className="w-[20rem]" align="end">
-          <Link to={`/users/${data?.id}/me`}>
+          <Link to={`/users/${data?.userid}/${data?.username}`}>
             <DropdownMenuItem className="cursor-pointer h-12 gap-2">
               <span className="flex items-center gap-3 line-clamp-1 text-md font-poppins-bold capitalize h-10">
                 <img

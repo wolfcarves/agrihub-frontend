@@ -39,7 +39,7 @@ const breadcrumbItems = [{ title: "", link: "" }];
 const OverviewAdmin = () => {
   const { data: favouriteCrop } = useGetReportFavouriteCrops();
   const { data: resourceDetailed } = useGetReportResourceCountDetailed();
-  console.log(resourceDetailed);
+
   return (
     <AdminOutletContainer>
       <div className="grid grid-cols-1 md:grid-cols-12 grid-rows-12 gap-4">
@@ -98,9 +98,9 @@ const OverviewAdmin = () => {
 
         {/* big center */}
         <Card className="col-span-1 md:col-span-9 row-span-10 p-4 w-full">
-          <h3 className="text-gray-800 text-xl font-semibold sm:text-2xl flex items-center">
+          {/* <h3 className="text-gray-800 text-xl font-semibold sm:text-2xl flex items-center">
             Farms Growth Rate
-          </h3>
+          </h3> */}
           <div className="h-96 w-full">
             <GrowthRateLineChart />
           </div>

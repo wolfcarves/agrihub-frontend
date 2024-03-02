@@ -6,7 +6,11 @@ import useUpdateUserProfileMutation from "./useUpdateUserProfileMutation";
 import ProfileUploadPhotoDialog from "../dialog/ProfileUploadPhotoDialog";
 import { toast } from "sonner";
 
-const ProfileImage = () => {
+interface ProfileImageProps {
+  avatar?: string;
+}
+
+const ProfileImage = ({ avatar }: ProfileImageProps) => {
   const user = useAuth();
   const { mutateAsync: updateUserProfile, isLoading: isUpdateUserLoading } =
     useUpdateUserProfileMutation();
@@ -52,7 +56,6 @@ const ProfileImage = () => {
 
   const [isUploadDialogOpen, setIsUploadDialogOpen] = useState<boolean>(false);
   const [isPopOverOpen, setIsPopOverOpen] = useState<boolean>(false);
-  const existingAvatar = user.data?.avatar;
 
   return (
     <>
@@ -64,7 +67,7 @@ const ProfileImage = () => {
           }}
         >
           <img
-            src={existingAvatar}
+            src={avatar}
             className="h-full w-full absolute inset-0 object-cover object-center group-hover:brightness-110 "
           />
 

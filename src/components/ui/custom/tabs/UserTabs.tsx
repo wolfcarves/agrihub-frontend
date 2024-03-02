@@ -2,7 +2,7 @@ import { useState } from "react";
 
 interface UserTabsProps {
   index: number;
-  options: any;
+  options: string[];
   onChange?: (e: string) => void;
 }
 
@@ -11,11 +11,18 @@ const UserTabs = ({ index = 0, options, onChange }: UserTabsProps) => {
     options[index]
   );
 
+  const barLength =
+    options.length === 2
+      ? "w-[calc(100%/2)]"
+      : options.length === 1
+      ? "w-[calc(100%/1)]"
+      : "";
+
   return (
     <div className="bg-slate-100 px-1.5 w-full max-w-[27rem] rounded-md mx-auto">
       <div className="relative flex xs:w-[28rem] mx-auto h-[2.5rem] xs:h-[2.5rem] overflow-hidden">
         <div
-          className={`absolute left-0 start-0 top-0 bottom-0 my-auto h-[80%] w-[calc(100%/2)]  bg-white rounded-md duration-300`}
+          className={`absolute left-0 start-0 top-0 bottom-0 my-auto h-[80%] ${barLength} bg-white rounded-md duration-300`}
           style={{
             translate: (options.indexOf(selectedTab) * 100) / 1 + "%"
           }}

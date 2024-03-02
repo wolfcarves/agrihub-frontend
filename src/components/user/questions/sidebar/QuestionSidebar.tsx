@@ -25,7 +25,7 @@ const QuestionSidebar = ({ className, ...props }: QuestionSidebarProps) => {
 
       {isAuthenticated && (
         <UserSidebarNavLink
-          to={`/users/${data?.id}/me/saved`}
+          to={`/users/${data?.id}/saved`}
           title="Saved"
           logo={<IoBookmarkOutline size={20} />}
           end

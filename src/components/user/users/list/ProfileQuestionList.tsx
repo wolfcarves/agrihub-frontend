@@ -3,7 +3,6 @@ import { QuestionsResponse } from "@api/openapi";
 import { useNavigate } from "react-router-dom";
 import ActivityIndicator from "@icons/ActivityIndicator";
 import QuestionCard from "@components/user/questions/card/QuestionCard";
-import useAuth from "@hooks/useAuth";
 import LoadingSpinner from "@icons/LoadingSpinner";
 
 interface ProfileQuestionListProps {

@@ -1,6 +1,6 @@
 import AdminOutletContainer from "@components/admin/layout/container/AdminOutletContainer";
 import { Card } from "@components/ui/card";
-import React from "react";
+import React, { useState } from "react";
 import { Label } from "@components/ui/label";
 import BarHarvestWithered from "../charts/bar-harvest-withered";
 import {
@@ -29,7 +29,8 @@ import PieProblems from "../charts/pie-problem";
 import { Link } from "react-router-dom";
 
 const AnalyticsAdmin = () => {
-  const { data: lowestGrowth } = useGetReportAdminGrowthrate();
+  const [sort, setSort] = useState<"asc" | "desc" | undefined>("asc");
+  const { data: lowestGrowth } = useGetReportAdminGrowthrate({ order: sort });
   const { data: favouriteCrop } = useGetReportFavouriteCrops();
   const ratings = [
     { value: "5.0", percentage: "66%" },
@@ -102,13 +103,15 @@ const AnalyticsAdmin = () => {
           <div className="flex-col flex-wrap sm:flex-nowrap w-full">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-lg font-bold tracking-tight ">Growth Rate</h2>
-              <Select>
+              <Select
+                onValueChange={e => setSort(e as "asc" | "desc" | undefined)}
+              >
                 <SelectTrigger className="w-auto">
                   <SelectValue placeholder="Lowest" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Low">Lowest</SelectItem>
-                  <SelectItem value="High">Highest</SelectItem>
+                  <SelectItem value="asc">Lowest</SelectItem>
+                  <SelectItem value="desc">Highest</SelectItem>
                 </SelectContent>
               </Select>
             </div>

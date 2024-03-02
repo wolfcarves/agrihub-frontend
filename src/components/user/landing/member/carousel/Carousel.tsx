@@ -17,6 +17,8 @@ const Carousels: React.FC = () => {
 
   const { data: cmsData } = useCmsLandingDetailsQuery();
 
+  console.log(cmsData);
+
   const { cta_description, cta_header, images } = {
     ...cmsData
   };

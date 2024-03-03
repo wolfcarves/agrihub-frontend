@@ -30,6 +30,8 @@ export type { CommunityCropReportResponseItem } from './models/CommunityCropRepo
 export type { CommunityCropReportsResponse } from './models/CommunityCropReportsResponse';
 export type { CommunityFarm } from './models/CommunityFarm';
 export type { CommunityFarmData } from './models/CommunityFarmData';
+export type { CommunityFarmProblem } from './models/CommunityFarmProblem';
+export type { CommunityFarmProblemListResponse } from './models/CommunityFarmProblemListResponse';
 export type { CommunityFarmResponse } from './models/CommunityFarmResponse';
 export type { CommunityFarmsResponse } from './models/CommunityFarmsResponse';
 export type { CreateBlogImageResponse } from './models/CreateBlogImageResponse';
@@ -114,6 +116,7 @@ export type { ListPublishedLearningMaterialsResponse } from './models/ListPublis
 export type { ListRelatedLearningMaterialsResponse } from './models/ListRelatedLearningMaterialsResponse';
 export type { ListUser } from './models/ListUser';
 export type { ListUserResponse } from './models/ListUserResponse';
+export type { MarkProblemAsResolvedRequest } from './models/MarkProblemAsResolvedRequest';
 export type { Member } from './models/Member';
 export type { Members } from './models/Members';
 export type { MessageResponse } from './models/MessageResponse';

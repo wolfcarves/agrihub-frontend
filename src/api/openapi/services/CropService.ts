@@ -44,13 +44,13 @@ formData: NewCropRequest,
      */
     public static putApiFarmCropUpdate({
 id,
-requestBody,
+formData,
 }: {
 /**
  * The ID of the crop
  */
 id: string,
-requestBody: UpdateCropRequest,
+formData: UpdateCropRequest,
 }): CancelablePromise<NewCropResponse> {
         return __request(OpenAPI, {
             method: 'PUT',
@@ -58,8 +58,8 @@ requestBody: UpdateCropRequest,
             path: {
                 'id': id,
             },
-            body: requestBody,
-            mediaType: 'application/json',
+            formData: formData,
+            mediaType: 'multipart/form-data',
             errors: {
                 400: `Validation Error`,
                 401: `Unauthorized`,

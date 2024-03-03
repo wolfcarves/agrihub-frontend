@@ -2,9 +2,12 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { CommunityFarmProblemListResponse } from '../models/CommunityFarmProblemListResponse';
 import type { FarmProblemListResponse } from '../models/FarmProblemListResponse';
 import type { FarmProblemPostResponse } from '../models/FarmProblemPostResponse';
 import type { FarmProblemResponse } from '../models/FarmProblemResponse';
+import type { MarkProblemAsResolvedRequest } from '../models/MarkProblemAsResolvedRequest';
+import type { MessageResponse } from '../models/MessageResponse';
 import type { NewFarmProblem } from '../models/NewFarmProblem';
 import type { ReportRequestBody } from '../models/ReportRequestBody';
 import type { ReportResponse } from '../models/ReportResponse';
@@ -256,6 +259,84 @@ requestBody: ReportRequestBody,
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/farm/problems/report',
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * List community farm problems
+     * @returns CommunityFarmProblemListResponse Successful response
+     * @throws ApiError
+     */
+    public static getApiFarmProblemsCommunityList({
+search,
+page,
+perpage,
+filter,
+}: {
+/**
+ * Search term to filter problems
+ */
+search?: string,
+/**
+ * Page number for pagination
+ */
+page?: string,
+/**
+ * Number of items per page
+ */
+perpage?: string,
+/**
+ * Filter by problem status
+ */
+filter?: 'pending' | 'resolved',
+}): CancelablePromise<CommunityFarmProblemListResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/farm/problems/community/list',
+            query: {
+                'search': search,
+                'page': page,
+                'perpage': perpage,
+                'filter': filter,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Mark community farm problem as resolved
+     * @returns MessageResponse Successful response
+     * @throws ApiError
+     */
+    public static postApiFarmProblemsCommunityResolve({
+id,
+requestBody,
+}: {
+/**
+ * The ID of the problem to mark as resolved
+ */
+id: string,
+requestBody: MarkProblemAsResolvedRequest,
+}): CancelablePromise<MessageResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/farm/problems/community/resolve/{id}',
+            path: {
+                'id': id,
+            },
             body: requestBody,
             mediaType: 'application/json',
             errors: {

@@ -92,7 +92,8 @@ const UserHeaderMobileSidebar = ({
                   pathname === "/community/explore" ||
                   pathname === `/community/reports/${userData?.farm_id}` ||
                   pathname === `/community/request/${userData?.farm_id}` ||
-                  pathname === `/community/problem/${userData?.farm_id}`
+                  pathname === `/community/problem/${userData?.farm_id}` ||
+                  pathname === `/community/request/${userData?.farm_id}`
                 }
               />
 

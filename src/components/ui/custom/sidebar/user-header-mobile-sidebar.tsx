@@ -10,7 +10,11 @@ import { BsPeople } from "react-icons/bs";
 import { RiLightbulbLine } from "react-icons/ri";
 import { IoCalendarNumberOutline } from "react-icons/io5";
 import { BsExclamationCircle } from "react-icons/bs";
-import { PiListMagnifyingGlass, PiNewspaper } from "react-icons/pi";
+import {
+  PiListMagnifyingGlass,
+  PiNewspaper,
+  PiShieldWarning
+} from "react-icons/pi";
 import { HiMenuAlt2 } from "react-icons/hi";
 import { IoMdClose } from "react-icons/io";
 import { CiSquareQuestion } from "react-icons/ci";
@@ -87,7 +91,8 @@ const UserHeaderMobileSidebar = ({
                 end={
                   pathname === "/community/explore" ||
                   pathname === `/community/reports/${userData?.farm_id}` ||
-                  pathname === `/community/request/${userData?.farm_id}`
+                  pathname === `/community/request/${userData?.farm_id}` ||
+                  pathname === `/community/problem/${userData?.farm_id}`
                 }
               />
 
@@ -113,6 +118,15 @@ const UserHeaderMobileSidebar = ({
                   to={`/community/request/${userData?.farm_id}`}
                   title="Request"
                   logo={<CiSquareQuestion size={20} />}
+                  end
+                  onClick={handleEventClick}
+                />
+              )}
+              {userData?.farm_id && userData.role === "farm_head" && (
+                <UserSidebarNavLink
+                  to={`/community/problem/${userData.farm_id}`}
+                  title="Problem"
+                  logo={<PiShieldWarning size={20} />}
                   end
                   onClick={handleEventClick}
                 />

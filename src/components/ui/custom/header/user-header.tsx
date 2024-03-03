@@ -7,64 +7,29 @@ import { Link } from "react-router-dom";
 import useAuth from "@hooks/useAuth";
 import UserHeaderMenu from "./user-header-menu";
 import UserReponsiveContainer from "../container/user-reponsive-container";
-
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTrigger
-} from "@components/ui/sheet";
-import { HiMenuAlt2 } from "react-icons/hi";
-import QuestionSidebarSheet from "@components/user/questions/sidebar/QuestionSidebarSheet";
 import HeaderNotification from "../notification/header-notification";
+import UserHeaderMobileSidebar from "@components/ui/custom/sidebar/user-header-mobile-sidebar";
+import { HiMenuAlt2 } from "react-icons/hi";
 
 const UserHeaderContainer = ({ children }: { children: ReactNode }) => (
-  <div className="sticky top-0 w-full bg-background z-50 flex justify-center h-16 sm:h-20 border-b">
+  <div className="sticky top-0 w-full bg-background z-50 flex justify-center h-14 sm:h-20 border-b">
     <UserReponsiveContainer className="justify-between items-center w-full">
       {children}
     </UserReponsiveContainer>
   </div>
 );
 
-const UserHeaderSearchBar = () => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-
+const UserHeaderLogo = () => {
   return (
-    <>
-      <div className="hidden sm:flex gap-10 items-center h-full py-3">
-        <Link to="/">
-          <AgrihubLogo />
-        </Link>
+    <div className="flex items-center gap-3">
+      <UserHeaderMobileSidebar />
 
-        <SearchBar placeholder="Type to search..." />
-      </div>
+      <Link to="/">
+        <AgrihubLogo />
+      </Link>
 
-      <Sheet open={isOpen} onOpenChange={setIsOpen}>
-        <div className="flex sm:hidden items-center gap-10 h-full">
-          <div className="flex items-center gap-4">
-            <SheetTrigger
-              className="text-xl opacity-75"
-              onClick={() => setIsOpen(true)}
-            >
-              <HiMenuAlt2 />
-            </SheetTrigger>
-
-            <SheetContent side="left" className="p-0">
-              <Link to="/">
-                <SheetHeader className="flex flex-row gap-3 text-start px-6 pt-5">
-                  <div className="w-max">
-                    <AgrihubLogo />
-                  </div>
-                  <span className="font-poppins-medium">Agrihub</span>
-                </SheetHeader>
-              </Link>
-
-              <QuestionSidebarSheet onLinkClick={() => setIsOpen(false)} />
-            </SheetContent>
-          </div>
-        </div>
-      </Sheet>
-    </>
+      <SearchBar className="hidden lg:flex" placeholder="Type to search..." />
+    </div>
   );
 };
 
@@ -92,10 +57,10 @@ const UserHeader = () => {
   return (
     <>
       <UserHeaderContainer>
-        <UserHeaderSearchBar />
+        <UserHeaderLogo />
         <UserHeaderNavigation />
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2">
           {isAuthenticated && <HeaderNotification />}
           {isAuthenticated ? <UserHeaderMenu /> : <AuthButtonsGroup />}
         </div>

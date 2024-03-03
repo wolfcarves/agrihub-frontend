@@ -32,11 +32,14 @@ import {
 } from "react-icons/ri";
 import useGetReportFavouriteCrops from "@hooks/api/get/useGetReportFavouriteCrops";
 import { Button } from "@components/ui/button";
+import useGetReportResourceCountDetailed from "../../../hooks/api/get/useGetReportResourceCountDetailed";
 
 const breadcrumbItems = [{ title: "", link: "" }];
 
 const OverviewAdmin = () => {
   const { data: favouriteCrop } = useGetReportFavouriteCrops();
+  const { data: resourceDetailed } = useGetReportResourceCountDetailed();
+
   return (
     <AdminOutletContainer>
       <div className="grid grid-cols-1 md:grid-cols-12 grid-rows-12 gap-4">
@@ -95,9 +98,9 @@ const OverviewAdmin = () => {
 
         {/* big center */}
         <Card className="col-span-1 md:col-span-9 row-span-10 p-4 w-full">
-          <h3 className="text-gray-800 text-xl font-semibold sm:text-2xl flex items-center">
+          {/* <h3 className="text-gray-800 text-xl font-semibold sm:text-2xl flex items-center">
             Farms Growth Rate
-          </h3>
+          </h3> */}
           <div className="h-96 w-full">
             <GrowthRateLineChart />
           </div>
@@ -134,14 +137,15 @@ const OverviewAdmin = () => {
                   <div className="">
                     <h3 className="text-gray-800 text-3xl font-semibold sm:text-4xl flex-col text-center justify-center items-center">
                       <IoBookSharp className="mx-auto" />
-                      321
+                      {resourceDetailed?.all_learning_materials}
                     </h3>
                     <p className="text-gray-600 text-center">
                       Published Learning Materials
                     </p>
                     <Link to="/admin/resource/learnings-draft">
                       <Label className="flex cursor-pointer hover:underline justify-center">
-                        <MdPendingActions className="text-orange-500 mr-1" /> 6
+                        <MdPendingActions className="text-orange-500 mr-1" />
+                        {resourceDetailed?.draft_learning_material}&nbsp;
                         currently in draft
                       </Label>
                     </Link>
@@ -152,13 +156,14 @@ const OverviewAdmin = () => {
                   <div>
                     <h3 className="text-gray-800 text-3xl font-semibold sm:text-4xl justify-center flex-col items-center text-center">
                       <RiCalendarEventLine className="mx-auto" />
-                      151
+                      {resourceDetailed?.events}
                     </h3>
                     <p className="text-gray-600 text-center">Events done</p>
                     <Link to="/admin/resource/events">
                       <Label className="flex justify-center cursor-pointer hover:underline">
-                        <MdPendingActions className="text-orange-500 mr-1" /> 6
-                        upcoming events
+                        <MdPendingActions className="text-orange-500 mr-1" />
+                        {resourceDetailed?.upcoming_events}&nbsp; upcoming
+                        events
                       </Label>
                     </Link>
                   </div>
@@ -168,13 +173,13 @@ const OverviewAdmin = () => {
                   <div>
                     <h3 className="text-gray-800 text-3xl font-semibold sm:text-4xl flex-col items-center text-center">
                       <IoCameraOutline className="mx-auto" />
-                      102
+                      {resourceDetailed?.blogs}
                     </h3>
                     <p className="text-gray-600 text-center">Blogs posted</p>
                     <Link to="/admin/resource/blogs-drafts">
                       <Label className="flex cursor-pointer hover:underline justify-center">
-                        <MdPendingActions className="text-orange-500 mr-1" /> 6
-                        currently in draft
+                        <MdPendingActions className="text-orange-500 mr-1" />
+                        {resourceDetailed?.draft_blogs}&nbsp; currently in draft
                       </Label>
                     </Link>
                   </div>

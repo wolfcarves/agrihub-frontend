@@ -4,6 +4,7 @@
 /* eslint-disable */
 
 export type Tag = {
+    tag?: string;
     /**
      * The ID of the tag
      */

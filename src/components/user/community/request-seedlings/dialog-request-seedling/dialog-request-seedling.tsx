@@ -62,11 +62,17 @@ const DialogRequestSeedling = () => {
     }
   }, [form.watch("crop_id")]);
 
-  // useEffect(() => {
-  //   if (form.formState.errors.title) {
-  //     toast.error(form?.formState?.errors?.title?.message);
-  //   }
-  // }, [form.formState.errors]);
+  useEffect(() => {
+    if (form.formState.errors.note) {
+      toast.error(form?.formState?.errors?.note?.message);
+    }
+    if (form.formState.errors.other) {
+      toast.error(form?.formState?.errors?.other?.message);
+    }
+    if (form.formState.errors.quantity_request) {
+      toast.error(form?.formState?.errors?.quantity_request?.message);
+    }
+  }, [form.formState.errors]);
 
   const { mutateAsync: addRequestMutate, isLoading: addRequestLoading } =
     useRequestSeedlingCreate();

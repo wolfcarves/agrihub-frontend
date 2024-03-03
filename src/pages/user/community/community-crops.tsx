@@ -28,7 +28,7 @@ const CommunityCrop = () => {
   console.log(CropData);
 
   return (
-    <OutletContainer className="w-full">
+    <OutletContainer className="px-4">
       <div
         onClick={() => navigate(-1)}
         className="flex items-center cursor-pointer mb-3 gap-x-2 text-gray-400 font-poppins-semibold hover:underline hover:underline-offset-2 py-2.5 px-1.5 rounded-lg duration-200"

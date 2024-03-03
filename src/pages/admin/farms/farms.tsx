@@ -9,10 +9,13 @@ import {
   CardDescription
 } from "@components/ui/card";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
+import useGetRequestFarmOverview from "../../../hooks/api/get/useGetRequestFarmOverview";
 
 const breadcrumbItems = [{ title: "Farm Management", link: "/admin/farm" }];
 
 const Farms = () => {
+  const { data: farmOverView } = useGetRequestFarmOverview();
+
   return (
     <AdminOutletContainer className="container mx-auto py-10">
       <BreadCrumb items={breadcrumbItems} />
@@ -21,19 +24,19 @@ const Farms = () => {
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         <Card className="flex justify-start items-center flex-wrap">
           <CardHeader>
-            <CardTitle>10</CardTitle>
+            <CardTitle>{farmOverView?.pending_farm_applications}</CardTitle>
             <CardDescription>Pending Farm Applications</CardDescription>
           </CardHeader>
         </Card>
         <Card className="flex justify-start items-center">
           <CardHeader>
-            <CardTitle>127</CardTitle>
+            <CardTitle>{farmOverView?.accepted_requests}</CardTitle>
             <CardDescription>Total Community Farm Registered</CardDescription>
           </CardHeader>
         </Card>
         <Card className="flex justify-start items-center">
           <CardHeader>
-            <CardTitle>1840</CardTitle>
+            <CardTitle>{farmOverView?.total_farmers}</CardTitle>
             <CardDescription>Total Registered Farmer</CardDescription>
           </CardHeader>
         </Card>

@@ -1,25 +1,16 @@
 import React from "react";
 import { Bar } from "react-chartjs-2";
+import useGetReportDistrictFarm from "../../../hooks/api/get/useGetReportDistrictFarm";
 
 const BarDistrictOverview = () => {
-  const labels = [
-    "District 1",
-    "District 2",
-    "District 3",
-    "District 4",
-    "District 5",
-    "District 6"
-  ];
-
-  const farmsData = [65, 59, 80, 81, 56, 55];
-  const harvestData = [30, 45, 60, 75, 50, 40];
+  const { data: districtFarm } = useGetReportDistrictFarm();
 
   const data = {
-    labels: labels,
+    labels: districtFarm?.map(item => item.district_name),
     datasets: [
       {
         label: "Farms",
-        data: farmsData,
+        data: districtFarm?.map(item => item.total_farms),
         backgroundColor: [
           "rgba(183, 235, 199, 1)",
           "rgba(149, 220, 167, 1)",
@@ -31,7 +22,7 @@ const BarDistrictOverview = () => {
       },
       {
         label: "Harvest",
-        data: harvestData,
+        data: districtFarm?.map(item => item.total_harvest),
         backgroundColor: [
           "rgba(183, 235, 199, 0.5)",
           "rgba(149, 220, 167, 0.5)",

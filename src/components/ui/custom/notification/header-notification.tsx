@@ -76,7 +76,7 @@ const HeaderNotification = () => {
         </div>
 
         <DropdownMenuContent
-          className="w-[22rem] sm:w-[25rem] ms-5 mt-3"
+          className="w-[22rem] sm:w-[25rem] ms-5 mt-3 "
           align="end"
         >
           <DropdownMenuLabel>
@@ -87,40 +87,42 @@ const HeaderNotification = () => {
 
           <DropdownMenuSeparator />
 
-          {isLoading ? (
-            <>Loading</>
-          ) : (
-            <>
-              {userNotifications &&
-              userNotifications.notifications &&
-              userNotifications.notifications.length > 0 ? (
-                userNotifications.notifications.map((item, index) => (
-                  <React.Fragment key={index}>
-                    <DropdownMenuItem
-                      className={`flex flex-col justify-start items-start cursor-pointer min-h-20 ${
-                        item.viewed ? "" : "bg-gray-200 font-bold"
-                      }`}
-                      onClick={() =>
-                        handleReadNotification(item.redirect_to, item.id)
-                      }
-                    >
-                      <span className="font-poppins-medium text-sm mt-2 opacity-70">
-                        {item.body}
-                      </span>
-                      <span>
-                        {timeAgo(item.createdat as unknown as string)}
-                      </span>
-                    </DropdownMenuItem>
-                    <hr className="my-1" />
-                  </React.Fragment>
-                ))
-              ) : (
-                <div className="flex flex-col justify-center items-center cursor-pointer min-h-20">
-                  notification received yet
-                </div>
-              )}
-            </>
-          )}
+          <div className="overflow-y-auto max-h-96 no-scrollbar">
+            {isLoading ? (
+              <>Loading</>
+            ) : (
+              <>
+                {userNotifications &&
+                userNotifications.notifications &&
+                userNotifications.notifications.length > 0 ? (
+                  userNotifications.notifications.map((item, index) => (
+                    <React.Fragment key={index}>
+                      <DropdownMenuItem
+                        className={`flex flex-col justify-start items-start cursor-pointer min-h-20 ${
+                          item.viewed ? "" : "bg-gray-200 font-bold"
+                        }`}
+                        onClick={() =>
+                          handleReadNotification(item.redirect_to, item.id)
+                        }
+                      >
+                        <span className="font-poppins-medium text-sm mt-2 opacity-70">
+                          {item.body}
+                        </span>
+                        <span>
+                          {timeAgo(item.createdat as unknown as string)}
+                        </span>
+                      </DropdownMenuItem>
+                      <hr className="my-1" />
+                    </React.Fragment>
+                  ))
+                ) : (
+                  <div className="flex flex-col justify-center items-center cursor-pointer min-h-20">
+                    notification received yet
+                  </div>
+                )}
+              </>
+            )}
+          </div>
         </DropdownMenuContent>
       </DropdownMenu>
     </>

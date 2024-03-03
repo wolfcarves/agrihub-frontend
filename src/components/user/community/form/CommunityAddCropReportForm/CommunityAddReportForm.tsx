@@ -155,7 +155,10 @@ const CommunityAddCropReportForm = () => {
                       checked={field.value}
                       onCheckedChange={field.onChange}
                     />
-                    <Label>Is Yielded</Label>
+                    <Label>
+                      <span className=" font-poppins-medium">Productive</span>{" "}
+                      (The capacity of a crop to be harvested in quantity)
+                    </Label>
                   </>
                 )}
               />
@@ -177,6 +180,8 @@ const CommunityAddCropReportForm = () => {
           <Input
             {...form.register("harvested_qty")}
             type="number"
+            max={100000}
+            min={0}
             className="h-9 rounded-md"
           />
         </div>

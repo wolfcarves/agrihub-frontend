@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import useGetFarmViewQuery from "@hooks/api/get/useGetFarmViewQuery";
 import { Input } from "../../../../ui/input";
@@ -41,6 +41,30 @@ const CommunityProfileEditForm = () => {
       district: data.district
     };
 
+    useEffect(() => {
+      if (form.formState.errors.avatar) {
+        toast.error(form?.formState?.errors?.avatar?.message);
+      }
+      if (form.formState.errors.cover_photo) {
+        toast.error(form?.formState?.errors?.cover_photo?.message);
+      }
+      if (form.formState.errors.description) {
+        toast.error(form?.formState?.errors?.description?.message);
+      }
+      if (form.formState.errors.district) {
+        toast.error(form?.formState?.errors?.district?.message);
+      }
+      if (form.formState.errors.farm_name) {
+        toast.error(form?.formState?.errors?.farm_name?.message);
+      }
+      if (form.formState.errors.location) {
+        toast.error(form?.formState?.errors?.location?.message);
+      }
+      if (form.formState.errors.size) {
+        toast.error(form?.formState?.errors?.size?.message);
+      }
+    }, [form.formState.errors]);
+
     try {
       await updateFarmMutate(compiledData);
       toast.success("Farm Updated Successfully!");
@@ -50,7 +74,6 @@ const CommunityProfileEditForm = () => {
       toast.error(e.body.message);
     }
   };
-  console.log(form.formState.errors);
 
   if (farmDetailsLoading) {
     return <Loader isVisible={farmDetailsLoading} />;
@@ -149,6 +172,8 @@ const CommunityProfileEditForm = () => {
             defaultValue={farmDetails?.size}
             {...form.register("size")}
             type="number"
+            max={1000000}
+            min={0}
             className=" lg:col-span-6 col-span-12 focus-visible:ring-0 border-2"
           />
         </div>

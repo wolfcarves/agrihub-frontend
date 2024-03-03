@@ -21,7 +21,7 @@ const StatePagination = ({
 }: PaginationProps) => {
   const renderButtons = () => {
     const buttons = [];
-    const numButtonToShow = 5;
+    const numButtonToShow = 4;
 
     let startPage = Math.max(1, currentPage - Math.floor(numButtonToShow / 2));
     let endPage = Math.min(totalPages, startPage + numButtonToShow - 1);

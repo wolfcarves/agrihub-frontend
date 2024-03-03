@@ -6,7 +6,6 @@ import "./globals.css";
 //Layouts
 import QuestionLayout from "@pages/user/question/question-layout";
 import UserAccountLayout from "@pages/user/account/account-layout";
-import ArticleLayout from "@pages/user/article/_layout";
 import UserProfileLayout from "@pages/user/users/profile-layout";
 import UserHomeLayout from "@pages/user/home/home-layout";
 import CalendarLayout from "@pages/user/calendar/calendar-layout";
@@ -23,9 +22,6 @@ import FinalSetup from "@pages/user/account/final-setup";
 import Questions from "@pages/user/question/questions";
 import QuestionTags from "@pages/user/question/question-tags";
 import Question from "@pages/user/question/question";
-
-import Articles from "@pages/user/article/articles";
-import Article from "@pages/user/article/article";
 
 import Calendar from "@pages/user/calendar/calendar";
 
@@ -49,7 +45,6 @@ import UserAppearanceSettings from "@pages/user/settings/settings-appearance";
 
 //Admin
 import AdminLayout from "@pages/admin/admin/admin-layout";
-import AdminLogin from "@pages/admin/admin/login";
 import CommunityLayout from "./pages/user/community/community-layout";
 import Explore from "@pages/user/community/community-explore";
 import Community from "@pages/user/community/community";
@@ -73,28 +68,18 @@ import Farms from "@pages/admin/farms/farms";
 import FarmsAdmin from "@pages/admin/farms/farms-admin";
 import FarmsPending from "@pages/admin/farms/farms-pending";
 import FarmsRejected from "@pages/admin/farms/farms-rejected";
-import FarmersAdmin from "@pages/admin/farms/farmers-admin";
-import FarmersBanned from "@pages/admin/farms/farmers-banned";
-import FarmersReported from "@pages/admin/farms/farmers-reported";
 
 import Resource from "@pages/admin/resources/resource";
 import BlogsAdmin from "@pages/admin/resources/blogs/blogs-admin";
 import BlogsDraft from "@pages/admin/resources/blogs/blogs-draft";
 import BlogsArchive from "@pages/admin/resources/blogs/blogs-archive";
 import EventsAdmin from "@pages/admin/resources/events/events-admin";
-import AddEvents from "@pages/admin/resources/events/events-view";
 import EventsDraft from "@pages/admin/resources/events/events-draft";
 import EventsArchive from "@pages/admin/resources/events/events-archive";
 import LearningsAdmin from "@pages/admin/resources/learnings/learnings-admin";
 import UpdateLearnings from "@pages/admin/resources/learnings/learnings-add-details";
 import LearningsDraft from "@pages/admin/resources/learnings/learnings-draft";
 import LearningArchive from "@pages/admin/resources/learnings/learning-archive";
-import ArticlesAdmin from "@pages/admin/resources/articles/articles-admin";
-import AddArticles from "@pages/admin/resources/articles/articles-add";
-import UpdateArticles from "@pages/admin/resources/articles/articles-update";
-import ArticlesDraft from "@pages/admin/resources/articles/articles-draft";
-import ArticlesArchive from "@pages/admin/resources/articles/articles-archive";
-
 import Forums from "@pages/admin/forums/forums";
 import QuestionsAdmin from "@pages/admin/forums/questions-admin";
 import QuestionsReported from "@pages/admin/forums/questions-reported";
@@ -123,7 +108,6 @@ import ActivityLog from "@pages/admin/activities/activity-log";
 // Providers
 import AboutLayout from "./pages/user/about/_layout";
 import CommunityRegister from "./pages/user/community/community-register";
-import FarmApplication from "./pages/admin/farm-application/farm-application";
 import FarmApplicationView from "@pages/admin/farm-application/farm-application-view";
 import CommunityMain from "./pages/user/community/community-main";
 import CommunityCrop from "./pages/user/community/community-crops";
@@ -155,6 +139,8 @@ import SetPermissionAdmin from "./pages/admin/admins/permission-admin";
 import PermissionAdminCreate from "./pages/admin/admins/permission-admin-create";
 import CropsAdmin from "@pages/admin/website/crops/crops-admin";
 import AddCropsAdmin from "./pages/admin/website/crops/crops-add";
+import FarmProblems from "@pages/admin/farms/farm-problems";
+import FarmManageProblems from "@pages/admin/farms/view/farm-manage-problems";
 
 const App = ReactRouter(
   <>
@@ -224,12 +210,6 @@ const App = ReactRouter(
         </Route>
       </Route>
 
-      {/* Article Page */}
-      <Route path="/articles" element={<ArticleLayout />}>
-        <Route path="" element={<Articles />} />
-        <Route path="view/:title/:articleId" element={<Article />} />
-      </Route>
-
       {/* Blog Page */}
       <Route path="/blogs" element={<BlogLayout />}>
         <Route path="" element={<Blogs />} />
@@ -262,9 +242,8 @@ const App = ReactRouter(
 
       {/* Profile Page  */}
       <Route path="/users" element={<UserProfileLayout />}>
-        <Route path=":userId/me/" element={<MyProfile />} />
-        <Route path=":userId/me/:saved" element={<MyProfile />} />
-        <Route path=":userId/me/edit" element={<EditProfile />} />
+        <Route path=":userId/:username/" element={<MyProfile />} />
+        <Route path=":userId/:username/:saved" element={<MyProfile />} />
       </Route>
 
       {/* Settings */}
@@ -302,10 +281,6 @@ const App = ReactRouter(
       <Route path="farm">
         <Route path="" element={<Farms />} />
 
-        <Route path="farmers" element={<FarmersAdmin />} />
-        <Route path="accounts-reported" element={<FarmersReported />} />
-        <Route path="accounts-banned" element={<FarmersBanned />} />
-
         <Route path="farm-approved" element={<FarmsAdmin />} />
         <Route path="farm-request" element={<FarmsPending />} />
         <Route path="application/:id" element={<FarmApplicationView />} />
@@ -314,6 +289,9 @@ const App = ReactRouter(
         <Route path="seedling-pending" element={<SeedlingPending />} />
         <Route path="seedling-accepted" element={<SeedlingAccepted />} />
         <Route path="seedling-rejected" element={<SeedlingRejected />} />
+
+        <Route path="problems" element={<FarmProblems />} />
+        <Route path="problems/add" element={<FarmManageProblems />} />
       </Route>
 
       {/* Resources */}
@@ -340,14 +318,6 @@ const App = ReactRouter(
         </Route>
         <Route path="learnings-draft" element={<LearningsDraft />} />
         <Route path="learnings-archives" element={<LearningArchive />} />
-
-        <Route path="articles">
-          <Route path="" element={<ArticlesAdmin />} />
-          <Route path="add" element={<AddArticles />} />
-          <Route path="view/:articlesId" element={<UpdateArticles />} />
-        </Route>
-        <Route path="articles-draft" element={<ArticlesDraft />} />
-        <Route path="articles-archives" element={<ArticlesArchive />} />
       </Route>
 
       {/* Forums */}
@@ -388,6 +358,7 @@ const App = ReactRouter(
         <Route path="terms-conditions" element={<TermsAdmin />} />
         <Route path="crops" element={<CropsAdmin />} />
         <Route path="crops/add" element={<AddCropsAdmin />} />
+        <Route path="crops/update/:cropId" element={<AddCropsAdmin />} />
       </Route>
     </Route>
   </>

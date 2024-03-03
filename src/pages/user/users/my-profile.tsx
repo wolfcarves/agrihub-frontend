@@ -9,12 +9,14 @@ import ProfileQuestionSavedList from "@components/user/users/list/ProfileQuestio
 import useGetSavedQuestions from "@hooks/api/get/useGetSavedQuestions";
 import { useParams } from "react-router-dom";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
+import useGetUserProfileQuery from "@hooks/api/get/useGetUserProfileQuery";
 
-const options = ["Posts", "Saved"] as const;
+const options = ["Posts", "Saved"];
 
 const MyProfile = () => {
   const user = useAuth();
   const params = useParams();
+  const isOwn = params.username === user?.data?.username;
 
   const [currentIndex, setCurrentIndex] = useState<number>(
     params?.saved ? 1 : 0
@@ -22,27 +24,33 @@ const MyProfile = () => {
 
   const { data: questionData, isLoading: isQuestionLoading } =
     useGetQuestionsQuery({
-      perpage: "10"
+      perpage: "10",
+      profile: isOwn ? user?.data?.id : params.userId
     });
+
+  //search user
+  const { data: userData } = useGetUserProfileQuery(params?.username ?? "");
 
   const { data: savedQuestionData, isLoading: isSavedQuestionLoading } =
     useGetSavedQuestions({});
 
+  const avatar = isOwn ? user?.data?.avatar : userData?.avatar;
+  const fullname = isOwn
+    ? user.data?.firstname + " " + user.data?.lastname
+    : userData?.firstname + " " + userData?.lastname;
+
   return (
     <>
-      <ProfileImage />
+      <ProfileImage avatar={avatar} />
       <ProfileTitle
-        fullname={user.data?.firstname + " " + user.data?.lastname}
+        fullname={fullname}
         username={user.data?.username}
-        postCount={
-          questionData?.questions?.filter(q => q.user?.id === user.data?.id)
-            .length
-        }
+        postCount={questionData?.questions?.length}
         saveCount={savedQuestionData?.questions?.length}
       />
       <UserTabs
         index={currentIndex}
-        options={options}
+        options={isOwn ? options : [options[0]]}
         onChange={value => {
           setCurrentIndex(options.indexOf(value as "Posts" | "Saved"));
         }}

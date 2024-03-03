@@ -1,37 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import { Line } from "react-chartjs-2";
-
+import { CardHeader } from "../../../components/ui/card";
+import useGetReportForumsOverview from "../../../hooks/api/get/useGetReportForumsOverview";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from "@components/ui/select";
 const LineForumOverview = () => {
-  const DATA_COUNT = 12; // Total months in a year
-  const NUMBER_CFG = { count: DATA_COUNT, min: 0, max: 100 };
-
-  const labels = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December"
-  ];
+  const [year, setYear] = useState<string>("2024");
+  const { data: forumOverview } = useGetReportForumsOverview({ year: year });
 
   const data = {
-    labels: labels,
+    labels: forumOverview?.map(item => item.month),
     datasets: [
       {
         label: "Questions",
-        data: [45, 60, 30, 80, 20, 70, 50, 55, 70, 40, 65, 75],
+        data: forumOverview?.map(item => item.num_questions),
         borderColor: "rgb(255, 99, 132)",
         backgroundColor: "rgba(255, 99, 132, 0.5)"
       },
       {
         label: "Answer",
-        data: [30, 40, 70, 20, 50, 10, 90, 60, 45, 75, 35, 80],
+        data: forumOverview?.map(item => item.num_answers),
         borderColor: "rgb(46, 139, 87)",
         backgroundColor: "rgba(46, 139, 87, 0.5)"
       }
@@ -50,6 +43,17 @@ const LineForumOverview = () => {
 
   return (
     <>
+      <div className="flex justify-end">
+        <Select onValueChange={val => setYear(val)}>
+          <SelectTrigger className="w-auto">
+            <SelectValue placeholder="2024" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="2024">2024</SelectItem>
+            <SelectItem value="2023">2023</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
       <Line data={data} options={options} />
     </>
   );

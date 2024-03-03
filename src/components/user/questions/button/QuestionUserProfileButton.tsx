@@ -2,6 +2,7 @@ import { timeAgo } from "@components/lib/utils";
 import { Link } from "react-router-dom";
 
 interface QuestionUserProfileButtonProps {
+  userId?: string;
   avatarSrc?: string;
   username?: string;
   createdAt?: string;
@@ -9,6 +10,7 @@ interface QuestionUserProfileButtonProps {
 
 //Papalitan ko pa to pero di pa ko sure
 const QuestionUserProfileButton = ({
+  userId,
   avatarSrc,
   username,
   createdAt
@@ -21,7 +23,7 @@ const QuestionUserProfileButton = ({
       />
 
       <div>
-        <Link to="/">
+        <Link to={`/users/${userId}/${username}`}>
           <h6 className="font-poppins-medium hover:opacity-80">{username}</h6>
         </Link>
         <p className="text-gray-400 text-sm">{timeAgo(createdAt || "")}</p>

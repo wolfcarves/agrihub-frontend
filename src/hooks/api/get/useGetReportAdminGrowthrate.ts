@@ -2,13 +2,16 @@ import { useQuery } from "@tanstack/react-query";
 import { ReportsService } from "@api/openapi";
 export const GET_REPORT_ADMIN_GROWTH_RATE = () =>
   "GET_REPORT_ADMIN_GROWTH_RATE_KEY";
-
-export default function useGetReportAdminGrowthrate() {
+interface GraphProps {
+  order?: "asc" | "desc" | undefined;
+}
+export default function useGetReportAdminGrowthrate(data: GraphProps) {
   return useQuery({
-    queryKey: [GET_REPORT_ADMIN_GROWTH_RATE()],
+    queryKey: [GET_REPORT_ADMIN_GROWTH_RATE(), data],
     queryFn: async () => {
-      const data = await ReportsService.getApiReportsAdminLowestGrowthRate();
-      return data;
+      const response =
+        await ReportsService.getApiReportsAdminLowestGrowthRate(data);
+      return response;
     },
     keepPreviousData: true
   });

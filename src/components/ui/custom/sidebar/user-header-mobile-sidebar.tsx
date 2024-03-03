@@ -13,6 +13,7 @@ import { BsExclamationCircle } from "react-icons/bs";
 import { PiListMagnifyingGlass, PiNewspaper } from "react-icons/pi";
 import { HiMenuAlt2 } from "react-icons/hi";
 import { IoMdClose } from "react-icons/io";
+import { CiSquareQuestion } from "react-icons/ci";
 
 type UserHeaderMobileSidebarProps = ComponentProps<"div"> & {
   onLinkClick?: () => void;
@@ -85,7 +86,8 @@ const UserHeaderMobileSidebar = ({
                 onClick={handleEventClick}
                 end={
                   pathname === "/community/explore" ||
-                  pathname === `/community/reports/${userData?.farm_id}`
+                  pathname === `/community/reports/${userData?.farm_id}` ||
+                  pathname === `/community/request/${userData?.farm_id}`
                 }
               />
 
@@ -97,11 +99,20 @@ const UserHeaderMobileSidebar = ({
                 end
               />
 
-              {userData?.farm_id && (
+              {userData?.farm_id && userData.role === "farm_head" && (
                 <UserSidebarNavLink
                   to={`/community/reports/${userData?.farm_id}`}
                   title="Reports"
                   logo={<PiNewspaper size={20} />}
+                  end
+                  onClick={handleEventClick}
+                />
+              )}
+              {userData?.farm_id && userData.role === "farm_head" && (
+                <UserSidebarNavLink
+                  to={`/community/request/${userData?.farm_id}`}
+                  title="Request"
+                  logo={<CiSquareQuestion size={20} />}
                   end
                   onClick={handleEventClick}
                 />

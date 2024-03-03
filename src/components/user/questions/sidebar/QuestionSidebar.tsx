@@ -6,7 +6,6 @@ import { TbMessageCircleQuestion } from "react-icons/tb";
 import { IoBookmarkOutline } from "react-icons/io5";
 import useAuth from "@hooks/useAuth";
 import { useLocation } from "react-router-dom";
-import { FiUsers } from "react-icons/fi";
 
 type QuestionSidebarProps = ComponentProps<"div">;
 
@@ -24,7 +23,6 @@ const QuestionSidebar = ({ className, ...props }: QuestionSidebarProps) => {
       />
 
       {isAuthenticated && (
-        // users/930772412524068865/Docrammer
         <UserSidebarNavLink
           to={`/users/${data?.id}/${data?.username}/saved`}
           title="Saved"

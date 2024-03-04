@@ -17,7 +17,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger
 } from "@components/ui/alert-dialog";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "../../../redux/store";
 import useAccessCreateAdmin from "../../../hooks/api/post/useAccessCreateAdmin";
 import { NewAdminRequestBody } from "../../../api/openapi";

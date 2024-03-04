@@ -29,7 +29,7 @@ const TableAdminDisabled = () => {
   return (
     <div>
       <Input
-        placeholder="Search..."
+        placeholder="Search username..."
         className="max-w-sm my-4"
         value={params.search}
         onChange={e => debouncedSearch(e.target.value)}

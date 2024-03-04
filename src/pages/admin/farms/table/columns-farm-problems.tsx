@@ -13,6 +13,8 @@ import {
   DropdownMenuTrigger
 } from "@components/ui/dropdown-menu";
 import { FarmProblem } from "@api/openapi";
+import parse from "html-react-parser";
+import { Link } from "react-router-dom";
 
 export const columns: ColumnDef<FarmProblem>[] = [
   {
@@ -37,7 +39,7 @@ export const columns: ColumnDef<FarmProblem>[] = [
   {
     accessorKey: "description",
     header: "Description",
-    cell: ({ row }) => <div>{row.original.description}</div>
+    cell: ({ row }) => <div>{parse(row.original.description ?? "")}</div>
   },
   {
     id: "actions",
@@ -63,7 +65,9 @@ export const columns: ColumnDef<FarmProblem>[] = [
               Copy problem ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View problem details</DropdownMenuItem>
+            <Link to={`/admin/farm/problems/view/${problem?.id}`}>
+              <DropdownMenuItem>View problem details</DropdownMenuItem>
+            </Link>
           </DropdownMenuContent>
         </DropdownMenu>
       );

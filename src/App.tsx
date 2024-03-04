@@ -295,6 +295,10 @@ const App = ReactRouter(
 
         <Route path="problems" element={<FarmProblems />} />
         <Route path="problems/add" element={<FarmManageProblems />} />
+        <Route
+          path="problems/view/:problemId"
+          element={<FarmManageProblems />}
+        />
       </Route>
 
       {/* Resources */}

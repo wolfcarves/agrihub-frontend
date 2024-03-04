@@ -4,7 +4,7 @@ import QuestionAskForm from "@components/user/questions/form/QuestionAskForm/Que
 
 const QuestionAsk = () => {
   return (
-    <OutletContainer>
+    <OutletContainer className="pt-14 px-1">
       <QuestionAskForm />
     </OutletContainer>
   );

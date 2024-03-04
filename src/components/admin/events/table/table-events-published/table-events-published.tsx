@@ -26,7 +26,7 @@ const TableEventsPublished = () => {
         value={search}
         onChange={e => debouncedSearch(e.target.value)}
       />
-      <DataTable columns={columns} data={eventsData || []} />
+      <DataTable columns={columns} data={eventsData?.data || []} />
     </div>
   );
 };

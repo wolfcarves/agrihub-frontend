@@ -1,7 +1,7 @@
 import AgrihubLogo from "@icons/AgrihubLogo";
 import UserHeaderNavigation from "./user-header-navigation";
 import SearchBar from "../search-bar/SearchBar";
-import { ReactNode, useState } from "react";
+import { ReactNode } from "react";
 import { Button } from "@components/ui/button";
 import { Link } from "react-router-dom";
 import useAuth from "@hooks/useAuth";
@@ -9,7 +9,6 @@ import UserHeaderMenu from "./user-header-menu";
 import UserReponsiveContainer from "../container/user-reponsive-container";
 import HeaderNotification from "../notification/header-notification";
 import UserHeaderMobileSidebar from "@components/ui/custom/sidebar/user-header-mobile-sidebar";
-import { HiMenuAlt2 } from "react-icons/hi";
 
 const UserHeaderContainer = ({ children }: { children: ReactNode }) => (
   <div className="sticky top-0 w-full bg-background z-50 flex justify-center h-14 sm:h-20 border-b">

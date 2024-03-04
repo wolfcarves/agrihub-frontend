@@ -5,6 +5,7 @@ import { LuUpload } from "react-icons/lu";
 import useUpdateUserProfileMutation from "./useUpdateUserProfileMutation";
 import ProfileUploadPhotoDialog from "../dialog/ProfileUploadPhotoDialog";
 import { toast } from "sonner";
+import { useParams } from "react-router-dom";
 
 interface ProfileImageProps {
   avatar?: string;
@@ -12,6 +13,9 @@ interface ProfileImageProps {
 
 const ProfileImage = ({ avatar }: ProfileImageProps) => {
   const user = useAuth();
+  const params = useParams();
+  const isOwn = user?.data?.id === params.userId;
+
   const { mutateAsync: updateUserProfile, isLoading: isUpdateUserLoading } =
     useUpdateUserProfileMutation();
 
@@ -71,22 +75,24 @@ const ProfileImage = ({ avatar }: ProfileImageProps) => {
             className="h-full w-full absolute inset-0 object-cover object-center group-hover:brightness-110 "
           />
 
-          <input
-            ref={imageRef}
-            type="file"
-            accept="image/jpg,image/jpeg,image/png"
-            className="hidden"
-            onChange={e => {
-              if (e.target.files) {
-                setProfileImgFile(e.target.files[0]);
-              } else {
-                toast.error("Failed to upload photo");
-              }
-            }}
-          />
+          {isOwn && (
+            <input
+              ref={imageRef}
+              type="file"
+              accept="image/jpg,image/jpeg,image/png"
+              className="hidden"
+              onChange={e => {
+                if (e.target.files) {
+                  setProfileImgFile(e.target.files[0]);
+                } else {
+                  toast.error("Failed to upload photo");
+                }
+              }}
+            />
+          )}
         </div>
 
-        {isPopOverOpen && (
+        {isPopOverOpen && isOwn && (
           <>
             <div className="flex flex-col p-1 pt-3 h-28 w-full max-w-[25rem] bg-white absolute -bottom-[190px] z-10 border rounded-md ">
               <button
@@ -119,21 +125,23 @@ const ProfileImage = ({ avatar }: ProfileImageProps) => {
         )}
       </div>
 
-      <ProfileUploadPhotoDialog
-        open={isUploadDialogOpen}
-        image={profileImgFile}
-        isLoading={isUpdateUserLoading}
-        onOpenChange={() => {
-          setIsUploadDialogOpen(prev => !prev);
-        }}
-        onChangePhotoClick={() => {
-          imageRef?.current?.click();
-        }}
-        onSaveClick={file => {
-          handleUploadPhoto(file);
-        }}
-        onCancelClick={() => setIsUploadDialogOpen(prev => !prev)}
-      />
+      {isOwn && (
+        <ProfileUploadPhotoDialog
+          open={isUploadDialogOpen}
+          image={profileImgFile}
+          isLoading={isUpdateUserLoading}
+          onOpenChange={() => {
+            setIsUploadDialogOpen(prev => !prev);
+          }}
+          onChangePhotoClick={() => {
+            imageRef?.current?.click();
+          }}
+          onSaveClick={file => {
+            handleUploadPhoto(file);
+          }}
+          onCancelClick={() => setIsUploadDialogOpen(prev => !prev)}
+        />
+      )}
     </>
   );
 };

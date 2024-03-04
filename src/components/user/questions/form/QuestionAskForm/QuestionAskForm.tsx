@@ -12,8 +12,42 @@ import UserTagInputDropdown from "@components/user/account/input/UserTagInput";
 import useGetTagByKeyWord from "@hooks/api/get/useGetTagByKeyword";
 import { Form, FormField } from "@components/ui/form";
 import QuestionBackButton from "@components/user/questions/button/QuestionBackButton";
-import OutletContainer from "@components/user/questions/container/OutletContainer";
 import ActivityIndicator from "@icons/ActivityIndicator";
+import { FaCheck } from "react-icons/fa";
+
+const QuestionAskFormRules = () => (
+  <div>
+    <h2 className="font-poppins-bold text-foreground">Ask a public question</h2>
+
+    <div className="mt-10 mb-20 w-full max-w-[60rem] p-7 rounded-md border border-primary bg-secondary">
+      <div className="text-lg">Writing a good question</div>
+      <p className="mt-3">
+        You’re ready to ask a Farming-related question and this form will help
+        guide you through the process. Looking to ask a non farming-related
+        question? See the topics here to find a relevant site.
+      </p>
+
+      <div className="text-md font-poppins-bold mt-10">Steps</div>
+
+      <div className="text-sm">
+        <ul className="list-disc ps-4">
+          <li className="my-3 ">
+            Now this is a story all about how, my life got flipped-turned upside
+            down
+          </li>
+          <li className="my-3 ">Describe your problem in more detail.</li>
+          <li className="my-3 ">
+            Add “tags” which help surface your question to members of the
+            community.
+          </li>
+          <li className="my-3 ">
+            Review your question and post it to the site.
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+);
 
 const QuestionAskForm = () => {
   const [searchInputTagValue, setSearchInputTagValue] = useState<string>("");
@@ -56,51 +90,14 @@ const QuestionAskForm = () => {
   };
 
   return (
-    <OutletContainer className="flex flex-col pb-20 px-0 lg:px-10">
+    <div className="flex flex-col pb-20 px-0 lg:px-10">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(handleSubmitForm)}
           encType="multipart/form-data"
         >
-          <div>
-            <QuestionBackButton />
-            <div>
-              <h2 className="font-poppins-bold text-foreground">
-                Ask a public question
-              </h2>
-
-              <div className="my-20 w-full max-w-[60rem] p-7 rounded-md border border-primary bg-secondary">
-                <div className="text-lg">Writing a good question</div>
-                <p className="mt-3">
-                  You’re ready to ask a Farming-related question and this form
-                  will help guide you through the process. Looking to ask a non
-                  farming-related question? See the topics here to find a
-                  relevant site.
-                </p>
-
-                <div className="text-md font-poppins-bold mt-10">Steps</div>
-
-                <div className="text-sm">
-                  <ul className="list-disc ps-4">
-                    <li className="my-3 ">
-                      Now this is a story all about how, my life got
-                      flipped-turned upside down
-                    </li>
-                    <li className="my-3 ">
-                      Describe your problem in more detail.
-                    </li>
-                    <li className="my-3 ">
-                      Add “tags” which help surface your question to members of
-                      the community.
-                    </li>
-                    <li className="my-3 ">
-                      Review your question and post it to the site.
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
+          <QuestionBackButton />
+          <QuestionAskFormRules />
 
           <div>
             <h3 className="text-foreground text-md font-poppins-bold">Title</h3>
@@ -195,7 +192,7 @@ const QuestionAskForm = () => {
           </div>
         </form>
       </Form>
-    </OutletContainer>
+    </div>
   );
 };
 

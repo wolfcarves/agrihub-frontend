@@ -55,7 +55,6 @@ const MyProfile = () => {
           setCurrentIndex(options.indexOf(value as "Posts" | "Saved"));
         }}
       />
-
       {currentIndex === 0 ? (
         <ProfileQuestionList
           data={questionData}

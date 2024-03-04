@@ -27,18 +27,25 @@ const ProfileUploadPhotoDialog = ({
   const editor = useRef<AvatarEditor>(null);
   const { width: screenWidth } = useGetWindowSize();
 
+  const editorSize =
+    screenWidth > 480
+      ? 480
+      : screenWidth < 480
+      ? screenWidth - 40
+      : screenWidth;
+
   return (
     <>
       <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogContent className="w-max">
+        <DialogContent className="w-max rounded-md">
           <DialogTitle>Profile Photo</DialogTitle>
 
-          <div className="relative h-max w-max aspect-square border rounded-md overflow-hidden">
+          <div className="relative h-max aspect-square border rounded-md overflow-hidden">
             <AvatarEditor
               ref={editor}
               image={image}
-              width={screenWidth > 400 ? 400 : screenWidth}
-              height={screenWidth > 400 ? 400 : screenWidth}
+              width={editorSize}
+              height={editorSize}
               color={[255, 255, 255, 0.6]}
               scale={1}
               rotate={0}

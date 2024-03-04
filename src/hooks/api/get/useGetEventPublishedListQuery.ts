@@ -16,7 +16,7 @@ export default function useGetEventPublishedListQuery(data: EventsParams) {
         ...data
       });
 
-      return response.data;
+      return response;
     }
   });
 }

@@ -10,17 +10,18 @@ export type Tag = {
      */
     id?: string;
     /**
-     * The name of the tag
-     */
-    tag_name?: string;
-    /**
      * Details about the tag
      */
     details?: string;
     /**
+     * The name of the tag
+     */
+    tag_name?: string;
+    /**
      * The timestamp when the tag was created
      */
     createdat?: string;
+    updatedat?: string;
     /**
      * The count associated with the tag
      */

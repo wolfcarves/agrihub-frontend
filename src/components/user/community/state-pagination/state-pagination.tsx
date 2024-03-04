@@ -86,8 +86,10 @@ const StatePagination = ({
         </PaginationPrevious>
       )}
 
-      <PaginationContent>{renderButtons()}</PaginationContent>
-      {currentPage !== totalPages && (
+      {totalPages !== 1 && (
+        <PaginationContent>{renderButtons()}</PaginationContent>
+      )}
+      {currentPage !== totalPages && currentPage >= 1 && (
         <PaginationNext
           onClick={() => onPageChange(currentPage + 1)}
           className="gap-1 pr-2.5 cursor-pointer select-none"

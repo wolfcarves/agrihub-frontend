@@ -1,34 +1,51 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Input } from "@components/ui/input";
 import { columns } from "./columns";
 import useDebounce from "@hooks/utils/useDebounce";
 import { DataTable } from "../../../../ui/custom/data-table/data-table";
 import useGetUserBannedList from "../../../../../hooks/api/get/useGetUserBannedList";
+import { Pagination } from "../../../../ui/custom";
+import { useSearchParams } from "react-router-dom";
 
 const TableUserBanned = () => {
-  const [search, setSearch] = useState<string | undefined>("");
-  const { data: userData } = useGetUserBannedList({
+  const [searchParams, setSearchParams] = useSearchParams();
+  const params = useMemo(() => {
+    return {
+      currentPage: Number(searchParams.get("page")) ?? 1,
+      search: searchParams.get("search") ?? undefined
+    };
+  }, [searchParams]);
+  const { data: userData, isLoading } = useGetUserBannedList({
     perpage: "20",
-    page: "1",
-    search: search,
+    page: String(params.currentPage),
+    search: params.search,
     filter: "banned"
   });
 
   const debouncedSearch = useDebounce((value: string) => {
-    setSearch(value);
+    searchParams.set("search", value);
+    setSearchParams(searchParams);
   }, 100);
 
   return (
     <div className="w-full">
       <div className="flex items-center py-4">
         <Input
-          placeholder="Search title..."
+          placeholder="Search name..."
           className="max-w-sm"
-          value={search}
+          value={params.search}
           onChange={e => debouncedSearch(e.target.value)}
         />
       </div>
       <DataTable columns={columns} data={userData?.users || []} />
+      {userData?.pagination?.total_pages !== 1 && (
+        <div className="mt-4">
+          <Pagination
+            totalPages={Number(userData?.pagination?.total_pages)}
+            isLoading={isLoading}
+          />
+        </div>
+      )}
     </div>
   );
 };

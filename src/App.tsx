@@ -169,6 +169,7 @@ const App = ReactRouter(
           <Route path="" element={<Questions />} />
           <Route path="tags" element={<QuestionTags />} />
           <Route path="ask" element={<QuestionAsk />} />
+          <Route path="ask" element={<QuestionAsk />} />
           <Route path="question/:username/:questionId" element={<Question />} />
         </>
       </Route>

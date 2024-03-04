@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 const Input = () => (
   <div className="w-full flex justify-between items-center h-14 py-1.5 px-3 rounded-xl border-border hover:opacity-80 duration-100 shadow-md bg-white cursor-pointer max-w-[45rem] mx-auto border">
     <span className="text-gray-400 text-sm font-poppins-regular">
-      Post A Question
+      Post a question
     </span>
 
     <div className="relative text-white items-center h-full bg-primary aspect-square rounded-xl">

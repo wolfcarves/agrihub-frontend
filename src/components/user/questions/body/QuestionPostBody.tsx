@@ -18,6 +18,7 @@ import { useState } from "react";
 import useForumsReportQuestionMutation from "@hooks/api/post/useForumsReportQuestionMutation";
 import QuestionReportQuestionDiaglog from "../dialog/QuestionReportQuestionDiaglog";
 import QuestionFeedbackPanel from "../panel/QuestionFeedbackPanel";
+import useQuestionDeleteVoteMutation from "@hooks/api/post/useQuestionDeleteVoteMutation";
 
 interface QuestionPostBodyProps {
   data?: QuestionViewSchema;
@@ -34,6 +35,9 @@ const QuestionPostBody = ({ data }: QuestionPostBodyProps) => {
   const { mutateAsync: saveQuestion } = useForumsSaveQuestionMutation();
   const { data: savedQuestionsData } = useGetSavedQuestions();
   const { mutateAsync: questionVoteMutate } = useQuestionVoteMutation();
+  const { mutateAsync: questionDeleteVoteMutate } =
+    useQuestionDeleteVoteMutation();
+
   const { mutateAsync: deleteSavedQuestion } =
     useForumsDeleteSaveQuestionMutation();
   const { mutateAsync: reportQuestion, isLoading: isReportQuestionLoading } =
@@ -45,9 +49,15 @@ const QuestionPostBody = ({ data }: QuestionPostBodyProps) => {
 
   const handleQuestionVote = async (
     id: string,
-    type: "upvote" | "downvote"
+    type: "upvote" | "downvote",
+    previousVoteId?: string
   ) => {
     try {
+      if (previousVoteId) {
+        await questionDeleteVoteMutate(previousVoteId);
+        return;
+      }
+
       await questionVoteMutate({
         id,
         requestBody: { type }
@@ -55,7 +65,7 @@ const QuestionPostBody = ({ data }: QuestionPostBodyProps) => {
 
       toast.info(`Successfully ${type} a question`);
     } catch (error: any) {
-      //
+      console.log(error.body.message);
     }
   };
 
@@ -147,7 +157,11 @@ const QuestionPostBody = ({ data }: QuestionPostBodyProps) => {
               variant="upvote"
               voteType={data?.question?.vote?.type as "upvote" | "downvote"}
               onClick={() => {
-                handleQuestionVote(data?.question?.id || "", "upvote");
+                handleQuestionVote(
+                  data?.question?.id || "",
+                  "upvote",
+                  data?.question?.vote?.id
+                );
               }}
             />
 
@@ -157,7 +171,11 @@ const QuestionPostBody = ({ data }: QuestionPostBodyProps) => {
               variant="downvote"
               voteType={data?.question?.vote?.type as "upvote" | "downvote"}
               onClick={() => {
-                handleQuestionVote(data?.question?.id || "", "downvote");
+                handleQuestionVote(
+                  data?.question?.id || "",
+                  "downvote",
+                  data?.question?.vote?.id
+                );
               }}
             />
           </div>

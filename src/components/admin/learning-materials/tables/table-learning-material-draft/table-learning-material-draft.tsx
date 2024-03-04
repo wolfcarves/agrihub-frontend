@@ -1,23 +1,28 @@
-import React, { useState } from "react";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger
-} from "@components/ui/dropdown-menu";
+import React, { useMemo } from "react";
 import { Input } from "@components/ui/input";
-import { ChevronDown } from "lucide-react";
-import { Button } from "../../../../ui/button";
 import { DataTable } from "../../../../ui/custom/data-table/data-table";
 import useGetLearningDraftList from "../../../../../hooks/api/get/useGetLearningDraftList";
 import { columns } from "./columns";
 import useDebounce from "../../../../../hooks/utils/useDebounce";
+import { useSearchParams } from "react-router-dom";
+import { Pagination } from "../../../../ui/custom";
 
 const TableLearningMaterialDraft = () => {
-  const [search, setSearch] = useState<string | undefined>("");
-  const { data: LearningData } = useGetLearningDraftList(search, "1", "20");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const params = useMemo(() => {
+    return {
+      currentPage: Number(searchParams.get("page")) ?? 1,
+      search: searchParams.get("search") ?? undefined
+    };
+  }, [searchParams]);
+  const { data: LearningData, isLoading } = useGetLearningDraftList(
+    params.search,
+    String(params.currentPage),
+    "20"
+  );
   const debouncedSearch = useDebounce((value: string) => {
-    setSearch(value);
+    searchParams.set("search", value);
+    setSearchParams(searchParams);
   }, 100);
 
   return (
@@ -26,11 +31,19 @@ const TableLearningMaterialDraft = () => {
         <Input
           placeholder="Search title..."
           className="max-w-sm"
-          value={search}
+          value={params.search}
           onChange={e => debouncedSearch(e.target.value)}
         />
       </div>
       <DataTable columns={columns} data={LearningData?.data || []} />
+      {LearningData?.pagination?.total_pages !== 1 && (
+        <div className="mt-4">
+          <Pagination
+            totalPages={Number(LearningData?.pagination?.total_pages)}
+            isLoading={isLoading}
+          />
+        </div>
+      )}
     </div>
   );
 };

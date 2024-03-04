@@ -149,6 +149,8 @@ export type { NewQuestionSchema } from './models/NewQuestionSchema';
 export type { NewReportedUser } from './models/NewReportedUser';
 export type { NewSeedlingRequest } from './models/NewSeedlingRequest';
 export type { NewSeedlingResponse } from './models/NewSeedlingResponse';
+export type { NewTagRequestBody } from './models/NewTagRequestBody';
+export type { NewTagResponse } from './models/NewTagResponse';
 export type { Pagination } from './models/Pagination';
 export type { PaginationData } from './models/PaginationData';
 export type { ProblemMaterials } from './models/ProblemMaterials';
@@ -182,6 +184,7 @@ export type { SetFeaturedLearningMaterialResponse } from './models/SetFeaturedLe
 export type { SubfarmOverviewResponse } from './models/SubfarmOverviewResponse';
 export type { Tag } from './models/Tag';
 export type { TagList } from './models/TagList';
+export type { TagSchema } from './models/TagSchema';
 export type { TagsSchema } from './models/TagsSchema';
 export type { Thumbnail } from './models/Thumbnail';
 export type { UnpublishLearningMaterialResponse } from './models/UnpublishLearningMaterialResponse';

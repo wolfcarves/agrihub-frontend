@@ -1,28 +1,29 @@
-import React, { useState } from "react";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger
-} from "@components/ui/dropdown-menu";
+import React, { useMemo, useState } from "react";
 import { Input } from "@components/ui/input";
-import { ChevronDown } from "lucide-react";
-import { Button } from "../../../../ui/button";
 import { DataTable } from "../../../../ui/custom/data-table/data-table";
 import { columns } from "./columns";
 import useGetLearningPublishedList from "../../../../../hooks/api/get/useGetLearningPublishedList";
 import useDebounce from "../../../../../hooks/utils/useDebounce";
+import { useSearchParams } from "react-router-dom";
+import { Pagination } from "../../../../ui/custom";
 
 const TableLearningMaterial = () => {
-  const [search, setSearch] = useState<string | undefined>("");
-  const { data: LearningData } = useGetLearningPublishedList({
+  const [searchParams, setSearchParams] = useSearchParams();
+  const params = useMemo(() => {
+    return {
+      currentPage: Number(searchParams.get("page")) ?? 1,
+      search: searchParams.get("search") ?? undefined
+    };
+  }, [searchParams]);
+  const { data: LearningData, isLoading } = useGetLearningPublishedList({
     perpage: "20",
-    page: "1",
-    search: search
+    page: String(params.currentPage),
+    search: params.search
   });
 
   const debouncedSearch = useDebounce((value: string) => {
-    setSearch(value);
+    searchParams.set("search", value);
+    setSearchParams(searchParams);
   }, 100);
 
   return (
@@ -31,11 +32,19 @@ const TableLearningMaterial = () => {
         <Input
           placeholder="Search title..."
           className="max-w-sm"
-          value={search}
+          value={params.search}
           onChange={e => debouncedSearch(e.target.value)}
         />
       </div>
       <DataTable columns={columns} data={LearningData?.data || []} />
+      {LearningData?.pagination?.total_pages !== 1 && (
+        <div className="mt-4">
+          <Pagination
+            totalPages={Number(LearningData?.pagination?.total_pages)}
+            isLoading={isLoading}
+          />
+        </div>
+      )}
     </div>
   );
 };

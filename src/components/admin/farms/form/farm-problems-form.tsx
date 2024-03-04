@@ -18,7 +18,6 @@ import {
   FieldArrayWithId,
   UseFieldArrayAppend,
   UseFieldArrayRemove,
-  UseFieldArrayUpdate,
   UseFormReturn,
   useFieldArray,
   useForm
@@ -35,6 +34,12 @@ import useGetLearningPublishedList from "@hooks/api/get/useGetLearningPublishedL
 import { convertToEmbedLink, formatDate } from "@lib/utils";
 import parse from "html-react-parser";
 import useDebounce from "@hooks/utils/useDebounce";
+import { FaRegTrashCan } from "react-icons/fa6";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { FarmProblemsService } from "@api/openapi";
+import { NewFarmProblem } from "@api/openapi";
+import { ApiError } from "@api/openapi/core/ApiError";
+import { useNavigate } from "react-router-dom";
 
 const MaterialSchema = z.object({
   content: z.string(),
@@ -59,7 +64,9 @@ type Material = z.infer<typeof MaterialSchema>;
 const CreateProblemSchema = z.object({
   problem: z.string({ required_error: "Problem is required" }),
   description: z.string({ required_error: "Description is required" }).min(20),
-  materials: z.array(MaterialSchema)
+  materials: z
+    .array(MaterialSchema)
+    .min(1, { message: "You must input at least 1 learning material." })
 });
 
 type Problem = z.infer<typeof CreateProblemSchema>;
@@ -68,9 +75,25 @@ const FarmProblemsForm = () => {
   const [confirmDialog, setConfirmDialog] = useState(false);
   const [search, setSearch] = useState("");
   const [selection, setSelection] = useState(false);
+  const navigate = useNavigate();
 
+  const queryClient = useQueryClient();
   const { data: learningMaterials, isLoading: IsLearningLoading } =
     useGetLearningPublishedList({ page: "1", perpage: "3", search });
+
+  const { mutateAsync } = useMutation(["CREATE_PROBLEM_MUTATION"], {
+    async mutationFn(requestBody: NewFarmProblem) {
+      const response = await FarmProblemsService.postApiFarmProblems({
+        requestBody
+      });
+      return response;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["GET_PROBLEM_LIST_COMMON"] });
+      toast.success("Created Successfully");
+      navigate("/admin/farm/problems");
+    }
+  });
 
   const form = useForm<Problem>({
     resolver: zodResolver(CreateProblemSchema),
@@ -80,11 +103,30 @@ const FarmProblemsForm = () => {
 
   const { fields, remove, append } = useFieldArray({
     control: form.control,
-    name: "materials"
+    name: "materials",
+    rules: {
+      required: true,
+      minLength: 1,
+      maxLength: 5
+    }
   });
 
-  const handleSubmit = (data: Problem) => {
-    console.log(data?.materials.map(item => item.id));
+  const handleSubmit = async (data: Problem) => {
+    const compiledData: NewFarmProblem = {
+      problem: data.problem,
+      description: data.description,
+      common: true,
+      materials: data.materials.map(item => item.id)
+    };
+
+    try {
+      await mutateAsync(compiledData);
+    } catch (error) {
+      if (error instanceof ApiError) {
+        return toast.error(error.body.message);
+      }
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -93,6 +135,9 @@ const FarmProblemsForm = () => {
     }
     if (form.formState.errors.problem) {
       toast.error(form?.formState?.errors?.problem?.message);
+    }
+    if (form.formState.errors.materials) {
+      toast.error(form?.formState?.errors?.materials?.message);
     }
   }, [form.formState.errors]);
 
@@ -149,28 +194,39 @@ const FarmProblemsForm = () => {
               <h2 className="text-xl font-bold tracking-tight">
                 Learning Materials
               </h2>
-              <div>
+              <div className="relative">
                 <Input
                   type="text"
-                  placeholder=""
-                  // onBlur={() => setSelection(false)}
+                  placeholder="Search Learning Materials"
                   onFocus={() => setSelection(true)}
                   onChange={e => handleSearch(e.target.value)}
                 />
+                {selection && (
+                  <div
+                    className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer"
+                    onClick={() => setSelection(false)}
+                  >
+                    close
+                  </div>
+                )}
               </div>
               {selection && (
                 <Card className="p-4">
-                  <div className="mt-2 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-                    {learningMaterials?.data?.map((items, index) => (
-                      <LearningMaterial
-                        fields={fields}
-                        key={index}
-                        index={index}
-                        items={items as Material}
-                        append={append}
-                        setSelection={setSelection}
-                      />
-                    ))}
+                  <div className="mt-2 grid gap-2 sm:grid-cols-3 lg:grid-cols-3">
+                    {IsLearningLoading ? (
+                      <>Loading...</>
+                    ) : (
+                      learningMaterials?.data?.map((items, index) => (
+                        <LearningMaterial
+                          fields={fields}
+                          key={index}
+                          index={index}
+                          items={items as Material}
+                          append={append}
+                          setSelection={setSelection}
+                        />
+                      ))
+                    )}
                   </div>
                 </Card>
               )}
@@ -286,6 +342,7 @@ function LearningMaterial({
     <article
       className="max-w-sm mx-auto mt-4 shadow-lg border rounded-md duration-300 hover:shadow-sm"
       onClick={() => {
+        // e.stopPropagation();
         const isInList = fields.some(learn => learn.title === items.title);
         if (append && !isInList) {
           append(items);
@@ -294,37 +351,39 @@ function LearningMaterial({
       }}
     >
       <div className="cursor-pointer">
-        {remove && (
-          <button
-            type="button"
-            onClick={() => {
-              if (remove) {
-                remove(index);
-              }
-            }}
-          >
-            x
-          </button>
-        )}
-        <div className="h-48 rounded-t-md">
-          {items.thumbnail.type === "image" ? (
-            <img
-              src={`https://s3.ap-southeast-1.amazonaws.com/agrihub-bucket/${items.thumbnail.resource}`}
-              alt={items.thumbnail.id}
-              className="w-full aspect-video object-cover object-center rounded-md h-48 rounded-t-md"
-            />
-          ) : items.thumbnail.type === "video" ? (
-            <div className="w-full aspect-video h-48 rounded-t-md">
-              <iframe
-                className="w-full h-full rounded-t-md"
-                src={convertToEmbedLink(items.thumbnail.resource || "")}
-                title={items.thumbnail.id}
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-              ></iframe>
-            </div>
-          ) : null}
+        <div className="relative">
+          <div className="h-48 rounded-t-md">
+            {items.thumbnail.type === "image" ? (
+              <img
+                src={`https://s3.ap-southeast-1.amazonaws.com/agrihub-bucket/${items.thumbnail.resource}`}
+                alt={items.thumbnail.id}
+                className="w-full aspect-video object-cover object-center rounded-md h-48 rounded-t-md"
+              />
+            ) : items.thumbnail.type === "video" ? (
+              <div className="w-full aspect-video h-48 rounded-t-md">
+                <iframe
+                  className="w-full h-full rounded-t-md"
+                  src={convertToEmbedLink(items.thumbnail.resource || "")}
+                  title={items.thumbnail.id}
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                ></iframe>
+              </div>
+            ) : null}
+          </div>
+          {remove && (
+            <button
+              className="absolute top-0 right-0 text-white bg-red-600 rounded-full p-1 cursor-pointer"
+              onClick={() => {
+                if (remove) {
+                  remove(index);
+                }
+              }}
+            >
+              <FaRegTrashCan />
+            </button>
+          )}
         </div>
 
         <div className="flex items-center mt-2 pt-3 ml-4 mr-2">

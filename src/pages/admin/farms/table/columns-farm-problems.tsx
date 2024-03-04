@@ -12,42 +12,22 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@components/ui/dropdown-menu";
+import { FarmProblem } from "@api/openapi";
 
-export const data: Problems[] = [
-  {
-    id: "f1",
-    createdAt: new Date("2023-01-15"),
-    updatedAt: new Date("2023-01-15"),
-    problem: "Example Problem 1",
-    description: "Example Description 1"
-  },
-  {
-    id: "f2",
-    createdAt: new Date("2023-02-20"),
-    updatedAt: new Date("2023-02-20"),
-    problem: "Example Problem 2",
-    description: "Example Description 2"
-  }
-];
-
-export type Problems = {
-  id: string;
-  createdAt: Date;
-  updatedAt: Date;
-  problem: string;
-  description: string;
-};
-
-export const columns: ColumnDef<Problems>[] = [
+export const columns: ColumnDef<FarmProblem>[] = [
   {
     accessorKey: "createdAt",
     header: "Created At",
-    cell: ({ row }) => <div>{row.original.createdAt.toDateString()}</div>
+    cell: ({ row }) => (
+      <div>{new Date(row?.original?.updatedat as string).toDateString()}</div>
+    )
   },
   {
     accessorKey: "updatedAt",
     header: "Updated At",
-    cell: ({ row }) => <div>{row.original.updatedAt.toDateString()}</div>
+    cell: ({ row }) => (
+      <div>{new Date(row?.original?.updatedat as string).toDateString()}</div>
+    )
   },
   {
     accessorKey: "problem",
@@ -76,7 +56,9 @@ export const columns: ColumnDef<Problems>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(problem.id)}
+              onClick={() =>
+                navigator.clipboard.writeText(problem?.id as string)
+              }
             >
               Copy problem ID
             </DropdownMenuItem>

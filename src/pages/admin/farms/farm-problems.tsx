@@ -5,10 +5,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/ui/tabs";
 import BreadCrumb from "@components/ui/custom/breadcrumb/breadcrumb";
 import { Button } from "@components/ui/button";
 import { Link } from "react-router-dom";
-import { Card } from "@components/ui/card";
-import { Input } from "@components/ui/input";
-import { DataTable } from "@components/ui/custom/data-table/data-table";
-import { data, columns } from "./table/columns-farm-problems";
+// import { Card } from "@components/ui/card";
+// import { Input } from "@components/ui/input";
+// import { DataTable } from "@components/ui/custom/data-table/data-table";
+// import { columns } from "./table/columns-farm-problems";
 import FarmProblemsCommon from "@components/admin/farms/table/farm-problems-common";
 import FarmProblemsUnusual from "@components/admin/farms/table/farm-problems-unusual";
 

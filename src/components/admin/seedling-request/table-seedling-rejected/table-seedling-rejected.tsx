@@ -1,34 +1,51 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Input } from "@components/ui/input";
 import { columns } from "./columns";
 import useDebounce from "@hooks/utils/useDebounce";
 import { DataTable } from "../../../ui/custom/data-table/data-table";
 import useGetRequestSeedlingListAll from "../../../../hooks/api/get/useGetRequestSeedlingListAll";
+import { useSearchParams } from "react-router-dom";
+import { Pagination } from "../../../ui/custom";
 
 const TableSeedlingRejected = () => {
-  const [search, setSearch] = useState<string | undefined>("");
-  const { data: SeedlingData } = useGetRequestSeedlingListAll({
+  const [searchParams, setSearchParams] = useSearchParams();
+  const params = useMemo(() => {
+    return {
+      currentPage: Number(searchParams.get("page")) ?? 1,
+      search: searchParams.get("search") ?? undefined
+    };
+  }, [searchParams]);
+  const { data: SeedlingData, isLoading } = useGetRequestSeedlingListAll({
     perpage: "20",
-    page: "1",
-    search: search,
+    page: String(params.currentPage),
+    search: params.search,
     filter: "rejected"
   });
 
   const debouncedSearch = useDebounce((value: string) => {
-    setSearch(value);
+    searchParams.set("search", value);
+    setSearchParams(searchParams);
   }, 100);
 
   return (
     <div className="w-full">
       <div className="flex items-center py-4">
         <Input
-          placeholder="Search title..."
+          placeholder="Search crop..."
           className="max-w-sm"
-          value={search}
+          value={params.search}
           onChange={e => debouncedSearch(e.target.value)}
         />
       </div>
-      <DataTable columns={columns} data={SeedlingData || []} />
+      <DataTable columns={columns} data={SeedlingData?.data || []} />
+      {SeedlingData?.pagination?.total_pages !== 1 && (
+        <div className="mt-4">
+          <Pagination
+            totalPages={Number(SeedlingData?.pagination?.total_pages)}
+            isLoading={isLoading}
+          />
+        </div>
+      )}
     </div>
   );
 };

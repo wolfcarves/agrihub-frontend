@@ -2,7 +2,12 @@ import React from "react";
 import { UserSidebar, UserSidebarNavLink } from "@components/ui/custom";
 import useAuth from "@hooks/useAuth";
 import { useLocation } from "react-router-dom";
-import { PiListMagnifyingGlass, PiNewspaper, PiUsers } from "react-icons/pi";
+import {
+  PiListMagnifyingGlass,
+  PiNewspaper,
+  PiShieldWarning,
+  PiUsers
+} from "react-icons/pi";
 import useCommunityAutorization from "../../../../hooks/utils/useCommunityAutorization";
 import { CiSquareQuestion } from "react-icons/ci";
 
@@ -38,6 +43,13 @@ const CommunitySidebar = () => {
           to={`/community/request/${UserData.farm_id}`}
           title="Request"
           logo={<CiSquareQuestion size={20} />}
+        />
+      )}
+      {UserData?.farm_id && isAuthenticated && isAllowed && (
+        <UserSidebarNavLink
+          to={`/community/problem/${UserData.farm_id}`}
+          title="Problem"
+          logo={<PiShieldWarning size={20} />}
         />
       )}
     </UserSidebar>

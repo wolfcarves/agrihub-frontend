@@ -141,6 +141,7 @@ import CropsAdmin from "@pages/admin/website/crops/crops-admin";
 import AddCropsAdmin from "./pages/admin/website/crops/crops-add";
 import FarmProblems from "@pages/admin/farms/farm-problems";
 import FarmManageProblems from "@pages/admin/farms/view/farm-manage-problems";
+import CommunityProblem from "./pages/user/community/community-problem";
 
 const App = ReactRouter(
   <>
@@ -208,6 +209,7 @@ const App = ReactRouter(
         <Route path="request/:id" element={<CommunityRequest />}>
           <Route path="" element={<SeedlingsRequest />} />
         </Route>
+        <Route path="problem/:id" element={<CommunityProblem />} />
       </Route>
 
       {/* Blog Page */}

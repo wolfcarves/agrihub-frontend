@@ -12,16 +12,8 @@ import RichTextEditor from "@components/ui/custom/rich-text-editor/RichTextEdito
 import { Input } from "@components/ui/custom";
 import { Label } from "@components/ui/label";
 import React, { useEffect, useState } from "react";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  FieldArrayWithId,
-  UseFieldArrayAppend,
-  UseFieldArrayRemove,
-  UseFormReturn,
-  useFieldArray,
-  useForm
-} from "react-hook-form";
+import { UseFormReturn, useFieldArray, useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
@@ -31,69 +23,58 @@ import {
 } from "@components/ui/form";
 import { toast } from "sonner";
 import useGetLearningPublishedList from "@hooks/api/get/useGetLearningPublishedList";
-import { convertToEmbedLink, formatDate } from "@lib/utils";
-import parse from "html-react-parser";
 import useDebounce from "@hooks/utils/useDebounce";
-import { FaRegTrashCan } from "react-icons/fa6";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { FarmProblemsService } from "@api/openapi";
 import { NewFarmProblem } from "@api/openapi";
 import { ApiError } from "@api/openapi/core/ApiError";
-import { useNavigate } from "react-router-dom";
-
-const MaterialSchema = z.object({
-  content: z.string(),
-  createdat: z.string(), // Assuming date-time format
-  id: z.string(),
-  tags: z.array(
-    z.object({
-      tag: z.string()
-    })
-  ),
-  thumbnail: z.object({
-    id: z.string(),
-    resource: z.string(),
-    type: z.string()
-  }),
-  title: z.string(),
-  updatedat: z.string() // Assuming date-time format
-});
-
-type Material = z.infer<typeof MaterialSchema>;
-
-const CreateProblemSchema = z.object({
-  problem: z.string({ required_error: "Problem is required" }),
-  description: z.string({ required_error: "Description is required" }).min(20),
-  materials: z
-    .array(MaterialSchema)
-    .min(1, { message: "You must input at least 1 learning material." })
-});
-
-type Problem = z.infer<typeof CreateProblemSchema>;
+import { useNavigate, useParams } from "react-router-dom";
+import Loader from "../../../../icons/Loader";
+import LearningMaterial from "../learning-material";
+import { CreateProblemSchema, Material, Problem } from "./farm-problem-schema";
 
 const FarmProblemsForm = () => {
   const [confirmDialog, setConfirmDialog] = useState(false);
   const [search, setSearch] = useState("");
   const [selection, setSelection] = useState(false);
   const navigate = useNavigate();
-
+  const { problemId } = useParams();
   const queryClient = useQueryClient();
+
+  const { data: problemData, isLoading: isProblemLoading } = useQuery({
+    queryKey: ["GET_PROBLEM", problemId],
+    queryFn: async () => {
+      const response = await FarmProblemsService.getApiFarmProblems({
+        id: problemId ?? ""
+      });
+
+      return response;
+    }
+  });
+
   const { data: learningMaterials, isLoading: IsLearningLoading } =
     useGetLearningPublishedList({ page: "1", perpage: "3", search });
 
-  const { mutateAsync } = useMutation(["CREATE_PROBLEM_MUTATION"], {
-    async mutationFn(requestBody: NewFarmProblem) {
-      const response = await FarmProblemsService.postApiFarmProblems({
-        requestBody
-      });
-      return response;
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["GET_PROBLEM_LIST_COMMON"] });
-      toast.success("Created Successfully");
-      navigate("/admin/farm/problems");
+  const { mutateAsync, isLoading: IsMutationLoading } = useMutation(
+    ["CREATE_PROBLEM_MUTATION"],
+    {
+      async mutationFn(requestBody: NewFarmProblem) {
+        const response = await FarmProblemsService.postApiFarmProblems({
+          requestBody
+        });
+        return response;
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: ["GET_PROBLEM_LIST_COMMON", "GET_PROBLEM"]
+        });
+        toast.success(
+          problemId ? "Updated Successfully" : "Created Successfully"
+        );
+        navigate("/admin/farm/problems");
+      }
     }
-  });
+  );
 
   const form = useForm<Problem>({
     resolver: zodResolver(CreateProblemSchema),
@@ -101,7 +82,7 @@ const FarmProblemsForm = () => {
     reValidateMode: "onChange"
   });
 
-  const { fields, remove, append } = useFieldArray({
+  const { fields, remove, append, replace } = useFieldArray({
     control: form.control,
     name: "materials",
     rules: {
@@ -115,12 +96,17 @@ const FarmProblemsForm = () => {
     const compiledData: NewFarmProblem = {
       problem: data.problem,
       description: data.description,
-      common: true,
+      common: problemData?.common ? problemData?.common : true,
       materials: data.materials.map(item => item.id)
     };
 
+    if (problemId) {
+      compiledData.id = problemId;
+    }
+
     try {
       await mutateAsync(compiledData);
+      console.log(compiledData);
     } catch (error) {
       if (error instanceof ApiError) {
         return toast.error(error.body.message);
@@ -141,9 +127,23 @@ const FarmProblemsForm = () => {
     }
   }, [form.formState.errors]);
 
+  useEffect(() => {
+    if (problemId && problemData?.learning_materials) {
+      replace(problemData?.learning_materials as Material[]);
+    }
+  }, [problemData]);
+
   const handleSearch = useDebounce((search: string) => {
     setSearch(search);
   }, 700);
+
+  if (problemId && isProblemLoading) {
+    return <Loader isVisible={isProblemLoading} />;
+  }
+
+  function getDefaultValue(value: string | undefined) {
+    return problemId ? value : "";
+  }
 
   return (
     <Form {...form}>
@@ -153,14 +153,13 @@ const FarmProblemsForm = () => {
           <FormField
             control={form.control}
             name="problem"
-            defaultValue=""
+            defaultValue={getDefaultValue(problemData?.problem)}
             render={({ field, fieldState }) => (
               <FormItem>
                 <FormControl>
                   <Input
                     {...field}
                     type="text"
-                    placeholder=""
                     $isError={fieldState?.error && true}
                   />
                 </FormControl>
@@ -173,12 +172,13 @@ const FarmProblemsForm = () => {
           <Label>Description</Label>
           <FormField
             name="description"
+            defaultValue={getDefaultValue(problemData?.description)}
             control={form.control}
             render={({ field: { onChange } }) => {
               return (
                 <RichTextEditor
                   // disabled={!isEditing}
-                  // defaultValue={eventData?.about}
+                  defaultValue={getDefaultValue(problemData?.description)}
                   height={300}
                   onBlur={data => {
                     onChange(data.html);
@@ -216,16 +216,22 @@ const FarmProblemsForm = () => {
                     {IsLearningLoading ? (
                       <>Loading...</>
                     ) : (
-                      learningMaterials?.data?.map((items, index) => (
-                        <LearningMaterial
-                          fields={fields}
-                          key={index}
-                          index={index}
-                          items={items as Material}
-                          append={append}
-                          setSelection={setSelection}
-                        />
-                      ))
+                      learningMaterials?.data
+                        ?.filter(
+                          item =>
+                            !fields.some(field => field.title === item.title)
+                        )
+                        ?.map((items, index) => (
+                          <LearningMaterial
+                            fields={fields}
+                            key={index}
+                            index={index}
+                            items={items as Material}
+                            problemId={problemId}
+                            append={append}
+                            setSelection={setSelection}
+                          />
+                        ))
                     )}
                   </div>
                 </Card>
@@ -239,6 +245,7 @@ const FarmProblemsForm = () => {
                 key={index}
                 index={index}
                 items={item}
+                problemId={problemId}
                 remove={remove}
                 setSelection={setSelection}
               />
@@ -251,12 +258,13 @@ const FarmProblemsForm = () => {
           <div className="w-full flex justify-end">
             <Button
               type="button"
+              disabled={isProblemLoading}
               onClick={async () => {
                 const validated = await form.trigger();
                 if (validated) setConfirmDialog(true);
               }}
             >
-              Create
+              {problemId ? "Save" : "Create"}
             </Button>
           </div>
           <Dialog
@@ -267,6 +275,7 @@ const FarmProblemsForm = () => {
           />
         </div>
       </form>
+      <Loader isVisible={IsMutationLoading} />
     </Form>
   );
 };
@@ -319,101 +328,6 @@ function Dialog({
         </AlertDialogContent>
       </AlertDialog>
     </div>
-  );
-}
-
-type LearningMaterialProps = {
-  items: Material;
-  index: number;
-  setSelection: React.Dispatch<React.SetStateAction<boolean>>;
-  fields: FieldArrayWithId<Problem, "materials", "id">[];
-  append?: UseFieldArrayAppend<Problem, "materials">;
-  remove?: UseFieldArrayRemove;
-};
-function LearningMaterial({
-  items,
-  index,
-  fields,
-  setSelection,
-  append,
-  remove
-}: LearningMaterialProps) {
-  return (
-    <article
-      className="max-w-sm mx-auto mt-4 shadow-lg border rounded-md duration-300 hover:shadow-sm"
-      onClick={() => {
-        // e.stopPropagation();
-        const isInList = fields.some(learn => learn.title === items.title);
-        if (append && !isInList) {
-          append(items);
-        }
-        setSelection(false);
-      }}
-    >
-      <div className="cursor-pointer">
-        <div className="relative">
-          <div className="h-48 rounded-t-md">
-            {items.thumbnail.type === "image" ? (
-              <img
-                src={`https://s3.ap-southeast-1.amazonaws.com/agrihub-bucket/${items.thumbnail.resource}`}
-                alt={items.thumbnail.id}
-                className="w-full aspect-video object-cover object-center rounded-md h-48 rounded-t-md"
-              />
-            ) : items.thumbnail.type === "video" ? (
-              <div className="w-full aspect-video h-48 rounded-t-md">
-                <iframe
-                  className="w-full h-full rounded-t-md"
-                  src={convertToEmbedLink(items.thumbnail.resource || "")}
-                  title={items.thumbnail.id}
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                ></iframe>
-              </div>
-            ) : null}
-          </div>
-          {remove && (
-            <button
-              className="absolute top-0 right-0 text-white bg-red-600 rounded-full p-1 cursor-pointer"
-              onClick={() => {
-                if (remove) {
-                  remove(index);
-                }
-              }}
-            >
-              <FaRegTrashCan />
-            </button>
-          )}
-        </div>
-
-        <div className="flex items-center mt-2 pt-3 ml-4 mr-2">
-          <div className="">
-            <span className="block text-gray-400 text-sm">
-              {formatDate(items.createdat)}
-            </span>
-          </div>
-        </div>
-        <div className="pt-3 ml-4 mr-2 mb-3 ">
-          <h3 className="text-xl text-gray-900 truncate">{items.title}</h3>
-          <p className="text-gray-400 text-sm mt-1 line-clamp-3">
-            {parse(items.content || "")}
-          </p>
-
-          <div className="my-4 item">
-            <p className="text-gray-700 mb-2 flex flex-wrap">
-              {items.tags.map((tag, index) => (
-                <span
-                  key={index}
-                  className="text-base text-primary rounded-md w-auto border border-[#BBE3AD] bg-secondary px-2 mr-2 mb-2 py-1"
-                >
-                  {tag.tag}
-                </span>
-              ))}
-            </p>
-          </div>
-        </div>
-      </div>
-    </article>
   );
 }
 

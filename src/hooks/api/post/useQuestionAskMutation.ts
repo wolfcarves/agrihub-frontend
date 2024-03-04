@@ -19,7 +19,7 @@ export default function useQuestionAskMutation() {
 
       return response;
     },
-    onSuccess: e => {
+    onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [GET_QUESTION_KEY()]
       });

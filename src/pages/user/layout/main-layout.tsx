@@ -19,24 +19,26 @@ const MainLayout = () => {
   }, [location]);
 
   return (
-    <div className="flex flex-col min-h-[90rem]">
-      <LoadingBar
-        ref={loader}
-        color="rgb(59 130 246)"
-        height={3}
-        shadow={true}
-      />
+    <>
+      <div className="flex flex-col min-h-[90rem]">
+        <LoadingBar
+          ref={loader}
+          color="rgb(59 130 246)"
+          height={3}
+          shadow={true}
+        />
 
-      <ScrollRestoration
-        getKey={loc => {
-          return loc.pathname + loc.search;
-        }}
-      />
+        <ScrollRestoration
+          getKey={loc => {
+            return loc.pathname + loc.search;
+          }}
+        />
 
-      <UserHeader />
-      <Outlet />
-      <UserFooter />
-    </div>
+        <UserHeader />
+        <Outlet />
+        <UserFooter />
+      </div>
+    </>
   );
 };
 

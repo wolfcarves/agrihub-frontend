@@ -17,7 +17,7 @@ export default function useGetRequestSeedlingListAll(data: EventsParams) {
         ...data
       });
 
-      return response.data;
+      return response;
     }
   });
 }

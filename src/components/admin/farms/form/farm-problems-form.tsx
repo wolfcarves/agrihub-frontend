@@ -95,7 +95,7 @@ const FarmProblemsForm = () => {
     const compiledData: NewFarmProblem = {
       problem: data.problem,
       description: data.description,
-      common: problemData?.common ? problemData?.common : true,
+      common: problemData ? problemData?.common : true,
       materials: data.materials.map(item => item.id)
     };
 

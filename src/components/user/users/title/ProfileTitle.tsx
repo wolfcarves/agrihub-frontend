@@ -2,6 +2,7 @@ import React from "react";
 
 interface ProfileTitleProps {
   fullname?: string;
+  role?: string;
   username?: string;
   postCount?: number;
   saveCount?: number;
@@ -9,6 +10,7 @@ interface ProfileTitleProps {
 
 const ProfileTitle = ({
   fullname,
+  role,
   username,
   postCount,
   saveCount
@@ -16,9 +18,19 @@ const ProfileTitle = ({
   return (
     <>
       <div className="pt-20">
-        <div className="flex flex-col items-center">
+        <div
+          className="flex flex-col items-center text-center mx-auto"
+          style={{
+            overflowWrap: "anywhere"
+          }}
+        >
           <h3 className="font-poppins-medium">{fullname}</h3>
           <h5 className="opacity-40">@{username}</h5>
+          <h5 className="opacity-40">
+            {"("}
+            {role}
+            {")"}
+          </h5>
         </div>
       </div>
 

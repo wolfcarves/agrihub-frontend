@@ -18,19 +18,20 @@ const UserAppearanceSettings = () => {
         "This theme will be active when your system is set to “dark mode”"
     }
   ];
+
   return (
-    <div className="w-full m-8">
-      <div className="flex justify-between items-center">
-        <h2 className="text-3xl font-bold tracking-tight">Theme Preference</h2>
+    <div className="py-10 max-w-[50rem]">
+      <h4 className="font-poppins-medium">Customize Theme</h4>
+
+      <div className="py-7 space-y-2">
+        <h4 className="text-sm font-poppins-medium uppercase text-foreground/70">
+          Theme Preference
+        </h4>
+        <hr />
       </div>
-      <p className="text-sm text-muted-foreground">
-        Choose how AgriHub looks to you. Select a single theme, or sync with
-        your system and automatically switch between day and night themes.
-      </p>
-      <hr className="my-4" />
+
       <div className=" mx-auto">
         <form>
-          <Label className="font-bold">Theme mode</Label>
           <div className="mx-auto p-4">
             <ul className="flex gap-8 space-y-3">
               {radios.map((item, idx) => (

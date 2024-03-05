@@ -35,7 +35,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import useTagsCreate from "@hooks/api/post/useTagsCreate";
 import Loader from "@icons/Loader";
-import { Form, FormField } from "@components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage
+} from "@components/ui/form";
 
 const addTagSchema = zod.object({
   tag_name: zod
@@ -84,6 +90,9 @@ export const columns: ColumnDef<Tag>[] = [
         if (form.formState.errors.tag_name) {
           toast.error(form?.formState?.errors?.tag_name?.message);
         }
+        if (form.formState.errors.tag_name) {
+          toast.error(form?.formState?.errors?.details?.message);
+        }
       }, [form.formState.errors]);
 
       const { mutateAsync: addTagMutate, isLoading: addTagLoading } =
@@ -97,6 +106,7 @@ export const columns: ColumnDef<Tag>[] = [
         };
 
         try {
+          // console.log(compiledData);
           const response = await addTagMutate(compiledData);
           toast.success(`Tag ${response.data?.tag_name} Created Successfully!`);
           setIsOpen(false);
@@ -146,12 +156,20 @@ export const columns: ColumnDef<Tag>[] = [
                         <Label htmlFor="title" className="text-right">
                           Name
                         </Label>
-                        <Input
-                          id="title"
-                          placeholder="insert title of your material"
-                          className="col-span-3"
+                        <FormField
+                          control={form.control}
+                          name="tag_name"
                           defaultValue={tag.tag_name}
-                          {...form.register("tag_name")}
+                          render={({ field, fieldState }) => (
+                            <FormItem>
+                              <FormControl>
+                                <Input {...field} type="text" />
+                              </FormControl>
+                              <FormMessage>
+                                {fieldState.error?.message}
+                              </FormMessage>
+                            </FormItem>
+                          )}
                         />
                       </div>
                       <div className="flex-col gap-4">
@@ -159,6 +177,7 @@ export const columns: ColumnDef<Tag>[] = [
                         <FormField
                           control={form.control}
                           name="details"
+                          defaultValue={tag.details}
                           render={({ field }) => (
                             <Textarea
                               placeholder="Describe your tag"

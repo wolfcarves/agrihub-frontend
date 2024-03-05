@@ -44,6 +44,9 @@ const DialogAddTags = () => {
     if (form.formState.errors.tag_name) {
       toast.error(form?.formState?.errors?.tag_name?.message);
     }
+    if (form.formState.errors.tag_name) {
+      toast.error(form?.formState?.errors?.tag_name?.message);
+    }
   }, [form.formState.errors]);
 
   const { mutateAsync: addTagMutate, isLoading: addTagLoading } =

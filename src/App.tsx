@@ -28,7 +28,7 @@ import Calendar from "@pages/user/calendar/calendar";
 //Others
 import ErrorElement from "@pages/user/common/error";
 import EditProfile from "@pages/user/users/edit-profile";
-import MyProfile from "@pages/user/users/my-profile";
+import UserProfile from "@pages/user/users/profile";
 import QuestionAsk from "@pages/user/question/question-ask";
 import HelpsLayout from "@pages/user/help/_layout";
 import Helps from "@pages/user/help/helps";
@@ -36,11 +36,11 @@ import Help from "@pages/user/help/help";
 import Policy from "@pages/user/help/policy";
 import Terms from "@pages/user/help/terms";
 import Feedback from "@pages/user/help/feedback";
-import SettingsLayout from "@pages/user/settings/_layout";
+import SettingsLayout from "@pages/user/settings/settings-layout.tsx";
 import UserProfileSettings from "@pages/user/settings/settings-profile";
 import UserAccountSettings from "@pages/user/settings/settings-account";
 import UserEmailSettings from "@pages/user/settings/settings-email";
-import UserPasswordSettings from "@pages/user/settings/settings-password";
+import UserSettingsAuthentication from "@pages/user/settings/settings-authentication";
 import UserAppearanceSettings from "@pages/user/settings/settings-appearance";
 
 //Admin
@@ -245,16 +245,16 @@ const App = ReactRouter(
 
       {/* Profile Page  */}
       <Route path="/users" element={<UserProfileLayout />}>
-        <Route path=":userId/:username/" element={<MyProfile />} />
-        <Route path=":userId/:username/:saved" element={<MyProfile />} />
+        <Route path=":userId/:username/" element={<UserProfile />} />
+        <Route path=":userId/:username/:saved" element={<UserProfile />} />
       </Route>
 
       {/* Settings */}
       <Route path="/settings" element={<SettingsLayout />}>
-        <Route path="profile" element={<UserProfileSettings />} />
         <Route path="account" element={<UserAccountSettings />} />
+        <Route path="profile" element={<UserProfileSettings />} />
         <Route path="email" element={<UserEmailSettings />} />
-        <Route path="authentication" element={<UserPasswordSettings />} />
+        <Route path="authentication" element={<UserSettingsAuthentication />} />
         <Route path="appearance" element={<UserAppearanceSettings />} />
       </Route>
 

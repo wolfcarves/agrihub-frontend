@@ -51,7 +51,7 @@ export function CropSeasonsMenu({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline">
+        <Button variant="outline" className="text-wrap">
           {allMonthsSelected
             ? "All Season"
             : selectedMonthValues.length === 0

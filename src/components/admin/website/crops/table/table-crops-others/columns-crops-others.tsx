@@ -44,7 +44,7 @@ export const columns: ColumnDef<CropData>[] = [
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const payment = row.original;
+      const crop = row.original;
 
       return (
         <DropdownMenu>
@@ -57,13 +57,13 @@ export const columns: ColumnDef<CropData>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id || "")}
+              onClick={() => navigator.clipboard.writeText(crop.id || "")}
             >
-              Copy blog ID
+              Copy crop ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <Link to={`/admin/resource/blogs/view/${payment.id}`}>
-              <DropdownMenuItem>View/update blog</DropdownMenuItem>
+            <Link to={`/admin/website/crops/update/${crop.id}`}>
+              <DropdownMenuItem>View/update crop</DropdownMenuItem>
             </Link>
           </DropdownMenuContent>
         </DropdownMenu>

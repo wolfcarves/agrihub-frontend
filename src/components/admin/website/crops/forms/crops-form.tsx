@@ -28,7 +28,6 @@ import { Checkbox } from "@components/ui/checkbox";
 
 const CropsForm = () => {
   const { cropId } = useParams();
-  const [companions, setCompanions] = useState<string[]>([]);
   const [editMode, setEditMode] = useState(false);
   const [companionName, setCompanionName] = useState("");
   const [editIndex, setEditIndex] = useState<number | null>(null);
@@ -54,7 +53,7 @@ const CropsForm = () => {
   const companion = cropData?.companion;
   const seedling = cropData?.seedling_season;
   const harvest = cropData?.harvest_season;
-
+  const [companions, setCompanions] = useState<string[]>(companion || []);
   // Form
   const form = useForm<NewCropRequest>({
     resolver: zodResolver(addCropSchema),

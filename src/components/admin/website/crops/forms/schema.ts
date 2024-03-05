@@ -3,7 +3,7 @@ const MAX_IMAGE_FILE_SIZE = 1024 * 1024 * 10; // 10MB
 export const addCropSchema = zod.object({
   name: zod
     .string()
-    .min(5, { message: "Please enter at least 5 characters" })
+    .min(1, { message: "Please enter at least 5 characters" })
     .max(100, { message: "Title is too long" }),
   description: zod
     .string({

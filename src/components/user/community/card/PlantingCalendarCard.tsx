@@ -1,5 +1,6 @@
 import { CropData } from "@api/openapi";
 import { Link } from "react-router-dom";
+import parse from "html-react-parser";
 
 interface PlantingCalendarCardProps extends CropData {}
 
@@ -19,7 +20,7 @@ const PlantingCalendarCard = ({
 
       <div className="space-y-2 text-center pt-4 pb-0">
         <h5 className="font-poppins-medium">{name}</h5>
-        <p className="line-clamp-2">{description}</p>
+        <p className="line-clamp-2">{parse(description || "")}</p>
       </div>
     </div>
   );

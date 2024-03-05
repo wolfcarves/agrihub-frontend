@@ -21,6 +21,8 @@ type LearningMaterialProps = {
   problemId: string | undefined;
   append?: UseFieldArrayAppend<Problem, "materials">;
   remove?: UseFieldArrayRemove;
+  is_archived?: boolean;
+  isEditing?: boolean;
 };
 export default function LearningMaterial({
   items,
@@ -29,7 +31,9 @@ export default function LearningMaterial({
   setSelection,
   append,
   problemId,
-  remove
+  remove,
+  is_archived,
+  isEditing
 }: LearningMaterialProps) {
   const { mutateAsync, isLoading: IsMutationLoading } = useMutation(
     ["REMOVE_LEARNING_MATERIAL_KEY"],
@@ -78,7 +82,7 @@ export default function LearningMaterial({
               </div>
             ) : null}
           </div>
-          {remove && (
+          {remove && !is_archived && isEditing && (
             <button
               type="button"
               className="absolute top-0 right-0 text-white bg-red-600 rounded-full p-1 cursor-pointer"

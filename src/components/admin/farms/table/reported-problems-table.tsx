@@ -1,25 +1,24 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 // import useGetReportCropListQuery from "../../../../../hooks/api/get/useGetReportCropListQuery";
-import { useParams, useSearchParams } from "react-router-dom";
-import { columns } from "./columns";
-import { DataTable } from "../../../../ui/custom/data-table/data-table";
-// import StatePagination from "../../state-pagination/state-pagination";
+import { useSearchParams } from "react-router-dom";
+import { columns } from "./reported-problems-column";
+import { DataTable } from "../../../ui/custom/data-table/data-table";
 
-import useGetProblemsCommunityList from "../../../../../hooks/api/get/useGetProblemsCommunityList";
 import {
   Select,
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue
-} from "../../../../ui/select";
-import DialogAddProblem from "../dialog-add-problem/dialog-add-problem";
-import useDebounce from "../../../../../hooks/utils/useDebounce";
-import { Input } from "../../../../ui/input";
-import { Pagination } from "../../../../ui/custom";
-const CommunityProblemTable = () => {
+} from "../../../ui/select";
+
+import { Pagination } from "../../../ui/custom";
+import useDebounce from "@hooks/utils/useDebounce";
+import Input from "../../../ui/custom/input/input";
+import { useQuery } from "@tanstack/react-query";
+import { FarmProblemsService } from "../../../../api/openapi";
+const AdminFarmReportedProblems = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const params = useMemo(() => {
@@ -30,13 +29,20 @@ const CommunityProblemTable = () => {
     };
   }, [searchParams]);
 
-  const { data: farmProblems, isLoading } = useGetProblemsCommunityList({
-    search: params.search,
-    page: String(params.currentPage),
-    perpage: "10",
-    filter: params.sortBy
+  const { data: farmProblems, isLoading } = useQuery({
+    queryKey: ["GET_PROBLEM_LIST_COMMON", params],
+    queryFn: async () => {
+      const data = await FarmProblemsService.getApiFarmProblemsReportedList({
+        search: params.search,
+        page: String(params.currentPage),
+        perpage: "10",
+        filter: params.sortBy
+      });
+
+      return data;
+    },
+    keepPreviousData: true
   });
-  console.log(farmProblems);
 
   const debouncedSearch = useDebounce((value: string) => {
     searchParams.set("search", value);
@@ -68,7 +74,6 @@ const CommunityProblemTable = () => {
               </SelectGroup>
             </SelectContent>
           </Select>
-          <DialogAddProblem />
         </div>
       </div>
       <div className="min-h-[63vh] mb-2">
@@ -84,4 +89,4 @@ const CommunityProblemTable = () => {
   );
 };
 
-export default CommunityProblemTable;
+export default AdminFarmReportedProblems;

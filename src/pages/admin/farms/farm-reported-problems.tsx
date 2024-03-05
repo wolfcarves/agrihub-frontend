@@ -2,43 +2,35 @@ import AdminOutletContainer from "@components/admin/layout/container/AdminOutlet
 import withAuthGuard from "@higher-order/account/withAuthGuard";
 import React from "react";
 import BreadCrumb from "@components/ui/custom/breadcrumb/breadcrumb";
-import FarmProblemsForm from "@components/admin/farms/form/farm-problems-form";
-import { useParams } from "react-router-dom";
+import AdminFarmReportedProblems from "@components/admin/farms/table/reported-problems-table";
 
 const breadcrumbItems = [
   {
     title: "Farm Problems",
-    link: "/admin/farm/problems"
-  },
-  {
-    title: "Problem",
-    link: "/admin/farm/problems/add"
+    link: "/admin/farm/problems/reported"
   }
 ];
 
-const ManageFarmProblemsAdmin = () => {
-  const { problemId } = useParams();
+const FarmReportedProblems = () => {
   return (
     <AdminOutletContainer>
       <BreadCrumb items={breadcrumbItems} />
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-3xl font-bold tracking-tight">
-            {problemId ? "Update or View Problem" : "New Common Problem"}
-          </h2>
+          <h2 className="text-3xl font-bold tracking-tight">Problems</h2>
           <p className="text-sm text-muted-foreground">
-            Manage all registered and unregistered crops within the community
+            Manage all reported problems within the community
           </p>
         </div>
       </div>
       <hr className="my-4" />
-      <FarmProblemsForm />
+      <AdminFarmReportedProblems />
     </AdminOutletContainer>
   );
 };
 
 export default withAuthGuard(
-  ManageFarmProblemsAdmin,
+  FarmReportedProblems,
   ["admin", "asst_admin"],
   "farms"
 );

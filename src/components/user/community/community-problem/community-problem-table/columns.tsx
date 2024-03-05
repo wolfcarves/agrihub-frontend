@@ -53,7 +53,7 @@ export const columns: ColumnDef<CommunityFarmProblem>[] = [
     id: "actions",
     cell: ({ row }) => {
       const item = row.original;
-      const navigate = useNavigate();
+      // const navigate = useNavigate();
 
       const [isOpen, setIsOpen] = useState<boolean>();
       const [helpful, setHelpful] = useState<boolean>(false);

@@ -12,5 +12,6 @@ export type FarmProblemResponse = {
     createdat?: string;
     updatedat?: string;
     common?: boolean;
+    is_archived?: boolean;
     learning_materials?: Array<ProblemMaterials>;
 };

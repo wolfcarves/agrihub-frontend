@@ -885,4 +885,54 @@ id: string,
         });
     }
 
+    /**
+     * Leave farm community
+     * @returns any Successful response
+     * @throws ApiError
+     */
+    public static postApiFarmCommunityLeave(): CancelablePromise<{
+message?: string;
+}> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/farm/community/leave',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Kick a member from farm community
+     * @returns any Successful response
+     * @throws ApiError
+     */
+    public static postApiFarmCommunityKick({
+id,
+}: {
+/**
+ * ID of the member to be kicked
+ */
+id: string,
+}): CancelablePromise<{
+message?: string;
+}> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/farm/community/kick/{id}',
+            path: {
+                'id': id,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
 }

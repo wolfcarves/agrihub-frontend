@@ -5,6 +5,7 @@ import { GET_CROP } from "../get/useGetCropsQuery";
 const useCropCreateKey = () => "CREATE_CROP_KEY";
 
 type DataSchema = {
+  id:string
   formData: NewCropRequest
 };
 

@@ -6,7 +6,7 @@ const usePutCropsKey = () => "PUT_CROPS_KEY";
 
 type DataSchema = {
   id: string;
-  requestBody: UpdateCropRequest;
+  formData: UpdateCropRequest;
 };
 
 export default function usePutCrops() {

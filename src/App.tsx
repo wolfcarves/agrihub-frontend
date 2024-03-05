@@ -142,6 +142,8 @@ import AddCropsAdmin from "./pages/admin/website/crops/crops-add";
 import FarmProblems from "@pages/admin/farms/farm-problems";
 import FarmManageProblems from "@pages/admin/farms/view/farm-manage-problems";
 import CommunityProblem from "./pages/user/community/community-problem";
+import FarmProblemsArchives from "./pages/admin/farms/farm-problems-archives";
+import FarmReportedProblems from "./pages/admin/farms/farm-reported-problems";
 
 const App = ReactRouter(
   <>
@@ -295,6 +297,8 @@ const App = ReactRouter(
 
         <Route path="problems" element={<FarmProblems />} />
         <Route path="problems/add" element={<FarmManageProblems />} />
+        <Route path="problems/archived" element={<FarmProblemsArchives />} />
+        <Route path="problems/reported" element={<FarmReportedProblems />} />
         <Route
           path="problems/view/:problemId"
           element={<FarmManageProblems />}

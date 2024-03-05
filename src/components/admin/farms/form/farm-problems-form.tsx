@@ -1,19 +1,12 @@
 import { Button } from "@components/ui/button";
-import {
-  AlertDialog,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle
-} from "@components/ui/alert-dialog";
+
 import { Card } from "@components/ui/card";
 import RichTextEditor from "@components/ui/custom/rich-text-editor/RichTextEditor";
 import { Input } from "@components/ui/custom";
 import { Label } from "@components/ui/label";
 import React, { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { UseFormReturn, useFieldArray, useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
@@ -29,12 +22,18 @@ import { FarmProblemsService } from "@api/openapi";
 import { NewFarmProblem } from "@api/openapi";
 import { ApiError } from "@api/openapi/core/ApiError";
 import { useNavigate, useParams } from "react-router-dom";
-import Loader from "../../../../icons/Loader";
+import Loader from "@icons/Loader";
 import LearningMaterial from "../learning-material";
 import { CreateProblemSchema, Material, Problem } from "./farm-problem-schema";
+import CreateConfirmDialog from "../dialog/CreateConfirmDialog";
+import { ArchiveDialog, UnarchiveDialog } from "../dialog/ArchiveDialog";
 
 const FarmProblemsForm = () => {
   const [confirmDialog, setConfirmDialog] = useState(false);
+  const [archiveDialog, setArchiveDialog] = useState(false);
+  const [unarchiveDialog, setUnarchiveDialog] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+
   const [search, setSearch] = useState("");
   const [selection, setSelection] = useState(false);
   const navigate = useNavigate();
@@ -106,7 +105,6 @@ const FarmProblemsForm = () => {
 
     try {
       await mutateAsync(compiledData);
-      console.log(compiledData);
     } catch (error) {
       if (error instanceof ApiError) {
         return toast.error(error.body.message);
@@ -154,6 +152,7 @@ const FarmProblemsForm = () => {
             control={form.control}
             name="problem"
             defaultValue={getDefaultValue(problemData?.problem)}
+            disabled={!isEditing}
             render={({ field, fieldState }) => (
               <FormItem>
                 <FormControl>
@@ -173,11 +172,12 @@ const FarmProblemsForm = () => {
           <FormField
             name="description"
             defaultValue={getDefaultValue(problemData?.description)}
+            disabled={!isEditing}
             control={form.control}
             render={({ field: { onChange } }) => {
               return (
                 <RichTextEditor
-                  // disabled={!isEditing}
+                  disabled={!isEditing}
                   defaultValue={getDefaultValue(problemData?.description)}
                   height={300}
                   onBlur={data => {
@@ -196,6 +196,7 @@ const FarmProblemsForm = () => {
               </h2>
               <div className="relative">
                 <Input
+                  disabled={!isEditing}
                   type="text"
                   placeholder="Search Learning Materials"
                   onFocus={() => setSelection(true)}
@@ -248,6 +249,8 @@ const FarmProblemsForm = () => {
                 problemId={problemId}
                 remove={remove}
                 setSelection={setSelection}
+                is_archived={problemData?.is_archived}
+                isEditing={isEditing}
               />
             ))}
           </div>
@@ -255,23 +258,80 @@ const FarmProblemsForm = () => {
           {/* <Button type="button" onClick={() => append({ name: "tite" })}>
             ADD
           </Button> */}
-          <div className="w-full flex justify-end">
-            <Button
-              type="button"
-              disabled={isProblemLoading}
-              onClick={async () => {
-                const validated = await form.trigger();
-                if (validated) setConfirmDialog(true);
-              }}
-            >
-              {problemId ? "Save" : "Create"}
-            </Button>
+          <div className="w-full flex justify-end gap-2">
+            {problemData?.is_archived
+              ? problemId && (
+                  <Button
+                    type="button"
+                    variant="destructive"
+                    onClick={() => {
+                      setUnarchiveDialog(true);
+                    }}
+                  >
+                    Unarchive
+                  </Button>
+                )
+              : problemId && (
+                  <Button
+                    type="button"
+                    variant="destructive"
+                    onClick={() => {
+                      setArchiveDialog(true);
+                    }}
+                  >
+                    Archive
+                  </Button>
+                )}
+            {isEditing && (
+              <Button
+                type="button"
+                disabled={isProblemLoading}
+                variant="outline"
+                onClick={() => setIsEditing(false)}
+              >
+                Cancel
+              </Button>
+            )}
+            {!problemData?.is_archived &&
+              (!isEditing ? (
+                <Button
+                  type="button"
+                  disabled={isProblemLoading}
+                  variant="outline"
+                  onClick={() => setIsEditing(true)}
+                >
+                  Edit
+                </Button>
+              ) : (
+                <Button
+                  type="button"
+                  disabled={isProblemLoading}
+                  onClick={async () => {
+                    const validated = await form.trigger();
+                    if (validated) setConfirmDialog(true);
+                  }}
+                >
+                  {problemId ? "Save" : "Create"}
+                </Button>
+              ))}
           </div>
-          <Dialog
+          <CreateConfirmDialog
             open={confirmDialog}
             onOpenChange={setConfirmDialog}
             form={form}
             handleSubmit={handleSubmit}
+          />
+          {/* {problemData} */}
+          <ArchiveDialog
+            open={archiveDialog}
+            onOpenChange={setArchiveDialog}
+            problemId={problemId ?? ""}
+          />
+
+          <UnarchiveDialog
+            open={unarchiveDialog}
+            onOpenChange={setUnarchiveDialog}
+            problemId={problemId ?? ""}
           />
         </div>
       </form>
@@ -279,56 +339,5 @@ const FarmProblemsForm = () => {
     </Form>
   );
 };
-
-function Dialog({
-  open,
-  onOpenChange,
-  form,
-  handleSubmit
-}: {
-  open: boolean;
-  onOpenChange: React.Dispatch<React.SetStateAction<boolean>>;
-  form: UseFormReturn<Problem>;
-  handleSubmit: (data: any) => void;
-}) {
-  return (
-    <div className="flex justify-end my-8 gap-4">
-      <AlertDialog open={open} onOpenChange={onOpenChange}>
-        {/* <AlertDialogTrigger>
-          <Button>Create</Button>
-        </AlertDialogTrigger> */}
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>
-              Are you sure you want to add this?
-            </AlertDialogTitle>
-            <AlertDialogDescription>
-              This will add a new problem that can be selected by farm heads
-              when submitting an report.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <Button variant="outline" onClick={() => onOpenChange(false)}>
-              Cancel
-            </Button>
-            {/* <Link to="/admin/farm/problems"> */}
-            {/* <AlertDialogAction> */}
-            <Button
-              type="submit"
-              onClick={() => {
-                onOpenChange(false);
-                form.handleSubmit(handleSubmit)();
-              }}
-            >
-              Confirm
-            </Button>
-            {/* </AlertDialogAction> */}
-            {/* </Link> */}
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-    </div>
-  );
-}
 
 export default FarmProblemsForm;

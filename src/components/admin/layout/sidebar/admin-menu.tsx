@@ -123,6 +123,18 @@ export const adminNavigation: AdminNavigationItem[] = [
         name: "Problems List",
         href: "/admin/farm/problems",
         module: "farms"
+      },
+      {
+        title: "",
+        name: "Problems Archived List",
+        href: "/admin/farm/problems/archived",
+        module: "farms"
+      },
+      {
+        title: "",
+        name: "Problems Rerported List",
+        href: "/admin/farm/problems/reported",
+        module: "farms"
       }
     ]
   },

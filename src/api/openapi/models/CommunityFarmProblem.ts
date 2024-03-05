@@ -5,6 +5,7 @@
 
 export type CommunityFarmProblem = {
     id?: string;
+    fp_id?: string;
     status?: string;
     problem?: string;
     description?: string;

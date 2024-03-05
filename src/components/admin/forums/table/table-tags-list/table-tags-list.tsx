@@ -19,7 +19,8 @@ const TableTagsList = () => {
   const { data: tagsData, isLoading } = useGetTagsQuery({
     search: params.search,
     page: String(params.currentPage),
-    perpage: "10"
+    perpage: "10",
+    filter: "name"
   });
   const debouncedSearch = useDebounce((value: string) => {
     searchParams.set("search", value);

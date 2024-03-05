@@ -77,7 +77,7 @@ const UserHeaderMenu = () => {
             </DropdownMenuItem>
           </Link>
 
-          <Link to="/settings/profile">
+          <Link to="/settings/account">
             <DropdownMenuItem className="cursor-pointer h-12 gap-2">
               <IoSettingsOutline className="text-foreground/80 text-lg " />
               <span className="font-poppins-medium">Settings</span>

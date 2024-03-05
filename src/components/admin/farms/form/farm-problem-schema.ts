@@ -23,7 +23,7 @@ export type Material = z.infer<typeof MaterialSchema>;
 
 export const CreateProblemSchema = z.object({
   problem: z.string({ required_error: "Problem is required" }),
-  description: z.string({ required_error: "Description is required" }).min(20),
+  description: z.string({ required_error: "Description is required" }).min(5),
   materials: z
     .array(MaterialSchema)
     .min(1, { message: "You must input at least 1 learning material." })

@@ -317,6 +317,52 @@ filter?: 'pending' | 'resolved',
     }
 
     /**
+     * List reported farm problems
+     * @returns CommunityFarmProblemListResponse Successful response
+     * @throws ApiError
+     */
+    public static getApiFarmProblemsReportedList({
+search,
+page,
+perpage,
+filter,
+}: {
+/**
+ * Search term to filter problems
+ */
+search?: string,
+/**
+ * Page number for pagination
+ */
+page?: string,
+/**
+ * Number of items per page
+ */
+perpage?: string,
+/**
+ * Filter by problem status
+ */
+filter?: 'pending' | 'resolved',
+}): CancelablePromise<CommunityFarmProblemListResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/farm/problems/reported/list',
+            query: {
+                'search': search,
+                'page': page,
+                'perpage': perpage,
+                'filter': filter,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
      * Mark community farm problem as resolved
      * @returns MessageResponse Successful response
      * @throws ApiError

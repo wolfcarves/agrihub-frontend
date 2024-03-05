@@ -8,7 +8,7 @@ interface TagParams {
   filter?: string;
 }
 
-const useGetTagsQueryKey = () => "GET_TAGS_KEY";
+export const useGetTagsQueryKey = () => "GET_TAGS_KEY";
 
 export default function useGetTagsQuery(data: TagParams) {
   return useQuery({

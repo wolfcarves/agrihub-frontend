@@ -54,11 +54,11 @@ export const columns: ColumnDef<Tag>[] = [
     header: "Created At",
     cell: ({ row }) => <div>{row.getValue("createdat")}</div>
   },
-  {
-    accessorKey: "updatedat",
-    header: "Updated At",
-    cell: ({ row }) => <div>{row.getValue("updatedat")}</div>
-  },
+  // {
+  //   accessorKey: "updatedat",
+  //   header: "Updated At",
+  //   cell: ({ row }) => <div>{row.getValue("updatedat")}</div>
+  // },
   {
     accessorKey: "tag_name",
     header: "Name",

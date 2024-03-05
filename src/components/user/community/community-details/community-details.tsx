@@ -9,6 +9,19 @@ import { FaSquareFacebook } from "react-icons/fa6";
 import { IoLogoInstagram } from "react-icons/io5";
 import { FaYoutube } from "react-icons/fa";
 import Loader from "../../../../icons/Loader";
+import useFarmLeaveMutation from "../../../../hooks/api/post/useFarmLeaveMutation";
+import { toast } from "sonner";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger
+} from "../../../ui/alert-dialog";
 
 const CommunityDetails = () => {
   const navigate = useNavigate();
@@ -16,10 +29,22 @@ const CommunityDetails = () => {
   const { id } = useParams();
   const { isMember, isAllowed } = useCommunityAutorization();
   const { data: farmDetails, isLoading } = useGetFarmViewQuery(id || "");
+  const { mutateAsync: leaveFarmMutation, isLoading: leaveLoading } =
+    useFarmLeaveMutation();
+  const handleLeave = async () => {
+    try {
+      await leaveFarmMutation();
+      toast.success("You Left The Community!");
+      navigate(`/`);
+    } catch (error: any) {
+      toast.error(error.message);
+    }
+  };
 
   const handleEdit = () => {
     navigate(`/community/my-community/${UserData?.farm_id}/profile`);
   };
+
   return (
     <div className="flex justify-center p-5  ">
       <div className="w-full md:min-h-[8rem] min-h-[6rem]  relative flex justify-center mt-[6rem]">
@@ -53,17 +78,39 @@ const CommunityDetails = () => {
             </div>
             <div className=" md:col-span-2 col-span-10 flex md:flex-col flex-row justify-between md:mt-0 mt-1">
               <div className=" flex md:justify-end justify-center  items-start">
-                {" "}
                 {isAuthenticated ? (
-                  isMember &&
-                  isAllowed && (
+                  isMember && isAllowed ? (
                     <Button
                       onClick={handleEdit}
                       className="md:text-sm text-xs md:p-4 p-2 md:h-10 h-8 md:my-2 my-0"
                     >
                       Manage
                     </Button>
-                  )
+                  ) : isMember ? (
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button variant={"destructive"}>Leave</Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>
+                            Are you absolutely sure?
+                          </AlertDialogTitle>
+                          <AlertDialogDescription>
+                            This action cannot be undone. This will permanently
+                            remove your account and remove your data from the
+                            community.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogAction onClick={handleLeave}>
+                            Continue
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                  ) : null
                 ) : isAuthenticated ? (
                   <Button className="md:text-sm text-xs">Join</Button>
                 ) : null}
@@ -78,7 +125,7 @@ const CommunityDetails = () => {
           </div>
         </div>
       </div>
-      <Loader isVisible={isLoading} />
+      <Loader isVisible={isLoading || leaveLoading} />
     </div>
   );
 };

@@ -13,7 +13,7 @@ import useGetUserProfileQuery from "@hooks/api/get/useGetUserProfileQuery";
 
 const options = ["Posts", "Saved"];
 
-const MyProfile = () => {
+const UserProfile = () => {
   const user = useAuth();
   const params = useParams();
   const isOwn = params.username === user?.data?.username;
@@ -38,12 +38,14 @@ const MyProfile = () => {
   const fullname = isOwn
     ? user.data?.firstname + " " + user.data?.lastname
     : userData?.firstname + " " + userData?.lastname;
+  const role = isOwn ? user?.data?.role : userData?.role;
 
   return (
     <>
       <ProfileImage avatar={avatar} />
       <ProfileTitle
         fullname={fullname}
+        role={role}
         username={user.data?.username}
         postCount={questionData?.questions?.length}
         saveCount={savedQuestionData?.questions?.length}
@@ -70,7 +72,7 @@ const MyProfile = () => {
   );
 };
 
-export default withAuthGuard(MyProfile, [
+export default withAuthGuard(UserProfile, [
   "member",
   "farmer",
   "farm_head",

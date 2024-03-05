@@ -162,7 +162,7 @@ const QuestionCard = ({
         key={id}
         className="flex flex-col rounded-xl hover:bg-neutral-300 duration-200 h-max w-full max-w-[45rem]"
       >
-        <div className="flex flex-col bg-white border p-3 sm:p-5 rounded-xl min-h-[20rem] h-full max-h-[25rem] hover:shadow-sm hover:-translate-y-2 hover:-translate-x-2 duration-200">
+        <div className="flex flex-col bg-white dark:bg-background border p-3 sm:p-5 rounded-xl min-h-[20rem] h-full max-h-[25rem] hover:shadow-sm hover:-translate-y-2 hover:-translate-x-2 duration-200">
           <>
             <div className="flex items-start justify-between w-full">
               <Link to={`/forum/question/${username}/${id}`}>

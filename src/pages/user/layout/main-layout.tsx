@@ -3,6 +3,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import { ScrollRestoration } from "react-router-dom";
 import LoadingBar, { LoadingBarRef } from "react-top-loading-bar";
 import { UserFooter, UserHeader } from "@components/ui/custom";
+import { ThemeToggler } from "@components/ui/theme-toggler";
 
 const MainLayout = () => {
   const loader = useRef<LoadingBarRef>(null);
@@ -37,6 +38,10 @@ const MainLayout = () => {
         <UserHeader />
         <Outlet />
         <UserFooter />
+
+        <div className="fixed bottom-5 end-5">
+          <ThemeToggler />
+        </div>
       </div>
     </>
   );

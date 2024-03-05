@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { TagsService, NewTagRequestBody } from "@api/openapi";
-import { GET_TAG_BY_KEYWORD } from "../get/useGetTagByKeyword";
+import {useGetTagsQueryKey} from "../get/useGetTagsQuery";
 
 const useTagsCreateKey = () => "CREATE_TAG_KEY";
 
@@ -13,7 +13,7 @@ export default function useTagsCreate() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [GET_TAG_BY_KEYWORD()]
+       queryKey: ["GET_TAGS_KEY"]
       });
     }
   });

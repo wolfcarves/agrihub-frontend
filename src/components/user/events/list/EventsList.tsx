@@ -16,7 +16,7 @@ const EventsList = () => {
       </div>
 
       <div className="flex flex-col">
-        {eventsData?.map(data => {
+        {eventsData?.data?.map(data => {
           return <EventsCard key={data.id} {...data} />;
         })}
       </div>

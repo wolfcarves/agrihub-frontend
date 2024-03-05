@@ -13,6 +13,7 @@ import {
 import Autoplay from "embla-carousel-autoplay";
 import { PiPlant } from "react-icons/pi";
 import { GiFruitBowl, GiPlantSeed } from "react-icons/gi";
+import parse from "html-react-parser";
 
 const CropView = () => {
   const { data, isLoading: isCropDataLoading } = useGetCropsQuery();
@@ -50,7 +51,7 @@ const CropView = () => {
         <h1 className="text-9xl font-poppins-bold uppercase mt-5">
           {cropData?.name}
         </h1>
-        <h4 className="w-[70rem]">{cropData?.description}</h4>
+        <h4 className="w-[70rem]">{parse(cropData?.description || "")}</h4>
       </div>
 
       <div className="mx-8 mt-10 flex justify-between text-center">

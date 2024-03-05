@@ -14,7 +14,7 @@ export default function useGetTagsQuery(data: TagParams) {
   return useQuery({
     queryKey: [useGetTagsQueryKey(), ...[data]],
     queryFn: async () => {
-      const response = await TagsService.getApiTags(data);
+      const response = await TagsService.getApiTags1(data);
 
       return response;
     }

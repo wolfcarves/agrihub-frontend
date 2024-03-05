@@ -3,6 +3,7 @@ import withAuthGuard from "@higher-order/account/withAuthGuard";
 import React from "react";
 import BreadCrumb from "@components/ui/custom/breadcrumb/breadcrumb";
 import FarmProblemsForm from "@components/admin/farms/form/farm-problems-form";
+import { useParams } from "react-router-dom";
 
 const breadcrumbItems = [
   {
@@ -16,13 +17,14 @@ const breadcrumbItems = [
 ];
 
 const ManageFarmProblemsAdmin = () => {
+  const { problemId } = useParams();
   return (
     <AdminOutletContainer>
       <BreadCrumb items={breadcrumbItems} />
       <div className="flex justify-between items-center">
         <div>
           <h2 className="text-3xl font-bold tracking-tight">
-            New Common Problem
+            {problemId ? "Update Problem" : "New Common Problem"}
           </h2>
           <p className="text-sm text-muted-foreground">
             Manage all registered and unregistered crops within the community

@@ -8,6 +8,18 @@ import useFarmCancelApplicationMutation from "@hooks/api/post/useFarmCancelAppli
 import { toast } from "sonner";
 import useGetFarmCheckExistingApplication from "@hooks/api/get/useGetFarmCheckExistingApplication";
 import Loader from "../../../../icons/Loader";
+import ApplicationDialog from "../application-dialog/application-dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger
+} from "../../../ui/alert-dialog";
 
 const PendingPage = () => {
   const { data } = useGetFarmCheckExistingApplication();
@@ -28,12 +40,37 @@ const PendingPage = () => {
   return (
     <OutletContainer>
       <div onClick={handleBack}>
-        <IoArrowBackCircleOutline className="text-gray-300" size={40} />
+        <IoArrowBackCircleOutline className="text-gray-300 mt-2" size={40} />
       </div>
       <div className=" flex flex-col justify-center items-center">
-        <h2 className="font-semibold">Farm Application Pending...</h2>
+        <h2 className="font-semibold md:text-xl text-md">
+          Farm Application Pending...
+        </h2>
         <img className="h-[15rem]" src={Pending as unknown as string} alt="" />
-        <Button onClick={handleCancelApplication}>Cancel Application</Button>
+        <div className=" flex gap-2">
+          <ApplicationDialog details={data?.data} />
+
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button variant={"destructive"}>Cancel Application</Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This action will cancel the farm application and all the data
+                  you submitted will be deleted
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={handleCancelApplication}>
+                  Continue
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        </div>
       </div>
       <Loader isVisible={isLoading} />
     </OutletContainer>

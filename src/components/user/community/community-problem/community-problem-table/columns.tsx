@@ -109,7 +109,7 @@ export const columns: ColumnDef<CommunityFarmProblem>[] = [
                       Feedback
                     </Label>
                     <Textarea
-                      placeholder="Input a problem"
+                      placeholder="Input a feedback"
                       className="col-span-3 focus-visible:ring-0"
                       value={feedback}
                       onChange={e => setFeedback(e.target.value)}
@@ -126,7 +126,7 @@ export const columns: ColumnDef<CommunityFarmProblem>[] = [
                       Close
                     </Button>
                     <Button type="submit" onClick={e => handleSubmitForm(e)}>
-                      Save
+                      Submit
                     </Button>
                   </DialogFooter>
                 </form>

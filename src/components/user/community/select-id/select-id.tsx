@@ -26,6 +26,7 @@ const SelectId: React.FC<SelectIdProps> = ({ field }) => (
           {id}
         </SelectItem>
       ))}
+      <SelectItem value="Others">Others</SelectItem>
     </SelectContent>
   </Select>
 );

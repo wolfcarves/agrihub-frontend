@@ -22,6 +22,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger
 } from "../../../ui/alert-dialog";
+import { GiPlantSeed } from "react-icons/gi";
+import { TbBrandGoogleAnalytics, TbReportAnalytics } from "react-icons/tb";
 
 const CommunityDetails = () => {
   const navigate = useNavigate();
@@ -76,7 +78,7 @@ const CommunityDetails = () => {
                 </p>
               </div>
             </div>
-            <div className=" md:col-span-2 col-span-10 flex md:flex-col flex-row justify-between md:mt-0 mt-1">
+            <div className=" md:col-span-2 col-span-10 flex md:flex-col flex-row md:mt-0 mt-1">
               <div className=" flex md:justify-end justify-center  items-start">
                 {isAuthenticated ? (
                   isMember && isAllowed ? (
@@ -117,9 +119,9 @@ const CommunityDetails = () => {
               </div>
 
               <div className="flex justify-end items-center w-full  gap-3 text-gray-500 md:text-[1.2rem] text-base">
-                <FaSquareFacebook />
-                <IoLogoInstagram />
-                <FaYoutube />
+                <GiPlantSeed />
+                <TbBrandGoogleAnalytics />
+                <TbReportAnalytics />
               </div>
             </div>
           </div>

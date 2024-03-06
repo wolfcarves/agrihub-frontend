@@ -34,7 +34,6 @@ const CommunityAddCropReportForm = () => {
       setIsCrop(true);
     }
   }, [form.watch("crop_id")]);
-  console.log(isCrop);
 
   useEffect(() => {
     if (form.formState.errors.crop_id) {
@@ -141,6 +140,8 @@ const CommunityAddCropReportForm = () => {
             {...form.register("planted_qty")}
             type="number"
             className="h-9 rounded-md"
+            min={0}
+            max={10000}
           />
         </div>
         {!isCrop && (
@@ -191,6 +192,8 @@ const CommunityAddCropReportForm = () => {
             {...form.register("withered_crops")}
             type="number"
             className="h-9 rounded-md"
+            min={0}
+            max={10000}
           />
         </div>
         <div className="md:col-span-6 col-span-12">

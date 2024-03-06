@@ -77,7 +77,7 @@ const AdminTopbar = () => {
                     src={data?.avatar ?? ""}
                     className="object-cover pointer-events-none select-none "
                   />
-                  <AvatarFallback>{data?.firstname.charAt(0)}</AvatarFallback>
+                  <AvatarFallback>{data?.firstname?.charAt(0)}</AvatarFallback>
                 </Avatar>
               </DropdownMenuTrigger>
 

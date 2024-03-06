@@ -36,7 +36,6 @@ const CommunityProblemTable = () => {
     perpage: "10",
     filter: params.sortBy
   });
-  console.log(farmProblems);
 
   const debouncedSearch = useDebounce((value: string) => {
     searchParams.set("search", value);

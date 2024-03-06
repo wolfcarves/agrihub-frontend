@@ -63,7 +63,7 @@ const Header: React.FC<HeaderProps> = ({
                 variant="outline"
                 className="ml-auto border-input focus-visible:ring-0"
               >
-                Columns <ChevronDown className="ml-2 h-4 w-4" />
+                Filter Crops <ChevronDown className="ml-2 h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">

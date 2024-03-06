@@ -15,6 +15,8 @@ import { useSearchParams } from "react-router-dom";
 import { Pagination } from "../../../components/ui/custom";
 import { Link } from "react-router-dom";
 import RegisterFarm from "./buttons/RegisterFarm";
+import useGetFarmCheckExistingApplication from "../../../hooks/api/get/useGetFarmCheckExistingApplication";
+import { Button } from "../../../components/ui/button";
 
 type SortValues =
   | "District 1"
@@ -28,6 +30,7 @@ type SortValues =
 const Explore = () => {
   const { data: UserData } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
+  const { isError } = useGetFarmCheckExistingApplication();
 
   const params = useMemo(() => {
     return {
@@ -71,7 +74,13 @@ const Explore = () => {
                 Agriculture and Innovation and can not find your community here,
                 you can click register farm button to register your farm
               </p>
-              <RegisterFarm />
+              {!isError ? (
+                <Link to="/community/register">
+                  <Button>Pending Applicaton</Button>
+                </Link>
+              ) : (
+                <RegisterFarm />
+              )}
             </div>
           )}
       </div>

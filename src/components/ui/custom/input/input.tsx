@@ -30,7 +30,7 @@ const Input = (
           $isError
             ? "border border-red-500"
             : $errorMessage && "border border-red-500"
-        } bg-white rounded-2xl text-base border shadow-sm`}
+        } bg-background rounded-2xl text-base border shadow-sm`}
         {...props}
       />
 

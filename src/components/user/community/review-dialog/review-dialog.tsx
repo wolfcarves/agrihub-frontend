@@ -144,7 +144,7 @@ const ReviewDialog: React.FC<ReviewDialogProps> = ({
           <Button variant="secondary" onClick={() => setDialogReview(false)}>
             Cancel
           </Button>
-          <Button onClick={handleSubmit}>Save changes</Button>
+          <Button onClick={handleSubmit}>Submit</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

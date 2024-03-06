@@ -34,7 +34,6 @@ const CommunityAddCropReportForm = () => {
       setIsCrop(true);
     }
   }, [form.watch("crop_id")]);
-  console.log(isCrop);
 
   useEffect(() => {
     if (form.formState.errors.crop_id) {

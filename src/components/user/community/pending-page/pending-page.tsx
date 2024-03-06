@@ -9,6 +9,17 @@ import { toast } from "sonner";
 import useGetFarmCheckExistingApplication from "@hooks/api/get/useGetFarmCheckExistingApplication";
 import Loader from "../../../../icons/Loader";
 import ApplicationDialog from "../application-dialog/application-dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger
+} from "../../../ui/alert-dialog";
 
 const PendingPage = () => {
   const { data } = useGetFarmCheckExistingApplication();
@@ -38,9 +49,27 @@ const PendingPage = () => {
         <img className="h-[15rem]" src={Pending as unknown as string} alt="" />
         <div className=" flex gap-2">
           <ApplicationDialog details={data?.data} />
-          <Button variant={"destructive"} onClick={handleCancelApplication}>
-            Cancel Application
-          </Button>
+
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button variant={"destructive"}>Cancel Application</Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This action will cancel the farm application and all the data
+                  you submitted will be deleted
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={handleCancelApplication}>
+                  Continue
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </div>
       </div>
       <Loader isVisible={isLoading} />

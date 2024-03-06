@@ -10,14 +10,17 @@ import {
 import DeleteImageAlert from "../delete-image-modal/delete-image-alert";
 import useCommunityAutorization from "../../../../../hooks/utils/useCommunityAutorization";
 import ImgModal from "../../../../ui/custom/img-modal/Modal";
+import { CropGalleryItem } from "../../../../../api/openapi";
 
 const GalleryItems = () => {
   const { id } = useParams();
   const { data: farmGallery } = useGetFarmGalleryQuery(id || "");
   const { isAllowed, isMember } = useCommunityAutorization();
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedImage, setSelectedImage] = useState<CropGalleryItem | null>(
+    null
+  );
 
-  const handleImageClick = (image: string) => {
+  const handleImageClick = (image: CropGalleryItem) => {
     setSelectedImage(image);
   };
 
@@ -40,7 +43,7 @@ const GalleryItems = () => {
             <img
               className="h-[10rem] rounded hover:shadow-lg"
               src={gallery.imagesrc}
-              onClick={() => handleImageClick(gallery.imagesrc)}
+              onClick={() => handleImageClick(gallery)}
             />
             {isMember && isAllowed && <DeleteImageAlert imageId={gallery.id} />}
           </TooltipTrigger>
@@ -51,8 +54,11 @@ const GalleryItems = () => {
       ))}
       {selectedImage && (
         <ImgModal setModal={closeModal}>
+          <p className=" text-gray-700 font-poppins-medium text-center mb-3">
+            {selectedImage.description}
+          </p>
           <img
-            src={selectedImage}
+            src={selectedImage.imagesrc}
             alt="Full View"
             className="max-w-full h-[20rem] max-h-full"
           />

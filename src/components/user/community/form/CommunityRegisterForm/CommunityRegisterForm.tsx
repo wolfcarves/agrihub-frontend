@@ -6,7 +6,7 @@ import { Button } from "../../../../ui/button";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RegisterCommunitySchema, registerCommunitySchema } from "./schema";
-import { Form, FormField } from "../../../../ui/form";
+import { Form, FormField, FormMessage } from "../../../../ui/form";
 import SelectId from "../../select-id/select-id";
 import { toast } from "sonner";
 import useFarmApplication from "../../../../../hooks/api/post/useFarmApplication";
@@ -34,6 +34,8 @@ const CommunityRegisterForm = () => {
   const [dialogReview, setDialogReview] = useState<boolean>();
   const [district, setDistrict] = useState<string>("");
   const [check, setCheck] = useState<CheckedState>(false);
+  const [isOther, setIsOther] = useState<boolean>(false);
+  const [otherId, setOtherId] = useState<string>("");
 
   useEffect(() => {
     setDialogOpen(true);
@@ -46,32 +48,17 @@ const CommunityRegisterForm = () => {
   });
 
   useEffect(() => {
-    if (form.formState.errors.farm_name) {
-      toast.error(form?.formState?.errors?.farm_name?.message);
+    if (form.watch("id_type") === "Others") {
+      setIsOther(true);
+    } else {
+      setIsOther(false);
     }
-    if (form.formState.errors.farm_size) {
-      toast.error(form.formState.errors.farm_size.message);
-    }
-    if (form.formState.errors.street) {
-      toast.error(form.formState.errors.street.message);
-    }
-    if (form.formState.errors.barangay) {
-      toast.error(form.formState.errors.barangay.message);
-    }
-    if (form.formState.errors.district) {
-      toast.error(form.formState.errors.district.message);
-    }
-    if (form.formState.errors.id_type) {
-      toast.error(form.formState.errors.id_type.message);
-    }
+  }, [form.watch("id_type")]);
+  console.log(form.watch("id_type"));
+
+  useEffect(() => {
     if (form.formState.errors.valid_id) {
       toast.error(form.formState.errors.valid_id.message?.toString());
-    }
-    if (form.formState.errors.proof) {
-      toast.error(form.formState.errors.proof.message);
-    }
-    if (form.formState.errors.type_of_farm) {
-      toast.error(form.formState.errors.type_of_farm.message);
     }
     if (form.formState.errors.farm_actual_images) {
       toast.error(form.formState.errors.farm_actual_images.message?.toString());
@@ -103,10 +90,10 @@ const CommunityRegisterForm = () => {
     // setDialogReview(true);
     const compiledData: NewFarmApplication = {
       farm_name: data.farm_name,
-      farm_size: data.farm_size,
+      farm_size: String(data.farm_size),
       location: `${data.street} ${data.barangay}`,
       district: data.district,
-      id_type: data.id_type,
+      id_type: isOther ? otherId : data.id_type,
       valid_id: data.valid_id,
       proof: data.proof,
       type_of_farm: data.type_of_farm,
@@ -137,37 +124,39 @@ const CommunityRegisterForm = () => {
             <Label className=" font-poppins-medium">Farm Name</Label>
             <Input
               type="text"
-              className="h-10"
+              className="h-10 bg-transparent"
               placeholder="Enter farm name..."
               {...form.register("farm_name")}
             />
+            <FormMessage>
+              {form.formState.errors.farm_name?.message}
+            </FormMessage>
           </div>
           <div className=" md:col-span-4 col-span-12">
             <Label className=" font-poppins-medium">Farm Size (&#x33A1;)</Label>
             <Input
               type="number"
-              className="h-10"
+              className="h-10 bg-transparent"
               placeholder="Enter farm size..."
+              min={0}
+              max={10000}
               {...form.register("farm_size")}
             />
+            <FormMessage>
+              {form.formState.errors.farm_size?.message}
+            </FormMessage>
           </div>
           <div className=" md:col-span-4 col-span-12">
             <Label className=" font-poppins-medium">District</Label>
             <FormField
               control={form.control}
               name="district"
-              render={({ field }) => (
-                <SelectDistrict field={field} setDistrict={setDistrict} />
+              render={({ field, fieldState }) => (
+                <>
+                  <SelectDistrict field={field} setDistrict={setDistrict} />
+                  <FormMessage>{fieldState.error?.message}</FormMessage>
+                </>
               )}
-            />
-          </div>
-          <div className=" md:col-span-4 col-span-12">
-            <Label className=" font-poppins-medium">Street</Label>
-            <Input
-              type="text"
-              className="h-10"
-              placeholder="Enter Location..."
-              {...form.register("street")}
             />
           </div>
           <div className=" md:col-span-4 col-span-12">
@@ -175,32 +164,48 @@ const CommunityRegisterForm = () => {
             <FormField
               control={form.control}
               name="barangay"
-              render={({ field }) => (
-                <SelectBarangay field={field} district={district} />
+              render={({ field, fieldState }) => (
+                <>
+                  <SelectBarangay field={field} district={district} />
+                  <FormMessage>{fieldState.error?.message}</FormMessage>
+                </>
               )}
             />
+          </div>
+          <div className=" md:col-span-4 col-span-12">
+            <Label className=" font-poppins-medium">Street</Label>
+            <Input
+              type="text"
+              className="h-10 bg-transparent"
+              placeholder="Enter Location..."
+              {...form.register("street")}
+            />
+            <FormMessage>{form.formState.errors.street?.message}</FormMessage>
           </div>
           <div className="md:col-span-6 col-span-12">
             <Label className=" font-poppins-medium">Farm Ownership</Label>
             <FormField
               control={form.control}
               name="proof"
-              render={({ field }) => (
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select ownership type..." />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {ownership.map((id, i) => (
-                      <SelectItem key={i} value={id}>
-                        {id}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+              render={({ field, fieldState }) => (
+                <>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select ownership type..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {ownership.map((id, i) => (
+                        <SelectItem key={i} value={id}>
+                          {id}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage>{fieldState.error?.message}</FormMessage>
+                </>
               )}
             />
           </div>
@@ -209,22 +214,25 @@ const CommunityRegisterForm = () => {
             <FormField
               control={form.control}
               name="type_of_farm"
-              render={({ field }) => (
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select farm type..." />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {farmType.map((id, i) => (
-                      <SelectItem key={i} value={id}>
-                        {id}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+              render={({ field, fieldState }) => (
+                <>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select farm type..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {farmType.map((id, i) => (
+                        <SelectItem key={i} value={id}>
+                          {id}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage>{fieldState.error?.message}</FormMessage>
+                </>
               )}
             />
           </div>
@@ -236,9 +244,26 @@ const CommunityRegisterForm = () => {
               <FormField
                 control={form.control}
                 name="id_type"
-                render={({ field }) => <SelectId field={field} />}
+                render={({ field, fieldState }) => (
+                  <>
+                    <SelectId field={field} />
+                    <FormMessage>{fieldState.error?.message}</FormMessage>
+                  </>
+                )}
               />
             </div>
+            {isOther && (
+              <div className="">
+                <Label className=" font-poppins-medium">Other ID Type</Label>
+                <Input
+                  type="text"
+                  className="h-10 bg-transparent capitalize"
+                  placeholder="Enter ID Type..."
+                  value={otherId}
+                  onChange={e => setOtherId(e.target.value)}
+                />
+              </div>
+            )}
             <div className="">
               <Label className=" font-poppins-medium">Upload ID</Label>
               <FormField
@@ -272,7 +297,10 @@ const CommunityRegisterForm = () => {
             />
             <Label>
               Accept{" "}
-              <span className="text-primary underline">
+              <span
+                onClick={() => setDialogOpen(true)}
+                className="text-primary underline"
+              >
                 terms and conditions
               </span>
             </Label>

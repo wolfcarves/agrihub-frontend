@@ -1,47 +1,30 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Dialog,
   DialogContent,
-  DialogFooter,
-  DialogTrigger
+  DialogFooter
 } from "../../../ui/custom/dialog/dialog";
 import { Button } from "../../../ui/button";
-import { RegisterCommunitySchema } from "../form/CommunityRegisterForm/schema";
-import { UseFormReturn } from "react-hook-form";
 import { Label } from "../../../ui/label";
 import { Input } from "../../../ui/input";
-import { usePreviewImage } from "../../../../hooks/utils/usePreviewImage";
-import { usePreviewImageArray } from "../../../../hooks/utils/usePreviewImageArray";
+import { FarmApplicationData } from "../../../../api/openapi";
+import { DialogTrigger } from "../../../ui/dialog";
 
 interface ReviewDialogProps {
-  dialogReview: boolean | undefined;
-  setDialogReview: Dispatch<SetStateAction<boolean | undefined>>;
-  form: UseFormReturn<RegisterCommunitySchema>;
-  handleSubmitForm: (
-    data: RegisterCommunitySchema
-  ) => Promise<null | undefined>;
+  details: FarmApplicationData | undefined;
 }
 
-const ReviewDialog: React.FC<ReviewDialogProps> = ({
-  dialogReview,
-  setDialogReview,
-  form,
-  handleSubmitForm
-}) => {
-  const handleSubmit = () => {
-    form.handleSubmit(handleSubmitForm)();
-    setDialogReview(false);
-  };
-
-  const details = form.getValues();
-  const previewUrl = usePreviewImage(details.valid_id);
-  const previewUrlArray = usePreviewImageArray(details.farm_actual_images);
+const ApplicationDialog: React.FC<ReviewDialogProps> = ({ details }) => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
-    <Dialog open={dialogReview} onOpenChange={setDialogReview}>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogTrigger>
+        <Button onClick={() => setIsOpen(true)}>Review Application</Button>
+      </DialogTrigger>
       <DialogContent className="sm:max-w-[550px]">
         <h4 className=" font-poppins-medium leading-none">
-          Please review the data before submitting
+          Application Review
         </h4>
         <p className="leading-none text-xs text-gray-400">
           Data can't be modified when the application is on proccess
@@ -54,7 +37,7 @@ const ReviewDialog: React.FC<ReviewDialogProps> = ({
               type="text"
               className="h-10"
               disabled
-              value={details.farm_name}
+              value={details?.farm_name}
             />
           </div>
           <div className=" md:col-span-4 col-span-12">
@@ -63,7 +46,7 @@ const ReviewDialog: React.FC<ReviewDialogProps> = ({
               type="text"
               className="h-10"
               disabled
-              value={details.farm_size}
+              value={details?.farm_size}
             />
           </div>
           <div className=" md:col-span-4 col-span-12">
@@ -72,34 +55,26 @@ const ReviewDialog: React.FC<ReviewDialogProps> = ({
               type="text"
               className="h-10"
               disabled
-              value={details.district}
+              value={details?.district}
             />
           </div>
-          <div className=" md:col-span-4 col-span-12">
-            <Label className=" font-poppins-medium">Street</Label>
+          <div className=" md:col-span-8 col-span-12">
+            <Label className=" font-poppins-medium">Address</Label>
             <Input
               type="text"
               className="h-10"
               disabled
-              value={details.street}
+              value={details?.location}
             />
           </div>
-          <div className=" md:col-span-4 col-span-12">
-            <Label className=" font-poppins-medium">Barangay</Label>
-            <Input
-              type="text"
-              className="h-10"
-              disabled
-              value={details.barangay}
-            />
-          </div>
-          <div className="md:col-span-6 col-span-12">
+
+          {/* <div className="md:col-span-6 col-span-12">
             <Label className=" font-poppins-medium">Farm Ownership</Label>
             <Input
               type="text"
               className="h-10"
               disabled
-              value={details.proof}
+              value={details?.proof}
             />
           </div>
           <div className="md:col-span-6 col-span-12">
@@ -108,25 +83,23 @@ const ReviewDialog: React.FC<ReviewDialogProps> = ({
               type="text"
               className="h-10"
               disabled
-              value={details.type_of_farm}
+              value={details?.type_of_farm}
             />
-          </div>
-          <div className="md:col-span-6 col-span-12 flex flex-col gap-4">
+          </div> */}
+          <div className="md:col-span-12 col-span-12 flex flex-col gap-4">
             <div className="">
-              <Label className=" font-poppins-medium">
-                Select valid ID type
-              </Label>
+              <Label className=" font-poppins-medium">ID type</Label>
               <Input
                 type="text"
                 className="h-10"
                 disabled
-                value={details.id_type}
+                value={details?.id_type}
               />
             </div>
             <div className="">
               <Label className=" font-poppins-medium">Upload ID</Label>
 
-              <img className="h-20 w-20" src={previewUrl} />
+              <img className="h-20 w-20" src={details?.valid_id} />
             </div>
           </div>
 
@@ -134,21 +107,20 @@ const ReviewDialog: React.FC<ReviewDialogProps> = ({
             <Label className=" font-poppins-medium">Farm photo</Label>
 
             <div className="flex flex-wrap">
-              {previewUrlArray?.map((url, index) => (
+              {details?.farm_actual_images?.map((url, index) => (
                 <img key={index} src={url} className="h-20 w-20" />
               ))}
             </div>
           </div>
         </div>
         <DialogFooter>
-          <Button variant="secondary" onClick={() => setDialogReview(false)}>
-            Cancel
+          <Button variant="secondary" onClick={() => setIsOpen(false)}>
+            Close
           </Button>
-          <Button onClick={handleSubmit}>Submit</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
   );
 };
 
-export default ReviewDialog;
+export default ApplicationDialog;

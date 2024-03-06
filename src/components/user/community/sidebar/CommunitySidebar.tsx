@@ -26,11 +26,6 @@ const CommunitySidebar = () => {
         />
       )}
 
-      <UserSidebarNavLink
-        to="/community/explore"
-        title="Explore"
-        logo={<PiListMagnifyingGlass size={21} />}
-      />
       {UserData?.farm_id && isAuthenticated && isAllowed && (
         <UserSidebarNavLink
           to={`/community/reports/${UserData.farm_id}`}
@@ -52,6 +47,11 @@ const CommunitySidebar = () => {
           logo={<PiShieldWarning size={20} />}
         />
       )}
+      <UserSidebarNavLink
+        to="/community/explore"
+        title="Explore"
+        logo={<PiListMagnifyingGlass size={21} />}
+      />
     </UserSidebar>
   );
 };

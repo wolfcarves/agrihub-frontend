@@ -16,18 +16,18 @@ export const registerCommunitySchema = zod.object({
     .min(5, "Please enter at least 5 characters")
     .max(200, "Name is too long"),
 
-  farm_size: zod
-    .string({
+  farm_size: zod.coerce
+    .number({
       required_error: "Size is required"
     })
-    .min(1, " Please enter farm size"),
+    .min(1, " Please enter farm size")
+    .max(10000, " Invalid farm size value"),
   street: zod
     .string({
       required_error: "Street is required."
     })
     .min(3, "Please enter at least 3 characters")
     .max(200, "Street is too long"),
-
   barangay: zod
     .string({
       required_error: "Barangay is required."

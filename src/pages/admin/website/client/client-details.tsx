@@ -1,56 +1,102 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@components/ui/button";
 import { Card } from "@components/ui/card";
 import { Input } from "@components/ui/input";
 import { Label } from "@components/ui/label";
 import { Textarea } from "@components/ui/textarea";
 import Capture from "@components/user/community/capture/capture";
-const ClientDetails = () => {
-  const [isEditing, setIsEditing] = useState(false);
+import { ClientDetailsResponse } from "@api/openapi";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage
+} from "@components/ui/form";
+import { toast } from "sonner";
+import { ClientDetails as ClientDetailsType } from "./schema/client-details";
+import { UseFormReturn } from "react-hook-form";
+import AwsUploader from "@components/user/community/uploader/uploader";
 
-  const handleEdit = () => {
-    setIsEditing(true);
-  };
+type ClientDetailsProps = {
+  details: ClientDetailsResponse | undefined;
+  form: UseFormReturn<ClientDetailsType>;
+};
 
-  const handleSave = () => {
-    setIsEditing(false);
-  };
+const ClientDetails = ({ details, form }: ClientDetailsProps) => {
+  const [isEditing, setIsEditing] = useState(true);
+
+  // const handleEdit = () => {
+  //   setIsEditing(true);
+  // };
+
+  // const handleSave = () => {
+  //   setIsEditing(false);
+  // };
+
   return (
     <div>
       <Card className="p-5">
         {/* 1st */}
         <div className="flex gap-4 items-center flex-wrap sm:flex-nowrap">
           <div className="w-full max-w-xs">
-            <Capture />
+            <AwsUploader
+              onChange={data => form.setValue("logo", data)}
+              defaultValue={details?.logo}
+              onDelete={() => form.setValue("logo", "")}
+            />
           </div>
           <div className="w-full flex-col">
             <div className="mb-4">
               <Label>Client Name</Label>
-              <Input
-                type="text"
-                id="name"
-                defaultValue="Center for Urban Agriculture and Innovation"
+              <FormField
+                control={form.control}
+                name="name"
+                defaultValue={details?.name}
                 disabled={!isEditing}
+                render={({ field, fieldState }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input {...field} type="text" />
+                    </FormControl>
+                    <FormMessage>{fieldState.error?.message}</FormMessage>
+                  </FormItem>
+                )}
               />
             </div>
 
             <div className="mb-4">
               <Label>Email</Label>
-              <Input
-                type="email"
-                id="email"
-                defaultValue="center.urban.agriculture@qcu.edu.ph"
+              <FormField
+                control={form.control}
+                name="email"
+                defaultValue={details?.email}
                 disabled={!isEditing}
+                render={({ field, fieldState }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input {...field} type="email" />
+                    </FormControl>
+                    <FormMessage>{fieldState.error?.message}</FormMessage>
+                  </FormItem>
+                )}
               />
             </div>
 
             <div>
               <Label>Contact#</Label>
-              <Input
-                type="number"
-                id="contact"
-                defaultValue="09082559914"
+              <FormField
+                control={form.control}
+                name="contact_number"
+                defaultValue={details?.contact_number}
                 disabled={!isEditing}
+                render={({ field, fieldState }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input {...field} type="text" />
+                    </FormControl>
+                    <FormMessage>{fieldState.error?.message}</FormMessage>
+                  </FormItem>
+                )}
               />
             </div>
           </div>
@@ -59,11 +105,19 @@ const ClientDetails = () => {
         {/* 2nd */}
         <div className="my-4">
           <Label>Address</Label>
-          <Input
-            type="text"
-            id="address"
-            defaultValue="2nd Floor, Room 212 Tech-Voc Building, 673 Quirino Hwy, Novaliches, Quezon City, Metro Manila"
+          <FormField
+            control={form.control}
+            name="address"
+            defaultValue={details?.address}
             disabled={!isEditing}
+            render={({ field, fieldState }) => (
+              <FormItem>
+                <FormControl>
+                  <Input {...field} type="text" />
+                </FormControl>
+                <FormMessage>{fieldState.error?.message}</FormMessage>
+              </FormItem>
+            )}
           />
         </div>
 
@@ -71,24 +125,50 @@ const ClientDetails = () => {
         <div className="flex gap-4 flex-wrap sm:flex-nowrap">
           <Card className="my-4 p-4 w-full sm:w-1/2 h-48">
             <Label className="font-bold">Mission</Label>
-            <Textarea
-              id="mission"
-              defaultValue="To empower urban farmers through education and collaboration, fostering sustainable agricultural practices and environmental stewardship for a resilient and thriving community."
-              className="h-32 mt-1"
-              disabled={!isEditing}
+            <FormField
+              control={form.control}
+              name="mission"
+              // disabled={!isEditing}
+              defaultValue={details?.mission}
+              render={({ field, fieldState }) => (
+                <FormItem>
+                  <FormControl>
+                    <Textarea
+                      {...field}
+                      id="mission"
+                      className="h-32 mt-1"
+                      disabled={!isEditing}
+                    />
+                  </FormControl>
+                  <FormMessage>{fieldState.error?.message}</FormMessage>
+                </FormItem>
+              )}
             />
           </Card>
           <Card className="my-4 p-4 w-full sm:w-1/2">
             <Label className="font-bold">Vision</Label>
-            <Textarea
-              id="vision"
-              defaultValue="To empower urban farmers through education and collaboration, fostering sustainable agricultural practices and environmental stewardship for a resilient and thriving community."
-              className="h-32 mt-1"
+            <FormField
+              control={form.control}
+              name="vision"
               disabled={!isEditing}
+              defaultValue={details?.vision}
+              render={({ field, fieldState }) => (
+                <FormItem>
+                  <FormControl>
+                    <Textarea
+                      {...field}
+                      id="mission"
+                      className="h-32 mt-1"
+                      disabled={!isEditing}
+                    />
+                  </FormControl>
+                  <FormMessage>{fieldState.error?.message}</FormMessage>
+                </FormItem>
+              )}
             />
           </Card>
         </div>
-        <div className="flex justify-end">
+        {/* <div className="flex justify-end">
           {isEditing ? (
             <Button onClick={handleSave}>Save</Button>
           ) : (
@@ -96,7 +176,7 @@ const ClientDetails = () => {
               Edit
             </Button>
           )}
-        </div>
+        </div> */}
       </Card>
     </div>
   );

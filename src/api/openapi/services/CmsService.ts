@@ -8,6 +8,8 @@ import type { LandingPageImageResponse } from '../models/LandingPageImageRespons
 import type { MessageResponse } from '../models/MessageResponse';
 import type { UpdateApproachRequest } from '../models/UpdateApproachRequest';
 import type { UpdateApproachResponse } from '../models/UpdateApproachResponse';
+import type { UpdateClientDetailsRequest } from '../models/UpdateClientDetailsRequest';
+import type { UpdateClientDetailsResponse } from '../models/UpdateClientDetailsResponse';
 import type { UpdateLandingRequest } from '../models/UpdateLandingRequest';
 import type { UpdateLandingResponse } from '../models/UpdateLandingResponse';
 
@@ -26,6 +28,120 @@ export class CmsService {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/cms/client-details',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Update client details in the CMS
+     * @returns UpdateClientDetailsResponse Successful response
+     * @throws ApiError
+     */
+    public static putApiCmsClientDetails({
+requestBody,
+}: {
+requestBody: UpdateClientDetailsRequest,
+}): CancelablePromise<UpdateClientDetailsResponse> {
+        return __request(OpenAPI, {
+            method: 'PUT',
+            url: '/api/cms/client-details',
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * delete a social media in client details
+     * @returns any Event Unpublished successfully
+     * @throws ApiError
+     */
+    public static deleteApiCmsClientDetailsSocial({
+id,
+}: {
+/**
+ * The ID of the event to be Unpublished
+ */
+id: string,
+}): CancelablePromise<{
+message?: string;
+}> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/cms/client-details/social/{id}',
+            path: {
+                'id': id,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * delete a partner
+     * @returns any Event Unpublished successfully
+     * @throws ApiError
+     */
+    public static deleteApiCmsClientDetailsPartner({
+id,
+}: {
+/**
+ * The ID of the event to be Unpublished
+ */
+id: string,
+}): CancelablePromise<{
+message?: string;
+}> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/cms/client-details/partner/{id}',
+            path: {
+                'id': id,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * remove a member
+     * @returns any Event Unpublished successfully
+     * @throws ApiError
+     */
+    public static deleteApiCmsClientDetailsMember({
+id,
+}: {
+/**
+ * The ID of the event to be Unpublished
+ */
+id: string,
+}): CancelablePromise<{
+message?: string;
+}> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/cms/client-details/member/{id}',
+            path: {
+                'id': id,
+            },
             errors: {
                 400: `Validation Error`,
                 401: `Unauthorized`,

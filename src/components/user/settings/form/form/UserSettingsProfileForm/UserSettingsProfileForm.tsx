@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Input } from "@components/ui/input";
+import { Input } from "@components/ui/custom";
 import { Button } from "@components/ui/button";
 import { Textarea } from "@components/ui/textarea";
 import {
@@ -68,7 +68,7 @@ const UserSettingsProfileForm = () => {
         className="max-w-[30rem]"
         onSubmit={form.handleSubmit(handleSubmitForm)}
       >
-        <div className="pt-7 pb-3 space-y-2">
+        <div className="mt-10 space-y-2">
           <h4 className="text-sm font-poppins-medium uppercase text-foreground/70">
             Personal Information
           </h4>
@@ -164,7 +164,7 @@ const UserSettingsProfileForm = () => {
                 <>
                   <Textarea className="w-full" {...field} maxLength={100} />
                   <span className="text-sm">
-                    {field?.value && 100 - field?.value?.length} characters
+                    {field?.value ? 100 - field?.value?.length : 100} characters
                     remaining
                   </span>
                 </>

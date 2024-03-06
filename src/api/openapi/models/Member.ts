@@ -4,7 +4,11 @@
 /* eslint-disable */
 
 export type Member = {
+    description?: string;
     id: string;
+    image?: string;
+    name?: string;
+    position?: string;
     avatar: string;
     firstname: string;
     lastname: string;

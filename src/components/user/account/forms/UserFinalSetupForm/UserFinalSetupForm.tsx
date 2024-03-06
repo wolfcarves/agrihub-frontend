@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { UserFinalSetup, userFinalSetup } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import useUserFinalSetup from "@hooks/api/post/useUserFinalSetup";
-import { Form, FormField } from "@components/ui/form";
+import { Form, FormField, FormMessage } from "@components/ui/form";
 import { Input } from "@components/ui/custom";
 import { Button } from "@components/ui/button";
 import { toast } from "sonner";
@@ -58,11 +58,14 @@ const UserFinalSetupForm = () => {
             control={form.control}
             defaultValue=""
             render={({ field, fieldState }) => (
-              <Input
-                placeholder="Username"
-                $isError={fieldState?.error && true}
-                {...field}
-              />
+              <>
+                <Input
+                  placeholder="Username"
+                  $isError={fieldState?.error && true}
+                  {...field}
+                />
+                <FormMessage>{fieldState.error?.message}</FormMessage>
+              </>
             )}
           />
         </div>

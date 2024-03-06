@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { ClientDetailsResponse } from '../models/ClientDetailsResponse';
 import type { LandingPageDetailsResponse } from '../models/LandingPageDetailsResponse';
 import type { LandingPageImageResponse } from '../models/LandingPageImageResponse';
 import type { MessageResponse } from '../models/MessageResponse';
@@ -15,6 +16,24 @@ import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
 
 export class CmsService {
+
+    /**
+     * Retrieve client details from the CMS
+     * @returns ClientDetailsResponse Successful response
+     * @throws ApiError
+     */
+    public static getApiCmsClientDetails(): CancelablePromise<ClientDetailsResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/cms/client-details',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
 
     /**
      * Retrieve landing page details

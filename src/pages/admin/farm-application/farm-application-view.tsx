@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import useGetFarmApplication from "../../../hooks/api/get/useGetFarmApplication";
 import AdminOutletContainer from "../../../components/admin/layout/container/AdminOutletContainer";
 import { timeAgo } from "../../../components/lib/utils";
@@ -24,6 +24,7 @@ import {
 } from "@components/ui/dialog";
 import Autoplay from "embla-carousel-autoplay";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
+import { FaArrowLeftLong } from "react-icons/fa6";
 
 const FarmApplicationView = () => {
   const navigate = useNavigate();
@@ -55,6 +56,13 @@ const FarmApplicationView = () => {
 
   return (
     <AdminOutletContainer>
+      <div className="w-max">
+        <Link to="/admin/farm/farm-request">
+          <span className="flex items-center gap-x-2 text-foreground font-poppins-semibold hover:underline hover:underline-offset-2 py-2.5 px-1.5 rounded-lg duration-200">
+            <FaArrowLeftLong /> Back
+          </span>
+        </Link>
+      </div>
       <h2 className="text-3xl font-bold tracking-tight">
         View Farm Applications
       </h2>

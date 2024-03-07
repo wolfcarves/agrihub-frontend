@@ -14,15 +14,15 @@ export const profileCommunitySchema = zod.object({
     .string({
       required_error: "Description is required."
     })
-    .min(5, "Please enter at least 5 characters")
+    .min(5, "Please enter at least 5 characters in description")
     .max(400, "Description is too long")
     .optional(),
-  size: zod
-    .string({
-      required_error: "Size is required"
+  size: zod.coerce
+    .number({
+      required_error: "Please provide a farm size"
     })
-    .min(1, " Please enter farm size")
-    .optional(),
+    .min(0, "Farm size must be at least 1")
+    .max(10000, "Farm size cannot exceed 10,000"),
   location: zod
     .string({
       required_error: "Street is required."

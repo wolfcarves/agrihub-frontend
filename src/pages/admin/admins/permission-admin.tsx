@@ -23,6 +23,7 @@ import useGetAccessViewQuery from "../../../hooks/api/get/useGetAccessViewQuery"
 import usePutAccessUpdate from "../../../hooks/api/put/usePutAccessUpdate";
 import { UpdateAccessControl } from "../../../api/openapi";
 import { toast } from "sonner";
+import { formatImage } from "../../../components/lib/utils";
 
 const breadcrumbItems = [
   { title: "Admin Management", link: "/admin/record/admins" },
@@ -193,8 +194,12 @@ const SetPermissionAdmin = () => {
             </div>
             <Card className="flex items-center gap-x-3 py-3 px-6 whitespace-nowrap">
               <img
-                src="https://randomuser.me/api/portraits/lego/4.jpg"
-                className="w-10 h-10 rounded-full"
+                src={
+                  adminData?.avatar
+                    ? formatImage(adminData.avatar)
+                    : "https://randomuser.me/api/portraits/lego/4.jpg"
+                }
+                className="w-10 h-10 rounded-full shadow"
               />
               <div>
                 <span className="block text-gray-700 text-sm font-medium">

@@ -6,8 +6,8 @@ const EventBanner = () => {
       <div className="absolute inset-0 bg-foreground/40">
         <img
           alt="banner"
-          src="https://plus.unsplash.com/premium_photo-1668930508685-af79c83e23af?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          className="object-cover w-full h-full brightness-75"
+          src="https://images.unsplash.com/photo-1461354464878-ad92f492a5a0?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          className="object-cover w-full h-full brightness-50 contrast-80"
         />
       </div>
 

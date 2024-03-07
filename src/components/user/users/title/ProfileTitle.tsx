@@ -1,3 +1,4 @@
+import { Button } from "@components/ui/button";
 import React from "react";
 
 interface ProfileTitleProps {
@@ -6,6 +7,7 @@ interface ProfileTitleProps {
   username?: string;
   postCount?: number;
   saveCount?: number;
+  onReportButtonClick?: () => void;
 }
 
 const ProfileTitle = ({
@@ -13,7 +15,8 @@ const ProfileTitle = ({
   role,
   username,
   postCount,
-  saveCount
+  saveCount,
+  onReportButtonClick
 }: ProfileTitleProps) => {
   return (
     <>
@@ -31,6 +34,18 @@ const ProfileTitle = ({
             {role}
             {")"}
           </h5>
+
+          {onReportButtonClick && (
+            <div className="p-2">
+              <Button
+                variant="destructive"
+                size="sm"
+                onClick={onReportButtonClick}
+              >
+                Report this user
+              </Button>
+            </div>
+          )}
         </div>
       </div>
 

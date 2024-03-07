@@ -15,6 +15,8 @@ const QuestionUserProfileButton = ({
   username,
   createdAt
 }: QuestionUserProfileButtonProps) => {
+  console.log(userId);
+
   return (
     <div className="flex gap-4">
       <img

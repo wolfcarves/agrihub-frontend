@@ -10,7 +10,7 @@ export const cropAddReportSchema = zod.object({
     .max(10000, "Planted quantity cannot exceed 10,000"),
   is_other: zod.boolean().optional(),
   isyield: zod.boolean().optional(),
-  c_name: zod.string().min(1, { message: "Crop Name is Required" }).optional(),
+  c_name: zod.string().optional(),
   harvested_qty: zod.coerce
     .number({
       required_error: "Please provide a harvested quantity"

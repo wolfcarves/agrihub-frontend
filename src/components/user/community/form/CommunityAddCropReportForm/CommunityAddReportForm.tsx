@@ -114,6 +114,7 @@ const CommunityAddCropReportForm = () => {
       toast.error(error.body.message);
     }
   };
+  console.log(form.formState.errors);
 
   const todayDate = format(new Date(), "yyyy-MM-dd");
 

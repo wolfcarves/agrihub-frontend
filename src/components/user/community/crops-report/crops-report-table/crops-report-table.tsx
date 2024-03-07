@@ -37,7 +37,7 @@ const CropsReportTable = () => {
       <div className="min-h-[63vh] mb-2">
         <DataTable columns={columns} data={CropReport?.reports || []} />
       </div>
-      {!isLoading && (
+      {!isLoading && Number(CropReport?.pagination?.total_records) !== 0 && (
         <StatePagination
           currentPage={Number(CropReport?.pagination?.page)}
           totalPages={Number(CropReport?.pagination?.total_pages)}

@@ -10,7 +10,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UpdateCommunityFarmRequest } from "../../../../../api/openapi";
 import { toast } from "sonner";
-import { Form, FormField } from "../../../../ui/form";
+import { Form, FormField, FormMessage } from "../../../../ui/form";
 import SelectDistrict from "../../select-district/select-district";
 import usePutFarmProfile from "../../../../../hooks/api/put/usePutFarmProfile";
 import Loader from "../../../../../icons/Loader";
@@ -35,35 +35,10 @@ const CommunityProfileEditForm = () => {
       description: data.description,
       location: data.location,
       size: data.size,
-
       cover_photo: data.cover_photo,
       avatar: data.avatar,
       district: data.district
     };
-
-    useEffect(() => {
-      if (form.formState.errors.avatar) {
-        toast.error(form?.formState?.errors?.avatar?.message);
-      }
-      if (form.formState.errors.cover_photo) {
-        toast.error(form?.formState?.errors?.cover_photo?.message);
-      }
-      if (form.formState.errors.description) {
-        toast.error(form?.formState?.errors?.description?.message);
-      }
-      if (form.formState.errors.district) {
-        toast.error(form?.formState?.errors?.district?.message);
-      }
-      if (form.formState.errors.farm_name) {
-        toast.error(form?.formState?.errors?.farm_name?.message);
-      }
-      if (form.formState.errors.location) {
-        toast.error(form?.formState?.errors?.location?.message);
-      }
-      if (form.formState.errors.size) {
-        toast.error(form?.formState?.errors?.size?.message);
-      }
-    }, [form.formState.errors]);
 
     try {
       await updateFarmMutate(compiledData);
@@ -75,9 +50,34 @@ const CommunityProfileEditForm = () => {
     }
   };
 
+  useEffect(() => {
+    if (form.formState.errors.avatar) {
+      toast.error(form?.formState?.errors?.avatar?.message);
+    }
+    if (form.formState.errors.cover_photo) {
+      toast.error(form?.formState?.errors?.cover_photo?.message);
+    }
+    if (form.formState.errors.description) {
+      toast.error(form?.formState?.errors?.description?.message);
+    }
+    if (form.formState.errors.district) {
+      toast.error(form?.formState?.errors?.district?.message);
+    }
+    if (form.formState.errors.farm_name) {
+      toast.error(form?.formState?.errors?.farm_name?.message);
+    }
+    if (form.formState.errors.location) {
+      toast.error(form?.formState?.errors?.location?.message);
+    }
+    if (form.formState.errors.size) {
+      toast.error(form?.formState?.errors?.size?.message);
+    }
+  }, [form.formState.errors]);
+
   if (farmDetailsLoading) {
     return <Loader isVisible={farmDetailsLoading} />;
   }
+  console.log(form.formState.errors);
   return (
     <Form {...form}>
       <form
@@ -113,11 +113,16 @@ const CommunityProfileEditForm = () => {
               Changes will update community description
             </p>
           </div>
-          <Textarea
-            defaultValue={farmDetails?.description}
-            {...form.register("description")}
-            className=" lg:col-span-6 col-span-12 focus-visible:ring-0 border-2 bg-transparent"
-          />
+          <div className="lg:col-span-6 col-span-12">
+            <Textarea
+              defaultValue={farmDetails?.description}
+              {...form.register("description")}
+              className="  focus-visible:ring-0 border-2 bg-transparent"
+            />
+            <FormMessage>
+              {form.formState.errors.description?.message}
+            </FormMessage>
+          </div>
         </div>
         <div className="grid grid-cols-12 border-b py-8">
           <div className=" flex flex-col justify-start lg:col-span-5 col-span-12">

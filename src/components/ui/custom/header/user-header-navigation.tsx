@@ -19,23 +19,22 @@ const resources: { title: string; href: string; description: string }[] = [
     title: "Learning Materials",
     href: "/learning-materials",
     description:
-      "Explore a wealth of knowledge to cultivate success on your farm"
+      "Explore a wealth of knowledge to fuel growth and success on your farm"
   },
   {
     title: "Planting Calendar",
     href: "/planting-calendar",
-    description: "Plant and Harvest base on best season for crop"
+    description: "Know the best season to plant and harvest different crops"
   },
   {
     title: "Events",
     href: "/events",
-    description:
-      "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar."
+    description: "Be informed and updated to our latest Urban Farming events"
   },
   {
     title: "Blogs",
     href: "/blogs",
-    description: "For sighted users to preview content available behind a link."
+    description: "Discover essential and valuable insights by reading our blogs"
   },
   // {
   //   title: "Articles",
@@ -46,7 +45,8 @@ const resources: { title: string; href: string; description: string }[] = [
   {
     title: "About",
     href: "/about",
-    description: "Visually or semantically separates content."
+    description:
+      "Get to know more about the benefactors and administrators of the Agrihub"
   }
 ];
 

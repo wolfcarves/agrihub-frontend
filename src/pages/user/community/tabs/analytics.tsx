@@ -137,21 +137,27 @@ const Analytics = () => {
           <div className=" lg:col-span-4 col-span-12 border border-border mt-6 p-4 pb-8 rounded-lg flex flex-col ">
             <div className=" font-semibold text-lg">Growth Rate</div>
             <div className="flex-grow grid place-items-center">
-              <div className="text-center">
-                <div
-                  className={`text-[4rem] p-0 m-0 leading-none  ${
-                    growthRate?.average_growth_rate &&
-                    growthRate?.average_growth_rate <= 85.0
-                      ? " text-orange-600"
-                      : "text-primary"
-                  } `}
-                >
-                  {growthRate?.average_growth_rate}%
+              {!growthRate ? (
+                <div className="text-center text-primary">
+                  Growth rate not available
                 </div>
-                <div className=" text-gray-400 font-medium flex items-center justify-center">
-                  {growthRate?.growth_rate} from last harvest
+              ) : (
+                <div className="text-center">
+                  <div
+                    className={`text-[4rem] p-0 m-0 leading-none  ${
+                      growthRate?.average_growth_rate &&
+                      growthRate?.average_growth_rate <= 85.0
+                        ? " text-orange-600"
+                        : "text-primary"
+                    } `}
+                  >
+                    {growthRate?.average_growth_rate}%
+                  </div>
+                  <div className=" text-gray-400 font-medium flex items-center justify-center">
+                    {growthRate?.growth_rate} from last harvest
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
             <div className=" text-gray-400 font-medium flex items-center justify-center ">
               {growthRate?.results}

@@ -18,7 +18,7 @@ const TableLearningMaterialDraft = () => {
   const { data: LearningData, isLoading } = useGetLearningDraftList(
     params.search,
     String(params.currentPage),
-    "20"
+    "10"
   );
   const debouncedSearch = useDebounce((value: string) => {
     searchParams.set("search", value);

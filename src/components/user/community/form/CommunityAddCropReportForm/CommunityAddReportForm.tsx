@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Label } from "../../../../ui/label";
-import { Form, FormField } from "../../../../ui/form";
+import { Form, FormField, FormMessage } from "../../../../ui/form";
 import { Button } from "../../../../ui/button";
 import { Input } from "../../../../ui/input";
 import { Textarea } from "../../../../ui/textarea";
@@ -114,6 +114,7 @@ const CommunityAddCropReportForm = () => {
       toast.error(error.body.message);
     }
   };
+  console.log(form.formState.errors);
 
   const todayDate = format(new Date(), "yyyy-MM-dd");
 
@@ -140,9 +141,12 @@ const CommunityAddCropReportForm = () => {
             {...form.register("planted_qty")}
             type="number"
             className="h-9 rounded-md"
-            min={0}
+            min={1}
             max={10000}
           />
+          <FormMessage>
+            {form.formState.errors.planted_qty?.message}
+          </FormMessage>
         </div>
         {!isCrop && (
           <>
@@ -181,10 +185,13 @@ const CommunityAddCropReportForm = () => {
           <Input
             {...form.register("harvested_qty")}
             type="number"
-            max={100000}
-            min={0}
+            max={10000}
+            min={1}
             className="h-9 rounded-md"
           />
+          <FormMessage>
+            {form.formState.errors.harvested_qty?.message}
+          </FormMessage>
         </div>
         <div className="md:col-span-6 col-span-12">
           <Label>Withered Crops</Label>
@@ -195,6 +202,9 @@ const CommunityAddCropReportForm = () => {
             min={0}
             max={10000}
           />
+          <FormMessage>
+            {form.formState.errors.withered_crops?.message}
+          </FormMessage>
         </div>
         <div className="md:col-span-6 col-span-12">
           <Label>Planted Date</Label>
@@ -204,6 +214,9 @@ const CommunityAddCropReportForm = () => {
             className="h-9 rounded-md"
             max={todayDate}
           />
+          <FormMessage>
+            {form.formState.errors.date_planted?.message}
+          </FormMessage>
         </div>
         <div className="md:col-span-6 col-span-12">
           <Label>Harvested Date</Label>

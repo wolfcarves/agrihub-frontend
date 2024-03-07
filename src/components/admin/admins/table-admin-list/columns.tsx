@@ -16,6 +16,17 @@ import { format } from "date-fns";
 import Loader from "../../../../icons/Loader";
 import { toast } from "sonner";
 import useDeleteUserAdminDisable from "../../../../hooks/api/delete/useDeleteUserAdminDisable";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger
+} from "../../../ui/alert-dialog";
 
 export const columns: ColumnDef<AdminUser>[] = [
   {
@@ -61,29 +72,48 @@ export const columns: ColumnDef<AdminUser>[] = [
       }
 
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(users.id || "")}
-            >
-              Copy admin ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <Link to={`/admin/record/admins/set-permission/${users.id}`}>
-              <DropdownMenuItem>View admin</DropdownMenuItem>
-            </Link>
-            <DropdownMenuItem onClick={handleDisable}>
-              Disable Admin
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <AlertDialog>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuItem
+                onClick={() => navigator.clipboard.writeText(users.id || "")}
+              >
+                Copy admin ID
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <Link to={`/admin/record/admins/set-permission/${users.id}`}>
+                <DropdownMenuItem>View admin</DropdownMenuItem>
+              </Link>
+              <DropdownMenuItem>
+                <AlertDialogTrigger> Disable Admin</AlertDialogTrigger>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This action is irreversible and will result in the deactivation
+                of the admin account, the administrator will unable to sign in
+                to the system.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction onClick={handleDisable}>
+                Continue
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       );
     }
   }

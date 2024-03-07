@@ -15,8 +15,6 @@ const QuestionUserProfileButton = ({
   username,
   createdAt
 }: QuestionUserProfileButtonProps) => {
-  console.log(userId);
-
   return (
     <div className="flex gap-4">
       <img
@@ -26,7 +24,7 @@ const QuestionUserProfileButton = ({
 
       <div>
         <Link to={`/users/${userId}/${username}`}>
-          <h6 className="font-poppins-medium hover:opacity-80">{username}</h6>
+          <h6 className="font-inter-medium hover:opacity-80">{username}</h6>
         </Link>
         <p className="text-gray-400 text-sm">{timeAgo(createdAt || "")}</p>
       </div>

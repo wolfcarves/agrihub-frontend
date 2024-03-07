@@ -10,10 +10,14 @@ import useGetSavedQuestions from "@hooks/api/get/useGetSavedQuestions";
 import { useParams } from "react-router-dom";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
 import useGetUserProfileQuery from "@hooks/api/get/useGetUserProfileQuery";
+import ProfileReportUserDialog from "@components/user/users/dialog/ProfileReportUserDialog";
+import useUserReportUsersMutation from "@hooks/api/post/useUserReportUsersMutation";
+import { toast } from "sonner";
 
 const options = ["Posts", "Saved"];
 
 const UserProfile = () => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const user = useAuth();
   const params = useParams();
   const isOwn = params.username === user?.data?.username;
@@ -40,6 +44,26 @@ const UserProfile = () => {
     : userData?.firstname + " " + userData?.lastname;
   const role = isOwn ? user?.data?.role : userData?.role;
 
+  const { mutateAsync: reportUser, isLoading: isReportUserLoading } =
+    useUserReportUsersMutation();
+
+  const handleUserReport = async (reason: string, file?: File) => {
+    try {
+      const res = await reportUser({
+        formData: {
+          reported: userData?.id,
+          evidence: file as Blob[] | undefined, //ganto muna HAHAHAHAHHA taena nakalimutan ko yung blob at file
+          reason
+        }
+      });
+
+      toast.success(res.message);
+      setIsOpen(false);
+    } catch (error: any) {
+      toast.success(error.body.message);
+    }
+  };
+
   return (
     <>
       <ProfileImage avatar={avatar} />
@@ -49,6 +73,9 @@ const UserProfile = () => {
         username={user.data?.username}
         postCount={questionData?.questions?.length}
         saveCount={savedQuestionData?.questions?.length}
+        onReportButtonClick={
+          !isOwn ? () => setIsOpen(prev => !prev) : undefined
+        }
       />
       <UserTabs
         index={currentIndex}
@@ -68,6 +95,13 @@ const UserProfile = () => {
           isLoading={isSavedQuestionLoading}
         />
       )}
+      <ProfileReportUserDialog
+        open={isOpen}
+        onOpenChange={setIsOpen}
+        isLoading={isReportUserLoading}
+        onConfirmClick={handleUserReport}
+        onCancelClick={() => setIsOpen(false)}
+      />
     </>
   );
 };

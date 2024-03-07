@@ -16,7 +16,7 @@ const TableLearningMaterial = () => {
     };
   }, [searchParams]);
   const { data: LearningData, isLoading } = useGetLearningPublishedList({
-    perpage: "20",
+    perpage: "10",
     page: String(params.currentPage),
     search: params.search
   });

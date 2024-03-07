@@ -123,6 +123,7 @@ const QuestionsList = ({ data, isLoading }: QuestionsListProps) => {
                 );
               }}
               onAnswerBtnClick={() => {
+                console.log("test");
                 navigate(`question/${user?.username}/${id}`);
               }}
               tags={tags}

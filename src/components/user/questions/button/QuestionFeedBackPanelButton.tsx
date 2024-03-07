@@ -13,14 +13,11 @@ const QuestionFeedBackPanelButtonWrapper = ({
 }: {
   children: ReactNode;
 }) => {
-  const user = useAuth();
-  const isAuth = user.isAuthenticated;
-
   return (
     <span
       role="button"
       className="flex items-center my-auto gap-2 h-full px-2 rounded-lg hover:bg-accent duration-200"
-      {...(isAuth ? { ...props } : {})}
+      {...props}
     >
       {children}
     </span>

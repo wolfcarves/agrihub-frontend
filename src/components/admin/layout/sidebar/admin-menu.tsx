@@ -8,6 +8,7 @@ import { MdOutlineAdminPanelSettings } from "react-icons/md";
 import { RxActivityLog } from "react-icons/rx";
 import { ReactNode } from "react";
 import { module_keys } from "../../../../higher-order/account/withAuthGuard";
+import { RiCommunityLine } from "react-icons/ri";
 
 interface NavItem {
   title: string;
@@ -58,7 +59,7 @@ export const adminNavigation: AdminNavigationItem[] = [
   {
     href: "/admin/farm",
     name: "Farm Management",
-    icon: <GiFarmTractor size={24} />,
+    icon: <RiCommunityLine size={24} />,
     module: "farms",
     nav: [
       {

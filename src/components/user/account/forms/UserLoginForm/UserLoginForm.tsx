@@ -80,6 +80,12 @@ const UserLoginForm = () => {
               )}
             />
           </div>
+          <Link
+            to="/account/forgot-password"
+            className="font-poppins-regular pt-2 hover:opacity-90 hover:underline ml-2 w-max"
+          >
+            Forgot Password
+          </Link>
 
           <div className="mt-6">
             <Button
@@ -94,13 +100,6 @@ const UserLoginForm = () => {
       </Form>
 
       <div className="flex flex-col gap-2 py-5 ">
-        <Link
-          to="/account/forgot-password"
-          className="font-poppins-medium hover:opacity-90 w-max"
-        >
-          Forgot Password
-        </Link>
-
         <span className="text-foreground/70">
           Don't have an account?{" "}
           <span

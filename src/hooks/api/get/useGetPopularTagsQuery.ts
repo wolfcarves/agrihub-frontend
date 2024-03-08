@@ -7,7 +7,7 @@ export default function useGetPopularTagsQuery() {
   return useQuery({
     queryKey: [GET_POPULAR_TAGS()],
     queryFn: async () => {
-      const data = await TagsService.getApiTags({});
+      const data = await TagsService.getApiTags1({});
 
       return data;
     }

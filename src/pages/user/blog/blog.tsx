@@ -13,6 +13,7 @@ import DOMPurify from "dompurify";
 import LoadingSpinner from "@icons/LoadingSpinner";
 import useGetBlogsPublishList from "@hooks/api/get/useGetBlogsPublishListQuery";
 import Autoplay from "embla-carousel-autoplay";
+import parse from "html-react-parser";
 
 export const ellipsis = (text: string, maxLength: number): string => {
   if (text.length <= maxLength) {
@@ -47,7 +48,7 @@ const Blog = () => {
     year: "numeric"
   });
 
-  const htmlContent = DOMPurify.sanitize(data?.content ?? "");
+  console.log(data?.content);
 
   return (
     <>
@@ -114,12 +115,9 @@ const Blog = () => {
             ))}
           </div>
 
-          <p
-            className="pt-4 text-justify max-w-5xl mx-auto"
-            dangerouslySetInnerHTML={{
-              __html: htmlContent
-            }}
-          />
+          <p className="pt-4 text-justify max-w-5xl mx-auto text-wrap">
+            {parse(data?.content || "")}
+          </p>
         </div>
       </div>
 

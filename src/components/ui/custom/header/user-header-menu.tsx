@@ -16,6 +16,17 @@ import ActivityIndicator from "@icons/ActivityIndicator";
 import { RiAdminLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger
+} from "@components/ui/alert-dialog";
 
 const UserHeaderMenu = () => {
   const navigate = useNavigate();
@@ -83,16 +94,33 @@ const UserHeaderMenu = () => {
               <span className="font-poppins-medium">Settings</span>
             </DropdownMenuItem>
           </Link>
-
-          <DropdownMenuItem
-            className="cursor-pointer h-12 gap-2"
-            onClick={() => {
-              deleteAuthData();
-            }}
-          >
-            <MdLogout className="text-foreground/80 text-lg " />
-            <span className="font-poppins-medium">Logout</span>
-          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <div className="flex gap-2 p-3">
+                <MdLogout className="text-foreground/80 text-lg " />
+                <span className="font-poppins-medium">Logout</span>
+              </div>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Log out your account?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This will log out your account from this device.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction
+                  onClick={() => {
+                    deleteAuthData();
+                  }}
+                >
+                  Continue
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </DropdownMenuContent>
       </DropdownMenu>
 

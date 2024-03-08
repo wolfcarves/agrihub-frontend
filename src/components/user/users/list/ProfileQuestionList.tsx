@@ -27,38 +27,42 @@ const ProfileQuestionList = ({ data, isLoading }: ProfileQuestionListProps) => {
         <ActivityIndicator />
       ) : (
         <>
-          {data?.questions?.map(
-            ({
-              id,
-              title,
-              question,
-              tags,
-              user,
-              vote_count,
-              answer_count,
-              createdat,
-              vote
-            }) => {
-              return (
-                <QuestionCard
-                  key={`${id} + ${title}`}
-                  id={id}
-                  title={title}
-                  description={question}
-                  userId={user?.id}
-                  userAvatarSrc={user?.avatar}
-                  username={user?.username}
-                  vote={vote?.type as "upvote" | "downvote"}
-                  voteCount={vote_count}
-                  answerCount={answer_count}
-                  createdat={createdat}
-                  onAnswerBtnClick={() => {
-                    navigate(`/forum/question/${user?.username}/${id}`);
-                  }}
-                  tags={tags}
-                />
-              );
-            }
+          {data?.questions?.length === 0 ? (
+            <p>No recent posts</p>
+          ) : (
+            data?.questions?.map(
+              ({
+                id,
+                title,
+                question,
+                tags,
+                user,
+                vote_count,
+                answer_count,
+                createdat,
+                vote
+              }) => {
+                return (
+                  <QuestionCard
+                    key={`${id} + ${title}`}
+                    id={id}
+                    title={title}
+                    description={question}
+                    userId={user?.id}
+                    userAvatarSrc={user?.avatar}
+                    username={user?.username}
+                    vote={vote?.type as "upvote" | "downvote"}
+                    voteCount={vote_count}
+                    answerCount={answer_count}
+                    createdat={createdat}
+                    onAnswerBtnClick={() => {
+                      navigate(`/forum/question/${user?.username}/${id}`);
+                    }}
+                    tags={tags}
+                  />
+                );
+              }
+            )
           )}
         </>
       )}

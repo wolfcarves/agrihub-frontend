@@ -115,6 +115,7 @@ const Terms = () => {
     <section className="py-14">
       <div className="max-w-screen-xl mx-auto px-4 md:px-8">
         <div className="max-w-lg">
+          <p>Last Updated: March 7, 2024</p>
           <h3 className="mt-3 text-gray-800 text-3xl font-extrabold sm:text-4xl">
             Terms of use
           </h3>

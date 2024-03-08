@@ -39,9 +39,9 @@ const MainLayout = () => {
         <Outlet />
         <UserFooter />
 
-        <div className="fixed bottom-5 end-5">
+        {/* <div className="fixed bottom-5 end-5">
           <ThemeToggler />
-        </div>
+        </div> */}
       </div>
     </>
   );

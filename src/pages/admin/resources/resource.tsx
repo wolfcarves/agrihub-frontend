@@ -10,6 +10,7 @@ import {
 import DoughnutResource from "../charts/dougnut-resource-overview";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
 import useGetReportResourceCountDetailed from "../../../hooks/api/get/useGetReportResourceCountDetailed";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 const breadcrumbItems = [
   { title: "Resource Management", link: "/admin/resources" }
@@ -17,7 +18,20 @@ const breadcrumbItems = [
 
 const Resource = () => {
   const { data: resourceCount } = useGetReportResourceCountDetailed();
-  console.log(resourceCount);
+  const navigate = useNavigate();
+
+  const handleBlogsClick = () => {
+    navigate("/admin/resource/blogs");
+  };
+
+  const handleEventsClick = () => {
+    navigate("/admin/resource/events");
+  };
+
+  const handleLearningsClick = () => {
+    navigate("/admin/resource/learnings");
+  };
+
   return (
     <AdminOutletContainer>
       <BreadCrumb items={breadcrumbItems} />
@@ -29,7 +43,11 @@ const Resource = () => {
         <Card className="col-span-full md:col-span-3 md:row-span-4 p-8">
           <DoughnutResource />
         </Card>
-        <Card className="col-span-full md:col-span-3 md:col-start-4">
+        <Card
+          className="col-span-full md:col-span-3 md:col-start-4"
+          onClick={handleBlogsClick}
+          style={{ cursor: "pointer" }}
+        >
           <CardHeader>
             <CardTitle>{resourceCount?.blogs}</CardTitle>
             <CardDescription>
@@ -38,7 +56,24 @@ const Resource = () => {
             </CardDescription>
           </CardHeader>
         </Card>
-        <Card className="col-span-full md:col-span-3 md:col-start-4 md:row-start-2">
+        <Card
+          className="col-span-full md:col-span-3 md:col-start-4 md:row-start-2"
+          onClick={handleEventsClick}
+          style={{ cursor: "pointer" }}
+        >
+          <CardHeader>
+            <CardTitle>{resourceCount?.events}</CardTitle>
+            <CardDescription>
+              Total Events Created, {resourceCount?.upcoming_events} upcoming
+              events event.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+        <Card
+          className="col-span-full md:col-span-3 md:col-start-4 md:row-start-3"
+          onClick={handleLearningsClick}
+          style={{ cursor: "pointer" }}
+        >
           <CardHeader>
             <CardTitle>{resourceCount?.all_learning_materials}</CardTitle>
             <CardDescription>
@@ -48,16 +83,6 @@ const Resource = () => {
             </CardDescription>
           </CardHeader>
         </Card>
-        <Card className="col-span-full md:col-span-3 md:col-start-4 md:row-start-3">
-          <CardHeader>
-            <CardTitle>{resourceCount?.events}</CardTitle>
-            <CardDescription>
-              Total Events Created, {resourceCount?.upcoming_events} upcoming
-              events event.
-            </CardDescription>
-          </CardHeader>
-        </Card>
-        {/* <Card className="col-span-full md:col-span-3 md:col-start-4 md:row-start-4"></Card> */}
       </div>
     </AdminOutletContainer>
   );

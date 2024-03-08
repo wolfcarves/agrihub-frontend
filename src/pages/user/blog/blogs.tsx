@@ -2,7 +2,8 @@ import React from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { Pagination } from "@components/ui/custom";
 import useGetBlogsPublishList from "@hooks/api/get/useGetBlogsPublishListQuery";
-import DOMPurify from "dompurify";
+import parse from "html-react-parser";
+import { formatDate } from "@components/lib/utils";
 
 const Blogs = () => {
   const [searchParams] = useSearchParams();
@@ -11,36 +12,32 @@ const Blogs = () => {
   const { data: blogData } = useGetBlogsPublishList("", params, "10");
 
   return (
-    <div className="py-4 px-8">
-      <div className="py-10">
-        <h3>Recent Blogs</h3>
+    <div className="py-4 px-8 overflow-hidden">
+      <div className="text-left pb-8">
+        <h1 className="text-3xl text-gray-800 font-semibold">Blogs</h1>
+        <p className="mt-3 text-gray-500 max-w-lg">
+          Explore latest news and initiatives from Center for Urban Agriculture
+          and Innovation and know more about their focus
+        </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 sm:grid-cols-2  gap-5">
+      <div className="flex flex-wrap justify-start gap-4">
         {blogData?.data?.map((item, index) => {
-          const d = new Date(item?.createdat ?? "");
-
-          const createDate = d.toLocaleString("en-US", {
-            month: "long",
-            day: "numeric",
-            year: "numeric"
-          });
-
-          const htmlContent = DOMPurify.sanitize(item?.content ?? "");
-
           return (
             <Link to={`/blogs/view/${item.id}`} key={index}>
-              <div className="group flex flex-col">
-                <div className="max-h-370px max-w-750px">
+              <div className="group flex flex-col max-w-sm">
+                <div className="max-h-370px max-w-750px overflow-hidden">
                   <img
                     src={item?.thumbnail}
                     alt={item.title}
-                    className="w-full rounded-lg max-h-64 min-h-64 object-cover"
+                    className="w-full rounded-lg max-h-64 min-h-64 object-cover group-hover:scale-110 duration-300"
                   />
                 </div>
 
                 <div className="mt-3">
-                  <h5 className="text-gray-600 pt-1 text-sm">{createDate}</h5>
+                  <h5 className="text-gray-600 pt-1 text-sm">
+                    {formatDate(item.createdat || "")}
+                  </h5>
                   <h5 className="font-bold mt-1">
                     {item.category}
                     <span className="text-green-700">{"   >"}</span>
@@ -49,12 +46,18 @@ const Blogs = () => {
                     {item?.title}
                   </h1>
 
-                  <p
-                    className="text-sm me-8 text-justify line-clamp-5"
-                    dangerouslySetInnerHTML={{
-                      __html: htmlContent
-                    }}
-                  />
+                  <p className="text-sm me-8 text-justify line-clamp-3">
+                    {parse(item.content || "")}
+                  </p>
+                </div>
+                <div className="flex py-3">
+                  <div className="flex-wrap flex justify-start">
+                    {item?.tags?.map(tags => (
+                      <span className="text-base text-primary rounded-md mb-2 border border-[#BBE3AD] bg-secondary px-2 mr-2 py-1 text-center w-auto">
+                        {tags.tag}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
             </Link>

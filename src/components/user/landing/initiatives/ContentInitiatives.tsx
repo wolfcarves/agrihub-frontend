@@ -1,17 +1,9 @@
 import React, { useState } from "react";
-import { blogData, blog_image } from "../../../../constants/data";
 import { Link } from "react-router-dom";
-import { formatDateTime } from "@components/lib/utils";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationPrevious,
-  PaginationNext
-} from "@components/ui/pagination";
+import { formatDate } from "@components/lib/utils";
+import parse from "html-react-parser";
 import useGetBlogsPublishList from "@hooks/api/get/useGetBlogsPublishListQuery";
-import DOMPurify from "dompurify";
+import { Button } from "@components/ui/button";
 
 export const ellipsis = (text: string, maxLength: number): string => {
   if (text.length <= maxLength) {
@@ -22,30 +14,20 @@ export const ellipsis = (text: string, maxLength: number): string => {
 };
 
 const ContentInitiatives: React.FC = () => {
-  const itemsPerPage = 4;
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
   const { data: blogData } = useGetBlogsPublishList();
-  console.log(blogData);
+  const [showAll, setShowAll] = useState(false);
+
+  const handleSeeMore = () => {
+    setShowAll(true);
+  };
 
   return (
     <div className="px-28 pb-8">
       <div className="grid grid-cols-3 lg:grid-cols-2 sm:grid-cols-2 grid-rows-2 gap-5">
         {blogData?.data
           ?.filter(item => item.category === "Initiatives")
-          .slice(0, 4)
+          .slice(0, showAll ? undefined : 4)
           .map((item, index) => {
-            const d = new Date(item?.createdat ?? "");
-
-            const createDate = d.toLocaleString("en-US", {
-              month: "long",
-              day: "numeric",
-              year: "numeric"
-            });
-
-            const htmlContent = DOMPurify.sanitize(item?.content ?? "");
             return (
               <Link to={`/blogs/view/${item.id}`} key={index}>
                 <div className="group flex flex-col">
@@ -58,7 +40,19 @@ const ContentInitiatives: React.FC = () => {
                   </div>
 
                   <div className="mt-3 pb-3">
-                    <h5 className="text-gray-600 pt-1 text-sm">{createDate}</h5>
+                    <h5 className="text-gray-600 pt-1 text-sm">
+                      {formatDate(item.createdat || "")}
+                    </h5>
+                    <h5 className="font-bold mt-1">
+                      {item.category}{" "}
+                      <span className="text-green-700">{">"}</span>
+                    </h5>
+                    <h1 className="text-gray-800 duration-150 group-hover:text-green-700 font-semibold text-lg line-clamp-2">
+                      {item?.title}
+                    </h1>
+                    <p className="text-sm me-8 text-justify line-clamp-3">
+                      {parse(item.content || "")}
+                    </p>
                     <div className="flex-row grid-flow-row py-3">
                       <span className="">
                         {item?.tags?.map(tags => (
@@ -68,23 +62,21 @@ const ContentInitiatives: React.FC = () => {
                         ))}
                       </span>
                     </div>
-                    <h5 className="font-bold mt-1">
-                      {item.category}{" "}
-                      <span className="text-green-700">{">"}</span>
-                    </h5>
-                    <h1 className="text-gray-800 duration-150 group-hover:text-green-700 font-semibold text-lg line-clamp-2">
-                      {item?.title}
-                    </h1>
-                    <p
-                      className="text-sm me-8 text-justify line-clamp-3"
-                      dangerouslySetInnerHTML={{ __html: htmlContent }}
-                    ></p>
                   </div>
                 </div>
               </Link>
             );
           })}
       </div>
+      {!showAll && (
+        <Button
+          variant="outline"
+          className="w-full my-4"
+          onClick={handleSeeMore}
+        >
+          See More
+        </Button>
+      )}
     </div>
   );
 };

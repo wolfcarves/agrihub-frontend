@@ -2,7 +2,11 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import parse from "html-react-parser";
 import { Link } from "react-router-dom";
-import { convertToEmbedLink, formatDateTime } from "@components/lib/utils";
+import {
+  convertToEmbedLink,
+  formatDate,
+  formatDateTime
+} from "@components/lib/utils";
 import {
   Carousel,
   CarouselContent,
@@ -17,6 +21,9 @@ import {
 import Autoplay from "embla-carousel-autoplay";
 import useGetLearningViewPublic from "../../../hooks/api/get/useGetLearningViewPublic";
 import useGetLeaningRelated from "../../../hooks/api/get/useGetLeaningRelated";
+import Loader from "@icons/Loader";
+import LoadingSpinner from "@icons/LoadingSpinner";
+import { FaArrowLeftLong } from "react-icons/fa6";
 
 const Learning = () => {
   const { learningsId } = useParams();
@@ -26,12 +33,23 @@ const Learning = () => {
   );
 
   if (!learningDetail) {
-    return <div>Event not found!</div>;
+    return (
+      <div className="flex items-center justify-center h-[50vh]">
+        <LoadingSpinner />
+      </div>
+    );
   }
 
   return (
     <>
-      <div className="max-w-4xl lg:max-w-6xl lg:p-6 mx-auto my-12">
+      <div className="max-w-4xl lg:max-w-6xl lg:p-6 mx-auto">
+        <div className="mb-10 w-max">
+          <Link to="/learning-materials">
+            <span className="flex items-center gap-x-2 text-foreground font-poppins-semibold hover:underline hover:underline-offset-2 py-2.5 px-1.5 rounded-lg duration-200">
+              <FaArrowLeftLong /> Back
+            </span>
+          </Link>
+        </div>
         <div className="text-sm lg:text-md font-thin mx-4 underline decoration-solid decoration-green-400 underline-offset-[3px]">
           <Link to="/learning-materials">Learning Material</Link> |{" "}
           {learningDetail.language}
@@ -73,7 +91,7 @@ const Learning = () => {
                       <img
                         src={resource.resource}
                         alt={resource.name}
-                        className="w-full aspect-video object-cover object-center rounded-md max-h-[24rem]"
+                        className="w-full aspect-video object-cover object-center rounded-e-md max-h-[24rem]"
                       />
                     ) : resource.type === "video" ? (
                       <div className="w-full aspect-video max-h-[24]">
@@ -189,7 +207,7 @@ const Learning = () => {
       </h1>
       <br></br>
       <div className="flex justify-center w-full mb-4">
-        <div className=" mx-32 grid grid-cols-12">
+        <div className=" mx-32 grid grid-cols-12 gap-4">
           {relateds
             ?.filter(item => item.id !== learningsId)
             .map((items, key) => (
@@ -198,7 +216,7 @@ const Learning = () => {
                 className="lg:col-span-4 md:col-span-6 col-span-12 flex flex-col shadow-md"
               >
                 <Link to={`/learning-materials/view/${items.id} `}>
-                  <div className=" overflow-hidden">
+                  <div className="h-48 rounded-t-md">
                     {items.thumbnail.type === "image" ? (
                       <img
                         src={`https://s3.ap-southeast-1.amazonaws.com/agrihub-bucket/${items.thumbnail.resource}`}
@@ -206,7 +224,7 @@ const Learning = () => {
                         className="w-full aspect-video object-cover object-center rounded-md h-48 rounded-t-md"
                       />
                     ) : items.thumbnail.type === "video" ? (
-                      <div className="w-full aspect-video  rounded-t-md">
+                      <div className="w-full aspect-video h-48 rounded-t-md">
                         <iframe
                           className="w-full h-full rounded-t-md"
                           src={convertToEmbedLink(
@@ -220,13 +238,34 @@ const Learning = () => {
                       </div>
                     ) : null}
                   </div>
-                  <div className="p-4">
-                    <h5 className="text-black pt-1 text-sm lg:text-[18px] font-bold mx-2 mb-4">
+
+                  <div className="flex items-center mt-2 pt-3 ml-4 mr-2">
+                    <div className="">
+                      <span className="block text-gray-400 text-sm">
+                        {formatDate(items.createdat)}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="pt-3 ml-4 mr-2 mb-3 ">
+                    <h3 className="text-xl text-gray-900 truncate">
                       {items.title}
-                    </h5>
-                    <p className="text-sm me-3 line-clamp-4 text-justify m-2">
+                    </h3>
+                    <p className="text-gray-400 text-sm mt-1 line-clamp-3">
                       {parse(items.content || "")}
                     </p>
+
+                    <div className="my-4 item">
+                      <p className="text-gray-700 mb-2 flex flex-wrap">
+                        {items.tags.map((tag, index) => (
+                          <span
+                            key={index}
+                            className="text-base text-primary rounded-md w-auto border border-[#BBE3AD] bg-secondary px-2 mr-2 mb-2 py-1"
+                          >
+                            {tag.tag}
+                          </span>
+                        ))}
+                      </p>
+                    </div>
                   </div>
                 </Link>
               </div>

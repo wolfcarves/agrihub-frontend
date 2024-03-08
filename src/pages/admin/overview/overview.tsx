@@ -104,7 +104,7 @@ const OverviewAdmin = () => {
           <div className="h-96 w-full">
             <GrowthRateLineChart />
           </div>
-          <hr className="my-4" />
+          <hr className="mt-14 mb-2" />
           <div className="h-96">
             <h3 className="text-gray-800 text-xl font-semibold sm:text-2xl flex items-center">
               Recent activities

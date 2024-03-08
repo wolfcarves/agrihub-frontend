@@ -13,6 +13,7 @@ import {
   AlertDialogTrigger
 } from "@components/ui/alert-dialog";
 import FeedbackIllustration from "@icons/FeedbackIlustration";
+import { Link } from "react-router-dom";
 
 const Feedback = () => {
   const radios = [
@@ -97,7 +98,7 @@ const Feedback = () => {
         <div className="flex justify-end">
           <AlertDialog>
             <AlertDialogTrigger>
-              <Button>Submit feedback{">"}</Button>
+              <Button>Submit feedback{" >"}</Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
@@ -114,7 +115,9 @@ const Feedback = () => {
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
-                <AlertDialogCancel>Close</AlertDialogCancel>
+                <Link to="/">
+                  <AlertDialogCancel>Close</AlertDialogCancel>
+                </Link>
                 {/* <AlertDialogAction>Continue</AlertDialogAction> */}
               </AlertDialogFooter>
             </AlertDialogContent>

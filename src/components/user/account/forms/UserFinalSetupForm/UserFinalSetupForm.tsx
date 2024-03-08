@@ -45,6 +45,7 @@ const UserFinalSetupForm = () => {
       toast(e.body.message);
     }
   };
+  console.log(form.formState.errors);
 
   return (
     <Form {...form}>
@@ -100,7 +101,9 @@ const UserFinalSetupForm = () => {
               className="hidden"
             />
 
-            <span>{form.formState.errors.avatar?.message as string}</span>
+            <span className=" text-destructive">
+              {form.formState.errors.avatar?.message as string}
+            </span>
 
             <div className="w-max mt-auto">
               <Button

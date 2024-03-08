@@ -123,7 +123,7 @@ const CommunityAddCropReportForm = () => {
       <form
         onSubmit={form.handleSubmit(handleSubmitForm)}
         encType="multipart/form-data"
-        className="grid grid-cols-12 gap-4"
+        className="grid grid-cols-12 gap-4 mb-4"
       >
         <div className=" md:col-span-6 col-span-12">
           <Label>Crops Name</Label>

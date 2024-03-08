@@ -167,7 +167,7 @@ const DialogAddProblem = () => {
               </>
             )}
 
-            <DialogFooter>
+            <DialogFooter className="flex flex-row gap-2 justify-end">
               <Button
                 variant={"secondary"}
                 type="button"

@@ -39,91 +39,91 @@ const UserHeaderMenu = () => {
 
   return (
     <>
-      <DropdownMenu>
-        <DropdownMenuTrigger>
-          <Avatar className="border">
-            <AvatarImage
-              src={data?.avatar ?? ""}
-              className="object-cover pointer-events-none select-none "
-            />
-            <AvatarFallback>A</AvatarFallback>
-          </Avatar>
-        </DropdownMenuTrigger>
+      <AlertDialog>
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <Avatar className="border">
+              <AvatarImage
+                src={data?.avatar ?? ""}
+                className="object-cover pointer-events-none select-none "
+              />
+              <AvatarFallback>A</AvatarFallback>
+            </Avatar>
+          </DropdownMenuTrigger>
 
-        <DropdownMenuContent className="w-[20rem]" align="end">
-          <Link to={`/users/${data?.id}/${data?.username}`}>
-            <DropdownMenuItem className="cursor-pointer h-12 gap-2">
-              <span className="flex items-center gap-3 line-clamp-1 text-md font-poppins-bold capitalize h-10">
-                <img
-                  src={data?.avatar ?? ""}
-                  className="w-10 h-10 rounded-full border object-cover pointer-events-none select-none "
-                />
-                {data?.firstname + " " + data?.lastname}
-              </span>
-            </DropdownMenuItem>
-          </Link>
+          <DropdownMenuContent className="w-[20rem]" align="end">
+            <Link to={`/users/${data?.id}/${data?.username}`}>
+              <DropdownMenuItem className="cursor-pointer h-12 gap-2">
+                <span className="flex items-center gap-3 line-clamp-1 text-md font-poppins-bold capitalize h-10">
+                  <img
+                    src={data?.avatar ?? ""}
+                    className="w-10 h-10 rounded-full border object-cover pointer-events-none select-none "
+                  />
+                  {data?.firstname + " " + data?.lastname}
+                </span>
+              </DropdownMenuItem>
+            </Link>
 
-          <DropdownMenuSeparator />
-          {(data?.role === "admin" || data?.role === "asst_admin") && (
-            <DropdownMenuItem
-              onClick={handleToAdmin}
-              className="cursor-pointer h-12 gap-2"
-            >
-              <RiAdminLine className="text-foreground/80 text-lg " />
-              <span className="font-poppins-medium">Admin Panel</span>
-            </DropdownMenuItem>
-          )}
+            <DropdownMenuSeparator />
+            {(data?.role === "admin" || data?.role === "asst_admin") && (
+              <DropdownMenuItem
+                onClick={handleToAdmin}
+                className="cursor-pointer h-12 gap-2"
+              >
+                <RiAdminLine className="text-foreground/80 text-lg " />
+                <span className="font-poppins-medium">Admin Panel</span>
+              </DropdownMenuItem>
+            )}
 
-          <Link to="/helps">
-            <DropdownMenuItem className="cursor-pointer h-12 gap-2">
-              <RxQuestionMarkCircled className="text-foreground/80 text-lg " />
-              <span className="font-poppins-medium">Help & Support</span>
-            </DropdownMenuItem>
-          </Link>
+            <Link to="/helps">
+              <DropdownMenuItem className="cursor-pointer h-12 gap-2">
+                <RxQuestionMarkCircled className="text-foreground/80 text-lg " />
+                <span className="font-poppins-medium">Help & Support</span>
+              </DropdownMenuItem>
+            </Link>
 
-          <Link to="/feedback">
-            <DropdownMenuItem className="cursor-pointer h-12 gap-2">
-              <BiCommentError className="text-foreground/80 text-lg " />
-              <span className="font-poppins-medium">Give Feedback</span>
-            </DropdownMenuItem>
-          </Link>
+            <Link to="/feedback">
+              <DropdownMenuItem className="cursor-pointer h-12 gap-2">
+                <BiCommentError className="text-foreground/80 text-lg " />
+                <span className="font-poppins-medium">Give Feedback</span>
+              </DropdownMenuItem>
+            </Link>
 
-          <Link to="/settings/account">
-            <DropdownMenuItem className="cursor-pointer h-12 gap-2">
-              <IoSettingsOutline className="text-foreground/80 text-lg " />
-              <span className="font-poppins-medium">Settings</span>
-            </DropdownMenuItem>
-          </Link>
-          <DropdownMenuSeparator />
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <div className="flex gap-2 p-3">
+            <Link to="/settings/account">
+              <DropdownMenuItem className="cursor-pointer h-12 gap-2">
+                <IoSettingsOutline className="text-foreground/80 text-lg " />
+                <span className="font-poppins-medium">Settings</span>
+              </DropdownMenuItem>
+            </Link>
+            <DropdownMenuSeparator />
+
+            <AlertDialogTrigger className="w-full">
+              <DropdownMenuItem className="cursor-pointer h-12 gap-2">
                 <MdLogout className="text-foreground/80 text-lg " />
                 <span className="font-poppins-medium">Logout</span>
-              </div>
+              </DropdownMenuItem>
             </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Log out your account?</AlertDialogTitle>
-                <AlertDialogDescription>
-                  This will log out your account from this device.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction
-                  onClick={() => {
-                    deleteAuthData();
-                  }}
-                >
-                  Continue
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
-        </DropdownMenuContent>
-      </DropdownMenu>
-
+          </DropdownMenuContent>
+        </DropdownMenu>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Log out your account?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This will log out your account from this device.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => {
+                deleteAuthData();
+              }}
+            >
+              Continue
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
       <ActivityIndicator isVisible={isLoading} />
     </>
   );

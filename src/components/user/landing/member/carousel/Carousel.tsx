@@ -27,7 +27,7 @@ const Carousels: React.FC = () => {
 
   return (
     <>
-      <div className="relative max-w-7xl mx-auto w-full 2xl:h-[75vh] h-screen overflow-hidden">
+      <div className="relative max-w-7xl mx-auto w-full 2xl:h-[75vh] -mt-20 h-screen overflow-hidden">
         <div className="absolute inset-0">
           <img
             src="https://scontent.fmnl33-1.fna.fbcdn.net/v/t1.15752-9/423619265_931080108646712_8908319447698938479_n.png?_nc_cat=100&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeFG1ov-SmsYbOj-l-8cR3KLEi-wu_p5yiMSL7C7-nnKI0l3joISOciiv9Yu2-3Uyuxz3NmJL48WBsddxYjO12Vo&_nc_ohc=QDpk1GqHzX4AX-qqjzo&_nc_ht=scontent.fmnl33-1.fna&oh=03_AdRugzFlQj_-DHHBOE93QbDXIbVtj4fJInkvOKMtnBkfsA&oe=66113D72"

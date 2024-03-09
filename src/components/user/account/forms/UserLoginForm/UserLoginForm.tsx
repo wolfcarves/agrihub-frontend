@@ -52,7 +52,7 @@ const UserLoginForm = () => {
                   <FormControl>
                     <Input
                       {...field}
-                      placeholder="Email or username"
+                      placeholder="Email or username or phone number"
                       $isError={fieldState?.error && true}
                     />
                   </FormControl>
@@ -80,14 +80,17 @@ const UserLoginForm = () => {
               )}
             />
           </div>
-          <Link
-            to="/account/forgot-password"
-            className="font-poppins-regular pt-2 hover:opacity-90 hover:underline ml-2 w-max"
-          >
-            Forgot Password
-          </Link>
 
-          <div className="mt-6">
+          <div className="py-5">
+            <Link
+              to="/account/forgot-password"
+              className="font-inter-regular pt-2 hover:opacity-90 hover:underline w-max"
+            >
+              Forgot Password
+            </Link>
+          </div>
+
+          <div>
             <Button
               type="submit"
               className="w-full"

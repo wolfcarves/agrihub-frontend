@@ -144,6 +144,7 @@ import FarmManageProblems from "@pages/admin/farms/view/farm-manage-problems";
 import CommunityProblem from "./pages/user/community/community-problem";
 import FarmProblemsArchives from "./pages/admin/farms/farm-problems-archives";
 import FarmReportedProblems from "./pages/admin/farms/farm-reported-problems";
+import VerifyOtp from "@pages/user/account/verify-otp";
 
 const App = ReactRouter(
   <>
@@ -272,6 +273,7 @@ const App = ReactRouter(
       <Route path="login" element={<Login />} />
       <Route path="signup" element={<Signup />} />
       <Route path="verify-email" element={<VerifyEmail />} />
+      <Route path="verify-otp" element={<VerifyOtp />} />
       <Route path="setup-account" element={<SetupAccount />} />
       <Route path="final-setup" element={<FinalSetup />} />
       <Route path="forgot-password" element={<ForgotPassword />} />

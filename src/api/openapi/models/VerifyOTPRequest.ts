@@ -3,9 +3,6 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type UserRegisterSchema = {
-    email?: string;
-    phone_number?: string;
-    password: string;
-    confirmPassword: string;
+export type VerifyOTPRequest = {
+    code?: number;
 };

@@ -3,9 +3,9 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type UserRegisterSchema = {
-    email?: string;
-    phone_number?: string;
-    password: string;
-    confirmPassword: string;
+export type PartnerUpdate = {
+    id?: string | null;
+    logo?: string;
+    name?: string;
+    description?: string;
 };

@@ -20,6 +20,7 @@ import { toast } from "sonner";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/ui/tabs";
 import { LuPhone } from "react-icons/lu";
 import { MdOutlineMail } from "react-icons/md";
+import { UserRegisterSchema } from "@api/openapi";
 
 const CAPTCHA_CONTAINER_ID = import.meta.env.VITE_CAPTCHA_CONTAINER_ID;
 const CAPTCHA_ID = import.meta.env.VITE_CAPTCHA_ID;
@@ -62,10 +63,11 @@ const UserSignupForm = () => {
         //   answer: string;
         // };
 
-        const raw = {
-          ...data,
-          email: method === "email" ? data.email : "",
-          phone: method === "phone" ? data.phone : ""
+        const raw: UserRegisterSchema = {
+          email: method === "email" ? data.email : undefined,
+          phone_number: method === "phone" ? data.phone : undefined,
+          password: data.password,
+          confirmPassword: data.confirmPassword
         };
 
         await signUpUser(raw);

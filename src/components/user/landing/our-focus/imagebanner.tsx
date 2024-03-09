@@ -25,8 +25,8 @@ const Imagebanner: React.FC = () => {
         </div>
       </div>
 
-      <div className="flex items-center justify-center text-black p-20">
-        <div className="w-9/12 text-left text-md">
+      <div className="flex items-center justify-center text-black py-20 sm:px-20">
+        <div className="w-11/12 sm:w-9/12 text-left text-md">
           <p>
             "AgriHub" is a software being developed by the proponents, who are
             part of Quezon City and students of Quezon City University. The

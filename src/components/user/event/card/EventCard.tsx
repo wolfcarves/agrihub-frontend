@@ -26,16 +26,16 @@ const EventCard = ({ title, item, avatar, position }: EventCardProps) => {
           title && item ? "py-10" : "pt-0 pb-10"
         }`}
       >
-        <div className="flex items-center">
+        <div className="flex items-center mx-auto">
           {avatar && (
             <img
               src={avatar}
               className="w-10 h-10 bg-black/10 rounded-full me-2"
             />
           )}
-          <div className="text-left">
-            <div className="text-md truncate">{item}</div>
-            {position && <Label className="truncate">{position}</Label>}
+          <div className="text-left text-wrap flex-wrap">
+            <div className="text-md">{item}</div>
+            {position && <Label>{position}</Label>}
           </div>
         </div>
       </div>

@@ -105,7 +105,7 @@ const About = () => {
         ></img>
       </div>
       <div className="mt-8 sm:mt-12 lg:mt-16 ">
-        <p className="text-sm lg:text-lg px-16 sm:px-44 lg:px-44 leading-relaxed py-3">
+        <p className="text-sm lg:text-lg px-8 sm:px-44 lg:px-44 leading-relaxed py-3">
           Quezon City University - Center for Urban Agriculture and Innovation
           is a pioneering initiative established in collaboration with the
           Department of Agriculture - Agriculture Training Institute (DA-ATI)
@@ -115,20 +115,20 @@ const About = () => {
           farmers, and mainstreaming urban agriculture into Quezon City
           University's curriculum.
         </p>
-        <p className="text-sm md:text-base lg:text-lg px-16 sm:px-44 lg:px-44 leading-relaxed py-3">
+        <p className="text-sm md:text-base lg:text-lg px-8 sm:px-44 lg:px-44 leading-relaxed py-3">
           The center received financial assistance from DA-ATI to establish a
           dynamic learning environment on the QCU campus. Notable innovations
           include a bee farm, supported by the QCU cooperative, with staff
           trained in beekeeping by the Agriculture Producers Cooperative.
         </p>
-        <p className="text-sm md:text-base lg:text-lg px-16 sm:px-44 lg:px-44 leading-relaxed py-3">
+        <p className="text-sm md:text-base lg:text-lg px-8 sm:px-44 lg:px-44 leading-relaxed py-3">
           Aligned with the city's commitment to sustainability, the Center for
           Urban Agriculture and Innovation plays a vital role in reinforcing and
           expanding Quezon City's urban farming programs. Mayor Joy Belmonte
           envisions the center as a key player in creating a smart and
           sustainable city, involving students and stakeholders in the process.
         </p>
-        <p className="text-sm md:text-base lg:text-lg px-16 sm:px-44 lg:px-44 leading-relaxed py-3">
+        <p className="text-sm md:text-base lg:text-lg px-8 sm:px-44 lg:px-44 leading-relaxed py-3">
           Led by QCU President Dr. Theresita Atienza, the center maximizes its
           impact by aligning programs and projects with the city's development
           goals. It is a vibrant community working towards a greener, smarter
@@ -303,7 +303,7 @@ const About = () => {
         </div>
       </section>
       {/* Contact Us */}
-      <div className="py-14">
+      <div className="py-14" id="contact">
         <div className="max-w-screen-xl mx-auto px-4 text-gray-600 md:px-8">
           <div className="max-w-lg mx-auto gap-12 justify-between lg:flex lg:max-w-none">
             <div className="max-w-lg space-y-3">

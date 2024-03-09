@@ -10,14 +10,17 @@ import {
   CarouselItem
 } from "@components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
+import SkeletonCard from "@components/ui/custom/skeleton/skeleton-card";
+import { IoIosArrowForward } from "react-icons/io";
 
 const ContentOurFocus: React.FC = () => {
-  const { data: blogData } = useGetBlogsPublishList();
+  const { data: blogData, isLoading } = useGetBlogsPublishList();
 
   return (
     <>
-      <div className="px-28">
-        <div className="mb-16 mx-auto max-w-5xl">
+      <div className="sm:px-28">
+        <div className="mb-16 mx-auto max-w-screen-xl">
+          {isLoading && <SkeletonCard count={3} className="md:w-1/3" />}
           <Carousel
             className="m-4"
             opts={{
@@ -50,9 +53,11 @@ const ContentOurFocus: React.FC = () => {
                             <h5 className="text-gray-600 pt-1 text-sm">
                               {formatDate(item?.createdat || "")}
                             </h5>
-                            <h5 className="font-bold mt-1">
+                            <h5 className="font-bold mt-1 flex items-center">
                               {item.category}
-                              <span className="text-green-700">{"   >"}</span>
+                              <span className="text-green-700 ml-2">
+                                <IoIosArrowForward />
+                              </span>
                             </h5>
                             <h1 className="text-gray-800 duration-150 group-hover:text-green-700 font-semibold text-lg">
                               {item?.title}

@@ -4,6 +4,8 @@ import { formatDate } from "@components/lib/utils";
 import parse from "html-react-parser";
 import useGetBlogsPublishList from "@hooks/api/get/useGetBlogsPublishListQuery";
 import { Button } from "@components/ui/button";
+import SkeletonCard from "@components/ui/custom/skeleton/skeleton-card";
+import { IoIosArrowForward, IoIosArrowRoundForward } from "react-icons/io";
 
 export const ellipsis = (text: string, maxLength: number): string => {
   if (text.length <= maxLength) {
@@ -14,7 +16,7 @@ export const ellipsis = (text: string, maxLength: number): string => {
 };
 
 const ContentInitiatives: React.FC = () => {
-  const { data: blogData } = useGetBlogsPublishList();
+  const { data: blogData, isLoading } = useGetBlogsPublishList();
   const [showAll, setShowAll] = useState(false);
 
   const handleSeeMore = () => {
@@ -22,8 +24,14 @@ const ContentInitiatives: React.FC = () => {
   };
 
   return (
-    <div className="px-28 pb-8">
-      <div className="grid grid-cols-3 lg:grid-cols-2 sm:grid-cols-2 grid-rows-2 gap-5">
+    <div className="sm:px-28 pb-8">
+      {isLoading && (
+        <div>
+          {" "}
+          <SkeletonCard count={4} className="w-full md:w-1/2" />
+        </div>
+      )}
+      <div className="grid grid-cols-1 mx-8 lg:grid-cols-2 sm:grid-cols-2 grid-rows-2 gap-5">
         {blogData?.data
           ?.filter(item => item.category === "Initiatives")
           .slice(0, showAll ? undefined : 4)
@@ -43,9 +51,11 @@ const ContentInitiatives: React.FC = () => {
                     <h5 className="text-gray-600 pt-1 text-sm">
                       {formatDate(item.createdat || "")}
                     </h5>
-                    <h5 className="font-bold mt-1">
-                      {item.category}{" "}
-                      <span className="text-green-700">{">"}</span>
+                    <h5 className="font-bold mt-1 flex items-center">
+                      {item.category}
+                      <span className="text-green-700 ml-2">
+                        <IoIosArrowForward />
+                      </span>
                     </h5>
                     <h1 className="text-gray-800 duration-150 group-hover:text-green-700 font-semibold text-lg line-clamp-2">
                       {item?.title}

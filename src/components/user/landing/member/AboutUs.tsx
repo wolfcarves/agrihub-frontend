@@ -1,25 +1,25 @@
-import React, { useState } from "react";
-import { FaFacebook, FaLinkedin } from "react-icons/fa";
+import useGetClientDetails from "@hooks/api/get/useGetClientDetails";
+import React from "react";
+import Autoplay from "embla-carousel-autoplay";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem
+} from "@components/ui/carousel";
 
 const About = () => {
+  const { data: cmsClientDetail } = useGetClientDetails();
+  console.log(cmsClientDetail);
+
+  const plugin = React.useRef(
+    Autoplay({ delay: 2000, stopOnInteraction: true })
+  );
+
   const sliderImages = [
     "https://i.imgur.com/lD8gT33.png",
     "https://i.imgur.com/WNxogAW.png",
     "https://i.imgur.com/JaaFkfz.png"
-    // Add more image URLs as needed
   ];
-
-  const [currentSlide, setCurrentSlide] = useState(0);
-
-  const nextSlide = () => {
-    setCurrentSlide(prevSlide => (prevSlide + 1) % sliderImages.length);
-  };
-
-  const prevSlide = () => {
-    setCurrentSlide(prevSlide =>
-      prevSlide === 0 ? sliderImages.length - 1 : prevSlide - 1
-    );
-  };
 
   const contactMethods = [
     {
@@ -39,7 +39,7 @@ const About = () => {
           />
         </svg>
       ),
-      contact: "center.urban.agriculture@qcu.edu.ph"
+      contact: `${cmsClientDetail?.email}`
     },
     {
       icon: (
@@ -58,7 +58,7 @@ const About = () => {
           />
         </svg>
       ),
-      contact: "09082559914"
+      contact: `${cmsClientDetail?.contact_number}`
     },
     {
       icon: (
@@ -82,71 +82,11 @@ const About = () => {
           />
         </svg>
       ),
-      contact:
-        "2nd Floor, Room 212 Tech-Voc Building, 673 Quirino Hwy, Novaliches, Quezon City, Metro Manila"
+      contact: `${cmsClientDetail?.address}`
     }
   ];
 
-  const team = [
-    {
-      avatar:
-        "https://i0.wp.com/qcu.edu.ph/wp-content/uploads/2024/01/Dr.-Theresita-V.-Atienza-2.jpg?resize=1103%2C1471&ssl=1",
-      name: "Therisita V. Atienza, DEM",
-      title: "University President",
-      desc: "President of Quezon City University",
-      linkedin: "javascript:void(0)",
-      facebook: "https://www.facebook.com/nafecot"
-    },
-    {
-      avatar: "https://randomuser.me/api/portraits/lego/6.jpg",
-      name: "Romel O. Sevilla, MBA",
-      title: "Head, Center for Urban Agriculture and Innovation",
-      desc: "",
-      linkedin: "javascript:void(0)",
-      facebook: "https://www.facebook.com/nafecot"
-    },
-    {
-      avatar: "https://randomuser.me/api/portraits/lego/2.jpg",
-      name: "Ms. Justine Angela Mariele D. Sanchez",
-      title: "Administrative Support Staff",
-      desc: "",
-      linkedin:
-        "https://www.linkedin.com/in/sanchez-justine-angela-marielle-d-631882248/",
-      facebook: "javascript:void(0)"
-    },
-    {
-      avatar: "https://randomuser.me/api/portraits/lego/3.jpg",
-      name: "Engr. Jaylenon R. Asilo, MMPA",
-      title: "Agriculturist",
-      desc: "Responsible for Partnerships and Collaborations, and Research and Development ",
-      linkedin: "https://www.linkedin.com/in/jaylenon-asilo-561539213/",
-      facebook: "https://www.facebook.com/jaylenon.asilo"
-    },
-    {
-      avatar: "https://randomuser.me/api/portraits/lego/4.jpg",
-      name: "Engr. Justine F. Malindao",
-      title: "Agriculturist",
-      desc: "Responsible for Training, and Production and Business Development",
-      linkedin: "javascript:void(0)",
-      facebook: "https://www.facebook.com/justin.malindao"
-    },
-    {
-      avatar: "https://randomuser.me/api/portraits/lego/3.jpg",
-      name: "Ms. Jonabelle M. Orain",
-      title: "Farm Worker",
-      desc: "",
-      linkedin: "javascript:void(0)",
-      facebook: "https://www.facebook.com/jona.olshoppe.75"
-    },
-    {
-      avatar: "https://randomuser.me/api/portraits/lego/8.jpg",
-      name: "Mr. Hipolito P Lopez",
-      title: "Farm Worker",
-      desc: "",
-      linkedin: "javascript:void(0)",
-      facebook: "javascript:void(0)"
-    }
-  ];
+  const team = cmsClientDetail?.members;
 
   return (
     <div>
@@ -165,7 +105,7 @@ const About = () => {
         ></img>
       </div>
       <div className="mt-8 sm:mt-12 lg:mt-16 ">
-        <p className="text-sm lg:text-lg px-16 sm:px-44 lg:px-44 leading-relaxed py-3">
+        <p className="text-sm lg:text-lg px-8 sm:px-44 lg:px-44 leading-relaxed py-3">
           Quezon City University - Center for Urban Agriculture and Innovation
           is a pioneering initiative established in collaboration with the
           Department of Agriculture - Agriculture Training Institute (DA-ATI)
@@ -175,20 +115,20 @@ const About = () => {
           farmers, and mainstreaming urban agriculture into Quezon City
           University's curriculum.
         </p>
-        <p className="text-sm md:text-base lg:text-lg px-16 sm:px-44 lg:px-44 leading-relaxed py-3">
+        <p className="text-sm md:text-base lg:text-lg px-8 sm:px-44 lg:px-44 leading-relaxed py-3">
           The center received financial assistance from DA-ATI to establish a
           dynamic learning environment on the QCU campus. Notable innovations
           include a bee farm, supported by the QCU cooperative, with staff
           trained in beekeeping by the Agriculture Producers Cooperative.
         </p>
-        <p className="text-sm md:text-base lg:text-lg px-16 sm:px-44 lg:px-44 leading-relaxed py-3">
+        <p className="text-sm md:text-base lg:text-lg px-8 sm:px-44 lg:px-44 leading-relaxed py-3">
           Aligned with the city's commitment to sustainability, the Center for
           Urban Agriculture and Innovation plays a vital role in reinforcing and
           expanding Quezon City's urban farming programs. Mayor Joy Belmonte
           envisions the center as a key player in creating a smart and
           sustainable city, involving students and stakeholders in the process.
         </p>
-        <p className="text-sm md:text-base lg:text-lg px-16 sm:px-44 lg:px-44 leading-relaxed py-3">
+        <p className="text-sm md:text-base lg:text-lg px-8 sm:px-44 lg:px-44 leading-relaxed py-3">
           Led by QCU President Dr. Theresita Atienza, the center maximizes its
           impact by aligning programs and projects with the city's development
           goals. It is a vibrant community working towards a greener, smarter
@@ -199,141 +139,94 @@ const About = () => {
       <div>
         {/* ... Image ... */}
 
-        <div className="mt-8 sm:mt-12 lg:mt-16 relative">
+        <div className="mt-8 sm:mt-12 lg:mt-16">
           <h4 className="text-center font-bold sm:text-2xl md:text-2xl lg:text-xl xl:text-6xl text-gray-600">
             Our Story
           </h4>
-          <div className="relative">
-            <div className="absolute top-1/2 left-0 transform -translate-y-1/2">
-              <button className="text-white px-4 py-2 mr-2" onClick={prevSlide}>
-                <img
-                  className="w-1/2 md:w-full lg:w-full xl:w-full hover:filter hover:brightness-75 transition duration-900 ease-in-out"
-                  src="https://i.imgur.com/MRoecMt.png"
-                  alt="Previous Image"
-                />
-              </button>
-            </div>
-            <div className="absolute top-1/2 right-0 transform -translate-y-1/2">
-              <button className="text-white px-4 py-2" onClick={nextSlide}>
-                <img
-                  className="w-1/2 md:w-full lg:w-full xl:w-full hover:filter hover:brightness-75 transition duration-900 ease-in-out"
-                  src="https://imgur.com/XhhddcW.png"
-                  alt="Next Image"
-                />
-              </button>
-            </div>
-            <img
-              src={sliderImages[currentSlide]}
-              alt={`Slide ${currentSlide + 1}`}
-              className="w-full mt-3"
-              style={{ height: "auto", minHeight: "200px", maxHeight: "100vh" }}
-            />
-          </div>
-
-          {/* Slider line indicator on the image */}
-          <div className="absolute bottom-0 left-0 right-0 flex justify-center mb-4">
-            {sliderImages.map((_, index) => (
-              <div
-                key={index}
-                className={`w-8 m:w-12 lg:w-24 px-5 h-1 bg-green mx-1 ${
-                  index === currentSlide
-                    ? "bg-green-300" // Dark color for the current page
-                    : "bg-gray-300" // Light color for other pages
-                }`}
-              ></div>
-            ))}
-          </div>
+          <Carousel
+            className="w-full"
+            plugins={[plugin.current]}
+            onMouseEnter={plugin.current.stop}
+            onMouseLeave={plugin.current.reset}
+            opts={{
+              loop: true
+            }}
+          >
+            <CarouselContent className="-ml-1">
+              {Array.from({ length: 5 }).map((_, index) => (
+                <CarouselItem
+                  key={index}
+                  className="pl-1 md:basis-1/2 lg:basis-1/3"
+                >
+                  <div className="p-1">
+                    <img src={sliderImages[2]} className="w-auto mt-3" />
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+          </Carousel>
         </div>
       </div>
       {/*Mission*/}
-      <div className="mt-8 sm:mt-12 lg:mt-16">
+      <div className="mt-8 sm:mt-12 lg:mt-16 max-w-screen-xl mx-auto">
         <h4 className="text-center font-bold sm:text-2xl md:text-2xl lg:text-xl xl:text-6xl text-gray-600">
           Mission & Vision
         </h4>
-        <div className="flex bg-gray-50 p-6 mt-10 text-black mx-4">
-          <div className="mr-0 sm:mr-0 lg:mr-28 ml-2 sm:ml-24 lg:ml-28 mt-8 sm:mt-12 lg:mt-14">
-            <h2 className="text-lg md:text-base lg:text-9xl font-bold italic">
-              M
-            </h2>
+        <div className="flex gap-4 mx-4 sm:flex-nowrap flex-wrap">
+          <div className="flex justify-center items-center sm:p-10 p-5 mx-auto">
+            <h2 className="font-bold text-5xl italic">M</h2>
           </div>
-          <div>
-            <p className="text-sm md:text-base lg:text-3xl ml-12 sm:ml-12 lg:ml-14">
-              To empower urban farmers through education and
-              <span className="hidden sm:inline lg:inline">
-                {" "}
-                <br />
-              </span>
-              collaboration, fostering sustainable agricultural
-              <span className="hidden sm:inline lg:inline">
-                {" "}
-                <br />
-              </span>
-              practices and environmental stewardship for
-              <span className="hidden sm:inline lg:inline">
-                {" "}
-                <br />
-              </span>
-              a resilient and thriving community.
+          <div className="flex items-center">
+            <p className="text-md sm:text-lg sm:text-left text-center">
+              {cmsClientDetail?.mission}
             </p>
           </div>
         </div>
       </div>
       {/*Vission*/}
-      <div className="flex bg-gray-50 p-6 mt-10 text-black mx-4">
-        <div className="mr-0 sm:mr-0 lg:mr-28 ml-2 sm:ml-24 lg:ml-28 mt-12 sm:mt-14 lg:mt-16">
-          <h2 className="text-lg md:text-base lg:text-9xl font-bold italic">
-            V
-          </h2>
+      <div className="flex gap-4 sm:flex-nowrap flex-wrap max-w-screen-xl mx-auto">
+        <div className="flex justify-center items-center sm:p-10 p-5 mx-auto">
+          <h2 className="font-bold text-5xl italic">V</h2>
         </div>
-        <div>
-          <p className="text-sm md:text-base lg:text-3xl ml-12 sm:ml-0 lg:ml-14">
-            To be a leading center for urban agriculture innovation,
-            <span className="hidden sm:inline lg:inline">
-              {" "}
-              <br />
-            </span>
-            inspiring a greener and more sustainable future by
-            <span className="hidden sm:inline lg:inline">
-              {" "}
-              <br />
-            </span>
-            equipping individuals with the knowledge and skills to
-            <span className="hidden sm:inline lg:inline">
-              {" "}
-              <br />
-            </span>
-            transform urban spaces into thriving, ecologically sound
-            agricultural ecosystems.
+        <div className="flex items-center">
+          <p className="text-md sm:text-lg sm:text-left text-center">
+            {cmsClientDetail?.vision}
           </p>
         </div>
       </div>
       {/*Partnership & Funding*/}
-      <div className="mt-8 sm:mt-12 lg:mt-16 ">
-        <h4 className="text-center font-bold sm:text-2xl md:text-2xl lg:text-xl xl:text-6xl text-gray-600">
+      <div className="mt-8 sm:mt-12 lg:mt-16 max-w-screen-xl mx-auto">
+        <h4 className="text-center font-bold sm:text-2xl md:text-2xl lg:text-xl xl:text-6xl text-gray-600 mb-4">
           Partnership & Funding
         </h4>
-        <div className="flex">
-          <div className="w-1/3 flex ml-4 m:ml-12 lg:ml-24 items-start mt-12 sm:mt-12 lg:mt-12">
-            <img className="w-full" src="https://i.imgur.com/r47MAhb.png" />
+        {cmsClientDetail?.partners?.map((partners, ids) => (
+          <div
+            className="flex flex-wrap sm:flex-nowrap items-center mx-4 mb-4"
+            key={ids}
+          >
+            <div className="w-full sm:w-1/3 flex items-center">
+              <img
+                className="w-full"
+                src={partners.logo}
+                alt={cmsClientDetail.name}
+              />
+            </div>
+            <div className="w-full sm:w-2/3 flex h-full items-center">
+              <p className="text-sm sm:text-lg pl-0 sm:pl-4">
+                {partners.description}
+              </p>
+            </div>
           </div>
-          <div className="w-2/3">
-            <p className="text-sm md:text-base lg:text-lg  ml-4 m:ml-12 lg:ml-0 px-5 sm:px-6 lg:px-44 mt-3 sm:mt-12 lg:mt-36 leading-relaxed py-2 ">
-              In partnership with DA-ATI, we have received funding to establish
-              the center on the QCU campus. This financial support enables us to
-              create a dynamic learning environment and implement cutting-edge
-              projects.
-            </p>
-          </div>
-        </div>
+        ))}
       </div>
       {/* City Commitment */}
-      <div className="mt-8 sm:mt-12 lg:mt-16">
+      <div className="mt-8 sm:mt-12 lg:mt-16 max-w-screen-xl mx-auto">
         <h4 className="text-center font-bold sm:text-2xl md:text-2xl lg:text-xl xl:text-6xl text-gray-600">
           City Commitment
         </h4>
-        <div className="flex">
-          <div className="w-1/2">
-            <p className="text-sm md:text-base lg:text-lg ml-4 m:ml-12 lg:ml-10 px-0 sm:px-6 lg:px-10 mt-3 sm:mt-12 lg:mt-32 leading-relaxed py-2">
+        <div className="flex flex-wrap sm:flex-nowrap">
+          <div className="sm:w-1/2 flex items-center">
+            <p className="text-sm sm:text-lg sm:ml-4 mx-4 px-4 sm:px-0">
               Aligned with Quezon City's commitment to sustainability, our
               center plays a pivotal role in reinforcing and expanding the
               city's urban farming programs. Mayor Joy Belmonte envisions the
@@ -341,9 +234,9 @@ const About = () => {
               involving students and stakeholders in the process.
             </p>
           </div>
-          <div className="w-1/2 relative flex items-center justify-center">
+          <div className="sm:w-1/2 relative flex items-center justify-center h-full">
             <img
-              className=" w-3/4 mr-6 m:mr-12 lg:mr-32 h-auto mt-20 sm:mt-12 lg:mt-16"
+              className=" w-3/4 h-auto"
               src="https://i.imgur.com/nL9Csob.png"
               alt="Your Image"
             />
@@ -351,7 +244,7 @@ const About = () => {
         </div>
       </div>
       {/* President Message */}
-      <div className="mt-8 sm:mt-12 lg:mt-28">
+      <div className="mt-8 sm:mt-12 lg:mt-28 max-w-screen-xl mx-auto">
         <h4 className="text-center font-bold sm:text-2xl md:text-2xl lg:text-xl xl:text-6xl text-gray-600">
           President Message
         </h4>
@@ -382,35 +275,26 @@ const About = () => {
               Meet our team
             </h3>
             <p className="text-gray-600 mt-3">
-              Quezon City University - Center for Urban Agriculture and
-              Innovation Core Members.
+              {cmsClientDetail?.name} Core Members.
             </p>
           </div>
           <div className="mt-12">
             <ul className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
-              {team.map((item, idx) => (
+              {team?.map((member, idx) => (
                 <p key={idx}>
                   <div className="w-24 h-24 mx-auto">
                     <img
-                      src={item.avatar}
+                      src={member.image}
                       className="w-full h-full rounded-full object-cover"
                       alt=""
                     />
                   </div>
                   <div className="mt-2">
                     <h4 className="text-gray-700 font-semibold sm:text-lg">
-                      {item.name}
+                      {member.name}
                     </h4>
-                    <p className="text-green-600">{item.title}</p>
-                    <p className="text-gray-600 mt-2">{item.desc}</p>
-                    <div className="mt-4 flex justify-center gap-4 text-gray-400">
-                      {/* <a href={item.facebook}>
-                        <FaFacebook className="h-6 w-6" />
-                      </a>
-                      <a href={item.linkedin}>
-                        <FaLinkedin className="h-6 w-6" />
-                      </a> */}
-                    </div>
+                    <p className="text-green-600">{member.position}</p>
+                    <p className="text-gray-600 mt-2">{member.description}</p>
                   </div>
                 </p>
               ))}
@@ -419,7 +303,7 @@ const About = () => {
         </div>
       </section>
       {/* Contact Us */}
-      <div className="py-14">
+      <div className="py-14" id="contact">
         <div className="max-w-screen-xl mx-auto px-4 text-gray-600 md:px-8">
           <div className="max-w-lg mx-auto gap-12 justify-between lg:flex lg:max-w-none">
             <div className="max-w-lg space-y-3">

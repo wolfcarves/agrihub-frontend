@@ -13,12 +13,21 @@ import {
 import { RiCommunityLine } from "react-icons/ri";
 import useCmsLandingDetailsQuery from "@hooks/api/get/useCmsLandingDetailsQuery";
 import useGetBlogsPublishList from "@hooks/api/get/useGetBlogsPublishListQuery";
+import useGetClientDetails from "@hooks/api/get/useGetClientDetails";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem
+} from "@components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
+import { IoIosArrowForward } from "react-icons/io";
 
 const ContentWhatWeDo: React.FC = () => {
-  const { data: cmsData } = useCmsLandingDetailsQuery();
+  const { data: cmsDataLanding } = useCmsLandingDetailsQuery();
+  const { data: cmsClientDetail } = useGetClientDetails();
 
-  const { approach } = {
-    ...cmsData
+  const { approach, images } = {
+    ...cmsDataLanding
   };
 
   const { data: userData } = useAuth();
@@ -99,27 +108,54 @@ const ContentWhatWeDo: React.FC = () => {
 
   const { data: blogData } = useGetBlogsPublishList();
 
+  const plugin = React.useRef(
+    Autoplay({ delay: 4000, stopOnInteraction: true })
+  );
+
   return (
     <div className="w-full mx-auto my-0 md:my-15 mb-8">
       {/* our mission part */}
 
-      <div className="container flex flex-col md:flex-row gap-10 justify-between md:items-center py-6 md:py-10 lg:py-14">
+      <div className="container flex flex-col md:flex-row gap-10 justify-between md:items-center py-6 md:py-10 lg:py-14  mx-auto px-4 md:px-8 max-w-screen-xl">
         <div className="space-y-3 w-full max-w-[40rem]">
           <h3 className="text-4xl font-poppins-semibold tracking-tight">
             Our Mission
           </h3>
 
-          <p>
-            To showcase and provide innovative farming technology to the
-            communities to become productive in adapting urban agriculture in a
-            modern way through collaboration and capacity building.
-          </p>
+          <p>{cmsClientDetail?.mission}</p>
         </div>
 
-        <Button className="w-max" variant="default">
-          Learn more
-        </Button>
+        <Link to="about">
+          <Button className="w-max" variant="default">
+            Learn more
+          </Button>
+        </Link>
       </div>
+      {/* <Carousel
+        plugins={[plugin.current]}
+        onMouseEnter={plugin.current.stop}
+        onMouseLeave={plugin.current.reset}
+        opts={{
+          loop: true
+        }}
+        className="py-4 max-w-full sm:max-w-7xl mx-auto"
+      >
+        <CarouselContent className="">
+          {images?.map(img => {
+            return (
+              <CarouselItem
+                className="sm:pl-1 md:basis-1/2 lg:basis-1/4 "
+                key={img.id}
+              >
+                <img
+                  src={img.image}
+                  className="w-full object-cover min-h-72 max-h-72 rounded-lg"
+                />
+              </CarouselItem>
+            );
+          })}
+        </CarouselContent>
+      </Carousel> */}
 
       {/* our approach part */}
       <section className="relative py-16 bg-gray-900">
@@ -184,9 +220,11 @@ const ContentWhatWeDo: React.FC = () => {
                     </div>
 
                     <div className="mt-3">
-                      <h5 className="font-bold mt-1">
-                        {item.category}{" "}
-                        <span className="text-green-700">{">"}</span>
+                      <h5 className="font-bold mt-1 flex items-center">
+                        {item.category}
+                        <span className="text-green-700 ml-2">
+                          <IoIosArrowForward />
+                        </span>
                       </h5>
                       <h1 className="text-gray-800 duration-150 group-hover:text-green-700 font-semibold text-lg line-clamp-2">
                         {item?.title}
@@ -213,11 +251,7 @@ const ContentWhatWeDo: React.FC = () => {
             <h3 className="text-gray-800 text-3xl font-semibold sm:text-4xl">
               Our Vision Continues
             </h3>
-            <p className="mt-3">
-              To be recognized as one of the model projects in Quezon City that
-              can support food security and contribute to the sustainability and
-              innovation of urban agriculture through modern technologies.
-            </p>
+            <p className="mt-3">{cmsClientDetail?.vision}</p>
           </div>
           <div className="mt-12">
             <ul className="flex flex-col items-center justify-center gap-y-10 sm:flex-row sm:flex-wrap lg:divide-x">

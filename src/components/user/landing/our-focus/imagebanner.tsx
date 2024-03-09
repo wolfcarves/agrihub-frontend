@@ -1,5 +1,5 @@
 import React from "react";
-import yourImage from "@assets/images/OUR-FoCuS-COVER-PHOTO.png";
+import yourImage from "@assets/images/our focus.png";
 
 const Imagebanner: React.FC = () => {
   return (
@@ -12,11 +12,21 @@ const Imagebanner: React.FC = () => {
             alt="Hero Image"
             className="w-full h-full object-cover"
           />
+          <div className="absolute inset-0 flex items-center text-white">
+            <div className="px-4 lg:px-24 xl:px-60 w-full">
+              <h1
+                style={{ fontFamily: "Arial Black" }}
+                className="text-4xl lg:text-6xl xl:text-7xl font-bold text-neutral-300 text-center lg:text-left xl:text-left"
+              >
+                OUR FOCUS
+              </h1>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div className="flex items-center justify-center text-black p-20">
-        <div className="w-9/12 text-left text-md">
+      <div className="flex items-center justify-center text-black py-20 sm:px-20">
+        <div className="w-11/12 sm:w-9/12 text-left text-md">
           <p>
             "AgriHub" is a software being developed by the proponents, who are
             part of Quezon City and students of Quezon City University. The

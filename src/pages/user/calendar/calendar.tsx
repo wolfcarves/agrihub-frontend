@@ -1,6 +1,6 @@
+import SkeletonCropCard from "@components/user/calendar/skeleton/skeleton-crop-card";
 import PlantingCalendarCard from "@components/user/community/card/PlantingCalendarCard";
 import useGetCropsQuery from "@hooks/api/get/useGetCropsQuery";
-import LoadingSpinner from "@icons/LoadingSpinner";
 
 export const MONTHS = [
   "January",
@@ -42,7 +42,7 @@ const Calendar = () => {
 
       <div className="relative grid grid-cols-1 lg:grid-cols-3 gap-5 py-10 w-full">
         {isCropDataLoading ? (
-          <LoadingSpinner className="mx-auto mt-2 absolute top-20 text-primary start-0 end-0" />
+          <SkeletonCropCard count={12} />
         ) : crops?.length ? (
           crops
         ) : (

@@ -52,7 +52,7 @@ const UserLoginForm = () => {
                   <FormControl>
                     <Input
                       {...field}
-                      placeholder="Email or username"
+                      placeholder="Email or username or phone number"
                       $isError={fieldState?.error && true}
                     />
                   </FormControl>
@@ -81,7 +81,16 @@ const UserLoginForm = () => {
             />
           </div>
 
-          <div className="mt-6">
+          <div className="py-5">
+            <Link
+              to="/account/forgot-password"
+              className="font-inter-regular pt-2 hover:opacity-90 hover:underline w-max"
+            >
+              Forgot Password
+            </Link>
+          </div>
+
+          <div>
             <Button
               type="submit"
               className="w-full"
@@ -94,13 +103,6 @@ const UserLoginForm = () => {
       </Form>
 
       <div className="flex flex-col gap-2 py-5 ">
-        <Link
-          to="/account/forgot-password"
-          className="font-poppins-medium hover:opacity-90 w-max"
-        >
-          Forgot Password
-        </Link>
-
         <span className="text-foreground/70">
           Don't have an account?{" "}
           <span

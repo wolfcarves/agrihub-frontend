@@ -190,17 +190,16 @@ const CropsForm = () => {
 
             {/* Type */}
             <div>
-              <Label>Type</Label>
+              <Label>Yieldable</Label>
               <FormField
                 control={form.control}
                 name="isyield"
                 render={({ field }) => (
-                  <div>
+                  <div className="flex justify-center">
                     <Checkbox
                       checked={field.value}
                       onCheckedChange={field.onChange}
                     />
-                    <p>Yieldable</p>
                   </div>
                 )}
               />

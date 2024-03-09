@@ -45,6 +45,7 @@ const UserFinalSetupForm = () => {
       toast(e.body.message);
     }
   };
+  console.log(form.formState.errors);
 
   return (
     <Form {...form}>
@@ -52,24 +53,6 @@ const UserFinalSetupForm = () => {
         onSubmit={form.handleSubmit(handleOnSubmitForm)}
         encType="multipart/form-data"
       >
-        <div className="py-2">
-          <FormField
-            name="username"
-            control={form.control}
-            defaultValue=""
-            render={({ field, fieldState }) => (
-              <>
-                <Input
-                  placeholder="Username"
-                  $isError={fieldState?.error && true}
-                  {...field}
-                />
-                <FormMessage>{fieldState.error?.message}</FormMessage>
-              </>
-            )}
-          />
-        </div>
-
         <div className="sm:flex gap-3 mt-3">
           <div className="overflow-hidden w-[150px] border rounded-lg aspect-square bg-gradient-to-r from-cyan-500 to-blue-500">
             {imgFile && (
@@ -82,7 +65,23 @@ const UserFinalSetupForm = () => {
 
           <div className="flex flex-col">
             <h6 className="font-medium">Profile Picture</h6>
-
+            <div className="py-2 w-72">
+              <FormField
+                name="username"
+                control={form.control}
+                defaultValue=""
+                render={({ field, fieldState }) => (
+                  <>
+                    <Input
+                      placeholder="Username"
+                      $isError={fieldState?.error && true}
+                      {...field}
+                    />
+                    <FormMessage>{fieldState.error?.message}</FormMessage>
+                  </>
+                )}
+              />
+            </div>
             <input
               {...form.register("avatar")}
               type="file"
@@ -102,7 +101,9 @@ const UserFinalSetupForm = () => {
               className="hidden"
             />
 
-            <span>{form.formState.errors.avatar?.message as string}</span>
+            <span className=" text-destructive">
+              {form.formState.errors.avatar?.message as string}
+            </span>
 
             <div className="w-max mt-auto">
               <Button

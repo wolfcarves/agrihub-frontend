@@ -1,4 +1,4 @@
-import AgrihubLogo from "@icons/AgrihubLogo";
+import AgrihubLogo from "@icons/main-logo.svg";
 import UserHeaderNavigation from "./user-header-navigation";
 import SearchBar from "../search-bar/SearchBar";
 import { ReactNode } from "react";
@@ -20,14 +20,20 @@ const UserHeaderContainer = ({ children }: { children: ReactNode }) => (
 
 const UserHeaderLogo = () => {
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-3 h-full">
       <UserHeaderMobileSidebar />
 
       <Link to="/">
-        <AgrihubLogo />
+        <img
+          className="w-10 sm:block hidden"
+          src={AgrihubLogo as unknown as string}
+        />
       </Link>
 
-      <SearchBar className="hidden lg:flex" placeholder="Type to search..." />
+      <SearchBar className="lg:flex sm:block hidden" placeholder="Search..." />
+      <h1 className="font-poppins-bold text-lg hidden opacity-0">
+        <span className="font-poppins-regular">A g r i </span>H u b
+      </h1>
     </div>
   );
 };

@@ -88,7 +88,7 @@ const CommunityAddCropForm: React.FC<CommunityAddCropFormProps> = ({
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Select a crop..." />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="overflow-y-auto max-h-[40vh]">
                   {data?.map((crop, i) => (
                     <SelectItem key={i} value={crop?.id || ""}>
                       {crop.name}

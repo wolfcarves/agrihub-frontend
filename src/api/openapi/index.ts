@@ -221,6 +221,7 @@ export type { UserProfile } from './models/UserProfile';
 export type { UserRegisterSchema } from './models/UserRegisterSchema';
 export type { UserSchema } from './models/UserSchema';
 export type { UserUpdateProfile } from './models/UserUpdateProfile';
+export type { VerifyOTPRequest } from './models/VerifyOTPRequest';
 export type { ViewInvitationResponse } from './models/ViewInvitationResponse';
 export { VoteAnswerSchema } from './models/VoteAnswerSchema';
 export { VoteAnswerSuccessResponse } from './models/VoteAnswerSuccessResponse';

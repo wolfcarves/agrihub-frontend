@@ -10,7 +10,7 @@ interface ApplicationsParams {
 }
 export default function useGetFarmApplicationList(data: ApplicationsParams) {
   return useQuery({
-    queryKey: [GET_FARM_APPLICATION(), ...Object.values(data)],
+    queryKey: [GET_FARM_APPLICATION(), ...[data]],
     queryFn: async () => {
       const response = await FarmService.getApiFarmApplications(data);
 

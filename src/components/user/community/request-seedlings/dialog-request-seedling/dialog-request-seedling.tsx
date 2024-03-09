@@ -155,7 +155,7 @@ const DialogRequestSeedling = () => {
               </Label>
               <Textarea {...form.register("note")} className="col-span-3" />
             </div>
-            <DialogFooter>
+            <DialogFooter className="flex flex-row gap-2 justify-end">
               <Button
                 variant={"secondary"}
                 type="button"

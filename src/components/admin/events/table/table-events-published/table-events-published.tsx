@@ -26,7 +26,7 @@ const TableEventsPublished = () => {
   const { data: eventsData, isLoading } = useGetEventPublishedListQuery({
     search: params.search,
     page: String(params.currentPage),
-    perpage: "20",
+    perpage: "10",
     filter: params.sortBy
   });
 

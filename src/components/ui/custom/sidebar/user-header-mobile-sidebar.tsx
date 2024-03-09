@@ -7,9 +7,8 @@ import { IoBookmarkOutline } from "react-icons/io5";
 import useAuth from "@hooks/useAuth";
 import { useLocation } from "react-router-dom";
 import { BsPeople } from "react-icons/bs";
-import { RiLightbulbLine } from "react-icons/ri";
+import { RiLeafLine, RiLightbulbLine } from "react-icons/ri";
 import { IoCalendarNumberOutline } from "react-icons/io5";
-import { BsExclamationCircle } from "react-icons/bs";
 import {
   PiListMagnifyingGlass,
   PiNewspaper,
@@ -21,6 +20,7 @@ import { IoMdClose } from "react-icons/io";
 import { CiSquareQuestion } from "react-icons/ci";
 import { BiHomeAlt } from "react-icons/bi";
 import { RxQuestionMarkCircled } from "react-icons/rx";
+import { GoBook } from "react-icons/go";
 
 type UserHeaderMobileSidebarProps = ComponentProps<"div"> & {
   onLinkClick?: () => void;
@@ -152,6 +152,22 @@ const UserHeaderMobileSidebar = ({
 
           <div className="mt-10">
             <h6 className="font-poppins-semibold pb-5">Resources</h6>
+
+            <UserSidebarNavLink
+              to="/planting-calendar"
+              title="Planting Calendar"
+              logo={<RiLeafLine size={20} />}
+              end
+              onClick={handleEventClick}
+            />
+
+            <UserSidebarNavLink
+              to="/learning-materials"
+              title="Learning Material"
+              logo={<GoBook size={20} />}
+              end
+              onClick={handleEventClick}
+            />
 
             <UserSidebarNavLink
               to="/blogs"

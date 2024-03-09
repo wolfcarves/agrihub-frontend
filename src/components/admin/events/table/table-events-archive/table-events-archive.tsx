@@ -18,7 +18,7 @@ const TableEventsArchive = () => {
   const { data: eventsData, isLoading } = useGetEventArchiveList(
     params.search,
     String(params.currentPage),
-    "20"
+    "10"
   );
   const debouncedSearch = useDebounce((value: string) => {
     searchParams.set("search", value);

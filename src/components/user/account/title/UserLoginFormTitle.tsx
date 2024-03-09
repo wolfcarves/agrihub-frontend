@@ -12,8 +12,8 @@ const UserLoginFormTitle = () => {
       </Link>
 
       <div className="flex flex-col gap-2 py-5 ">
-        <h5 className="font-poppins-semibold">Login to Agrihub</h5>
-        <h6 className="text-foreground/70">
+        <h5 className="font-inter-semibold">Login to Agrihub</h5>
+        <h6 className="text-foreground/70 font-inter-medium">
           Rooted in Agriculture: Growing Together, <br /> Harvesting Success
         </h6>
       </div>

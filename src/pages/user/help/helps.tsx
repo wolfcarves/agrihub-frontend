@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { helpList } from "./helpData";
+import { Card } from "@components/ui/card";
 
 const Helps = () => {
   return (
@@ -67,6 +68,12 @@ const Helps = () => {
               </Link>
             ))}
           </ul>
+          <Card className="flex items-center justify-center p-5 max-w-screen-xl sm:mx-32 my-8">
+            Didnt find what you're looking for? Try to{" "}
+            <Link to="about" className="ml-1 underline text-green-600">
+              contact us
+            </Link>
+          </Card>
         </div>
       </section>
     </div>

@@ -15,8 +15,10 @@ import { FiEye } from "react-icons/fi";
 import { FaRegNewspaper } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import useGetClientDetails from "@hooks/api/get/useGetClientDetails";
 
 const UserFooter = () => {
+  const { data: cmsClientDetails } = useGetClientDetails();
   const navigate = useNavigate();
   const navigateAbout = () => {
     navigate("/about");
@@ -36,9 +38,12 @@ const UserFooter = () => {
   return (
     <div className="bg-[#404040] p-10 mt-auto">
       <div className="flex justify-center items-center gap-1">
-        <img className="h-[3.5rem]" src={qcu} />
-        <img className="h-[5.4rem]" src={agrihub} />
-        <img className="h-[2.6rem] ml-1" src={urban} />
+        <img className="h-[3.5rem]" src={qcu as unknown as string} />
+        <img className="h-[5.4rem]" src={agrihub as unknown as string} />
+        <img
+          className="h-[2.6rem] ml-1 rounded-full"
+          src={cmsClientDetails?.logo}
+        />
       </div>
       <div className="py-8 grid grid-cols-10">
         <div className=" hidden md:block col-span-1"></div>
@@ -114,11 +119,14 @@ const UserFooter = () => {
       </div>
       <div className="flex justify-between px-2">
         <div className="flex items-center justify-center font-bold text-[0.7rem] gap-2 text-white">
-          <a href="tel:09082559914">
+          <a href={`tel:${cmsClientDetails?.contact_number}`}>
             <BsTelephone size={20} />{" "}
           </a>
-          <a href="tel:09082559914" className="md:block hidden">
-            09082559914
+          <a
+            href={`tel:${cmsClientDetails?.contact_number}`}
+            className="md:block hidden"
+          >
+            {cmsClientDetails?.contact_number}
           </a>
           <span>|</span>
           <span
@@ -147,9 +155,8 @@ const UserFooter = () => {
       <hr className="border-t border-[#767676] my-2" />
       <div className="flex justify-center text-center">
         <p className="text-[#A2A2A2] text-[.70rem] w-[70%]">
-          Agrihub is an Urban Farming Data Sharing Platform, Philippines, 673
-          Quirino Highway, San Bartolome, Novaliches Q.C. © 2024 Agrihub. All
-          rights reserved.{" "}
+          Agrihub is an Urban Farming Data Sharing Platform, Philippines,{" "}
+          {cmsClientDetails?.address} © 2024 Agrihub. All rights reserved.{" "}
           <Link to="/privacy-policy" className="hover:underline">
             Privacy Policy
           </Link>

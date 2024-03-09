@@ -23,8 +23,14 @@ export const userSignupSchema = (type?: "email" | "phone") =>
         .string()
         .min(8, "Password must be at least 8 characters")
         .max(30, "Password is too much")
-        .regex(new RegExp(".*[A-Z].*"), "Password must have one capital letter")
-        .regex(new RegExp(".*[a-z].*"), "Password must have one capital letter")
+        .regex(
+          new RegExp(".*[A-Z].*"),
+          "Password must have one uppercase letter"
+        )
+        .regex(
+          new RegExp(".*[a-z].*"),
+          "Password must have one lowercase letter"
+        )
         .regex(new RegExp(".*[0-9].*"), "Password must have one digit number"),
       confirmPassword: zod.string()
     })

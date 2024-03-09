@@ -43,7 +43,7 @@ const Learning = () => {
   return (
     <>
       <div className="max-w-4xl lg:max-w-6xl lg:p-6 mx-auto">
-        <div className="mb-10 w-max">
+        <div className="my-4 w-max">
           <Link to="/learning-materials">
             <span className="flex items-center gap-x-2 text-foreground font-poppins-semibold hover:underline hover:underline-offset-2 py-2.5 px-1.5 rounded-lg duration-200">
               <FaArrowLeftLong /> Back
@@ -91,7 +91,7 @@ const Learning = () => {
                       <img
                         src={resource.resource}
                         alt={resource.name}
-                        className="w-full aspect-video object-cover object-center rounded-e-md max-h-[24rem]"
+                        className="w-full aspect-video object-cover object-center rounded-b-md sm:rounded-e-md max-h-[24rem]"
                       />
                     ) : resource.type === "video" ? (
                       <div className="w-full aspect-video max-h-[24]">
@@ -129,7 +129,7 @@ const Learning = () => {
             <p className="font-bold text-[20px] 2xl:mt-10 text-gray-700 underline decoration-solid decoration-green-400 underline-offset-[3px] ">
               Overview:
             </p>
-            <div className="p-5 mb-5 text-[18px] text-justify indent-10 tracking-wide">
+            <div className="my-5 text-[18px] text-justify indent-10 tracking-wide">
               {parse(learningDetail.content || "")}
             </div>
 
@@ -207,7 +207,7 @@ const Learning = () => {
       </h1>
       <br></br>
       <div className="flex justify-center w-full mb-4">
-        <div className=" mx-32 grid grid-cols-12 gap-4">
+        <div className="mx-4 sm:mx-32 grid grid-cols-12 gap-4">
           {relateds
             ?.filter(item => item.id !== learningsId)
             .map((items, key) => (
@@ -215,13 +215,13 @@ const Learning = () => {
                 key={key}
                 className="lg:col-span-4 md:col-span-6 col-span-12 flex flex-col shadow-md"
               >
-                <Link to={`/learning-materials/view/${items.id} `}>
-                  <div className="h-48 rounded-t-md">
+                <Link to={`/learning-materials/view/${items.id}`}>
+                  <article className="overflow-hidden rounded-lg shadow transition hover:shadow-lg">
                     {items.thumbnail.type === "image" ? (
                       <img
                         src={`https://s3.ap-southeast-1.amazonaws.com/agrihub-bucket/${items.thumbnail.resource}`}
                         alt={items.thumbnail.id}
-                        className="w-full aspect-video object-cover object-center rounded-md h-48 rounded-t-md"
+                        className="h-48 w-full object-cover"
                       />
                     ) : items.thumbnail.type === "video" ? (
                       <div className="w-full aspect-video h-48 rounded-t-md">
@@ -237,36 +237,33 @@ const Learning = () => {
                         ></iframe>
                       </div>
                     ) : null}
-                  </div>
 
-                  <div className="flex items-center mt-2 pt-3 ml-4 mr-2">
-                    <div className="">
-                      <span className="block text-gray-400 text-sm">
-                        {formatDate(items.createdat)}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="pt-3 ml-4 mr-2 mb-3 ">
-                    <h3 className="text-xl text-gray-900 truncate">
-                      {items.title}
-                    </h3>
-                    <p className="text-gray-400 text-sm mt-1 line-clamp-3">
-                      {parse(items.content || "")}
-                    </p>
+                    <div className="bg-white p-4 sm:p-6">
+                      <time className="block text-xs text-gray-500">
+                        {formatDate(items.createdat)} | {items.language}
+                      </time>
 
-                    <div className="my-4 item">
-                      <p className="text-gray-700 mb-2 flex flex-wrap">
-                        {items.tags.map((tag, index) => (
-                          <span
-                            key={index}
-                            className="text-base text-primary rounded-md w-auto border border-[#BBE3AD] bg-secondary px-2 mr-2 mb-2 py-1"
-                          >
-                            {tag.tag}
-                          </span>
-                        ))}
+                      <h3 className="font-poppins-semibold mt-0.5 text-lg text-gray-900">
+                        {items.title}
+                      </h3>
+
+                      <p className="mt-2 line-clamp-3 text-sm/relaxed text-gray-500 ">
+                        {parse(items.content || "")}
                       </p>
+                      <div className="my-4 item">
+                        <p className="text-gray-700 mb-2 flex flex-wrap">
+                          {items.tags.map((tag, index) => (
+                            <span
+                              key={index}
+                              className="text-base text-primary rounded-md w-auto border border-[#BBE3AD] bg-secondary px-2 mr-2 mb-2 py-1"
+                            >
+                              {tag.tag}
+                            </span>
+                          ))}
+                        </p>
+                      </div>
                     </div>
-                  </div>
+                  </article>
                 </Link>
               </div>
             ))}

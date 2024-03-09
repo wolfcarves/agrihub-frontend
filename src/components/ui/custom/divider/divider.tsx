@@ -23,7 +23,9 @@ export default function Divider({
           style={{ height: "1px", backgroundColor: $color }}
         ></div>
         <div className="mx-5">
-          <span>{$title}</span>
+          <span className="text-sm font-poppins-regular text-nowrap">
+            {$title}
+          </span>
         </div>
         <div
           className="w-full rounded-full"

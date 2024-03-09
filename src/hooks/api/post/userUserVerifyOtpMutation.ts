@@ -1,15 +1,14 @@
+import { AuthService, VerifyOTPRequest } from "@api/openapi";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { AccountService, UserRegisterSchema } from "@api/openapi";
 import { GET_MY_PROFILE_KEY } from "../get/useGetMyProfileQuery";
 
-export const useSignupUserKey = () => "SIGNUP_USER";
-
-export default function useUserSignupMutation() {
+export default function userUserVerifyOtpMutation() {
   const queryClient = useQueryClient();
 
-  return useMutation([useSignupUserKey()], {
-    mutationFn: async (data: UserRegisterSchema) => {
-      const response = await AccountService.postApiAccountSignup({
+  return useMutation({
+    mutationKey: ["USER_VERIFY_OTP_KEY"],
+    mutationFn: async (data: VerifyOTPRequest) => {
+      const response = await AuthService.postApiAuthVerifyOtp({
         requestBody: data
       });
 

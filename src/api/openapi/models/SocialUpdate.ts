@@ -3,9 +3,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type UserRegisterSchema = {
-    email?: string;
-    phone_number?: string;
-    password: string;
-    confirmPassword: string;
+export type SocialUpdate = {
+    id?: string | null;
+    name?: string;
+    link?: string;
 };

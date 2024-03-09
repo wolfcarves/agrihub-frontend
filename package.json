@@ -60,6 +60,7 @@
     "embla-carousel-autoplay": "^8.0.0-rc22",
     "embla-carousel-react": "^8.0.0-rc22",
     "html-react-parser": "^3.0.16",
+    "input-otp": "^1.0.1",
     "lucide-react": "^0.287.0",
     "memoize-one": "^6.0.0",
     "next-themes": "^0.2.1",

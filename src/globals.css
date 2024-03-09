@@ -165,7 +165,7 @@
 
 @layer base {
   body {
-    @apply bg-background text-foreground text-base font-poppins-regular;
+    @apply bg-background text-foreground text-base font-inter-regular;
     margin: 0;
     padding: 0;
     box-sizing: border-box;

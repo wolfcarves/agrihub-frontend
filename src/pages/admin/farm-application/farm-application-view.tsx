@@ -38,7 +38,7 @@ const FarmApplicationView = () => {
       await farmAcceptMutate(id || "");
 
       toast.info(`Successfully accepted farm application`);
-      navigate(`/admin/farm/farm-approved`);
+      navigate(`/admin/community/farms/`);
     } catch (error: any) {}
   };
   const handleRejectApplication = async () => {
@@ -46,7 +46,7 @@ const FarmApplicationView = () => {
       await farmRejectMutate(id || "");
 
       toast.info(`Farm application rejected`);
-      navigate(`/admin/farm/farm-rejected`);
+      navigate(`/admin/community/farms/rejected`);
     } catch (error: any) {}
   };
 
@@ -57,7 +57,7 @@ const FarmApplicationView = () => {
   return (
     <AdminOutletContainer>
       <div className="w-max">
-        <Link to="/admin/farm/farm-request">
+        <Link to="/admin/community/farms">
           <span className="flex items-center gap-x-2 text-foreground font-poppins-semibold hover:underline hover:underline-offset-2 py-2.5 px-1.5 rounded-lg duration-200">
             <FaArrowLeftLong /> Back
           </span>

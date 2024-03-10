@@ -1,21 +1,14 @@
 import React, { useMemo } from "react";
-import AdminOutletContainer from "@components/admin/layout/container/AdminOutletContainer";
-import BreadCrumb from "../../../components/ui/custom/breadcrumb/breadcrumb";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
-import { columns } from "./table/columns-farm-application";
+import { columns } from "../../table/columns-farm-application";
 import { DataTable } from "@components/ui/custom/data-table/data-table";
 import { Input } from "@components/ui/input";
 import useGetFarmApplicationList from "@hooks/api/get/useGetFarmApplicationsList";
-import { Pagination } from "../../../components/ui/custom";
+import { Pagination } from "../../../../../components/ui/custom";
 import { useSearchParams } from "react-router-dom";
-import useDebounce from "../../../hooks/utils/useDebounce";
+import useDebounce from "../../../../../hooks/utils/useDebounce";
 
-const breadcrumbItems = [
-  { title: "Farm Management", link: "/admin/farm" },
-  { title: "Farms", link: "/admin/farm/farm-approved" },
-  { title: "Rejected Application", link: "/admin/farm/farm-rejected" }
-];
-const FarmsRejected = () => {
+const AdminFarmsRejected = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const params = useMemo(() => {
     return {
@@ -35,17 +28,9 @@ const FarmsRejected = () => {
   }, 100);
 
   return (
-    <AdminOutletContainer className="container mx-auto py-10 ">
-      <BreadCrumb items={breadcrumbItems} />
-      <h2 className="text-3xl font-bold tracking-tight">
-        Rejected Farm Applictions
-      </h2>
-      <p className="text-sm text-muted-foreground">
-        Manage rejected farm applications within the community.
-      </p>
-      <hr className="my-4" />
+    <>
       <Input
-        placeholder="Search title..."
+        placeholder="Search farm..."
         className="max-w-sm my-4"
         value={params.search}
         onChange={e => debouncedSearch(e.target.value)}
@@ -59,8 +44,12 @@ const FarmsRejected = () => {
           />
         </div>
       )}
-    </AdminOutletContainer>
+    </>
   );
 };
 
-export default withAuthGuard(FarmsRejected, ["admin", "asst_admin"], "farms");
+export default withAuthGuard(
+  AdminFarmsRejected,
+  ["admin", "asst_admin"],
+  "farms"
+);

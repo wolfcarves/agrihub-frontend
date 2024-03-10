@@ -4,17 +4,11 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@components/ui/dropdown-menu";
 import { Button } from "@components/ui/button";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
-import {
-  FarmApplicationData,
-  LearningMaterial,
-  SeedlingRequestListItem
-} from "@api/openapi";
-import { Link, useNavigate } from "react-router-dom";
+import { MoreHorizontal } from "lucide-react";
+import { SeedlingRequestListItem } from "@api/openapi";
 import { format } from "date-fns";
 import {
   Dialog,
@@ -26,9 +20,7 @@ import {
 } from "@components/ui/dialog";
 import { Label } from "@components/ui/label";
 import { Input } from "@components/ui/input";
-import { Textarea } from "@components/ui/textarea";
 import { Badge } from "@components/ui/badge";
-import { useState } from "react";
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 

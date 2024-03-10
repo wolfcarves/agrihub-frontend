@@ -4,13 +4,14 @@ import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/ui/tabs";
 import BreadCrumb from "@components/ui/custom/breadcrumb/breadcrumb";
 import { Button } from "@components/ui/button";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 // import { Card } from "@components/ui/card";
 // import { Input } from "@components/ui/input";
 // import { DataTable } from "@components/ui/custom/data-table/data-table";
 // import { columns } from "./table/columns-farm-problems";
 import FarmProblemsCommon from "@components/admin/farms/table/farm-problems-common";
-import FarmProblemsUnusual from "@components/admin/farms/table/farm-problems-unusual";
+import FarmProblemsArchived from "@components/admin/farms/table/farm-problems-archived";
+import AdminFarmReportedProblems from "@components/admin/farms/table/reported-problems-table";
 
 const breadcrumbItems = [
   {
@@ -20,6 +21,7 @@ const breadcrumbItems = [
 ];
 
 const FarmProblemsAdmin = () => {
+  const { tab }: any = useParams();
   return (
     <AdminOutletContainer>
       <BreadCrumb items={breadcrumbItems} />
@@ -30,15 +32,16 @@ const FarmProblemsAdmin = () => {
             Manage all registered and unregistered crops within the community
           </p>
         </div>
-        <Link to="/admin/farm/problems/add">
+        <Link to="/admin/community/problems/add">
           <Button>+ Problems</Button>
         </Link>
       </div>
       <hr className="my-4" />
-      <Tabs defaultValue="common">
+      <Tabs defaultValue={tab || "common"}>
         <TabsList>
           <TabsTrigger value="common">Common</TabsTrigger>
           <TabsTrigger value="unusual">Unusual</TabsTrigger>
+          <TabsTrigger value="archived">Archived</TabsTrigger>
         </TabsList>
 
         <TabsContent value="common">
@@ -46,7 +49,11 @@ const FarmProblemsAdmin = () => {
         </TabsContent>
 
         <TabsContent value="unusual">
-          <FarmProblemsUnusual />
+          <AdminFarmReportedProblems />
+        </TabsContent>
+
+        <TabsContent value="archived">
+          <FarmProblemsArchived />
         </TabsContent>
       </Tabs>
     </AdminOutletContainer>

@@ -65,7 +65,7 @@ export const columns: ColumnDef<FarmProblem>[] = [
               Copy problem ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <Link to={`/admin/farm/problems/view/${problem?.id}`}>
+            <Link to={`/admin/community/problems/view/${problem?.id}`}>
               <DropdownMenuItem>View problem details</DropdownMenuItem>
             </Link>
           </DropdownMenuContent>

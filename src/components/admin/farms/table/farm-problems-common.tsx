@@ -1,6 +1,5 @@
 import React, { useMemo } from "react";
 import { columns } from "@pages/admin/farms/table/columns-farm-problems";
-import { Card } from "@components/ui/card";
 import { Input } from "@components/ui/input";
 import { DataTable } from "@components/ui/custom/data-table/data-table";
 import { useQuery } from "@tanstack/react-query";
@@ -54,7 +53,7 @@ const FarmProblemsCommon = () => {
     return "loading..";
   }
   return (
-    <Card className="p-5">
+    <>
       <Input
         placeholder="Search title..."
         className="max-w-sm my-4"
@@ -70,7 +69,7 @@ const FarmProblemsCommon = () => {
           />
         )}
       </div>
-    </Card>
+    </>
   );
 };
 

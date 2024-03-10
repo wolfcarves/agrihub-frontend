@@ -8,11 +8,11 @@ import { useParams } from "react-router-dom";
 const breadcrumbItems = [
   {
     title: "Farm Problems",
-    link: "/admin/farm/problems"
+    link: "/admin/community/problems"
   },
   {
     title: "Problem",
-    link: "/admin/farm/problems/add"
+    link: "/admin/community/problems/add"
   }
 ];
 

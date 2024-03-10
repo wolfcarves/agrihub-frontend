@@ -52,7 +52,7 @@ const FarmProblemsArchived = () => {
     return "loading..";
   }
   return (
-    <Card className="p-5">
+    <>
       <Input
         placeholder="Search title..."
         className="max-w-sm my-4"
@@ -68,7 +68,7 @@ const FarmProblemsArchived = () => {
           />
         )}
       </div>
-    </Card>
+    </>
   );
 };
 

@@ -8,8 +8,12 @@ const breadcrumbItems = [
 ];
 import TableAdminList from "../../../components/admin/admins/table-admin-list/table-admin-list";
 import DialogCreateAdmin from "../../../components/admin/admins/dialog-create-admin/dialog-create-admin";
+import TableAdminDisabled from "@components/admin/admins/table-admin-disabled/table-admin-disabled";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/ui/tabs";
+import { useParams } from "react-router-dom";
 
 const RecordAdmins: React.FC = () => {
+  const { tab }: any = useParams();
   return (
     <AdminOutletContainer className="container mx-auto py-10 ">
       <BreadCrumb items={breadcrumbItems} />
@@ -23,6 +27,20 @@ const RecordAdmins: React.FC = () => {
         <DialogCreateAdmin />
       </div>
       <hr className="my-4" />
+      <Tabs defaultValue={tab || "active"}>
+        <TabsList>
+          <TabsTrigger value="active">Active</TabsTrigger>
+          <TabsTrigger value="disabled">Disabled</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="posted">
+          <TableAdminList />
+        </TabsContent>
+
+        <TabsContent value="reported">
+          <TableAdminDisabled />
+        </TabsContent>
+      </Tabs>
       <TableAdminList />
     </AdminOutletContainer>
   );

@@ -40,7 +40,9 @@ export const columns: ColumnDef<CommunityFarmProblem>[] = [
           <Button
             type="button"
             className="h-6 text-xs"
-            onClick={() => navigate(`/admin/farm/problems/view/${item.fp_id}`)}
+            onClick={() =>
+              navigate(`/admin/community/problems/view/${item.fp_id}`)
+            }
           >
             View
           </Button>

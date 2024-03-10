@@ -232,3 +232,30 @@ export function formatImage(img: string) {
   const formattedImg = `https://s3.ap-southeast-1.amazonaws.com/agrihub-bucket/${img}`;
   return formattedImg;
 }
+
+export const isValidUrl = (urlString: string) => {
+  try {
+    return Boolean(new URL(urlString));
+  } catch (e) {
+    return false;
+  }
+};
+
+export function getLastParameter(urlString: string) {
+  // Create a new URL object
+  const url = new URL(urlString);
+
+  const pathname = url.pathname;
+  const segments = pathname.split("/");
+  const lastParameter = segments[segments.length - 1];
+
+  return lastParameter;
+}
+
+export function parseValidString(item: string) {
+  if (isValidUrl(item)) {
+    return getLastParameter(item);
+  }
+
+  return item;
+}

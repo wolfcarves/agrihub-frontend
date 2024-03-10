@@ -283,3 +283,7 @@ code {
   object-fit: cover;
   object-position: center;
 }
+
+.sr-only {
+  display: none
+}

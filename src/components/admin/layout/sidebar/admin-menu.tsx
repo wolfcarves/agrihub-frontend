@@ -57,84 +57,27 @@ export const adminNavigation: AdminNavigationItem[] = [
   },
 
   {
-    href: "/admin/farm",
-    name: "Farm Management",
+    href: "/admin/community",
+    name: "Community Management",
     icon: <RiCommunityLine size={24} />,
     module: "farms",
     nav: [
       {
         title: "",
-        name: "Overview",
-        href: "/admin/farm",
-        module: "id"
-      },
-      // {
-      //   title: "Farmers",
-      //   name: "Farmers",
-      //   href: "/admin/farm/farmers"
-      // },
-      // {
-      //   title: "",
-      //   name: "Reported Accounts",
-      //   href: "/admin/farm/accounts-reported"
-      // },
-      // {
-      //   title: "",
-      //   name: "Banned Accounts",
-      //   href: "/admin/farm/accounts-banned"
-      // },
-      {
-        title: "Farms",
         name: "Farms",
-        href: "/admin/farm/farm-approved",
+        href: "/admin/community/farms",
         module: "farms"
       },
       {
         title: "",
-        name: "Farm Request",
-        href: "/admin/farm/farm-request",
+        name: "Seedling Request",
+        href: "/admin/community/seedling-request",
         module: "farms"
       },
       {
         title: "",
-        name: "Rejected Request",
-        href: "/admin/farm/farm-rejected",
-        module: "farms"
-      },
-      {
-        title: "Seedling Request",
-        name: "Pending",
-        href: "/admin/farm/seedling-pending",
-        module: "farms"
-      },
-      {
-        title: "",
-        name: "Accepted",
-        href: "/admin/farm/seedling-accepted",
-        module: "farms"
-      },
-      {
-        title: "",
-        name: "Rejected",
-        href: "/admin/farm/seedling-rejected",
-        module: "farms"
-      },
-      {
-        title: "Farm Problems",
-        name: "Problems List",
-        href: "/admin/farm/problems",
-        module: "farms"
-      },
-      {
-        title: "",
-        name: "Problems Archived List",
-        href: "/admin/farm/problems/archived",
-        module: "farms"
-      },
-      {
-        title: "",
-        name: "Problems Reported List",
-        href: "/admin/farm/problems/reported",
+        name: "Problem List",
+        href: "/admin/community/problems",
         module: "farms"
       }
     ]
@@ -148,80 +91,22 @@ export const adminNavigation: AdminNavigationItem[] = [
     nav: [
       {
         title: "",
-        name: "Overview",
-        href: "/admin/resources",
-        module: "id"
-      },
-      {
-        title: "Blogs",
-        name: "All Blogs",
+        name: "Blogs",
         href: "/admin/resource/blogs",
         module: "blog"
       },
       {
         title: "",
-        name: "Draft",
-        href: "/admin/resource/blogs-drafts",
-        module: "blog"
-      },
-      {
-        title: "",
-        name: "Archive",
-        href: "/admin/resource/blogs-archives",
-        module: "blog"
-      },
-      {
-        title: "Events",
-        name: "All Events",
+        name: "Events",
         href: "/admin/resource/events",
         module: "event"
       },
       {
         title: "",
-        name: "Draft",
-        href: "/admin/resource/events-draft",
-        module: "event"
-      },
-      {
-        title: "",
-        name: "Archive",
-        href: "/admin/resource/events-archives",
-        module: "event"
-      },
-      {
-        title: "Learning Materials",
-        name: "All Learning Materials",
+        name: "Learning Materials",
         href: "/admin/resource/learnings",
         module: "learning"
-      },
-      {
-        title: "",
-        name: "Draft",
-        href: "/admin/resource/learnings-draft",
-        module: "learning"
-      },
-      {
-        title: "",
-        name: "Archive",
-        href: "/admin/resource/learnings-archives",
-        module: "learning"
       }
-
-      // {
-      //   title: "Articles",
-      //   name: "All Articles",
-      //   href: "/admin/resource/articles"
-      // },
-      // {
-      //   title: "",
-      //   name: "Draft",
-      //   href: "/admin/resource/articles-draft"
-      // },
-      // {
-      //   title: "",
-      //   name: "Archive",
-      //   href: "/admin/resource/articles-archives"
-      // }
     ]
   },
 
@@ -233,31 +118,13 @@ export const adminNavigation: AdminNavigationItem[] = [
     nav: [
       {
         title: "",
-        name: "Overview",
-        href: "/admin/forum",
-        module: "forums"
-      },
-      {
-        title: "Questions",
-        name: "All Questions",
+        name: "Questions",
         href: "/admin/forum/questions",
         module: "forums"
       },
       {
         title: "",
-        name: "Reported",
-        href: "/admin/forum/question-reported",
-        module: "forums"
-      },
-      {
-        title: "",
-        name: "Archive",
-        href: "/admin/forum/question-archive",
-        module: "forums"
-      },
-      {
-        title: "Tags",
-        name: "All Tags",
+        name: "Tags",
         href: "/admin/forum/tags",
         module: "forums"
       }
@@ -271,22 +138,10 @@ export const adminNavigation: AdminNavigationItem[] = [
     module: "users",
     nav: [
       {
-        title: "Records",
+        title: "",
         name: "Users",
         href: "/admin/record/users",
         module: "id"
-      },
-      {
-        title: "",
-        name: "Reported Accounts",
-        href: "/admin/record/user-reported",
-        module: "users"
-      },
-      {
-        title: "",
-        name: "Banned Accounts",
-        href: "/admin/record/user-banned",
-        module: "users"
       }
     ]
   },
@@ -298,21 +153,15 @@ export const adminNavigation: AdminNavigationItem[] = [
     module: "admin",
     nav: [
       {
-        title: "Records",
+        title: "",
         name: "Admins",
         href: "/admin/record/admins",
-        module: "admin"
-      },
-      {
-        title: "",
-        name: "Disabled Accounts",
-        href: "/admin/record/admin-disabled",
         module: "admin"
       }
     ]
   },
   {
-    href: "/admin/website",
+    href: "/admin/website/client-details",
     name: "Website Management",
     icon: <FaRegEdit size={24} />,
     module: "id",

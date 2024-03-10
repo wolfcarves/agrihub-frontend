@@ -27,7 +27,6 @@ import Calendar from "@pages/user/calendar/calendar";
 
 //Others
 import ErrorElement from "@pages/user/common/error";
-import EditProfile from "@pages/user/users/edit-profile";
 import UserProfile from "@pages/user/users/profile";
 import QuestionAsk from "@pages/user/question/question-ask";
 import HelpsLayout from "@pages/user/help/_layout";
@@ -66,24 +65,14 @@ import OverviewAdmin from "@pages/admin/overview/overview";
 
 import Farms from "@pages/admin/farms/farms";
 import FarmsAdmin from "@pages/admin/farms/farms-admin";
-import FarmsPending from "@pages/admin/farms/farms-pending";
-import FarmsRejected from "@pages/admin/farms/farms-rejected";
 
 import Resource from "@pages/admin/resources/resource";
 import BlogsAdmin from "@pages/admin/resources/blogs/blogs-admin";
-import BlogsDraft from "@pages/admin/resources/blogs/blogs-draft";
-import BlogsArchive from "@pages/admin/resources/blogs/blogs-archive";
 import EventsAdmin from "@pages/admin/resources/events/events-admin";
-import EventsDraft from "@pages/admin/resources/events/events-draft";
-import EventsArchive from "@pages/admin/resources/events/events-archive";
 import LearningsAdmin from "@pages/admin/resources/learnings/learnings-admin";
 import UpdateLearnings from "@pages/admin/resources/learnings/learnings-add-details";
-import LearningsDraft from "@pages/admin/resources/learnings/learnings-draft";
-import LearningArchive from "@pages/admin/resources/learnings/learning-archive";
 import Forums from "@pages/admin/forums/forums";
 import QuestionsAdmin from "@pages/admin/forums/questions-admin";
-import QuestionsReported from "@pages/admin/forums/questions-reported";
-import QuestionsArchive from "@pages/admin/forums/questions-archive";
 import TagsAdmin from "@pages/admin/forums/tags-admin";
 
 import HelpsAdmin from "@pages/admin/website/help/helps-admin";
@@ -97,11 +86,8 @@ import PrivacyAdmin from "@pages/admin/website/privacy/privacy-admin";
 import TermsAdmin from "@pages/admin/website/terms/terms-admin";
 
 import RecordUsers from "@pages/admin/users/record-users";
-import UsersReported from "@pages/admin/users/users-reported";
-import UsersBanned from "@pages/admin/users/users-banned";
 
 import RecordAdmins from "@pages/admin/admins/record-admins";
-import DisabledAdmin from "@pages/admin/admins/disabled-admin";
 
 import ActivityLog from "@pages/admin/activities/activity-log";
 
@@ -121,13 +107,9 @@ import CropsReport from "./pages/user/community/reports/crops-report/crops-repor
 import CropsReportAdd from "./pages/user/community/reports/crops-report/crops-report-add";
 import CommunityProfile from "./pages/user/community/community-profile";
 import InviteFarm from "./pages/user/invitation/invite-farm";
-import InviteLayout from "./pages/user/invitation/invite-layout";
 import CropsReportView from "./pages/user/community/reports/crops-report/crops-report-view";
 import ViewEvents from "@pages/admin/resources/events/events-view";
-import SeedlingPending from "@pages/admin/farms/seedling-pending";
 import MainLayout from "@pages/user/layout/main-layout";
-import SeedlingAccepted from "@pages/admin/farms/seedling-accepted";
-import SeedlingRejected from "@pages/admin/farms/seedling-rejected";
 import ViewBlogs from "./pages/admin/resources/blogs/blogs-view";
 import AnalyticsAdmin from "@pages/admin/analytics/analytics-admin";
 import CropView from "@pages/user/calendar/crop-view";
@@ -142,9 +124,8 @@ import AddCropsAdmin from "./pages/admin/website/crops/crops-add";
 import FarmProblems from "@pages/admin/farms/farm-problems";
 import FarmManageProblems from "@pages/admin/farms/view/farm-manage-problems";
 import CommunityProblem from "./pages/user/community/community-problem";
-import FarmProblemsArchives from "./pages/admin/farms/farm-problems-archives";
-import FarmReportedProblems from "./pages/admin/farms/farm-reported-problems";
 import VerifyOtp from "@pages/user/account/verify-otp";
+import SeedlingRequest from "@pages/admin/farms/seedling-request";
 
 const App = ReactRouter(
   <>
@@ -285,22 +266,19 @@ const App = ReactRouter(
       <Route path="analytics" element={<AnalyticsAdmin />} />
 
       {/* Community  */}
-      <Route path="farm">
+      <Route path="community">
         <Route path="" element={<Farms />} />
 
-        <Route path="farm-approved" element={<FarmsAdmin />} />
-        <Route path="farm-request" element={<FarmsPending />} />
+        <Route path="farms" element={<FarmsAdmin />} />
+        <Route path="farms/:tab" element={<FarmsAdmin />} />
         <Route path="application/:id" element={<FarmApplicationView />} />
-        <Route path="farm-rejected" element={<FarmsRejected />} />
 
-        <Route path="seedling-pending" element={<SeedlingPending />} />
-        <Route path="seedling-accepted" element={<SeedlingAccepted />} />
-        <Route path="seedling-rejected" element={<SeedlingRejected />} />
+        <Route path="seedling-request" element={<SeedlingRequest />} />
+        <Route path="seedling-request/:tab" element={<SeedlingRequest />} />
 
         <Route path="problems" element={<FarmProblems />} />
+        <Route path="problems/:tag" element={<FarmProblems />} />
         <Route path="problems/add" element={<FarmManageProblems />} />
-        <Route path="problems/archived" element={<FarmProblemsArchives />} />
-        <Route path="problems/reported" element={<FarmReportedProblems />} />
         <Route
           path="problems/view/:problemId"
           element={<FarmManageProblems />}
@@ -312,25 +290,21 @@ const App = ReactRouter(
       <Route path="resource">
         <Route path="blogs">
           <Route path="" element={<BlogsAdmin />} />
-
           <Route path="view/:blogId" element={<ViewBlogs />} />
         </Route>
-        <Route path="blogs-drafts" element={<BlogsDraft />} />
-        <Route path="blogs-archives" element={<BlogsArchive />} />
+        <Route path="blogs/:tab" element={<BlogsAdmin />} />
 
         <Route path="events">
           <Route path="" element={<EventsAdmin />} />
           <Route path="view/:eventId" element={<ViewEvents />} />
         </Route>
-        <Route path="events-draft" element={<EventsDraft />} />
-        <Route path="events-archives" element={<EventsArchive />} />
+        <Route path="events/:tab" element={<EventsAdmin />} />
 
         <Route path="learnings">
           <Route path="" element={<LearningsAdmin />} />
           <Route path="view/:learningsId" element={<UpdateLearnings />} />
         </Route>
-        <Route path="learnings-draft" element={<LearningsDraft />} />
-        <Route path="learnings-archives" element={<LearningArchive />} />
+        <Route path="learnings/:tab" element={<LearningsAdmin />} />
       </Route>
 
       {/* Forums */}
@@ -338,24 +312,26 @@ const App = ReactRouter(
         <Route path="" element={<Forums />} />
 
         <Route path="questions" element={<QuestionsAdmin />} />
-        <Route path="question-reported" element={<QuestionsReported />} />
-        <Route path="question-archive" element={<QuestionsArchive />} />
+        <Route path="questions/:tab" element={<QuestionsAdmin />} />
         <Route path="tags" element={<TagsAdmin />} />
       </Route>
 
       {/* records */}
       <Route path="record">
+        {/* users */}
         <Route path="users" element={<RecordUsers />} />
-        <Route path="user-reported" element={<UsersReported />} />
-        <Route path="user-banned" element={<UsersBanned />} />
+        <Route path="users/:tab" element={<RecordUsers />} />
+
+        {/* admin */}
         <Route path="admins" element={<RecordAdmins />} />
+        <Route path="admins/:tab" element={<RecordAdmins />} />
         <Route
           path="admins/set-permission/:userId"
           element={<SetPermissionAdmin />}
         />
         <Route path="admins/create" element={<PermissionAdminCreate />} />
-        <Route path="admin-disabled" element={<DisabledAdmin />} />
 
+        {/* activity log */}
         <Route path="activity-logs" element={<ActivityLog />} />
       </Route>
 

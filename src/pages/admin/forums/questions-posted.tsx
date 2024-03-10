@@ -3,16 +3,16 @@ import withAuthGuard from "@higher-order/account/withAuthGuard";
 import { DataTable } from "@components/ui/custom/data-table/data-table";
 import { data, columns } from "./table/colums-question";
 
-const QuestionsArchive = () => {
+const QuestionsPosted = () => {
   return (
     <>
-      <DataTable columns={columns} data={data} />
+      <DataTable data={data} columns={columns} />
     </>
   );
 };
 
 export default withAuthGuard(
-  QuestionsArchive,
+  QuestionsPosted,
   ["admin", "asst_admin"],
   "forums"
 );

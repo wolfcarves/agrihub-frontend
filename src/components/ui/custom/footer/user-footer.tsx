@@ -20,6 +20,9 @@ import useGetClientDetails from "@hooks/api/get/useGetClientDetails";
 const UserFooter = () => {
   const { data: cmsClientDetails } = useGetClientDetails();
   const navigate = useNavigate();
+
+  const S3_BASE_URL = import.meta.env.VITE_S3_BUCKET_BASEURL;
+
   const navigateAbout = () => {
     navigate("/about");
   };
@@ -42,7 +45,7 @@ const UserFooter = () => {
         <img className="h-[5.4rem]" src={agrihub as unknown as string} />
         <img
           className="h-[2.6rem] ml-1 rounded-full"
-          src={cmsClientDetails?.logo}
+          src={S3_BASE_URL + cmsClientDetails?.logo}
         />
       </div>
       <div className="py-8 grid grid-cols-10">

@@ -9,7 +9,7 @@ import {
 
 const About = () => {
   const { data: cmsClientDetail } = useGetClientDetails();
-  console.log(cmsClientDetail);
+  const S3_BASE_URL = import.meta.env.VITE_S3_BUCKET_BASEURL;
 
   const plugin = React.useRef(
     Autoplay({ delay: 2000, stopOnInteraction: true })
@@ -207,7 +207,7 @@ const About = () => {
             <div className="w-full sm:w-1/3 flex items-center">
               <img
                 className="w-full"
-                src={partners.logo}
+                src={S3_BASE_URL + partners.logo}
                 alt={cmsClientDetail.name}
               />
             </div>
@@ -284,7 +284,7 @@ const About = () => {
                 <p key={idx}>
                   <div className="w-24 h-24 mx-auto">
                     <img
-                      src={member.image}
+                      src={S3_BASE_URL + member.image}
                       className="w-full h-full rounded-full object-cover"
                       alt=""
                     />

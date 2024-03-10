@@ -2,44 +2,52 @@ import React from "react";
 import AdminOutletContainer from "@components/admin/layout/container/AdminOutletContainer";
 import BreadCrumb from "../../../components/ui/custom/breadcrumb/breadcrumb";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
-import AdminFarmsRegistered from "./tabs/farms/farms-registered";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/ui/tabs";
-import AdminFarmsPending from "./tabs/farms/farms-pending";
-import AdminFarmsRejected from "./tabs/farms/farms-rejected";
 import { useParams } from "react-router-dom";
+import TableSeedlingAccepted from "@components/admin/seedling-request/table-seedling-accepted/table-seedling-accepted";
+import TableSeedlingPending from "@components/admin/seedling-request/table-seedling-pending/table-seedling-pending";
+import TableSeedlingRejected from "@components/admin/seedling-request/table-seedling-rejected/table-seedling-rejected";
 
 const breadcrumbItems = [
   { title: "Farm Management", link: "/admin/community" },
-  { title: "Farms", link: "/admin/community/farms" }
+  { title: "Farms", link: "/admin/community/farms" },
+  {
+    title: "Pending Seedling Request",
+    link: "/admin/community/seedling-request"
+  }
 ];
-const FarmsAdmin = () => {
+const SeedlingRequestAdmin = () => {
   const { tab }: any = useParams();
   return (
     <AdminOutletContainer className="container mx-auto py-10 ">
       <BreadCrumb items={breadcrumbItems} />
-      <h2 className="text-3xl font-bold tracking-tight">Farms</h2>
+      <h2 className="text-3xl font-bold tracking-tight">Seedling Request</h2>
       <p className="text-sm text-muted-foreground">
-        Manage all farms within the community.
+        Manage seedling request of farms.
       </p>
       <hr className="my-4" />
-      <Tabs defaultValue={tab || "registered"}>
+      <Tabs defaultValue={tab || "accepted"}>
         <TabsList>
-          <TabsTrigger value="registered">Farms</TabsTrigger>
+          <TabsTrigger value="accepted">Accepted</TabsTrigger>
           <TabsTrigger value="pending">Pending</TabsTrigger>
           <TabsTrigger value="rejected">Rejected</TabsTrigger>
         </TabsList>
-        <TabsContent value="registered">
-          <AdminFarmsRegistered />
+        <TabsContent value="accepted">
+          <TableSeedlingAccepted />
         </TabsContent>
         <TabsContent value="pending">
-          <AdminFarmsPending />
+          <TableSeedlingPending />
         </TabsContent>
         <TabsContent value="rejected">
-          <AdminFarmsRejected />
+          <TableSeedlingRejected />
         </TabsContent>
       </Tabs>
     </AdminOutletContainer>
   );
 };
 
-export default withAuthGuard(FarmsAdmin, ["admin", "asst_admin"], "farms");
+export default withAuthGuard(
+  SeedlingRequestAdmin,
+  ["admin", "asst_admin"],
+  "farms"
+);

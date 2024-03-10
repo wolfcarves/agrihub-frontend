@@ -7,11 +7,11 @@ import { useQueryClient } from "@tanstack/react-query";
 
 const api_uri =
   import.meta.env.VITE_DEV_STATE === "production"
-    ? "https://qc-agrihub.xyz"
+    ? "https://api.qc-agrihub.xyz"
     : "http://localhost:3000";
 
 const axiosInstance = axios.create({
-  baseURL: "https://qc-agrihub.xyz",
+  baseURL: "https://api.qc-agrihub.xyz",
   withCredentials: true
 });
 

@@ -39,4 +39,5 @@ export type UserSchema = {
     updatedat?: string;
     isbanned?: boolean;
     farm_id?: string | null;
+    contact_number?: string | null;
 };

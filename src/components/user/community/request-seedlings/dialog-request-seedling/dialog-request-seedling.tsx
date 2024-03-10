@@ -36,14 +36,12 @@ const addRequestSchema = zod.object({
       required_error: "Other is required."
     })
     .optional(),
-  quantity_request: zod
-    .string({
-      required_error: "Quantity is required."
+  quantity_request: zod.coerce
+    .number({
+      required_error: "Please provide a requested quantity"
     })
-    .optional(),
-  note: zod.string({
-    required_error: "Note is required."
-  })
+    .min(0, "Requested quantity must be at least 0")
+    .max(1000, "Requested quantity cannot exceed 1000")
 });
 
 const DialogRequestSeedling = () => {
@@ -81,8 +79,7 @@ const DialogRequestSeedling = () => {
     const compiledData: NewSeedlingRequest = {
       crop_id: data.crop_id,
       other: data.other,
-      quantity_request: Number(data.quantity_request),
-      note: data.note
+      quantity_request: data.quantity_request
     };
     if (compiledData.other) {
       delete compiledData.crop_id;
@@ -145,16 +142,17 @@ const DialogRequestSeedling = () => {
                 type="number"
                 placeholder="Quantity"
                 className="col-span-3"
-                min={0}
+                min={1}
                 max={10000}
+                required
               />
             </div>
-            <div className="flex flex-col gap-3">
+            {/* <div className="flex flex-col gap-3">
               <Label htmlFor="title" className=" font-poppins-medium">
                 Note
               </Label>
               <Textarea {...form.register("note")} className="col-span-3" />
-            </div>
+            </div> */}
             <DialogFooter className="flex flex-row gap-2 justify-end">
               <Button
                 variant={"secondary"}

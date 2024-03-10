@@ -1,6 +1,6 @@
 import React, { ComponentProps, useEffect, useState } from "react";
 import { UserSidebarNavLink } from "@components/ui/custom";
-
+import logo from "../../../../icons/main-logo.svg";
 import { BsTags } from "react-icons/bs";
 import { TbMessageCircleQuestion } from "react-icons/tb";
 import { IoBookmarkOutline } from "react-icons/io5";
@@ -22,6 +22,7 @@ import { BiHomeAlt } from "react-icons/bi";
 import { RxQuestionMarkCircled } from "react-icons/rx";
 import { GoBook } from "react-icons/go";
 import { Sheet, SheetContent, SheetTrigger } from "@components/ui/sheet";
+import useGetFarmViewQuery from "@hooks/api/get/useGetFarmViewQuery";
 
 type UserHeaderMobileSidebarProps = ComponentProps<"div"> & {
   onLinkClick?: () => void;
@@ -41,12 +42,17 @@ const UserHeaderMobileSidebar = ({
   useEffect(() => {
     setIsOpen(false);
   }, [pathname]);
+  const { data: UserData } = useAuth();
+  const id = UserData?.farm_id;
+  const { data: farmData } = useGetFarmViewQuery(id || "");
+
+  const farmName = farmData?.farm_name;
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
-      <SheetTrigger>
+      <SheetTrigger className="block sm:hidden">
         <button
-          className="flex items-center text-xl opacity-75"
+          className=" items-center text-xl opacity-75"
           onClick={() => setIsOpen(prev => !prev)}
         >
           {!isOpen ? (
@@ -56,20 +62,116 @@ const UserHeaderMobileSidebar = ({
           )}
         </button>
       </SheetTrigger>
-      <SheetContent side="left">
-        <div
-          className="fixed left-0 bottom-0 top-0 w-full max-w-[17rem] bg-background border-r p-3 overflow-y-scroll z-50"
-          style={{
-            overscrollBehavior: "contain"
-          }}
-        >
+      <SheetContent side="left" className="overflow-y-scroll">
+        <h4 className="py-3 px-4 mb-8 font-bold text-gray-800 md:px-8 ">
+          <div className="flex items-center justify-center px-8">
+            <div className="flex-none">
+              <img
+                src={logo as unknown as string}
+                width={50}
+                className="mx-auto"
+              />
+            </div>
+          </div>
+        </h4>
+        <UserSidebarNavLink
+          to="/"
+          title="Home"
+          logo={<BiHomeAlt size={20} />}
+          onClick={handleEventClick}
+        />
+
+        <div className="mt-10">
+          <h6 className="font-poppins-semibold pb-5">Community</h6>
+
           <UserSidebarNavLink
-            to="/"
-            title="Home"
-            logo={<BiHomeAlt size={20} />}
+            to="/community"
+            title={farmName || "Community"}
+            logo={<BsPeople size={20} />}
+            onClick={handleEventClick}
+            end={
+              pathname === "/community/explore" ||
+              pathname === `/community/reports/${userData?.farm_id}` ||
+              pathname === `/community/request/${userData?.farm_id}` ||
+              pathname === `/community/problem/${userData?.farm_id}` ||
+              pathname === `/community/request/${userData?.farm_id}`
+            }
+          />
+
+          <UserSidebarNavLink
+            to="/community/explore"
+            title="Explore"
+            logo={<PiListMagnifyingGlass size={21} />}
+            onClick={handleEventClick}
+            end
+          />
+
+          {userData?.farm_id && userData.role === "farm_head" && (
+            <UserSidebarNavLink
+              to={`/community/reports/${userData?.farm_id}`}
+              title="Reports"
+              logo={<PiNewspaper size={20} />}
+              end
+              onClick={handleEventClick}
+            />
+          )}
+          {userData?.farm_id && userData.role === "farm_head" && (
+            <UserSidebarNavLink
+              to={`/community/request/${userData?.farm_id}`}
+              title="Request"
+              logo={<CiSquareQuestion size={20} />}
+              end
+              onClick={handleEventClick}
+            />
+          )}
+          {userData?.farm_id && userData.role === "farm_head" && (
+            <UserSidebarNavLink
+              to={`/community/problem/${userData.farm_id}`}
+              title="Problem"
+              logo={<PiShieldWarning size={20} />}
+              end
+              onClick={handleEventClick}
+            />
+          )}
+        </div>
+
+        <div className="mt-10">
+          <h6 className="font-poppins-semibold pb-5">Resources</h6>
+
+          <UserSidebarNavLink
+            to="/planting-calendar"
+            title="Planting Calendar"
+            logo={<RiLeafLine size={20} />}
+            end
             onClick={handleEventClick}
           />
 
+          <UserSidebarNavLink
+            to="/learning-materials"
+            title="Learning Material"
+            logo={<GoBook size={20} />}
+            end
+            onClick={handleEventClick}
+          />
+
+          <UserSidebarNavLink
+            to="/blogs"
+            title="Blogs"
+            logo={<RiLightbulbLine size={20} />}
+            end
+            onClick={handleEventClick}
+          />
+
+          <UserSidebarNavLink
+            to="/events"
+            title="Events"
+            logo={<IoCalendarNumberOutline size={20} />}
+            end
+            onClick={handleEventClick}
+          />
+        </div>
+        <div className="mt-10">
+          <h6 className="font-poppins-semibold pb-5">Forums</h6>
           <UserSidebarNavLink
             to="/forum"
             title="Questions"
@@ -95,116 +197,34 @@ const UserHeaderMobileSidebar = ({
             onClick={handleEventClick}
             end
           />
+        </div>
 
-          <div className="mt-10">
-            <h6 className="font-poppins-semibold pb-5">Groups</h6>
+        <div className="mt-10">
+          <h6 className="font-poppins-semibold pb-5">Others</h6>
 
-            <UserSidebarNavLink
-              to="/community"
-              title="Community"
-              logo={<BsPeople size={20} />}
-              onClick={handleEventClick}
-              end={
-                pathname === "/community/explore" ||
-                pathname === `/community/reports/${userData?.farm_id}` ||
-                pathname === `/community/request/${userData?.farm_id}` ||
-                pathname === `/community/problem/${userData?.farm_id}` ||
-                pathname === `/community/request/${userData?.farm_id}`
-              }
-            />
+          <UserSidebarNavLink
+            to="/about"
+            title="About"
+            logo={<RxQuestionMarkCircled size={20} />}
+            end
+            onClick={handleEventClick}
+          />
 
-            <UserSidebarNavLink
-              to="/community/explore"
-              title="Explore"
-              logo={<PiListMagnifyingGlass size={21} />}
-              onClick={handleEventClick}
-              end
-            />
+          <UserSidebarNavLink
+            to="/terms-condition"
+            title="Terms and Condition"
+            logo={<PiNewspaperLight size={20} />}
+            end
+            onClick={handleEventClick}
+          />
 
-            {userData?.farm_id && userData.role === "farm_head" && (
-              <UserSidebarNavLink
-                to={`/community/reports/${userData?.farm_id}`}
-                title="Reports"
-                logo={<PiNewspaper size={20} />}
-                end
-                onClick={handleEventClick}
-              />
-            )}
-            {userData?.farm_id && userData.role === "farm_head" && (
-              <UserSidebarNavLink
-                to={`/community/request/${userData?.farm_id}`}
-                title="Request"
-                logo={<CiSquareQuestion size={20} />}
-                end
-                onClick={handleEventClick}
-              />
-            )}
-            {userData?.farm_id && userData.role === "farm_head" && (
-              <UserSidebarNavLink
-                to={`/community/problem/${userData.farm_id}`}
-                title="Problem"
-                logo={<PiShieldWarning size={20} />}
-                end
-                onClick={handleEventClick}
-              />
-            )}
-          </div>
-
-          <div className="mt-10">
-            <h6 className="font-poppins-semibold pb-5">Resources</h6>
-
-            <UserSidebarNavLink
-              to="/planting-calendar"
-              title="Planting Calendar"
-              logo={<RiLeafLine size={20} />}
-              end
-              onClick={handleEventClick}
-            />
-
-            <UserSidebarNavLink
-              to="/learning-materials"
-              title="Learning Material"
-              logo={<GoBook size={20} />}
-              end
-              onClick={handleEventClick}
-            />
-
-            <UserSidebarNavLink
-              to="/blogs"
-              title="Blogs"
-              logo={<RiLightbulbLine size={20} />}
-              end
-              onClick={handleEventClick}
-            />
-
-            <UserSidebarNavLink
-              to="/events"
-              title="Events"
-              logo={<IoCalendarNumberOutline size={20} />}
-              end
-              onClick={handleEventClick}
-            />
-          </div>
-
-          <div className="mt-10">
-            <h6 className="font-poppins-semibold pb-5">Others</h6>
-
-            <UserSidebarNavLink
-              to="/about"
-              title="About"
-              logo={<RxQuestionMarkCircled size={20} />}
-              end
-              onClick={handleEventClick}
-            />
-
-            <UserSidebarNavLink
-              to="/terms-condition"
-              title="Terms and Condition"
-              logo={<PiNewspaperLight size={20} />}
-              end
-              onClick={handleEventClick}
-            />
-          </div>
+          <UserSidebarNavLink
+            to="/privacy-policy"
+            title="Privacy Policy"
+            logo={<PiNewspaperLight size={20} />}
+            end
+            onClick={handleEventClick}
+          />
         </div>
       </SheetContent>
     </Sheet>

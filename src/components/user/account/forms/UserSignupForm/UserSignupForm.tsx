@@ -24,7 +24,21 @@ import { UserRegisterSchema } from "@api/openapi";
 
 const CAPTCHA_CONTAINER_ID = import.meta.env.VITE_CAPTCHA_CONTAINER_ID;
 const CAPTCHA_ID = import.meta.env.VITE_CAPTCHA_ID;
+//FOR BACKEND
 // const CAPTCHA_PRIVATE_KEY = import.meta.env.VITE_CAPTCHA_PRIVATE_KEY;
+// const { answer, challenge_id } = getCaptcha().getCaptchaValue();
+// const raw = {
+//   email: data.email,
+//   password: data.password,
+//   confirmPassword: data.confirmPassword,
+//   privateKey: CAPTCHA_PRIVATE_KEY,
+//   challengeId: challenge_id,
+//   answer
+// } as UserRegisterSchema & {
+//   privateKey: string;
+//   challengeId: string;
+//   answer: string;
+// };
 
 const UserSignupForm = () => {
   const { getCaptcha } = leminCroppedCaptcha;
@@ -49,20 +63,6 @@ const UserSignupForm = () => {
         getCaptcha().getCaptchaValue().answer !== "" ? true : false;
 
       if (isVerified) {
-        // const { answer, challenge_id } = getCaptcha().getCaptchaValue();
-        // const raw = {
-        //   email: data.email,
-        //   password: data.password,
-        //   confirmPassword: data.confirmPassword,
-        //   privateKey: CAPTCHA_PRIVATE_KEY,
-        //   challengeId: challenge_id,
-        //   answer
-        // } as UserRegisterSchema & {
-        //   privateKey: string;
-        //   challengeId: string;
-        //   answer: string;
-        // };
-
         const raw: UserRegisterSchema = {
           email: method === "email" ? data.email : undefined,
           phone_number: method === "phone" ? data.phone : undefined,

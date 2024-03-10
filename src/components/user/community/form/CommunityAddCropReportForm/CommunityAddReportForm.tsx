@@ -20,7 +20,7 @@ import Loader from "../../../../../icons/Loader";
 
 const CommunityAddCropReportForm = () => {
   const navigate = useNavigate();
-  const [check, setCheck] = useState<CheckedState>(false);
+  // const [check, setCheck] = useState<CheckedState>(false);
   const [isCrop, setIsCrop] = useState<boolean>(true);
   const form = useForm<NewCommunityCropReport>({
     resolver: zodResolver(cropAddReportSchema),
@@ -83,14 +83,14 @@ const CommunityAddCropReportForm = () => {
       return null;
     }
 
-    if (!check) {
-      form.setError("notes", {
-        type: "manual",
-        message:
-          "Oops! It looks like you forgot to agree to the terms and conditions."
-      });
-      return null;
-    }
+    // if (!check) {
+    //   form.setError("notes", {
+    //     type: "manual",
+    //     message:
+    //       "Oops! It looks like you forgot to agree to the terms and conditions."
+    //   });
+    //   return null;
+    // }
 
     const compiledData: NewCommunityCropReport = {
       crop_id: data.crop_id,
@@ -141,7 +141,7 @@ const CommunityAddCropReportForm = () => {
             {...form.register("planted_qty")}
             type="number"
             className="h-9 rounded-md"
-            min={1}
+            min={0}
             max={10000}
           />
           <FormMessage>
@@ -186,7 +186,7 @@ const CommunityAddCropReportForm = () => {
             {...form.register("harvested_qty")}
             type="number"
             max={10000}
-            min={1}
+            min={0}
             className="h-9 rounded-md"
           />
           <FormMessage>
@@ -249,7 +249,7 @@ const CommunityAddCropReportForm = () => {
             />
           </div>
         </div>
-        <div className="flex items-center space-x-2 col-span-12">
+        {/* <div className="flex items-center space-x-2 col-span-12">
           <Checkbox
             checked={check}
             onCheckedChange={checked => setCheck(checked)}
@@ -258,7 +258,7 @@ const CommunityAddCropReportForm = () => {
             By selecting this, you agree to our&nbsp;
             <span className="text-primary underline">terms and conditions</span>
           </Label>
-        </div>
+        </div> */}
         <div className="col-span-12">
           <Button disabled={cropReportLoading} type="submit">
             Submit

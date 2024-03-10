@@ -16,13 +16,13 @@ import { Link } from "react-router-dom";
 
 const SuggestionsModal = () => {
   const { data: LearningMaterials } = useGetReportLearningMaterials();
-  console.log(LearningMaterials);
+
   return (
     <Dialog>
       <DialogTrigger className="bg-red-300 rounded-lg flex items-center p-1 w-full gap-2 px-2 ">
         <IoIosWarning className="text-xl text-red-500" />
         <p className="text-white text-xs">
-          Action Needed: Monthly Growth Dips Below 1.37% -{" "}
+          Action Needed: Average Growth Rate Dips Below 85% -{" "}
           <span className="hover:underline underline-offset-3">
             Click here for Immediate Solutions and Contribute Your Insights.
           </span>

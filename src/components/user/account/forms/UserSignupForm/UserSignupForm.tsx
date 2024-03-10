@@ -75,6 +75,10 @@ const UserSignupForm = () => {
         setCaptchaError(true);
       }
     } catch (e: any) {
+      if (e.status === 429) {
+        toast.error("Too many request, Please try again later");
+      }
+
       toast.error(e.body.message);
     }
   };

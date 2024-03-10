@@ -21,6 +21,7 @@ import { CiSquareQuestion } from "react-icons/ci";
 import { BiHomeAlt } from "react-icons/bi";
 import { RxQuestionMarkCircled } from "react-icons/rx";
 import { GoBook } from "react-icons/go";
+import { Sheet, SheetContent, SheetTrigger } from "@components/ui/sheet";
 
 type UserHeaderMobileSidebarProps = ComponentProps<"div"> & {
   onLinkClick?: () => void;
@@ -42,8 +43,8 @@ const UserHeaderMobileSidebar = ({
   }, [pathname]);
 
   return (
-    <>
-      <div className="md:hidden">
+    <Sheet open={isOpen} onOpenChange={setIsOpen}>
+      <SheetTrigger>
         <button
           className="flex items-center text-xl opacity-75"
           onClick={() => setIsOpen(prev => !prev)}
@@ -54,11 +55,10 @@ const UserHeaderMobileSidebar = ({
             <IoMdClose className="text-2xl" />
           )}
         </button>
-      </div>
-
-      {isOpen && (
+      </SheetTrigger>
+      <SheetContent side="left">
         <div
-          className="fixed left-0 bottom-0 top-14 w-full max-w-[17rem] bg-background border-r p-3 overflow-y-scroll z-50"
+          className="fixed left-0 bottom-0 top-0 w-full max-w-[17rem] bg-background border-r p-3 overflow-y-scroll z-50"
           style={{
             overscrollBehavior: "contain"
           }}
@@ -206,8 +206,8 @@ const UserHeaderMobileSidebar = ({
             />
           </div>
         </div>
-      )}
-    </>
+      </SheetContent>
+    </Sheet>
   );
 };
 

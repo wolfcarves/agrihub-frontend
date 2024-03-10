@@ -6,7 +6,7 @@ export const cropAddReportSchema = zod.object({
     .number({
       required_error: "Please provide a planted quantity"
     })
-    .min(1, "Planted quantity must be at least 1")
+    .min(0, "Planted quantity must be at least 1")
     .max(10000, "Planted quantity cannot exceed 10,000"),
   is_other: zod.boolean().optional(),
   isyield: zod.boolean().optional(),
@@ -15,7 +15,7 @@ export const cropAddReportSchema = zod.object({
     .number({
       required_error: "Please provide a harvested quantity"
     })
-    .min(1, "Harvested quantity must be at least 1")
+    .min(0, "Harvested quantity must be at least 1")
     .max(10000, "Harvested quantity cannot exceed 10,000"),
   withered_crops: zod.coerce
     .number({

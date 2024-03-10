@@ -1,5 +1,8 @@
 {
-  "rewrites": [{ "source": "/(.*)", "destination": "/" }],
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/" },
+    { "source": "/sw.js", "destination": "/sw.js" }
+  ],
   "headers": [
     {
       "source": "/sw.js",

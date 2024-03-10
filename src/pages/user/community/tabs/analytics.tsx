@@ -139,7 +139,7 @@ const Analytics = () => {
             <div className="flex-grow grid place-items-center">
               {!growthRate ? (
                 <div className="text-center text-primary">
-                  Growth rate not available
+                  Not enough report data
                 </div>
               ) : (
                 <div className="text-center">

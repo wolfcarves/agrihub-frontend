@@ -29,6 +29,7 @@ interface SelectCropProps {
 const SelectCrop: React.FC<SelectCropProps> = ({ field, form, other }) => {
   const { id } = useParams();
   const { data: farmCrops } = useGetFarmCropsQuery(id || "");
+  console.log(farmCrops);
   const [open, setOpen] = useState(false);
 
   return (

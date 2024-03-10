@@ -14,7 +14,7 @@ const PlantingCalendarCard = ({
       <Link to={`/planting-calendar/${String(name)}`}>
         <img
           src={image}
-          className="w-40 rounded-full aspect-square object-cover border hover:brightness-110"
+          className="max-w-40 rounded-full aspect-square object-cover border hover:brightness-110"
         />
       </Link>
 

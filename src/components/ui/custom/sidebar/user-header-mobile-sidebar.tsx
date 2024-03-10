@@ -7,9 +7,8 @@ import { IoBookmarkOutline } from "react-icons/io5";
 import useAuth from "@hooks/useAuth";
 import { useLocation } from "react-router-dom";
 import { BsPeople } from "react-icons/bs";
-import { RiLightbulbLine } from "react-icons/ri";
+import { RiLeafLine, RiLightbulbLine } from "react-icons/ri";
 import { IoCalendarNumberOutline } from "react-icons/io5";
-import { BsExclamationCircle } from "react-icons/bs";
 import {
   PiListMagnifyingGlass,
   PiNewspaper,
@@ -21,6 +20,8 @@ import { IoMdClose } from "react-icons/io";
 import { CiSquareQuestion } from "react-icons/ci";
 import { BiHomeAlt } from "react-icons/bi";
 import { RxQuestionMarkCircled } from "react-icons/rx";
+import { GoBook } from "react-icons/go";
+import { Sheet, SheetContent, SheetTrigger } from "@components/ui/sheet";
 
 type UserHeaderMobileSidebarProps = ComponentProps<"div"> & {
   onLinkClick?: () => void;
@@ -42,8 +43,8 @@ const UserHeaderMobileSidebar = ({
   }, [pathname]);
 
   return (
-    <>
-      <div className="md:hidden">
+    <Sheet open={isOpen} onOpenChange={setIsOpen}>
+      <SheetTrigger>
         <button
           className="flex items-center text-xl opacity-75"
           onClick={() => setIsOpen(prev => !prev)}
@@ -54,11 +55,10 @@ const UserHeaderMobileSidebar = ({
             <IoMdClose className="text-2xl" />
           )}
         </button>
-      </div>
-
-      {isOpen && (
+      </SheetTrigger>
+      <SheetContent side="left">
         <div
-          className="fixed left-0 bottom-0 top-14 w-full max-w-[17rem] bg-background border-r p-3 overflow-y-scroll z-50"
+          className="fixed left-0 bottom-0 top-0 w-full max-w-[17rem] bg-background border-r p-3 overflow-y-scroll z-50"
           style={{
             overscrollBehavior: "contain"
           }}
@@ -154,6 +154,22 @@ const UserHeaderMobileSidebar = ({
             <h6 className="font-poppins-semibold pb-5">Resources</h6>
 
             <UserSidebarNavLink
+              to="/planting-calendar"
+              title="Planting Calendar"
+              logo={<RiLeafLine size={20} />}
+              end
+              onClick={handleEventClick}
+            />
+
+            <UserSidebarNavLink
+              to="/learning-materials"
+              title="Learning Material"
+              logo={<GoBook size={20} />}
+              end
+              onClick={handleEventClick}
+            />
+
+            <UserSidebarNavLink
               to="/blogs"
               title="Blogs"
               logo={<RiLightbulbLine size={20} />}
@@ -190,8 +206,8 @@ const UserHeaderMobileSidebar = ({
             />
           </div>
         </div>
-      )}
-    </>
+      </SheetContent>
+    </Sheet>
   );
 };
 

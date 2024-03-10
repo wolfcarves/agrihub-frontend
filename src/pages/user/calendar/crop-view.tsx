@@ -14,6 +14,9 @@ import Autoplay from "embla-carousel-autoplay";
 import { PiPlant } from "react-icons/pi";
 import { GiFruitBowl, GiPlantSeed } from "react-icons/gi";
 import parse from "html-react-parser";
+import SkeletonCropCard from "@components/user/calendar/skeleton/skeleton-crop-card";
+import SkeletonCropView from "@components/user/calendar/skeleton/skeleton-crop-view";
+import { FaArrowLeftLong } from "react-icons/fa6";
 
 const CropView = () => {
   const { data, isLoading: isCropDataLoading } = useGetCropsQuery();
@@ -39,41 +42,51 @@ const CropView = () => {
 
   return (
     <div className="w-full">
-      <div className="m-8 relative h-[20rem] rounded-xl overflow-hidden bg-gray-200 border">
-        {isCropDataLoading ? (
-          <LoadingSpinner className="absolute inset-0 text-gray-400 text-lg m-auto" />
-        ) : (
-          <img src={cropData?.image} className="w-full h-full object-cover" />
-        )}
+      <div className="my-4 sm:mx-8">
+        <Link to="/learning-materials">
+          <span className="flex items-center gap-x-2 text-foreground font-poppins-semibold hover:underline hover:underline-offset-2 py-2.5 px-1.5 rounded-lg duration-200">
+            <FaArrowLeftLong /> Back
+          </span>
+        </Link>
       </div>
+      {isCropDataLoading ? (
+        <SkeletonCropView />
+      ) : (
+        <>
+          <div className="mx-2 sm:m-8 relative h-[20rem] rounded-xl overflow-hidden bg-gray-200 border">
+            <img src={cropData?.image} className="w-full h-full object-cover" />
+          </div>
 
-      <div className="mx-auto px-8">
-        <h1 className="text-9xl font-poppins-bold uppercase mt-5">
-          {cropData?.name}
-        </h1>
-        <h4 className="w-[70rem]">{parse(cropData?.description || "")}</h4>
-      </div>
+          <div className="mx-auto px-4 sm:px-8">
+            <h1 className="text-9xl font-poppins-bold uppercase mt-5">
+              {cropData?.name}
+            </h1>
+            <h4 className="max-w-[70rem]">
+              {parse(cropData?.description || "")}
+            </h4>
+          </div>
 
-      <div className="mx-8 mt-10 flex justify-between text-center">
-        <div className="space-y-3">
-          <GiPlantSeed size={32} className="mx-auto" />
-          <h5 className="font-poppins-medium">Seedling Season</h5>
-          <h6>{MONTHS[Number(cropData?.seedling_season)]}</h6>
-        </div>
+          <div className="sm:mx-8 mt-10 flex justify-between text-center">
+            <div className="space-y-3">
+              <GiPlantSeed size={32} className="mx-auto" />
+              <h5 className="font-poppins-medium">Seedling Season</h5>
+              <h6>{MONTHS[Number(cropData?.seedling_season)]}</h6>
+            </div>
 
-        <div className="space-y-3">
-          <PiPlant size={32} className="mx-auto" />
-          <h5 className="font-poppins-medium">Planting Season</h5>
-          <h6>{MONTHS[Number(cropData?.planting_season)]}</h6>
-        </div>
+            <div className="space-y-3">
+              <PiPlant size={32} className="mx-auto" />
+              <h5 className="font-poppins-medium">Planting Season</h5>
+              <h6>{MONTHS[Number(cropData?.planting_season)]}</h6>
+            </div>
 
-        <div className="space-y-3">
-          <GiFruitBowl size={32} className="mx-auto" />
-          <h5 className="font-poppins-medium">Harvest Season</h5>
-          <h6>{MONTHS[Number(cropData?.harvest_season)]}</h6>
-        </div>
-      </div>
-
+            <div className="space-y-3">
+              <GiFruitBowl size={32} className="mx-auto" />
+              <h5 className="font-poppins-medium">Harvest Season</h5>
+              <h6>{MONTHS[Number(cropData?.harvest_season)]}</h6>
+            </div>
+          </div>
+        </>
+      )}
       <div className="pt-8">
         <h1 className="text-3xl w-full text-center font-poppins-bold uppercase mt-5">
           other crops
@@ -95,10 +108,10 @@ const CropView = () => {
         >
           <CarouselContent className="-ml-1">
             {isCropDataLoadings ? (
-              <LoadingSpinner className="mx-auto mt-2 absolute top-20 text-primary start-0 end-0" />
+              <SkeletonCropCard count={4} />
             ) : crops?.length ? (
               crops.map((crop, index) => (
-                <CarouselItem key={index} className="pl-1 basis-1/3">
+                <CarouselItem key={index} className="pl-1  sm:basis-1/3">
                   <div className="flex items-center justify-center">{crop}</div>
                 </CarouselItem>
               ))
@@ -111,7 +124,7 @@ const CropView = () => {
         </Carousel>
       </div>
 
-      <div className="my-10 mx-8">
+      <div className="my-10 mx-2 sm:mx-8">
         <Link to="..">
           <Button className="w-full" variant="outline">
             See all crops

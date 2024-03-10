@@ -4,16 +4,19 @@ import { Link, useParams } from "react-router-dom";
 import {
   Carousel,
   CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious
+  CarouselItem
 } from "@components/ui/carousel";
 import useGetBlogsPublishyIdQuery from "@hooks/api/get/useGetBlogsPublishyIdQuery";
-import DOMPurify from "dompurify";
+import parse from "html-react-parser";
 import LoadingSpinner from "@icons/LoadingSpinner";
 import useGetBlogsPublishList from "@hooks/api/get/useGetBlogsPublishListQuery";
 import Autoplay from "embla-carousel-autoplay";
-import parse from "html-react-parser";
+import SkeletonCard from "@components/ui/custom/skeleton/skeleton-card";
+import { formatDate } from "@components/lib/utils";
+import SkeletonBlogView from "@components/user/blogs/skeleton/skeleton-blog-view";
+import useGetClientDetails from "@hooks/api/get/useGetClientDetails";
+import { IoIosArrowForward } from "react-icons/io";
+import { FaArrowLeftLong } from "react-icons/fa6";
 
 export const ellipsis = (text: string, maxLength: number): string => {
   if (text.length <= maxLength) {
@@ -28,6 +31,9 @@ const Blog = () => {
 
   const { data, isLoading } = useGetBlogsPublishyIdQuery(blogId ?? "");
 
+  const { data: cmsClientDetails, isLoading: cmsIsLoading } =
+    useGetClientDetails();
+
   const thumbnail = data?.images.filter(d => d.thumbnail)[0].image;
 
   const [mainImage, setMainImage] = useState<string | undefined>(
@@ -38,34 +44,28 @@ const Blog = () => {
     setMainImage(thumbnail);
   }, [thumbnail]);
 
-  const d = new Date(data?.createdat ?? "");
-
-  const { data: blogData } = useGetBlogsPublishList();
-
-  const createDate = d.toLocaleString("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric"
-  });
-
-  console.log(data?.content);
+  const { data: blogData, isLoading: isLoadingSuggested } =
+    useGetBlogsPublishList();
 
   return (
     <>
       <div>
-        <div className="pt-10 px-8 mt-2">
+        <div className="mt-2">
+          <div className="my-4 sm:mx-8">
+            <Link to="/blogs">
+              <span className="flex items-center gap-x-2 text-foreground font-poppins-semibold hover:underline hover:underline-offset-2 py-2.5 px-1.5 rounded-lg duration-200">
+                <FaArrowLeftLong /> Back
+              </span>
+            </Link>
+          </div>
           {mainImage && (
             <img
               src={mainImage}
-              className="w-full mx-auto max-w-5xl object-contain object-center h-[35rem]"
+              className="w-full mx-auto max-w-5xl object-contain object-center hidden sm:block h-[35rem]"
             />
           )}
 
-          {isLoading && (
-            <div className="h-[30rem] pb-10 flex">
-              <LoadingSpinner className="text-primary text-xl m-auto" />
-            </div>
-          )}
+          {isLoading && <SkeletonBlogView />}
 
           <Carousel
             className="mx-auto max-w-5xl"
@@ -98,12 +98,17 @@ const Blog = () => {
             </CarouselContent>
           </Carousel>
 
-          <div className="flex items-center justify-center gap-2 py-5">
-            <img src={imageagri} alt="logo" />
-            <h5>Center for Urban Agriculture &nbsp;| &nbsp; {createDate}</h5>
-          </div>
+          {!cmsIsLoading && (
+            <div className="flex items-center justify-center gap-2 py-5">
+              <img src={cmsClientDetails?.logo} className="w-6" alt="logo" />
+              <h5 className="text-sm sm:text-md">
+                {cmsClientDetails?.name} &nbsp;| &nbsp;{" "}
+                {formatDate(data?.createdat || "")}
+              </h5>
+            </div>
+          )}
 
-          <h1 className="text-gray-800 duration-150 font-semibold text-center">
+          <h1 className="text-gray-800 text-xl sm:text-2xl duration-150 font-semibold text-center">
             {data?.title}
           </h1>
 
@@ -121,8 +126,12 @@ const Blog = () => {
         </div>
       </div>
 
-      <h3 className="px-10 mt-20 mb-5 max-w-5xl mx-auto"> Suggested Blogs </h3>
+      <h3 className="mt-20 mb-5 max-w-5xl mx-auto font-poppins-medium">
+        {" "}
+        Suggested Blogs{" "}
+      </h3>
       <div className="mb-16 mx-auto max-w-5xl">
+        {isLoadingSuggested && <SkeletonCard count={3} className="md:w-1/3" />}
         <Carousel
           className="m-4"
           opts={{
@@ -130,12 +139,8 @@ const Blog = () => {
             loop: true
           }}
         >
-          {/* <CarouselPrevious />
-          <CarouselNext /> */}
           <CarouselContent className="-ml-2 md:-ml-4">
-            {blogData?.data?.slice(0, 5).map((item, index) => {
-              const htmlContent = DOMPurify.sanitize(item?.content ?? "");
-
+            {blogData?.data?.map((item, index) => {
               return (
                 <CarouselItem className="pl-2 md:pl-4 max-w-sm" key={index}>
                   <Link to={`/blogs/view/${item.id}`}>
@@ -150,22 +155,30 @@ const Blog = () => {
 
                       <div className="mt-3">
                         <h5 className="text-gray-600 pt-1 text-sm">
-                          {createDate}
+                          {formatDate(item.createdat || "")}
                         </h5>
-                        <h5 className="font-bold mt-1">
+                        <h5 className="font-bold mt-1 flex items-center">
                           {item.category}
-                          <span className="text-green-700">{"   >"}</span>
+                          <span className="text-green-700 ml-2">
+                            <IoIosArrowForward />
+                          </span>
                         </h5>
                         <h1 className="text-gray-800 duration-150 group-hover:text-green-700 font-semibold text-lg">
                           {item?.title}
                         </h1>
 
-                        <p
-                          className="text-sm me-8 text-justify line-clamp-3"
-                          dangerouslySetInnerHTML={{
-                            __html: htmlContent
-                          }}
-                        />
+                        <p className="text-sm me-8 text-justify line-clamp-3">
+                          {parse(item.content || "")}
+                        </p>
+                        <div className="flex py-3">
+                          <div className="flex-wrap flex justify-start">
+                            {item?.tags?.map(tags => (
+                              <span className="text-base text-primary rounded-md mb-2 border border-[#BBE3AD] bg-secondary px-2 mr-2 py-1 text-center w-auto">
+                                {tags.tag}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </Link>

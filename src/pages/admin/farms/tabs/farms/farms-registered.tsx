@@ -1,21 +1,13 @@
 import React, { useMemo } from "react";
-import AdminOutletContainer from "@components/admin/layout/container/AdminOutletContainer";
-import BreadCrumb from "../../../components/ui/custom/breadcrumb/breadcrumb";
-import withAuthGuard from "@higher-order/account/withAuthGuard";
-import { columns } from "./table/columns-farm-application";
+import { columns } from "../../table/columns-farm";
 import { DataTable } from "@components/ui/custom/data-table/data-table";
 import { Input } from "@components/ui/input";
 import useGetFarmApplicationList from "@hooks/api/get/useGetFarmApplicationsList";
-import useDebounce from "../../../hooks/utils/useDebounce";
+import { Pagination } from "@components/ui/custom";
 import { useSearchParams } from "react-router-dom";
-import { Pagination } from "../../../components/ui/custom";
+import useDebounce from "@hooks/utils/useDebounce";
 
-const breadcrumbItems = [
-  { title: "Farm Management", link: "/admin/farm" },
-  { title: "Farm Applications", link: "/admin/farm/farm-request" }
-];
-
-const FarmsPending = () => {
+const AdminFarmsRegistered = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const params = useMemo(() => {
     return {
@@ -26,22 +18,15 @@ const FarmsPending = () => {
   const { data: applications, isLoading } = useGetFarmApplicationList({
     search: params.search,
     page: String(params.currentPage),
-    filter: "pending",
+    filter: "approved",
     perpage: "10"
   });
   const debouncedSearch = useDebounce((value: string) => {
     searchParams.set("search", value);
     setSearchParams(searchParams);
   }, 100);
-
   return (
-    <AdminOutletContainer className="container mx-auto py-10 ">
-      <BreadCrumb items={breadcrumbItems} />
-      <h2 className="text-3xl font-bold tracking-tight">Farm Applications</h2>
-      <p className="text-sm text-muted-foreground">
-        Manage all farms within the community.
-      </p>
-      <hr className="my-4" />
+    <>
       <Input
         placeholder="Search farm..."
         className="max-w-sm my-4"
@@ -57,8 +42,8 @@ const FarmsPending = () => {
           />
         </div>
       )}
-    </AdminOutletContainer>
+    </>
   );
 };
 
-export default withAuthGuard(FarmsPending, ["admin", "asst_admin"], "farms");
+export default AdminFarmsRegistered;

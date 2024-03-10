@@ -12,12 +12,6 @@ type AllowedRoles =
   | "asst_admin"
   | "admin";
 
-const redirectRoutes = [
-  "/account/verify-email",
-  "/account/setup-account",
-  "/account/final-setup"
-];
-
 type AdminAccess = {
   id: string;
   farms: boolean;
@@ -62,7 +56,6 @@ export default function withAuthGuard<P extends object>(
     useEffect(() => {
       if (userRole === "asst_admin" && module) {
         const checkAuthorization = authData?.[module];
-        console.log(checkAuthorization);
 
         if (!checkAuthorization) {
           navigate("/admin/dashboard", { replace: true });
@@ -71,6 +64,14 @@ export default function withAuthGuard<P extends object>(
 
       if (authData?.id && userRole !== "admin") {
         const level = Number(authData?.verification_level) - 1;
+
+        const redirectRoutes = [
+          level === 0 && authData?.email !== ""
+            ? "/account/verify-email"
+            : "/account/verify-otp",
+          "/account/setup-account",
+          "/account/final-setup"
+        ];
 
         if (pathname === "/account/final-setup" && level === 3)
           navigate("/", { replace: true });

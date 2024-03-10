@@ -70,7 +70,7 @@ const FarmProblemsForm = () => {
         toast.success(
           problemId ? "Updated Successfully" : "Created Successfully"
         );
-        navigate("/admin/farm/problems");
+        navigate("/admin/community/problems");
       }
     }
   );

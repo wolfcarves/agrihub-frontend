@@ -1,38 +1,19 @@
-import React, { useMemo } from "react";
+import React from "react";
 import AdminOutletContainer from "@components/admin/layout/container/AdminOutletContainer";
 import BreadCrumb from "../../../components/ui/custom/breadcrumb/breadcrumb";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
-import { columns } from "./table/columns-farm";
-import { DataTable } from "@components/ui/custom/data-table/data-table";
-import { Input } from "@components/ui/input";
-import useGetFarmApplicationList from "@hooks/api/get/useGetFarmApplicationsList";
-import { Pagination } from "../../../components/ui/custom";
-import { useSearchParams } from "react-router-dom";
-import useDebounce from "../../../hooks/utils/useDebounce";
+import AdminFarmsRegistered from "./tabs/farms/farms-registered";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/ui/tabs";
+import AdminFarmsPending from "./tabs/farms/farms-pending";
+import AdminFarmsRejected from "./tabs/farms/farms-rejected";
+import { useParams } from "react-router-dom";
 
 const breadcrumbItems = [
-  { title: "Farm Management", link: "/admin/farm" },
-  { title: "Farms", link: "/admin/farm/farm-approved" }
+  { title: "Farm Management", link: "/admin/community" },
+  { title: "Farms", link: "/admin/community/farms" }
 ];
 const FarmsAdmin = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const params = useMemo(() => {
-    return {
-      currentPage: Number(searchParams.get("page")) ?? 1,
-      search: searchParams.get("search") ?? undefined
-    };
-  }, [searchParams]);
-  const { data: applications, isLoading } = useGetFarmApplicationList({
-    search: params.search,
-    page: String(params.currentPage),
-    filter: "approved",
-    perpage: "10"
-  });
-  const debouncedSearch = useDebounce((value: string) => {
-    searchParams.set("search", value);
-    setSearchParams(searchParams);
-  }, 100);
-
+  const { tab }: any = useParams();
   return (
     <AdminOutletContainer className="container mx-auto py-10 ">
       <BreadCrumb items={breadcrumbItems} />
@@ -41,21 +22,22 @@ const FarmsAdmin = () => {
         Manage all farms within the community.
       </p>
       <hr className="my-4" />
-      <Input
-        placeholder="Search title..."
-        className="max-w-sm my-4"
-        value={params.search}
-        onChange={e => debouncedSearch(e.target.value)}
-      />
-      <DataTable columns={columns} data={applications?.applications || []} />
-      {applications?.pagination?.total_pages !== 1 && (
-        <div className="mt-4">
-          <Pagination
-            totalPages={Number(applications?.pagination?.total_pages)}
-            isLoading={isLoading}
-          />
-        </div>
-      )}
+      <Tabs defaultValue={tab || "registered"}>
+        <TabsList>
+          <TabsTrigger value="registered">Farms</TabsTrigger>
+          <TabsTrigger value="pending">Pending</TabsTrigger>
+          <TabsTrigger value="rejected">Rejected</TabsTrigger>
+        </TabsList>
+        <TabsContent value="registered">
+          <AdminFarmsRegistered />
+        </TabsContent>
+        <TabsContent value="pending">
+          <AdminFarmsPending />
+        </TabsContent>
+        <TabsContent value="rejected">
+          <AdminFarmsRejected />
+        </TabsContent>
+      </Tabs>
     </AdminOutletContainer>
   );
 };

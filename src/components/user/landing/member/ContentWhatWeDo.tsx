@@ -20,6 +20,7 @@ import {
   CarouselItem
 } from "@components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
+import { IoIosArrowForward } from "react-icons/io";
 
 const ContentWhatWeDo: React.FC = () => {
   const { data: cmsDataLanding } = useCmsLandingDetailsQuery();
@@ -219,9 +220,11 @@ const ContentWhatWeDo: React.FC = () => {
                     </div>
 
                     <div className="mt-3">
-                      <h5 className="font-bold mt-1">
-                        {item.category}{" "}
-                        <span className="text-green-700">{">"}</span>
+                      <h5 className="font-bold mt-1 flex items-center">
+                        {item.category}
+                        <span className="text-green-700 ml-2">
+                          <IoIosArrowForward />
+                        </span>
                       </h5>
                       <h1 className="text-gray-800 duration-150 group-hover:text-green-700 font-semibold text-lg line-clamp-2">
                         {item?.title}

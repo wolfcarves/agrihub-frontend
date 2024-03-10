@@ -17,6 +17,8 @@ const Question = () => {
     isRefetching: isQuestionDataRefetching
   } = useGetViewQuestion(questionId ?? "");
 
+  console.log(questionData);
+
   if (isQuestionDataLoading) {
     return (
       <div className="flex justify-center py-10 w-full min-h-[60rem] ">

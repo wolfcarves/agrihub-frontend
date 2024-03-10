@@ -6,4 +6,5 @@
 export type AcceptSeedlingRequest = {
     quantity_approve?: number;
     delivery_date?: string;
+    note?: string;
 };

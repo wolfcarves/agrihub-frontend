@@ -22,6 +22,9 @@ export const acceptCropReqSchema = zod.object({
   }),
   delivery_date: zod.string({
     required_error: "Delivery Date is required."
+  }),
+  note: zod.string({
+    required_error: "Note is required."
   })
 });
 interface RequestType {
@@ -67,7 +70,8 @@ const FormSeedlingRequest: React.FC<RequestType> = ({
   const handleSubmitForm = async (data: AcceptSeedlingRequest) => {
     const compiledData: AcceptSeedlingRequest = {
       delivery_date: data.delivery_date,
-      quantity_approve: Number(data.quantity_approve)
+      quantity_approve: Number(data.quantity_approve),
+      note: data.note
     };
 
     try {
@@ -113,6 +117,8 @@ const FormSeedlingRequest: React.FC<RequestType> = ({
             type="number"
             value={seedlingData.quantity_request}
             readOnly
+            required
+            min={1}
             className=" focus-visible:ring-0"
           />
         </div>
@@ -142,12 +148,10 @@ const FormSeedlingRequest: React.FC<RequestType> = ({
             </div>
           </div>
 
-          {/* <div className="mb-4">
-            <Label>Notes</Label>
-            <div className="w-full">
-              <Textarea />
-            </div>
-          </div> */}
+          <div className="flex flex-col gap-1">
+            <Label>Note</Label>
+            <Textarea {...form.register("note")} className="col-span-3" />
+          </div>
 
           <div className="flex justify-between gap-4 mt-4">
             <Button

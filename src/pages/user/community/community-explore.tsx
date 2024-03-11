@@ -19,6 +19,7 @@ import useGetFarmCheckExistingApplication from "../../../hooks/api/get/useGetFar
 import { Button } from "../../../components/ui/button";
 
 type SortValues =
+  | "All"
   | "District 1"
   | "District 2"
   | "District 3"
@@ -43,7 +44,7 @@ const Explore = () => {
   const { data, isLoading } = useGetFarmListQuery({
     search: params.search ?? "",
     page: String(params.currentPage) ?? "1",
-    filter: params.sortBy ?? undefined,
+    filter: params.sortBy === "All" ? undefined : params.sortBy,
     perpage: "6"
   });
 
@@ -106,6 +107,7 @@ const Explore = () => {
               <SelectValue placeholder="Filter District..." />
             </SelectTrigger>
             <SelectContent side="top">
+              <SelectItem value="All">All</SelectItem>
               {district.map((id, i) => (
                 <SelectItem key={i} value={id}>
                   {id}

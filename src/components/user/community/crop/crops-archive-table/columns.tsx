@@ -1,24 +1,24 @@
 import { ColumnDef } from "@tanstack/react-table";
 
 import { useNavigate } from "react-router-dom";
-import {
-  ArchivedCrop,
-  CommunityCropReportResponseItem
-} from "../../../../../api/openapi";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger
-} from "../../../../ui/dropdown-menu";
+import { ArchivedCrop } from "../../../../../api/openapi";
 import { Button } from "../../../../ui/button";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { format } from "date-fns";
 import usePutFarmCropUnarchive from "../../../../../hooks/api/put/usePutFarmCropUnarchive";
 import { toast } from "sonner";
 import { Avatar, AvatarFallback, AvatarImage } from "../../../../ui/avatar";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger
+} from "../../../../ui/alert-dialog";
 
 export const columns: ColumnDef<ArchivedCrop>[] = [
   {
@@ -71,9 +71,26 @@ export const columns: ColumnDef<ArchivedCrop>[] = [
       };
 
       return (
-        <Button onClick={handleDelete} className="bg-[#27272A]">
-          Unarchive
-        </Button>
+        <AlertDialog>
+          <AlertDialogTrigger>
+            <Button className="bg-[#27272A]">Unarchive</Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This action cannot be undone. Unarchiving the crop will
+                permanently restore it and can be use for reporting again.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction onClick={handleDelete}>
+                Continue
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       );
     }
   }

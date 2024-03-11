@@ -49,7 +49,7 @@ const ViewBlogs = () => {
   const handleDeleteDraft = async () => {
     await deleteDraft(blogId || "");
     toast.success("Draft Deleted Successfully!");
-    navigate("/admin/resource/blogs-drafts");
+    navigate("/admin/resource/blogs/draft");
   };
 
   const { mutateAsync: unpublishMaterial, isLoading: unpublishLoading } =
@@ -57,7 +57,7 @@ const ViewBlogs = () => {
   const handleUnpublish = async () => {
     await unpublishMaterial(blogId || "");
     toast.success("Unpublished Successfully!");
-    navigate("/admin/resource/blogs-drafts");
+    navigate("/admin/resource/blogs/draft");
   };
 
   const { mutateAsync: archiveMaterial, isLoading: archiveLoading } =
@@ -65,7 +65,7 @@ const ViewBlogs = () => {
   const handleArchive = async () => {
     await archiveMaterial(blogId || "");
     toast.success("Archive Successfully!");
-    navigate("/admin/resource/blogs-archives");
+    navigate("/admin/resource/blogs/archived");
   };
 
   const { mutateAsync: publishMaterial, isLoading: publishLoading } =

@@ -17,7 +17,7 @@ const FarmsAdmin = () => {
   return (
     <AdminOutletContainer className="container mx-auto py-10 ">
       <BreadCrumb items={breadcrumbItems} />
-      <h2 className="text-3xl font-bold tracking-tight">Farms</h2>
+      <h2 className="text-3xl font-bold tracking-tight">Farm Application</h2>
       <p className="text-sm text-muted-foreground">
         Manage all farms within the community.
       </p>

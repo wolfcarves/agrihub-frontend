@@ -20,12 +20,11 @@ import {
   AvatarFallback,
   AvatarImage
 } from "../../../components/ui/avatar";
-
+import parse from "html-react-parser";
 const CommunityCrop = () => {
   const navigate = useNavigate();
   const { cropId } = useParams();
   const { data: CropData } = useGetReportCropStatsQuery(cropId || "");
-  console.log(CropData);
 
   return (
     <OutletContainer className="px-4">
@@ -75,7 +74,7 @@ const CommunityCrop = () => {
         </div>
         <div className="pl-2 col-span-12">
           <h4 className="font-poppins-semibold  text-green-700">About</h4>
-          <div>{CropData?.description}</div>
+          <div>{parse(CropData?.description || "")}</div>
         </div>
 
         <h4 className="font-poppins-semibold  text-green-700 pl-2 col-span-12 mt-5">

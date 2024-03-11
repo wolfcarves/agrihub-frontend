@@ -73,7 +73,7 @@ export const columns: ColumnDef<CommunityCropReportResponseItem>[] = [
               View
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Delete</DropdownMenuItem>
+            <DropdownMenuItem>Archive</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

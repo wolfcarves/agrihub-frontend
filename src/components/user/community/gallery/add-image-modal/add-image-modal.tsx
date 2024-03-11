@@ -7,7 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger
-} from "../../../../ui/dialog";
+} from "../../../../ui/custom/dialog/dialog";
 import { Button } from "../../../../ui/button";
 import { Label } from "../../../../ui/label";
 import { Input } from "../../../../ui/input";
@@ -19,7 +19,7 @@ const AddImageModal = () => {
   return (
     <Dialog open={isOpen}>
       <DialogTrigger asChild>
-        <Button>
+        <Button onClick={() => setIsOpen(true)}>
           <BiImageAdd size={16} className="mr-1" /> Image
         </Button>
       </DialogTrigger>

@@ -10,6 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { addGalleryCommunitySchema } from "./schema";
 import { toast } from "sonner";
 import MultiImageUpload from "../../multi-image-input/multi-image-input";
+import Loader from "../../../../../icons/Loader";
 
 interface CommunityAddImageFormProps {
   setIsOpen: (value: boolean) => void;
@@ -79,11 +80,20 @@ const CommunityAddImageForm: React.FC<CommunityAddImageFormProps> = ({
             )}
           />
         </div>
-        <div className="flex justify-end col-span-12">
+        <div className="flex justify-end gap-2 col-span-12">
+          <Button
+            disabled={isFarmGalleryLoading}
+            type="button"
+            variant={"outline"}
+            onClick={() => setIsOpen(false)}
+          >
+            Close
+          </Button>
           <Button disabled={isFarmGalleryLoading} type="submit">
             Save
           </Button>
         </div>
+        <Loader isVisible={isFarmGalleryLoading} />
       </form>
     </Form>
   );

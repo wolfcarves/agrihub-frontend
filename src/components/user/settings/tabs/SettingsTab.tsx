@@ -31,7 +31,7 @@ const SettingsTab = () => {
   ];
 
   return (
-    <div className="flex mt-5 border-b">
+    <div className="flex mt-5 border-b w-full overflow-x-auto">
       {links.map(({ id, label, href, isActive }) => (
         <Link
           key={id}

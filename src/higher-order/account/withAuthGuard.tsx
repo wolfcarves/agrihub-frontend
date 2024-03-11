@@ -50,7 +50,7 @@ export default function withAuthGuard<P extends object>(
     const isAllowed = allowedRoles.includes(userRole);
 
     if (!isAllowed && userRole !== "admin") {
-      navigate("/", { replace: true });
+      navigate("/unauthorize", { replace: true });
     }
 
     useEffect(() => {

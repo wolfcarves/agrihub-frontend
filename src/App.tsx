@@ -126,9 +126,11 @@ import FarmManageProblems from "@pages/admin/farms/view/farm-manage-problems";
 import CommunityProblem from "./pages/user/community/community-problem";
 import VerifyOtp from "@pages/user/account/verify-otp";
 import SeedlingRequest from "@pages/admin/farms/seedling-request";
+import Unauthorized from "@pages/user/common/unauthorized";
 
 const App = ReactRouter(
   <>
+    <Route path="/unauthorize" element={<Unauthorized />} />
     <Route path="/" element={<MainLayout />} errorElement={<ErrorElement />}>
       {/* Landing Page */}
 

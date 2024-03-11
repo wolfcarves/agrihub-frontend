@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { FarmService } from "../../../api/openapi";
 
-export const GET_FARM_LIST_QUERY = () => "GET_FARM_LISTS_KEY";
+export const GET_FARM_ARCHIVE_LIST_QUERY = () => "GET_FARM_ARCHIVE_LISTS_KEY";
 interface ApplicationsParams {
   search?: string;
   page?: string;
@@ -15,12 +15,11 @@ interface ApplicationsParams {
     | undefined;
   perpage?: string;
 }
-export default function useGetFarmListQuery(data: ApplicationsParams) {
+export default function useGetFarmArchiveListQuery(data: ApplicationsParams) {
   return useQuery({
-    queryKey: [GET_FARM_LIST_QUERY(), ...Object.values(data)],
+    queryKey: [GET_FARM_ARCHIVE_LIST_QUERY(), ...[data]],
     queryFn: async () => {
-      const response = await FarmService.getApiFarmCommunityFarm(data);
-
+      const response = await FarmService.getApiFarmCommunityFarmArchived(data);
       return response;
     }
   });

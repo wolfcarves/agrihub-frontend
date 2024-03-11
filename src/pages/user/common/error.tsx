@@ -1,3 +1,5 @@
+import NotFoundIllustration from "@icons/NotFoundIllustration";
+import UnauthorizeIllustration from "@icons/UnauthorizeIllustration";
 import { IoMdArrowBack, IoMdArrowForward, IoMdBook } from "react-icons/io";
 import { IoDocumentText } from "react-icons/io5";
 import { RiContactsLine } from "react-icons/ri";
@@ -10,9 +12,7 @@ export default function ErrorElement() {
       <div className="container flex items-center justify-center min-h-screen px-6 py-12 mx-auto">
         <div className="w-full ">
           <div className="flex flex-col items-center max-w-lg mx-auto text-center">
-            <p className="text-sm font-medium text-green-500 dark:text-green-400">
-              404 error
-            </p>
+            <NotFoundIllustration />
             <h1 className="mt-3 text-2xl font-semibold text-gray-800 dark:text-white md:text-3xl">
               We lost this page
             </h1>
@@ -23,7 +23,7 @@ export default function ErrorElement() {
 
             <div className="flex items-center w-full mt-6 gap-x-3 shrink-0 sm:w-auto">
               <button
-                onClick={() => navigate("..")}
+                onClick={() => navigate(-1)}
                 className="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 transition-colors duration-200 bg-white border rounded-lg dark:text-gray-200 gap-x-2 sm:w-auto dark:hover:bg-gray-800 dark:bg-gray-900 hover:bg-gray-100 dark:border-gray-700"
               >
                 <IoMdArrowBack />

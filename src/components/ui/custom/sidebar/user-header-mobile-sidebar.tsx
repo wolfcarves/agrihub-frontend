@@ -180,6 +180,14 @@ const UserHeaderMobileSidebar = ({
             onClick={handleEventClick}
           />
 
+          <UserSidebarNavLink
+            to="/forum/tags"
+            title="Tags"
+            logo={<BsTags size={20} />}
+            onClick={handleEventClick}
+            end
+          />
+
           {isAuthenticated && (
             <UserSidebarNavLink
               to={`/users/${userData?.id}/${userData?.username}/saved`}
@@ -189,14 +197,6 @@ const UserHeaderMobileSidebar = ({
               onClick={handleEventClick}
             />
           )}
-
-          <UserSidebarNavLink
-            to="/forum/tags"
-            title="Tags"
-            logo={<BsTags size={20} />}
-            onClick={handleEventClick}
-            end
-          />
         </div>
 
         <div className="mt-10">

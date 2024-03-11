@@ -22,6 +22,13 @@ const QuestionSidebar = ({ className, ...props }: QuestionSidebarProps) => {
         end={pathname === "/forum/tags" || pathname === "/forum/users"}
       />
 
+      <UserSidebarNavLink
+        to="/forum/tags"
+        title="Tags"
+        logo={<BsTags size={20} />}
+        end
+      />
+
       {isAuthenticated && (
         <UserSidebarNavLink
           to={`/users/${data?.id}/${data?.username}/saved`}
@@ -30,13 +37,6 @@ const QuestionSidebar = ({ className, ...props }: QuestionSidebarProps) => {
           end
         />
       )}
-
-      <UserSidebarNavLink
-        to="/forum/tags"
-        title="Tags"
-        logo={<BsTags size={20} />}
-        end
-      />
     </UserSidebar>
   );
 };

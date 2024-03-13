@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "../../../ui/popover";
 import { Button } from "../../../ui/button";
 import { Check, ChevronsUpDown } from "lucide-react";
@@ -25,10 +25,17 @@ interface SelectCropProps {
     setValue: UseFormSetValue<NewCommunityCropReport>;
   };
   other?: boolean;
+  setIsYield: Dispatch<SetStateAction<boolean>>;
 }
-const SelectCrop: React.FC<SelectCropProps> = ({ field, form, other }) => {
+const SelectCrop: React.FC<SelectCropProps> = ({
+  field,
+  form,
+  other,
+  setIsYield
+}) => {
   const { id } = useParams();
   const { data: farmCrops } = useGetFarmCropsQuery(id || "");
+  console.log(farmCrops);
   const [open, setOpen] = useState(false);
 
   return (
@@ -73,6 +80,7 @@ const SelectCrop: React.FC<SelectCropProps> = ({ field, form, other }) => {
                     key={crops.name}
                     onSelect={() => {
                       form.setValue("crop_id", crops.id);
+                      setIsYield(crops.isyield);
                       setOpen(false);
                     }}
                   >

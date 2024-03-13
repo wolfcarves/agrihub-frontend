@@ -14,13 +14,10 @@ import { RiCommunityLine } from "react-icons/ri";
 import useCmsLandingDetailsQuery from "@hooks/api/get/useCmsLandingDetailsQuery";
 import useGetBlogsPublishList from "@hooks/api/get/useGetBlogsPublishListQuery";
 import useGetClientDetails from "@hooks/api/get/useGetClientDetails";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem
-} from "@components/ui/carousel";
+import parse from "html-react-parser";
 import Autoplay from "embla-carousel-autoplay";
 import { IoIosArrowForward } from "react-icons/io";
+import { formatDate } from "../../../lib/utils";
 
 const ContentWhatWeDo: React.FC = () => {
   const { data: cmsDataLanding } = useCmsLandingDetailsQuery();
@@ -169,7 +166,7 @@ const ContentWhatWeDo: React.FC = () => {
           <div className="mt-12 lg:mt-0">
             <ul className="grid gap-8 sm:grid-cols-2">
               {features.map((item, idx) => (
-                <li key={idx} className="flex gap-x-4">
+                <p key={idx} className="flex shadow-lg gap-x-4">
                   <div className="flex-none w-12 h-12 bg-gray-700 text-green-400 rounded-lg flex items-center justify-center">
                     {item.icon}
                   </div>
@@ -179,7 +176,7 @@ const ContentWhatWeDo: React.FC = () => {
                     </h4>
                     <p className="mt-3">{item.desc}</p>
                   </div>
-                </li>
+                </p>
               ))}
             </ul>
           </div>
@@ -194,53 +191,68 @@ const ContentWhatWeDo: React.FC = () => {
       </section>
 
       {/* our focus part */}
-      <section className="p-4 mt-12 max-w-screen-xl mx-auto">
-        <div className="max-w-xl">
-          <h1 className="text-3xl text-gray-800 font-semibold">Our Focus</h1>
-          <p className="mt-3 text-gray-500">
-            Explore urban ag innovation with us! Discover how we're
-            revolutionizing farming in Quezon City through technology and
-            community collaboration.
-          </p>
-        </div>
-        <div className="grid grid-cols-1 lg:grid-cols-3 sm:grid-cols-2 grid-rows-1 gap-5 my-8">
-          {blogData?.data
-            ?.filter(item => item.category === "Our Focus")
-            .slice(0, 3)
-            .map((item, index) => {
-              return (
-                <Link to={`/blogs/view/${item.id}`} key={index}>
-                  <div className="group flex flex-col">
-                    <div className="max-h-370px max-w-750px overflow-hidden">
-                      <img
-                        src={item?.thumbnail}
-                        alt={item.title}
-                        className="w-full rounded-lg max-h-64 min-h-64 object-cover group-hover:scale-110 duration-300"
-                      />
-                    </div>
+      <section>
+        <div className="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:items-stretch">
+            <div className="grid place-content-center rounded bg-gray-100 p-6 sm:p-8 bg-main shadow-md">
+              <div className="mx-auto max-w-md text-center lg:text-left">
+                <header>
+                  <h3 className="text-4xl font-poppins-semibold tracking-tight">
+                    Our Focus
+                  </h3>
 
-                    <div className="mt-3">
-                      <h5 className="font-bold mt-1 flex items-center">
-                        {item.category}
-                        <span className="text-green-700 ml-2">
-                          <IoIosArrowForward />
-                        </span>
-                      </h5>
-                      <h1 className="text-gray-800 duration-150 group-hover:text-green-700 font-semibold text-lg line-clamp-2">
-                        {item?.title}
-                      </h1>
-                    </div>
-                  </div>
+                  <p className="mt-">
+                    Explore urban ag innovation with us! Discover how we're
+                    revolutionizing farming in Quezon City through technology
+                    and community collaboration.
+                  </p>
+                </header>
+
+                <Link to="/about/our-focus">
+                  <Button className="mt-8 px-12 py-3" variant="default">
+                    Show All
+                  </Button>
                 </Link>
-              );
-            })}
-        </div>
-        <div className="flex justify-center mt-5">
-          <Link to="/about/our-focus" className="w-full">
-            <Button variant="outline" className="w-full">
-              See More
-            </Button>
-          </Link>
+              </div>
+            </div>
+
+            <div className="lg:col-span-2">
+              <div className="grid grid-cols-1 lg:grid-cols-2 sm:grid-cols-2 grid-rows-1 gap-5 my-4">
+                {blogData?.data
+                  ?.filter(item => item.category === "Our Focus")
+                  .slice(0, 2)
+                  .map((item, index) => {
+                    return (
+                      <Link to={`/blogs/view/${item.id}`} key={index}>
+                        <article className="group relative overflow-hidden rounded-sm shadow transition hover:shadow-lg">
+                          <img
+                            alt={item.title}
+                            src={item.thumbnail}
+                            className="absolute inset-0 h-full w-full object-cover group-hover:scale-125 duration-300"
+                          />
+
+                          <div className="relative bg-gradient-to-t from-gray-900/95 to-gray-900/0 pt-32 sm:pt-48 lg:pt-64">
+                            <div className="p-4 sm:p-6">
+                              <time className="block text-xs text-white/90">
+                                {formatDate(item.createdat || "")}
+                              </time>
+
+                              <h3 className="line-clamp-1 mt-0.5 text-lg font-poppins-semibold text-white">
+                                {item.title}
+                              </h3>
+
+                              <p className="mt-2 line-clamp-3 text-sm/relaxed text-white/95">
+                                {parse(item.content || "")}
+                              </p>
+                            </div>
+                          </div>
+                        </article>
+                      </Link>
+                    );
+                  })}
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 

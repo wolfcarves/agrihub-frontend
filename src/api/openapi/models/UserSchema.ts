@@ -40,4 +40,5 @@ export type UserSchema = {
     isbanned?: boolean;
     farm_id?: string | null;
     contact_number?: string | null;
+    isFarmBanned?: boolean;
 };

@@ -43,7 +43,7 @@ const CropView = () => {
   return (
     <div className="w-full">
       <div className="my-4 sm:mx-8">
-        <Link to="/learning-materials">
+        <Link to="/planting-calendar">
           <span className="flex items-center gap-x-2 text-foreground font-poppins-semibold hover:underline hover:underline-offset-2 py-2.5 px-1.5 rounded-lg duration-200">
             <FaArrowLeftLong /> Back
           </span>
@@ -64,6 +64,14 @@ const CropView = () => {
             <h4 className="max-w-[70rem]">
               {parse(cropData?.description || "")}
             </h4>
+          </div>
+          <div className="mx-auto px-4 sm:px-8">
+            <h1 className="text-xl font-bold">Companions:</h1>
+            {cropData?.companion?.map((company, idx) => (
+              <div key={idx}>
+                <p className="text-lg">- {company}</p>
+              </div>
+            ))}
           </div>
 
           <div className="sm:mx-8 mt-10 flex justify-between text-center">
@@ -87,6 +95,7 @@ const CropView = () => {
           </div>
         </>
       )}
+
       <div className="pt-8">
         <h1 className="text-3xl w-full text-center font-poppins-bold uppercase mt-5">
           other crops

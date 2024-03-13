@@ -22,10 +22,15 @@ const CommunityAddCropReportForm = () => {
   const navigate = useNavigate();
   // const [check, setCheck] = useState<CheckedState>(false);
   const [isCrop, setIsCrop] = useState<boolean>(true);
+  const [isYield, setIsYield] = useState<boolean>(true);
   const form = useForm<NewCommunityCropReport>({
     resolver: zodResolver(cropAddReportSchema),
-    mode: "onBlur"
+    mode: "onBlur",
+    defaultValues: {
+      isyield: true
+    }
   });
+  console.log(isYield);
 
   useEffect(() => {
     if (form.watch("crop_id") === "") {
@@ -34,6 +39,25 @@ const CommunityAddCropReportForm = () => {
       setIsCrop(true);
     }
   }, [form.watch("crop_id")]);
+
+  useEffect(() => {
+    if (form.watch("isyield") === true) {
+      setIsYield(true);
+    }
+    if (form.watch("isyield") === false) {
+      setIsYield(false);
+    }
+  }, [form.watch("isyield")]);
+
+  useEffect(() => {
+    if (isYield === false) {
+      const witheredVal =
+        Number(form.watch("planted_qty") || 0) -
+        Number(form.watch("harvested_qty") || 0);
+      form.setValue("withered_crops", witheredVal || undefined);
+    }
+  }, [form.watch("planted_qty"), form.watch("harvested_qty"), isYield]);
+  console.log(isYield);
 
   useEffect(() => {
     if (form.formState.errors.crop_id) {
@@ -131,7 +155,12 @@ const CommunityAddCropReportForm = () => {
             control={form.control}
             name="crop_id"
             render={({ field }) => (
-              <SelectCrop other={true} field={field} form={form} />
+              <SelectCrop
+                other={true}
+                field={field}
+                form={form}
+                setIsYield={setIsYield}
+              />
             )}
           />
         </div>

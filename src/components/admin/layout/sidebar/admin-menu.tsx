@@ -64,8 +64,14 @@ export const adminNavigation: AdminNavigationItem[] = [
     nav: [
       {
         title: "",
-        name: "Farms",
+        name: "Community Farms",
         href: "/admin/community/farms",
+        module: "farms"
+      },
+      {
+        title: "",
+        name: "Farms Application",
+        href: "/admin/community/farms-application",
         module: "farms"
       },
       {

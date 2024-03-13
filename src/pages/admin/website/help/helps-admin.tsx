@@ -120,7 +120,9 @@ const HelpsAdmin = () => {
                     <h4 className="text-gray-800 font-semibold">
                       {item.title}
                     </h4>
-                    <p className="text-gray-600 text-sm">{item.answer}</p>
+                    <p className="text-gray-600 text-sm line-clamp-3">
+                      {item.answer}
+                    </p>
                   </div>
                 </div>
               </Link>

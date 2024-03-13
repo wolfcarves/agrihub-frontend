@@ -24,7 +24,9 @@ const MultiImageUpload: React.FC<MultiImageUploadProps> = ({ onChange }) => {
 
       setImagePreviews(prevPreviews => [...prevPreviews, ...newImagePreviews]);
       if (onChange) {
-        onChange(newImagePreviews.map(image => image.file));
+        onChange(
+          [...newImagePreviews, ...imagePreviews].map(image => image.file)
+        );
       }
     }
   };

@@ -2,6 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { helpList } from "./helpData";
 import { Card } from "@components/ui/card";
+import parse from "html-react-parser";
+import { IoArrowForward } from "react-icons/io5";
 
 const Helps = () => {
   return (
@@ -51,23 +53,38 @@ const Helps = () => {
             {helpList.map(item => (
               <Link
                 to={`/helps/${item.title}`}
-                className="border rounded-lg"
+                className="group relative block h-56 sm:h-64 lg:h-72"
                 key={item.title}
               >
-                <div className="flex items-start justify-center p-4">
-                  <div className="space-y-2 text-center">
-                    <div className="flex justify-center">{item.icon}</div>
-                    <h4 className="text-gray-800 font-semibold">
+                <span className="absolute inset-0 border-2 border-dashed border-green-600 rounded-md"></span>
+
+                <div className="relative flex h-full transform items-end shadow-xl rounded-md border-gray-600 bg-white transition-transform group-hover:-translate-x-2 group-hover:-translate-y-2">
+                  <div className="p-4 !pt-0 transition-opacity group-hover:absolute group-hover:opacity-0 sm:p-6 lg:p-8">
+                    {item.icon}
+
+                    <h2 className="mt-4 text-xl font-medium sm:text-2xl">
                       {item.title}
-                    </h4>
-                    <p className="text-gray-600 text-sm line-clamp-3">
-                      {item.answer}
+                    </h2>
+                  </div>
+
+                  <div className="absolute p-4 opacity-0 transition-opacity group-hover:relative group-hover:opacity-100 sm:p-6 lg:p-8">
+                    <h3 className="mt-4 text-xl font-medium sm:text-2xl">
+                      {item.title}
+                    </h3>
+
+                    <p className="mt-4 text-sm sm:text-base line-clamp-3">
+                      {parse(item.answer)}
+                    </p>
+
+                    <p className="mt-8 font-bold group-hover:text-green-600 flex items-center">
+                      Read more <IoArrowForward className="ml-2" />
                     </p>
                   </div>
                 </div>
               </Link>
             ))}
           </ul>
+
           <Card className="flex items-center justify-center p-5 max-w-screen-xl sm:mx-32 my-8">
             Didnt find what you're looking for? Try to{" "}
             <Link to="about" className="ml-1 underline text-green-600">

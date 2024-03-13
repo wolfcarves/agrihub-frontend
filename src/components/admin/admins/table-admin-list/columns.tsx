@@ -65,7 +65,7 @@ export const columns: ColumnDef<AdminUser>[] = [
       const handleDisable = async () => {
         await disableAdmin(users.id || "");
         toast.success("Disabled Successfully!");
-        navigate("/admin/record/admin-disabled");
+        navigate("/admin/record/admins/disabled");
       };
       if (activeLoading) {
         return <Loader isVisible={true} />;

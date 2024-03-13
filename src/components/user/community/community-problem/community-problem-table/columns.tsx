@@ -25,8 +25,15 @@ import { Textarea } from "../../../../ui/textarea";
 import useProblemsCommunityResolve from "../../../../../hooks/api/post/useProblemsCommunityResolve";
 import Loader from "../../../../../icons/Loader";
 import SolutionModal from "../../solution-modal/solution-modal";
+import { format } from "date-fns";
+import { formatDate } from "../../../../lib/utils";
 
 export const columns: ColumnDef<CommunityFarmProblem>[] = [
+  {
+    accessorKey: "date_noticed",
+    header: "Date Notice",
+    cell: ({ row }) => formatDate(row.original.date_noticed || "")
+  },
   {
     accessorKey: "problem",
     header: "Problem"
@@ -144,7 +151,6 @@ export const columns: ColumnDef<CommunityFarmProblem>[] = [
     id: "solution",
     cell: ({ row }) => {
       const data = row.original;
-      console.log(data);
 
       return <SolutionModal problemId={data.fp_id || ""} />;
     }

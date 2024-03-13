@@ -10,6 +10,7 @@ user?: {
 avatar?: string;
 id?: string;
 username?: string;
+role?: string;
 };
 tags?: Array<{
 tag?: string;

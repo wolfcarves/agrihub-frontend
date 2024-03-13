@@ -52,7 +52,7 @@ const OverviewAdmin = () => {
             </h3>
             <hr className="my-1" />
             <p className="text-gray-600">Farm Registered</p>
-            <Link to="/admin/farm/farm-request ">
+            <Link to="/admin/community/farms/pending ">
               <Label className="flex cursor-pointer hover:underline">
                 <MdPendingActions className="text-orange-500 mr-1" /> 9 pending
                 application
@@ -69,7 +69,7 @@ const OverviewAdmin = () => {
             </h3>
             <hr className="my-1" />
             <p className="text-gray-600">Seedling Request</p>
-            <Link to="/admin/farm/seedling-pending ">
+            <Link to="/admin/community/seedling-request/pending ">
               <Label className="flex cursor-pointer hover:underline">
                 <MdPendingActions className="text-orange-500 mr-1" /> 3 pending
                 request
@@ -142,7 +142,7 @@ const OverviewAdmin = () => {
                     <p className="text-gray-600 text-center">
                       Published Learning Materials
                     </p>
-                    <Link to="/admin/resource/learnings-draft">
+                    <Link to="/admin/resource/learnings/draft">
                       <Label className="flex cursor-pointer hover:underline justify-center">
                         <MdPendingActions className="text-orange-500 mr-1" />
                         {resourceDetailed?.draft_learning_material}&nbsp;
@@ -176,7 +176,7 @@ const OverviewAdmin = () => {
                       {resourceDetailed?.blogs}
                     </h3>
                     <p className="text-gray-600 text-center">Blogs posted</p>
-                    <Link to="/admin/resource/blogs-drafts">
+                    <Link to="/admin/resource/blogs/draft">
                       <Label className="flex cursor-pointer hover:underline justify-center">
                         <MdPendingActions className="text-orange-500 mr-1" />
                         {resourceDetailed?.draft_blogs}&nbsp; currently in draft

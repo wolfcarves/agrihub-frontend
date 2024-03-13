@@ -11,7 +11,8 @@ interface ApplicationsParams {
     | "District 3"
     | "District 4"
     | "District 5"
-    | "District 6";
+    | "District 6"
+    | undefined;
   perpage?: string;
 }
 export default function useGetFarmListQuery(data: ApplicationsParams) {

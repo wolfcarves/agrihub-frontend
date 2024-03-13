@@ -2,7 +2,6 @@ import React from "react";
 import { Button } from "@components/ui/button";
 import OutletContainer from "@components/user/questions/container/OutletContainer";
 import { Link } from "react-router-dom";
-import CommunityIllustration from "@assets/images/community.png";
 import useAuth from "@hooks/useAuth";
 import useGetFarmListQuery from "../../../hooks/api/get/useGetFarmListQuery";
 import FarmCard from "../../../components/user/community/farm-card/farm-card";
@@ -13,7 +12,11 @@ import RequestIllustration from "@icons/community/RequestIllustration";
 import AnalyticsIllustration from "@icons/community/AnalyticsIllustration";
 import logo from "../../../icons/main-logo.svg";
 import { FaWpforms } from "react-icons/fa6";
-import { MdOutlineForum, MdOutlineUpload } from "react-icons/md";
+import {
+  MdOutlineForum,
+  MdOutlineReport,
+  MdOutlineUpload
+} from "react-icons/md";
 import { RiSeedlingLine } from "react-icons/ri";
 import { TbReportAnalytics } from "react-icons/tb";
 import {
@@ -22,6 +25,8 @@ import {
   AccordionItem,
   AccordionTrigger
 } from "@components/ui/accordion";
+import SolutionIllustration from "@icons/community/SolutionIllustration";
+import CommunityIllustration from "@icons/community/CommunityIllustration";
 
 const CommunityLanding = () => {
   const { data: userData } = useAuth();
@@ -59,7 +64,7 @@ const CommunityLanding = () => {
     <OutletContainer className="min-h-screen">
       <div className="py-10">
         {/* Header */}
-        <div className="flex flex-wrap gap-x-3 justify-between">
+        <div className="flex flex-wrap sm:ml-10 gap-x-3 justify-between">
           <h6 className="font-poppins-medium tracking-tight">
             Farm Community on Agrihub
           </h6>
@@ -67,7 +72,7 @@ const CommunityLanding = () => {
 
         {/* Content */}
         <div className="flex">
-          <div className="w-full max-w-[25rem] mt-20">
+          <div className="w-full max-w-[25rem] sm:ml-10 mt-20">
             <h2 className="font-poppins-semibold tracking-tight leading-[2.3rem]">
               Join the community where you belong
             </h2>
@@ -85,8 +90,8 @@ const CommunityLanding = () => {
             </div>
           </div>
 
-          <div className="hidden md:block">
-            <img src={CommunityIllustration} />
+          <div className="hidden md:block mx-auto">
+            <CommunityIllustration />
           </div>
         </div>
       </div>
@@ -136,7 +141,7 @@ const CommunityLanding = () => {
               </p>
             </div>
 
-            <div className="flex justify-center mt-5 w-1/2 mx-auto lg:mt-0">
+            <div className="flex justify-center mt-5 sm:w-1/2 mx-auto lg:mt-0">
               <ReportIllustration />
             </div>
           </div>
@@ -167,7 +172,7 @@ const CommunityLanding = () => {
               </p>
             </div>
 
-            <div className="flex justify-center mt-5 w-1/2 mx-auto lg:mt-0">
+            <div className="flex justify-center mt-5 sm:w-1/2 mx-auto lg:mt-0">
               <AnalyticsIllustration />
             </div>
           </div>
@@ -196,7 +201,7 @@ const CommunityLanding = () => {
               </p>
             </div>
 
-            <div className="flex justify-center mt-5 w-1/2 mx-auto lg:mt-0">
+            <div className="flex justify-center mt-5 sm:w-1/2 mx-auto lg:mt-0">
               <RequestIllustration />
             </div>
           </div>
@@ -225,8 +230,36 @@ const CommunityLanding = () => {
               </p>
             </div>
 
-            <div className="flex justify-center mt-5 w-1/2 mx-auto lg:mt-0">
+            <div className="flex justify-center mt-5 sm:w-1/2 mx-auto lg:mt-0">
               <GalleryIllustration />
+            </div>
+          </div>
+        </section>
+
+        {/* farm problems */}
+        <section className="relative max-w-screen-xl mx-auto py-4 px-4 md:px-8 my-16">
+          <div className="relative z-10 gap-5 items-center sm:flex justify-between">
+            <div className="flex-1 sm:mx-auto sm:text-center lg:max-w-max lg:text-left">
+              {/* Icons */}
+              <MdOutlineReport className="h-16 w-16 p-1 text-green-600" />
+              {/* Header */}
+              <h3 className="text-3xl text-gray-800 font-semibold md:text-4xl">
+                Report <span className="text-green-600">farm problems</span>
+              </h3>
+              {/* Subheader */}
+              <p className="text-gray-500 leading-relaxed mt-3">
+                Easily get solutions to common farm problems.
+              </p>
+              <hr className="my-4" />
+              {/* Description */}
+              <p className="text-gray-500 leading-relaxed mt-3">
+                Easily find solutions to common farm problems, and you can also
+                report new problems for the admin to review.
+              </p>
+            </div>
+
+            <div className="flex justify-center mt-5 sm:w-1/2 mx-auto lg:mt-0">
+              <SolutionIllustration />
             </div>
           </div>
         </section>

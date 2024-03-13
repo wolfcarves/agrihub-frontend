@@ -34,6 +34,8 @@ const Blog = () => {
   const { data: cmsClientDetails, isLoading: cmsIsLoading } =
     useGetClientDetails();
 
+  const S3_BASE_URL = import.meta.env.VITE_S3_BUCKET_BASEURL;
+
   const thumbnail = data?.images.filter(d => d.thumbnail)[0].image;
 
   const [mainImage, setMainImage] = useState<string | undefined>(
@@ -100,7 +102,11 @@ const Blog = () => {
 
           {!cmsIsLoading && (
             <div className="flex items-center justify-center gap-2 py-5">
-              <img src={cmsClientDetails?.logo} className="w-6" alt="logo" />
+              <img
+                src={S3_BASE_URL + cmsClientDetails?.logo}
+                className="w-6"
+                alt="logo"
+              />
               <h5 className="text-sm sm:text-md">
                 {cmsClientDetails?.name} &nbsp;| &nbsp;{" "}
                 {formatDate(data?.createdat || "")}

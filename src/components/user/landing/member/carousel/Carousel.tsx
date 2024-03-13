@@ -33,20 +33,20 @@ const Carousels: React.FC = () => {
             className="w-full h-full object-cover sm:block"
           />
           <div
-            className="absolute inset-0 z-0 flex items-center text-white sm:hidden"
+            className="absolute inset-0 z-0 flex items-center text-white lg:hidden"
             style={{ background: "rgba(0, 0, 0, 0.6)" }}
           ></div>
           <div className="absolute inset-0 flex items-center text-white">
             <div className="px-4">
               <div style={{ fontFamily: "Arial Black" }} className="z-50">
                 <div className="flex-1 max-w-lg py-5 sm:mx-auto lg:max-w-max lg:text-left">
-                  <p className="text-green-400 sm:text-green-600 font-poppins-semibold">
+                  <p className="text-green-400 lg:text-green-600 font-poppins-semibold">
                     Center for Urban Agriculture and Innovation
                   </p>
-                  <h3 className="text-3xl text-slate-200 sm:text-gray-800 font-poppins-semibold md:text-4xl sm:max-w-md">
+                  <h3 className="text-3xl text-slate-200 lg:text-gray-800 font-poppins-semibold md:text-4xl sm:max-w-md">
                     {cta_header}
                   </h3>
-                  <p className="text-slate-200 sm:text-gray-800 font-poppins-medium leading-relaxed mt-3 max-w-lg">
+                  <p className="text-slate-200 lg:text-gray-800 font-poppins-medium leading-relaxed mt-3 max-w-lg">
                     {cta_description}
                   </p>
                   <Link to="/community">

@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 import { helpList } from "./helpData";
+import parse from "html-react-parser";
 
 const Help = () => {
   const { ref } = useParams();
@@ -55,13 +56,13 @@ const Help = () => {
                 <h4 className="text-gray-800 text-xl font-semibold ">
                   {qa.q}?
                 </h4>
-                <p className="text-gray-500">{qa.a}</p>
+                <p className="text-gray-800">{parse(qa.a)}</p>
               </div>
             ))}
 
           {help.some(qa => qa.q === ref) ? null : (
             <div className="space-y-3 mt-6 px-8 col-span-2">
-              <p className="text-gray-500">{answer}</p>
+              <p className="text-gray-500">{parse(answer)}</p>
             </div>
           )}
 

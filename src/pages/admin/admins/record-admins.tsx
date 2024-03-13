@@ -37,7 +37,7 @@ const RecordAdmins: React.FC = () => {
           <TableAdminList />
         </TabsContent>
 
-        <TabsContent value="reported">
+        <TabsContent value="disabled">
           <TableAdminDisabled />
         </TabsContent>
       </Tabs>

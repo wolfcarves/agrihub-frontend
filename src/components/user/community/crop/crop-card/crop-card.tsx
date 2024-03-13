@@ -55,9 +55,11 @@ const CropCard: React.FC<CropCardProps> = ({ crop }) => {
           <p className="text-sm text-[#b6b6b6] font-medium line-clamp-1">
             Harvest Season : {crop.harvest_season}
           </p>
-          <p className="flex items-center gap-2 mt-2 text-sm text-primary capitalize line-clamp-1">
-            <PiPlant size={18} /> Growth Span : {crop.growth_span}
-          </p>
+          {crop.growth_span !== "null month" && (
+            <p className="flex items-center gap-2 mt-2 text-sm text-primary capitalize line-clamp-1">
+              <PiPlant size={18} /> Growth Span : {crop.growth_span}
+            </p>
+          )}
         </div>
       </button>
       <div className=" col-span-1">

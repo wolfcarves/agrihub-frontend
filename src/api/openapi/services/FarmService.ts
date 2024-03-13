@@ -22,6 +22,7 @@ import type { FarmerInvitationResponse } from '../models/FarmerInvitationRespons
 import type { FarmListResponse } from '../models/FarmListResponse';
 import type { ListFarmMembersResponse } from '../models/ListFarmMembersResponse';
 import type { ListInvitationsResponse } from '../models/ListInvitationsResponse';
+import type { MessageResponse } from '../models/MessageResponse';
 import type { NewCommunityFarmGallery } from '../models/NewCommunityFarmGallery';
 import type { NewFarmApplication } from '../models/NewFarmApplication';
 import type { NewFarmerInvitationRequest } from '../models/NewFarmerInvitationRequest';
@@ -97,6 +98,108 @@ filter?: 'District 1' | 'District 2' | 'District 3' | 'District 4' | 'District 5
                 'page': page,
                 'perpage': perpage,
                 'filter': filter,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Get a list of archived community farms
+     * @returns CommunityFarmsResponse Successful response
+     * @throws ApiError
+     */
+    public static getApiFarmCommunityFarmArchived({
+search,
+page,
+perpage,
+filter,
+}: {
+/**
+ * Search term
+ */
+search?: string,
+/**
+ * Page number
+ */
+page?: string,
+/**
+ * Number of items per page
+ */
+perpage?: string,
+/**
+ * Filter criteria
+ */
+filter?: 'District 1' | 'District 2' | 'District 3' | 'District 4' | 'District 5' | 'District 6',
+}): CancelablePromise<CommunityFarmsResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/farm/community-farm/archived',
+            query: {
+                'search': search,
+                'page': page,
+                'perpage': perpage,
+                'filter': filter,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Archived a community farm
+     * @returns MessageResponse Successful response
+     * @throws ApiError
+     */
+    public static deleteApiFarmCommunityFarmArchived({
+id,
+}: {
+/**
+ * ID of the resource
+ */
+id: string,
+}): CancelablePromise<MessageResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/farm/community-farm/archived/{id}',
+            path: {
+                'id': id,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Restore a community farm
+     * @returns MessageResponse Successful response
+     * @throws ApiError
+     */
+    public static putApiFarmCommunityFarmRestore({
+id,
+}: {
+/**
+ * ID of the resource
+ */
+id: string,
+}): CancelablePromise<MessageResponse> {
+        return __request(OpenAPI, {
+            method: 'PUT',
+            url: '/api/farm/community-farm/restore/{id}',
+            path: {
+                'id': id,
             },
             errors: {
                 400: `Validation Error`,

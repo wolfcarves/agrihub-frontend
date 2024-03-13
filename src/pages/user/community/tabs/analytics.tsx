@@ -94,7 +94,23 @@ const Analytics = () => {
       {
         label: "Crop",
         data: pieChart?.map(crop => crop.planted_quantity),
-        backgroundColor: ["#228B22", "#2E8B57", "#3CB371", "#32CD32", "#8FBC8F"]
+        backgroundColor: [
+          "#228B22",
+          "#2E8B57",
+          "#3CB371",
+          "#32CD32",
+          "#8FBC8F",
+          "#556B2F",
+          "#6B8E23",
+          "#7CFC00",
+          "#7FFF00",
+          "#9ACD32",
+          "#00FF00",
+          "#00FA9A",
+          "#98FB98",
+          "#00FF7F",
+          "#00FF66"
+        ]
       }
     ]
   };

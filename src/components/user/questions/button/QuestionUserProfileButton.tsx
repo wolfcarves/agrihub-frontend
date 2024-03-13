@@ -26,7 +26,9 @@ const QuestionUserProfileButton = ({
         <Link to={`/users/${userId}/${username}`}>
           <h6 className="font-inter-medium hover:opacity-80">{username}</h6>
         </Link>
-        <p className="text-gray-400 text-sm">{timeAgo(createdAt || "")}</p>
+        <p className="text-gray-400 text-sm">
+          {timeAgo(createdAt?.slice(0, -3) + "Z" || "")}
+        </p>
       </div>
     </div>
   );

@@ -127,6 +127,7 @@ import CommunityProblem from "./pages/user/community/community-problem";
 import VerifyOtp from "@pages/user/account/verify-otp";
 import SeedlingRequest from "@pages/admin/farms/seedling-request";
 import Unauthorized from "@pages/user/common/unauthorized";
+import FarmCommunity from "./pages/admin/farms/farm-community";
 
 const App = ReactRouter(
   <>
@@ -271,8 +272,11 @@ const App = ReactRouter(
       <Route path="community">
         <Route path="" element={<Farms />} />
 
-        <Route path="farms" element={<FarmsAdmin />} />
-        <Route path="farms/:tab" element={<FarmsAdmin />} />
+        <Route path="farms" element={<FarmCommunity />} />
+        <Route path="farms/:tab" element={<FarmCommunity />} />
+
+        <Route path="farms-application" element={<FarmsAdmin />} />
+        <Route path="farms-application/:tab" element={<FarmsAdmin />} />
         <Route path="application/:id" element={<FarmApplicationView />} />
 
         <Route path="seedling-request" element={<SeedlingRequest />} />

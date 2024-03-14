@@ -53,6 +53,12 @@ const SelectContent = React.forwardRef<
       )}
       position={position}
       {...props}
+      ref={ref => {
+        if (!ref) return;
+        ref.ontouchstart = e => {
+          e.preventDefault();
+        };
+      }}
     >
       <SelectPrimitive.Viewport
         className={cn(

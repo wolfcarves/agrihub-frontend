@@ -1,12 +1,12 @@
 import React from "react";
-import { SavedQuestionsResponse } from "@api/openapi";
-import { Link, useNavigate } from "react-router-dom";
+import { QuestionsResponse } from "@api/openapi";
+import { useNavigate } from "react-router-dom";
 import ActivityIndicator from "@icons/ActivityIndicator";
 import QuestionCard from "@components/user/questions/card/QuestionCard";
 import LoadingSpinner from "@icons/LoadingSpinner";
 
 interface ProfileQuestionSavedListProps {
-  data?: SavedQuestionsResponse;
+  data?: QuestionsResponse;
   isLoading?: boolean;
 }
 
@@ -21,56 +21,58 @@ const ProfileQuestionSavedList = ({
   }
 
   return (
-    <div className="flex flex-col gap-5 mx-auto w-full max-w-[50rem] py-10">
-      <h5 className="font-poppins-medium">Saved Posts</h5>
+    <div className="mt-10 pb-40 w-full sm:pe-10">
+      <div className="flex flex-col gap-3">
+        <h5 className="font-poppins-semibold tracking-tight">
+          Saved Questions
+        </h5>
+      </div>
 
-      {data?.questions?.length === 0 ? (
-        <p>
-          No question saved yet, participate in our forum and save discussions
-          you are interested in and that might help you in the future.{" "}
-          <Link to="/forum" className="text-green-600 underline">
-            Click here
-          </Link>
-        </p>
-      ) : (
-        <>
-          {data?.questions?.map(
-            ({
-              id,
-              title,
-              question,
-              tags,
-              user,
-              vote_count,
-              answer_count,
-              createdat,
-              vote,
-              saved_id
-            }) => {
-              return (
-                <QuestionCard
-                  key={`${id} + ${title}`}
-                  id={id}
-                  title={title}
-                  description={question}
-                  userId={user?.id}
-                  savedId={saved_id}
-                  userAvatarSrc={user?.avatar}
-                  username={user?.username}
-                  vote={vote?.type as "upvote" | "downvote"}
-                  voteCount={vote_count}
-                  answerCount={answer_count}
-                  createdat={createdat}
-                  onAnswerBtnClick={() => {
-                    navigate(`/forum/question/${user?.username}/${id}`);
-                  }}
-                  tags={tags}
-                />
-              );
-            }
-          )}
-        </>
-      )}
+      <div className="mt-3">
+        {isLoading ? (
+          <ActivityIndicator />
+        ) : (
+          <>
+            {data?.questions?.length === 0 ? (
+              <p>No saved question.</p>
+            ) : (
+              data?.questions?.map(
+                ({
+                  id,
+                  title,
+                  question,
+                  tags,
+                  user,
+                  vote_count,
+                  answer_count,
+                  createdat,
+                  vote
+                }) => {
+                  return (
+                    <QuestionCard
+                      key={`${id} + ${title}`}
+                      id={id}
+                      title={title}
+                      description={question}
+                      userId={user?.id}
+                      userAvatarSrc={user?.avatar}
+                      username={user?.username}
+                      vote={vote?.type as "upvote" | "downvote"}
+                      voteCount={vote_count}
+                      answerCount={answer_count}
+                      createdat={createdat}
+                      onAnswerBtnClick={() => {
+                        navigate(`/forum/question/${user?.username}/${id}`);
+                      }}
+                      tags={tags}
+                    />
+                  );
+                }
+              )
+            )}
+          </>
+        )}
+      </div>
     </div>
   );
 };

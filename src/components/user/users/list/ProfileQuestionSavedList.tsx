@@ -1,6 +1,6 @@
 import React from "react";
 import { QuestionsResponse } from "@api/openapi";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ActivityIndicator from "@icons/ActivityIndicator";
 import QuestionCard from "@components/user/questions/card/QuestionCard";
 import LoadingSpinner from "@icons/LoadingSpinner";
@@ -34,15 +34,7 @@ const ProfileQuestionSavedList = ({
         ) : (
           <>
             {data?.questions?.length === 0 ? (
-              <p>
-                No question posted yet.{" "}
-                <Link
-                  to={"/forum/ask"}
-                  className="underline underline-offset-2"
-                >
-                  add one
-                </Link>
-              </p>
+              <p>No saved question.</p>
             ) : (
               data?.questions?.map(
                 ({

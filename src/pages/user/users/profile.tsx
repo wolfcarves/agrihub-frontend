@@ -84,7 +84,7 @@ const UserProfile = () => {
 
         <ProfilePersonalInformationList
           isOwn={isOwn}
-          email={userData?.present_address}
+          email={userData?.email}
           address={userData?.present_address}
           birthDate={userData?.birthdate}
           phone={userData?.contact_number}

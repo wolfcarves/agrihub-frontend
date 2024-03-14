@@ -25,9 +25,9 @@ export const ClientDetailsSchema = z.object({
       z
         .object({
           id: z.string().optional(),
-          logo: z.string(),
-          name: z.string(),
-          description: z.string()
+          logo: z.string().min(3),
+          name: z.string().min(3),
+          description: z.string().min(3)
         })
         .optional()
     )

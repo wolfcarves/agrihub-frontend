@@ -166,7 +166,7 @@ const ContentWhatWeDo: React.FC = () => {
           <div className="mt-12 lg:mt-0">
             <ul className="grid gap-8 sm:grid-cols-2">
               {features.map((item, idx) => (
-                <p key={idx} className="flex shadow-lg gap-x-4">
+                <p key={idx} className="flex gap-x-4">
                   <div className="flex-none w-12 h-12 bg-gray-700 text-green-400 rounded-lg flex items-center justify-center">
                     {item.icon}
                   </div>

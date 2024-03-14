@@ -6,18 +6,21 @@ interface SkeletonEventProps {
 
 const SkeletonEventsList: React.FC<SkeletonEventProps> = ({ count }) => {
   const skeletonItems = Array.from({ length: count }).map((_, index) => (
-    <div key={index} className="animate-pulse flex w-full mb-4">
+    <div
+      key={index}
+      className="animate-pulse flex flex-wrap sm:flex-nowrap w-full mb-4"
+    >
       <div>
         <div className="h-4 bg-gray-200 rounded w-1/4 mb-1"></div>
         <div className="h-4 bg-gray-200 rounded w-1/6 mb-2"></div>
         <div className="h-10 bg-gray-200 rounded w-1/4"></div>
       </div>
 
-      <div className="w-full px-14">
-        <div className="w-full h-80 bg-gray-200 rounded"></div>
+      <div className="w-full px-5 sm:px-14">
+        <div className="w-full h-52 sm:h-80 bg-gray-200 rounded"></div>
       </div>
 
-      <div className="flex flex-col gap-3 w-full">
+      <div className="flex flex-col gap-3 w-full mt-4 px-5">
         <div className="h-8 bg-gray-200 rounded w-3/4 mb-2"></div>
 
         <div className="h-4 bg-gray-200 rounded w-2/3 mb-2"></div>

@@ -4,6 +4,7 @@ import { convertToEmbedLink, formatDate } from "@components/lib/utils";
 import useGetLearningPublishedList from "../../../hooks/api/get/useGetLearningPublishedList";
 import parse from "html-react-parser";
 import { Pagination } from "../../../components/ui/custom";
+import SkeletonCard from "@components/ui/custom/skeleton/skeleton-card";
 
 const Learnings = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -31,7 +32,12 @@ const Learnings = () => {
           Explore a wealth of knowledge to cultivate success on your farm
         </p>
       </div>
-      <div className="mt-12 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-12 flex flex-wrap justify-start gap-4">
+        {isLoading && (
+          <div>
+            <SkeletonCard count={10} className="w-full md:w-1/3" />
+          </div>
+        )}
         {learningsData?.data?.map((items, key) => (
           <>
             <Link to={`/learning-materials/view/${items.id}`}>

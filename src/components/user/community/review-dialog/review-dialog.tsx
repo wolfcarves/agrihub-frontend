@@ -140,7 +140,7 @@ const ReviewDialog: React.FC<ReviewDialogProps> = ({
             </div>
           </div>
         </div>
-        <DialogFooter>
+        <DialogFooter className="flex flex-row gap-2 justify-end">
           <Button variant="secondary" onClick={() => setDialogReview(false)}>
             Cancel
           </Button>

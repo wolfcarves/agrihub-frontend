@@ -20,7 +20,7 @@ const ProfileTitle = ({
 }: ProfileTitleProps) => {
   return (
     <>
-      <div className="pt-20">
+      <div className="pt-[20]">
         <div
           className="flex flex-col items-center text-center mx-auto"
           style={{

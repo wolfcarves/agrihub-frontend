@@ -61,7 +61,7 @@ const UserHeaderSearch = ({
       <div
         className={`${
           isOpen
-            ? "h-[25rem] border-b-2 rounded-b-md md:p-6 shadow-md"
+            ? "h-[25rem] rounded-b-md py-6 shadow-md"
             : "h-[0rem] opacity-0"
         } flex w-full bg-background duration-200 overflow-hidden`}
         onClick={e => e.stopPropagation()}

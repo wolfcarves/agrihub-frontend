@@ -1,9 +1,7 @@
 import ProfileImage from "@components/user/users/image/ProfileImage";
 import ProfileQuestionList from "@components/user/users/list/ProfileQuestionList";
-import ProfileTitle from "@components/user/users/title/ProfileTitle";
 import useGetQuestionsQuery from "@hooks/api/get/useGetQuestionsQuery";
 import useAuth from "@hooks/useAuth";
-import { UserTabs } from "@components/ui/custom";
 import { useState } from "react";
 import ProfileQuestionSavedList from "@components/user/users/list/ProfileQuestionSavedList";
 import useGetSavedQuestions from "@hooks/api/get/useGetSavedQuestions";
@@ -13,8 +11,7 @@ import useGetUserProfileQuery from "@hooks/api/get/useGetUserProfileQuery";
 import ProfileReportUserDialog from "@components/user/users/dialog/ProfileReportUserDialog";
 import useUserReportUsersMutation from "@hooks/api/post/useUserReportUsersMutation";
 import { toast } from "sonner";
-
-const options = ["Posts", "Saved"];
+import ProfilePersonalInformationList from "@components/user/users/list/ProfilePersonalInformationList";
 
 const UserProfile = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -22,28 +19,16 @@ const UserProfile = () => {
   const params = useParams();
   const isOwn = params.username === user?.data?.username;
 
-  const [currentIndex, setCurrentIndex] = useState<number>(
-    params?.saved ? 1 : 0
-  );
+  const currentIndex = params.saved ? 1 : 0;
 
   const { data: questionData, isLoading: isQuestionLoading } =
     useGetQuestionsQuery({
       perpage: "10",
       profile: isOwn ? user?.data?.id : params.userId
     });
-
-  //search user
   const { data: userData } = useGetUserProfileQuery(params?.username ?? "");
-
   const { data: savedQuestionData, isLoading: isSavedQuestionLoading } =
     useGetSavedQuestions({});
-
-  const avatar = isOwn ? user?.data?.avatar : userData?.avatar;
-  const fullname = isOwn
-    ? user.data?.firstname + " " + user.data?.lastname
-    : userData?.firstname + " " + userData?.lastname;
-  const role = isOwn ? user?.data?.role : userData?.role;
-
   const { mutateAsync: reportUser, isLoading: isReportUserLoading } =
     useUserReportUsersMutation();
 
@@ -60,41 +45,53 @@ const UserProfile = () => {
       toast.success(res.message);
       setIsOpen(false);
     } catch (error: any) {
-      toast.success(error.body.message);
+      toast.error(error.body.message);
     }
   };
 
   return (
     <>
-      <ProfileImage avatar={avatar} />
-      <ProfileTitle
-        fullname={fullname}
-        role={role}
-        username={user.data?.username}
+      <ProfileImage
+        isLoading={isQuestionLoading}
+        userId={userData?.id}
+        avatar={userData?.avatar}
+        fullname={userData?.firstname + " " + userData?.lastname}
+        role={userData?.role}
+        username={userData?.username}
+        bio={userData?.bio}
+        district={user?.data?.district}
+        createdAt={user?.data?.createdat}
         postCount={questionData?.questions?.length}
         saveCount={savedQuestionData?.questions?.length}
         onReportButtonClick={
           !isOwn ? () => setIsOpen(prev => !prev) : undefined
         }
       />
-      <UserTabs
-        index={currentIndex}
-        options={isOwn ? options : [options[0]]}
-        onChange={value => {
-          setCurrentIndex(options.indexOf(value as "Posts" | "Saved"));
-        }}
-      />
-      {currentIndex === 0 ? (
-        <ProfileQuestionList
-          data={questionData}
-          isLoading={isQuestionLoading}
+
+      <div className="flex justify-between">
+        {currentIndex === 0 ? (
+          <ProfileQuestionList
+            isOwn={isOwn}
+            data={questionData}
+            isLoading={isQuestionLoading}
+          />
+        ) : (
+          <ProfileQuestionSavedList
+            data={savedQuestionData}
+            isLoading={isSavedQuestionLoading}
+          />
+        )}
+
+        <ProfilePersonalInformationList
+          isOwn={isOwn}
+          email={userData?.present_address}
+          address={userData?.present_address}
+          birthDate={userData?.birthdate}
+          phone={userData?.contact_number}
+          farmId={user?.data?.farm_id}
         />
-      ) : (
-        <ProfileQuestionSavedList
-          data={savedQuestionData}
-          isLoading={isSavedQuestionLoading}
-        />
-      )}
+      </div>
+
       <ProfileReportUserDialog
         open={isOpen}
         onOpenChange={setIsOpen}

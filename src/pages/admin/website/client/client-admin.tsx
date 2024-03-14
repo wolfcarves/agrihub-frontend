@@ -7,7 +7,7 @@ import ClientSocials from "./client-socials";
 import ClientDetails from "./client-details";
 import ClientPartnerships from "./client-partnerships";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { CmsService } from "../../../../api/openapi";
+import { CmsService } from "@api/openapi";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useFieldArray, useForm } from "react-hook-form";
 import {
@@ -17,9 +17,10 @@ import {
 import { Form } from "@components/ui/form";
 import { UpdateClientDetailsRequest } from "@api/openapi";
 import { toast } from "sonner";
-import Loader from "../../../../icons/Loader";
+import Loader from "@icons/Loader";
 import useFormClientError from "./useFormClientError";
-import { formatImage, parseValidString } from "@components/lib/utils";
+import { parseValidString } from "@components/lib/utils";
+import { Button } from "@components/ui/button";
 
 const breadcrumbItems = [
   {
@@ -75,6 +76,28 @@ const ClientAdmin = () => {
     keyName: "_uid"
   });
 
+  const {
+    fields: memberFields,
+    append: appendMember,
+    update: updateMember,
+    replace: replaceMember
+  } = useFieldArray({
+    control: form.control,
+    name: "members",
+    keyName: "_uid"
+  });
+
+  const {
+    fields: partnerFields,
+    append: appendPartner,
+    remove: removePartner,
+    replace: replacePartner
+  } = useFieldArray({
+    control: form.control,
+    name: "partners",
+    keyName: "_uid"
+  });
+
   useEffect(() => {
     if (clientDetails?.socials) {
       replaceSocial(
@@ -84,29 +107,32 @@ const ClientAdmin = () => {
         )[]
       );
     }
+    if (clientDetails?.members) {
+      replaceMember(clientDetails?.members as any);
+    }
+    if (clientDetails?.partners) {
+      replacePartner(clientDetails?.partners as any);
+    }
+
     if (clientDetails?.logo) {
       form.setValue("logo", parseValidString(clientDetails.logo));
     }
   }, [clientDetails]);
 
   useFormClientError(form);
+  console.log(form.formState.errors);
 
   if (isClientLoading) {
     return "...loading";
   }
 
   const handleSubmit = async (data: ClientDetailsType) => {
-    console.log(data);
-    // delete data.socials;
-    delete data.partners;
-    delete data.members;
     try {
       await mutateAsync(data as UpdateClientDetailsRequest);
     } catch (error: any) {
       toast.error(error.body.message);
     }
   };
-
   return (
     <AdminOutletContainer className="container mx-auto py-10 ">
       <BreadCrumb items={breadcrumbItems} />
@@ -128,7 +154,6 @@ const ClientAdmin = () => {
 
       <Form {...form}>
         <form action="" onSubmit={form.handleSubmit(handleSubmit)}>
-          <button type="submit">sa</button>
           {/* client details */}
           <ClientDetails details={clientDetails} form={form} />
           <hr className="my-4" />
@@ -142,10 +167,22 @@ const ClientAdmin = () => {
           />
 
           {/* members */}
-          <ClientMembers />
+          <ClientMembers
+            updateMember={updateMember}
+            memberFields={memberFields}
+            form={form}
+            appendMember={appendMember}
+            handleSubmitMainForm={handleSubmit}
+          />
 
           {/* partnership */}
-          <ClientPartnerships />
+          <ClientPartnerships
+            fields={partnerFields}
+            form={form}
+            appendPartner={appendPartner}
+            removePartner={removePartner}
+          />
+          <Button type="submit">Save</Button>
         </form>
       </Form>
       <Loader isVisible={IsMutationLoading} />

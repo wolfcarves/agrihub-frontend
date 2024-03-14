@@ -18,8 +18,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { Form, FormField } from "../../../../ui/form";
 import Loader from "../../../../../icons/Loader";
-import { NewDraftEvent } from "../../../../../api/openapi";
-import useBlogsCreateDraftMutation from "../../../../../hooks/api/post/useBlogsCreateDraftMutation";
 import { FiUploadCloud } from "react-icons/fi";
 import useBlogsCreateImage from "../../../../../hooks/api/post/useBlogsCreateImage";
 import Capture from "../../../../user/community/capture/capture";

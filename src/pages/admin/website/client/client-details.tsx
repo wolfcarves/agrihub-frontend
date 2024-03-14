@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { Button } from "@components/ui/button";
+import React from "react";
 import { Card } from "@components/ui/card";
 import { Input } from "@components/ui/input";
 import { Label } from "@components/ui/label";
 import { Textarea } from "@components/ui/textarea";
-import Capture from "@components/user/community/capture/capture";
+
 import { ClientDetailsResponse } from "@api/openapi";
 import {
   FormControl,
@@ -12,7 +11,7 @@ import {
   FormItem,
   FormMessage
 } from "@components/ui/form";
-import { toast } from "sonner";
+
 import { ClientDetails as ClientDetailsType } from "./schema/client-details";
 import { UseFormReturn } from "react-hook-form";
 import AwsUploader from "@components/user/community/uploader/uploader";
@@ -23,7 +22,7 @@ type ClientDetailsProps = {
 };
 
 const ClientDetails = ({ details, form }: ClientDetailsProps) => {
-  const [isEditing, setIsEditing] = useState(true);
+  // const [isEditing, setIsEditing] = useState(true);
 
   // const handleEdit = () => {
   //   setIsEditing(true);
@@ -52,7 +51,7 @@ const ClientDetails = ({ details, form }: ClientDetailsProps) => {
                 control={form.control}
                 name="name"
                 defaultValue={details?.name}
-                disabled={!isEditing}
+                // disabled={!isEditing}
                 render={({ field, fieldState }) => (
                   <FormItem>
                     <FormControl>
@@ -70,7 +69,7 @@ const ClientDetails = ({ details, form }: ClientDetailsProps) => {
                 control={form.control}
                 name="email"
                 defaultValue={details?.email}
-                disabled={!isEditing}
+                // disabled={!isEditing}
                 render={({ field, fieldState }) => (
                   <FormItem>
                     <FormControl>
@@ -88,7 +87,7 @@ const ClientDetails = ({ details, form }: ClientDetailsProps) => {
                 control={form.control}
                 name="contact_number"
                 defaultValue={details?.contact_number}
-                disabled={!isEditing}
+                // disabled={!isEditing}
                 render={({ field, fieldState }) => (
                   <FormItem>
                     <FormControl>
@@ -109,7 +108,7 @@ const ClientDetails = ({ details, form }: ClientDetailsProps) => {
             control={form.control}
             name="address"
             defaultValue={details?.address}
-            disabled={!isEditing}
+            // disabled={!isEditing}
             render={({ field, fieldState }) => (
               <FormItem>
                 <FormControl>
@@ -137,7 +136,7 @@ const ClientDetails = ({ details, form }: ClientDetailsProps) => {
                       {...field}
                       id="mission"
                       className="h-32 mt-1"
-                      disabled={!isEditing}
+                      // disabled={!isEditing}
                     />
                   </FormControl>
                   <FormMessage>{fieldState.error?.message}</FormMessage>
@@ -150,7 +149,7 @@ const ClientDetails = ({ details, form }: ClientDetailsProps) => {
             <FormField
               control={form.control}
               name="vision"
-              disabled={!isEditing}
+              // disabled={!isEditing}
               defaultValue={details?.vision}
               render={({ field, fieldState }) => (
                 <FormItem>
@@ -159,7 +158,7 @@ const ClientDetails = ({ details, form }: ClientDetailsProps) => {
                       {...field}
                       id="mission"
                       className="h-32 mt-1"
-                      disabled={!isEditing}
+                      // disabled={!isEditing}
                     />
                   </FormControl>
                   <FormMessage>{fieldState.error?.message}</FormMessage>

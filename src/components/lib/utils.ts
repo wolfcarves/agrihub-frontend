@@ -229,7 +229,7 @@ export function formatDateString(inputDate: string) {
 }
 
 export function formatImage(img: string) {
-  const formattedImg = `https://s3.ap-southeast-1.amazonaws.com/agrihub-bucket/${img}`;
+  const formattedImg = `${import.meta.env.VITE_S3_BUCKET_BASEURL}${img}`;
   return formattedImg;
 }
 

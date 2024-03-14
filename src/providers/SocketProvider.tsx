@@ -47,11 +47,7 @@ const SocketProvider = (props: { children: React.ReactNode }) => {
   useEffect(() => {
     requestNotificationPermission();
 
-    if (data?.role === "admin") {
-      socket.on("admin", payload => showNotification(payload));
-    } else {
-      socket.on(data?.id ?? "", payload => showNotification(payload));
-    }
+    socket.on(data?.id ?? "", payload => showNotification(payload));
 
     if ("serviceWorker" in navigator) {
       const handleServiceWorker = async () => {

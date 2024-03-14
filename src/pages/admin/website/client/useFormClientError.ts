@@ -29,7 +29,7 @@ export default function useFormClientError(
       toast.error(form?.formState?.errors?.name?.message);
     }
     if (form.formState.errors.partners) {
-      toast.error(form?.formState?.errors?.partners?.message);
+      toast.error("Incomplete Details");
     }
     if (form.formState.errors.socials) {
       toast.error(form?.formState?.errors?.socials?.message);

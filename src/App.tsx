@@ -129,7 +129,6 @@ import SeedlingRequest from "@pages/admin/farms/seedling-request";
 import Unauthorized from "@pages/user/common/unauthorized";
 import FarmCommunity from "./pages/admin/farms/farm-community";
 
-
 const App = ReactRouter(
   <>
     <Route path="/unauthorize" element={<Unauthorized />} />

@@ -2,7 +2,6 @@ import React from "react";
 import { Button } from "@components/ui/button";
 import OutletContainer from "@components/user/questions/container/OutletContainer";
 import { Link } from "react-router-dom";
-import CommunityIllustration from "@assets/images/community.png";
 import useAuth from "@hooks/useAuth";
 import useGetFarmListQuery from "../../../hooks/api/get/useGetFarmListQuery";
 import FarmCard from "../../../components/user/community/farm-card/farm-card";
@@ -27,6 +26,7 @@ import {
   AccordionTrigger
 } from "@components/ui/accordion";
 import SolutionIllustration from "@icons/community/SolutionIllustration";
+import CommunityIllustration from "@icons/community/CommunityIllustration";
 
 const CommunityLanding = () => {
   const { data: userData } = useAuth();
@@ -64,7 +64,7 @@ const CommunityLanding = () => {
     <OutletContainer className="min-h-screen">
       <div className="py-10">
         {/* Header */}
-        <div className="flex flex-wrap gap-x-3 justify-between">
+        <div className="flex flex-wrap sm:ml-10 gap-x-3 justify-between">
           <h6 className="font-poppins-medium tracking-tight">
             Farm Community on Agrihub
           </h6>
@@ -72,7 +72,7 @@ const CommunityLanding = () => {
 
         {/* Content */}
         <div className="flex">
-          <div className="w-full max-w-[25rem] mt-20">
+          <div className="w-full max-w-[25rem] sm:ml-10 mt-20">
             <h2 className="font-poppins-semibold tracking-tight leading-[2.3rem]">
               Join the community where you belong
             </h2>
@@ -90,8 +90,8 @@ const CommunityLanding = () => {
             </div>
           </div>
 
-          <div className="hidden md:block">
-            <img src={CommunityIllustration} />
+          <div className="hidden md:block mx-auto">
+            <CommunityIllustration />
           </div>
         </div>
       </div>

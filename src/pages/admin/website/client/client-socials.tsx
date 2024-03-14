@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button } from "@components/ui/button";
 import { Card } from "@components/ui/card";
 import { Input } from "@components/ui/input";
@@ -18,6 +18,7 @@ import {
 } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
+import Loader from "@icons/Loader";
 
 type ClientSocialProps = {
   socialFields: SocialUpdate[];
@@ -35,7 +36,7 @@ const ClientSocials = ({
   const queryClient = useQueryClient();
 
   const { mutateAsync, isLoading: IsMutationLoading } = useMutation(
-    ["CREATE_PROBLEM_MUTATION"],
+    ["DELETE_PROBLEM_MUTATION"],
     {
       async mutationFn(id: string) {
         const response = await CmsService.deleteApiCmsClientDetailsSocial({
@@ -62,6 +63,8 @@ const ClientSocials = ({
       } catch (error) {
         toast.error("error removing");
       }
+    } else {
+      removeSocial(index);
     }
   }
   return (
@@ -133,6 +136,7 @@ const ClientSocials = ({
           ))
         )}
       </div>
+      <Loader isVisible={IsMutationLoading} />
     </div>
   );
 };

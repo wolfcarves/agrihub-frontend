@@ -5,25 +5,22 @@ import useDeleteFileUpload from "@hooks/api/delete/useDeleteFileUpload";
 import { toast } from "sonner";
 import LoadingSpinner from "@icons/LoadingSpinner";
 import { FaRegTrashCan } from "react-icons/fa6";
-import {
-  formatImage,
-  getLastParameter,
-  isValidUrl,
-  parseValidString
-} from "@lib/utils";
+import { formatImage, parseValidString } from "@lib/utils";
 
 interface DropzoneProps {
   onChange: (file: string) => void;
   onDelete: () => void;
   className?: string;
   defaultValue?: string;
+  isEditing?: boolean;
 }
 
 const AwsUploader: React.FC<DropzoneProps> = ({
   onChange,
   onDelete,
   className,
-  defaultValue
+  defaultValue,
+  isEditing
 }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [imagePreview, setImagePreview] = useState<string | null>(
@@ -54,7 +51,7 @@ const AwsUploader: React.FC<DropzoneProps> = ({
       if (file) {
         const uploadedFile = await mutateAsync(file);
         onChange(uploadedFile.file as string);
-        setImagePreview(formatImage(uploadedFile.file ?? ""));
+        setImagePreview(uploadedFile.file ?? "");
         // showImagePreview(file);
       }
     } catch (error) {
@@ -68,7 +65,7 @@ const AwsUploader: React.FC<DropzoneProps> = ({
       if (file) {
         const uploadedFile = await mutateAsync(file);
         onChange(uploadedFile.file as string);
-        setImagePreview(formatImage(uploadedFile.file ?? ""));
+        setImagePreview(uploadedFile.file ?? "");
         // showImagePreview(file);
       }
     } catch (error) {
@@ -77,9 +74,9 @@ const AwsUploader: React.FC<DropzoneProps> = ({
   };
 
   const handleDeleteImage = async () => {
-    if (imagePreview && isValidUrl(imagePreview)) {
+    if (imagePreview) {
       try {
-        await deleteMutation(getLastParameter(imagePreview));
+        await deleteMutation(imagePreview);
         setImagePreview(null);
         onDelete();
       } catch (error) {
@@ -118,7 +115,7 @@ const AwsUploader: React.FC<DropzoneProps> = ({
       >
         {imagePreview ? (
           <img
-            src={imagePreview}
+            src={formatImage(imagePreview)}
             alt="Error fetching image from server. Recommended action: delete this image. Please add and reupload a new image."
             className="h-64 w-full rounded-lg object-fit aspect-square"
           />
@@ -142,21 +139,22 @@ const AwsUploader: React.FC<DropzoneProps> = ({
           ref={inputRef}
         />
       </div>
-      {(imagePreview ||
-        parseValidString(imagePreview as string) === "" ||
-        parseValidString(imagePreview as string) === "null") && (
-        <button
-          type="button"
-          className="absolute top-0 right-0 text-white bg-red-600 rounded-full p-1 cursor-pointer"
-          onClick={handleDeleteImage}
-        >
-          {isDeleteLoading ? (
-            <LoadingSpinner className="absolute" />
-          ) : (
-            <FaRegTrashCan />
-          )}
-        </button>
-      )}
+      {!isEditing &&
+        (imagePreview ||
+          parseValidString(imagePreview as string) === "" ||
+          parseValidString(imagePreview as string) === "null") && (
+          <button
+            type="button"
+            className="absolute top-0 right-0 text-white bg-red-600 rounded-full p-1 cursor-pointer"
+            onClick={handleDeleteImage}
+          >
+            {isDeleteLoading ? (
+              <LoadingSpinner className="absolute" />
+            ) : (
+              <FaRegTrashCan />
+            )}
+          </button>
+        )}
     </div>
   );
 };

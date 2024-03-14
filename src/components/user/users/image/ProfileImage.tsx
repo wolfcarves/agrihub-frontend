@@ -262,11 +262,11 @@ const ProfileImage = ({
           </div>
         </div>
 
-        {isPopOverOpen && isOwn && (
-          <>
-            <div className="flex flex-col p-1 h-28 top-44 w-full max-w-[25rem] bg-white absolute z-10 border rounded-md">
+        {isPopOverOpen && (
+          <div className="flex flex-col p-1 top-44 w-full max-w-[25rem] bg-white absolute z-10 border rounded-md">
+            <>
               <button
-                className="flex gap-3 items-center h-full text-sm hover:bg-black/10 rounded-md px-2"
+                className="flex gap-3 items-center h-full text-sm hover:bg-black/10 rounded-md p-2"
                 onClick={() => {
                   window.open(avatar ?? "");
                 }}
@@ -277,31 +277,35 @@ const ProfileImage = ({
                 </span>
               </button>
 
-              <button
-                className="flex gap-3 items-center h-full text-sm hover:bg-black/10 rounded-md px-2"
-                onClick={() => {
-                  setIsUploadDialogOpen(true);
-                }}
-              >
-                <LuUpload className="text-lg w-5" />
-                <span className="font-poppins-bold text-black/80">
-                  Upload Photo
-                </span>
-              </button>
+              {isOwn && (
+                <>
+                  <button
+                    className="flex gap-3 items-center h-full text-sm hover:bg-black/10 rounded-md p-2"
+                    onClick={() => {
+                      setIsUploadDialogOpen(true);
+                    }}
+                  >
+                    <LuUpload className="text-lg w-5" />
+                    <span className="font-poppins-bold text-black/80">
+                      Upload Photo
+                    </span>
+                  </button>
 
-              <button
-                className="flex gap-3 items-center h-full text-sm hover:bg-black/10 rounded-md px-2"
-                onClick={() => {
-                  handleRemovePhoto();
-                }}
-              >
-                <FaRegTrashCan className="text-lg w-5" />
-                <span className="font-poppins-bold text-black/80">
-                  Remove Photo
-                </span>
-              </button>
-            </div>
-          </>
+                  <button
+                    className="flex gap-3 items-center h-full text-sm hover:bg-black/10 rounded-md p-2"
+                    onClick={() => {
+                      handleRemovePhoto();
+                    }}
+                  >
+                    <FaRegTrashCan className="text-lg w-5" />
+                    <span className="font-poppins-bold text-black/80">
+                      Remove Photo
+                    </span>
+                  </button>
+                </>
+              )}
+            </>
+          </div>
         )}
       </div>
 

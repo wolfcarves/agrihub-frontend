@@ -8,13 +8,13 @@ interface HomeProps {}
 
 const Home: React.FC<HomeProps> = () => {
   return (
-    <>
+    <div>
       <Helmet>
         <title>Welcome | Agrihub</title>
       </Helmet>
       <Carousel />
       <ContentWhatWeDo />;
-    </>
+    </div>
   );
 };
 

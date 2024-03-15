@@ -108,7 +108,7 @@ const UserHeaderSearch = ({
           </div>
 
           <h6 className="text-foreground/80 pt-2">
-            Top results "{query ? query : null}"
+            {query ? `Top results '${query}'` : null}
           </h6>
 
           <div className="pt-2 overflow-y-auto h-[15rem] custom-scroll">

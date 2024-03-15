@@ -1,3 +1,5 @@
+import { Button } from "@components/ui/button";
+import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 const SettingsTab = () => {
@@ -6,15 +8,15 @@ const SettingsTab = () => {
   const links = [
     {
       id: 1,
-      label: "Account",
-      href: "/settings/account",
-      isActive: pathname === "/settings/account"
+      label: "Public Profile",
+      href: "/settings/profile",
+      isActive: pathname === "/settings/profile"
     },
     {
       id: 2,
-      label: "Profile",
-      href: "/settings/profile",
-      isActive: pathname === "/settings/profile"
+      label: "Account Settings",
+      href: "/settings/account",
+      isActive: pathname === "/settings/account"
     },
     {
       id: 3,
@@ -30,21 +32,28 @@ const SettingsTab = () => {
     }
   ];
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
   return (
-    <div className="flex mt-5 border-b w-full overflow-x-auto">
-      {links.map(({ id, label, href, isActive }) => (
-        <Link
-          key={id}
-          to={href}
-          className={`${
-            isActive
-              ? "border-b-[3px] border-b-foreground"
-              : "text-foreground/60 hover:text-foreground"
-          } font-poppins-bold px-4 py-2`}
-        >
-          {label}
-        </Link>
-      ))}
+    <div className="border-r-2 w-full h-max max-w-[17rem] pt-10 pb-16">
+      <h4 className="font-merri-black text-3xl">Settings</h4>
+
+      <div className="flex flex-col mt-10">
+        {links.map(({ id, label, href, isActive }) => (
+          <Link key={id} to={href} className="w-max mt-5">
+            <Button
+              variant={isActive ? "outline" : "ghost"}
+              size="sm"
+              className={`rounded-full font-poppins-semibold ${
+                !isActive && "text-foreground/70"
+              }`}
+            >
+              {label}
+            </Button>
+          </Link>
+        ))}
+      </div>
     </div>
   );
 };

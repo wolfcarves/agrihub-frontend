@@ -1,12 +1,12 @@
 import React from "react";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
-import UserSettingsProfileTitle from "@components/user/settings/form/UserSettingsProfileTitle/UserSettingsTitle";
+import UserSettingsTitle from "@components/user/settings/form/UserSettingsProfileTitle/UserSettingsTitle";
 import UserSettingsProfileForm from "@components/user/settings/form/form/UserSettingsProfileForm/UserSettingsProfileForm";
 
 const UserProfileSettings = () => {
   return (
     <>
-      <UserSettingsProfileTitle title="Customize Profile" />
+      <UserSettingsTitle title="Customize Profile" />
       <UserSettingsProfileForm />
     </>
   );

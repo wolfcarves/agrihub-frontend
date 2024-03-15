@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Input } from "@components/ui/custom";
 import { Button } from "@components/ui/button";
 import { Textarea } from "@components/ui/textarea";
@@ -15,10 +15,13 @@ import useUpdateUserProfileMutation from "@components/user/users/image/useUpdate
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import SettingsField from "@components/user/settings/fields/SettingsField";
+import { GET_MY_PROFILE_KEY } from "@hooks/api/get/useGetMyProfileQuery";
+import { useQueryClient } from "@tanstack/react-query";
 
 const UserSettingsProfileForm = () => {
+  const queryClient = useQueryClient();
   const user = useAuth();
-  const [isSubmitReady, setIsSubmitReady] = useState<boolean>(false);
 
   const form = useForm<ProfileSchema>({
     resolver: zodResolver(profileSchema),
@@ -26,41 +29,160 @@ const UserSettingsProfileForm = () => {
     reValidateMode: "onChange"
   });
 
-  form.watch("firstname");
-  form.watch("lastname");
-  form.watch("bio");
-
-  useEffect(() => {
-    const subscription = form.watch((value, { name }) => {
-      if (name && value) {
-        return setIsSubmitReady(
-          value?.[name] !== user?.data?.[name] ? true : false
-        );
-      }
-    });
-
-    return () => subscription.unsubscribe();
-  }, [form.watch]);
-
   const { mutateAsync: updateUser, isLoading: isUpdateUserLoading } =
     useUpdateUserProfileMutation();
 
   const handleSubmitForm = async (data: ProfileSchema) => {
     try {
-      if (user?.data?.id && isSubmitReady) {
+      if (user?.data?.id) {
         await updateUser({
           id: user?.data?.id,
           formData: { ...data }
         });
       }
 
+      queryClient.invalidateQueries({ queryKey: [GET_MY_PROFILE_KEY()] });
       toast.info("Profile updated successfully");
-      setIsSubmitReady(false);
     } catch (error: any) {
       console.log(error.body.message);
       toast.error(error.body.message);
     }
   };
+
+  return (
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(handleSubmitForm)}
+        className="py-10 space-y-10"
+      >
+        <SettingsField
+          label="Username"
+          defaultValue={user?.data?.username}
+          editable={false}
+        />
+
+        <hr />
+
+        <FormField
+          name="firstname"
+          control={form.control}
+          defaultValue={user?.data?.firstname}
+          render={({ field, fieldState }) => {
+            return (
+              <>
+                <SettingsField
+                  label="First name"
+                  errMessage={fieldState.error?.message}
+                  {...field}
+                />
+              </>
+            );
+          }}
+        />
+
+        <hr />
+
+        <FormField
+          name="lastname"
+          control={form.control}
+          defaultValue={user?.data?.lastname}
+          render={({ field, fieldState }) => {
+            return (
+              <>
+                <SettingsField
+                  label="Last name"
+                  errMessage={fieldState.error?.message}
+                  {...field}
+                />
+              </>
+            );
+          }}
+        />
+
+        <hr />
+
+        <FormField
+          name="bio"
+          control={form.control}
+          defaultValue={user?.data?.bio}
+          render={({ field, fieldState }) => {
+            return (
+              <>
+                <SettingsField
+                  label="Bio"
+                  errMessage={fieldState.error?.message}
+                  {...field}
+                />
+              </>
+            );
+          }}
+        />
+
+        {/* <hr /> */}
+
+        {/* <FormField
+          name="Birth Date"
+          control={form.control}
+          defaultValue={user?.data?.birthdate}
+          render={({ field, fieldState }) => {
+            return (
+              <>
+                <SettingsField
+                  label="Birth Date"
+                  errMessage={fieldState.error?.message}
+                  {...field}
+                />
+              </>
+            );
+          }}
+        /> */}
+
+        {/* <hr /> */}
+
+        {/* <FormField
+          name="firstname"
+          control={form.control}
+          defaultValue={user?.data?.birthdate}
+          render={({ field, fieldState }) => {
+            return (
+              <>
+                <SettingsField
+                  label="Birth Date"
+                  errMessage={fieldState.error?.message}
+                  {...field}
+                />
+              </>
+            );
+          }}
+        /> */}
+
+        <div className="flex gap-3">
+          <Button
+            variant="default"
+            size="lg"
+            type="submit"
+            disabled={!form.formState.isValid}
+            isLoading={isUpdateUserLoading}
+          >
+            Save changes
+          </Button>
+
+          <Button
+            variant="outline"
+            size="lg"
+            onClick={e => {
+              e.preventDefault();
+              form.setValue("firstname", user?.data?.firstname!);
+              form.setValue("lastname", user?.data?.lastname!);
+              form.setValue("bio", user?.data?.bio);
+            }}
+          >
+            Cancel
+          </Button>
+        </div>
+      </form>
+    </Form>
+  );
 
   return (
     <Form {...form}>
@@ -171,17 +293,6 @@ const UserSettingsProfileForm = () => {
               );
             }}
           />
-        </div>
-
-        <div className="mt-5">
-          <Button
-            variant="default"
-            className="rounded-full w-24 font-poppins-bold"
-            size="sm"
-            disabled={!isSubmitReady || isUpdateUserLoading}
-          >
-            Save
-          </Button>
         </div>
       </form>
     </Form>

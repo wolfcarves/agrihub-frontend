@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+/* poppins */
+
 /* Light */
 @font-face {
   font-family: poppins-thin;
@@ -51,6 +53,8 @@
   font-weight: 300;
 }
 
+/* inter */
+
 /* Regular */
 @font-face {
   font-family: inter-regular;
@@ -76,6 +80,50 @@
 @font-face {
   font-family: inter-bold;
   src: url("/fonts/Inter/Inter-Bold.ttf");
+  font-weight: 700;
+}
+
+/* merriweather */
+
+/* Regular */
+@font-face {
+  font-family: merri-thin;
+  src: url("/fonts/Merriweather/Merriweather-Light.ttf");
+  font-weight: 400;
+}
+
+/* Regular */
+@font-face {
+  font-family: merri-regular;
+  src: url("/fonts/Merriweather/Merriweather-Regular.ttf");
+  font-weight: 400;
+}
+
+/* Italic */
+@font-face {
+  font-family: merri-italic;
+  src: url("/fonts/Merriweather/Merriweather-Italic.ttf");
+  font-weight: 400;
+}
+
+/* Medium */
+@font-face {
+  font-family: merri-medium;
+  src: url("/fonts/Merriweather/Merriweather-Medium.ttf");
+  font-weight: 500;
+}
+
+/* Bold */
+@font-face {
+  font-family: merri-bold;
+  src: url("/fonts/Merriweather/Merriweather-Bold.ttf");
+  font-weight: 700;
+}
+
+/* Black */
+@font-face {
+  font-family: merri-black;
+  src: url("/fonts/Merriweather/Merriweather-Black.ttf");
   font-weight: 700;
 }
 

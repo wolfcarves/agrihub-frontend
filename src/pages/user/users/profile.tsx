@@ -26,7 +26,8 @@ const UserProfile = () => {
       perpage: "10",
       profile: isOwn ? user?.data?.id : params.userId
     });
-  const { data: userData } = useGetUserProfileQuery(params?.username ?? "");
+  const { data: userData, isLoading: isUserDataLoading } =
+    useGetUserProfileQuery(params?.username ?? "");
   const { data: savedQuestionData, isLoading: isSavedQuestionLoading } =
     useGetSavedQuestions({});
   const { mutateAsync: reportUser, isLoading: isReportUserLoading } =
@@ -52,7 +53,7 @@ const UserProfile = () => {
   return (
     <>
       <ProfileImage
-        isLoading={isQuestionLoading}
+        isLoading={isUserDataLoading}
         userId={userData?.id}
         avatar={userData?.avatar}
         fullname={userData?.firstname + " " + userData?.lastname}
@@ -88,7 +89,7 @@ const UserProfile = () => {
           address={userData?.present_address}
           birthDate={userData?.birthdate}
           phone={userData?.contact_number}
-          farmId={user?.data?.farm_id}
+          farmId={userData?.farm_id}
         />
       </div>
 

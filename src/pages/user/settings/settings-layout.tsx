@@ -4,12 +4,11 @@ import SettingsTab from "@components/user/settings/tabs/SettingsTab";
 
 const SettingsLayout = () => {
   return (
-    <UserResponsiveContainer className="flex-col py-5">
-      <div>
-        <h4 className="font-poppins-medium">User settings</h4>
-      </div>
+    <UserResponsiveContainer className="pt-20">
       <SettingsTab />
-      <Outlet />
+      <div className="w-full p-20">
+        <Outlet />
+      </div>
     </UserResponsiveContainer>
   );
 };

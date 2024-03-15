@@ -55,7 +55,7 @@ const UserHeaderNavigation = () => {
     <NavigationMenu
       delayDuration={999999}
       skipDelayDuration={0}
-      className="hidden md:block"
+      className="hidden lg:block"
     >
       <NavigationMenuList>
         <NavigationMenuItem className="flex h-20">

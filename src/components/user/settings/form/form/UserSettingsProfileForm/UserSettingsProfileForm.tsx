@@ -198,7 +198,7 @@ const UserSettingsProfileForm = () => {
               });
             }}
           >
-            Reset changes
+            Reset
           </Button>
         </div>
       </form>

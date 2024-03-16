@@ -32,17 +32,21 @@ const EventsCard = ({
       </div>
 
       <div className="w-full lg:px-14">
-        <img
-          alt="events-background-image"
-          src={S3_BASE_URL + banner}
-          className="w-full h-[20rem] object-cover"
-        />
+        <Link to={`/events/${id}`}>
+          <img
+            alt="events-background-image"
+            src={S3_BASE_URL + banner}
+            className="w-full h-[20rem] object-cover hover:opacity-85"
+          />
+        </Link>
       </div>
 
       <div className="flex flex-col gap-3 w-full">
-        <h2 className="font-poppins-semibold text-black/70 line-clamp-2">
-          {title}
-        </h2>
+        <Link to={`/events/${id}`}>
+          <h3 className="font-merri-bold text-black/70 line-clamp-2 hover:underline underline-offset-4">
+            {title}
+          </h3>
+        </Link>
 
         <span className="text-md font-poppins-medium text-black/70 line-clamp-2">
           {location}

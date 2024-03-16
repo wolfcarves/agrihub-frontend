@@ -1,14 +1,6 @@
 import React from "react";
-import { Input } from "@components/ui/custom";
 import { Button } from "@components/ui/button";
-import { Textarea } from "@components/ui/textarea";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage
-} from "@components/ui/form";
+import { Form, FormField } from "@components/ui/form";
 import { ProfileSchema, profileSchema } from "./schema";
 import useAuth from "@hooks/useAuth";
 import useUpdateUserProfileMutation from "@components/user/users/image/useUpdateUserProfileMutation";
@@ -26,7 +18,13 @@ const UserSettingsProfileForm = () => {
   const form = useForm<ProfileSchema>({
     resolver: zodResolver(profileSchema),
     mode: "onChange",
-    reValidateMode: "onChange"
+    reValidateMode: "onChange",
+    defaultValues: {
+      firstname: user?.data?.firstname,
+      lastname: user?.data?.lastname,
+      bio: user?.data?.bio,
+      present_address: user?.data?.present_address
+    }
   });
 
   const { mutateAsync: updateUser, isLoading: isUpdateUserLoading } =
@@ -43,6 +41,13 @@ const UserSettingsProfileForm = () => {
 
       queryClient.invalidateQueries({ queryKey: [GET_MY_PROFILE_KEY()] });
       toast.info("Profile updated successfully");
+      //redundant neto taena pero go nalang
+      form.reset({
+        firstname: data?.firstname,
+        lastname: data?.lastname,
+        bio: data?.bio,
+        present_address: data?.present_address
+      });
     } catch (error: any) {
       console.log(error.body.message);
       toast.error(error.body.message);
@@ -66,7 +71,6 @@ const UserSettingsProfileForm = () => {
         <FormField
           name="firstname"
           control={form.control}
-          defaultValue={user?.data?.firstname}
           render={({ field, fieldState }) => {
             return (
               <>
@@ -85,7 +89,6 @@ const UserSettingsProfileForm = () => {
         <FormField
           name="lastname"
           control={form.control}
-          defaultValue={user?.data?.lastname}
           render={({ field, fieldState }) => {
             return (
               <>
@@ -104,7 +107,6 @@ const UserSettingsProfileForm = () => {
         <FormField
           name="bio"
           control={form.control}
-          defaultValue={user?.data?.bio}
           render={({ field, fieldState }) => {
             return (
               <>
@@ -118,7 +120,23 @@ const UserSettingsProfileForm = () => {
           }}
         />
 
-        {/* <hr /> */}
+        <hr />
+
+        <FormField
+          name="present_address"
+          control={form.control}
+          render={({ field, fieldState }) => {
+            return (
+              <>
+                <SettingsField
+                  label="Present Address"
+                  errMessage={fieldState.error?.message}
+                  {...field}
+                />
+              </>
+            );
+          }}
+        />
 
         {/* <FormField
           name="Birth Date"
@@ -161,7 +179,7 @@ const UserSettingsProfileForm = () => {
             variant="default"
             size="lg"
             type="submit"
-            disabled={!form.formState.isValid}
+            disabled={!form.formState.isDirty}
             isLoading={isUpdateUserLoading}
           >
             Save changes
@@ -172,127 +190,16 @@ const UserSettingsProfileForm = () => {
             size="lg"
             onClick={e => {
               e.preventDefault();
-              form.setValue("firstname", user?.data?.firstname!);
-              form.setValue("lastname", user?.data?.lastname!);
-              form.setValue("bio", user?.data?.bio);
+              form.reset({
+                firstname: user?.data?.firstname,
+                lastname: user?.data?.lastname,
+                bio: user?.data?.bio,
+                present_address: user?.data?.present_address
+              });
             }}
           >
-            Cancel
+            Reset
           </Button>
-        </div>
-      </form>
-    </Form>
-  );
-
-  return (
-    <Form {...form}>
-      <form
-        className="max-w-[30rem]"
-        onSubmit={form.handleSubmit(handleSubmitForm)}
-      >
-        <div className="mt-10 space-y-2">
-          <h4 className="text-sm font-poppins-medium uppercase text-foreground/70">
-            Personal Information
-          </h4>
-          <hr />
-        </div>
-
-        <div className="flex flex-col gap-3 justify-between mt-6">
-          <div>
-            <h5 className="font-poppins-medium">
-              First name {"("}required{")"}
-            </h5>
-            <span className="text-sm">Set your first name here.</span>
-          </div>
-
-          <FormField
-            name="firstname"
-            control={form.control}
-            defaultValue={user?.data?.firstname}
-            render={({ field, fieldState }) => {
-              return (
-                <>
-                  <FormItem>
-                    <FormControl>
-                      <Input
-                        placeholder="Full name"
-                        {...field}
-                        maxLength={30}
-                      />
-                    </FormControl>
-                    <FormMessage>{fieldState.error?.message}</FormMessage>
-                  </FormItem>
-
-                  <span className="text-sm">
-                    {30 - field.value.length} characters remaining
-                  </span>
-                </>
-              );
-            }}
-          />
-        </div>
-
-        <div className="flex flex-col gap-3 justify-between mt-6">
-          <div>
-            <h5 className="font-poppins-medium">
-              Last name {"("}required{")"}
-            </h5>
-            <span className="text-sm">Set your last name here.</span>
-          </div>
-
-          <FormField
-            name="lastname"
-            control={form.control}
-            defaultValue={user?.data?.lastname ?? ""}
-            render={({ field, fieldState }) => {
-              return (
-                <>
-                  <FormItem>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        placeholder="Full name"
-                        maxLength={30}
-                      />
-                    </FormControl>
-                    <FormMessage>{fieldState.error?.message}</FormMessage>
-                  </FormItem>
-
-                  <span className="text-sm">
-                    {30 - field.value.length} characters remaining
-                  </span>
-                </>
-              );
-            }}
-          />
-        </div>
-
-        <div className="flex flex-col gap-3 justify-between mt-6">
-          <div>
-            <h5 className="font-poppins-medium">
-              Biography {"("}optional{")"}
-            </h5>
-            <span className="text-sm">
-              A brief description of yourself shown on your profile.
-            </span>
-          </div>
-
-          <FormField
-            name="bio"
-            control={form.control}
-            defaultValue={user?.data?.bio}
-            render={({ field }) => {
-              return (
-                <>
-                  <Textarea className="w-full" {...field} maxLength={100} />
-                  <span className="text-sm">
-                    {field?.value ? 100 - field?.value?.length : 100} characters
-                    remaining
-                  </span>
-                </>
-              );
-            }}
-          />
         </div>
       </form>
     </Form>

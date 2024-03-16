@@ -16,7 +16,7 @@ const EventBanner = () => {
           Events
         </h1>
 
-        <p className="text-white text-md max-w-[30rem] ">
+        <p className="text-white text-md max-w-[30rem]">
           Stay informed, connected, and ahead of the curve with our
           comprehensive array of industry events, designed to empower your
           journey in agriculture

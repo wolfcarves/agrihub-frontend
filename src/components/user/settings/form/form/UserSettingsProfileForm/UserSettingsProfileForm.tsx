@@ -22,7 +22,8 @@ const UserSettingsProfileForm = () => {
     defaultValues: {
       firstname: user?.data?.firstname,
       lastname: user?.data?.lastname,
-      bio: user?.data?.bio
+      bio: user?.data?.bio,
+      present_address: user?.data?.present_address
     }
   });
 
@@ -40,10 +41,12 @@ const UserSettingsProfileForm = () => {
 
       queryClient.invalidateQueries({ queryKey: [GET_MY_PROFILE_KEY()] });
       toast.info("Profile updated successfully");
+      //redundant neto taena pero go nalang
       form.reset({
         firstname: data?.firstname,
         lastname: data?.lastname,
-        bio: data?.bio
+        bio: data?.bio,
+        present_address: data?.present_address
       });
     } catch (error: any) {
       console.log(error.body.message);
@@ -117,7 +120,23 @@ const UserSettingsProfileForm = () => {
           }}
         />
 
-        {/* <hr /> */}
+        <hr />
+
+        <FormField
+          name="present_address"
+          control={form.control}
+          render={({ field, fieldState }) => {
+            return (
+              <>
+                <SettingsField
+                  label="Present Address"
+                  errMessage={fieldState.error?.message}
+                  {...field}
+                />
+              </>
+            );
+          }}
+        />
 
         {/* <FormField
           name="Birth Date"
@@ -174,11 +193,12 @@ const UserSettingsProfileForm = () => {
               form.reset({
                 firstname: user?.data?.firstname,
                 lastname: user?.data?.lastname,
-                bio: user?.data?.bio
+                bio: user?.data?.bio,
+                present_address: user?.data?.present_address
               });
             }}
           >
-            Reset changes
+            Reset
           </Button>
         </div>
       </form>

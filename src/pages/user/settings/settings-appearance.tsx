@@ -29,7 +29,7 @@ const UserAppearanceSettings = () => {
       <UserSettingsTitle title="Change Theme" />
 
       <form className="space-y-10 py-10">
-        <div className="mx-auto p-4">
+        <div className="mx-auto">
           <ul className="flex flex-wrap gap-4">
             {radios.map((item, idx) => (
               <div

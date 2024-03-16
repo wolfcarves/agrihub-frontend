@@ -171,7 +171,7 @@ const ProfileImage = ({
 
         <div className="flex flex-wrap gap-3 items-center justify-between pt-5 pb-3 border-b">
           <div className="space-y-1.5 ">
-            <h4 className="font-poppins-semibold tracking-tight text-2xl">
+            <h4 className="font-merri-bold tracking-tight text-2xl">
               {!isLoading ? fullname : <Skeleton className="h-7 w-60 mb-5" />}
             </h4>
             <p className="font-poppins-regular tracking-tight">

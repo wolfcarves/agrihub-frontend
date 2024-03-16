@@ -18,7 +18,7 @@ const EventDetailsList = () => {
     s?.toLocaleDateString("en-US", dateOptions) + " " + s?.toLocaleTimeString();
 
   return (
-    <div className="flex flex-col md:flex-row">
+    <div className="flex flex-col md:flex-row pb-24">
       <div className="flex flex-col gap-3 flex-1 px-0 md:px-10">
         <div className="mt-10 text-center">
           <EventCard title="Speaker" />

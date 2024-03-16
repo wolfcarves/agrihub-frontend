@@ -11,6 +11,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { AuthenticationSchema, authenticationSchema } from "./schema";
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/custom";
+import SettingsField from "@components/user/settings/fields/SettingsField";
+import withAuthGuard from "@higher-order/account/withAuthGuard";
 
 const UserSettingsAuthenticationForm = () => {
   const form = useForm<AuthenticationSchema>({
@@ -24,15 +26,31 @@ const UserSettingsAuthenticationForm = () => {
   return (
     <Form {...form}>
       <form
+        className="py-10 space-y-10"
+        onSubmit={form.handleSubmit(handleSubmitForm)}
+      >
+        <SettingsField
+          hasForm={false}
+          label="Change password"
+          description="Request to change your current password"
+          editable={false}
+          buttonComponent={
+            <Button variant="outline" size="sm" className="rounded-full">
+              Change
+            </Button>
+          }
+        />
+      </form>
+    </Form>
+  );
+
+  return (
+    <Form {...form}>
+      <form
         className="max-w-[30rem]"
         onSubmit={form.handleSubmit(handleSubmitForm)}
       >
         <div className="mt-10 space-y-2 max-w-[30rem]">
-          <h4 className="text-sm font-poppins-medium uppercase text-foreground/70">
-            Change Password
-          </h4>
-          <hr />
-
           <div className="py-10 space-y-5">
             <div className="space-y-2">
               <h5 className="font-poppins-medium">Old password</h5>
@@ -117,4 +135,11 @@ const UserSettingsAuthenticationForm = () => {
   );
 };
 
-export default UserSettingsAuthenticationForm;
+export default withAuthGuard(UserSettingsAuthenticationForm, [
+  "member",
+  "admin",
+  "asst_admin",
+  "farm_head",
+  "farmer",
+  "subfarm_head"
+]);

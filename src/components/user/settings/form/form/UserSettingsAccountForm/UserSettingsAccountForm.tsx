@@ -3,10 +3,73 @@ import { Button } from "@components/ui/button";
 import useAuth from "@hooks/useAuth";
 import UserSettingsAccountEmailDialog from "@components/user/settings/dialog/UserSettingsAccountEmailDialog";
 import { LuPencil } from "react-icons/lu";
+import SettingsField from "@components/user/settings/fields/SettingsField";
+import { Form, useForm } from "react-hook-form";
 
 const UserSettingsAccountForm = () => {
   const [isEmailDiaglogOpen, setIsEmailDialogOpen] = useState<boolean>(false);
   const user = useAuth();
+  const form = useForm({
+    mode: "onChange",
+    reValidateMode: "onChange"
+  });
+
+  const handleSubmitForm = () => {};
+
+  return (
+    <Form {...form}>
+      <form
+        className="py-10 space-y-10"
+        onSubmit={form.handleSubmit(handleSubmitForm)}
+      >
+        <div className="py-10 space-y-10">
+          <SettingsField
+            label="Email address"
+            defaultValue="rodel.crisosto7@gmail.com"
+            editable={false}
+            hasForm={false}
+            // errMessage={fieldState.error?.message}
+            // {...field}
+          />
+
+          <hr />
+
+          <SettingsField
+            label="Phone number"
+            defaultValue="09296039363"
+            editable={false}
+            hasForm={false}
+            // errMessage={fieldState.error?.message}
+            // {...field}
+          />
+
+          <hr />
+
+          <h5 className="font-merri-black text-destructive">Danger Zone</h5>
+
+          <SettingsField
+            label="Account Deletion"
+            description="Once you delete your account, there is no going back. Please be
+            certain"
+            hasForm={false}
+            editable={false}
+            buttonComponent={
+              <Button
+                variant="destructive"
+                size="sm"
+                className="rounded-full px-5"
+                onClick={e => e.preventDefault()}
+              >
+                Delete
+              </Button>
+            }
+            // errMessage={fieldState.error?.message}
+            // {...field}
+          />
+        </div>
+      </form>
+    </Form>
+  );
 
   return (
     <div className="py-10 space-y-10">

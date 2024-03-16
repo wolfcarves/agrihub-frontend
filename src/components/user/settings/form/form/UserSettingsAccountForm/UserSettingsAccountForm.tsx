@@ -4,7 +4,8 @@ import useAuth from "@hooks/useAuth";
 import UserSettingsAccountEmailDialog from "@components/user/settings/dialog/UserSettingsAccountEmailDialog";
 import { LuPencil } from "react-icons/lu";
 import SettingsField from "@components/user/settings/fields/SettingsField";
-import { Form, useForm } from "react-hook-form";
+import { Form } from "@components/ui/form";
+import { useForm } from "react-hook-form";
 
 const UserSettingsAccountForm = () => {
   const [isEmailDiaglogOpen, setIsEmailDialogOpen] = useState<boolean>(false);
@@ -22,51 +23,69 @@ const UserSettingsAccountForm = () => {
         className="py-10 space-y-10"
         onSubmit={form.handleSubmit(handleSubmitForm)}
       >
-        <div className="py-10 space-y-10">
-          <SettingsField
-            label="Email address"
-            defaultValue="rodel.crisosto7@gmail.com"
-            editable={false}
-            hasForm={false}
-            // errMessage={fieldState.error?.message}
-            // {...field}
-          />
+        <SettingsField
+          label="Email address"
+          defaultValue={user?.data?.email}
+          editable={false}
+          hasForm={false}
+          buttonComponent={
+            <Button
+              variant="outline"
+              size="sm"
+              className="rounded-full px-5"
+              onClick={e => e.preventDefault()}
+            >
+              Change
+            </Button>
+          }
+          // errMessage={fieldState.error?.message}
+          // {...field}
+        />
 
-          <hr />
+        <hr />
 
-          <SettingsField
-            label="Phone number"
-            defaultValue="09296039363"
-            editable={false}
-            hasForm={false}
-            // errMessage={fieldState.error?.message}
-            // {...field}
-          />
+        <SettingsField
+          label="Phone number"
+          defaultValue={"yung AuthMe pre walang phone"}
+          editable={false}
+          hasForm={false}
+          buttonComponent={
+            <Button
+              variant="outline"
+              size="sm"
+              className="rounded-full px-5"
+              onClick={e => e.preventDefault()}
+            >
+              Change
+            </Button>
+          }
+          // errMessage={fieldState.error?.message}
+          // {...field}
+        />
 
-          <hr />
+        <hr />
 
-          <h5 className="font-merri-black text-destructive">Danger Zone</h5>
+        <h5 className="font-merri-black text-destructive">Danger Zone</h5>
 
-          <SettingsField
-            label="Account Deletion"
-            description="Once you delete your account, there is no going back. Please be
+        <SettingsField
+          label="Account Deletion"
+          description="Once you delete your account, there is no going back. Please be
             certain"
-            hasForm={false}
-            editable={false}
-            buttonComponent={
-              <Button
-                variant="destructive"
-                size="sm"
-                className="rounded-full px-5"
-                onClick={e => e.preventDefault()}
-              >
-                Delete
-              </Button>
-            }
-            // errMessage={fieldState.error?.message}
-            // {...field}
-          />
-        </div>
+          hasForm={false}
+          editable={false}
+          buttonComponent={
+            <Button
+              variant="destructive"
+              size="sm"
+              className="rounded-full px-5"
+              onClick={e => e.preventDefault()}
+            >
+              Delete
+            </Button>
+          }
+          // errMessage={fieldState.error?.message}
+          // {...field}
+        />
       </form>
     </Form>
   );

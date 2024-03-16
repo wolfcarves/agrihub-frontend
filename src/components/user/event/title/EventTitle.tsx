@@ -16,7 +16,7 @@ const EventTitle = () => {
     month: "short",
     day: "numeric",
     year: "numeric"
-  } as any;
+  } as Intl.DateTimeFormatOptions | undefined;
 
   const startEvent =
     s?.toLocaleDateString("en-US", dateOptions) + " " + s?.toLocaleTimeString();
@@ -32,30 +32,13 @@ const EventTitle = () => {
             {startEvent} - {endEvent}
           </span>
 
-          <h1 className="font-poppins-semibold text-black/90 py-3">
-            Farmers Market Grand Opening | Community Leaders
+          <h1 className="font-merri-bold text-black/90 py-3">
+            {eventData?.title}
           </h1>
-
-          <span className="font-poppins-medium text-black/90">
-            Organized by:{" "}
-            {
-              eventData?.partnership
-                ?.filter(p => p.organizer === true)
-                .map(p => p.name)[0]
-            }
-          </span>
-
-          <div>
-            <span>
-              {eventData?.partnership?.map(item => (
-                <span>{item.organizer}</span>
-              ))}
-            </span>
-          </div>
         </div>
 
         <div className="pt-5 sm:pt-10 pb-3">
-          <h4 className="font-poppins-medium">About this event</h4>
+          <h5 className="font-merri-bold">About this event</h5>
 
           <p className="pt-5">{parse(eventData?.about || "")}</p>
         </div>

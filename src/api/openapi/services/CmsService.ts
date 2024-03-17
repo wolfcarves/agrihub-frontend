@@ -6,12 +6,19 @@ import type { ClientDetailsResponse } from '../models/ClientDetailsResponse';
 import type { LandingPageDetailsResponse } from '../models/LandingPageDetailsResponse';
 import type { LandingPageImageResponse } from '../models/LandingPageImageResponse';
 import type { MessageResponse } from '../models/MessageResponse';
+import type { NewUserFeedback } from '../models/NewUserFeedback';
+import type { PrivacyPolicyResponse } from '../models/PrivacyPolicyResponse';
 import type { UpdateApproachRequest } from '../models/UpdateApproachRequest';
 import type { UpdateApproachResponse } from '../models/UpdateApproachResponse';
 import type { UpdateClientDetailsRequest } from '../models/UpdateClientDetailsRequest';
 import type { UpdateClientDetailsResponse } from '../models/UpdateClientDetailsResponse';
 import type { UpdateLandingRequest } from '../models/UpdateLandingRequest';
 import type { UpdateLandingResponse } from '../models/UpdateLandingResponse';
+import type { UpdatePrivacyPolicyRequest } from '../models/UpdatePrivacyPolicyRequest';
+import type { UpdatePrivacyPolicyResponse } from '../models/UpdatePrivacyPolicyResponse';
+import type { UserFeedback } from '../models/UserFeedback';
+import type { UserFeedbackListResponse } from '../models/UserFeedbackListResponse';
+import type { UserFeedbackResponse } from '../models/UserFeedbackResponse';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -147,6 +154,134 @@ message?: string;
                 401: `Unauthorized`,
                 404: `Not Found Error`,
                 500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Update Privacy Policy
+     * @returns UpdatePrivacyPolicyResponse Successful response
+     * @throws ApiError
+     */
+    public static putApiPrivacyPolicyUpdate({
+requestBody,
+}: {
+requestBody: UpdatePrivacyPolicyRequest,
+}): CancelablePromise<UpdatePrivacyPolicyResponse> {
+        return __request(OpenAPI, {
+            method: 'PUT',
+            url: '/api/privacy-policy/update',
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Get Privacy Policy
+     * @returns PrivacyPolicyResponse Successful response
+     * @throws ApiError
+     */
+    public static getApiPrivacyPolicy(): CancelablePromise<PrivacyPolicyResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/privacy-policy',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Submit User Feedback
+     * @returns UserFeedbackResponse Successful response
+     * @throws ApiError
+     */
+    public static postApiCmsUserFeedback({
+requestBody,
+}: {
+requestBody: NewUserFeedback,
+}): CancelablePromise<UserFeedbackResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/cms/user-feedback',
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Retrieve User Feedbacks
+     * @returns UserFeedbackListResponse Successful response
+     * @throws ApiError
+     */
+    public static getApiCmsUserFeedbacks({
+search,
+page,
+perpage,
+}: {
+/**
+ * Search query string
+ */
+search?: string,
+/**
+ * Page number
+ */
+page?: string,
+/**
+ * Number of items per page
+ */
+perpage?: string,
+}): CancelablePromise<UserFeedbackListResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/cms/user-feedbacks',
+            query: {
+                'search': search,
+                'page': page,
+                'perpage': perpage,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Retrieve User Feedback by ID
+     * @returns UserFeedback Successful response
+     * @throws ApiError
+     */
+    public static getApiCmsUserFeedbacks1({
+id,
+}: {
+/**
+ * ID of the user feedback to retrieve
+ */
+id: string,
+}): CancelablePromise<UserFeedback> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/cms/user-feedbacks/{id}',
+            path: {
+                'id': id,
             },
         });
     }

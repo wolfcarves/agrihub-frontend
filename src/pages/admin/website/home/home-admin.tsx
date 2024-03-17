@@ -15,6 +15,8 @@ import { Textarea } from "@components/ui/textarea";
 import Capture from "@components/user/community/capture/capture";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
 import React from "react";
+import AwsUploader from "../../../../components/user/community/uploader/uploader";
+import IconSelector from "../../../../components/user/community/Icon-selector/icon-selector";
 
 const breadcrumbItems = [
   {
@@ -38,43 +40,8 @@ const HomeAdmin = () => {
       <hr className="my-4" />
       <div className="mx-8">
         <h3 className="font-bold my-2">Carousel items</h3>
-        <Carousel>
-          <CarouselPrevious className="mt-[8rem]" />
-          <CarouselNext className="mt-[8rem]" />
-          <CarouselContent className="-ml-2 md:-ml-4 h-64">
-            {/* 1 */}
-            <CarouselItem className="pl-4 sm:basis-1/2">
-              <AspectRatio ratio={16 / 9}>
-                <CaptureWithDelete />
-              </AspectRatio>
-            </CarouselItem>{" "}
-            {/* 2 */}
-            <CarouselItem className="pl-4 sm:basis-1/2">
-              <AspectRatio ratio={16 / 9}>
-                <CaptureWithDelete />
-              </AspectRatio>
-            </CarouselItem>{" "}
-            {/* 3 */}
-            <CarouselItem className="pl-4 sm:basis-1/2">
-              <AspectRatio ratio={16 / 9}>
-                <CaptureWithDelete />
-              </AspectRatio>
-            </CarouselItem>{" "}
-            {/* 4 */}
-            <CarouselItem className="pl-4 sm:basis-1/2">
-              <AspectRatio ratio={16 / 9}>
-                <CaptureWithDelete />
-              </AspectRatio>
-            </CarouselItem>{" "}
-            {/* 5 */}
-            <CarouselItem className="pl-4 sm:basis-1/2">
-              <AspectRatio ratio={16 / 9}>
-                <CaptureWithDelete />
-              </AspectRatio>
-            </CarouselItem>{" "}
-          </CarouselContent>
-        </Carousel>
 
+        <div>{/* <AwsUploader /> */}</div>
         <div className="my-4">
           <div className="w-full mb-4">
             <Label>Carousel Header Text</Label>
@@ -88,6 +55,19 @@ const HomeAdmin = () => {
 
           <div className="mb-4">
             <Label>`Our Approach</Label>
+            <Textarea />
+          </div>
+          <div className="mb-4">
+            <Label>Approach</Label>
+            <IconSelector />
+          </div>
+          <div className="w-full mb-4">
+            <Label>Title</Label>
+            <Input type="text" placeholder="input cta header here" />
+          </div>
+
+          <div className="mb-4">
+            <Label>Description</Label>
             <Textarea />
           </div>
         </div>

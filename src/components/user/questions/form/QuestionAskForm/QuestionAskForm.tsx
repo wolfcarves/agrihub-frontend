@@ -13,7 +13,6 @@ import useGetTagByKeyWord from "@hooks/api/get/useGetTagByKeyword";
 import { Form, FormField } from "@components/ui/form";
 import QuestionBackButton from "@components/user/questions/button/QuestionBackButton";
 import ActivityIndicator from "@icons/ActivityIndicator";
-import { FaCheck } from "react-icons/fa";
 
 const QuestionAskFormRules = () => (
   <div>
@@ -99,7 +98,7 @@ const QuestionAskForm = () => {
           <QuestionBackButton />
           <QuestionAskFormRules />
 
-          <div>
+          <div className="max-w-[60rem]">
             <h3 className="text-foreground text-md font-poppins-bold">Title</h3>
 
             <p className="text-foreground my-2 text-sm">
@@ -127,25 +126,27 @@ const QuestionAskForm = () => {
               Minimum 20 characters.
             </p>
 
-            <FormField
-              name="question"
-              control={form.control}
-              render={({ field: { onChange } }) => {
-                return (
-                  <div className="flex">
-                    <RichTextEditor
-                      onBlur={data => {
-                        onChange(data.html);
-                        data?.files?.then(blobs => {
-                          form.setValue("imagesrc", blobs);
-                        });
-                      }}
-                      height={300}
-                    />
-                  </div>
-                );
-              }}
-            />
+            <div className="max-w-[60rem]">
+              <FormField
+                name="question"
+                control={form.control}
+                render={({ field: { onChange } }) => {
+                  return (
+                    <div className="flex">
+                      <RichTextEditor
+                        onBlur={data => {
+                          onChange(data.html);
+                          data?.files?.then(blobs => {
+                            form.setValue("imagesrc", blobs);
+                          });
+                        }}
+                        height={300}
+                      />
+                    </div>
+                  );
+                }}
+              />
+            </div>
           </div>
 
           <div className="mt-20">
@@ -158,7 +159,7 @@ const QuestionAskForm = () => {
               typing to see suggestions.
             </p>
 
-            <div className="">
+            <div className="max-w-[60rem]">
               <FormField
                 name="tags"
                 control={form.control}

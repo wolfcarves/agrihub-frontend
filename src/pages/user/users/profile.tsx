@@ -18,13 +18,12 @@ const UserProfile = () => {
   const user = useAuth();
   const params = useParams();
   const isOwn = params.username === user?.data?.username;
-
   const currentIndex = params.saved ? 1 : 0;
 
   const { data: questionData, isLoading: isQuestionLoading } =
     useGetQuestionsQuery({
       perpage: "10",
-      profile: isOwn ? user?.data?.id : params.userId
+      profile: params.userId
     });
   const { data: userData, isLoading: isUserDataLoading } =
     useGetUserProfileQuery(params?.username ?? "");

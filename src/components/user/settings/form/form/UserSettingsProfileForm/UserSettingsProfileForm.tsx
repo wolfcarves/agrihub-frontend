@@ -35,7 +35,10 @@ const UserSettingsProfileForm = () => {
       if (user?.data?.id) {
         await updateUser({
           id: user?.data?.id,
-          formData: { ...data }
+          formData: {
+            ...data,
+            bio: data?.bio ?? ""
+          }
         });
       }
 

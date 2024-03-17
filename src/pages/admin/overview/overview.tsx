@@ -33,13 +33,15 @@ import {
 import useGetReportFavouriteCrops from "@hooks/api/get/useGetReportFavouriteCrops";
 import { Button } from "@components/ui/button";
 import useGetReportResourceCountDetailed from "../../../hooks/api/get/useGetReportResourceCountDetailed";
+import useGetReportsCommonOverview from "../../../hooks/api/get/useGetReportsCommonOverview";
 
 const breadcrumbItems = [{ title: "", link: "" }];
 
 const OverviewAdmin = () => {
   const { data: favouriteCrop } = useGetReportFavouriteCrops();
   const { data: resourceDetailed } = useGetReportResourceCountDetailed();
-
+  const { data: overviewCards } = useGetReportsCommonOverview();
+  console.log(overviewCards);
   return (
     <AdminOutletContainer>
       <div className="grid grid-cols-1 md:grid-cols-12 grid-rows-12 gap-4">
@@ -48,14 +50,14 @@ const OverviewAdmin = () => {
           <div>
             <h3 className="text-gray-800 text-3xl font-semibold sm:text-4xl flex items-center">
               <RiCommunityLine className="mr-1" />
-              1023
+              {overviewCards?.community_farms}
             </h3>
             <hr className="my-1" />
             <p className="text-gray-600">Farm Registered</p>
             <Link to="/admin/community/farms/pending ">
               <Label className="flex cursor-pointer hover:underline">
-                <MdPendingActions className="text-orange-500 mr-1" /> 9 pending
-                application
+                <MdPendingActions className="text-orange-500 mr-1" />{" "}
+                {overviewCards?.pending_farm_applications} pending application
               </Label>
             </Link>
           </div>
@@ -65,14 +67,14 @@ const OverviewAdmin = () => {
           <div>
             <h3 className="text-gray-800 text-3xl font-semibold sm:text-4xl flex items-center">
               <GiPlantSeed className="mr-1" />
-              1023
+              {overviewCards?.seedling_requests}
             </h3>
             <hr className="my-1" />
             <p className="text-gray-600">Seedling Request</p>
             <Link to="/admin/community/seedling-request/pending ">
               <Label className="flex cursor-pointer hover:underline">
-                <MdPendingActions className="text-orange-500 mr-1" /> 3 pending
-                request
+                <MdPendingActions className="text-orange-500 mr-1" />
+                {overviewCards?.pending_seedling_requests} pending request
               </Label>
             </Link>
           </div>
@@ -83,14 +85,14 @@ const OverviewAdmin = () => {
           <div>
             <h3 className="text-gray-800 text-3xl font-semibold sm:text-4xl flex items-center">
               <RiFeedbackLine className="mr-1" />
-              1023
+              {overviewCards?.user_feedbacks}
             </h3>
             <hr className="my-1" />
             <p className="text-gray-600">User Feedback</p>
             <Link to="/admin/website/user-feedback">
               <Label className="flex cursor-pointer hover:underline">
-                <MdPendingActions className="text-orange-500 mr-1" /> 6 unread
-                feedback
+                <MdPendingActions className="text-orange-500 mr-1" />{" "}
+                {overviewCards?.user_feedbacks} unread feedback
               </Label>
             </Link>
           </div>

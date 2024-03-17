@@ -1,61 +1,56 @@
-import React, { useEffect, useState } from "react";
-import { Input } from "@components/ui/custom";
+import React from "react";
 import { Button } from "@components/ui/button";
-import { Textarea } from "@components/ui/textarea";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage
-} from "@components/ui/form";
+import { Form, FormField } from "@components/ui/form";
 import { ProfileSchema, profileSchema } from "./schema";
 import useAuth from "@hooks/useAuth";
 import useUpdateUserProfileMutation from "@components/user/users/image/useUpdateUserProfileMutation";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import SettingsField from "@components/user/settings/fields/SettingsField";
+import { GET_MY_PROFILE_KEY } from "@hooks/api/get/useGetMyProfileQuery";
+import { useQueryClient } from "@tanstack/react-query";
 
 const UserSettingsProfileForm = () => {
+  const queryClient = useQueryClient();
   const user = useAuth();
-  const [isSubmitReady, setIsSubmitReady] = useState<boolean>(false);
 
   const form = useForm<ProfileSchema>({
     resolver: zodResolver(profileSchema),
     mode: "onChange",
-    reValidateMode: "onChange"
+    reValidateMode: "onChange",
+    defaultValues: {
+      firstname: user?.data?.firstname,
+      lastname: user?.data?.lastname,
+      bio: user?.data?.bio,
+      present_address: user?.data?.present_address
+    }
   });
-
-  form.watch("firstname");
-  form.watch("lastname");
-  form.watch("bio");
-
-  useEffect(() => {
-    const subscription = form.watch((value, { name }) => {
-      if (name && value) {
-        return setIsSubmitReady(
-          value?.[name] !== user?.data?.[name] ? true : false
-        );
-      }
-    });
-
-    return () => subscription.unsubscribe();
-  }, [form.watch]);
 
   const { mutateAsync: updateUser, isLoading: isUpdateUserLoading } =
     useUpdateUserProfileMutation();
 
   const handleSubmitForm = async (data: ProfileSchema) => {
     try {
-      if (user?.data?.id && isSubmitReady) {
+      if (user?.data?.id) {
         await updateUser({
           id: user?.data?.id,
-          formData: { ...data }
+          formData: {
+            ...data,
+            bio: data?.bio ?? ""
+          }
         });
       }
 
+      queryClient.invalidateQueries({ queryKey: [GET_MY_PROFILE_KEY()] });
       toast.info("Profile updated successfully");
-      setIsSubmitReady(false);
+      //redundant neto taena pero go nalang
+      form.reset({
+        firstname: data?.firstname,
+        lastname: data?.lastname,
+        bio: data?.bio,
+        present_address: data?.present_address
+      });
     } catch (error: any) {
       console.log(error.body.message);
       toast.error(error.body.message);
@@ -65,122 +60,148 @@ const UserSettingsProfileForm = () => {
   return (
     <Form {...form}>
       <form
-        className="max-w-[30rem]"
         onSubmit={form.handleSubmit(handleSubmitForm)}
+        className="py-10 space-y-10"
       >
-        <div className="mt-10 space-y-2">
-          <h4 className="text-sm font-poppins-medium uppercase text-foreground/70">
-            Personal Information
-          </h4>
-          <hr />
-        </div>
+        <SettingsField
+          label="Username"
+          defaultValue={user?.data?.username}
+          editable={false}
+        />
 
-        <div className="flex flex-col gap-3 justify-between mt-6">
-          <div>
-            <h5 className="font-poppins-medium">
-              First name {"("}required{")"}
-            </h5>
-            <span className="text-sm">Set your first name here.</span>
-          </div>
+        <hr />
 
-          <FormField
-            name="firstname"
-            control={form.control}
-            defaultValue={user?.data?.firstname}
-            render={({ field, fieldState }) => {
-              return (
-                <>
-                  <FormItem>
-                    <FormControl>
-                      <Input
-                        placeholder="Full name"
-                        {...field}
-                        maxLength={30}
-                      />
-                    </FormControl>
-                    <FormMessage>{fieldState.error?.message}</FormMessage>
-                  </FormItem>
+        <FormField
+          name="firstname"
+          control={form.control}
+          render={({ field, fieldState }) => {
+            return (
+              <>
+                <SettingsField
+                  label="First name"
+                  errMessage={fieldState.error?.message}
+                  {...field}
+                />
+              </>
+            );
+          }}
+        />
 
-                  <span className="text-sm">
-                    {30 - field.value.length} characters remaining
-                  </span>
-                </>
-              );
-            }}
-          />
-        </div>
+        <hr />
 
-        <div className="flex flex-col gap-3 justify-between mt-6">
-          <div>
-            <h5 className="font-poppins-medium">
-              Last name {"("}required{")"}
-            </h5>
-            <span className="text-sm">Set your last name here.</span>
-          </div>
+        <FormField
+          name="lastname"
+          control={form.control}
+          render={({ field, fieldState }) => {
+            return (
+              <>
+                <SettingsField
+                  label="Last name"
+                  errMessage={fieldState.error?.message}
+                  {...field}
+                />
+              </>
+            );
+          }}
+        />
 
-          <FormField
-            name="lastname"
-            control={form.control}
-            defaultValue={user?.data?.lastname ?? ""}
-            render={({ field, fieldState }) => {
-              return (
-                <>
-                  <FormItem>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        placeholder="Full name"
-                        maxLength={30}
-                      />
-                    </FormControl>
-                    <FormMessage>{fieldState.error?.message}</FormMessage>
-                  </FormItem>
+        <hr />
 
-                  <span className="text-sm">
-                    {30 - field.value.length} characters remaining
-                  </span>
-                </>
-              );
-            }}
-          />
-        </div>
+        <FormField
+          name="bio"
+          control={form.control}
+          render={({ field, fieldState }) => {
+            return (
+              <>
+                <SettingsField
+                  label="Bio"
+                  errMessage={fieldState.error?.message}
+                  {...field}
+                />
+              </>
+            );
+          }}
+        />
 
-        <div className="flex flex-col gap-3 justify-between mt-6">
-          <div>
-            <h5 className="font-poppins-medium">
-              Biography {"("}optional{")"}
-            </h5>
-            <span className="text-sm">
-              A brief description of yourself shown on your profile.
-            </span>
-          </div>
+        <hr />
 
-          <FormField
-            name="bio"
-            control={form.control}
-            defaultValue={user?.data?.bio}
-            render={({ field }) => {
-              return (
-                <>
-                  <Textarea className="w-full" {...field} maxLength={100} />
-                  <span className="text-sm">
-                    {field?.value ? 100 - field?.value?.length : 100} characters
-                    remaining
-                  </span>
-                </>
-              );
-            }}
-          />
-        </div>
+        <FormField
+          name="present_address"
+          control={form.control}
+          render={({ field, fieldState }) => {
+            return (
+              <>
+                <SettingsField
+                  label="Present Address"
+                  errMessage={fieldState.error?.message}
+                  {...field}
+                />
+              </>
+            );
+          }}
+        />
 
-        <div className="mt-5">
+        {/* <FormField
+          name="Birth Date"
+          control={form.control}
+          defaultValue={user?.data?.birthdate}
+          render={({ field, fieldState }) => {
+            return (
+              <>
+                <SettingsField
+                  label="Birth Date"
+                  errMessage={fieldState.error?.message}
+                  {...field}
+                />
+              </>
+            );
+          }}
+        /> */}
+
+        {/* <hr /> */}
+
+        {/* <FormField
+          name="firstname"
+          control={form.control}
+          defaultValue={user?.data?.birthdate}
+          render={({ field, fieldState }) => {
+            return (
+              <>
+                <SettingsField
+                  label="Birth Date"
+                  errMessage={fieldState.error?.message}
+                  {...field}
+                />
+              </>
+            );
+          }}
+        /> */}
+
+        <div className="flex gap-3">
           <Button
             variant="default"
-            className="rounded-full w-24 font-poppins-bold"
-            size="sm"
-            disabled={!isSubmitReady || isUpdateUserLoading}
+            size="lg"
+            type="submit"
+            disabled={!form.formState.isDirty}
+            isLoading={isUpdateUserLoading}
           >
-            Save
+            Save changes
+          </Button>
+
+          <Button
+            variant="outline"
+            size="lg"
+            onClick={e => {
+              e.preventDefault();
+              form.reset({
+                firstname: user?.data?.firstname,
+                lastname: user?.data?.lastname,
+                bio: user?.data?.bio,
+                present_address: user?.data?.present_address
+              });
+            }}
+          >
+            Reset
           </Button>
         </div>
       </form>

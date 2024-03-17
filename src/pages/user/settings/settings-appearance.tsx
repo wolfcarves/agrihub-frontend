@@ -2,6 +2,7 @@ import React from "react";
 import LightThemeIllustration from "@icons/theme/LightThemeIllustration";
 import DarkThemeIllustration from "@icons/theme/DarkThemeIllustration";
 import { useTheme } from "@components/ui/theme-provider";
+import UserSettingsTitle from "@components/user/settings/form/UserSettingsProfileTitle/UserSettingsTitle";
 
 const UserAppearanceSettings = () => {
   const { theme, setTheme } = useTheme();
@@ -24,48 +25,39 @@ const UserAppearanceSettings = () => {
   ];
 
   return (
-    <div className="py-10 max-w-[50rem]">
-      <h4 className="font-poppins-medium">Customize Theme</h4>
+    <>
+      <UserSettingsTitle title="Change Theme" />
 
-      <div className="mt-10 space-y-2">
-        <h4 className="text-sm font-poppins-medium uppercase text-foreground/70">
-          Theme Preference
-        </h4>
-        <hr />
-      </div>
-
-      <div className="mt-10 mx-auto">
-        <form>
-          <div className="mx-auto p-4">
-            <ul className="flex flex-wrap gap-4">
-              {radios.map((item, idx) => (
-                <div
-                  className="max-w-[350px]"
-                  key={idx}
-                  onClick={() => setTheme(item.theme as "dark" | "light")}
-                >
-                  <label htmlFor={item.name} className="block relative">
-                    <div
-                      className={`${
-                        item.theme === theme && "ring-2 ring-green-600"
-                      } w-full cursor-pointer rounded-lg border bg-white shadow-sm duration-200 p-5`}
-                    >
-                      <h3 className="leading-none text-gray-800 font-medium mb-4">
-                        {item.name}
-                      </h3>
-                      {item.illustration}
-                      <p className="mt-2 text-sm text-gray-600">
-                        {item.description}
-                      </p>
-                    </div>
-                  </label>
-                </div>
-              ))}
-            </ul>
-          </div>
-        </form>
-      </div>
-    </div>
+      <form className="space-y-10 py-10">
+        <div className="mx-auto">
+          <ul className="flex flex-wrap gap-4">
+            {radios.map((item, idx) => (
+              <div
+                className="max-w-[350px]"
+                key={idx}
+                onClick={() => setTheme(item.theme as "dark" | "light")}
+              >
+                <label htmlFor={item.name} className="block relative">
+                  <div
+                    className={`${
+                      item.theme === theme && "ring-2 ring-green-600"
+                    } w-full cursor-pointer rounded-lg border bg-white shadow-sm duration-200 p-5`}
+                  >
+                    <h3 className="leading-none text-gray-800 font-medium mb-4">
+                      {item.name}
+                    </h3>
+                    {item.illustration}
+                    <p className="mt-2 text-sm text-gray-600">
+                      {item.description}
+                    </p>
+                  </div>
+                </label>
+              </div>
+            ))}
+          </ul>
+        </div>
+      </form>
+    </>
   );
 };
 

@@ -36,7 +36,7 @@ const ProfilePersonalInformationList = ({
     <div className="hidden lg:block max-w-[25rem] w-full mt-10 pb-40 px-3">
       {isOwn && (
         <div className="mb-7">
-          <h5 className="font-poppins-semibold tracking-tight">
+          <h5 className="font-merri-bold tracking-tight">
             Personal information
           </h5>
 
@@ -78,7 +78,7 @@ const ProfilePersonalInformationList = ({
       )}
 
       <div>
-        <h5 className="font-poppins-semibold tracking-tight">
+        <h5 className="font-merri-bold tracking-tight">
           Community involved to
         </h5>
 
@@ -101,6 +101,15 @@ const ProfilePersonalInformationList = ({
               </div>
             </div>
           </div>
+        ) : isOwn ? (
+          <>
+            <h5 className="mt-2">You haven't joined in a community yet.</h5>
+            <h6 className="mt-2">
+              <Link to="/community">
+                <span className="text-primary">Find community here</span>
+              </Link>
+            </h6>
+          </>
         ) : (
           <>
             <h5 className="mt-2">This user haven't joined in any community</h5>

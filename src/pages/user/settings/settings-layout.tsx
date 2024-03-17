@@ -1,16 +1,14 @@
 import { Outlet } from "react-router-dom";
-import { UserResponsiveContainer } from "@components/ui/custom";
 import SettingsTab from "@components/user/settings/tabs/SettingsTab";
 
 const SettingsLayout = () => {
   return (
-    <UserResponsiveContainer className="flex-col py-5">
-      <div>
-        <h4 className="font-poppins-medium">User settings</h4>
-      </div>
+    <div className="container flex flex-col lg:flex-row pt-10 lg:pt-20 min-h-[60rem]">
       <SettingsTab />
-      <Outlet />
-    </UserResponsiveContainer>
+      <div className="w-full lg:p-20 py-10 h-full">
+        <Outlet />
+      </div>
+    </div>
   );
 };
 

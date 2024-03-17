@@ -9,8 +9,11 @@ const Signup = () => {
       <Helmet>
         <title>Signup to Agrihub</title>
       </Helmet>
-      <UserSignupFormTitle />
-      <UserSignupForm />
+
+      <div className="w-full mx-auto max-w-[28rem]">
+        <UserSignupFormTitle />
+        <UserSignupForm />
+      </div>
     </>
   );
 };

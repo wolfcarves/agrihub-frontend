@@ -7,8 +7,9 @@ import { Link } from "react-router-dom";
 import useGetQuestionsInfiniteQuery from "@hooks/api/get/useGetQuestionsInfiniteQuery";
 import { QuestionsResponse } from "@api/openapi";
 import { useIntersection } from "@mantine/hooks";
+import useGetFarmListQuery from "@hooks/api/get/useGetFarmListQuery";
 
-const TABS = ["Question", "Community", "Resources", "Others"] as const;
+const TABS = ["Question", "Community"] as const;
 
 interface UserHeaderSearchProps {
   isOpen: boolean;
@@ -35,6 +36,11 @@ const UserHeaderSearch = ({
   const _questionsData = questionsData?.pages.flatMap(
     page => page.questions
   ) as QuestionsResponse["questions"];
+
+  const { data: communitiesData, isLoading: isCommunitiesLoading } =
+    useGetFarmListQuery({
+      search: query
+    });
 
   const lastElementRef = useRef<HTMLDivElement>(null);
 
@@ -108,7 +114,7 @@ const UserHeaderSearch = ({
           </div>
 
           <h6 className="text-foreground/80 pt-2">
-            Top results "{query ? query : null}"
+            {query ? `Top results '${query}'` : null}
           </h6>
 
           <div className="pt-2 overflow-y-auto h-[15rem] custom-scroll">
@@ -122,7 +128,6 @@ const UserHeaderSearch = ({
                 ))}
               </>
             )}
-
             {active === "Question" &&
               query &&
               _questionsData?.map(({ id, user, title, question }, idx) => {
@@ -168,6 +173,43 @@ const UserHeaderSearch = ({
                   </Link>
                 );
               })}
+
+            {active === "Community" && isCommunitiesLoading && (
+              <>
+                {Array.from({ length: 10 }).map((_, idx) => (
+                  <div className="space-y-3 py-5" key={idx + Math.random()}>
+                    <Skeleton className="h-4 max-w-[250px]" />
+                    <Skeleton className="h-4 max-w-[370px]" />
+                  </div>
+                ))}
+              </>
+            )}
+
+            {
+              active === "Community" &&
+                query &&
+                communitiesData?.farms
+                  ?.map(({ id, farm_name, description }) => {
+                    return (
+                      <Link
+                        to={`community/explore/${id}`}
+                        key={id}
+                        onClick={() => setIsOpen(prev => !prev)}
+                      >
+                        <div
+                          className="hover:bg-foreground/5 px-2 border-b py-5 space-y-2"
+                          role="button"
+                        >
+                          <h5>{farm_name}</h5>
+                          <p className="line-clamp-3 text-foreground/70">
+                            {description}
+                          </p>
+                        </div>
+                      </Link>
+                    );
+                  })
+                  .splice(0, 10) /*Limiting to 10 results */
+            }
           </div>
         </div>
       </div>

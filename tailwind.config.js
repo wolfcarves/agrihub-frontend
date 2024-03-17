@@ -57,7 +57,13 @@ export default {
       "inter-medium": ["inter-medium"],
       "inter-semibold": ["inter-semibold"],
       "inter-bold": ["inter-bold"],
-      "inter-extrabold": ["inter-extrabold"]
+      "inter-extrabold": ["inter-extrabold"],
+      // inter
+      "merri-thin": ["merri-thin"],
+      "merri-regular": ["merri-regular"],
+      "merri-medium": ["merri-medium"],
+      "merri-bold": ["merri-bold"],
+      "merri-black": ["merri-black"]
     },
     extend: {
       colors: {

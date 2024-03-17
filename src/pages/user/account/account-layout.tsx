@@ -7,7 +7,7 @@ const UserAccountLayout = () => {
   return (
     <main className="flex h-screen min-h-[675px]">
       <div className="flex flex-1 justify-center items-center px-3">
-        <div className="flex flex-col justify-center w-full max-w-[28rem] pb-20">
+        <div className="flex flex-col justify-center w-full pb-20">
           <Outlet />
         </div>
       </div>

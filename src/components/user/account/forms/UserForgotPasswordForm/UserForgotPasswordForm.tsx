@@ -35,37 +35,56 @@ const UserForgotPasswordForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(handleSendEmail)}>
+    <form
+      onSubmit={handleSubmit(handleSendEmail)}
+      className="w-full max-w-[40rem] mx-auto"
+    >
       {!isSuccess ? (
         <div>
           <div className="space-y-3">
-            <h5 className="font-poppins-semibold">Reset your password</h5>
-            <h6>Enter your email to send request to reset your password</h6>
+            <h3 className="font-merri-black">Reset your password</h3>
+            <h5>Enter your email to send request to reset your password</h5>
           </div>
 
-          <div className="space-y-4 mt-5">
-            <Input
-              placeholder="Email"
+          <div className="space-y-3 mt-5">
+            <p className="text-destructive text-md">
+              {formState.errors.username?.message}
+            </p>
+            <input
               {...register("username")}
-              $errorMessage={formState.errors.username?.message}
+              className="border-b my-4 py-3 w-full outline-0 text-lg"
+              placeholder="Enter your email here..."
             />
 
-            <Button className="w-full" isLoading={isLoading}>
-              Send Request
+            <Button className="w-full mt-4" size="lg" isLoading={isLoading}>
+              <span className="text-base">Send request</span>
             </Button>
+
+            <div className="">
+              <Link to="../login">
+                <Button
+                  variant="outline"
+                  className="w-full"
+                  size="lg"
+                  isLoading={isLoading}
+                >
+                  <span className="text-base">Cancel</span>
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       ) : (
-        <div className="flex flex-col items-center space-y-4">
+        <div className="flex flex-col items-center space-y-4 ">
           <MdMarkEmailRead className="text-primary text-9xl" />
 
           <div className="flex flex-col items-center">
-            <h4 className="font-poppins-medium ms-3">
+            <h4 className="font-merri-black text-2xl">
               Reset password request sent to your email
             </h4>
 
             <Link to="/account/login">
-              <Button className="mt-3" variant="outline">
+              <Button className="mt-7" variant="outline">
                 Back to Login
               </Button>
             </Link>

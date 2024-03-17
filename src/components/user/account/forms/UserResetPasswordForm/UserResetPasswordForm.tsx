@@ -44,13 +44,13 @@ const UserResetPasswordForm = () => {
     <>
       {!isResetPasswordSuccess ? (
         <form onSubmit={handleSubmit(handleResetPassword)}>
-          <div>
+          <div className="w-full max-w-[40rem] mx-auto">
             <div className="space-y-3">
-              <h5 className="font-poppins-semibold">Reset Password</h5>
-              <h6>
+              <h4 className="font-merri-black">Reset Password</h4>
+              <h5>
                 Please enter and confirm your new password. <br />
                 Minimum of 8 characters
-              </h6>
+              </h5>
             </div>
 
             <div className="space-y-4 mt-5">
@@ -69,8 +69,9 @@ const UserResetPasswordForm = () => {
               />
 
               <Button
-                className="w-full"
+                className="w-full mt-4"
                 isLoading={isResetPasswordLoading || isResetPasswordSuccess}
+                size="lg"
               >
                 Send Request
               </Button>
@@ -80,10 +81,12 @@ const UserResetPasswordForm = () => {
       ) : (
         <div className="flex flex-col space-y-3 items-center">
           <PiCheckFatBold className="text-9xl text-primary" />
-          <h4>Password Reset Successfully</h4>
+          <h4 className="font-merri-black text-2xl">
+            Password Reset Successfully
+          </h4>
 
           <Link to="/account/login">
-            <Button variant="link">Back to Login</Button>
+            <Button variant="outline">Back to Login</Button>
           </Link>
         </div>
       )}

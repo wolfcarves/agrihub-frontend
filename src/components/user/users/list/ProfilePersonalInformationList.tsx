@@ -101,6 +101,15 @@ const ProfilePersonalInformationList = ({
               </div>
             </div>
           </div>
+        ) : isOwn ? (
+          <>
+            <h5 className="mt-2">You haven't joined in a community yet.</h5>
+            <h6 className="mt-2">
+              <Link to="/community">
+                <span className="text-primary">Find community here</span>
+              </Link>
+            </h6>
+          </>
         ) : (
           <>
             <h5 className="mt-2">This user haven't joined in any community</h5>

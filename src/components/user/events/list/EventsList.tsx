@@ -24,10 +24,10 @@ const EventsList = () => {
       <div className="flex flex-col">
         {eventsData?.data?.map(data => {
           return (
-            <>
-              <EventsCard key={data.id} {...data} />
+            <div key={data?.id}>
+              <EventsCard {...data} />
               <Divider className="py-2" />
-            </>
+            </div>
           );
         })}
       </div>

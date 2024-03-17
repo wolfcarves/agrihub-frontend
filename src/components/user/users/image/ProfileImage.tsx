@@ -102,8 +102,6 @@ const ProfileImage = ({
     // }
   };
 
-  console.log(isLoading);
-
   return (
     <>
       <div className="flex absolute top-0 start-0 h-[27rem] w-full bg-gradient-to-r from-amber-200 via-purple-200 to-pink-200 -z-10"></div>

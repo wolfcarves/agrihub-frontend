@@ -52,7 +52,7 @@ const EventsCard = ({
           {location}
         </span>
 
-        <p className="text-black/70 line-clamp-5">{parse(about || "")}</p>
+        <span className="text-black/70 line-clamp-5">{parse(about || "")}</span>
 
         <Divider className="py-3 mt-auto" />
 

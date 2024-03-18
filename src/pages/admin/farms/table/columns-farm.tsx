@@ -61,11 +61,6 @@ export const columns: ColumnDef<FarmData>[] = [
             >
               View
             </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => navigate(`/community/explore/${farm.id}`)}
-            >
-              View in Community
-            </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>Delete</DropdownMenuItem>
           </DropdownMenuContent>

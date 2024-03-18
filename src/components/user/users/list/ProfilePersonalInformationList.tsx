@@ -28,7 +28,9 @@ const ProfilePersonalInformationList = ({
   isLoading
 }: ProfilePersonalInformationListProps) => {
   const d = new Date(bday ?? "");
-  const birthDate = MONTHS[d.getMonth()] + " " + d.getFullYear();
+  const birthDate = `${
+    MONTHS[d.getMonth()]
+  } ${d.getDate()}, ${d.getFullYear()}`;
 
   const { data: farmData } = useGetFarmViewQuery(farmId ?? "");
 

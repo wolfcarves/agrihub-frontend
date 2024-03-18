@@ -32,8 +32,6 @@ const BarHarvestWithered = () => {
     setEndMonth(month);
   };
 
-  console.log(selectedYear, startMonth, endMonth);
-
   const labels = barChartData?.map(item => item.month);
   const data = {
     labels,

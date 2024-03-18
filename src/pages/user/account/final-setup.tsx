@@ -4,10 +4,10 @@ import withAuthGuard from "@higher-order/account/withAuthGuard";
 
 const FinalSetup = () => {
   return (
-    <>
+    <div className="max-w-[28rem] w-full mx-auto">
       <UserFinalFormTitle />
       <UserFinalSetupForm />
-    </>
+    </div>
   );
 };
 

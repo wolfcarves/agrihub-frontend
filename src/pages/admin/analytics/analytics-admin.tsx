@@ -27,11 +27,14 @@ import DoughnutResource from "../charts/dougnut-resource-overview";
 import GrowthRateLineChart from "../charts/line-growthrate";
 import PieProblems from "../charts/pie-problem";
 import { Link } from "react-router-dom";
+import useGetReportAnalyticsUserFeedback from "../../../hooks/api/get/useGetReportAnalyticsUserFeedback";
 
 const AnalyticsAdmin = () => {
   const [sort, setSort] = useState<"asc" | "desc" | undefined>("asc");
   const { data: lowestGrowth } = useGetReportAdminGrowthrate({ order: sort });
   const { data: favouriteCrop } = useGetReportFavouriteCrops();
+  const { data: userFeedback } = useGetReportAnalyticsUserFeedback();
+  console.log(userFeedback, "asdasd");
   const ratings = [
     { value: "5.0", percentage: "66%" },
     { value: "4.0", percentage: "33%" },

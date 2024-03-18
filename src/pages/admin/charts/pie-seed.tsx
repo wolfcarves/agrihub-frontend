@@ -1,16 +1,20 @@
 import React from "react";
 import { Pie } from "react-chartjs-2";
 import useGetRequestCountGraph from "../../../hooks/api/get/useGetRequestCountGraph";
+import useGetReportAnalyticsPiechart from "../../../hooks/api/get/useGetReportAnalyticsPiechart";
 
 const PieSeed = () => {
-  const { data: requestCount } = useGetRequestCountGraph();
+  const { data: requestCount } = useGetReportAnalyticsPiechart();
 
   const data = {
     labels: ["Given", "Request"],
     datasets: [
       {
         label: "",
-        data: [requestCount?.accepted_requests, requestCount?.pending_requests],
+        data: [
+          requestCount?.seedling_requests,
+          requestCount?.pending_seedling_requests
+        ],
         backgroundColor: ["rgb(210, 227, 200)", "rgb(79, 111, 82)"]
       }
     ]

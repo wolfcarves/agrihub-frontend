@@ -16,7 +16,7 @@ const TableSeedlingAccepted = () => {
     };
   }, [searchParams]);
   const { data: SeedlingData, isLoading } = useGetRequestSeedlingListAll({
-    perpage: "20",
+    perpage: "10",
     page: String(params.currentPage),
     search: params.search,
     filter: "accepted"

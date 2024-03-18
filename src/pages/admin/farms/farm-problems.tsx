@@ -40,16 +40,11 @@ const FarmProblemsAdmin = () => {
       <Tabs defaultValue={tab || "common"}>
         <TabsList>
           <TabsTrigger value="common">Common</TabsTrigger>
-          <TabsTrigger value="unusual">Unusual</TabsTrigger>
           <TabsTrigger value="archived">Archived</TabsTrigger>
         </TabsList>
 
         <TabsContent value="common">
           <FarmProblemsCommon />
-        </TabsContent>
-
-        <TabsContent value="unusual">
-          <AdminFarmReportedProblems />
         </TabsContent>
 
         <TabsContent value="archived">

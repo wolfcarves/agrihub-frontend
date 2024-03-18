@@ -18,6 +18,7 @@ import parse from "html-react-parser";
 import Autoplay from "embla-carousel-autoplay";
 import { IoIosArrowForward } from "react-icons/io";
 import { formatDate } from "../../../lib/utils";
+import useGetVisionStats from "@hooks/api/get/useGetVisionStats";
 
 const ContentWhatWeDo: React.FC = () => {
   const { data: cmsDataLanding } = useCmsLandingDetailsQuery();
@@ -84,30 +85,37 @@ const ContentWhatWeDo: React.FC = () => {
     }
   ];
 
+  const { data: visionStats } = useGetVisionStats();
+
+  const formatData = (value: any) => {
+    value;
+    if (value && parseInt(value) >= 100000) {
+      return (parseInt(value) / 1000).toFixed(0) + "k";
+    }
+
+    return parseInt(value).toLocaleString();
+  };
+
   const stats = [
     {
-      data: "700+",
+      data: formatData(visionStats?.community_farms ?? "0"),
       title: "Farms"
     },
     {
-      data: "21k+",
+      data: formatData(visionStats?.registered_farmer ?? "0"),
       title: "Farmers Registered"
     },
     {
-      data: "36k+",
+      data: formatData(visionStats?.forums_forums_answers ?? "0"),
       title: "Answers Given"
     },
     {
-      data: "30M+",
+      data: formatData(visionStats?.total_resources ?? "0"),
       title: "Total Resources"
     }
   ];
 
   const { data: blogData } = useGetBlogsPublishList();
-
-  const plugin = React.useRef(
-    Autoplay({ delay: 4000, stopOnInteraction: true })
-  );
 
   return (
     <div className="w-full mx-auto my-0 md:my-15 mb-8">

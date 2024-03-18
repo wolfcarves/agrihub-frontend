@@ -69,7 +69,7 @@ const Learnings = () => {
                     {formatDate(items.createdat)} | {items.language}
                   </time>
 
-                  <h3 className="font-poppins-semibold mt-0.5 text-lg text-gray-900">
+                  <h3 className="font-poppins-semibold mt-0.5 text-lg text-gray-900 line-clamp-2">
                     {items.title}
                   </h3>
 

@@ -233,6 +233,7 @@ export type { UserSchema } from './models/UserSchema';
 export type { UserUpdateProfile } from './models/UserUpdateProfile';
 export type { VerifyOTPRequest } from './models/VerifyOTPRequest';
 export type { ViewInvitationResponse } from './models/ViewInvitationResponse';
+export type { VisionStatsResponse } from './models/VisionStatsResponse';
 export { VoteAnswerSchema } from './models/VoteAnswerSchema';
 export { VoteAnswerSuccessResponse } from './models/VoteAnswerSuccessResponse';
 export type { VoteResponseSchema } from './models/VoteResponseSchema';

@@ -19,6 +19,7 @@ import type { UpdatePrivacyPolicyResponse } from '../models/UpdatePrivacyPolicyR
 import type { UserFeedback } from '../models/UserFeedback';
 import type { UserFeedbackListResponse } from '../models/UserFeedbackListResponse';
 import type { UserFeedbackResponse } from '../models/UserFeedbackResponse';
+import type { VisionStatsResponse } from '../models/VisionStatsResponse';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -282,6 +283,30 @@ id: string,
             url: '/api/cms/user-feedbacks/{id}',
             path: {
                 'id': id,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Retrieve Vision Statistics
+     * @returns VisionStatsResponse Successful response
+     * @throws ApiError
+     */
+    public static getApiCmsVisionStats(): CancelablePromise<VisionStatsResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/cms/vision-stats',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
             },
         });
     }

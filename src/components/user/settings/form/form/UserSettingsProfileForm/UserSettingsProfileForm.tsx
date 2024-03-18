@@ -114,9 +114,10 @@ const UserSettingsProfileForm = () => {
             return (
               <>
                 <SettingsField
+                  {...field}
                   label="Bio"
                   errMessage={fieldState.error?.message}
-                  {...field}
+                  value={field.value ?? ""}
                 />
               </>
             );

@@ -4,6 +4,7 @@ import withAuthGuard from "@higher-order/account/withAuthGuard";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { GET_MY_PROFILE_KEY } from "@hooks/api/get/useGetMyProfileQuery";
+import AccountOutletContainer from "@components/user/account/container/AccountOutletContainer";
 
 const VerifyEmail = () => {
   //Fetches auth data every 5 sec
@@ -21,10 +22,10 @@ const VerifyEmail = () => {
   }, []);
 
   return (
-    <>
+    <AccountOutletContainer>
       <UserVerifyTitle />
       <UserVerifyEmailForm />
-    </>
+    </AccountOutletContainer>
   );
 };
 

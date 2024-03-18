@@ -27,17 +27,22 @@ import { Input } from "@components/ui/input";
 import { Label } from "@components/ui/label";
 import { Textarea } from "@components/ui/textarea";
 import { UserFeedback } from "../../../../api/openapi";
+import { format } from "date-fns";
+import useGetCmsUserFeedbackView from "../../../../hooks/api/get/useGetCmsUserFeedbackView";
+import Loader from "../../../../icons/Loader";
 
 export const columns: ColumnDef<UserFeedback>[] = [
   {
-    accessorKey: "createdAt",
+    accessorKey: "createdat",
     header: "Created At",
-    cell: ({ row }) => <div>{row.getValue("createdAt")}</div>
+    cell: ({ row }) => format(new Date(row.original.createdat || ""), "PPP")
   },
   {
-    accessorKey: "name",
+    accessorKey: "firstname",
     header: "Name",
-    cell: ({ row }) => <div>{row.getValue("name")}</div>
+    cell: ({ row }) => (
+      <div>{`${row.original.firstname} ${row.original.lastname}`}</div>
+    )
   },
   {
     accessorKey: "rating",
@@ -45,90 +50,90 @@ export const columns: ColumnDef<UserFeedback>[] = [
     cell: ({ row }) => <div>{row.getValue("rating")}</div> // Changed accessorKey to "rating"
   },
   {
-    accessorKey: "feedbackSuggestion",
+    accessorKey: "feedback",
     header: "Feedback & Suggestion",
-    cell: ({ row }) => <div>{row.getValue("feedbackSuggestion")}</div> // Changed accessorKey to "feedbackSuggestion"
+    cell: ({ row }) => <div>{row.getValue("feedback")}</div> // Changed accessorKey to "feedbackSuggestion"
   },
   {
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const payment = row.original;
+      const feedback = row.original;
+      const { data: feedbackData, isLoading } = useGetCmsUserFeedbackView(
+        feedback.id || ""
+      );
+      console.log(feedbackData, "asd");
+      if (isLoading) {
+        return <Loader isVisible={true} />;
+      }
 
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id || "")}
-            >
-              Copy Feedback ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <Dialog>
-              <DialogTrigger asChild>
-                <div className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
-                  View Feedback
+        <Dialog>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuItem
+                onClick={() => navigator.clipboard.writeText(feedback.id || "")}
+              >
+                Copy Feedback ID
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <DialogTrigger>View Feedback</DialogTrigger>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          {/* modal */}
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>Feedback & Suggestion </DialogTitle>
+              <div className="flex items-center gap-x-4">
+                <img
+                  src="https://randomuser.me/api/portraits/lego/6.jpg"
+                  className="w-16 h-16 rounded-full object-cover"
+                />
+                <div>
+                  <span className="block text-gray-800 font-semibold">
+                    {feedbackData?.firstname} {feedbackData?.lastname}
+                  </span>
+                  <span className="block text-gray-600 text-sm mt-0.5">
+                    {format(new Date(feedbackData?.createdat || ""), "PPP")}
+                  </span>
                 </div>
-              </DialogTrigger>
-              {/* modal */}
-              <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader>
-                  <DialogTitle>Feedback & Suggestion </DialogTitle>
-                  <div className="flex items-center gap-x-4">
-                    <img
-                      src="https://randomuser.me/api/portraits/lego/6.jpg"
-                      className="w-16 h-16 rounded-full object-cover"
-                    />
-                    <div>
-                      <span className="block text-gray-800 font-semibold">
-                        Daniel Jeffrey Guellin
-                      </span>
-                      <span className="block text-gray-600 text-sm mt-0.5">
-                        OFW Saudi
-                      </span>
-                    </div>
-                  </div>
-                </DialogHeader>
+              </div>
+            </DialogHeader>
 
-                <div className="grid gap-4">
-                  <div className="flex-col gap-4">
-                    <Label htmlFor="title" className="text-right">
-                      Rating
-                    </Label>
-                    <Input
-                      id="rating"
-                      placeholder="insert title of your material"
-                      className="col-span-3"
-                      defaultValue="satisfactory"
-                      disabled
-                    />
-                  </div>
-                  <div className="flex-col gap-4">
-                    <Label className="text-right">
-                      Feedback and Suggestion
-                    </Label>
-                    <Textarea
-                      defaultValue="ang hindi magmahal sa sariling wika ay mas malangsa pa sa sinigang"
-                      disabled
-                    />
-                  </div>
-                </div>
+            <div className="grid gap-4">
+              <div className="flex-col gap-4">
+                <Label htmlFor="title" className="text-right">
+                  Rating
+                </Label>
+                <Input
+                  id="rating"
+                  placeholder="insert title of your material"
+                  className="col-span-3"
+                  defaultValue={feedbackData?.rating}
+                  disabled
+                />
+              </div>
+              <div className="flex-col gap-4">
+                <Label className="text-right">Feedback and Suggestion</Label>
+                <Textarea defaultValue={feedbackData?.feedback} disabled />
+              </div>
+            </div>
 
-                {/* buttons */}
-                <DialogFooter>
-                  <Button variant="outline">Set as Testimonial</Button>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
-          </DropdownMenuContent>
-        </DropdownMenu>
+            {/* buttons */}
+            <DialogFooter>
+              <Button variant="outline">Set as Testimonial</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       );
     }
   }

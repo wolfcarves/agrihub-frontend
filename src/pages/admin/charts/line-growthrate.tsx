@@ -18,7 +18,6 @@ const GrowthRateLineChart = () => {
     start: startMonth,
     end: endMonth
   });
-  console.log(growthMonthly);
 
   const handleChangeYear = (year: string) => {
     setSelectedYear(year);
@@ -26,7 +25,6 @@ const GrowthRateLineChart = () => {
 
   const handleChangeStartMonth = (month: string) => {
     setStartMonth(month);
-    console.log(month);
   };
 
   const handleChangeEndMonth = (month: string) => {
@@ -69,8 +67,6 @@ const GrowthRateLineChart = () => {
       }
     }
   };
-
-  console.log(selectedYear, startMonth, endMonth);
 
   return (
     <>

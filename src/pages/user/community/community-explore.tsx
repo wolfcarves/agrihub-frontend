@@ -108,7 +108,7 @@ const Explore = () => {
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Filter District..." />
             </SelectTrigger>
-            <SelectContent side="top">
+            <SelectContent>
               <SelectItem value="All">All</SelectItem>
               {district.map((id, i) => (
                 <SelectItem key={i} value={id}>

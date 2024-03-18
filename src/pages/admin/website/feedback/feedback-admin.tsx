@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useMemo } from "react";
 import AdminOutletContainer from "@components/admin/layout/container/AdminOutletContainer";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
 import { Input } from "@components/ui/input";
 import { DataTable } from "@components/ui/custom/data-table/data-table";
-import { data, columns } from "./columns-feedback";
+import { columns } from "./columns-feedback";
 import BreadCrumb from "@components/ui/custom/breadcrumb/breadcrumb";
+import useGetCmsUserFeedbackList from "../../../../hooks/api/get/useGetCmsUserFeedbackList";
+import useDebounce from "../../../../hooks/utils/useDebounce";
+import { useSearchParams } from "react-router-dom";
+import { Pagination } from "../../../../components/ui/custom";
 
 const breadcrumbItems = [
   {
@@ -13,6 +17,23 @@ const breadcrumbItems = [
   }
 ];
 const FeedbackAdmin = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const params = useMemo(() => {
+    return {
+      currentPage: Number(searchParams.get("page")) ?? 1,
+      search: searchParams.get("search") ?? undefined
+    };
+  }, [searchParams]);
+  const { data: feedbackData, isLoading } = useGetCmsUserFeedbackList(
+    params.search,
+    String(params.currentPage),
+    "10"
+  );
+  const debouncedSearch = useDebounce((value: string) => {
+    searchParams.set("search", value);
+    setSearchParams(searchParams);
+  }, 100);
+  console.log(feedbackData);
   return (
     <AdminOutletContainer className="container mx-auto py-10 ">
       <BreadCrumb items={breadcrumbItems} />
@@ -26,8 +47,21 @@ const FeedbackAdmin = () => {
         website.
       </p>
       <hr className="my-4" />
-      <Input placeholder="Search title..." className="max-w-sm my-4" />
-      <DataTable columns={columns} data={data} />
+      <Input
+        placeholder="Search title..."
+        className="max-w-sm my-4"
+        value={params.search}
+        onChange={e => debouncedSearch(e.target.value)}
+      />
+      <DataTable columns={columns} data={feedbackData?.data || []} />
+      {feedbackData?.pagination?.total_pages !== 1 && (
+        <div className="mt-4">
+          <Pagination
+            totalPages={Number(feedbackData?.pagination?.total_pages)}
+            isLoading={isLoading}
+          />
+        </div>
+      )}
     </AdminOutletContainer>
   );
 };

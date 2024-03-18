@@ -2,6 +2,9 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { AnalyticsOverviewPieChartResponse } from '../models/AnalyticsOverviewPieChartResponse';
+import type { AnalyticsOverviewUserFeedbackResponse } from '../models/AnalyticsOverviewUserFeedbackResponse';
+import type { CommonOverviewResponse } from '../models/CommonOverviewResponse';
 import type { CommunityCropReportsResponse } from '../models/CommunityCropReportsResponse';
 import type { CropReportResponse } from '../models/CropReportResponse';
 import type { CropReportViewResponse } from '../models/CropReportViewResponse';
@@ -510,6 +513,60 @@ year?: string,
             query: {
                 'year': year,
             },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Retrieve Common Overview Reports
+     * @returns CommonOverviewResponse Successful response
+     * @throws ApiError
+     */
+    public static getApiReportsCommonOverview(): CancelablePromise<CommonOverviewResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/reports/common/overview',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Retrieve Analytics Overview for Pie Chart
+     * @returns AnalyticsOverviewPieChartResponse Successful response
+     * @throws ApiError
+     */
+    public static getApiReportsAnalyticsOverviewPiechart(): CancelablePromise<AnalyticsOverviewPieChartResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/reports/analytics/overview/piechart',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Retrieve Analytics Overview for User Feedback
+     * @returns AnalyticsOverviewUserFeedbackResponse Successful response
+     * @throws ApiError
+     */
+    public static getApiReportsAnalyticsOverviewUserFeedback(): CancelablePromise<AnalyticsOverviewUserFeedbackResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/reports/analytics/overview/user-feedback',
             errors: {
                 400: `Validation Error`,
                 401: `Unauthorized`,

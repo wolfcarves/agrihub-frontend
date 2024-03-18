@@ -4,14 +4,14 @@
 /* eslint-disable */
 
 export type UserFeedback = {
-  id?: string;
-  userid?: string;
-  feedback?: string;
-  rating?: string;
-  createdat?: string;
-  updatedat?: string;
-  is_read?: string;
-  firstname?: string;
-  avatar?: string;
-  lastname?: string;
+    id?: string;
+    userid?: string;
+    feedback?: string;
+    rating?: string;
+    createdat?: string;
+    updatedat?: string;
+    is_read?: string;
+    firstname?: string;
+    avatar?: string;
+    lastname?: string;
 };

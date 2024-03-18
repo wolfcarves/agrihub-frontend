@@ -20,6 +20,7 @@ import useDebounce from "../../../../../hooks/utils/useDebounce";
 import { Input } from "../../../../ui/input";
 import { Pagination } from "../../../../ui/custom";
 const CommunityProblemTable = () => {
+  const { id } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const params = useMemo(() => {
@@ -31,6 +32,7 @@ const CommunityProblemTable = () => {
   }, [searchParams]);
 
   const { data: farmProblems, isLoading } = useGetProblemsCommunityList({
+    id: id || "",
     search: params.search,
     page: String(params.currentPage),
     perpage: "10",

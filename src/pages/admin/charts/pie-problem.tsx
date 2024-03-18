@@ -4,9 +4,6 @@ import useGetReportAnalyticsPiechart from "../../../hooks/api/get/useGetReportAn
 
 const PieProblems = () => {
   const { data: problemsCount } = useGetReportAnalyticsPiechart();
-  console.log(problemsCount);
-  const DATA_COUNT = 2;
-  const NUMBER_CFG = { count: DATA_COUNT, min: 0, max: 100 };
 
   const data = {
     labels: ["Solved", "Occuring"],

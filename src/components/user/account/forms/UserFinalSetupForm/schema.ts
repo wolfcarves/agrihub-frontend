@@ -1,6 +1,6 @@
 import * as zod from "zod";
 
-const MAX_IMAGE_FILE_SIZE = 1024 * 1024 * 3; // 3MB
+const MAX_IMAGE_FILE_SIZE = 1024 * 1024 * 10; // 10MB
 const ALLOWED_IMAGE_FORMATS = [
   "image/jpeg",
   "image/jpg",
@@ -16,7 +16,7 @@ export const userFinalSetup = zod.object({
         file?.[0]?.size === undefined
           ? true
           : file?.[0]?.size <= MAX_IMAGE_FILE_SIZE,
-      "Maximum image file size is 3MB"
+      "Maximum image file size is 10MB"
     )
     .refine(
       (file: FileList) => (

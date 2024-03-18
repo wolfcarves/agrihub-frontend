@@ -1,10 +1,9 @@
 import { useForm } from "react-hook-form";
 import { UserSetupAccount, userSetupAcountSchema } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { getAllowedYears } from "./constant/years";
 import useUserSetupAccount from "@hooks/api/post/useUserSetupAccount";
 import { UserCompletionSchema } from "@api/openapi";
-import { MONTHS } from "./constant/months";
+import { format } from "date-fns";
 import {
   Form,
   FormControl,
@@ -13,16 +12,16 @@ import {
   FormMessage
 } from "@components/ui/form";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from "@components/ui/select";
-import { SelectGroup } from "@radix-ui/react-select";
+  Popover,
+  PopoverTrigger,
+  PopoverContent
+} from "@components/ui/popover";
 import { Input } from "@components/ui/custom";
 import { Button } from "@components/ui/button";
 import useDeleteAuthMutate from "@hooks/api/delete/useDeleteAuthMutate";
+import { Calendar } from "@components/ui/calendar";
+import { LuCalendar } from "react-icons/lu";
+import "react-day-picker/dist/style.css";
 
 export default function UserSetupAccountForm() {
   const form = useForm<UserSetupAccount>({
@@ -44,9 +43,7 @@ export default function UserSetupAccountForm() {
     const refinedData = {
       firstname: data.firstname,
       lastname: data.lastname,
-      birthdate: `${data.year}-${
-        Number(data.month) < 10 ? "0" + data.month : data.month
-      }-01`,
+      birthdate: data?.dob.toISOString(),
       present_address: data.presentAddress,
       district: "1",
       municipality: "City",
@@ -59,8 +56,6 @@ export default function UserSetupAccountForm() {
       console.log(e);
     }
   };
-
-  const years = getAllowedYears();
 
   return (
     <Form {...form}>
@@ -100,82 +95,59 @@ export default function UserSetupAccountForm() {
           />
         </div>
 
-        <div className="">
-          <span className="font-medium">Date of Birth</span>
-        </div>
-
-        <div className="grid grid-cols-3 gap-2">
-          <div className="col-span-2">
-            <FormField
-              name="month"
-              control={form.control}
-              defaultValue={String(MONTHS[0].value)}
-              render={({ field, fieldState }) => (
-                <FormItem>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={String(field.value)}
-                  >
-                    <FormControl className="rounded-2xl bg-white h-11 shadow-sm">
-                      <SelectTrigger>
-                        <SelectValue placeholder="" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectGroup>
-                        {MONTHS.map(({ label, value }) => (
-                          <SelectItem
-                            key={label}
-                            value={value}
-                            className="cursor-pointer"
-                          >
-                            {label}
-                          </SelectItem>
-                        ))}
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage>{fieldState.error?.message}</FormMessage>
-                </FormItem>
-              )}
-            />
-          </div>
-
-          <div className="col-span-1">
-            <FormField
-              name="year"
-              control={form.control}
-              defaultValue={String(years[0].value)}
-              render={({ field, fieldState }) => (
-                <FormItem>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={String(field.value)}
-                  >
-                    <FormControl className="rounded-2xl bg-white h-11 shadow-sm">
-                      <SelectTrigger>
-                        <SelectValue placeholder="" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent className="max-h-[300px]">
-                      <SelectGroup>
-                        {years.map(({ label, value }) => (
-                          <SelectItem
-                            key={label}
-                            value={value}
-                            className="cursor-pointer"
-                          >
-                            {label}
-                          </SelectItem>
-                        ))}
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage>{fieldState.error?.message}</FormMessage>
-                </FormItem>
-              )}
-            />
-          </div>
+        <div>
+          <FormField
+            name="dob"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <FormItem>
+                <FormControl>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl className="w-full h-11">
+                        <Button variant="outline">
+                          {field.value ? (
+                            <span className="font-poppins-regular text-base">
+                              {format(field.value, "LLLL d, yyyy")}
+                            </span>
+                          ) : (
+                            <span className="font-poppins-regular text-base text-foreground/70">
+                              Birth Date
+                            </span>
+                          )}
+                          <LuCalendar className="ml-auto h-4 w-4 opacity-50" />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={field.value}
+                        onSelect={field.onChange}
+                        disabled={date =>
+                          date > new Date() || date < new Date("1900-01-01")
+                        }
+                        classNames={{
+                          caption_label:
+                            "flex items-center text-sm font-medium",
+                          dropdown: "rdp-dropdown",
+                          dropdown_icon: "ml-2",
+                          dropdown_year: "rdp-dropdown_year ml-3",
+                          button: "",
+                          button_reset: ""
+                        }}
+                        fromYear={1900}
+                        toYear={new Date().getFullYear() - 19}
+                        captionLayout="dropdown-buttons"
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
+                </FormControl>
+                <FormMessage>{fieldState.error?.message}</FormMessage>
+              </FormItem>
+            )}
+          />
         </div>
 
         <div>

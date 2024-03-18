@@ -25,12 +25,11 @@ const DialogAddAprroach: React.FC<dialogProps> = ({ approachId }) => {
 
   //get present credits
   const activeApproach = useMemo(() => {
-    return landingData?.aproach_items.find(
+    return landingData?.approach_items?.find(
       approach => approach.id === approachId
     );
   }, [landingData, approachId]);
 
-  console.log(activeApproach, "dasdasd");
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -57,13 +56,13 @@ const DialogAddAprroach: React.FC<dialogProps> = ({ approachId }) => {
             <Input
               type="text"
               placeholder="Enter approach title here"
-              defaultValue={activeApproach.title}
+              defaultValue={activeApproach?.title}
             />
           </div>
 
           <div className=" col-span-4">
             <Label>Description</Label>
-            <Textarea defaultValue={activeApproach.description} />
+            <Textarea defaultValue={activeApproach?.description} />
           </div>
         </div>
         <DialogFooter>

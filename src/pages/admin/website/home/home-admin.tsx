@@ -57,11 +57,11 @@ const HomeAdmin = () => {
         <h3 className="font-bold my-2">Carousel items</h3>
 
         <div>
-          <AwsUploader
+          {/* <AwsUploader
             // onChange={data => form.setValue("logo", data)}
             defaultValue={landingData?.images[0]}
             // onDelete={() => form.setValue("logo", "")}
-          />
+          /> */}
         </div>
         <div className="my-4">
           <div className="w-full mb-4">
@@ -83,18 +83,18 @@ const HomeAdmin = () => {
             <Textarea defaultValue={landingData?.approach} />
           </div>
           <div className="grid grid-cols-10 gap-3">
-            {landingData?.aproach_items?.map((approach, i) => (
+            {landingData?.approach_items?.map((approach, i) => (
               <div
                 key={i}
                 className=" col-span-5 grid grid-cols-10 bg-white border border-border rounded-md p-4 relative"
               >
                 <div className="absolute flex gap-1 top-1 right-1">
                   <IoTrashOutline
-                    onClick={() => handleDeleteApproach(approach.id)}
+                    onClick={() => handleDeleteApproach(approach.id || "")}
                     size={25}
                     className="  border p-1 rounded-full text-red-600 border-red-400/45 bg-red-300/30 hover:animate-pulse"
                   />
-                  <DialogAddAprroach approachId={approach.id} />
+                  <DialogAddAprroach approachId={approach.id || ""} />
                 </div>
                 <div className=" col-span-2">{approach.icon}</div>
                 <div className=" col-span-8">

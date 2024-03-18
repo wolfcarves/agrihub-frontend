@@ -64,7 +64,7 @@ export const columns: ColumnDef<UserFeedback>[] = [
       );
       console.log(feedbackData, "asd");
       if (isLoading) {
-        return <Loader isVisible={true} />;
+        return <></>;
       }
 
       return (
@@ -122,10 +122,10 @@ export const columns: ColumnDef<UserFeedback>[] = [
                   disabled
                 />
               </div>
-              <div className="flex-col gap-4">
+              {/* <div className="flex-col gap-4">
                 <Label className="text-right">Feedback and Suggestion</Label>
                 <Textarea defaultValue={feedbackData?.feedback} disabled />
-              </div>
+              </div> */}
             </div>
 
             {/* buttons */}

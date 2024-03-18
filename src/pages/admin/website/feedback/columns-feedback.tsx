@@ -30,6 +30,8 @@ import { UserFeedback } from "../../../../api/openapi";
 import { format } from "date-fns";
 import useGetCmsUserFeedbackView from "../../../../hooks/api/get/useGetCmsUserFeedbackView";
 import Loader from "../../../../icons/Loader";
+import { formatImage } from "../../../../components/lib/utils";
+import { DialogClose } from "../../../../components/ui/custom/dialog/dialog";
 
 export const columns: ColumnDef<UserFeedback>[] = [
   {
@@ -95,7 +97,7 @@ export const columns: ColumnDef<UserFeedback>[] = [
               <DialogTitle>Feedback & Suggestion </DialogTitle>
               <div className="flex items-center gap-x-4">
                 <img
-                  src="https://randomuser.me/api/portraits/lego/6.jpg"
+                  src={formatImage(feedbackData?.avatar || "")}
                   className="w-16 h-16 rounded-full object-cover"
                 />
                 <div>
@@ -122,15 +124,19 @@ export const columns: ColumnDef<UserFeedback>[] = [
                   disabled
                 />
               </div>
-              {/* <div className="flex-col gap-4">
+              <div className="flex-col gap-4">
                 <Label className="text-right">Feedback and Suggestion</Label>
                 <Textarea defaultValue={feedbackData?.feedback} disabled />
-              </div> */}
+              </div>
             </div>
 
             {/* buttons */}
             <DialogFooter>
-              <Button variant="outline">Set as Testimonial</Button>
+              <DialogClose asChild>
+                <Button type="button" variant="secondary">
+                  Close
+                </Button>
+              </DialogClose>
             </DialogFooter>
           </DialogContent>
         </Dialog>

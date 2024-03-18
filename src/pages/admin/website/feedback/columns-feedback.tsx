@@ -26,47 +26,9 @@ import {
 import { Input } from "@components/ui/input";
 import { Label } from "@components/ui/label";
 import { Textarea } from "@components/ui/textarea";
+import { UserFeedback } from "../../../../api/openapi";
 
-export const data: Feedback[] = [
-  {
-    id: "t1",
-    createdAt: "2023-01-15",
-    name: "Rodel",
-    rating: "Pesticides",
-    feedbackSuggestion: "Stratified"
-  },
-  {
-    id: "t2",
-    createdAt: "2023-01-15",
-    name: "Jeoffrey",
-    rating: "Pesticides",
-    feedbackSuggestion: "Satisflying"
-  },
-  {
-    id: "t3",
-    createdAt: "2023-01-15",
-    name: "Daniel",
-    rating: "Pesticides",
-    feedbackSuggestion: "Natural"
-  },
-  {
-    id: "t4",
-    createdAt: "2023-01-15",
-    name: "Ronnie",
-    rating: "Pesticides",
-    feedbackSuggestion: "Pesticides"
-  }
-];
-
-export type Feedback = {
-  id: string;
-  createdAt: string; // Added createdAt field
-  name: string;
-  rating: string;
-  feedbackSuggestion: string;
-};
-
-export const columns: ColumnDef<Feedback>[] = [
+export const columns: ColumnDef<UserFeedback>[] = [
   {
     accessorKey: "createdAt",
     header: "Created At",
@@ -104,7 +66,7 @@ export const columns: ColumnDef<Feedback>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
+              onClick={() => navigator.clipboard.writeText(payment.id || "")}
             >
               Copy Feedback ID
             </DropdownMenuItem>

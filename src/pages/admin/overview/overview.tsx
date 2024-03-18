@@ -41,7 +41,7 @@ const OverviewAdmin = () => {
   const { data: favouriteCrop } = useGetReportFavouriteCrops();
   const { data: resourceDetailed } = useGetReportResourceCountDetailed();
   const { data: overviewCards } = useGetReportsCommonOverview();
-  console.log(overviewCards);
+
   return (
     <AdminOutletContainer>
       <div className="grid grid-cols-1 md:grid-cols-12 grid-rows-12 gap-4">

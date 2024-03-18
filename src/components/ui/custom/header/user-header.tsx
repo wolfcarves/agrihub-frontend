@@ -23,7 +23,7 @@ const UserHeaderLogo = () => {
   return (
     <Link to="/">
       <img
-        className="w-10 sm:block hidden"
+        className="w-14 sm:block hidden"
         src={AgrihubLogo as unknown as string}
       />
     </Link>
@@ -69,10 +69,10 @@ const UserHeader = () => {
   return (
     <>
       <UserHeaderContainer>
-        <div className="hidden sm:flex items-center h-full">
+        <div className="hidden sm:flex items-center h-full max-w-[20rem] w-full">
           <UserHeaderLogo />
           <SearchBar
-            className="lg:flex sm:block hidden ms-3"
+            className="lg:flex sm:block hidden ms-3 w-full"
             placeholder="Search..."
             onFocus={() => setIsSearchOpen(true)}
             onChange={e => setSearchValue(e.target.value)}
@@ -85,6 +85,7 @@ const UserHeader = () => {
           setIsOpen={setIsSearchOpen}
           query={searchValue}
         />
+
         <UserHeaderNavigation />
         <UserHeaderMobileSidebar />
 

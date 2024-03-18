@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 const Event = () => {
   return (
     <div className="container">
-      <div className="mt-4 sm:mx-8">
+      <div className="mt-20 sm:mx-8 w-max">
         <Link to="/events">
           <span className="flex items-center gap-x-2 text-foreground font-poppins-semibold hover:underline hover:underline-offset-2 py-2.5 px-1.5 rounded-lg duration-200">
             <FaArrowLeftLong /> Back

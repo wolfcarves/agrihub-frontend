@@ -9,13 +9,13 @@ const UserSignupFormTitle = () => {
     <>
       <Link
         to="/"
-        className="border w-max rounded-xl p-1 hover:scale-[1.10] hover:shadow-sm duration-200"
+        className="flex border w-max rounded-xl p-1 hover:scale-[1.10] hover:shadow-sm duration-200"
       >
         <AgrihubLogo className="w-[2rem]" />
       </Link>
 
       <div className="flex flex-col gap-2 py-5 ">
-        <h5 className="font-poppins-semibold text-foreground/90">
+        <h5 className="font-merri-black text-foreground/90">
           Create an account
         </h5>
 

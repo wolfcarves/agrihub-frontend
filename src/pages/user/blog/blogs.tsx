@@ -27,8 +27,8 @@ const Blogs = () => {
         </p>
       </div>
 
-      <div className="flex flex-wrap justify-start gap-4">
-        {isLoading && <SkeletonCard count={10} className="md:w-1/3" />}
+      <div className="flex flex-wrap justify-center gap-4">
+        {isLoading && <SkeletonCard count={10} className="md:w-1/3 w-full" />}
         {blogData?.data?.map((item, index) => {
           return (
             <Link to={`/blogs/view/${item.id}`} key={index}>

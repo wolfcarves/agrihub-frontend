@@ -9,11 +9,12 @@ const Maintenance = () => {
             Maintenance Mode
           </p>
           <h1 className="mt-3 text-2xl font-semibold text-gray-800  md:text-3xl">
-            AgriHub is Under Maintenance
+            Ang app na ito ay kasalukuyang ginagawa.
           </h1>
           <p className="mt-4 text-gray-500">
-            We're currently performing maintenance on our website to provide you
-            with a better experience. Please check back later.
+            Kami ay kasalukuyang nagsasagawa ng pagaayos sa aming website para
+            makapag bigay ng mas magandang experience sa inyo. Maaari niyo ulit
+            itong balikan sa susunod.
           </p>
         </div>
 

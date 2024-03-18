@@ -238,7 +238,7 @@ const SetPermissionAdmin = () => {
           {/* resource module */}
           <Card className="my-4 p-5">
             <div className="flex justify-between items-center">
-              <div>
+              <div className="w-full">
                 <div className="flex gap-4 justify-between">
                   <h2 className="text-lg font-bold tracking-tight">
                     Resource Module
@@ -317,7 +317,7 @@ const SetPermissionAdmin = () => {
           {/* forum */}
           <Card className="my-4 p-5">
             <div className="flex justify-between items-center">
-              <div>
+              <div className="w-full">
                 <div className="flex gap-4 justify-between items-center">
                   <h2 className="text-lg font-bold tracking-tight">
                     Forum Management
@@ -402,7 +402,7 @@ const SetPermissionAdmin = () => {
           {/* website management */}
           <Card className="my-4 p-5">
             <div className="flex justify-between items-center">
-              <div>
+              <div className="w-full">
                 <div className="w-full justify-between items-center flex">
                   <h2 className="text-lg font-bold tracking-tight">
                     Website Management
@@ -540,15 +540,17 @@ const SetPermissionAdmin = () => {
             </div>
             <div className="flex w-full gap-4 my-4 flex-wrap sm:flex-nowrap">
               <div className="w-full">
-                <div className="flex items-center gap-4">
-                  <Switch
-                    checked={helpCenter}
-                    onCheckedChange={setHelpCenter}
-                  />
-                  <div>
+                <div className="flex-col items-center gap-4">
+                  <div className="flex justify-between items-center">
                     <h2 className="text-md font-bold tracking-tight">
                       Help Center
                     </h2>
+                    <Switch
+                      checked={helpCenter}
+                      onCheckedChange={setHelpCenter}
+                    />
+                  </div>
+                  <div>
                     <p className="text-sm text-muted-foreground">
                       Modify what individuals on this role can do
                     </p>
@@ -557,15 +559,17 @@ const SetPermissionAdmin = () => {
                 <hr className="my-4" />
               </div>
               <div className="w-full">
-                <div className="flex items-center gap-4">
-                  <Switch
-                    checked={cropsManagement}
-                    onCheckedChange={setCropsManagement}
-                  />
-                  <div>
+                <div className="flex-col items-center gap-4">
+                  <div className="flex justify-between items-center">
                     <h2 className="text-md font-bold tracking-tight">
                       Crops Management
                     </h2>
+                    <Switch
+                      checked={cropsManagement}
+                      onCheckedChange={setCropsManagement}
+                    />
+                  </div>
+                  <div>
                     <p className="text-sm text-muted-foreground">
                       Modify what individuals on this role can do
                     </p>

@@ -111,7 +111,7 @@ const CommunityRegisterForm = () => {
   };
 
   return (
-    <div className="w-full md:px-0 px-2 ">
+    <div className="w-full md:px-0 px-2 my-4">
       <h2 className="font-poppins-medium">Register Community</h2>
       <hr className="mb-4 mt-1 border-primary border-2" />
       <Form {...form}>

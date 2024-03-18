@@ -4,6 +4,7 @@ import { convertToEmbedLink, formatDate } from "@components/lib/utils";
 import useGetLearningPublishedList from "../../../hooks/api/get/useGetLearningPublishedList";
 import parse from "html-react-parser";
 import { Pagination } from "../../../components/ui/custom";
+import SkeletonCard from "@components/ui/custom/skeleton/skeleton-card";
 
 const Learnings = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -22,7 +23,7 @@ const Learnings = () => {
     learningsData?.pagination?.total_pages ?? params.currentPage + 1;
 
   return (
-    <section className="my-12 mx-auto px-4 max-w-screen-xl md:px-8 py-8">
+    <section className="my-12 mx-auto px-4 max-w-screen-xl py-8">
       <div className="text-left">
         <h1 className="text-3xl text-gray-800 font-semibold">
           Learning Materials
@@ -31,9 +32,14 @@ const Learnings = () => {
           Explore a wealth of knowledge to cultivate success on your farm
         </p>
       </div>
-      <div className="mt-12 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-12 flex flex-wrap justify-center gap-2">
+        {isLoading && (
+          <div>
+            <SkeletonCard count={10} className="w-full md:w-1/3" />
+          </div>
+        )}
         {learningsData?.data?.map((items, key) => (
-          <>
+          <div className="max-w-sm">
             <Link to={`/learning-materials/view/${items.id}`}>
               <article
                 className="overflow-hidden rounded-lg shadow transition hover:shadow-lg"
@@ -85,7 +91,7 @@ const Learnings = () => {
                 </div>
               </article>
             </Link>
-          </>
+          </div>
         ))}
       </div>
       <div className="mt-10">

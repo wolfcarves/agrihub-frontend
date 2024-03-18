@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { IoMdSearch } from "react-icons/io";
 import useAuth from "../../../hooks/useAuth";
 import useGetFarmListQuery from "../../../hooks/api/get/useGetFarmListQuery";
@@ -17,6 +17,8 @@ import { Link } from "react-router-dom";
 import RegisterFarm from "./buttons/RegisterFarm";
 import useGetFarmCheckExistingApplication from "../../../hooks/api/get/useGetFarmCheckExistingApplication";
 import { Button } from "../../../components/ui/button";
+import SearchNotFoundIllustration from "@icons/community/SearchNotFoundIllustration";
+import LoadingSpinner from "@icons/LoadingSpinner";
 
 type SortValues =
   | "All"
@@ -45,7 +47,7 @@ const Explore = () => {
     search: params.search ?? "",
     page: String(params.currentPage) ?? "1",
     filter: params.sortBy === "All" ? undefined : params.sortBy,
-    perpage: "6"
+    perpage: "9"
   });
 
   const totalPages = data?.pagination?.total_pages ?? params.currentPage + 1;
@@ -106,7 +108,7 @@ const Explore = () => {
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Filter District..." />
             </SelectTrigger>
-            <SelectContent side="top">
+            <SelectContent>
               <SelectItem value="All">All</SelectItem>
               {district.map((id, i) => (
                 <SelectItem key={i} value={id}>
@@ -117,11 +119,25 @@ const Explore = () => {
           </Select>
         </div>
         <div className="min-h-[16.5rem]">
-          <div className="grid grid-cols-6 gap-2 mt-4 mb-3">
-            {data?.farms
-              ?.filter(farm => farm.id !== UserData?.farm_id)
-              .map((farm, i) => <FarmCard farm={farm} key={i} />)}
-          </div>
+          {isLoading && (
+            <div className="flex justify-center items-center h-96">
+              <LoadingSpinner />
+            </div>
+          )}
+
+          {!isLoading && (
+            <div className="grid grid-cols-6 gap-2 mt-4 mb-3">
+              {data?.farms && data.farms.length > 0 ? (
+                data.farms
+                  .filter(farm => farm.id !== UserData?.farm_id)
+                  .map((farm, i) => <FarmCard farm={farm} key={i} />)
+              ) : (
+                <div className="col-1 col-span-6 mx-auto my-10 sm:mt-16">
+                  <SearchNotFoundIllustration />{" "}
+                </div>
+              )}
+            </div>
+          )}
         </div>
         <Pagination totalPages={totalPages} isLoading={isLoading} />
       </div>

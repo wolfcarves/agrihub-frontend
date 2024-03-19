@@ -4,11 +4,14 @@
 /* eslint-disable */
 import type { MessageResponse } from '../models/MessageResponse';
 import type { ResetPasswordRequestBody } from '../models/ResetPasswordRequestBody';
+import type { SendOTPByNumber } from '../models/SendOTPByNumber';
 import type { SendResetTokenRequestBody } from '../models/SendResetTokenRequestBody';
 import type { UserAuthResponse } from '../models/UserAuthResponse';
 import type { UserLoginSchema } from '../models/UserLoginSchema';
 import type { UserSchema } from '../models/UserSchema';
+import type { VerifyOTP } from '../models/VerifyOTP';
 import type { VerifyOTPRequest } from '../models/VerifyOTPRequest';
+import type { VerifyOTPSuccessResponse } from '../models/VerifyOTPSuccessResponse';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -49,6 +52,54 @@ requestBody: VerifyOTPRequest,
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/auth/send-otp',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Send Reset Token OTP
+     * @returns MessageResponse Successful response
+     * @throws ApiError
+     */
+    public static postApiAuthResetTokenOtp({
+requestBody,
+}: {
+requestBody: SendOTPByNumber,
+}): CancelablePromise<MessageResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/auth/reset-token/otp',
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Verify OTP Token
+     * @returns VerifyOTPSuccessResponse Successful response
+     * @throws ApiError
+     */
+    public static postApiAuthVerifyTokenOtp({
+requestBody,
+}: {
+requestBody: VerifyOTP,
+}): CancelablePromise<VerifyOTPSuccessResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/auth/verify-token/otp',
+            body: requestBody,
+            mediaType: 'application/json',
             errors: {
                 400: `Validation Error`,
                 401: `Unauthorized`,

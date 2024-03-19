@@ -55,7 +55,7 @@ const QuestionAnswerForm = ({ questionId }: QuestionAnswerFormProps) => {
     <form onSubmit={handleSubmit(onSubmitAnswerForm)}>
       <div>
         <Divider className="py-10" />
-        <h5 className="font-poppins-medium mb-5">Your Answers</h5>
+        <h5 className="font-merri-bold mb-5">Your Answers</h5>
         <FormField
           name="answer"
           control={control}
@@ -86,6 +86,7 @@ const QuestionAnswerForm = ({ questionId }: QuestionAnswerFormProps) => {
       </div>
 
       <Button
+        type="submit"
         className="mt-10"
         disabled={answerLength === 0 || isPostAnswerLoading}
       >

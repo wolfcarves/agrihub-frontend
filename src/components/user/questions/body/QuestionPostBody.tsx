@@ -1,4 +1,4 @@
-import parse, { Element } from "html-react-parser";
+import parse, { Element, domToReact } from "html-react-parser";
 import TagChip from "@components/user/questions/chip/TagChip";
 import { QuestionViewSchema } from "@api/openapi";
 import useQuestionVoteMutation from "@hooks/api/post/useQuestionVoteMutation";
@@ -10,7 +10,7 @@ import useGetSavedQuestions, {
   GET_SAVED_QUESTION_KEY
 } from "@hooks/api/get/useGetSavedQuestions";
 import { useQueryClient } from "@tanstack/react-query";
-import useForumsDeleteSaveQuestionMutation from "@hooks/api/post/useForumsDeleteSaveQuestionMutation";
+import useForumsDeleteSaveQuestionMutation from "@hooks/api/delete/useForumsDeleteSaveQuestionMutation";
 import useForumsSaveQuestionMutation from "@hooks/api/post/useForumsSaveQuestionMutation";
 import { LuBookmark } from "react-icons/lu";
 import { GoReport } from "react-icons/go";
@@ -18,7 +18,12 @@ import { useState } from "react";
 import useForumsReportQuestionMutation from "@hooks/api/post/useForumsReportQuestionMutation";
 import QuestionReportQuestionDiaglog from "../dialog/QuestionReportQuestionDiaglog";
 import QuestionFeedbackPanel from "../panel/QuestionFeedbackPanel";
-import useQuestionDeleteVoteMutation from "@hooks/api/post/useQuestionDeleteVoteMutation";
+import useQuestionDeleteVoteMutation from "@hooks/api/get/useQuestionDeleteVoteMutation";
+import { AiOutlineDelete } from "react-icons/ai";
+import QuestionDeleteDefaultDialog from "../dialog/QuestionDeleteDefaultDialog";
+import { useParams } from "react-router-dom";
+import useForumsDeleteQuestionMutation from "@hooks/api/delete/useForumsDeleteQuestionMutation";
+import { GET_QUESTION_KEY } from "@hooks/api/get/useGetQuestionsQuery";
 
 interface QuestionPostBodyProps {
   data?: QuestionViewSchema;
@@ -26,7 +31,10 @@ interface QuestionPostBodyProps {
 
 const QuestionPostBody = ({ data }: QuestionPostBodyProps) => {
   const user = useAuth();
+  const params = useParams();
   const queryClient = useQueryClient();
+  const [isQuestionDeleteDialogOpen, setIsQuestionDeleteDialogOpen] =
+    useState<boolean>(false);
   const [isReportOpen, setIsReportOpen] = useState<boolean>(false);
 
   const pattern = /\bblob\b/;
@@ -34,6 +42,10 @@ const QuestionPostBody = ({ data }: QuestionPostBodyProps) => {
 
   const { mutateAsync: saveQuestion } = useForumsSaveQuestionMutation();
   const { data: savedQuestionsData } = useGetSavedQuestions();
+  const {
+    mutateAsync: questionDeleteMutate,
+    isLoading: isQuestionDeleteLoading
+  } = useForumsDeleteQuestionMutation();
   const { mutateAsync: questionVoteMutate } = useQuestionVoteMutation();
   const { mutateAsync: questionDeleteVoteMutate } =
     useQuestionDeleteVoteMutation();
@@ -110,6 +122,16 @@ const QuestionPostBody = ({ data }: QuestionPostBodyProps) => {
     }
   };
 
+  const handleDeleteQuestion = async () => {
+    try {
+      await questionDeleteMutate(params?.questionId ?? "");
+      setIsQuestionDeleteDialogOpen(false);
+      queryClient.invalidateQueries({ queryKey: [GET_QUESTION_KEY()] });
+    } catch (err: any) {
+      console.log(err.body.message);
+    }
+  };
+
   return (
     <>
       <div className="pb-5 mb-5">
@@ -147,44 +169,46 @@ const QuestionPostBody = ({ data }: QuestionPostBodyProps) => {
                     return replacedImg;
                   }
                 }
+
+                if (domNode.tagName === "pre") {
+                  return <p>{domToReact(domNode.children)}</p>;
+                }
               }
             }
           })}
         </div>
 
-        {data?.question?.user?.username !== user.data?.username && (
-          <div className="flex flex-col gap-3 items-center md:px-[2rem] px-[.8rem]">
-            <QuestionVoteButton
-              variant="upvote"
-              voteType={data?.question?.vote?.type as "upvote" | "downvote"}
-              onClick={() => {
-                handleQuestionVote(
-                  data?.question?.id || "",
-                  "upvote",
-                  data?.question?.vote?.id
-                );
-              }}
-            />
+        <div className="flex flex-col gap-3 items-center md:px-[2rem] px-[.8rem]">
+          <QuestionVoteButton
+            variant="upvote"
+            voteType={data?.question?.vote?.type as "upvote" | "downvote"}
+            onClick={() => {
+              handleQuestionVote(
+                data?.question?.id || "",
+                "upvote",
+                data?.question?.vote?.id
+              );
+            }}
+          />
 
-            <span className="font-semibold">{data?.question?.vote_count}</span>
+          <span className="font-semibold">{data?.question?.vote_count}</span>
 
-            <QuestionVoteButton
-              variant="downvote"
-              voteType={data?.question?.vote?.type as "upvote" | "downvote"}
-              onClick={() => {
-                handleQuestionVote(
-                  data?.question?.id || "",
-                  "downvote",
-                  data?.question?.vote?.id
-                );
-              }}
-            />
-          </div>
-        )}
+          <QuestionVoteButton
+            variant="downvote"
+            voteType={data?.question?.vote?.type as "upvote" | "downvote"}
+            onClick={() => {
+              handleQuestionVote(
+                data?.question?.id || "",
+                "downvote",
+                data?.question?.vote?.id
+              );
+            }}
+          />
+        </div>
       </div>
 
       <div className="mt-20">
-        {!isQuestionOwned && (
+        {!isQuestionOwned ? (
           <QuestionFeedbackPanel
             items={[
               !isSaved
@@ -214,6 +238,19 @@ const QuestionPostBody = ({ data }: QuestionPostBodyProps) => {
               }
             ]}
           />
+        ) : (
+          <QuestionFeedbackPanel
+            items={[
+              {
+                label: "Delete",
+                icon: <AiOutlineDelete />,
+                requireAuth: true,
+                onClick: () => {
+                  setIsQuestionDeleteDialogOpen(prev => !prev);
+                }
+              }
+            ]}
+          />
         )}
 
         {/* <QuestionFeedbackPanel onSaveBtnClick={handleSaveQuestion} /> */}
@@ -228,13 +265,28 @@ const QuestionPostBody = ({ data }: QuestionPostBodyProps) => {
       <QuestionReportQuestionDiaglog
         open={isReportOpen}
         onOpenChange={setIsReportOpen}
+        isLoading={isReportQuestionLoading}
         onConfirmClick={reason => {
           handleReportQuestion(reason);
         }}
         onCancelClick={() => {
           setIsReportOpen(false);
         }}
-        isLoading={isReportQuestionLoading}
+      />
+
+      <QuestionDeleteDefaultDialog
+        title="Delete Post"
+        description="This action cannot be undone. This will permanently delete your
+        question and remove the data from our servers."
+        open={isQuestionDeleteDialogOpen}
+        onOpenChange={setIsQuestionDeleteDialogOpen}
+        isLoading={isQuestionDeleteLoading}
+        onConfirmClick={() => {
+          handleDeleteQuestion();
+        }}
+        onCancelClick={() => {
+          setIsQuestionDeleteDialogOpen(false);
+        }}
       />
     </>
   );

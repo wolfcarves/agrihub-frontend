@@ -276,11 +276,16 @@ requestBody: ReportRequestBody,
      * @throws ApiError
      */
     public static getApiFarmProblemsCommunityList({
+id,
 search,
 page,
 perpage,
 filter,
 }: {
+/**
+ * ID of the farm problem to retrieve
+ */
+id: string,
 /**
  * Search term to filter problems
  */
@@ -300,7 +305,10 @@ filter?: 'pending' | 'resolved',
 }): CancelablePromise<CommunityFarmProblemListResponse> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/api/farm/problems/community/list',
+            url: '/api/farm/problems/community/list/{id}',
+            path: {
+                'id': id,
+            },
             query: {
                 'search': search,
                 'page': page,

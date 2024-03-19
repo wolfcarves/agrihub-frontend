@@ -4,7 +4,6 @@
 /* eslint-disable */
 
 export type FavouriteCropData = {
-    crop_id?: string;
     crop_name?: string;
     image?: string;
     total_planted?: string;

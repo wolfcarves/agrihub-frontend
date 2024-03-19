@@ -12,5 +12,6 @@ export type UserFeedback = {
     updatedat?: string;
     is_read?: string;
     firstname?: string;
+    avatar?: string;
     lastname?: string;
 };

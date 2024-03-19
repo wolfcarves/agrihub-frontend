@@ -4,6 +4,7 @@ import { FarmProblemsService } from "../../../api/openapi";
 export const GET_COMMUNITY_PROBLEM_LIST = () =>
   "GET_COMMUNITY_PROBLEM_LIST_KEY";
 interface FormParams {
+  id: string;
   search?: string;
   page?: string;
   perpage?: string;

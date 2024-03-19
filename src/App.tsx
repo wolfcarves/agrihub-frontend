@@ -129,6 +129,7 @@ import SeedlingRequest from "@pages/admin/farms/seedling-request";
 import Unauthorized from "@pages/user/common/unauthorized";
 import FarmCommunity from "./pages/admin/farms/farm-community";
 import FarmActiveView from "@pages/admin/farms/view/farm-active-view";
+import VerifyPasswordOtp from "@pages/user/account/verify-password-otp";
 
 const App = ReactRouter(
   <>
@@ -263,6 +264,7 @@ const App = ReactRouter(
       <Route path="final-setup" element={<FinalSetup />} />
       <Route path="forgot-password" element={<ForgotPassword />} />
       <Route path="reset-password/:token" element={<ResetPassword />} />
+      <Route path="reset-password/verify-otp" element={<VerifyPasswordOtp />} />
     </Route>
 
     <Route path="/admin" element={<AdminLayout />}>

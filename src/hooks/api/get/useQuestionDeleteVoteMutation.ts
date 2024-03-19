@@ -1,15 +1,15 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ForumsService } from "@api/openapi";
-import { GET_QUESTION_KEY } from "../get/useGetQuestionsQuery";
-import { VIEW_QUESTION_KEY } from "../get/useGetViewQuestion";
+import { GET_QUESTION_KEY } from "./useGetQuestionsQuery";
+import { VIEW_QUESTION_KEY } from "./useGetViewQuestion";
 
-const useQuestionDeletAnswerKey = () => "QUESTIONS_DELETE_ANSWER_KEY";
+const useQuestionDeleteVoteKey = () => "QUESTIONS_DELETE_VOTE_KEY";
 
 export default function useQuestionDeleteVoteMutation() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationKey: [useQuestionDeletAnswerKey()],
+    mutationKey: [useQuestionDeleteVoteKey()],
     mutationFn: async (voteId: string | undefined) => {
       if (!voteId) throw new Error("voteId is undefined");
 

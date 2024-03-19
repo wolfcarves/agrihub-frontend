@@ -17,10 +17,12 @@ const QuestionUserProfileButton = ({
 }: QuestionUserProfileButtonProps) => {
   return (
     <div className="flex gap-4">
-      <img
-        src={avatarSrc}
-        className="w-11 h-11 object-center object-cover bg-slate-500 rounded-lg select-none"
-      />
+      <Link to={`/users/${userId}/${username}`}>
+        <img
+          src={avatarSrc}
+          className="w-11 h-11 object-center object-cover bg-slate-500 rounded-lg select-none"
+        />
+      </Link>
 
       <div>
         <Link to={`/users/${userId}/${username}`}>

@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import LoadingSpinner from "@icons/LoadingSpinner";
 import QuestionAnswerForm from "@components/user/questions/form/QuestionAnswerForm/QuestionAnswerForm";
 import useAuth from "@hooks/useAuth";
+import QuestionNotFound from "@components/user/questions/error/QuestionNotFound";
 
 const Question = () => {
   const { questionId } = useParams();
@@ -17,8 +18,6 @@ const Question = () => {
     isRefetching: isQuestionDataRefetching
   } = useGetViewQuestion(questionId ?? "");
 
-  console.log(questionData);
-
   if (isQuestionDataLoading) {
     return (
       <div className="flex justify-center py-10 w-full min-h-[60rem] ">
@@ -27,12 +26,8 @@ const Question = () => {
     );
   }
 
-  if (!questionId) {
-    return (
-      <div className="flex justify-center py-10 w-full min-h-[60rem] ">
-        <h1>Question not found</h1>
-      </div>
-    );
+  if (!questionData) {
+    return <QuestionNotFound />;
   }
 
   return (

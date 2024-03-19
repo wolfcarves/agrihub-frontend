@@ -15,30 +15,12 @@ export const forgotPasswordSchema = z
       .string()
       .min(1, "Please enter your phone number")
       .max(13, "Please enter valid phone number")
+      .optional()
   })
   .partial()
   .refine(
     data => data.username || data.phone,
     "Please enter either your email or phone number"
   );
-// .and(
-//   z.union(
-//     [
-//       z.object({
-//         username: z.string(),
-//         phone: z.undefined()
-//       }),
-//       z.object({
-//         username: z.undefined(),
-//         phone: z.string()
-//       })
-//     ],
-//     {
-//       errorMap: () => ({
-//         message: "Please enter either your email or phone number"
-//       })
-//     }
-//   )
-// );
 
 export type ForgotPasswordType = z.infer<typeof forgotPasswordSchema>;

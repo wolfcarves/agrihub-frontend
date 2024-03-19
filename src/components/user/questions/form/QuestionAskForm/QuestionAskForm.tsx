@@ -19,28 +19,28 @@ const QuestionAskFormRules = () => (
     <h2 className="font-poppins-bold text-foreground">Ask a public question</h2>
 
     <div className="mt-10 mb-20 w-full max-w-[60rem] p-7 rounded-md border border-primary bg-secondary">
-      <div className="text-lg">Writing a good question</div>
+      <div className="text-lg">
+        Gabay sa pagsulat ng isang wastong katanungan
+      </div>
       <p className="mt-3">
-        You’re ready to ask a Farming-related question and this form will help
-        guide you through the process. Looking to ask a non farming-related
-        question? See the topics here to find a relevant site.
+        Alam mo sa sarili mong ikaw ay handa na upang magtanong patungkol sa
+        katanungan ukol sa pagsasaka at itong form na ito ay makakatulong sayo
+        sa pagsasaayos ng iyong itatanong.
       </p>
 
-      <div className="text-md font-poppins-bold mt-10">Steps</div>
+      <div className="text-md font-poppins-bold mt-10">Mga pamamaraan</div>
 
       <div className="text-sm">
         <ul className="list-disc ps-4">
           <li className="my-3 ">
-            Now this is a story all about how, my life got flipped-turned upside
-            down
-          </li>
-          <li className="my-3 ">Describe your problem in more detail.</li>
-          <li className="my-3 ">
-            Add “tags” which help surface your question to members of the
-            community.
+            Ilarawan ang iyong problema gamit ang mas maraming detalye.
           </li>
           <li className="my-3 ">
-            Review your question and post it to the site.
+            Maglagay ng "tags" na makakatulong upang ang iyong katanungan ay
+            agad na makita ng mga miyembro ng mga komunidad.
+          </li>
+          <li className="my-3 ">
+            Suriin ang iyong tanong at i-post ito sa aming website
           </li>
         </ul>
       </div>

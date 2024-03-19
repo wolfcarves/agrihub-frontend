@@ -12,4 +12,5 @@ export type Comment = {
     comment?: string;
     user?: UserObject;
     createdat?: string;
+    id?: string;
 };

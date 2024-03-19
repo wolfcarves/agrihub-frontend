@@ -61,7 +61,6 @@ export default {
       // inter
       "merri-thin": ["merri-thin"],
       "merri-regular": ["merri-regular"],
-      "merri-medium": ["merri-medium"],
       "merri-bold": ["merri-bold"],
       "merri-black": ["merri-black"]
     },

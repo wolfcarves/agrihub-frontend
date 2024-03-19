@@ -15,13 +15,16 @@ import { Textarea } from "@components/ui/textarea";
 import Capture from "@components/user/community/capture/capture";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
 import React from "react";
-import AwsUploader from "../../../../components/user/community/uploader/uploader";
 import IconSelector from "../../../../components/user/community/Icon-selector/icon-selector";
 import useGetCmsLandingDetails from "../../../../hooks/api/get/useGetCmsLandingDetails";
 import { IoTrashOutline } from "react-icons/io5";
 import { toast } from "sonner";
 import useDeleteCmsLandingApproach from "../../../../hooks/api/delete/useDeleteCmsLandingApproach";
 import DialogAddAprroach from "../../../../components/admin/home/dialog-add-aprroach";
+import useDeleteCmsLandingImage from "../../../../hooks/api/delete/useDeleteCmsLandingImage";
+import useCmsLandingCreateImage from "../../../../hooks/api/post/useCmsLandingCreateImage";
+import AwsUploader from "./uploader";
+import Loader from "../../../../icons/Loader";
 
 const breadcrumbItems = [
   {
@@ -31,7 +34,8 @@ const breadcrumbItems = [
 ];
 
 const HomeAdmin = () => {
-  const { data: landingData } = useGetCmsLandingDetails();
+  const { data: landingData, isLoading: landingLoading } =
+    useGetCmsLandingDetails();
   console.log(landingData);
 
   //handle delete approach
@@ -41,6 +45,17 @@ const HomeAdmin = () => {
     await deleteApproach(id);
     toast.success("Approach Deleted Successfully!");
   };
+
+  //handle delete image
+  const { mutateAsync: deleteImage, isLoading: isDeleteImage } =
+    useDeleteCmsLandingImage();
+  const handleDeleteImage = async (id: string) => {
+    await deleteImage(id);
+    toast.success("Image Deleted Successfully!");
+  };
+  if (landingLoading) {
+    <Loader isVisible={true} />;
+  }
   return (
     <AdminOutletContainer className="container mx-auto py-10 ">
       <BreadCrumb items={breadcrumbItems} />
@@ -56,32 +71,44 @@ const HomeAdmin = () => {
       <div className="mx-8">
         <h3 className="font-bold my-2">Carousel items</h3>
 
-        <div>
-          {/* <AwsUploader
-            // onChange={data => form.setValue("logo", data)}
-            defaultValue={landingData?.images[0]}
-            // onDelete={() => form.setValue("logo", "")}
-          /> */}
-        </div>
-        <div className="my-4">
-          <div className="w-full mb-4">
-            <Label>Carousel Header Text</Label>
-            <Input
-              type="text"
-              placeholder="input cta header here"
-              defaultValue={landingData?.cta_header}
+        <div className="grid grid-cols-12 gap-3">
+          <div className=" md:col-span-6 col-span-12">
+            <AwsUploader
+              defaultValue={landingData?.images?.[0]?.image}
+              onDelete={() =>
+                handleDeleteImage(landingData?.images?.[0]?.id || "")
+              }
             />
           </div>
+          <div className=" md:col-span-6 col-span-12">
+            <div className="w-full mb-4">
+              <Label className=" font-poppins-medium">
+                Carousel Header Text
+              </Label>
+              <Input
+                type="text"
+                placeholder="input cta header here"
+                defaultValue={landingData?.cta_header}
+              />
+            </div>
 
-          <div className="mb-4">
-            <Label>Carousel Body Text</Label>
-            <Textarea defaultValue={landingData?.cta_description} />
+            <div className="mb-4">
+              <Label className=" font-poppins-medium">Carousel Body Text</Label>
+              <Textarea
+                className="h-[9rem] custom-scroll"
+                defaultValue={landingData?.cta_description}
+              />
+            </div>
           </div>
-
-          <div className="mb-4">
-            <Label>`Our Approach</Label>
-            <Textarea defaultValue={landingData?.approach} />
+          <div className="mb-4 col-span-12">
+            <Label className=" font-poppins-medium">`Our Approach</Label>
+            <Textarea
+              className=" custom-scroll"
+              defaultValue={landingData?.approach}
+            />
           </div>
+        </div>
+        <div className="my-4">
           <div className="grid grid-cols-10 gap-3">
             {landingData?.approach_items?.map((approach, i) => (
               <div
@@ -106,6 +133,7 @@ const HomeAdmin = () => {
           </div>
         </div>
       </div>
+      <Loader isVisible={isDeleteImage || isDeleteLoading} />
     </AdminOutletContainer>
   );
 };

@@ -298,6 +298,7 @@ const QuestionAnswerCard = ({ data }: QuestionAnswerListProps) => {
                   onOpenChange={setIsDeleteCommentDialogOpen}
                   isLoading={isDeleteCommentLoading}
                   onConfirmClick={() => handleDeleteComment(c.id)}
+                  onCancelClick={() => setIsDeleteCommentDialogOpen(false)}
                 />
               </>
             );
@@ -324,6 +325,7 @@ const QuestionAnswerCard = ({ data }: QuestionAnswerListProps) => {
         onOpenChange={setIsDeleteAnswerDialogOpen}
         isLoading={isDeleteAnswerLoading}
         onConfirmClick={() => handleDeleteAnswer(id)}
+        onCancelClick={() => setIsDeleteAnswerDialogOpen(false)}
       />
     </>
   );

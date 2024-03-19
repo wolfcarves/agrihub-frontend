@@ -68,7 +68,7 @@ const VerifyPasswordOTP = () => {
 
   return (
     <>
-      {isVerifyOtpLoading && <Loader />}
+      {isVerifyOtpLoading && <Loader isVisible />}
 
       <div className="flex flex-col items-center justify-center pt-14 max-w-[33rem] mx-auto">
         <div className="text-center mb-10">

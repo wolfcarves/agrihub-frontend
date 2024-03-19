@@ -5,9 +5,12 @@ import UserSettingsAccountEmailDialog from "@components/user/settings/dialog/Use
 import SettingsField from "@components/user/settings/fields/SettingsField";
 import { Form } from "@components/ui/form";
 import { useForm } from "react-hook-form";
+import UserSettingsAccountPhoneLinkDialog from "@components/user/settings/dialog/UserSettingsAccountPhoneLinkDialog";
 
 const UserSettingsAccountForm = () => {
   const [isEmailDiaglogOpen, setIsEmailDialogOpen] = useState<boolean>(false);
+  const [isPhoneLinkDiaglogOpen, setIsPhoneLinkDiaglogOpen] =
+    useState<boolean>(false);
   const user = useAuth();
   const form = useForm({
     mode: "onChange",
@@ -28,14 +31,20 @@ const UserSettingsAccountForm = () => {
           editable={false}
           hasForm={false}
           buttonComponent={
-            <Button
-              variant="outline"
-              size="sm"
-              className="rounded-full px-5"
-              onClick={() => setIsEmailDialogOpen(prev => !prev)}
-            >
-              Change
-            </Button>
+            user?.data?.email ? (
+              <Button
+                variant="outline"
+                size="sm"
+                className="rounded-full px-5"
+                onClick={() => setIsEmailDialogOpen(prev => !prev)}
+              >
+                Change
+              </Button>
+            ) : (
+              <Button variant="outline" size="sm" className="rounded-full px-5">
+                Link
+              </Button>
+            )
           }
           // errMessage={fieldState.error?.message}
           // {...field}
@@ -51,14 +60,25 @@ const UserSettingsAccountForm = () => {
           editable={false}
           hasForm={false}
           buttonComponent={
-            <Button
-              variant="outline"
-              size="sm"
-              className="rounded-full px-5"
-              onClick={e => e.preventDefault()}
-            >
-              Change
-            </Button>
+            user?.data?.contact_number ? (
+              <Button
+                variant="outline"
+                size="sm"
+                className="rounded-full px-5"
+                onClick={e => e.preventDefault()}
+              >
+                Change
+              </Button>
+            ) : (
+              <Button
+                variant="outline"
+                size="sm"
+                className="rounded-full px-5"
+                onClick={() => setIsPhoneLinkDiaglogOpen(prev => !prev)}
+              >
+                Link
+              </Button>
+            )
           }
           // errMessage={fieldState.error?.message}
           // {...field}
@@ -91,6 +111,11 @@ const UserSettingsAccountForm = () => {
         <UserSettingsAccountEmailDialog
           open={isEmailDiaglogOpen}
           onOpenChange={setIsEmailDialogOpen}
+        />
+
+        <UserSettingsAccountPhoneLinkDialog
+          open={isPhoneLinkDiaglogOpen}
+          onOpenChange={setIsPhoneLinkDiaglogOpen}
         />
       </form>
     </Form>

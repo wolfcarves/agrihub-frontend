@@ -1,30 +1,44 @@
 import AdminOutletContainer from "@components/admin/layout/container/AdminOutletContainer";
-import CaptureWithDelete from "@components/ui/custom/input/capture-with-delete";
-import { AspectRatio } from "@components/ui/aspect-ratio";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious
-} from "@components/ui/carousel";
 import BreadCrumb from "@components/ui/custom/breadcrumb/breadcrumb";
 import { Input } from "@components/ui/input";
 import { Label } from "@components/ui/label";
 import { Textarea } from "@components/ui/textarea";
-import Capture from "@components/user/community/capture/capture";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
-import React from "react";
-import IconSelector from "../../../../components/user/community/Icon-selector/icon-selector";
+import React, { useEffect, useState } from "react";
 import useGetCmsLandingDetails from "../../../../hooks/api/get/useGetCmsLandingDetails";
 import { IoTrashOutline } from "react-icons/io5";
 import { toast } from "sonner";
 import useDeleteCmsLandingApproach from "../../../../hooks/api/delete/useDeleteCmsLandingApproach";
 import DialogAddAprroach from "../../../../components/admin/home/dialog-add-aprroach";
 import useDeleteCmsLandingImage from "../../../../hooks/api/delete/useDeleteCmsLandingImage";
-import useCmsLandingCreateImage from "../../../../hooks/api/post/useCmsLandingCreateImage";
 import AwsUploader from "./uploader";
 import Loader from "../../../../icons/Loader";
+import * as zod from "zod";
+import usePutCmsLandingUpdate from "../../../../hooks/api/put/usePutCmsLandingUpdate";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { UpdateLandingRequest } from "../../../../api/openapi";
+import { Form } from "../../../../components/ui/form";
+import { Button } from "../../../../components/ui/button";
+
+export const updateLandingSchema = zod.object({
+  cta_header: zod
+    .string({
+      required_error: "Header is required."
+    })
+    .min(5, "Please enter at least 5 characters"),
+
+  cta_description: zod
+    .string({
+      required_error: "Description is required."
+    })
+    .min(5, "Please enter at least 5 characters"),
+  approach: zod
+    .string({
+      required_error: "Approach is required."
+    })
+    .min(5, "Please enter at least 5 characters")
+});
 
 const breadcrumbItems = [
   {
@@ -34,9 +48,63 @@ const breadcrumbItems = [
 ];
 
 const HomeAdmin = () => {
+  const [isFormChanged, setIsFormChanged] = useState<boolean>(false);
   const { data: landingData, isLoading: landingLoading } =
     useGetCmsLandingDetails();
-  console.log(landingData);
+  // console.log(landingData);
+
+  //form
+  const form = useForm<UpdateLandingRequest>({
+    resolver: zodResolver(updateLandingSchema),
+    mode: "onBlur"
+  });
+  useEffect(() => {
+    const isChanged =
+      form.watch("cta_header") !== landingData?.cta_header ||
+      form.watch("cta_description") !== landingData?.cta_description ||
+      form.watch("approach") !== landingData?.approach;
+
+    setIsFormChanged(isChanged);
+  }, [
+    landingData,
+    form.watch("cta_header"),
+    form.watch("cta_description"),
+    form.watch("approach")
+  ]);
+
+  // validations
+  useEffect(() => {
+    if (form.formState.errors.cta_header) {
+      toast.error(form?.formState?.errors?.cta_header?.message);
+    }
+    if (form.formState.errors.cta_description) {
+      toast.error(form?.formState?.errors?.cta_description?.message);
+    }
+    if (form.formState.errors.approach) {
+      toast.error(form?.formState?.errors?.approach?.message);
+    }
+  }, [form.formState.errors]);
+
+  //edit
+  const { mutateAsync: updateDetailMutate, isLoading: isDetailLoading } =
+    usePutCmsLandingUpdate();
+
+  //submit form
+  const handleSubmitForm = async (data: UpdateLandingRequest) => {
+    const compiledData: UpdateLandingRequest = {
+      cta_header: data.cta_header,
+      cta_description: data.cta_description,
+      approach: data.approach
+    };
+    try {
+      await updateDetailMutate({
+        requestBody: compiledData
+      });
+      toast.success("Landing Details Updated Successfully!");
+    } catch (e: any) {
+      toast.error(e.body.message);
+    }
+  };
 
   //handle delete approach
   const { mutateAsync: deleteApproach, isLoading: isDeleteLoading } =
@@ -54,7 +122,7 @@ const HomeAdmin = () => {
     toast.success("Image Deleted Successfully!");
   };
   if (landingLoading) {
-    <Loader isVisible={true} />;
+    return <Loader isVisible={landingLoading} />;
   }
   return (
     <AdminOutletContainer className="container mx-auto py-10 ">
@@ -71,44 +139,60 @@ const HomeAdmin = () => {
       <div className="mx-8">
         <h3 className="font-bold my-2">Carousel items</h3>
 
-        <div className="grid grid-cols-12 gap-3">
-          <div className=" md:col-span-6 col-span-12">
-            <AwsUploader
-              defaultValue={landingData?.images?.[0]?.image}
-              onDelete={() =>
-                handleDeleteImage(landingData?.images?.[0]?.id || "")
-              }
-            />
-          </div>
-          <div className=" md:col-span-6 col-span-12">
-            <div className="w-full mb-4">
-              <Label className=" font-poppins-medium">
-                Carousel Header Text
-              </Label>
-              <Input
-                type="text"
-                placeholder="input cta header here"
-                defaultValue={landingData?.cta_header}
-              />
-            </div>
+        <Form {...form}>
+          <form className="" onSubmit={form.handleSubmit(handleSubmitForm)}>
+            <div className="grid grid-cols-12 gap-3">
+              <div className=" md:col-span-6 col-span-12">
+                <AwsUploader
+                  defaultValue={landingData?.images?.[0]?.image}
+                  onDelete={() =>
+                    handleDeleteImage(landingData?.images?.[0]?.id || "")
+                  }
+                />
+              </div>
+              <div className=" md:col-span-6 col-span-12">
+                <div className="w-full mb-4">
+                  <Label className=" font-poppins-medium">
+                    Carousel Header Text
+                  </Label>
+                  <Input
+                    type="text"
+                    placeholder="input cta header here"
+                    defaultValue={landingData?.cta_header}
+                    {...form.register("cta_header")}
+                  />
+                </div>
 
-            <div className="mb-4">
-              <Label className=" font-poppins-medium">Carousel Body Text</Label>
-              <Textarea
-                className="h-[9rem] custom-scroll"
-                defaultValue={landingData?.cta_description}
-              />
+                <div className="mb-4">
+                  <Label className=" font-poppins-medium">
+                    Carousel Body Text
+                  </Label>
+                  <Textarea
+                    className="h-[9rem] custom-scroll"
+                    defaultValue={landingData?.cta_description}
+                    {...form.register("cta_description")}
+                  />
+                </div>
+              </div>
+              <div className="mb-4 col-span-12">
+                <Label className=" font-poppins-medium">`Our Approach</Label>
+                <Textarea
+                  className=" custom-scroll"
+                  defaultValue={landingData?.approach}
+                  {...form.register("approach")}
+                />
+              </div>
+              <div className=" col-span-12 flex justify-end">
+                <Button type="submit" disabled={!isFormChanged}>
+                  Update
+                </Button>
+              </div>
             </div>
-          </div>
-          <div className="mb-4 col-span-12">
-            <Label className=" font-poppins-medium">`Our Approach</Label>
-            <Textarea
-              className=" custom-scroll"
-              defaultValue={landingData?.approach}
-            />
-          </div>
-        </div>
-        <div className="my-4">
+          </form>
+        </Form>
+
+        <div className="mb-4 mt-10">
+          <h3 className="font-bold my-2">Approach items</h3>
           <div className="grid grid-cols-10 gap-3">
             {landingData?.approach_items?.map((approach, i) => (
               <div
@@ -133,7 +217,7 @@ const HomeAdmin = () => {
           </div>
         </div>
       </div>
-      <Loader isVisible={isDeleteImage || isDeleteLoading} />
+      <Loader isVisible={isDeleteImage || isDeleteLoading || isDetailLoading} />
     </AdminOutletContainer>
   );
 };

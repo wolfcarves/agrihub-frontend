@@ -43,7 +43,6 @@ const AwsUploader: React.FC<DropzoneProps> = ({
     e.preventDefault();
     setIsDragging(true);
   };
-  console.log(imagePreview, "asdd");
 
   const handleDragLeave = () => {
     setIsDragging(false);

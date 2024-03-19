@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import LoadingSpinner from "@icons/LoadingSpinner";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { formatImage, parseValidString } from "@lib/utils";
-import useCmsLandingCreateImage from "../../../../hooks/api/post/useCmsLandingCreateImage";
+import useCmsLandingCreateImage from "../../../hooks/api/post/useCmsLandingCreateImage";
 
 interface DropzoneProps {
   onChange?: (file: string) => void;

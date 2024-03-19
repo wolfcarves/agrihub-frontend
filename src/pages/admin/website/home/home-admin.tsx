@@ -9,9 +9,8 @@ import useGetCmsLandingDetails from "../../../../hooks/api/get/useGetCmsLandingD
 import { IoTrashOutline } from "react-icons/io5";
 import { toast } from "sonner";
 import useDeleteCmsLandingApproach from "../../../../hooks/api/delete/useDeleteCmsLandingApproach";
-import DialogAddAprroach from "../../../../components/admin/home/dialog-add-aprroach";
 import useDeleteCmsLandingImage from "../../../../hooks/api/delete/useDeleteCmsLandingImage";
-import AwsUploader from "./uploader";
+import AwsUploader from "../../../../components/admin/home/uploader";
 import Loader from "../../../../icons/Loader";
 import * as zod from "zod";
 import usePutCmsLandingUpdate from "../../../../hooks/api/put/usePutCmsLandingUpdate";
@@ -20,8 +19,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { UpdateLandingRequest } from "../../../../api/openapi";
 import { Form } from "../../../../components/ui/form";
 import { Button } from "../../../../components/ui/button";
-
-export const updateLandingSchema = zod.object({
+import * as Icons from "react-icons/bi";
+import { renderIcon } from "../../../../components/lib/RenderIcon";
+import DialogEditAprroach from "../../../../components/admin/home/dialog-edit-aprroach";
+type IconType = keyof typeof Icons;
+const updateLandingSchema = zod.object({
   cta_header: zod
     .string({
       required_error: "Header is required."
@@ -51,7 +53,7 @@ const HomeAdmin = () => {
   const [isFormChanged, setIsFormChanged] = useState<boolean>(false);
   const { data: landingData, isLoading: landingLoading } =
     useGetCmsLandingDetails();
-  // console.log(landingData);
+  console.log(landingData);
 
   //form
   const form = useForm<UpdateLandingRequest>({
@@ -197,7 +199,7 @@ const HomeAdmin = () => {
             {landingData?.approach_items?.map((approach, i) => (
               <div
                 key={i}
-                className=" col-span-5 grid grid-cols-10 bg-white border border-border rounded-md p-4 relative"
+                className=" col-span-10 lg:col-span-5 grid grid-cols-10 bg-white border border-border rounded-md p-4 relative"
               >
                 <div className="absolute flex gap-1 top-1 right-1">
                   <IoTrashOutline
@@ -205,9 +207,11 @@ const HomeAdmin = () => {
                     size={25}
                     className="  border p-1 rounded-full text-red-600 border-red-400/45 bg-red-300/30 hover:animate-pulse"
                   />
-                  <DialogAddAprroach approachId={approach.id || ""} />
+                  <DialogEditAprroach approachId={approach.id || ""} />
                 </div>
-                <div className=" col-span-2">{approach.icon}</div>
+                <div className=" col-span-2 flex justify-center items-center text-primary">
+                  {renderIcon(approach.icon as IconType, { size: 50 })}
+                </div>
                 <div className=" col-span-8">
                   <h4 className=" font-poppins-regular">{approach.title}</h4>
                   <p className=" text-sm">{approach.description}</p>

@@ -26,7 +26,7 @@ const UserForgotPasswordForm = () => {
 
   const form = useForm<ForgotPasswordType>({
     mode: "onSubmit",
-    reValidateMode: "onSubmit",
+    reValidateMode: "onChange",
     resolver: zodResolver(forgotPasswordSchema)
   });
 
@@ -57,8 +57,8 @@ const UserForgotPasswordForm = () => {
         });
       }
     } catch (error: any) {
-      console.log(error.body.message);
       form.setError("username", { message: error.body.message });
+      form.setError("phone", { message: error.body.message });
     }
   };
 
@@ -101,8 +101,8 @@ const UserForgotPasswordForm = () => {
                 ) : (
                   <FormField
                     name="phone"
-                    control={form.control}
                     defaultValue=""
+                    control={form.control}
                     render={({ field, fieldState }) => (
                       <FormItem>
                         <FormLabel>
@@ -131,8 +131,7 @@ const UserForgotPasswordForm = () => {
                       );
 
                       form.clearErrors();
-                      form.resetField("username");
-                      form.resetField("phone");
+                      form.reset();
                     }}
                   >
                     {resetType === "email"
@@ -141,7 +140,7 @@ const UserForgotPasswordForm = () => {
                   </div>
 
                   <div className="flex gap-2">
-                    <Link to="../login">
+                    <Link to="../login" type="button">
                       <Button
                         variant="outline"
                         className="w-full py-6"
@@ -157,7 +156,6 @@ const UserForgotPasswordForm = () => {
                       className="w-full py-6"
                       size="lg"
                       isLoading={isSendEmailLoading || isSendOTPLoading}
-                      disabled={!form.formState.isValid}
                     >
                       Reset password
                     </Button>

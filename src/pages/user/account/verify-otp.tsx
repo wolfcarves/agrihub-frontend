@@ -54,11 +54,9 @@ const VerifyOtp = () => {
         return;
       }
 
-      const res = await verifyOtp({
+      await verifyOtp({
         code
       });
-
-      console.log(res);
     } catch (err: any) {
       toast.error(err.body.message);
     }

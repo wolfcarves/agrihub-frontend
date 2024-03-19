@@ -22,6 +22,7 @@ import { Button } from "../../../../components/ui/button";
 import * as Icons from "react-icons/bi";
 import { renderIcon } from "../../../../components/lib/RenderIcon";
 import DialogEditAprroach from "../../../../components/admin/home/dialog-edit-aprroach";
+import DialogAddAprroach from "../../../../components/admin/home/dialog-add-aprroach";
 type IconType = keyof typeof Icons;
 const updateLandingSchema = zod.object({
   cta_header: zod
@@ -218,6 +219,9 @@ const HomeAdmin = () => {
                 </div>
               </div>
             ))}
+          </div>
+          <div className="mt-4 flex justify-end">
+            <DialogAddAprroach />
           </div>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -23,9 +23,7 @@ import useCmsLandingUpdateApproach from "../../../hooks/api/post/useCmsLandingUp
 import { toast } from "sonner";
 import { Form, FormField } from "../../ui/form";
 import Loader from "../../../icons/Loader";
-interface dialogProps {
-  approachId: string;
-}
+interface dialogProps {}
 export const approachSchema = zod.object({
   icon: zod.string({
     required_error: "Icon is required."
@@ -38,18 +36,8 @@ export const approachSchema = zod.object({
     required_error: "Description is required."
   })
 });
-const DialogEditAprroach: React.FC<dialogProps> = ({ approachId }) => {
+const DialogAddAprroach: React.FC<dialogProps> = ({}) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  // get present data
-  const { data: landingData, isLoading: LearningDataLoading } =
-    useGetCmsLandingDetails();
-
-  //get present credits
-  const activeApproach = useMemo(() => {
-    return landingData?.approach_items?.find(
-      approach => approach.id === approachId
-    );
-  }, [landingData, approachId]);
 
   //form
   const form = useForm<UpdateApproachRequest>({
@@ -58,17 +46,17 @@ const DialogEditAprroach: React.FC<dialogProps> = ({ approachId }) => {
   });
 
   // validations
-  // useEffect(() => {
-  //   if (form.formState.errors.cta_header) {
-  //     toast.error(form?.formState?.errors?.cta_header?.message);
-  //   }
-  //   if (form.formState.errors.cta_description) {
-  //     toast.error(form?.formState?.errors?.cta_description?.message);
-  //   }
-  //   if (form.formState.errors.approach) {
-  //     toast.error(form?.formState?.errors?.approach?.message);
-  //   }
-  // }, [form.formState.errors]);
+  useEffect(() => {
+    if (form.formState.errors.icon) {
+      toast.error(form?.formState?.errors?.icon?.message);
+    }
+    if (form.formState.errors.title) {
+      toast.error(form?.formState?.errors?.title?.message);
+    }
+    if (form.formState.errors.description) {
+      toast.error(form?.formState?.errors?.description?.message);
+    }
+  }, [form.formState.errors]);
 
   //edit
   const { mutateAsync: updateApproachMutate, isLoading: isApproachLoading } =
@@ -76,13 +64,13 @@ const DialogEditAprroach: React.FC<dialogProps> = ({ approachId }) => {
 
   //submit form
   const handleSubmitForm = async (data: UpdateApproachRequest) => {
-    const compiledData: UpdateApproachRequest = {
-      id: activeApproach?.id || "",
-      icon: data.icon,
-      title: data.title,
-      description: data.description
-    };
     try {
+      const compiledData: UpdateApproachRequest = {
+        id: undefined,
+        icon: data.icon,
+        title: data.title,
+        description: data.description
+      };
       await updateApproachMutate({
         requestBody: compiledData
       });
@@ -97,17 +85,14 @@ const DialogEditAprroach: React.FC<dialogProps> = ({ approachId }) => {
   return (
     <Dialog open={isOpen}>
       <DialogTrigger>
-        <TiEdit
-          onClick={() => setIsOpen(true)}
-          size={25}
-          className="  border p-1 rounded-full text-green-600 border-green-400/45 bg-green-300/30 hover:animate-pulse"
-        />
+        <Button onClick={() => setIsOpen(true)}>Add</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Edit Approach</DialogTitle>
+          <DialogTitle>Add Approach</DialogTitle>
           <DialogDescription>
-            Make changes to approach items here. Click save when you're done.
+            Fill out form to add approach items here. Click save when you're
+            done.
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -128,7 +113,6 @@ const DialogEditAprroach: React.FC<dialogProps> = ({ approachId }) => {
                 <Input
                   type="text"
                   placeholder="Enter approach title here"
-                  defaultValue={activeApproach?.title}
                   {...form.register("title")}
                 />
               </div>
@@ -137,12 +121,11 @@ const DialogEditAprroach: React.FC<dialogProps> = ({ approachId }) => {
                 <Label>Description</Label>
                 <Textarea
                   className=" custom-scroll"
-                  defaultValue={activeApproach?.description}
                   {...form.register("description")}
                 />
               </div>
             </div>
-            <DialogFooter>
+            <div className=" flex justify-end gap-3">
               <Button
                 onClick={() => setIsOpen(false)}
                 variant={"secondary"}
@@ -151,7 +134,7 @@ const DialogEditAprroach: React.FC<dialogProps> = ({ approachId }) => {
                 Close
               </Button>
               <Button type="submit">Save changes</Button>
-            </DialogFooter>{" "}
+            </div>
           </form>
         </Form>
         <Loader isVisible={isApproachLoading} />
@@ -160,4 +143,4 @@ const DialogEditAprroach: React.FC<dialogProps> = ({ approachId }) => {
   );
 };
 
-export default DialogEditAprroach;
+export default DialogAddAprroach;

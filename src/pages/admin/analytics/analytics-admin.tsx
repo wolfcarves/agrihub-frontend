@@ -1,6 +1,6 @@
 import AdminOutletContainer from "@components/admin/layout/container/AdminOutletContainer";
 import { Card } from "@components/ui/card";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Label } from "@components/ui/label";
 import BarHarvestWithered from "../charts/bar-harvest-withered";
 import {
@@ -35,12 +35,47 @@ const AnalyticsAdmin = () => {
   const { data: favouriteCrop } = useGetReportFavouriteCrops();
   const { data: userFeedback } = useGetReportAnalyticsUserFeedback();
   console.log(userFeedback, "asdasd");
+  const totalFeedback = useMemo(() => {
+    return (
+      Number(userFeedback?.dissatisfied) +
+      Number(userFeedback?.neutral) +
+      Number(userFeedback?.satisfied) +
+      Number(userFeedback?.very_dissatisfied) +
+      Number(userFeedback?.very_satisfied)
+    );
+  }, [userFeedback]);
+
+  const feedbackPercentage = useMemo(() => {
+    return (value: number) => {
+      const percentage = value / totalFeedback;
+      const final = percentage * 100;
+      return final;
+    };
+  }, [totalFeedback]);
+
   const ratings = [
-    { value: "5.0", percentage: "66%" },
-    { value: "4.0", percentage: "33%" },
-    { value: "3.0", percentage: "16%" },
-    { value: "2.0", percentage: "8%" },
-    { value: "1.0", percentage: "6%" }
+    {
+      value: "5.0",
+      percentage: `${feedbackPercentage(Number(userFeedback?.very_satisfied))}%`
+    },
+    {
+      value: "4.0",
+      percentage: `${feedbackPercentage(Number(userFeedback?.satisfied))}%`
+    },
+    {
+      value: "3.0",
+      percentage: `${feedbackPercentage(Number(userFeedback?.neutral))}%`
+    },
+    {
+      value: "2.0",
+      percentage: `${feedbackPercentage(Number(userFeedback?.dissatisfied))}%`
+    },
+    {
+      value: "1.0",
+      percentage: `${feedbackPercentage(
+        Number(userFeedback?.very_dissatisfied)
+      )}%`
+    }
   ];
   return (
     <AdminOutletContainer>
@@ -88,7 +123,7 @@ const AnalyticsAdmin = () => {
 
                   <div className="bg-gray-300 rounded w-full h-4 ml-3">
                     <div
-                      className={`w-[${rating.percentage}] h-full rounded bg-[#739072]`}
+                      className={`w-[${rating?.percentage}] h-full rounded bg-[#739072]`}
                     ></div>
                   </div>
                   <p className="text-base text-gray-700 font-bold ml-3">

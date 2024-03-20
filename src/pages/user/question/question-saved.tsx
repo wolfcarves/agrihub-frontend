@@ -30,7 +30,7 @@ import QuestionSkeleton from "@components/user/questions/skeleton/QuestionSkelet
 import { UsePagination } from "@providers/PaginationProvider";
 import useQuestionVoteMutation from "@hooks/api/post/useQuestionVoteMutation";
 import { toast } from "sonner";
-import useQuestionDeleteVoteMutation from "@hooks/api/post/useQuestionDeleteVoteMutation";
+import useQuestionDeleteVoteMutation from "@hooks/api/get/useQuestionDeleteVoteMutation";
 import Modal from "../../../components/ui/custom/modal/Modal";
 
 type FilterType = "newest" | "top";

@@ -195,6 +195,66 @@ message?: string;
     }
 
     /**
+     * Delete an answer
+     * @returns any Answer Deleted Successfully
+     * @throws ApiError
+     */
+    public static deleteApiForumsDeleteAnswer({
+id,
+}: {
+/**
+ * The ID of the answer to be deleted
+ */
+id: string,
+}): CancelablePromise<{
+message?: string;
+}> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/forums/delete/answer/{id}',
+            path: {
+                'id': id,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Delete a comment
+     * @returns any Comment Deleted successfully
+     * @throws ApiError
+     */
+    public static deleteApiForumsDeleteComment({
+id,
+}: {
+/**
+ * The ID of the comment to be deleted
+ */
+id: string,
+}): CancelablePromise<{
+message?: string;
+}> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/forums/delete/comment/{id}',
+            path: {
+                'id': id,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
      * Get Questions Data
      * @returns QuestionsResponse Success
      * @throws ApiError

@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import useGetAuthCheckTokenQuery from "@hooks/api/get/useGetAuthCheckTokenQuery";
 import { Input } from "@components/ui/custom";
 import { Button } from "@components/ui/button";
@@ -10,6 +10,8 @@ import { PiCheckFatBold } from "react-icons/pi";
 import Unauthorized from "@pages/user/common/unauthorized";
 
 const UserResetPasswordForm = () => {
+  const navigate = useNavigate();
+
   const { register, formState, handleSubmit } = useForm<ResetPasswordType>({
     mode: "onSubmit",
     reValidateMode: "onChange",
@@ -77,16 +79,15 @@ const UserResetPasswordForm = () => {
                 Change Password
               </Button>
 
-              <Link to="../../">
-                <Button
-                  variant="outline"
-                  className="w-full mt-4"
-                  disabled={isResetPasswordLoading}
-                  size="lg"
-                >
-                  Cancel
-                </Button>
-              </Link>
+              <Button
+                variant="outline"
+                className="w-full mt-4"
+                disabled={isResetPasswordLoading}
+                size="lg"
+                onClick={() => navigate("../../")}
+              >
+                Cancel
+              </Button>
             </div>
           </div>
         </form>

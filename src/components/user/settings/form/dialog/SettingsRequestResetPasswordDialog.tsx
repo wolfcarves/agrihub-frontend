@@ -30,13 +30,19 @@ const SettingsRequestResetPasswordDialog = ({
         </DialogHeader>
 
         <DialogDescription>
-          By clicking the button below, you're requesting a password reset. We
-          will be sending a link to your email that is bound to this account.
+          To enhance clarity and provide clearer options for the user, you could
+          revise the message as follows:
+        </DialogDescription>
+
+        <DialogDescription>
+          "By clicking the button below, you're requesting a password reset. We
+          will send a link to your email associated with this account.
+          Alternatively, you can choose OTP Verification via phone ."
         </DialogDescription>
 
         <div className="sm:flex gap-1.5 sm:space-y-0 space-y-1.5">
-          <div className="w-full">
-            {true && (
+          {user?.data?.email && (
+            <div className="w-full">
               <Button
                 variant="outline"
                 className="rounded-full w-full"
@@ -49,11 +55,11 @@ const SettingsRequestResetPasswordDialog = ({
               >
                 Send via email
               </Button>
-            )}
-          </div>
+            </div>
+          )}
 
-          <div className="w-full">
-            {user?.data?.contact_number && (
+          {user?.data?.contact_number && (
+            <div className="w-full">
               <Button
                 variant="outline"
                 className="rounded-full w-full"
@@ -66,8 +72,8 @@ const SettingsRequestResetPasswordDialog = ({
               >
                 Send via OTP
               </Button>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </DialogContent>
     </Dialog>

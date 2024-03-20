@@ -4,7 +4,7 @@ import { QuestionsResponse } from "@api/openapi";
 import { toast } from "sonner";
 import useQuestionVoteMutation from "@hooks/api/post/useQuestionVoteMutation";
 import QuestionCard from "../card/QuestionCard";
-import useQuestionDeleteVoteMutation from "@hooks/api/post/useQuestionDeleteVoteMutation";
+import useQuestionDeleteVoteMutation from "@hooks/api/get/useQuestionDeleteVoteMutation";
 import useAuth from "@hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 
@@ -76,7 +76,6 @@ const QuestionsList = ({ data, isLoading }: QuestionsListProps) => {
       </div>
     );
   }
-
   return (
     <div className="flex flex-col pb-20 mx-auto">
       {data?.questions?.map(
@@ -89,7 +88,8 @@ const QuestionsList = ({ data, isLoading }: QuestionsListProps) => {
           vote_count,
           answer_count,
           createdat,
-          vote
+          vote,
+          imagesrc
         }) => {
           return (
             <QuestionCard
@@ -97,6 +97,7 @@ const QuestionsList = ({ data, isLoading }: QuestionsListProps) => {
               id={id}
               userId={user?.id}
               title={title}
+              role={user?.role}
               description={question}
               userAvatarSrc={user?.avatar}
               username={user?.username}
@@ -104,6 +105,7 @@ const QuestionsList = ({ data, isLoading }: QuestionsListProps) => {
               voteCount={vote_count}
               answerCount={answer_count}
               createdat={createdat}
+              attachment={imagesrc?.length}
               onUpVoteBtnClick={e => {
                 e.preventDefault();
                 handleQuestionVote(

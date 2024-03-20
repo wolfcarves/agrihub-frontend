@@ -1,4 +1,4 @@
-import AgrihubLogoSrc from "@icons/agrihub-logo.svg";
+import AgrihubLogoSrc from "@icons/main-logo.svg";
 
 interface AgrihubLogoProps extends Partial<HTMLImageElement> {}
 

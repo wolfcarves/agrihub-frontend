@@ -4,8 +4,8 @@
 /* eslint-disable */
 
 export type UpdateApproachRequest = {
-    id: string;
-    icon: string;
-    title: string;
-    description: string;
+    id?: string;
+    icon?: string;
+    title?: string;
+    description?: string;
 };

@@ -14,12 +14,12 @@ import { toast } from "sonner";
 import useGetSavedQuestions, {
   GET_SAVED_QUESTION_KEY
 } from "@hooks/api/get/useGetSavedQuestions";
-import useForumsDeleteSaveQuestionMutation from "@hooks/api/post/useForumsDeleteSaveQuestionMutation";
+import useForumsDeleteSaveQuestionMutation from "@hooks/api/delete/useForumsDeleteSaveQuestionMutation";
 import { useQueryClient } from "@tanstack/react-query";
-import useForumsDeleteQuestionMutation from "@hooks/api/post/useForumsDeleteQuestionMutation";
+import useForumsDeleteQuestionMutation from "@hooks/api/delete/useForumsDeleteQuestionMutation";
 import { GET_QUESTION_KEY } from "@hooks/api/get/useGetQuestionsQuery";
 import useForumsReportQuestionMutation from "@hooks/api/post/useForumsReportQuestionMutation";
-import QuestionDeleteQuestionDialog from "../dialog/QuestionDeleteQuestionDialog";
+import QuestionDeleteQuestionDialog from "../dialog/QuestionDeleteDefaultDialog";
 import QuestionReportQuestionDiaglog from "../dialog/QuestionReportQuestionDiaglog";
 import QuestionCardDropdown from "../dropdown/QuestionCardDropdown";
 import {
@@ -29,7 +29,7 @@ import {
   PiArrowFatDownFill
 } from "react-icons/pi";
 import { LuMessagesSquare } from "react-icons/lu";
-import { TiArrowForwardOutline } from "react-icons/ti";
+import { TiArrowForwardOutline, TiAttachment } from "react-icons/ti";
 import QuestionFeedbackPanel from "../panel/QuestionFeedbackPanel";
 
 interface QuestionCardProps {
@@ -37,6 +37,7 @@ interface QuestionCardProps {
   title?: string;
   userId?: string;
   username?: string;
+  role?: string;
   userAvatarSrc?: string;
   description?: string | Node;
   tags?: {
@@ -46,6 +47,7 @@ interface QuestionCardProps {
   voteCount?: string;
   answerCount?: string;
   createdat?: string;
+  attachment?: number;
   onUpVoteBtnClick?: (e: React.MouseEvent) => void;
   onDownVoteBtnClick?: (e: React.MouseEvent) => void;
   onAnswerBtnClick?: (e: React.MouseEvent) => void;
@@ -57,6 +59,7 @@ const QuestionCard = ({
   title,
   userId,
   username,
+  role,
   userAvatarSrc,
   description,
   tags,
@@ -64,6 +67,7 @@ const QuestionCard = ({
   voteCount,
   answerCount,
   createdat,
+  attachment,
   onUpVoteBtnClick,
   onDownVoteBtnClick,
   onAnswerBtnClick,
@@ -214,13 +218,13 @@ const QuestionCard = ({
                 />
               )}
             </div>
-
             {/* Name and Tags */}
             <div className="flex flex-wrap gap-3 justify-between items-center py-5 ">
               <QuestionUserProfileButton
                 userId={userId}
                 avatarSrc={userAvatarSrc}
                 username={username}
+                role={role}
                 createdAt={createdat}
               />
 
@@ -230,11 +234,19 @@ const QuestionCard = ({
                 })}
               </div>
             </div>
-
             {/* Content Body */}
             <div className="line-clamp-5" style={{ overflowWrap: "anywhere" }}>
               {contentHtml}
             </div>
+
+            {(attachment ?? 0) > 0 && (
+              <div className="flex gap-0.5 items-center bg-accent w-max rounded-md p-1 mt-3">
+                <TiAttachment size={22} />
+                <span className="font-poppins-medium text-sm">
+                  {attachment} Attachment
+                </span>
+              </div>
+            )}
 
             {/* Actions */}
             <QuestionFeedbackPanel
@@ -280,6 +292,9 @@ const QuestionCard = ({
       </div>
 
       <QuestionDeleteQuestionDialog
+        title="Delete Post"
+        description="This action cannot be undone. This will permanently delete your
+        question and remove the data from our servers."
         open={isDeleteOpen}
         onOpenChange={setIsDeleteOpen}
         onConfirmClick={() => {

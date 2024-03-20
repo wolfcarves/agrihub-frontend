@@ -10,8 +10,10 @@ import SettingsRequestResetPasswordDialog from "../../dialog/SettingsRequestRese
 import useAuth from "@hooks/useAuth";
 import { toast } from "sonner";
 import useForgotPasswordByOTPMutation from "@hooks/api/post/useForgotPasswordByOTPMutation";
+import { useNavigate } from "react-router-dom";
 
 const UserSettingsAuthenticationForm = () => {
+  const navigate = useNavigate();
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const user = useAuth();
 
@@ -35,11 +37,15 @@ const UserSettingsAuthenticationForm = () => {
 
   const handleSubmitForm = async (type: "email" | "phone") => {
     try {
-      if (type === "email") await sendEmail(user?.data?.email);
-      if (type === "phone") {
-        const res = await sendOTP(String(user?.data?.contact_number));
+      if (type === "email") {
+        await sendEmail(user?.data?.email);
+        toast.success("Password request sent to your email");
       }
-      toast.success("Password request sent to your email");
+
+      if (type === "phone") {
+        await sendOTP(String(user?.data?.contact_number));
+        navigate("/account/reset-password/verify-otp", { replace: true });
+      }
     } catch (err: any) {
       toast.error(err.body.message);
     }
@@ -69,11 +75,11 @@ const UserSettingsAuthenticationForm = () => {
         />
 
         <SettingsRequestResetPasswordDialog
+          open={isDialogOpen}
+          onOpenChange={setIsDialogOpen}
           isSendEmailLoading={isSendEmailLoading}
           isSendOTPLoading={isSendOTPLoading}
           disabled={isSendEmailSuccess || isSendOTPSuccess}
-          open={isDialogOpen}
-          onOpenChange={setIsDialogOpen}
           onSubmitClick={(type: "email" | "phone") => {
             handleSubmitForm(type);
           }}

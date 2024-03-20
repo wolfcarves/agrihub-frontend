@@ -34,7 +34,7 @@ const AnalyticsAdmin = () => {
   const { data: lowestGrowth } = useGetReportAdminGrowthrate({ order: sort });
   const { data: favouriteCrop } = useGetReportFavouriteCrops();
   const { data: userFeedback } = useGetReportAnalyticsUserFeedback();
-  console.log(userFeedback, "asdasd");
+
   const totalFeedback = useMemo(() => {
     return (
       Number(userFeedback?.dissatisfied) +

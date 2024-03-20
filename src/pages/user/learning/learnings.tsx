@@ -5,32 +5,69 @@ import useGetLearningPublishedList from "../../../hooks/api/get/useGetLearningPu
 import parse from "html-react-parser";
 import { Pagination } from "../../../components/ui/custom";
 import SkeletonCard from "@components/ui/custom/skeleton/skeleton-card";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue
+} from "../../../components/ui/select";
 
 const Learnings = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const params = useMemo(() => {
     return {
-      currentPage: Number(searchParams.get("page")) ?? 1
+      currentPage: Number(searchParams.get("page")) ?? 1,
+      sortBy: searchParams.get("sortBy") as
+        | "Tagalog"
+        | "English"
+        | "Tagalog and English"
+        | "All"
     };
   }, [searchParams]);
   const { data: learningsData, isLoading } = useGetLearningPublishedList({
     perpage: "9",
-    page: String(params.currentPage) ?? "1"
+    page: String(params.currentPage) ?? "1",
+    filter: params.sortBy === "All" ? undefined : params.sortBy
   });
+
+  const handleFilterChange = (value: string) => {
+    searchParams.set("sortBy", value);
+    setSearchParams(searchParams);
+  };
 
   const totalPages =
     learningsData?.pagination?.total_pages ?? params.currentPage + 1;
 
   return (
     <section className="my-12 mx-auto px-4 max-w-screen-xl py-8">
-      <div className="text-left">
-        <h1 className="text-3xl text-gray-800 font-semibold">
-          Learning Materials
-        </h1>
-        <p className="mt-3 text-gray-500">
-          Explore a wealth of knowledge to cultivate success on your farm
-        </p>
+      <div className="flex justify-between">
+        <div className="text-left">
+          <h1 className="text-3xl text-gray-800 font-semibold">
+            Learning Materials
+          </h1>
+          <p className="mt-3 text-gray-500">
+            Explore a wealth of knowledge to cultivate success on your farm
+          </p>
+        </div>
+        <Select onValueChange={handleFilterChange}>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Filter" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectItem value="All">All</SelectItem>
+              <SelectItem value="English">English</SelectItem>
+              <SelectItem value="Tagalog">Tagalog</SelectItem>
+              <SelectItem value="Tagalog and English">
+                Tagalog and English
+              </SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
       </div>
       <div className="mt-12 flex flex-wrap justify-center gap-2">
         {isLoading && (

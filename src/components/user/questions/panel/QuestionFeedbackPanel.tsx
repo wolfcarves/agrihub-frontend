@@ -37,7 +37,7 @@ const QuestionFeedbackPanel = ({ items }: QuestionFeedbackPanelProps) => {
           ) : !isButton ? (
             <span
               key={`${label} ${idx}`}
-              className="hidden px-1 sm:block font-poppins-semibold text-foreground text-sm whitespace-nowrap"
+              className="px-1 font-poppins-semibold text-foreground text-sm whitespace-nowrap"
             >
               {label}
             </span>

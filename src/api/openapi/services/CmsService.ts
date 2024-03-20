@@ -8,6 +8,9 @@ import type { LandingPageImageResponse } from '../models/LandingPageImageRespons
 import type { MessageResponse } from '../models/MessageResponse';
 import type { NewUserFeedback } from '../models/NewUserFeedback';
 import type { PrivacyPolicyResponse } from '../models/PrivacyPolicyResponse';
+import type { TermsConditionsResponse } from '../models/TermsConditionsResponse';
+import type { UpdateAboutUsRequest } from '../models/UpdateAboutUsRequest';
+import type { UpdateAboutUsResponse } from '../models/UpdateAboutUsResponse';
 import type { UpdateApproachRequest } from '../models/UpdateApproachRequest';
 import type { UpdateApproachResponse } from '../models/UpdateApproachResponse';
 import type { UpdateClientDetailsRequest } from '../models/UpdateClientDetailsRequest';
@@ -16,6 +19,8 @@ import type { UpdateLandingRequest } from '../models/UpdateLandingRequest';
 import type { UpdateLandingResponse } from '../models/UpdateLandingResponse';
 import type { UpdatePrivacyPolicyRequest } from '../models/UpdatePrivacyPolicyRequest';
 import type { UpdatePrivacyPolicyResponse } from '../models/UpdatePrivacyPolicyResponse';
+import type { UpdateTermsConditionsRequest } from '../models/UpdateTermsConditionsRequest';
+import type { UpdateTermsConditionsResponse } from '../models/UpdateTermsConditionsResponse';
 import type { UserFeedback } from '../models/UserFeedback';
 import type { UserFeedbackListResponse } from '../models/UserFeedbackListResponse';
 import type { UserFeedbackResponse } from '../models/UserFeedbackResponse';
@@ -302,6 +307,72 @@ id: string,
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/cms/vision-stats',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * View Terms and Conditions
+     * @returns TermsConditionsResponse Successful response
+     * @throws ApiError
+     */
+    public static getApiTermsConditions(): CancelablePromise<TermsConditionsResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/terms-conditions/',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Update Terms and Conditions
+     * @returns UpdateTermsConditionsResponse Successful response
+     * @throws ApiError
+     */
+    public static putApiTermsConditionsUpdate({
+requestBody,
+}: {
+requestBody: UpdateTermsConditionsRequest,
+}): CancelablePromise<UpdateTermsConditionsResponse> {
+        return __request(OpenAPI, {
+            method: 'PUT',
+            url: '/api/terms-conditions/update',
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Update About Us
+     * @returns UpdateAboutUsResponse Successful response
+     * @throws ApiError
+     */
+    public static putApiCmsAboutUpdate({
+formData,
+}: {
+formData: UpdateAboutUsRequest,
+}): CancelablePromise<UpdateAboutUsResponse> {
+        return __request(OpenAPI, {
+            method: 'PUT',
+            url: '/api/cms/about/update',
+            formData: formData,
+            mediaType: 'multipart/form-data',
             errors: {
                 400: `Validation Error`,
                 401: `Unauthorized`,

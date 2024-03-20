@@ -146,6 +146,7 @@ const QuestionPostBody = ({ data }: QuestionPostBodyProps) => {
       <div className="pb-10">
         <QuestionUserProfileButton
           userId={data?.question?.user?.id}
+          role={data?.question?.user?.role}
           avatarSrc={data?.question?.user?.avatar}
           username={data?.question?.user?.username}
           createdAt={data?.question?.createdat}

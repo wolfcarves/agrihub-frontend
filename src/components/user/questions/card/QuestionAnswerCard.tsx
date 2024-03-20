@@ -21,6 +21,8 @@ import QuestionDeleteDefaultDialog from "../dialog/QuestionDeleteDefaultDialog";
 import { toast } from "sonner";
 import useForumsDeleteAnswerMutation from "@hooks/api/delete/useForumsDeleteAnswerMutation";
 import useForumsDeleteCommentMutation from "@hooks/api/delete/useForumsDeleteCommentMutation";
+import useParseUserRole from "@hooks/utils/useParseUserRole";
+import { Badge } from "@components/ui/badge";
 
 interface QuestionAnswerListProps {
   data?: Answer;
@@ -149,6 +151,14 @@ const QuestionAnswerCard = ({ data }: QuestionAnswerListProps) => {
               >
                 {user?.username}
               </Link>
+
+              {user?.role && (
+                <Badge variant="outline" className="ms-1">
+                  <span className="font-poppins-regular">
+                    {useParseUserRole(user?.role)}
+                  </span>
+                </Badge>
+              )}
 
               <p
                 className="mt-2"

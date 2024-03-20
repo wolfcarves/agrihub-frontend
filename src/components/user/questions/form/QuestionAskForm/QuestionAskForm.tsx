@@ -81,6 +81,7 @@ const QuestionAskForm = () => {
     };
 
     try {
+      console.log(compiledData);
       await questionAskMutate(compiledData);
       toast.success("Question successfully posted!");
     } catch (e: any) {

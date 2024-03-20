@@ -45,12 +45,9 @@ const QuestionFeedbackPanel = ({ items }: QuestionFeedbackPanelProps) => {
             <div
               key={`${label} ${idx}`}
               className="flex gap-3 h-8 border rounded-lg"
+              onClick={onClick}
             >
-              <QuestionFeedBackPanelButtonAuth
-                title={label}
-                icon={icon}
-                onClick={onClick}
-              />
+              <QuestionFeedBackPanelButtonAuth title={label} icon={icon} />
             </div>
           ) : (
             <div

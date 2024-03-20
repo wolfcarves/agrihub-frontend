@@ -67,6 +67,36 @@ id: string,
     }
 
     /**
+     * Delete a tag
+     * @returns any Tag Deleted Successfully
+     * @throws ApiError
+     */
+    public static deleteApiTags({
+id,
+}: {
+/**
+ * The ID of the tag to be deleted
+ */
+id: string,
+}): CancelablePromise<{
+message?: string;
+}> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/tags/{id}',
+            path: {
+                'id': id,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
      * Search tags
      * @returns TagsSchema Success
      * @throws ApiError

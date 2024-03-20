@@ -72,7 +72,6 @@ const FormAddApproach: React.FC<formProps> = ({ setIsOpen }) => {
   console.log(form.formState.errors);
   return (
     <>
-      {" "}
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmitForm)}>
           <div className="grid grid-cols-4 gap-4 py-4">

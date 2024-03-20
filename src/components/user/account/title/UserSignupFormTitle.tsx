@@ -9,9 +9,9 @@ const UserSignupFormTitle = () => {
     <>
       <Link
         to="/"
-        className="flex border w-max rounded-xl p-1 hover:scale-[1.10] hover:shadow-sm duration-200"
+        className="flex w-max rounded-xl hover:scale-[1.10] duration-200"
       >
-        <AgrihubLogo className="w-[2rem]" />
+        <AgrihubLogo className="w-[2.5rem]" />
       </Link>
 
       <div className="flex flex-col gap-2 py-5 ">

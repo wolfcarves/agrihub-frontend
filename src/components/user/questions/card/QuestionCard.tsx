@@ -37,6 +37,7 @@ interface QuestionCardProps {
   title?: string;
   userId?: string;
   username?: string;
+  role?: string;
   userAvatarSrc?: string;
   description?: string | Node;
   tags?: {
@@ -58,6 +59,7 @@ const QuestionCard = ({
   title,
   userId,
   username,
+  role,
   userAvatarSrc,
   description,
   tags,
@@ -222,6 +224,7 @@ const QuestionCard = ({
                 userId={userId}
                 avatarSrc={userAvatarSrc}
                 username={username}
+                role={role}
                 createdAt={createdat}
               />
 
@@ -236,7 +239,7 @@ const QuestionCard = ({
               {contentHtml}
             </div>
 
-            {attachment && attachment > 0 && (
+            {(attachment ?? 0) > 0 && (
               <div className="flex gap-0.5 items-center bg-accent w-max rounded-md p-1 mt-3">
                 <TiAttachment size={22} />
                 <span className="font-poppins-medium text-sm">

@@ -91,13 +91,13 @@ const QuestionsList = ({ data, isLoading }: QuestionsListProps) => {
           vote,
           imagesrc
         }) => {
-          console.log(imagesrc);
           return (
             <QuestionCard
               key={id}
               id={id}
               userId={user?.id}
               title={title}
+              role={user?.role}
               description={question}
               userAvatarSrc={user?.avatar}
               username={user?.username}

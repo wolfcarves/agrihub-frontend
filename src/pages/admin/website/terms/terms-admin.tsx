@@ -1,38 +1,73 @@
 import AdminOutletContainer from "@components/admin/layout/container/AdminOutletContainer";
 import { Button } from "@components/ui/button";
-import { Card } from "@components/ui/card";
 import BreadCrumb from "@components/ui/custom/breadcrumb/breadcrumb";
 import RichTextEditor from "@components/ui/custom/rich-text-editor/RichTextEditor";
-import { Input } from "@components/ui/input";
 import { Label } from "@components/ui/label";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
-import React, { useState } from "react";
-
+import React, { useEffect, useState } from "react";
+import * as zod from "zod";
+import { UpdateTermsConditionsRequest } from "../../../../api/openapi";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import useGetCmsTermsConditions from "../../../../hooks/api/get/useGetCmsTermsConditions";
+import Loader from "../../../../icons/Loader";
+import { toast } from "sonner";
+import usePutCmsLandingUpdate from "../../../../hooks/api/put/usePutCmsLandingUpdate";
+import { Form, FormField } from "../../../../components/ui/form";
+import usePutCmsTermsConditionsUpdate from "../../../../hooks/api/put/usePutCmsTermsConditionsUpdate";
 const breadcrumbItems = [
   {
     title: "Terms and Conditions",
     link: "/admin/website/terms-conditions"
   }
 ];
-
+const termsConditionSchema = zod.object({
+  content: zod.string({
+    required_error: "Content is required."
+  })
+});
 const TermsAdmin = () => {
-  const [cardCount, setCardCount] = useState(0);
-  const [editMode, setEditMode] = useState(false);
+  const [disabled, setDisabled] = useState<boolean>(true);
+  const { data: termsData, isLoading: presentData } =
+    useGetCmsTermsConditions();
 
-  const handleAddNewCard = () => {
-    setCardCount(prevCount => prevCount + 1);
+  const form = useForm<UpdateTermsConditionsRequest>({
+    resolver: zodResolver(termsConditionSchema),
+    mode: "onBlur"
+  });
+
+  const handleDisable = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+    setDisabled(false);
   };
 
-  const handleDeleteCard = () => {
-    if (cardCount > 0) {
-      setCardCount(prevCount => prevCount - 1);
+  useEffect(() => {
+    if (form.formState.errors.content) {
+      toast.error(form?.formState?.errors?.content?.message);
+    }
+  }, [form.formState.errors]);
+
+  const { mutateAsync: updateTerms, isLoading: termsLoading } =
+    usePutCmsTermsConditionsUpdate();
+
+  const handleSubmitForm = async (data: UpdateTermsConditionsRequest) => {
+    const compiledData: UpdateTermsConditionsRequest = {
+      content: data.content
+    };
+
+    try {
+      await updateTerms({ requestBody: compiledData });
+      toast.success("Terms & Conditions Updated Successfully!");
+      setDisabled(true);
+    } catch (e: any) {
+      toast.error(e.body.message);
     }
   };
-
-  const toggleEditMode = () => {
-    setEditMode(prevMode => !prevMode);
-  };
-
+  if (presentData) {
+    return <Loader isVisible={true} />;
+  }
   return (
     <AdminOutletContainer className="container mx-auto py-10 ">
       <BreadCrumb items={breadcrumbItems} />
@@ -46,50 +81,50 @@ const TermsAdmin = () => {
             may tinola.
           </p>
         </div>
-        <div>
-          <Button onClick={handleAddNewCard}>Add New</Button>
-        </div>
       </div>
       <hr className="my-4" />
-      <div>
-        <div className="w-full mb-5">
-          <Label>Terms </Label>
-          <RichTextEditor height={300} />
-        </div>
-        {cardCount === 0 ? (
-          <Card className="w-full p-5 flex items-center justify-center">
-            <p>You haven't added any subcategory yet.</p>
-          </Card>
-        ) : (
-          [...Array(cardCount)].map((_, index) => (
-            <div key={index}>
-              <Card className="p-5 mb-5">
-                <div className="flex gap-4 w-full items-end mb-4">
-                  <div className="w-full">
-                    <Label>Sub Category {index + 1}</Label>
-                    <Input type="text" disabled={!editMode} />
-                  </div>
-
-                  <div className="flex gap-4 mb-1">
-                    <Button onClick={toggleEditMode}>
-                      {editMode ? "Save" : "Edit"}
-                    </Button>
-                    <Button variant="destructive" onClick={handleDeleteCard}>
-                      Delete
-                    </Button>
-                  </div>
-                </div>
-                <div className="w-full">
-                  <RichTextEditor height={300} disabled={!editMode} />
-                </div>
-              </Card>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(handleSubmitForm)}>
+          <div>
+            <div className="w-full mb-5">
+              <Label>Terms</Label>
+              <FormField
+                name="content"
+                control={form.control}
+                render={({ field: { onChange } }) => {
+                  return (
+                    <RichTextEditor
+                      defaultValue={termsData?.content}
+                      height={300}
+                      disabled={disabled}
+                      onBlur={data => {
+                        onChange(data.html);
+                      }}
+                    />
+                  );
+                }}
+              />
             </div>
-          ))
-        )}
-      </div>
-      <div className="flex justify-end my-4">
-        <Button>Save</Button>
-      </div>
+          </div>
+          <div className="flex justify-end">
+            {!disabled ? (
+              <Button type="submit" disabled={termsLoading}>
+                Save
+              </Button>
+            ) : (
+              <Button
+                type={"button"}
+                variant={"outline"}
+                className=" border-primary/60 text-primary hover:text-white hover:bg-primary"
+                onClick={e => handleDisable(e)}
+              >
+                Edit
+              </Button>
+            )}
+          </div>
+        </form>
+      </Form>
+      <Loader isVisible={termsLoading} />
     </AdminOutletContainer>
   );
 };

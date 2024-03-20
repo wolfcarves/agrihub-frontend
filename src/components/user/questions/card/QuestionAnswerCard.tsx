@@ -8,7 +8,6 @@ import useAuth from "@hooks/useAuth";
 import useForumsVoteAnswerMutation from "@hooks/api/post/useForumsVoteAnswerMutation";
 import useForumsDeleteVoteAnswerMutation from "@hooks/api/delete/useForumsDeleteVoteAnswerMutation";
 import { MdOutlineEdit, MdOutlineDelete } from "react-icons/md";
-
 import {
   PiArrowFatUp,
   PiArrowFatDown,
@@ -105,7 +104,10 @@ const QuestionAnswerCard = ({ data }: QuestionAnswerListProps) => {
         {/* Answers */}
         <div className="flex gap-2 py-4">
           <div className="relative flex h-max rounded-full">
-            <Link to="/" className="font-poppins-medium hover:opacity-80">
+            <Link
+              to={`/users/${user?.id}/${user?.username}`}
+              className="font-poppins-medium hover:opacity-80"
+            >
               <Avatar className="border">
                 <AvatarImage
                   src={user?.avatar ?? ""}
@@ -141,7 +143,10 @@ const QuestionAnswerCard = ({ data }: QuestionAnswerListProps) => {
                 </div>
               )}
 
-              <Link to="/" className="font-poppins-medium hover:underline ">
+              <Link
+                to={`/users/${user?.id}/${user?.username}`}
+                className="font-poppins-medium hover:underline "
+              >
                 {user?.username}
               </Link>
 

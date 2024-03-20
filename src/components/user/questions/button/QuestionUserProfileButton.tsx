@@ -30,9 +30,11 @@ const QuestionUserProfileButton = ({
         <Link to={`/users/${userId}/${username}`}>
           <h6 className="font-inter-medium hover:opacity-80">
             {username}{" "}
-            <Badge variant="outline" className="ms-1">
-              <span className="font-poppins-regular">{role}</span>
-            </Badge>
+            {role && (
+              <Badge variant="outline" className="ms-1">
+                <span className="font-poppins-regular">{role}</span>
+              </Badge>
+            )}
           </h6>
         </Link>
         <p className="text-gray-400 text-sm">

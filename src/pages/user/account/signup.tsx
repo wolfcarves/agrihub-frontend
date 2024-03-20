@@ -1,3 +1,4 @@
+import BackButton from "@components/ui/custom/button/back-button";
 import UserSignupForm from "@components/user/account/forms/UserSignupForm/UserSignupForm";
 import UserSignupFormTitle from "@components/user/account/title/UserSignupFormTitle";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
@@ -7,10 +8,11 @@ const Signup = () => {
   return (
     <>
       <Helmet>
-        <title>Signup to Agrihub</title>
+        <title>Signup to AgriHub</title>
       </Helmet>
 
       <div className="w-full mx-auto max-w-[28rem]">
+        <BackButton className="mb-10" />
         <UserSignupFormTitle />
         <UserSignupForm />
       </div>

@@ -94,9 +94,11 @@ const UserHeaderSearch = ({
         <div className="container">
           <div className="flex items-center justify-between">
             <div className="flex flex-wrap items-center gap-3">
-              <h4 className="font-merri-bold">What are you looking for?</h4>
+              <h4 className="font-poppins-semibold">
+                What are you looking for?
+              </h4>
 
-              <div className="flex gap-2 py-2">
+              <div className="flex gap-2 py-2 flex-wrap">
                 {TABS.map((tab, idx) => {
                   if (active === tab) {
                     return (
@@ -224,7 +226,7 @@ const UserHeaderSearch = ({
             {active === "Resources" && query && (
               <>
                 {learningsData?.data?.length ?? 0 > 0 ? (
-                  <h4 className="pt-5 pb-0 font-merri-bold">
+                  <h4 className="pt-5 pb-0 font-poppins-semibold">
                     Learning Materials
                   </h4>
                 ) : null}
@@ -266,7 +268,7 @@ const UserHeaderSearch = ({
               <>
                 {(cropData?.filter(f => f.name?.toLowerCase().includes(query))
                   .length ?? 0) > 0 && (
-                  <h4 className="pt-5 pb-0 font-merri-bold">
+                  <h4 className="pt-5 pb-0 font-poppins-semibold">
                     Planting Calendar
                   </h4>
                 )}
@@ -309,7 +311,7 @@ const UserHeaderSearch = ({
             {active === "Resources" && query && (
               <>
                 {(blogData?.data?.length ?? 0) > 0 && (
-                  <h4 className="pt-5 pb-0 font-merri-bold">Blogs</h4>
+                  <h4 className="pt-5 pb-0 font-poppins-semibold">Blogs</h4>
                 )}
 
                 {blogData?.data?.map(({ id, title, content }) => {
@@ -348,7 +350,7 @@ const UserHeaderSearch = ({
             {active === "Events" && query && (
               <>
                 {(eventsData?.data?.length ?? 0) > 0 && (
-                  <h4 className="pt-5 pb-0 font-merri-bold">Events</h4>
+                  <h4 className="pt-5 pb-0 font-poppins-semibold">Events</h4>
                 )}
 
                 {eventsData?.data?.map(({ id, title, about }) => {

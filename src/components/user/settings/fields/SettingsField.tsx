@@ -51,7 +51,7 @@ const SettingsField = React.forwardRef<HTMLInputElement, SettingsFieldProps>(
       <div className="flex gap-3 justify-between">
         <div className="w-full">
           <div className="flex gap-3 items-center my-auto">
-            {label && <h5 className="font-merri-black">{label}</h5>}
+            {label && <h5 className="font-poppins-medium">{label}</h5>}
 
             <span className="text-destructive">{errMessage}</span>
           </div>

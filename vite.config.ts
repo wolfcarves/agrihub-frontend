@@ -51,7 +51,7 @@ export default defineConfig({
       manifest: {
         name: "AgriHub",
         short_name: "AgriHub",
-        start_url: "/account/login",
+        start_url: "/",
         background_color: "#ffffff",
         theme_color: "#000000",
         display: "standalone",

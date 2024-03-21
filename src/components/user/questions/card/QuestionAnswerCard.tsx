@@ -23,6 +23,7 @@ import useForumsDeleteAnswerMutation from "@hooks/api/delete/useForumsDeleteAnsw
 import useForumsDeleteCommentMutation from "@hooks/api/delete/useForumsDeleteCommentMutation";
 import useParseUserRole from "@hooks/utils/useParseUserRole";
 import { Badge } from "@components/ui/badge";
+import { timeAgo } from "@components/lib/utils";
 
 interface QuestionAnswerListProps {
   data?: Answer;
@@ -34,7 +35,6 @@ const QuestionAnswerCard = ({ data }: QuestionAnswerListProps) => {
   const {
     id,
     user,
-    isaccepted,
     answer,
     comments,
     createdat,
@@ -121,14 +121,9 @@ const QuestionAnswerCard = ({ data }: QuestionAnswerListProps) => {
           </div>
 
           <div className="flex flex-col">
-            <div
-              className={`${
-                isaccepted &&
-                "accepted-answer text-white border-red-700 border-2"
-              }  relative border p-2 sm:p-3 rounded-lg`}
-            >
+            <div className={"relative border p-2 sm:p-3 rounded-lg group"}>
               {isAnswerOwned && (
-                <div className="flex gap-1 absolute -bottom-3 end-3">
+                <div className="hidden group-hover:flex gap-1 absolute -bottom-3 end-3">
                   <div className="w-8 h-8 rounded-full border bg-background">
                     <button className="w-full h-full">
                       <MdOutlineEdit className="m-auto text-md" />
@@ -166,6 +161,12 @@ const QuestionAnswerCard = ({ data }: QuestionAnswerListProps) => {
                   __html: purifyAnswer
                 }}
               />
+
+              <div className="pt-1 flex justify-end">
+                <i className="text-sm">
+                  {timeAgo(createdat?.slice(0, -3) + "Z" || "")}
+                </i>
+              </div>
             </div>
 
             <QuestionFeedbackPanel
@@ -268,7 +269,7 @@ const QuestionAnswerCard = ({ data }: QuestionAnswerListProps) => {
                   </div>
 
                   <div>
-                    <div className="relative min-w-[12.5rem] border max-w-[40rem] p-3 pb-5 rounded-lg">
+                    <div className="relative min-w-[12.5rem] border max-w-[40rem] p-3 pb-5 rounded-lg group">
                       <Link
                         to="/"
                         className="font-poppins-medium hover:underline"
@@ -283,8 +284,14 @@ const QuestionAnswerCard = ({ data }: QuestionAnswerListProps) => {
                         }}
                       />
 
+                      <div className="pt-1 flex justify-end">
+                        <i className="text-sm">
+                          {timeAgo(c.createdat?.slice(0, -3) + "Z" || "")}
+                        </i>
+                      </div>
+
                       {userAuth?.data?.id === c.user?.id && (
-                        <div className="flex gap-1 absolute -bottom-3 end-3">
+                        <div className="hidden group-hover:flex gap-1 absolute -bottom-3 end-3">
                           <div className="w-8 h-8 rounded-full border bg-background">
                             <button className="w-full h-full">
                               <MdOutlineEdit className="m-auto text-md" />

@@ -72,7 +72,7 @@ const VerifyPasswordOTP = () => {
 
       <div className="flex flex-col items-center justify-center pt-14 max-w-[33rem] mx-auto">
         <div className="text-center mb-10">
-          <h1 className="font-merri-black">OTP Verification</h1>
+          <h1 className="font-poppins-semibold">OTP Verification</h1>
           <p>We just sent one time password to your phone number.</p>
           <p>
             We need to verify first if you are the owner of the account before

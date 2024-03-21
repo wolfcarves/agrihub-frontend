@@ -19,7 +19,7 @@ const Community = () => {
   return (
     <>
       <Helmet>
-        <title>Community | AgriHub</title>
+        <title>AgriHub | Community</title>
       </Helmet>
       {!isFetching && !UserData?.farm_id && <CommunityLanding />}
     </>

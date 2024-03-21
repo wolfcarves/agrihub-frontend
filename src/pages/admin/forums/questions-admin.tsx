@@ -5,7 +5,6 @@ import withAuthGuard from "@higher-order/account/withAuthGuard";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/ui/tabs";
 import QuestionsPosted from "./questions-posted";
 import QuestionsReported from "./questions-reported";
-import QuestionsArchive from "./questions-archive";
 import { useParams } from "react-router-dom";
 
 const breadcrumbItems = [
@@ -26,7 +25,6 @@ const QuestionsAdmin = () => {
         <TabsList>
           <TabsTrigger value="posted">Posted</TabsTrigger>
           <TabsTrigger value="reported">Reported</TabsTrigger>
-          <TabsTrigger value="archived">Archived</TabsTrigger>
         </TabsList>
 
         <TabsContent value="posted">
@@ -35,10 +33,6 @@ const QuestionsAdmin = () => {
 
         <TabsContent value="reported">
           <QuestionsReported />
-        </TabsContent>
-
-        <TabsContent value="archived">
-          <QuestionsArchive />
         </TabsContent>
       </Tabs>
     </AdminOutletContainer>

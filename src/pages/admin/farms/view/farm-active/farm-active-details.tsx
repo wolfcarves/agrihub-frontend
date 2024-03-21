@@ -1,19 +1,29 @@
 import { Input } from "@components/ui/custom/input-admin/input";
 import { Label } from "@components/ui/label";
 import React from "react";
+import { useParams } from "react-router-dom";
+import useGetFarmViewQuery from "../../../../../hooks/api/get/useGetFarmViewQuery";
+import Loader from "../../../../../icons/Loader";
 
 const FarmActiveDetails = () => {
+  const { id } = useParams();
+  const { data: farmDetails, isLoading } = useGetFarmViewQuery(id || "");
+  console.log(farmDetails);
   return (
     <div>
       {/* line 1 */}
       <div className="flex gap-4 mb-4">
         <div className="w-full">
           <Label>Farm Name</Label>
-          <Input type="text" defaultValue="Sharon Farm" readOnly />
+          <Input type="text" defaultValue={farmDetails?.farm_name} readOnly />
         </div>
         <div>
           <Label>Farm Size</Label>
-          <Input type="text" defaultValue="560 squared meter" readOnly />
+          <Input
+            type="text"
+            defaultValue={`${farmDetails?.size} sqm`}
+            readOnly
+          />
         </div>
       </div>
 
@@ -21,39 +31,28 @@ const FarmActiveDetails = () => {
       <div className="flex flex-wrap sm:flex-nowrap gap-4 mb-4">
         <div className="w-full">
           <Label>Street</Label>
-          <Input
-            type="text"
-            defaultValue="80 Prinsipe Tupaz St., Doña Rosario Subdivision,"
-            readOnly
-          />
+          <Input type="text" defaultValue={farmDetails?.location} readOnly />
         </div>
         <div className="flex gap-4">
           <div>
-            <Label>Barangay</Label>
-            <Input
-              type="text"
-              defaultValue="Barangay Novaliches Proper, Quezon City,"
-              readOnly
-            />
-          </div>
-          <div>
             <Label>District</Label>
-            <Input type="text" defaultValue="District 6" readOnly />
+            <Input type="text" defaultValue={farmDetails?.district} readOnly />
           </div>
         </div>
       </div>
 
       {/* line 3 */}
-      <div className="flex gap-4 mb-4">
+      {/* <div className="flex gap-4 mb-4">
         <div className="w-full">
           <Label>Farm Ownership</Label>
-          <Input type="text" defaultValue="Government Property" readOnly />
+          <Input type="text" defaultValue={farmDetails.} readOnly />
         </div>
         <div>
           <Label>Farm Type</Label>
           <Input type="text" defaultValue="Community Farm" readOnly />
         </div>
-      </div>
+      </div> */}
+      <Loader isVisible={isLoading} />
     </div>
   );
 };

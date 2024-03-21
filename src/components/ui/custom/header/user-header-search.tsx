@@ -80,7 +80,7 @@ const UserHeaderSearch = ({
     <div
       className={`${
         isOpen ? "h-screen" : "h-[0rem]"
-      } absolute left-0 top-20 w-full`}
+      } absolute left-0 top-14 sm:top-20 w-full`}
       onClick={() => setIsOpen(false)}
     >
       <div

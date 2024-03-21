@@ -43,7 +43,7 @@ const EventsCard = ({
 
       <div className="flex flex-col gap-3 w-full">
         <Link to={`/events/${id}`}>
-          <h3 className="font-merri-bold text-black/70 line-clamp-2 hover:underline underline-offset-4">
+          <h3 className="font-poppins-semibold text-black/70 line-clamp-2 hover:underline underline-offset-4">
             {title}
           </h3>
         </Link>

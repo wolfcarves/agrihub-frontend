@@ -72,8 +72,10 @@ const UserForgotPasswordForm = () => {
           >
             <div>
               <div className="space-y-1 pb-8">
-                <h3 className="font-merri-black">Reset your password</h3>
-                <h6>Enter your email to send request to reset your password</h6>
+                <h3 className="font-poppins-semibold">Reset your password</h3>
+                <h6 className="font-poppins-regular">
+                  Enter your email to send request to reset your password
+                </h6>
               </div>
 
               <div className="space-y-3">
@@ -140,16 +142,15 @@ const UserForgotPasswordForm = () => {
                   </div>
 
                   <div className="flex gap-2">
-                    <Link to="../login" type="button">
-                      <Button
-                        variant="outline"
-                        className="w-full py-6"
-                        size="lg"
-                        disabled={isSendEmailLoading || isSendOTPLoading}
-                      >
-                        Cancel
-                      </Button>
-                    </Link>
+                    <Button
+                      variant="outline"
+                      className="w-full py-6"
+                      size="lg"
+                      disabled={isSendEmailLoading || isSendOTPLoading}
+                      onClick={() => navigate(-1)}
+                    >
+                      Cancel
+                    </Button>
 
                     <Button
                       type="submit"
@@ -170,7 +171,7 @@ const UserForgotPasswordForm = () => {
           <MdMarkEmailRead className="text-primary text-9xl" />
 
           <div className="flex flex-col items-center">
-            <h4 className="font-merri-black text-2xl text-center">
+            <h4 className="font-poppins-semibold text-2xl text-center">
               Password reset is sent!
             </h4>
 

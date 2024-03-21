@@ -48,7 +48,7 @@ const UserResetPasswordForm = () => {
         <form onSubmit={handleSubmit(handleResetPassword)}>
           <div className="w-full max-w-[33rem] mx-auto">
             <div className="space-y-3">
-              <h4 className="font-merri-black">Reset Password</h4>
+              <h4 className="font-poppins-semibold">Reset Password</h4>
               <h5>
                 Please enter and confirm your new password. <br />
                 Minimum of 8 characters
@@ -94,7 +94,7 @@ const UserResetPasswordForm = () => {
       ) : (
         <div className="flex flex-col space-y-3 items-center">
           <PiCheckFatBold className="text-9xl text-primary" />
-          <h4 className="font-merri-black text-2xl text-center">
+          <h4 className="font-poppins-semibold text-2xl text-center">
             Password Reset Successfully
           </h4>
 

@@ -26,7 +26,7 @@ const SettingsRequestResetPasswordDialog = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <h2 className="font-merri-black">Change password</h2>
+          <h2 className="font-poppins-semibold">Change password</h2>
         </DialogHeader>
 
         <DialogDescription>

@@ -3,7 +3,7 @@ import { Badge } from "@components/ui/badge";
 import useParseUserRole from "@hooks/utils/useParseUserRole";
 import withRequireAuth from "@higher-order/account/withRequireAuth";
 import useAuth from "@hooks/useAuth";
-import useFormatTimeDistance from "@hooks/utils/useFormatTimeDistance";
+import { timeAgo } from "@components/lib/utils";
 
 interface QuestionUserProfileButtonProps {
   userId?: string;
@@ -78,10 +78,8 @@ const QuestionUserProfileUsername = ({
           </Badge>
         )}
       </div>
-
       <span className="text-gray-400 text-sm">
-        {useFormatTimeDistance(createdAt ?? "")}
-        {/* {timeAgo(createdAt?.slice(0, -3) + "Z" || "")} */}
+        {timeAgo(createdAt?.slice(0, -3) + "Z" || "")}
       </span>
     </div>
   );

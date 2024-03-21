@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
+export type { AboutUsDetailsResponse } from './models/AboutUsDetailsResponse';
 export type { AcceptedFarmApplicationData } from './models/AcceptedFarmApplicationData';
 export type { AcceptFarmApplicationResponse } from './models/AcceptFarmApplicationResponse';
 export type { AcceptSeedlingRequest } from './models/AcceptSeedlingRequest';
@@ -97,6 +98,7 @@ export type { ForumCount } from './models/ForumCount';
 export type { ForumOverview } from './models/ForumOverview';
 export type { GrowthRateResponse } from './models/GrowthRateResponse';
 export type { HarvestedWitheredData } from './models/HarvestedWitheredData';
+export type { ImageDetails } from './models/ImageDetails';
 export type { InvitationItem } from './models/InvitationItem';
 export type { LandingPageDetails } from './models/LandingPageDetails';
 export type { LandingPageDetailsResponse } from './models/LandingPageDetailsResponse';

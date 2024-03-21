@@ -25,56 +25,40 @@ import {
 
 import { ComboboxPopoverStatus } from "./components/combobox-status";
 import { PiArrowFatUpThin, PiArrowFatDownThin } from "react-icons/pi";
-
-export const data: Question[] = [
-  {
-    id: "q1",
-    createdAt: "2023-01-15",
-    title: "Best practices for organic farming",
-    answerCount: 5,
-    status: "posted",
-    tags: ["Organic Farming", "Farming Practices"]
-  },
-  {
-    id: "q2",
-    createdAt: "2023-02-20",
-    title: "Effective pest control methods for crops",
-    answerCount: 3,
-    status: "posted",
-    tags: ["Pest Control", "Crop Management"]
-  },
-  {
-    id: "q3",
-    createdAt: "2023-03-10",
-    title: "Water conservation techniques in agriculture",
-    answerCount: 8,
-    status: "archive",
-    tags: ["Water Conservation", "Agricultural Techniques"]
-  },
-  {
-    id: "q4",
-    createdAt: "2023-04-05",
-    title: "Improving soil fertility naturally",
-    answerCount: 2,
-    status: "posted",
-    tags: ["Soil Fertility", "Natural Farming"]
-  }
-];
+import { NewQuestionSchema } from "../../../../api/openapi";
+import { format } from "date-fns";
+import { useNavigate } from "react-router-dom";
 
 export type Question = {
-  id: string;
-  createdAt: string;
-  title: string;
-  answerCount: number;
-  status: "posted" | "archive";
-  tags: string[];
+  id?: string;
+  user?: {
+    avatar?: string;
+    id?: string;
+    username?: string;
+    role?: string;
+  };
+  tags?: Array<{
+    tag?: string;
+  }>;
+  title?: string;
+  question?: string;
+  imagesrc?: Array<string>;
+  createdat?: string;
+  updatedat?: string;
+  answer_count?: string;
+  vote_count?: string;
+  vote?: {
+    id?: string;
+    type?: string;
+  };
 };
 
 export const columns: ColumnDef<Question>[] = [
   {
     accessorKey: "createdAt",
     header: "Created At",
-    cell: ({ row }) => <div>{row.getValue("createdAt")}</div>
+    cell: ({ row }) =>
+      format(new Date(row.original.createdat || ""), "MMM dd, yyyy")
   },
   {
     accessorKey: "title",
@@ -82,25 +66,25 @@ export const columns: ColumnDef<Question>[] = [
     cell: ({ row }) => <div>{row.getValue("title")}</div>
   },
   {
-    accessorKey: "answerCount",
+    accessorKey: "answer_count",
     header: "Answer Count",
-    cell: ({ row }) => <div>{row.getValue("answerCount")}</div>
+    cell: ({ row }) => <div>{row.getValue("answer_count")}</div>
   },
   {
-    accessorKey: "status",
-    header: "Status",
-    cell: ({ row }) => <div>{row.getValue("status")}</div>
+    accessorKey: "vote_count",
+    header: "Vote Count",
+    cell: ({ row }) => <div>{row.getValue("vote_count")}</div>
   },
-  {
-    accessorKey: "tags",
-    header: "Tags",
-    cell: ({ row }) => <div>{}</div>
-  },
+
   {
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const payment = row.original;
+      const question = row.original;
+      const navigate = useNavigate();
+      const handleViewQuestionPage = () => {
+        navigate(`/forum/question/${question.user?.username}/${question.id}`);
+      };
 
       return (
         <DropdownMenu>
@@ -113,7 +97,7 @@ export const columns: ColumnDef<Question>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
+              onClick={() => navigator.clipboard.writeText(question?.id || "")}
             >
               Copy question ID
             </DropdownMenuItem>
@@ -185,7 +169,9 @@ export const columns: ColumnDef<Question>[] = [
               </DrawerContent>
             </Drawer>
 
-            <DropdownMenuItem>View question in page</DropdownMenuItem>
+            <DropdownMenuItem onClick={handleViewQuestionPage}>
+              View question in page
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

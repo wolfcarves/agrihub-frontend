@@ -119,7 +119,11 @@ const DialogEditAprroach: React.FC<dialogProps> = ({ approachId }) => {
                   control={form.control}
                   name="icon"
                   render={({ field }) => (
-                    <IconSelector field={field} form={form} />
+                    <IconSelector
+                      defaultValue={activeApproach?.icon || ""}
+                      field={field}
+                      form={form}
+                    />
                   )}
                 />
               </div>

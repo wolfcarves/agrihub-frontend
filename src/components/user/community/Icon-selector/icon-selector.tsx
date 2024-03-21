@@ -27,8 +27,9 @@ interface IconProps {
   form: {
     setValue: UseFormSetValue<UpdateApproachRequest>;
   };
+  defaultValue?: string;
 }
-const IconSelector: React.FC<IconProps> = ({ field, form }) => {
+const IconSelector: React.FC<IconProps> = ({ field, form, defaultValue }) => {
   const [open, setOpen] = React.useState(false);
 
   const commandItems = useMemo(
@@ -72,6 +73,11 @@ const IconSelector: React.FC<IconProps> = ({ field, form }) => {
             <>
               {renderIcon(field.value as IconType)}
               {field.value}
+            </>
+          ) : defaultValue ? (
+            <>
+              {renderIcon(defaultValue as IconType)}
+              {defaultValue}
             </>
           ) : (
             "Select icon..."

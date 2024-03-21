@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { AboutUsDetailsResponse } from '../models/AboutUsDetailsResponse';
 import type { ClientDetailsResponse } from '../models/ClientDetailsResponse';
 import type { LandingPageDetailsResponse } from '../models/LandingPageDetailsResponse';
 import type { LandingPageImageResponse } from '../models/LandingPageImageResponse';
@@ -373,6 +374,82 @@ formData: UpdateAboutUsRequest,
             url: '/api/cms/about/update',
             formData: formData,
             mediaType: 'multipart/form-data',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Get About Us Details
+     * @returns AboutUsDetailsResponse Successful response
+     * @throws ApiError
+     */
+    public static getApiCmsAbout(): CancelablePromise<AboutUsDetailsResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/cms/about',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Add Carousel Images to About Us
+     * @returns any Successful response
+     * @throws ApiError
+     */
+    public static postApiCmsAboutAddCarousel({
+formData,
+}: {
+formData: {
+image?: Blob;
+},
+}): CancelablePromise<{
+message?: string;
+}> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/cms/about/add-carousel',
+            formData: formData,
+            mediaType: 'multipart/form-data',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Delete Specific Carousel Image from About Us
+     * @returns any Successful response
+     * @throws ApiError
+     */
+    public static deleteApiCmsAboutDeleteCarousel({
+id,
+}: {
+/**
+ * The ID of the carousel image to delete
+ */
+id: string,
+}): CancelablePromise<{
+message?: string;
+}> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/cms/about/delete-carousel/{id}',
+            path: {
+                'id': id,
+            },
             errors: {
                 400: `Validation Error`,
                 401: `Unauthorized`,

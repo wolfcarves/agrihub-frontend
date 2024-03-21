@@ -1,9 +1,7 @@
 import AdminOutletContainer from "@components/admin/layout/container/AdminOutletContainer";
 import { Button } from "@components/ui/button";
-import { Card } from "@components/ui/card";
 import BreadCrumb from "@components/ui/custom/breadcrumb/breadcrumb";
 import RichTextEditor from "@components/ui/custom/rich-text-editor/RichTextEditor";
-import { Input } from "@components/ui/input";
 import { Label } from "@components/ui/label";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
 import React, { useEffect, useState } from "react";
@@ -95,6 +93,7 @@ const PrivacyAdmin = () => {
                     <RichTextEditor
                       defaultValue={privacyData?.content}
                       height={300}
+                      disabled={disabled}
                       onBlur={data => {
                         onChange(data.html);
                       }}

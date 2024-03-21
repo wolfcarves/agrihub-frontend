@@ -1,6 +1,7 @@
 import { Button } from "@components/ui/button";
 import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
+import BackButton from "@components/ui/custom/button/back-button";
 
 const SettingsTab = () => {
   const pathname = useLocation().pathname;
@@ -37,7 +38,9 @@ const SettingsTab = () => {
   }, [pathname]);
   return (
     <div className="border-b-2 lg:border-b-0 lg:border-r-2 w-full h-max lg:max-w-[17rem] py-10">
-      <h4 className="font-merri-black text-3xl">Settings</h4>
+      <BackButton className="mb-5" />
+
+      <h4 className="font-poppins-semibold text-3xl">Settings</h4>
 
       <div className="flex flex-row lg:flex-col flex-wrap lg:mt-10">
         {links.map(({ id, label, href, isActive }) => (

@@ -9,7 +9,8 @@ const BackButton = ({ className }: BackButtonProps) => {
 
   return (
     <button
-      className={`flex items-center gap-x-2 w-max text-foreground font-poppins-semibold hover:underline hover:underline-offset-2 py-1 px-3 border rounded-lg duration-200 ${className}`}
+      type="button"
+      className={`flex items-center gap-x-2 w-max text-foreground font-poppins-semibold hover:bg-accent py-1 px-3 border rounded-lg duration-200 ${className}`}
       onClick={() => navigate(-1)}
     >
       <FaArrowLeftLong /> Back

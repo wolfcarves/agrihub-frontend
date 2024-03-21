@@ -15,7 +15,7 @@ const UserSignupFormTitle = () => {
       </Link>
 
       <div className="flex flex-col gap-2 py-5 ">
-        <h5 className="font-merri-black text-foreground/90">
+        <h5 className="font-poppins-semibold text-foreground/90">
           Create an account
         </h5>
 

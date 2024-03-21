@@ -23,23 +23,21 @@ export const askQuestionSchema = zod.object({
     .min(10, "Content : Please enter some text")
     .max(2000, "Question is too long"),
 
-  tags: zod
-    .array(zod.string())
-    .optional()
-    .refine(
-      tags => {
-        if (tags && tags.length) {
-          if (tags.length <= 5) {
-            return true;
-          }
-        }
+  tags: zod.array(zod.string()).optional(),
+  // .refine(
+  //   tags => {
+  //     if (tags && tags.length) {
+  //       if (tags.length <= 5) {
+  //         return true;
+  //       }
+  //     }
 
-        return false;
-      },
-      {
-        message: "Up to 5 tags are allowed"
-      }
-    ),
+  //     return false;
+  //   },
+  //   {
+  //     message: "Up to 5 tags are allowed"
+  //   }
+  // ),
   imagesrc: zod
     .any()
     .refine(

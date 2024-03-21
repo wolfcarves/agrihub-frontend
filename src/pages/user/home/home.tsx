@@ -14,7 +14,7 @@ const Home: React.FC<HomeProps> = () => {
   return (
     <div>
       <Helmet>
-        <title>Welcome | Agrihub</title>
+        <title>AgriHub | Welcome</title>
       </Helmet>
       <Carousel />
       <ContentWhatWeDo />;

@@ -22,7 +22,7 @@ const UserSettingsAccountPhoneLinkDialog = ({
         {/* <LoadingSpinner className="text-primary text-xl mx-auto" /> */}
         <DialogHeader>
           <DialogTitle>
-            <h4 className="font-merri-bold">Phone Link</h4>
+            <h4 className="font-poppins-semibold">Phone Link</h4>
           </DialogTitle>
         </DialogHeader>
 

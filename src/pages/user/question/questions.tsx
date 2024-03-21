@@ -40,7 +40,7 @@ const Questions = () => {
   return (
     <>
       <Helmet>
-        <title>Questions | Agrihub</title>
+        <title>Forums | AgriHub</title>
       </Helmet>
 
       <OutletContainer className="pt-10 pb-32 sm:px-2">

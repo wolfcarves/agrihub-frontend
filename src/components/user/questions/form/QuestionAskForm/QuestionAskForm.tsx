@@ -11,8 +11,8 @@ import { toast } from "sonner";
 import UserTagInputDropdown from "@components/user/account/input/UserTagInput";
 import useGetTagByKeyWord from "@hooks/api/get/useGetTagByKeyword";
 import { Form, FormField } from "@components/ui/form";
-import QuestionBackButton from "@components/user/questions/button/QuestionBackButton";
 import ActivityIndicator from "@icons/ActivityIndicator";
+import BackButton from "@components/ui/custom/button/back-button";
 
 const QuestionAskFormRules = () => (
   <div>
@@ -81,6 +81,7 @@ const QuestionAskForm = () => {
     };
 
     try {
+      console.log(compiledData);
       await questionAskMutate(compiledData);
       toast.success("Question successfully posted!");
     } catch (e: any) {
@@ -95,7 +96,7 @@ const QuestionAskForm = () => {
           onSubmit={form.handleSubmit(handleSubmitForm)}
           encType="multipart/form-data"
         >
-          <QuestionBackButton />
+          <BackButton className="mb-10" />
           <QuestionAskFormRules />
 
           <div className="max-w-[60rem]">

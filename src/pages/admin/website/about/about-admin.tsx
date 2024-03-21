@@ -27,6 +27,7 @@ import { Textarea } from "@components/ui/textarea";
 import Capture from "@components/user/community/capture/capture";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
 import React from "react";
+import useGetCmsAboutDetails from "../../../../hooks/api/get/useGetCmsAboutDetails";
 
 const breadcrumbItems = [
   {
@@ -36,6 +37,8 @@ const breadcrumbItems = [
 ];
 
 const AboutAdmin = () => {
+  const { data: aboutData } = useGetCmsAboutDetails();
+  console.log(aboutData, "asdd");
   return (
     <AdminOutletContainer className="container mx-auto py-10 ">
       <BreadCrumb items={breadcrumbItems} />
@@ -57,7 +60,7 @@ const AboutAdmin = () => {
         {/* about us  */}
         <div>
           <Label>About Us</Label>
-          <RichTextEditor height={300} />
+          <Textarea className=" h-64" />
         </div>
         <hr className="my-4" />
         {/* about us carousel */}

@@ -16,4 +16,5 @@ export type UserObject = {
      * The username of the user
      */
     username?: string;
+    role?: string;
 };

@@ -86,7 +86,7 @@ const UserSettingsAccountForm = () => {
 
         <hr />
 
-        <h5 className="font-merri-black text-destructive">Danger Zone</h5>
+        <h5 className="font-poppins-semibold text-destructive">Danger Zone</h5>
 
         <SettingsField
           label="Account Deletion"

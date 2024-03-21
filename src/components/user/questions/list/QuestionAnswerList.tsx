@@ -13,7 +13,7 @@ const QuestionAnswerList = ({ data, isLoading }: QuestionAnswerListProps) => {
 
   return (
     <div className="mt-12">
-      <h5 className="text-foreground font-merri-bold line-clamp-3 mb-10">
+      <h5 className="text-foreground font-poppins-semibold line-clamp-3 mb-10">
         Answers {data?.question?.answer_count}
       </h5>
 

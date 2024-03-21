@@ -20,7 +20,7 @@ const ProfileQuestionList = ({
   return (
     <div className="mt-10 pb-40 w-full sm:pe-10">
       <div className="flex flex-col gap-3">
-        <h5 className="font-merri-black tracking-tight">
+        <h5 className="font-poppins-semibold tracking-tight">
           {isOwn ? "Your Posts" : "Posts"}
         </h5>
       </div>

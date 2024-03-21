@@ -1,4 +1,3 @@
-import QuestionBackButton from "@components/user/questions/button/QuestionBackButton";
 import QuestionPostBody from "@components/user/questions/body/QuestionPostBody";
 import QuestionAnswerList from "@components/user/questions/list/QuestionAnswerList";
 import OutletContainer from "@components/user/questions/container/OutletContainer";
@@ -8,6 +7,7 @@ import LoadingSpinner from "@icons/LoadingSpinner";
 import QuestionAnswerForm from "@components/user/questions/form/QuestionAnswerForm/QuestionAnswerForm";
 import useAuth from "@hooks/useAuth";
 import QuestionNotFound from "@components/user/questions/error/QuestionNotFound";
+import BackButton from "@components/ui/custom/button/back-button";
 
 const Question = () => {
   const { questionId } = useParams();
@@ -32,7 +32,7 @@ const Question = () => {
 
   return (
     <OutletContainer className="pt-14 pb-24 px-1.5 sm:px-3 md:px-7 xl:px-10 min-h-[40rem]">
-      <QuestionBackButton />
+      <BackButton className="mb-10" />
       <QuestionPostBody data={questionData} />
       <QuestionAnswerList
         data={questionData}

@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
+export type { AboutUsDetailsResponse } from './models/AboutUsDetailsResponse';
 export type { AcceptedFarmApplicationData } from './models/AcceptedFarmApplicationData';
 export type { AcceptFarmApplicationResponse } from './models/AcceptFarmApplicationResponse';
 export type { AcceptSeedlingRequest } from './models/AcceptSeedlingRequest';
@@ -97,6 +98,7 @@ export type { ForumCount } from './models/ForumCount';
 export type { ForumOverview } from './models/ForumOverview';
 export type { GrowthRateResponse } from './models/GrowthRateResponse';
 export type { HarvestedWitheredData } from './models/HarvestedWitheredData';
+export type { ImageDetails } from './models/ImageDetails';
 export type { InvitationItem } from './models/InvitationItem';
 export type { LandingPageDetails } from './models/LandingPageDetails';
 export type { LandingPageDetailsResponse } from './models/LandingPageDetailsResponse';
@@ -198,8 +200,12 @@ export type { Tag } from './models/Tag';
 export type { TagList } from './models/TagList';
 export type { TagSchema } from './models/TagSchema';
 export type { TagsSchema } from './models/TagsSchema';
+export type { TermsConditionsData } from './models/TermsConditionsData';
+export type { TermsConditionsResponse } from './models/TermsConditionsResponse';
 export type { Thumbnail } from './models/Thumbnail';
 export type { UnpublishLearningMaterialResponse } from './models/UnpublishLearningMaterialResponse';
+export type { UpdateAboutUsRequest } from './models/UpdateAboutUsRequest';
+export type { UpdateAboutUsResponse } from './models/UpdateAboutUsResponse';
 export type { UpdateAccessControl } from './models/UpdateAccessControl';
 export type { UpdateApproachRequest } from './models/UpdateApproachRequest';
 export type { UpdateApproachResponse } from './models/UpdateApproachResponse';
@@ -220,6 +226,8 @@ export type { UpdateLandingResponse } from './models/UpdateLandingResponse';
 export type { UpdateLearningMaterial } from './models/UpdateLearningMaterial';
 export type { UpdatePrivacyPolicyRequest } from './models/UpdatePrivacyPolicyRequest';
 export type { UpdatePrivacyPolicyResponse } from './models/UpdatePrivacyPolicyResponse';
+export type { UpdateTermsConditionsRequest } from './models/UpdateTermsConditionsRequest';
+export type { UpdateTermsConditionsResponse } from './models/UpdateTermsConditionsResponse';
 export type { UserAuthResponse } from './models/UserAuthResponse';
 export type { UserCompletionSchema } from './models/UserCompletionSchema';
 export type { UserFeedback } from './models/UserFeedback';

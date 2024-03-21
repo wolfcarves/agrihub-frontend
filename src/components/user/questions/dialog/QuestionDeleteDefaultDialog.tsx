@@ -35,7 +35,9 @@ const QuestionDeleteDefaultDialog = ({
         <DialogContent>
           <DialogHeader>
             <DialogTitle>
-              <h5 className="text-xl font-merri-black text-center">{title}</h5>
+              <h5 className="text-xl font-poppins-semibold text-center">
+                {title}
+              </h5>
             </DialogTitle>
 
             <DialogDescription>

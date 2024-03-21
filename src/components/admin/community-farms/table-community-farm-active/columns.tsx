@@ -62,7 +62,7 @@ export const columns: ColumnDef<CommunityFarmData>[] = [
         navigate("/admin/community/farms/archive");
       };
       const handleView = async () => {
-        navigate("/admin/community/farms/view/8700");
+        navigate(`/admin/community/farms/view/${request.id}`);
       };
       if (archieveLoading) {
         return <Loader isVisible={true} />;

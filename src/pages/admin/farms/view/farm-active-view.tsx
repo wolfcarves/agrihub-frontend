@@ -8,6 +8,7 @@ import { Button } from "@components/ui/button";
 import { Card } from "@components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/ui/tabs";
 import FarmActiveCrops from "./farm-active/farm-active-crops";
+import CropsReportTable from "../../../../components/user/community/crops-report/crops-report-table/crops-report-table";
 
 const breadcrumbItems = [
   {
@@ -44,14 +45,6 @@ const FarmActiveView = () => {
               <TabsTrigger value="problem">Problem</TabsTrigger>
             </TabsList>
           </div>
-          <div>
-            <TabsContent value="report">
-              <Button variant="outline">Filter Crops</Button>
-            </TabsContent>
-            <TabsContent value="problem">
-              <Button variant="outline">Filter</Button>
-            </TabsContent>
-          </div>
         </div>
         <TabsContent value="details">
           <Card className="p-5">
@@ -62,7 +55,15 @@ const FarmActiveView = () => {
           </Card>
         </TabsContent>
         <TabsContent value="report">
-          <Card className="p-5">Reports Table here</Card>
+          <Card className="p-5">
+            <div className="md:px-10 px-2 py-6 ">
+              <div className="flex justify-between">
+                <h3 className=" font-poppins-semibold">Crops Report</h3>
+              </div>
+              <hr className="my-3 border-primary" />
+              <CropsReportTable />
+            </div>
+          </Card>
         </TabsContent>
         <TabsContent value="request">
           <Card className="p-5">Reports Table here</Card>

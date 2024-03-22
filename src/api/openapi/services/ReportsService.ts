@@ -25,6 +25,8 @@ import type { HarvestedWitheredData } from '../models/HarvestedWitheredData';
 import type { LearningMaterialReport } from '../models/LearningMaterialReport';
 import type { MonthlyGrowthRate } from '../models/MonthlyGrowthRate';
 import type { NewCommunityCropReport } from '../models/NewCommunityCropReport';
+import type { PaginationData } from '../models/PaginationData';
+import type { ReportedQuestionList } from '../models/ReportedQuestionList';
 import type { ResourceCount } from '../models/ResourceCount';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -567,6 +569,49 @@ year?: string,
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/reports/analytics/overview/user-feedback',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Get Reported Questions in Forums
+     * @returns any Successful response
+     * @throws ApiError
+     */
+    public static getApiForumsReportedQuestions({
+search,
+page,
+perpage,
+}: {
+/**
+ * Search term
+ */
+search?: string,
+/**
+ * Page number
+ */
+page?: string,
+/**
+ * Number of items per page
+ */
+perpage?: string,
+}): CancelablePromise<{
+data?: ReportedQuestionList;
+pagination?: PaginationData;
+}> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/forums/reported/questions',
+            query: {
+                'search': search,
+                'page': page,
+                'perpage': perpage,
+            },
             errors: {
                 400: `Validation Error`,
                 401: `Unauthorized`,

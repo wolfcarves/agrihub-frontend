@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import logo from "../../../../icons/main-logo.svg";
+import logo from "../../../../icons/leaves.svg";
 import { adminNavigation } from "./admin-menu";
 import { useNavigate } from "react-router-dom";
 import "../../../../globals.css";

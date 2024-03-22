@@ -1,6 +1,6 @@
 import React, { ComponentProps, useEffect, useState } from "react";
 import { UserSidebarNavLink } from "@components/ui/custom";
-import logo from "../../../../icons/main-logo.svg";
+import logo from "../../../../icons/leaves.svg";
 import { BsTags } from "react-icons/bs";
 import { TbMessageCircleQuestion } from "react-icons/tb";
 import { IoBookmarkOutline } from "react-icons/io5";

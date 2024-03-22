@@ -15,7 +15,7 @@ const EventsList = () => {
   return (
     <div className="min-h-[30rem] container pb-32">
       <div className="py-10 font-poppins-semibold text-black/70">
-        <h2>Upcoming Events</h2>
+        <h2>Mga papalapit na kaganapan</h2>
       </div>
 
       <div className="flex flex-col">

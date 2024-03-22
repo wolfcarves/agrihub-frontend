@@ -23,7 +23,7 @@ const FarmProblemsUnusual = () => {
     () => ({
       search: searchParams.get("search") ?? "",
       page: Number(searchParams.get("page")) ?? 1,
-      perpage: "20"
+      perpage: "10"
     }),
     [searchParams]
   );
@@ -49,11 +49,8 @@ const FarmProblemsUnusual = () => {
     setSearchParams(searchParams);
   }, 700);
 
-  if (isLoading) {
-    return "loading..";
-  }
   return (
-    <Card className="p-5">
+    <>
       <Input
         placeholder="Search title..."
         className="max-w-sm my-4"
@@ -69,7 +66,7 @@ const FarmProblemsUnusual = () => {
           />
         )}
       </div>
-    </Card>
+    </>
   );
 };
 

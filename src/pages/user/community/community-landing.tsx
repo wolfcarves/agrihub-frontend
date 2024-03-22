@@ -39,24 +39,25 @@ const CommunityLanding = () => {
 
   const faqs = [
     {
-      question: "How can I find my Community?",
+      question: "Paano ko mahahanap ang aking farm?",
       answer:
-        "You can navigate to your Community by clicking > Community > My Community. This will allow you to access your community details such as Farm Members, Crops, Analytics and Farm Gallery."
+        "Maari kang makapunta sa iyong Community sa pamamagitan ng pag click ng  Community  My Community.Sa pagpunta dito ay magkakaroon ka ng access sa mga mahahalagang detalye ng iyong komunidad katulad ng Farm Members, Crops, Analytics and Farm Gallery."
     },
     {
-      question: "How can I join a Community?",
+      question: "Paano ako makakasali sa isang Community?",
       answer:
-        "In joining a community, you can go to the Community > Explore. In the Explore section, you can find a community where you desire to join. However, we require you to have an account in Agrihub in order to join a community."
+        "Sa pagsali sa isang komunidad, maaari kang makapunta sa Community  Explore. Sa Explore section, ikaw ay makakahanap ng isang komunidad kung saan mo gustong sumali. Ngunit, kailangan mo magkaroon ng isang account sa Agrihub upang makasali sa community."
     },
     {
-      question: "Who can be accepted as a community farm?",
+      question: "Sino ang maaring matanggap bilang isang partnered farm?",
       answer:
-        "A community farm requires to be a part of Joy of Urban Farming community with proper required documents in order to qualify as a community in Agrihub. In order to register your farm, land owners must apply for idle land tax exemption through email application, letter duly accomplished application for waiver of idle land tax for food security, latest photos of land, and at least one copy of any of the following documents: latest real property tax official receipt/ tax bill, tax declaration, or land title."
+        "Ang community farm ay nire-require kang maging parte ng Joy of Urban Farming community na kailangan ng mahahalagang dokumento para makasali ang iyong community sa Agrihub. Para mairehistro ang iyong farm, ang may-ari ng lupa ay dapat na mag-apply para sa idle land tax exemption sa pamamagitan ng email application, letter duly accomplished application for waiver of idle land tax for food security, mga litrato ngiyong lupa, at isang kopya ng kahit anong dokumento: latest real property tax official receipt/tax bill, tax declaration, or land title."
     },
     {
-      question: "How can I register my urban farm community in the Agrihub?",
+      question:
+        "Paano ko mairerehistro ang aking urban farm community sa Agrihub?",
       answer:
-        "You can register your farm by navigating to Community > Explore > Register Farm. From there, you can fill up the form with the necessary details such as Farm Name, Farm Size, District, Street, Barangay, Farm Ownership, Farm Type, Valid ID Type, and Farm Photo to register your community. After successfully filling up the form, you need to wait for atleast 7 days for the Admins to review your application."
+        "YMaari mong mairehistro ang iyong farm sa pamamagitan ng pagpunta sa Community  Explore  Register Farm. Mula dito, ikaw ay kinakailangan mag fill-up ng isang form na humihingi ng iyong mga detalye tulad ng: Farm Name, Farm Size, District, Street, Barangay, Farm Ownership, Farm Type, Valid ID Type, at Farm Photo upang mairehistro ang iyong komunidad. Pagktapos mong mafill-upan ang form, kailangan mong maghintay ng hindi hihigit sa isang linggo upang mareview ng mga Admin ang iyong application"
     }
   ];
 
@@ -74,18 +75,19 @@ const CommunityLanding = () => {
         <div className="flex">
           <div className="w-full max-w-[25rem] sm:ml-10 mt-20">
             <h2 className="font-poppins-semibold tracking-tight leading-[2.3rem]">
-              Join the community where you belong
+              Sumali na sa farm kung saan ka nabibilang
             </h2>
 
             <p className="mt-5">
-              Community helps you find solutions to your farm problem, send
-              reports, and receive resource materials that help you make an
-              informed decision making using our prescriptive analytics.
+              Ang komunidad ay makakatulong sa iyo upang makahanap ng solusyon
+              sa mga problema ng iyong farm, pag-send ng reports, at pagtanggap
+              ng mga resource materials na makakapagbigay sa iyo ng makabuluhang
+              desisyon gamit ang aming prescriptive analytics
             </p>
 
             <div className="mt-10">
               <Link to="explore">
-                <Button>Discover</Button>
+                <Button>Alamin</Button>
               </Link>
             </div>
           </div>
@@ -96,7 +98,7 @@ const CommunityLanding = () => {
         </div>
       </div>
 
-      <p>Farms who already joined Communities:</p>
+      <p>Mga Farms na nakasali na sa aming komunidad:</p>
 
       <div className="grid grid-cols-6 gap-2 mb-20 mt-10">
         {data?.farms
@@ -108,12 +110,14 @@ const CommunityLanding = () => {
       <div className="max-w-xl mx-auto my-8 text-center">
         <img src={logo as unknown as string} width={60} className="mx-auto" />
         <h3 className="text-gray-800 text-3xl font-semibold sm:text-4xl">
-          Community works for you
+          Ang AgriHub ay makakatulong sa iyo
         </h3>
         <p className="text-gray-600 mt-3">
-          In joining a community, you can be a part of a growing urban farming
-          community where you can do your part as a member. These features will
-          help you access the services of the Agrihub:
+          Sa pagsali sa isang komunidad, ikaw ay maaring maging parte ng isang
+          lumalagong komunidad ukol sa urban farming kung saan ay
+          makakapag-ambag ka ng iyong parte bilang isang miyembro. Ang mga
+          features na ito ay makakatulong sayo upang ma-access ang mga serbisyo
+          ng Agrihub.
         </p>
       </div>
 
@@ -127,17 +131,19 @@ const CommunityLanding = () => {
               <FaWpforms className="h-16 w-16 p-1 text-green-600" />
               {/* header */}
               <h3 className="text-3xl text-gray-800 font-semibold md:text-4xl">
-                Send <span className="text-green-600">farm reports</span>
+                Mag send{" "}
+                <span className="text-green-600"> ng farm reports</span>
               </h3>
               {/* subheader */}
               <p className="text-gray-500 leading-relaxed mt-3">
-                Keep track of essential farming records.
+                Maging updated sa mga mahahalagang record ng iyong farm.
               </p>
               <hr className="my-4" />
               {/* description */}
               <p className="text-gray-500 leading-relaxed mt-3">
-                Creating a farm report enables you to evaluate your Urban Farm
-                records to help with the farming plan and for future references.
+                Ang paggawa ng isang farm report ay makakatulong sa iyo upang
+                masuri mo ang iyong mga Urban Farm records upang makapag-plano
+                ng mabuti at para sa kasulukuyang pagganap.
               </p>
             </div>
 
@@ -155,20 +161,19 @@ const CommunityLanding = () => {
               <TbReportAnalytics className="h-16 w-16 p-1 text-green-600" />
               {/* header */}
               <h3 className="text-3xl text-gray-800 font-semibold md:text-4xl">
-                Use{" "}
-                <span className="text-green-600">prescriptive analysis</span>
+                Kumuha <span className="text-green-600">ng sagot</span>
               </h3>
               {/* subheader */}
               <p className="text-gray-500 leading-relaxed mt-3">
-                Analyze historical farming data with advanced analytical
-                approach.
+                Suriin ang kasaysayan ng iyong farming data gamit ang aming
+                progresibong analitikal na approach.
               </p>
               <hr className="my-4" />
               {/* description */}
               <p className="text-gray-500 leading-relaxed mt-3">
-                Optimize your farm's yields with our AI-Powered prescriptive
-                analytics to gain access with actionable insights and farming
-                recommendations.
+                Pagandahin ang iyong ani gamit ang aming AIPowered prescriptive
+                analytics para makakuha ng access na may makabuluhang ideya para
+                sa rekomendasyon sa mga gawi sa pagsasaka
               </p>
             </div>
 
@@ -186,11 +191,13 @@ const CommunityLanding = () => {
               <RiSeedlingLine className="h-16 w-16 p-1 text-green-600" />
               {/* header */}
               <h3 className="text-3xl text-gray-800 font-semibold md:text-4xl">
-                Request <span className="text-green-600">seedlings</span>
+                Mag request{" "}
+                <span className="text-green-600"> ng seedlings</span>
               </h3>
               {/* subheader */}
               <p className="text-gray-500 leading-relaxed mt-3">
-                Communities can send a request to get needed seedlings.
+                Ang komunidad ay maaring magbigay ng request para makuha ang mga
+                kailangan na punla
               </p>
               <hr className="my-4" />
               {/* description */}
@@ -215,8 +222,10 @@ const CommunityLanding = () => {
               <MdOutlineUpload className="h-16 w-16 p-1 text-green-600" />
               {/* header */}
               <h3 className="text-3xl text-gray-800 font-semibold md:text-4xl">
-                Upload{" "}
-                <span className="text-green-600">farm and harvest images</span>
+                Mag lagay{" "}
+                <span className="text-green-600">
+                  ng larawan ng farm at ani
+                </span>
               </h3>
               {/* subheader */}
               <p className="text-gray-500 leading-relaxed mt-3">
@@ -225,8 +234,9 @@ const CommunityLanding = () => {
               <hr className="my-4" />
               {/* description */}
               <p className="text-gray-500 leading-relaxed mt-3">
-                Encourage other farmers and communities by uploading images of
-                your urban farm and yields in your community gallery.
+                Tulungan ang ibang mga farmer at komunidad sa pamamagitan ng
+                pag-upload ng mga litrato ng iyong urban farm at mga ani sa
+                iyong community gallery
               </p>
             </div>
 
@@ -270,10 +280,10 @@ const CommunityLanding = () => {
         <div className="max-w-xl mx-auto my-8 text-center">
           <MdOutlineForum className="h-16 w-16 p-1 text-green-600 mx-auto" />
           <h3 className="text-gray-800 text-3xl font-semibold sm:text-4xl">
-            You have questions. We have answers.
+            Tignan ang mga karaniwang tanong.
           </h3>
           <p className="text-gray-600 mt-3">
-            Explore content from our{" "}
+            Para sa iba pang katanungan pumunta sa aming{" "}
             <Link
               to="/helps"
               className="text-green-700 font-bold hover:underline"

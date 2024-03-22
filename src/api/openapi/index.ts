@@ -178,6 +178,8 @@ export type { ReadNotificationResponse } from './models/ReadNotificationResponse
 export type { RemoveLearningCreditsResponse } from './models/RemoveLearningCreditsResponse';
 export type { RemoveLearningTagsResponse } from './models/RemoveLearningTagsResponse';
 export type { RemoveResourceResponse } from './models/RemoveResourceResponse';
+export type { ReportedQuestion } from './models/ReportedQuestion';
+export type { ReportedQuestionList } from './models/ReportedQuestionList';
 export type { ReportedUser } from './models/ReportedUser';
 export type { ReportQuestionRequestBody } from './models/ReportQuestionRequestBody';
 export type { ReportRequestBody } from './models/ReportRequestBody';

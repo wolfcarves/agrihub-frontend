@@ -1,4 +1,4 @@
-import AgrihubLogo from "@icons/main-logo.svg";
+import AgrihubLogo from "@icons/leaves.svg";
 import UserHeaderNavigation from "./user-header-navigation";
 import SearchBar from "../search-bar/SearchBar";
 import { ReactNode, useEffect, useState } from "react";

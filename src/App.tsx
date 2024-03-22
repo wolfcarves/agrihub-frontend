@@ -276,7 +276,7 @@ const App = ReactRouter(
         <Route path="" element={<Farms />} />
 
         <Route path="farms" element={<FarmCommunity />} />
-        <Route path="farms/view/8700" element={<FarmActiveView />} />
+        <Route path="farms/view/:id" element={<FarmActiveView />} />
         <Route path="farms/:tab" element={<FarmCommunity />} />
 
         <Route path="farms-application" element={<FarmsAdmin />} />

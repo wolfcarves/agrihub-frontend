@@ -106,34 +106,36 @@ const About = () => {
       </div>
       <div className="mt-8 sm:mt-12 lg:mt-16 ">
         <p className="text-sm lg:text-lg px-8 sm:px-44 lg:px-44 leading-relaxed py-3">
-          Quezon City University - Center for Urban Agriculture and Innovation
-          is a pioneering initiative established in collaboration with the
-          Department of Agriculture - Agriculture Training Institute (DA-ATI)
-          and the Sustainable Development Affairs Unit (SDAU) of the local
-          government. This learning hub is dedicated to developing diverse
-          models of urban farms, addressing the challenges faced by urban
-          farmers, and mainstreaming urban agriculture into Quezon City
-          University's curriculum.
+          Ang Quezon City University Center for Urban Agriculture and Innovation
+          ay isang inisyatibo na nagpatibay sa pakikipag-kaisa sa Department of
+          Agriculture Agriculture Training Institute DAATI at ang Sustainable
+          Development Affairs Unity SDAU ng lokal na pamahalaan. Ang learning
+          hub ay naglalayon na makagawa ng iba't ibang modelo ng urban farms,
+          harapin ang mga hamon na hinaharap ng mga urban farmers, at
+          pagpapalakas ng kasikatan ng kurikulum ng urban agriculture ng Quezon
+          City University
         </p>
         <p className="text-sm md:text-base lg:text-lg px-8 sm:px-44 lg:px-44 leading-relaxed py-3">
-          The center received financial assistance from DA-ATI to establish a
-          dynamic learning environment on the QCU campus. Notable innovations
-          include a bee farm, supported by the QCU cooperative, with staff
-          trained in beekeeping by the Agriculture Producers Cooperative.
+          Ang sentro ay nakatanggap ng financial assistance mula sa DAATI upang
+          makagawa ng isang dynamic learning environment sa QCU campus. Ang mga
+          natatanging inobasyon ay naglalagay ng bee farm, na sinusuportahan ng
+          QCU Cooperative, kasama ng mga staff na sanay sa beekeeping na galing
+          sa Agriculture Producers Cooperative.
         </p>
         <p className="text-sm md:text-base lg:text-lg px-8 sm:px-44 lg:px-44 leading-relaxed py-3">
-          Aligned with the city's commitment to sustainability, the Center for
-          Urban Agriculture and Innovation plays a vital role in reinforcing and
-          expanding Quezon City's urban farming programs. Mayor Joy Belmonte
-          envisions the center as a key player in creating a smart and
-          sustainable city, involving students and stakeholders in the process.
+          Nakasunod ang pokus ng lungsod sa pagpapanatili, ang Center for Urban
+          Agriculture and Innovation ay may kritikal na ganap sa pagpapatibay at
+          pagpapalawig ng urban farming programs sa Lungsod Quezon. Si Mayor Joy
+          Belmonte ang naging susi sa paggawa ng isang matalino at konkretong
+          lungsod, na sinasamahan ng mga estudyante at stakeholders sa
+          kasulukuyan.
         </p>
         <p className="text-sm md:text-base lg:text-lg px-8 sm:px-44 lg:px-44 leading-relaxed py-3">
-          Led by QCU President Dr. Theresita Atienza, the center maximizes its
-          impact by aligning programs and projects with the city's development
-          goals. It is a vibrant community working towards a greener, smarter
-          future, embracing innovation and contributing to the flourishing
-          landscape of urban agriculture in Quezon City.{" "}
+          Pinapamunuan ng QCU President Dr. Theresita Atienza, and center ay
+          nagpapalawig ng epekto nito sa mga programa at proyekto na nakabatay
+          sa mga misyon ng Lungsod Quezon. Ito ay isang masiglang komunidad
+          tungo sa matalinong kasalukuyan at makabagong landscape ng isang urban
+          agriculture sa Lungsod Quezon.
         </p>
       </div>
       <div>
@@ -141,7 +143,7 @@ const About = () => {
 
         <div className="mt-8 sm:mt-12 lg:mt-16">
           <h4 className="text-center font-bold sm:text-2xl md:text-2xl lg:text-xl xl:text-6xl text-gray-600">
-            Our Story
+            Aming Kwento
           </h4>
           <Carousel
             className="w-full"
@@ -227,11 +229,12 @@ const About = () => {
         <div className="flex flex-wrap sm:flex-nowrap">
           <div className="sm:w-1/2 flex items-center">
             <p className="text-sm sm:text-lg sm:ml-4 mx-4 px-4 sm:px-0">
-              Aligned with Quezon City's commitment to sustainability, our
-              center plays a pivotal role in reinforcing and expanding the
-              city's urban farming programs. Mayor Joy Belmonte envisions the
-              center as a key player in creating a smart and sustainable city,
-              involving students and stakeholders in the process.
+              Nakabatay sa commitment ng Lungsod Quezon sa pagpapanatili, ang
+              aming center ay may mahalagangg pagganap sa pagpapatibay at
+              pagpapalawig ng urban farming programs ng Lungsod Quezon. Si Mayor
+              Joy Belmonte ay isa sa may mahalagang pagganap sa paggawa ng
+              matalino at maunlad ng lungsod, kasama ang mga estudyante at
+              stakeholders sa proseso nito
             </p>
           </div>
           <div className="sm:w-1/2 relative flex items-center justify-center h-full">
@@ -259,10 +262,10 @@ const About = () => {
 
           <div className="w-2/3">
             <p className="text-sm md:text-base lg:text-lg px-5 sm:px-6 lg:px-44   ml-4 m:ml-12 lg:ml-0 mt-2 sm:mt-4 lg:mt-36 leading-relaxed py-2 ">
-              Emphasizing the university's commitment to sustainability with our
-              vast campus grounds, we aim to maximize it by incorporating
-              programs and projects that are aligned with the development goals
-              of the city government
+              Pinalawig ang commitment ng Quezon City University sa
+              pagpapanatili ng kapaligiran gamit ang aming campus, kami ay
+              naglalayon na palawigin pa ito gamit ang mga programs at proyekto
+              na nakasentro sa mga misyon ng gobyerno ng Lungsod Quezon
             </p>
           </div>
         </div>
@@ -309,12 +312,13 @@ const About = () => {
             <div className="max-w-lg space-y-3">
               <h3 className="text-primary font-semibold">Contact</h3>
               <p className="text-gray-800 text-3xl font-semibold sm:text-4xl">
-                Let us know how we can help
+                Ipaalam sa amin kung paano pa kami makakatulong sa iyo
               </p>
               <p>
-                We’re here to help and answer any question you might have, We
-                look forward to hearing from you! Please fill out the form, or
-                us the contact information bellow .
+                Andito kami para makatulong at sumagot sa iyong mga katanungan.
+                Kami ay umaasang makatanggap ng mensahe mula sa iyo! Mangyari
+                lamang na magfill-out ng aming form o gamitin ang aming contact
+                sa ibaba:
               </p>
               <div>
                 <ul className="mt-6 flex flex-wrap gap-x-10 gap-y-6 items-center">

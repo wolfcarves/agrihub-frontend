@@ -22,8 +22,9 @@ const Blogs = () => {
       <div className="text-left pb-8">
         <h1 className="text-3xl text-gray-800 font-semibold">Blogs</h1>
         <p className="mt-3 text-gray-500 max-w-lg">
-          Explore latest news and initiatives from Center for Urban Agriculture
-          and Innovation and know more about their focus
+          Tuklasin ang mga napapanahong balita at inisyatibo na galing sa Center
+          for Urban Agriculture and Innovation at magkaroon pa ng maraming
+          kaalaman tungkol sa kanilang pokus
         </p>
       </div>
 

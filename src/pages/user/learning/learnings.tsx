@@ -50,7 +50,8 @@ const Learnings = () => {
             Learning Materials
           </h1>
           <p className="mt-3 text-gray-500">
-            Explore a wealth of knowledge to cultivate success on your farm
+            Tuklasin ang masaganang kaalaman ukol sa pagpapaunlad ng kasiglahan
+            ng iyong farm.
           </p>
         </div>
         <Select onValueChange={handleFilterChange}>

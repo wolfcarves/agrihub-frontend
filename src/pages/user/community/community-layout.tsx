@@ -4,6 +4,7 @@ import CommunitySidebar from "@components/user/community/sidebar/CommunitySideba
 import useAuth from "../../../hooks/useAuth";
 import { useEffect, useState } from "react";
 import DialogBannedCommunity from "../../../components/user/community/dialog-banned-community/dialog-banned-community";
+import { Helmet } from "react-helmet-async";
 
 const CommunityLayout = () => {
   const pathname = useLocation().pathname;

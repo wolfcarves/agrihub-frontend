@@ -12,6 +12,7 @@ import { Link, useParams } from "react-router-dom";
 import FarmProblemsCommon from "@components/admin/farms/table/farm-problems-common";
 import FarmProblemsArchived from "@components/admin/farms/table/farm-problems-archived";
 import AdminFarmReportedProblems from "@components/admin/farms/table/reported-problems-table";
+import FarmProblemsUnusual from "../../../components/admin/farms/table/farm-problems-unusual";
 
 const breadcrumbItems = [
   {
@@ -41,6 +42,7 @@ const FarmProblemsAdmin = () => {
         <TabsList>
           <TabsTrigger value="common">Common</TabsTrigger>
           <TabsTrigger value="archived">Archived</TabsTrigger>
+          <TabsTrigger value="unusual">Unusual</TabsTrigger>
         </TabsList>
 
         <TabsContent value="common">
@@ -49,6 +51,9 @@ const FarmProblemsAdmin = () => {
 
         <TabsContent value="archived">
           <FarmProblemsArchived />
+        </TabsContent>
+        <TabsContent value="unusual">
+          <FarmProblemsUnusual />
         </TabsContent>
       </Tabs>
     </AdminOutletContainer>

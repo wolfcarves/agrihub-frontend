@@ -202,13 +202,13 @@ export const adminNavigation: AdminNavigationItem[] = [
         href: "/admin/website/terms-conditions",
         module: "terms_and_conditions"
       },
-
       {
         title: "",
-        name: "Help Center",
-        href: "/admin/website/help-center",
-        module: "help_center"
+        name: "User Feedbacks",
+        href: "/admin/website/user-feedback",
+        module: "user_feedback"
       },
+
       {
         title: "",
         name: "Crops",
@@ -235,7 +235,7 @@ export const adminNavigation: AdminNavigationItem[] = [
 
 // {
 //   title: "",
-//   name: "User Feedbacks",
-//   href: "/admin/website/user-feedback",
-//   module: "user_feedback"
+//   name: "Help Center",
+//   href: "/admin/website/help-center",
+//   module: "help_center"
 // }

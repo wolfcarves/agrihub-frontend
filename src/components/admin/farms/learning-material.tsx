@@ -63,18 +63,18 @@ export default function LearningMaterial({
       <div className="cursor-pointer">
         <div className="relative">
           <div className="h-48 rounded-t-md">
-            {items.thumbnail.type === "image" ? (
+            {items?.thumbnail?.type === "image" ? (
               <img
-                src={`https://s3.ap-southeast-1.amazonaws.com/agrihub-bucket/${items.thumbnail.resource}`}
-                alt={items.thumbnail.id}
+                src={`https://s3.ap-southeast-1.amazonaws.com/agrihub-bucket/${items?.thumbnail?.resource}`}
+                alt={items?.thumbnail?.id}
                 className="w-full aspect-video object-cover object-center rounded-md h-48 rounded-t-md"
               />
-            ) : items.thumbnail.type === "video" ? (
+            ) : items?.thumbnail?.type === "video" ? (
               <div className="w-full aspect-video h-48 rounded-t-md">
                 <iframe
                   className="w-full h-full rounded-t-md"
-                  src={convertToEmbedLink(items.thumbnail.resource || "")}
-                  title={items.thumbnail.id}
+                  src={convertToEmbedLink(items?.thumbnail?.resource || "")}
+                  title={items?.thumbnail?.id}
                   frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowFullScreen

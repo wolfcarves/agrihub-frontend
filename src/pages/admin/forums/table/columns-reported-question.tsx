@@ -51,93 +51,61 @@ import { PiArrowFatUpThin, PiArrowFatDownThin } from "react-icons/pi";
 import { Label } from "@components/ui/label";
 import { Textarea } from "@components/ui/textarea";
 import { useState } from "react";
-
-export const data: ReportedQuestion[] = [
-  {
-    id: "i1",
-    createdAt: "2023-01-15",
-    updatedAt: "2023-01-20",
-    question: "How to prevent crop diseases in tomato plants?",
-    reason: "Increased humidity in greenhouse",
-    status: "resolved",
-    severity: "medium"
-  },
-  {
-    id: "i2",
-    createdAt: "2023-02-20",
-    updatedAt: "2023-02-25",
-    question: "What are the symptoms of nutrient deficiency in maize?",
-    reason: "Poor soil fertility",
-    status: "unresolved",
-    severity: "high"
-  },
-  {
-    id: "i3",
-    createdAt: "2023-03-10",
-    updatedAt: "2023-03-15",
-    question: "How to control weeds in organic farming?",
-    reason: "Lack of effective weed management strategy",
-    status: "in progress",
-    severity: "low"
-  },
-  {
-    id: "i4",
-    createdAt: "2023-04-05",
-    updatedAt: "2023-04-10",
-    question: "What causes yellowing of citrus leaves?",
-    reason: "Possible pest infestation",
-    status: "unresolved",
-    severity: "medium"
-  }
-];
-
-export type ReportedQuestion = {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-  question: string;
-  reason: string;
-  status: "resolved" | "unresolved" | "in progress";
-  severity: "low" | "medium" | "high";
-};
-
+import { ReportedQuestion } from "../../../../api/openapi";
+import { format } from "date-fns";
+import parse from "html-react-parser";
+import { useNavigate } from "react-router-dom";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger
+} from "../../../../components/ui/alert-dialog";
+import useUserWarnUsersMutation from "../../../../hooks/api/post/useUserWarnUsersMutation";
+import useUserBanUsersMutation from "../../../../hooks/api/post/useUserBanUsersMutation";
+import { toast } from "sonner";
+import Loader from "../../../../icons/Loader";
+import { Input } from "../../../../components/ui/input";
+import useGetViewQuestion from "../../../../hooks/api/get/useGetViewQuestion";
 export const columns: ColumnDef<ReportedQuestion>[] = [
   {
     accessorKey: "createdAt",
     header: "Created At",
-    cell: ({ row }) => <div>{row.getValue("createdAt")}</div>
+    cell: ({ row }) =>
+      format(new Date(row.original.createdat || ""), "MMM dd, yyyy")
   },
-  {
-    accessorKey: "updatedAt",
-    header: "Updated At",
-    cell: ({ row }) => <div>{row.getValue("updatedAt")}</div>
-  },
-  {
-    accessorKey: "question",
-    header: "Question",
-    cell: ({ row }) => <div>{row.getValue("question")}</div>
-  },
+
   {
     accessorKey: "reason",
     header: "Reason",
     cell: ({ row }) => <div>{row.getValue("reason")}</div>
   },
+
   {
-    accessorKey: "status",
-    header: "Status",
-    cell: ({ row }) => <div>{row.getValue("status")}</div>
-  },
-  {
-    accessorKey: "severity",
-    header: "Severity",
-    cell: ({ row }) => <div>{row.getValue("severity")}</div>
+    header: "Reported By",
+    cell: ({ row }) => (
+      <div>{`${row.original.firstname} ${row.original.lastname}`}</div>
+    )
   },
   {
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const payment = row.original;
+      const question = row.original;
 
+      const navigate = useNavigate();
+      const handleViewQuestionPage = () => {
+        navigate(
+          `/forum/question/${question.reported_username}/${question.forumid}`
+        );
+      };
+
+      const { data: viewQuestion } = useGetViewQuestion(question.forumid ?? "");
       const [isEditing, setIsEditing] = useState(false);
 
       const handleEdit = () => {
@@ -148,174 +116,223 @@ export const columns: ColumnDef<ReportedQuestion>[] = [
         setIsEditing(false);
       };
 
+      const { mutateAsync: banUserMutation, isLoading: banLoading } =
+        useUserBanUsersMutation();
+      const handleBan = async () => {
+        await banUserMutation(question.reported_userid || "");
+        toast.success("User Banned Successfully!");
+      };
+
+      const { mutateAsync: warnUserMutation, isLoading: warnLoading } =
+        useUserWarnUsersMutation();
+      const handleWarn = async () => {
+        try {
+          await warnUserMutation(question.userid || "");
+          toast.success("User Warned Successfully!");
+        } catch (error: any) {
+          toast.error(error.message);
+        }
+      };
+
+      if (banLoading || warnLoading) {
+        return <Loader isVisible={true} />;
+      }
+
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
-            >
-              Copy question ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
+        <Drawer>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuItem
+                onClick={() => navigator.clipboard.writeText(question.id || "")}
+              >
+                Copy question ID
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <DrawerTrigger className=" w-full text-start">
+                  View Report
+                </DrawerTrigger>
+              </DropdownMenuItem>
 
-            <Drawer>
-              <div className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
-                <DrawerTrigger>View Report</DrawerTrigger>
-              </div>
-              {/* drawer */}
-              <DrawerContent>
-                <div className="flex justify-center">
-                  <div className="max-w-[50rem] w-full">
-                    <Tabs defaultValue="report" className="">
-                      <TabsList className="grid w-full grid-cols-2">
-                        <TabsTrigger value="report">Report</TabsTrigger>
-                        <TabsTrigger value="question">Question</TabsTrigger>
-                      </TabsList>
-                      {/* report tab*/}
-                      <TabsContent value="report">
-                        <Card>
-                          <CardHeader>
-                            <div className="flex justify-between items-center">
-                              <CardTitle className="flex items-center gap-4">
-                                Report
-                                {/* severity */}
-                                <Badge variant="secondary">Low</Badge>
-                              </CardTitle>
-                              <ComboboxPopoverStatus />
-                            </div>
-                            <CardDescription>on May 27, 2024</CardDescription>
-                          </CardHeader>
+              <DropdownMenuItem onClick={handleViewQuestionPage}>
+                View question in page
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          {/* drawer */}
+          <DrawerContent>
+            <div className="flex justify-center py-2">
+              <div className="max-w-[50rem] w-full">
+                <Tabs defaultValue="report" className="">
+                  <TabsList className="grid w-full grid-cols-2">
+                    <TabsTrigger value="report">Report</TabsTrigger>
+                    <TabsTrigger value="question">Question</TabsTrigger>
+                  </TabsList>
+                  {/* report tab*/}
+                  <TabsContent value="report">
+                    <Card>
+                      <CardHeader>
+                        <div className="flex justify-between items-center">
+                          <CardTitle className="flex items-center gap-4">
+                            Report
+                          </CardTitle>
+                        </div>
+                        <CardDescription>
+                          on{" "}
+                          {format(
+                            new Date(question.createdat || ""),
+                            "MMM dd, yyyy"
+                          )}
+                        </CardDescription>
+                      </CardHeader>
 
-                          <CardContent className="space-y-2">
-                            <div className="mb-4">
-                              <Label>Reason</Label>
-                              <Textarea
-                                disabled
-                                defaultValue="dito yung reason field"
-                              />
-                            </div>
-                            <Label>Note</Label>
-                            <Textarea disabled={!isEditing} />
-                          </CardContent>
+                      <CardContent className="space-y-2">
+                        <div className="mb-4">
+                          <Label>Reported User</Label>
+                          <Input
+                            disabled
+                            defaultValue={question.reported_firstname}
+                          />
+                        </div>
+                        <div className="mb-4">
+                          <Label>Reason</Label>
+                          <Textarea
+                            disabled
+                            defaultValue="dito yung reason field"
+                          />
+                        </div>
+                        <Label>Note</Label>
+                        <Textarea disabled={!isEditing} />
+                      </CardContent>
 
-                          {/* report buttons */}
-                          <CardFooter>
-                            <div className="flex justify-between gap-4 items-center">
-                              <DrawerClose>
-                                <Button variant="ghost">Back</Button>
-                              </DrawerClose>
-                              {isEditing ? (
-                                <div>
-                                  <Button
-                                    variant="secondary"
-                                    onClick={handleSave}
-                                  >
-                                    Save Note
-                                  </Button>
-                                </div>
-                              ) : (
-                                <Button variant="outline" onClick={handleEdit}>
-                                  Add Note
-                                </Button>
-                              )}
-                              <Select>
-                                <SelectTrigger className="w-[180px]">
-                                  <SelectValue placeholder="Action" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                  <SelectGroup>
-                                    <SelectLabel>Action</SelectLabel>
-                                    <SelectItem value="apple">
-                                      Delete Question
-                                    </SelectItem>
-                                    <SelectItem value="banana">
-                                      Send Warning
-                                    </SelectItem>
-                                    <SelectItem value="blueberry">
-                                      Suspen User
-                                    </SelectItem>
-                                    <SelectItem value="grapes">
-                                      Ban User
-                                    </SelectItem>
-                                  </SelectGroup>
-                                </SelectContent>
-                              </Select>
-                            </div>
-                          </CardFooter>
-                        </Card>
-                      </TabsContent>
+                      {/* report buttons */}
+                      <CardFooter>
+                        <div className="flex justify-between gap-4 items-center">
+                          <DrawerClose>
+                            <Button variant="ghost">Back</Button>
+                          </DrawerClose>
+                          <AlertDialog>
+                            <AlertDialogTrigger>
+                              <Button variant="destructive">Ban</Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>
+                                  Ban username?
+                                </AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  This action will block the user account from
+                                  doing any activity within the website.
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction onClick={handleBan}>
+                                  Continue
+                                </AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
+                          {/* <AlertDialog>
+                            <AlertDialogTrigger>
+                              <Button className="bg-yellow-500 hover:bg-yellow-500/80">
+                                Warning
+                              </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>
+                                  Send Warning to user
+                                </AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  This action will send a notification to user
+                                  about the action he've done.
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction onClick={handleWarn}>
+                                  Send
+                                </AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog> */}
+                        </div>
+                      </CardFooter>
+                    </Card>
+                  </TabsContent>
 
-                      {/* question */}
-                      <TabsContent value="question">
-                        <Card>
-                          <DrawerHeader>
-                            <div className="flex justify-between items-center">
-                              <DrawerTitle>Question ID</DrawerTitle>
-                              <ComboboxPopoverStatus />
-                            </div>
-                          </DrawerHeader>
+                  {/* question */}
+                  <TabsContent value="question">
+                    <Card>
+                      <DrawerHeader>
+                        <div className="flex justify-between items-center">
+                          <DrawerTitle>
+                            {viewQuestion?.question?.id}
+                          </DrawerTitle>
+                          <ComboboxPopoverStatus />
+                        </div>
+                      </DrawerHeader>
 
-                          <DrawerHeader>
-                            <div className="flex justify-between items-center">
-                              {/* ito yung title ng question */}
-                              <DrawerTitle>
-                                Nakatikim ka na ba ng takoyako
-                              </DrawerTitle>
-                              <div className="flex gap-3 h-8 border rounded-lg items-center">
-                                {/* vote count here */}
-                                <PiArrowFatUpThin />
-                                90
-                                <PiArrowFatDownThin />
-                              </div>
-                            </div>
-                            {/* yung question mismo */}
-                            <DrawerDescription>
-                              KENJI ANO BA?🤺😠KENJI HINDI YON!🙅‼️ HINDI
-                              GANON!💢❌EH ANO?🧍🤨 KENJI🧒HINDI MO BA
-                              TALAGA👄NAIINTINDIHAN?😟☹️😓 ANG ANO?🗿 YUNG
-                              TOTOO!☑️💯NA ANO?👁️👄👁️ GUSTO KO NA ITIGIL✋🚳🚫
-                              TO KASE NAGIGING TOTOO NA!🫤😳🙉 ANG ANO?🙍🧐 NA
-                              NAGUGUSTUHAN NA KITA😔😳😙💞 TILL I MET
-                              YOUU~🥹🫦🫂
-                            </DrawerDescription>
-                          </DrawerHeader>
-
-                          {/* ito yung tags */}
-                          <div className="flex wrap justify-start gap-4 mx-4">
-                            <p className="text-base text-primary rounded-md w-auto border border-[#BBE3AD] bg-secondary px-2 py-1">
-                              Kenji
-                            </p>
+                      <DrawerHeader>
+                        <div className="flex justify-between items-center">
+                          {/* ito yung title ng question */}
+                          <DrawerTitle>
+                            {viewQuestion?.question?.title}
+                          </DrawerTitle>
+                          <div className="flex gap-3 h-8 border rounded-lg items-center">
+                            {/* vote count here */}
+                            <PiArrowFatUpThin />
+                            {viewQuestion?.question?.vote_count}
+                            <PiArrowFatDownThin />
                           </div>
+                        </div>
+                        {/* yung question mismo */}
+                        <DrawerDescription>
+                          {parse(viewQuestion?.question?.question || "")}
+                        </DrawerDescription>
+                      </DrawerHeader>
 
-                          <DrawerFooter>
-                            {/* redirect sa view nung question sa page */}
-                            <Button>See question in page</Button>
-                            <div className="flex justify-between gap-4">
-                              <DrawerClose className="w-full">
-                                <Button variant="outline" className="w-full">
-                                  Back
-                                </Button>
-                              </DrawerClose>
-                            </div>
-                          </DrawerFooter>
-                        </Card>
-                      </TabsContent>
-                    </Tabs>
-                  </div>
-                </div>
-              </DrawerContent>
-            </Drawer>
+                      {/* ito yung tags */}
+                      <div className="flex wrap justify-start gap-4 mx-4">
+                        {viewQuestion?.question?.tags?.map((tag, i) => (
+                          <p
+                            key={i}
+                            className="text-base text-primary rounded-md w-auto border border-[#BBE3AD] bg-secondary px-2 py-1"
+                          >
+                            {tag.tag}
+                          </p>
+                        ))}
+                      </div>
 
-            <DropdownMenuItem>View question in page</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+                      <DrawerFooter>
+                        {/* redirect sa view nung question sa page */}
+
+                        <div className="flex justify-between gap-4">
+                          <DrawerClose className="w-full">
+                            <Button variant="outline" className="w-full">
+                              Back
+                            </Button>
+                          </DrawerClose>
+                          <Button onClick={handleViewQuestionPage}>
+                            See question in page
+                          </Button>
+                        </div>
+                      </DrawerFooter>
+                    </Card>
+                  </TabsContent>
+                </Tabs>
+              </div>
+            </div>
+          </DrawerContent>
+        </Drawer>
       );
     }
   }

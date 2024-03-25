@@ -17,9 +17,8 @@ const EventBanner = () => {
         </h1>
 
         <p className="text-white text-md max-w-[30rem]">
-          Stay informed, connected, and ahead of the curve with our
-          comprehensive array of industry events, designed to empower your
-          journey in agriculture
+          Manatiling maalam, konektado, at maging updated sa mga events na
+          dinisenyo upang makatulong sa iyong kaalaman tungo sa agrikultura
         </p>
       </div>
     </div>

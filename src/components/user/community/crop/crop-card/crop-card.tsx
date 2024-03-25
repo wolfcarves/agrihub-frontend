@@ -24,7 +24,6 @@ const CropCard: React.FC<CropCardProps> = ({ crop }) => {
       navigate(`${crop.name}`);
     }
   };
-  console.log(crop);
 
   return (
     <div className="md:col-span-6 lg:col-span-4 col-span-12 hover:shadow-md grid grid-cols-12 rounded-lg border bg-white select-none">

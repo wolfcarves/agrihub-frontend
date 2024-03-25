@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AuthenticationSchema, authenticationSchema } from "./schema";
 import { Button } from "@components/ui/button";
@@ -9,8 +9,11 @@ import useForgotPasswordMutation from "@hooks/api/post/useForgotPasswordMutation
 import SettingsRequestResetPasswordDialog from "../../dialog/SettingsRequestResetPasswordDialog";
 import useAuth from "@hooks/useAuth";
 import { toast } from "sonner";
+import useForgotPasswordByOTPMutation from "@hooks/api/post/useForgotPasswordByOTPMutation";
+import { useNavigate } from "react-router-dom";
 
 const UserSettingsAuthenticationForm = () => {
+  const navigate = useNavigate();
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const user = useAuth();
 
@@ -26,19 +29,31 @@ const UserSettingsAuthenticationForm = () => {
     isSuccess: isSendEmailSuccess
   } = useForgotPasswordMutation();
 
-  const handleSubmitForm = async () => {
+  const {
+    mutateAsync: sendOTP,
+    isLoading: isSendOTPLoading,
+    isSuccess: isSendOTPSuccess
+  } = useForgotPasswordByOTPMutation();
+
+  const handleSubmitForm = async (type: "email" | "phone") => {
     try {
-      await sendEmail(user?.data?.email);
-      toast.success("Password request sent to your email");
-    } catch (error) {}
+      if (type === "email") {
+        await sendEmail(user?.data?.email);
+        toast.success("Password request sent to your email");
+      }
+
+      if (type === "phone") {
+        await sendOTP(String(user?.data?.contact_number));
+        navigate("/account/reset-password/verify-otp", { replace: true });
+      }
+    } catch (err: any) {
+      toast.error(err.body.message);
+    }
   };
 
   return (
-    <>
-      <div
-        className="py-10 space-y-10"
-        onSubmit={form.handleSubmit(handleSubmitForm)}
-      >
+    <FormProvider {...form}>
+      <form className="py-10 space-y-10">
         <SettingsField
           hasForm={false}
           label="Change password"
@@ -60,14 +75,17 @@ const UserSettingsAuthenticationForm = () => {
         />
 
         <SettingsRequestResetPasswordDialog
-          isLoading={isSendEmailLoading}
-          disabled={isSendEmailSuccess}
           open={isDialogOpen}
           onOpenChange={setIsDialogOpen}
-          onSubmitClick={handleSubmitForm}
+          isSendEmailLoading={isSendEmailLoading}
+          isSendOTPLoading={isSendOTPLoading}
+          disabled={isSendEmailSuccess || isSendOTPSuccess}
+          onSubmitClick={(type: "email" | "phone") => {
+            handleSubmitForm(type);
+          }}
         />
-      </div>
-    </>
+      </form>
+    </FormProvider>
   );
 };
 

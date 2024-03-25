@@ -14,12 +14,14 @@ import {
 } from "@components/ui/dropdown-menu";
 import { FarmData } from "@api/openapi";
 import { useNavigate } from "react-router-dom";
+import { format } from "date-fns";
 
 export const columns: ColumnDef<FarmData>[] = [
   {
     accessorKey: "createdat",
     header: "Created At",
-    cell: ({ row }) => <div>{row.getValue("createdat")}</div>
+    cell: ({ row }) =>
+      format(new Date(row.original.createdat || ""), "MMM dd, yyyy")
   },
   {
     accessorKey: "farm_name",
@@ -60,11 +62,6 @@ export const columns: ColumnDef<FarmData>[] = [
               }
             >
               View
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => navigate(`/community/explore/${farm.id}`)}
-            >
-              View in Community
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>Delete</DropdownMenuItem>

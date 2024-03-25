@@ -3,8 +3,10 @@ import { columns } from "./columns";
 import { DataTable } from "../../../../ui/custom/data-table/data-table";
 import useGetRequestSeedlingList from "../../../../../hooks/api/get/useGetRequestSeedlingList";
 import DialogRequestSeedling from "../dialog-request-seedling/dialog-request-seedling";
+import { useParams } from "react-router-dom";
 const RequestSeedlingsTable = () => {
-  const { data } = useGetRequestSeedlingList();
+  const { id } = useParams();
+  const { data } = useGetRequestSeedlingList(id || "");
 
   return (
     <div>

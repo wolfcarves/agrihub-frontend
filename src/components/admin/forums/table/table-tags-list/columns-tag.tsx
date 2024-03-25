@@ -42,6 +42,19 @@ import {
   FormItem,
   FormMessage
 } from "@components/ui/form";
+import { format } from "date-fns";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger
+} from "../../../../ui/alert-dialog";
+import useDeleteTags from "../../../../../hooks/api/delete/useDeleteTags";
 
 const addTagSchema = zod.object({
   tag_name: zod
@@ -58,13 +71,9 @@ export const columns: ColumnDef<Tag>[] = [
   {
     accessorKey: "createdat",
     header: "Created At",
-    cell: ({ row }) => <div>{row.getValue("createdat")}</div>
+    cell: ({ row }) =>
+      format(new Date(row.original.createdat || ""), "MMM dd, yyyy")
   },
-  // {
-  //   accessorKey: "updatedat",
-  //   header: "Updated At",
-  //   cell: ({ row }) => <div>{row.getValue("updatedat")}</div>
-  // },
   {
     accessorKey: "tag_name",
     header: "Name",
@@ -114,93 +123,124 @@ export const columns: ColumnDef<Tag>[] = [
           toast.error(e.body.message);
         }
       };
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(tag.id || "")}
-            >
-              Copy Tag ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <Dialog open={isOpen}>
-              <DialogTrigger asChild>
-                <div className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
-                  View/update Tag
-                </div>
-              </DialogTrigger>
-              {/* modal */}
-              <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader>
-                  <DialogTitle>Tag Name</DialogTitle>
-                  <DialogDescription>
-                    Update tags to categorize resources effectively. Click
-                    'Save' when you've finished.
-                  </DialogDescription>
-                </DialogHeader>
-                <Form {...form}>
-                  <form
-                    onSubmit={form.handleSubmit(handleSubmitForm)}
-                    encType="multipart/form-data"
-                    className="grid gap-4"
-                  >
-                    <div className="grid gap-4">
-                      <div className="flex-col gap-4">
-                        <Label htmlFor="title" className="text-right">
-                          Name
-                        </Label>
-                        <FormField
-                          control={form.control}
-                          name="tag_name"
-                          defaultValue={tag.tag_name}
-                          render={({ field, fieldState }) => (
-                            <FormItem>
-                              <FormControl>
-                                <Input {...field} type="text" />
-                              </FormControl>
-                              <FormMessage>
-                                {fieldState.error?.message}
-                              </FormMessage>
-                            </FormItem>
-                          )}
-                        />
-                      </div>
-                      <div className="flex-col gap-4">
-                        <Label className="text-right">Descrition</Label>
-                        <FormField
-                          control={form.control}
-                          name="details"
-                          defaultValue={tag.details}
-                          render={({ field }) => (
-                            <Textarea
-                              placeholder="Describe your tag"
-                              {...field}
-                              defaultValue={tag.details}
-                            />
-                          )}
-                        />
-                      </div>
-                    </div>
 
-                    {/* buttons */}
-                    <DialogFooter>
-                      <Button variant="destructive">Delete</Button>
-                      <Button type="submit">Save Changes</Button>
-                    </DialogFooter>
-                  </form>
-                </Form>
-                <Loader isVisible={addTagLoading} />
-              </DialogContent>
-            </Dialog>
-          </DropdownMenuContent>
-        </DropdownMenu>
+      const { mutateAsync: deleteTag, isLoading: deleteLoading } =
+        useDeleteTags();
+      const handleUnpublish = async () => {
+        await deleteTag(tag.id || "");
+        toast.success("Tag Deleted Successfully!");
+        setIsOpen(false);
+      };
+      if (deleteLoading) {
+        return <Loader isVisible={true} />;
+      }
+      return (
+        <Dialog open={isOpen}>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuItem
+                onClick={() => navigator.clipboard.writeText(tag.id || "")}
+              >
+                Copy Tag ID
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <DialogTrigger>View/update Tag</DialogTrigger>
+              </DropdownMenuItem>
+
+              {/* modal */}
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>Tag Name</DialogTitle>
+              <DialogDescription>
+                Update tags to categorize resources effectively. Click 'Save'
+                when you've finished.
+              </DialogDescription>
+            </DialogHeader>
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(handleSubmitForm)}
+                encType="multipart/form-data"
+                className="grid gap-4"
+              >
+                <div className="grid gap-4">
+                  <div className="flex-col gap-4">
+                    <Label htmlFor="title" className="text-right">
+                      Name
+                    </Label>
+                    <FormField
+                      control={form.control}
+                      name="tag_name"
+                      defaultValue={tag.tag_name}
+                      render={({ field, fieldState }) => (
+                        <FormItem>
+                          <FormControl>
+                            <Input {...field} type="text" />
+                          </FormControl>
+                          <FormMessage>{fieldState.error?.message}</FormMessage>
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  <div className="flex-col gap-4">
+                    <Label className="text-right">Descrition</Label>
+                    <FormField
+                      control={form.control}
+                      name="details"
+                      defaultValue={tag.details}
+                      render={({ field }) => (
+                        <Textarea
+                          placeholder="Describe your tag"
+                          {...field}
+                          defaultValue={tag.details}
+                        />
+                      )}
+                    />
+                  </div>
+                </div>
+
+                {/* buttons */}
+                <DialogFooter>
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button type="button" variant="destructive">
+                        Delete
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>
+                          Are you absolutely sure?
+                        </AlertDialogTitle>
+                        <AlertDialogDescription>
+                          This action cannot be undone. This will permanently
+                          delete a tag and remove tag data from our servers.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction onClick={handleUnpublish}>
+                          Continue
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+                  <Button type="submit">Save Changes</Button>
+                </DialogFooter>
+              </form>
+            </Form>
+            <Loader isVisible={addTagLoading} />
+          </DialogContent>
+        </Dialog>
       );
     }
   }

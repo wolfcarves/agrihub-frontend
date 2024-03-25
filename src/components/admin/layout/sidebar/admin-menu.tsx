@@ -208,12 +208,7 @@ export const adminNavigation: AdminNavigationItem[] = [
         href: "/admin/website/user-feedback",
         module: "user_feedback"
       },
-      {
-        title: "",
-        name: "Help Center",
-        href: "/admin/website/help-center",
-        module: "help_center"
-      },
+
       {
         title: "",
         name: "Crops",
@@ -237,3 +232,10 @@ export const adminNavigation: AdminNavigationItem[] = [
     ]
   }
 ];
+
+// {
+//   title: "",
+//   name: "Help Center",
+//   href: "/admin/website/help-center",
+//   module: "help_center"
+// }

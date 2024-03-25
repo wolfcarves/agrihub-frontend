@@ -13,7 +13,7 @@ const QuestionAnswerList = ({ data, isLoading }: QuestionAnswerListProps) => {
 
   return (
     <div className="mt-12">
-      <h5 className="text-foreground font-poppins-semibold line-clamp-3 hover:opacity-90 mb-10">
+      <h5 className="text-foreground font-poppins-semibold line-clamp-3 mb-10">
         Answers {data?.question?.answer_count}
       </h5>
 
@@ -23,7 +23,7 @@ const QuestionAnswerList = ({ data, isLoading }: QuestionAnswerListProps) => {
 
       {hasAnswer?.length === 0 && (
         <div className="text-center py-10">
-          <h6>No answer yet</h6>
+          <h6>No answer yet, be the first one!</h6>
         </div>
       )}
 

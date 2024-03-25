@@ -76,10 +76,20 @@ message?: string;
      * @returns SeedlingRequestListItem A list of seedling requests
      * @throws ApiError
      */
-    public static getApiRequestSeedlingList(): CancelablePromise<Array<SeedlingRequestListItem>> {
+    public static getApiRequestSeedlingList({
+id,
+}: {
+/**
+ * The ID of the seedling request to be deleted
+ */
+id: string,
+}): CancelablePromise<Array<SeedlingRequestListItem>> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/api/request/seedling/list',
+            url: '/api/request/seedling/list/{id}',
+            path: {
+                'id': id,
+            },
             errors: {
                 400: `Validation Error`,
                 401: `Unauthorized`,

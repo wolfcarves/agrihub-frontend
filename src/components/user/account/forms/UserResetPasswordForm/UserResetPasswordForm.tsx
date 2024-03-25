@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import useGetAuthCheckTokenQuery from "@hooks/api/get/useGetAuthCheckTokenQuery";
 import { Input } from "@components/ui/custom";
 import { Button } from "@components/ui/button";
@@ -10,6 +10,8 @@ import { PiCheckFatBold } from "react-icons/pi";
 import Unauthorized from "@pages/user/common/unauthorized";
 
 const UserResetPasswordForm = () => {
+  const navigate = useNavigate();
+
   const { register, formState, handleSubmit } = useForm<ResetPasswordType>({
     mode: "onSubmit",
     reValidateMode: "onChange",
@@ -25,10 +27,6 @@ const UserResetPasswordForm = () => {
     isSuccess: isResetPasswordSuccess
   } = useResetPasswordMutation();
 
-  if (isCheckTokenError) {
-    return <Unauthorized />;
-  }
-
   const handleResetPassword = async (data: ResetPasswordType) => {
     try {
       await resetPasswordMutate({
@@ -40,13 +38,17 @@ const UserResetPasswordForm = () => {
     } catch (error) {}
   };
 
+  if (isCheckTokenError) {
+    return <Unauthorized />;
+  }
+
   return (
     <>
       {!isResetPasswordSuccess ? (
         <form onSubmit={handleSubmit(handleResetPassword)}>
-          <div className="w-full max-w-[40rem] mx-auto">
+          <div className="w-full max-w-[33rem] mx-auto">
             <div className="space-y-3">
-              <h4 className="font-merri-black">Reset Password</h4>
+              <h4 className="font-poppins-semibold">Reset Password</h4>
               <h5>
                 Please enter and confirm your new password. <br />
                 Minimum of 8 characters
@@ -69,11 +71,22 @@ const UserResetPasswordForm = () => {
               />
 
               <Button
+                type="submit"
                 className="w-full mt-4"
-                isLoading={isResetPasswordLoading || isResetPasswordSuccess}
+                isLoading={isResetPasswordLoading}
                 size="lg"
               >
-                Send Request
+                Change Password
+              </Button>
+
+              <Button
+                variant="outline"
+                className="w-full mt-4"
+                disabled={isResetPasswordLoading}
+                size="lg"
+                onClick={() => navigate("../../")}
+              >
+                Cancel
               </Button>
             </div>
           </div>
@@ -81,12 +94,14 @@ const UserResetPasswordForm = () => {
       ) : (
         <div className="flex flex-col space-y-3 items-center">
           <PiCheckFatBold className="text-9xl text-primary" />
-          <h4 className="font-merri-black text-2xl">
+          <h4 className="font-poppins-semibold text-2xl text-center">
             Password Reset Successfully
           </h4>
 
           <Link to="/account/login">
-            <Button variant="outline">Back to Login</Button>
+            <Button variant="outline" size="lg" className="py-6">
+              Back to Login
+            </Button>
           </Link>
         </div>
       )}

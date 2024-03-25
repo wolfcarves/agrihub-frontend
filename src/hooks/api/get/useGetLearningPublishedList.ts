@@ -7,6 +7,7 @@ interface ApplicationsParams {
   search?: string;
   page?: string;
   perpage?: string;
+  filter?: "Tagalog" | "English" | "Tagalog and English";
 }
 export default function useGetLearningPublishedList(data: ApplicationsParams) {
   return useQuery({

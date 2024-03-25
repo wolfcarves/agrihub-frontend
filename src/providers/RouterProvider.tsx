@@ -11,7 +11,7 @@ const ReactRouterProvider = () => {
       <ShadCnToast
         richColors
         theme="light"
-        toastOptions={{ duration: 1000 }}
+        toastOptions={{ duration: 3000 }}
         position="top-center"
       />
     </>

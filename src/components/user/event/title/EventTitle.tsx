@@ -32,13 +32,13 @@ const EventTitle = () => {
             {startEvent} - {endEvent}
           </span>
 
-          <h1 className="font-merri-bold text-black/90 py-3">
+          <h1 className="font-poppins-semibold text-black/90 py-3">
             {eventData?.title}
           </h1>
         </div>
 
         <div className="pt-5 sm:pt-10 pb-3">
-          <h5 className="font-merri-bold">About this event</h5>
+          <h5 className="font-poppins-semibold">About this event</h5>
 
           <p className="pt-5">{parse(eventData?.about || "")}</p>
         </div>

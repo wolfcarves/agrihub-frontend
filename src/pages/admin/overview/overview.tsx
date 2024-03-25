@@ -54,7 +54,7 @@ const OverviewAdmin = () => {
             </h3>
             <hr className="my-1" />
             <p className="text-gray-600">Farm Registered</p>
-            <Link to="/admin/community/farms/pending ">
+            <Link to="/admin/community/farms-application/pending">
               <Label className="flex cursor-pointer hover:underline">
                 <MdPendingActions className="text-orange-500 mr-1" />{" "}
                 {overviewCards?.pending_farm_applications} pending application

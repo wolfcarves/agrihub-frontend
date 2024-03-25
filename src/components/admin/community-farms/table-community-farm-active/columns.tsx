@@ -61,6 +61,9 @@ export const columns: ColumnDef<CommunityFarmData>[] = [
         toast.success("Archive Successfully!");
         navigate("/admin/community/farms/archive");
       };
+      const handleView = async () => {
+        navigate(`/admin/community/farms/view/${request.id}`);
+      };
       if (archieveLoading) {
         return <Loader isVisible={true} />;
       }
@@ -78,9 +81,9 @@ export const columns: ColumnDef<CommunityFarmData>[] = [
             <DropdownMenuItem
               onClick={() => navigator.clipboard.writeText(String(request.id))}
             >
-              Copy application ID
+              Copy farm ID
             </DropdownMenuItem>
-
+            <DropdownMenuItem onClick={handleView}>View</DropdownMenuItem>
             <DropdownMenuItem onClick={handleArchive}>Archive</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

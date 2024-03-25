@@ -3,10 +3,13 @@ import { IoCamera } from "react-icons/io5";
 
 interface DropzoneProps {
   onChange?: (blob: Blob) => void;
+  defaultValue?: string;
 }
 
-const Capture: React.FC<DropzoneProps> = ({ onChange }) => {
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
+const Capture: React.FC<DropzoneProps> = ({ onChange, defaultValue }) => {
+  const [imagePreview, setImagePreview] = useState<string | null>(
+    defaultValue || null
+  );
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

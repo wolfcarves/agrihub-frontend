@@ -33,7 +33,7 @@ const RecordAdmins: React.FC = () => {
           <TabsTrigger value="disabled">Disabled</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="posted">
+        <TabsContent value="active">
           <TableAdminList />
         </TabsContent>
 
@@ -41,7 +41,7 @@ const RecordAdmins: React.FC = () => {
           <TableAdminDisabled />
         </TabsContent>
       </Tabs>
-      <TableAdminList />
+      {/* <TableAdminList /> */}
     </AdminOutletContainer>
   );
 };

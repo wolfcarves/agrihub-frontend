@@ -1,4 +1,4 @@
-import AgrihubLogo from "@icons/main-logo.svg";
+import AgrihubLogo from "@icons/leaves.svg";
 import UserHeaderNavigation from "./user-header-navigation";
 import SearchBar from "../search-bar/SearchBar";
 import { ReactNode, useEffect, useState } from "react";
@@ -10,6 +10,7 @@ import UserReponsiveContainer from "../container/user-reponsive-container";
 import HeaderNotification from "../notification/header-notification";
 import UserHeaderMobileSidebar from "@components/ui/custom/sidebar/user-header-mobile-sidebar";
 import UserHeaderSearch from "./user-header-search";
+import { IoSearch } from "react-icons/io5";
 
 const UserHeaderContainer = ({ children }: { children: ReactNode }) => (
   <div className="sticky top-0 w-full bg-background z-50 flex justify-center h-14 sm:h-20 border-b">
@@ -67,34 +68,32 @@ const UserHeader = () => {
   };
 
   return (
-    <>
-      <UserHeaderContainer>
-        <div className="hidden sm:flex items-center h-full max-w-[20rem] w-full">
-          <UserHeaderLogo />
-          <SearchBar
-            className="lg:flex sm:block hidden ms-3 w-full"
-            placeholder="Search..."
-            onFocus={() => setIsSearchOpen(true)}
-            onChange={e => setSearchValue(e.target.value)}
-            maxLength={40}
-          />
-        </div>
-
-        <UserHeaderSearch
-          isOpen={isSearchOpen}
-          setIsOpen={setIsSearchOpen}
-          query={searchValue}
-        />
-
-        <UserHeaderNavigation />
+    <UserHeaderContainer>
+      <div className="flex items-center h-full max-w-[20rem] w-full">
+        <UserHeaderLogo />
         <UserHeaderMobileSidebar />
+        <SearchBar
+          className="lg:flex sm:block  ms-3 w-full"
+          placeholder="Search..."
+          onFocus={() => setIsSearchOpen(true)}
+          onChange={e => setSearchValue(e.target.value)}
+          maxLength={40}
+        />
+      </div>
 
-        <div className="flex items-center gap-2">
-          {isAuthenticated && <HeaderNotification />}
-          {isAuthenticated ? <UserHeaderMenu /> : <AuthButtonsGroup />}
-        </div>
-      </UserHeaderContainer>
-    </>
+      <UserHeaderSearch
+        isOpen={isSearchOpen}
+        setIsOpen={setIsSearchOpen}
+        query={searchValue}
+      />
+
+      <UserHeaderNavigation />
+
+      <div className="flex items-center gap-2 ps-3">
+        {isAuthenticated && <HeaderNotification />}
+        {isAuthenticated ? <UserHeaderMenu /> : <AuthButtonsGroup />}
+      </div>
+    </UserHeaderContainer>
   );
 };
 

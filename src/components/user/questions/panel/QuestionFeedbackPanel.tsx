@@ -37,7 +37,7 @@ const QuestionFeedbackPanel = ({ items }: QuestionFeedbackPanelProps) => {
           ) : !isButton ? (
             <span
               key={`${label} ${idx}`}
-              className="hidden px-1 sm:block font-poppins-semibold text-foreground text-sm whitespace-nowrap"
+              className="px-1 font-poppins-semibold text-foreground text-sm whitespace-nowrap"
             >
               {label}
             </span>
@@ -45,12 +45,9 @@ const QuestionFeedbackPanel = ({ items }: QuestionFeedbackPanelProps) => {
             <div
               key={`${label} ${idx}`}
               className="flex gap-3 h-8 border rounded-lg"
+              onClick={onClick}
             >
-              <QuestionFeedBackPanelButtonAuth
-                title={label}
-                icon={icon}
-                onClick={onClick}
-              />
+              <QuestionFeedBackPanelButtonAuth title={label} icon={icon} />
             </div>
           ) : (
             <div

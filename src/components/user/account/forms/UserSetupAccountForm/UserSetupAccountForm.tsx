@@ -112,7 +112,7 @@ export default function UserSetupAccountForm() {
                             </span>
                           ) : (
                             <span className="font-poppins-regular text-base text-foreground/70">
-                              Pick a date
+                              Birth Date
                             </span>
                           )}
                           <LuCalendar className="ml-auto h-4 w-4 opacity-50" />

@@ -19,7 +19,7 @@ import { useForm } from "react-hook-form";
 import { AddComment } from "./schema";
 import useQuestionVoteAnswer from "@hooks/api/post/useQuestionVoteAnswer";
 import { toast } from "sonner";
-import useQuestionDeleteAnswerVote from "@hooks/api/post/useQuestionDeleteAnswerVote";
+import useQuestionDeleteAnswerVoteMutation from "@hooks/api/get/useQuestionDeleteAnswerVoteMutation";
 interface AnswerCardProps {
   answer: Answer;
 }
@@ -32,7 +32,8 @@ const AnswerCard = ({ answer }: AnswerCardProps) => {
     useQuestionComment();
 
   const { mutateAsync: asyncVoteMutate } = useQuestionVoteAnswer();
-  const { mutateAsync: asyncDeleteVoteMutate } = useQuestionDeleteAnswerVote();
+  const { mutateAsync: asyncDeleteVoteMutate } =
+    useQuestionDeleteAnswerVoteMutation();
 
   const form = useForm<CommentsSchema>({
     resolver: zodResolver(AddComment),

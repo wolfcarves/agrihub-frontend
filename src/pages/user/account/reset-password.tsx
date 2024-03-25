@@ -1,5 +1,4 @@
 import UserResetPasswordForm from "@components/user/account/forms/UserResetPasswordForm/UserResetPasswordForm";
-import withAuthGuard from "@higher-order/account/withAuthGuard";
 
 const ResetPassword = () => {
   return (
@@ -9,4 +8,4 @@ const ResetPassword = () => {
   );
 };
 
-export default withAuthGuard(ResetPassword, ["guest"]);
+export default ResetPassword;

@@ -14,33 +14,33 @@ import { CheckIcon, ChevronsUpDown } from "lucide-react";
 
 import { ScrollArea } from "../../../ui/scroll-area";
 import { IconsItems } from "../../../../constants/icons";
+import { UseFormSetValue } from "react-hook-form";
+import { UpdateApproachRequest } from "../../../../api/openapi";
+import { renderIcon } from "../../../lib/RenderIcon";
 
 type IconType = keyof typeof Icons;
-
-const IconSelector = () => {
+interface IconProps {
+  field: {
+    value?: string;
+    onChange: (value: string) => void;
+  };
+  form: {
+    setValue: UseFormSetValue<UpdateApproachRequest>;
+  };
+  defaultValue?: string;
+}
+const IconSelector: React.FC<IconProps> = ({ field, form, defaultValue }) => {
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState("");
 
-  const renderIcon = useMemo(
-    () => (icon: IconType) => {
-      const IconComponent = Icons[icon];
-      if (IconComponent) {
-        return <IconComponent size={15} />;
-      } else {
-        // console.error(`Icon '${icon}' is not found.`);
-        return null;
-      }
-    },
-    []
-  );
   const commandItems = useMemo(
     () =>
       IconsItems.map(icon => (
         <CommandItem
           key={icon}
           value={icon}
-          onSelect={currentValue => {
-            setValue(currentValue === value ? "" : icon);
+          onSelect={() => {
+            form.setValue("icon", icon);
+
             setOpen(false);
           }}
           className="flex gap-1 items-center"
@@ -49,12 +49,12 @@ const IconSelector = () => {
           <CheckIcon
             className={cn(
               "ml-auto h-4 w-4",
-              value === icon ? "opacity-100" : "opacity-0"
+              field.value === icon ? "opacity-100" : "opacity-0"
             )}
           />
         </CommandItem>
       )),
-    [IconsItems, renderIcon, setOpen, setValue, value]
+    [IconsItems, renderIcon, setOpen, field]
   );
 
   return (
@@ -64,12 +64,20 @@ const IconSelector = () => {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[100%] justify-between"
+          className={cn(
+            "w-[100%] justify-between",
+            !field.value && "text-muted-foreground"
+          )}
         >
-          {value ? (
+          {field.value ? (
             <>
-              {renderIcon(value as IconType)}
-              {value}
+              {renderIcon(field.value as IconType)}
+              {field.value}
+            </>
+          ) : defaultValue ? (
+            <>
+              {renderIcon(defaultValue as IconType)}
+              {defaultValue}
             </>
           ) : (
             "Select icon..."

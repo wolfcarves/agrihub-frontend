@@ -54,7 +54,7 @@ const UpdateLearnings = () => {
   const handleUnpublish = async () => {
     await unpublishMaterial(learningsId || "");
     toast.success("Unpublished Successfully!");
-    navigate("/admin/resource/learnings-draft");
+    navigate("/admin/resource/learnings/draft");
   };
 
   const { mutateAsync: archiveMaterial, isLoading: archiveLoad } =
@@ -80,7 +80,7 @@ const UpdateLearnings = () => {
   // breadcrumbs
   const breadcrumbItems = [
     { title: "Resource Management", link: "/admin/resources" },
-    { title: "Learnings", link: "/admin/resource/events" },
+    { title: "Learnings", link: "/admin/resource/learnings" },
     {
       title: `View Learning Material ${learningsId}`,
       link: `/admin/resource/learnings/view/${learningsId}`

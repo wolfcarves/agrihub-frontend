@@ -11,14 +11,23 @@ import { PiBell, PiBellFill } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import useGetUserNotifications from "@hooks/api/get/useGetUserNotifications";
-import usePutUserNotificationRead from "../../../../hooks/api/put/usePutUserNotificationRead";
+import usePutUserNotificationRead from "@hooks/api/put/usePutUserNotificationRead";
 import { timeAgo } from "@components/lib/utils";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/ui/tabs";
+import { useDispatch } from "react-redux";
+import { hideNotificationBadge } from "@redux/slices/notificationSlice";
+import { useSelector } from "@redux/store";
 
 const HeaderNotification = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [notificationDropdownOpen, setNotificationDropdownOpen] =
-    useState<boolean>(false);
+  // const [notificationDropdownOpen, setNotificationDropdownOpen] =
+  //   useState<boolean>();
+  const dispatch = useDispatch();
+  const { isRead: notificationDropdownOpen } = useSelector(
+    state => state.notification
+  );
+
+  console.log(notificationDropdownOpen);
 
   const navigate = useNavigate();
   const { data: userNotifications, isLoading } = useGetUserNotifications({
@@ -51,7 +60,8 @@ const HeaderNotification = () => {
 
   const handleNotificationClick = () => {
     setIsOpen(prev => !prev);
-    setNotificationDropdownOpen(true);
+    dispatch(hideNotificationBadge());
+    localStorage.setItem("notification", "read");
   };
 
   return (

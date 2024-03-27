@@ -4,11 +4,13 @@ import { socket } from "../socket/socket";
 import useAuth from "../hooks/useAuth";
 import axios from "axios";
 import { useQueryClient } from "@tanstack/react-query";
+import { useDispatch } from "react-redux";
+import { showNotificationBadge } from "../redux/slices/notificationSlice";
 
-const api_uri =
-  import.meta.env.VITE_DEV_STATE === "production"
-    ? "https://api.qc-agrihub.xyz"
-    : "http://localhost:3000";
+// const api_uri =
+//   import.meta.env.VITE_DEV_STATE === "production"
+//     ? "https://api.qc-agrihub.xyz"
+//     : "http://localhost:3000";
 
 const axiosInstance = axios.create({
   baseURL: "https://api.qc-agrihub.xyz",
@@ -17,7 +19,7 @@ const axiosInstance = axios.create({
 
 const SocketProvider = (props: { children: React.ReactNode }) => {
   const { data } = useAuth();
-
+  const dispatch = useDispatch();
   const queryClient = useQueryClient();
 
   const requestNotificationPermission = async () => {
@@ -39,6 +41,8 @@ const SocketProvider = (props: { children: React.ReactNode }) => {
       new Notification("Hello!", {
         body: payload
       });
+      localStorage.removeItem("notification");
+      dispatch(showNotificationBadge());
     } else {
       console.log("Permission not granted to show notifications.");
     }

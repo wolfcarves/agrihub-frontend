@@ -9,7 +9,7 @@ const breadcrumbItems = [
   { title: "Learning Materials", link: "/admin/resource/learnings" },
   {
     title: "Drafts",
-    link: "/admin/resource/learnings-draft"
+    link: "/admin/resource/learnings/draft"
   }
 ];
 const LearningsDraft = () => {

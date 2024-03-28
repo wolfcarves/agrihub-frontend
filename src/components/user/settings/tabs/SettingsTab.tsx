@@ -24,13 +24,13 @@ const SettingsTab = () => {
       label: "Authentication",
       href: "/settings/authentication",
       isActive: pathname === "/settings/authentication"
-    },
-    {
-      id: 4,
-      label: "Appearance",
-      href: "/settings/appearance",
-      isActive: pathname === "/settings/appearance"
     }
+    // {
+    //   id: 4,
+    //   label: "Appearance",
+    //   href: "/settings/appearance",
+    //   isActive: pathname === "/settings/appearance"
+    // }
   ];
 
   useEffect(() => {

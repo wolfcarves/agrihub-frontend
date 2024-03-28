@@ -27,8 +27,6 @@ const HeaderNotification = () => {
     state => state.notification
   );
 
-  console.log(notificationDropdownOpen);
-
   const navigate = useNavigate();
   const { data: userNotifications, isLoading } = useGetUserNotifications({
     search: undefined,

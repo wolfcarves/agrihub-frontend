@@ -90,6 +90,6 @@ const Resource = () => {
 
 export default withAuthGuard(
   Resource,
-  ["admin", "asst_admin"],
-  "blog" || "event" || "learning"
+  ["admin", "asst_admin"]
+  // "blog" || "event" || "learning"
 );

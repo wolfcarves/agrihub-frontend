@@ -244,7 +244,7 @@ const App = ReactRouter(
         <Route path="profile" element={<UserProfileSettings />} />
         <Route path="email" element={<UserEmailSettings />} />
         <Route path="authentication" element={<UserSettingsAuthentication />} />
-        <Route path="appearance" element={<UserAppearanceSettings />} />
+        {/* <Route path="appearance" element={<UserAppearanceSettings />} /> */}
       </Route>
 
       {/* others */}

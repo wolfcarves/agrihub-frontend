@@ -57,18 +57,6 @@ const QuestionAskForm = () => {
     mode: "onBlur"
   });
 
-  useEffect(() => {
-    if (form.formState.errors.title) {
-      toast.error(form.formState.errors.title.message);
-    }
-    if (form.formState.errors.tags) {
-      toast.error(form.formState.errors.tags.message);
-    }
-    if (form.formState.errors.question) {
-      toast.error(form.formState.errors.question.message);
-    }
-  }, [form.formState.errors]);
-
   const { mutateAsync: questionAskMutate, isLoading: isQuestionAskLoading } =
     useQuestionAskMutation();
 
@@ -81,7 +69,6 @@ const QuestionAskForm = () => {
     };
 
     try {
-      console.log(compiledData);
       await questionAskMutate(compiledData);
       toast.success("Question successfully posted!");
     } catch (e: any) {
@@ -111,8 +98,10 @@ const QuestionAskForm = () => {
               name="title"
               control={form.control}
               defaultValue=""
-              render={({ field, fieldState: { invalid } }) => {
-                return <Input {...field} $isError={invalid} />;
+              render={({ field, fieldState }) => {
+                return (
+                  <Input {...field} $errorMessage={fieldState.error?.message} />
+                );
               }}
             />
           </div>
@@ -131,19 +120,42 @@ const QuestionAskForm = () => {
               <FormField
                 name="question"
                 control={form.control}
-                render={({ field: { onChange } }) => {
+                render={({ field: { onChange }, fieldState }) => {
                   return (
-                    <div className="flex">
-                      <RichTextEditor
-                        onBlur={data => {
-                          onChange(data.html);
-                          data?.files?.then(blobs => {
-                            form.setValue("imagesrc", blobs);
-                          });
-                        }}
-                        height={300}
-                      />
-                    </div>
+                    <>
+                      <div className="flex">
+                        <RichTextEditor
+                          //worst way to make your code unreadble
+                          //dito ko nalang nilagay validation
+                          onChange={({ charSize }) => {
+                            if (charSize! < 20) {
+                              form.setError("question", {
+                                message: "Please enter at least 20 characters"
+                              });
+                            } else form.clearErrors("question");
+
+                            if (charSize! >= 5000) {
+                              form.setError("question", {
+                                message: "5000 characters is the maximum"
+                              });
+                            }
+                          }}
+                          onBlur={data => {
+                            onChange(data.html);
+                            data?.files?.then(blobs => {
+                              form.setValue("imagesrc", blobs);
+                            });
+                          }}
+                          height={300}
+                        />
+                      </div>
+
+                      <div className="h-5">
+                        <span className="text-red-500">
+                          {fieldState.error?.message}
+                        </span>
+                      </div>
+                    </>
                   );
                 }}
               />

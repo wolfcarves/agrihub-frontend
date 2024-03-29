@@ -104,7 +104,7 @@ export const adminNavigation: NavigationItem[] = [
       {
         icon: <MdOutlineSource size={24} />,
         title: "Resource Overview",
-        link: "/admin/resource",
+        link: "/admin/resources",
         module: "blog",
         end: [
           "/admin/resource/blogs",
@@ -257,7 +257,7 @@ export const dropdownLinks: dropdownTypes = {
     "/admin/community/problems"
   ],
   resources: [
-    "/admin/resource",
+    "/admin/resources",
     "/admin/resource/blogs",
     "/admin/resource/events",
     "/admin/resource/learnings"

@@ -44,7 +44,7 @@ export const columns: ColumnDef<EventDetails>[] = [
       const handleUnpublish = async () => {
         await unarchiveMaterial(material.id || "");
         toast.success("Unarchive Successfully!");
-        navigate("/admin/resource/blogs");
+        navigate("/admin/resource/blogs?tab=published");
       };
       if (archieveLoading) {
         return <Loader isVisible={true} />;

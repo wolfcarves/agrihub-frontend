@@ -15,7 +15,6 @@ const breadcrumbItems = [
 ];
 
 const BlogsAdmin = () => {
-  const { tab }: any = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const params = useMemo(() => {
     return {

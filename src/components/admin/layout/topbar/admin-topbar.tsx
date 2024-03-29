@@ -57,23 +57,12 @@ const AdminTopbar = () => {
     <div className="sticky top-0 left-0 right-0 border-b w-full">
       <nav className="h-16 flex items-center sm:justify-end justify-between px-5 bg-white opacity-100">
         <div className="block sm:hidden">
-          <Sheet open={isOpen} onOpenChange={setIsOpen}>
-            <SheetTrigger className="p-1">
-              <RxHamburgerMenu size={20} />
+          <Sheet>
+            <SheetTrigger asChild className="p-1">
+              <RxHamburgerMenu size={30} />
             </SheetTrigger>
-            <SheetContent side="left">
-              <div className="mt-2">
-                <div className="h-20 flex items-center justify-center px-8">
-                  <Link to="/admin/dashboard" className="flex-none">
-                    <img
-                      src={logo as unknown as string}
-                      width={50}
-                      className="mx-auto"
-                    />
-                  </Link>
-                </div>
-              </div>
-              <AdminMobileSidebarSheet onLinkClick={() => setIsOpen(false)} />
+            <SheetContent side="left" className="p-0 bg-white">
+              <AdminMobileSidebarSheet />
             </SheetContent>
           </Sheet>
         </div>

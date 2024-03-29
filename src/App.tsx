@@ -280,7 +280,10 @@ const App = ReactRouter(
 
         <Route path="farms-application" element={<FarmsAdmin />} />
         <Route path="farms-application/:tab" element={<FarmsAdmin />} />
-        <Route path="application/:id" element={<FarmApplicationView />} />
+        <Route
+          path="farms-application/view/:id"
+          element={<FarmApplicationView />}
+        />
 
         <Route path="seedling-request" element={<SeedlingRequest />} />
         <Route path="seedling-request/:tab" element={<SeedlingRequest />} />

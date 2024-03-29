@@ -51,7 +51,7 @@ export function ArchiveDialog({
                 try {
                   const data = await archiveProblemMutation(problemId);
                   // TODO : add navigation in archived list later
-                  navigate("/admin/farm/problems/archived");
+                  navigate("/admin/community/problems?search=&tab=archived");
                   toast.success(data.message);
                 } catch (error: any) {
                   toast.error(error.body.message);
@@ -109,7 +109,7 @@ export function UnarchiveDialog({
                 try {
                   const data = await archiveProblemMutation(problemId);
                   // TODO : add navigation in archived list later
-                  navigate("/admin/farm/problems");
+                  navigate("/admin/community/problems");
                   toast.success(data.message);
                 } catch (error: any) {
                   toast.error(error.body.message);

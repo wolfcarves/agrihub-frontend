@@ -1,10 +1,10 @@
 import AdminOutletContainer from "@components/admin/layout/container/AdminOutletContainer";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
-import React from "react";
+import React, { useMemo } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/ui/tabs";
 import BreadCrumb from "@components/ui/custom/breadcrumb/breadcrumb";
 import { Button } from "@components/ui/button";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 // import { Card } from "@components/ui/card";
 // import { Input } from "@components/ui/input";
 // import { DataTable } from "@components/ui/custom/data-table/data-table";
@@ -22,7 +22,17 @@ const breadcrumbItems = [
 ];
 
 const FarmProblemsAdmin = () => {
-  const { tab }: any = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const params = useMemo(() => {
+    return {
+      tab: searchParams.get("tab") || "common"
+    };
+  }, [searchParams]);
+
+  const setTab = (value: string) => {
+    searchParams.set("tab", value);
+    setSearchParams(searchParams);
+  };
   return (
     <AdminOutletContainer>
       <BreadCrumb items={breadcrumbItems} />
@@ -38,11 +48,17 @@ const FarmProblemsAdmin = () => {
         </Link>
       </div>
       <hr className="my-4" />
-      <Tabs defaultValue={tab || "common"}>
+      <Tabs value={params.tab}>
         <TabsList>
-          <TabsTrigger value="common">Common</TabsTrigger>
-          <TabsTrigger value="archived">Archived</TabsTrigger>
-          <TabsTrigger value="unusual">Unusual</TabsTrigger>
+          <TabsTrigger value="common" onClick={() => setTab("common")}>
+            Common
+          </TabsTrigger>
+          <TabsTrigger value="archived" onClick={() => setTab("archived")}>
+            Archived
+          </TabsTrigger>
+          <TabsTrigger value="unusual" onClick={() => setTab("unusual")}>
+            Unusual
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="common">

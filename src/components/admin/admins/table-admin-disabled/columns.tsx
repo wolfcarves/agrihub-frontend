@@ -65,7 +65,7 @@ export const columns: ColumnDef<AdminUser>[] = [
       const handleEnable = async () => {
         await enableAdmin(users.id || "");
         toast.success("Enabled Successfully!");
-        navigate("/admin/record/admins");
+        navigate("/admin/record/admins?tab=active");
       };
       if (activeLoading) {
         return <Loader isVisible={true} />;

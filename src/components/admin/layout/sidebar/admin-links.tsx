@@ -59,13 +59,14 @@ export const adminNavigation: NavigationItem[] = [
       {
         icon: <RiCommunityLine size={24} />,
         title: "Community Overview",
-        link: "/admin/community",
+        link: "/admin/communities",
         module: "farms",
         end: [
           "/admin/community/farms",
           "/admin/community/farms-application",
           "/admin/community/seedling-request",
-          "/admin/community/problems"
+          "/admin/community/problems",
+          "/admin/community/problems/view/:problemId"
         ]
       },
       {

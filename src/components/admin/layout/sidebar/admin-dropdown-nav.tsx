@@ -46,8 +46,6 @@ const AdminDropdownNav = ({
   useEffect(() => {
     if (title === activeDropdown) {
       setIsOpen(true);
-    } else {
-      setIsOpen(false);
     }
   }, [activeDropdown]);
   const toggleDropdown = () => {

@@ -59,8 +59,8 @@ const AdminTopbar = () => {
   }, [pathname]);
   return (
     <div className="sticky top-0 left-0 right-0 border-b w-full">
-      <nav className="h-16 flex items-center sm:justify-end justify-between px-5 bg-white opacity-100">
-        <div className="block sm:hidden">
+      <nav className="h-16 flex items-center md:justify-end justify-between px-5 bg-white opacity-100">
+        <div className="block md:hidden">
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild className="p-1">
               <RxHamburgerMenu size={30} />

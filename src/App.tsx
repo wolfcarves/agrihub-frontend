@@ -29,6 +29,7 @@ import Calendar from "@pages/user/calendar/calendar";
 import ErrorElement from "@pages/user/common/error";
 import UserProfile from "@pages/user/users/profile";
 import QuestionAsk from "@pages/user/question/question-ask";
+import QuestionEdit from "@pages/user/question/question-edit";
 import HelpsLayout from "@pages/user/help/_layout";
 import Helps from "@pages/user/help/helps";
 import Help from "@pages/user/help/help";
@@ -158,7 +159,7 @@ const App = ReactRouter(
           <Route path="" element={<Questions />} />
           <Route path="tags" element={<QuestionTags />} />
           <Route path="ask" element={<QuestionAsk />} />
-          <Route path="ask" element={<QuestionAsk />} />
+          <Route path="ask/edit/:questionId" element={<QuestionEdit />} />
           <Route path="question/:username/:questionId" element={<Question />} />
         </>
       </Route>

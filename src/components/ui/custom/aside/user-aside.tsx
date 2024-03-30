@@ -1,5 +1,4 @@
 import type { ComponentProps } from "react";
-import { FaAngleRight } from "react-icons/fa";
 
 const UserAsideItemContent = ({
   children,
@@ -24,7 +23,6 @@ const UserAsideItem = ({
       className={`${className} flex text-sm items-center justify-between py-1.5 hover:opacity-80`}
     >
       {children}
-      <FaAngleRight />
     </div>
   );
 };
@@ -36,7 +34,7 @@ const UserAsideTitle = ({ className, ...props }: ComponentProps<"h6">) => {
 const UserAside = ({ children, className }: ComponentProps<"div">) => {
   return (
     <div
-      className={`${className} sticky top-20 flex flex-col border-l h-[calc(100vh-3.5rem)] min-w-[16rem] py-10 px-2`}
+      className={`${className} sticky top-20 flex flex-col border-l h-[calc(100vh-3.5rem)] min-w-[16rem] max-w-[16rem] py-10 px-2`}
     >
       <div className="relative overflow-auto h-full scroll-smooth custom-scroll pr-3">
         {children}

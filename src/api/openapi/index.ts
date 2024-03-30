@@ -229,6 +229,7 @@ export type { UpdateLandingResponse } from './models/UpdateLandingResponse';
 export type { UpdateLearningMaterial } from './models/UpdateLearningMaterial';
 export type { UpdatePrivacyPolicyRequest } from './models/UpdatePrivacyPolicyRequest';
 export type { UpdatePrivacyPolicyResponse } from './models/UpdatePrivacyPolicyResponse';
+export type { UpdateQuestionSchema } from './models/UpdateQuestionSchema';
 export type { UpdateTermsConditionsRequest } from './models/UpdateTermsConditionsRequest';
 export type { UpdateTermsConditionsResponse } from './models/UpdateTermsConditionsResponse';
 export type { UserAuthResponse } from './models/UserAuthResponse';

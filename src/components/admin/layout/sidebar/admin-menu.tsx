@@ -167,7 +167,7 @@ export const adminNavigation: AdminNavigationItem[] = [
     ]
   },
   {
-    href: "/admin/website/client-details",
+    href: "/admin/website",
     name: "Website Management",
     icon: <FaRegEdit size={24} />,
     module: "id",

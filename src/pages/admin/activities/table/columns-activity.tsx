@@ -67,7 +67,6 @@ export const columns: ColumnDef<AuditLog>[] = [
               Copy log ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View activity details</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

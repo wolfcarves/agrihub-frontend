@@ -208,8 +208,8 @@ export const columns: ColumnDef<ReportedQuestion>[] = [
                             defaultValue="dito yung reason field"
                           />
                         </div>
-                        <Label>Note</Label>
-                        <Textarea disabled={!isEditing} />
+                        {/* <Label>Note</Label>
+                        <Textarea disabled={!isEditing} /> */}
                       </CardContent>
 
                       {/* report buttons */}

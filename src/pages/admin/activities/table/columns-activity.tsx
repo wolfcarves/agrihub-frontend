@@ -12,57 +12,20 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@components/ui/dropdown-menu";
+import { AuditLog } from "../../../../api/openapi";
+import { format } from "date-fns";
 
-export const data: ActivityLog[] = [
+export const columns: ColumnDef<AuditLog>[] = [
   {
-    id: "al1",
-    timestamp: "2023-01-15 08:30:00",
-    actor: "Admin One",
-    role: "Super Admin",
-    action: "Created User",
-    outcome: "Success",
-    section: "User Management"
+    accessorKey: "createdAt",
+    header: "Created At",
+    cell: ({ row }) => format(new Date(row.original.createdat || ""), "PPP")
   },
   {
-    id: "al2",
-    timestamp: "2023-02-20 10:15:00",
-    actor: "Admin Two",
-    role: "Moderator",
-    action: "Updated Article",
-    outcome: "Success",
-    section: "Content Management"
-  },
-  {
-    id: "al3",
-    timestamp: "2023-03-10 14:45:00",
-    actor: "Admin Three",
-    role: "Support",
-    action: "Deleted Comment",
-    outcome: "Failure",
-    section: "Content Management"
-  }
-];
-
-export type ActivityLog = {
-  id: string;
-  timestamp: string;
-  actor: string;
-  role: string;
-  action: string;
-  outcome: "Success" | "Failure";
-  section: string;
-};
-
-export const columns: ColumnDef<ActivityLog>[] = [
-  {
-    accessorKey: "timestamp",
-    header: "Timestamp",
-    cell: ({ row }) => <div>{row.getValue("timestamp")}</div>
-  },
-  {
-    accessorKey: "actor",
     header: "Actor",
-    cell: ({ row }) => <div>{row.getValue("actor")}</div>
+    cell: ({ row }) => (
+      <div>{`${row.original.firstname} ${row.original.lastname}`}</div>
+    )
   },
   {
     accessorKey: "role",
@@ -73,11 +36,6 @@ export const columns: ColumnDef<ActivityLog>[] = [
     accessorKey: "action",
     header: "Action",
     cell: ({ row }) => <div>{row.getValue("action")}</div>
-  },
-  {
-    accessorKey: "outcome",
-    header: "Outcome",
-    cell: ({ row }) => <div>{row.getValue("outcome")}</div>
   },
   {
     accessorKey: "section",
@@ -101,7 +59,7 @@ export const columns: ColumnDef<ActivityLog>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
+              onClick={() => navigator.clipboard.writeText(payment.id || "")}
             >
               Copy log ID
             </DropdownMenuItem>

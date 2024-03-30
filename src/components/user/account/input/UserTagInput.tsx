@@ -6,29 +6,41 @@ import { AiOutlineCloseCircle } from "react-icons/ai";
 import TagsInput, { RenderLayout } from "react-tagsinput";
 
 import { TagsSchema } from "@api/openapi";
+import useGetTagByKeyWord from "@hooks/api/get/useGetTagByKeyword";
 
 type TagOptionProps = {
   details?: string;
 } & TagsSchema[number];
 
 interface UserTagInputDropdownProps {
-  option?: TagOptionProps[];
+  keyword: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  defaultIdTagValue?: string[] | (string | undefined)[] | undefined;
+  defaultTagValue?: string[] | (string | undefined)[] | undefined;
   onTagsValueChange?: (e: string[]) => void;
   isError?: boolean;
   disabled?: boolean;
 }
 
 const UserTagInputDropdown = ({
-  option,
+  keyword,
   onChange,
+  defaultTagValue,
+  defaultIdTagValue,
   onTagsValueChange,
   isError,
   disabled
 }: UserTagInputDropdownProps) => {
-  const [tags, setTags] = useState<Array<string>>([]);
-  const [idTags, setIdTags] = useState<Array<string>>([]);
+  //All tags
+  const [tags, setTags] = useState<Array<string>>(
+    (defaultTagValue as string[]) ?? []
+  );
+  const [idTags, setIdTags] = useState<Array<string>>(
+    (defaultIdTagValue as string[]) ?? []
+  );
+
   const [isInputTagFocused, setIsInputTagFocused] = useState<boolean>(false);
+  const { data: option } = useGetTagByKeyWord(keyword);
 
   const handleToggleTag = useCallback(
     (val: string) => {

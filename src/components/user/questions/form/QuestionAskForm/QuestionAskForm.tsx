@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { askQuestionSchema } from "./schema";
@@ -9,7 +9,6 @@ import { Input } from "@components/ui/custom";
 import RichTextEditor from "@components/ui/custom/rich-text-editor/RichTextEditor";
 import { toast } from "sonner";
 import UserTagInputDropdown from "@components/user/account/input/UserTagInput";
-import useGetTagByKeyWord from "@hooks/api/get/useGetTagByKeyword";
 import { Form, FormField } from "@components/ui/form";
 import ActivityIndicator from "@icons/ActivityIndicator";
 import BackButton from "@components/ui/custom/button/back-button";
@@ -50,7 +49,6 @@ const QuestionAskFormRules = () => (
 
 const QuestionAskForm = () => {
   const [searchInputTagValue, setSearchInputTagValue] = useState<string>("");
-  const { data: tagResult } = useGetTagByKeyWord(searchInputTagValue);
 
   const form = useForm<QuestionSchema>({
     resolver: zodResolver(askQuestionSchema),
@@ -127,6 +125,7 @@ const QuestionAskForm = () => {
                         <RichTextEditor
                           //worst way to make your code unreadble
                           //dito ko nalang nilagay validation
+                          allowImagePaste
                           onChange={({ charSize }) => {
                             if (charSize! < 20) {
                               form.setError("question", {
@@ -141,6 +140,8 @@ const QuestionAskForm = () => {
                             }
                           }}
                           onBlur={data => {
+                            console.log(data);
+
                             onChange(data.html);
                             data?.files?.then(blobs => {
                               form.setValue("imagesrc", blobs);
@@ -179,7 +180,7 @@ const QuestionAskForm = () => {
                 render={({ field: { onChange } }) => {
                   return (
                     <UserTagInputDropdown
-                      option={tagResult}
+                      keyword={searchInputTagValue}
                       onChange={e => {
                         setSearchInputTagValue(e.target.value);
                       }}

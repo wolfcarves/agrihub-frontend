@@ -6,6 +6,7 @@ import type { AnswersSchema } from '../models/AnswersSchema';
 import type { CommentsSchema } from '../models/CommentsSchema';
 import type { DeleteVoteAnswerResponse } from '../models/DeleteVoteAnswerResponse';
 import type { DeleteVoteForumResponse } from '../models/DeleteVoteForumResponse';
+import type { MessageResponse } from '../models/MessageResponse';
 import type { NewAnswerResponse } from '../models/NewAnswerResponse';
 import type { NewCommentResponse } from '../models/NewCommentResponse';
 import type { NewQuestionSchema } from '../models/NewQuestionSchema';
@@ -14,6 +15,7 @@ import type { QuestionsResponse } from '../models/QuestionsResponse';
 import type { QuestionViewSchema } from '../models/QuestionViewSchema';
 import type { ReportQuestionRequestBody } from '../models/ReportQuestionRequestBody';
 import type { SavedQuestionsResponse } from '../models/SavedQuestionsResponse';
+import type { UpdateQuestionSchema } from '../models/UpdateQuestionSchema';
 import type { VoteAnswerSchema } from '../models/VoteAnswerSchema';
 import type { VoteAnswerSuccessResponse } from '../models/VoteAnswerSuccessResponse';
 import type { VoteResponseSchema } from '../models/VoteResponseSchema';
@@ -137,6 +139,37 @@ filter?: 'newest' | 'top',
                 'page': page,
                 'filter': filter,
             },
+            errors: {
+                400: `Validation Error`,
+                429: `Too much request`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Update Question Details
+     * @returns MessageResponse Success
+     * @throws ApiError
+     */
+    public static putApiForums({
+id,
+formData,
+}: {
+/**
+ * Question ID
+ */
+id: string,
+formData: UpdateQuestionSchema,
+}): CancelablePromise<MessageResponse> {
+        return __request(OpenAPI, {
+            method: 'PUT',
+            url: '/api/forums/{id}',
+            path: {
+                'id': id,
+            },
+            formData: formData,
+            mediaType: 'multipart/form-data',
             errors: {
                 400: `Validation Error`,
                 429: `Too much request`,

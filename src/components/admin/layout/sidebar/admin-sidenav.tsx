@@ -1,17 +1,23 @@
-import React, { ComponentProps, useState } from "react";
-import useGetMyProfileQuery from "../../../../hooks/api/get/useGetMyProfileQuery";
-import { adminNavigation } from "../sidebar/admin-links";
-import AdminNavLink from "../sidebar/admin-navlink";
-import AdminDropdownNav from "../sidebar/admin-dropdown-nav";
+import React, { useState } from "react";
 import logo from "@assets/icons/agrihub-topleaf.svg";
+import { adminNavigation } from "./admin-links";
+import { useNavigate } from "react-router-dom";
+import "../../../../globals.css";
+import useGetMyProfileQuery from "@hooks/api/get/useGetMyProfileQuery";
+import AdminNavLink from "./admin-navlink";
+import AdminDropdownNav from "./admin-dropdown-nav";
 
-const AdminMobileSidebarSheet = () => {
+const AdminSidenav = () => {
+  const [open, setOpen] = useState(true);
+  const navigate = useNavigate();
+
   const { data: authData } = useGetMyProfileQuery();
+  console.log(authData);
+
   return (
     <div
-      className={` max-h-screen overflow-y-auto border-r bg-white custom-scroll `}
+      className={`w-80 max-h-screen overflow-y-auto border-r bg-white custom-scroll md:block hidden`}
     >
-      <div></div>
       <div className="flex items-center  flex-col py-6 sticky bg-white z-20 top-0">
         <img src={logo as unknown as string} width={150} />
 
@@ -86,4 +92,4 @@ const AdminMobileSidebarSheet = () => {
   );
 };
 
-export default AdminMobileSidebarSheet;
+export default AdminSidenav;

@@ -8,6 +8,17 @@ import usePutEventsUnarchieve from "../../../../../hooks/api/put/usePutEventsUna
 import { toast } from "sonner";
 import { format } from "date-fns";
 import usePutBlogsUnarchive from "../../../../../hooks/api/put/usePutBlogsUnarchive";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger
+} from "../../../../ui/alert-dialog";
 
 export const columns: ColumnDef<EventDetails>[] = [
   {
@@ -44,19 +55,32 @@ export const columns: ColumnDef<EventDetails>[] = [
       const handleUnpublish = async () => {
         await unarchiveMaterial(material.id || "");
         toast.success("Unarchive Successfully!");
-        navigate("/admin/resource/blogs");
+        navigate("/admin/resource/blogs?tab=published");
       };
       if (archieveLoading) {
         return <Loader isVisible={true} />;
       }
 
       return (
-        <Button
-          className=" bg-black hover:bg-black/80"
-          onClick={handleUnpublish}
-        >
-          Unarchive
-        </Button>
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button className=" bg-black hover:bg-black/80">Unarchive</Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This action cannot be undone. This will unarchive this blog.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction onClick={handleUnpublish}>
+                Continue
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       );
     }
   }

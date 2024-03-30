@@ -9,6 +9,17 @@ import Loader from "../../../../../icons/Loader";
 import usePutEventsUnarchieve from "../../../../../hooks/api/put/usePutEventsUnarchieve";
 import { toast } from "sonner";
 import { format } from "date-fns";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger
+} from "../../../../ui/alert-dialog";
 
 export const columns: ColumnDef<EventDetails>[] = [
   {
@@ -61,12 +72,25 @@ export const columns: ColumnDef<EventDetails>[] = [
       }
 
       return (
-        <Button
-          className=" bg-black hover:bg-black/80"
-          onClick={handleUnpublish}
-        >
-          Unarchive
-        </Button>
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button className=" bg-black hover:bg-black/80">Unarchive</Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This action cannot be undone. This will unarchive this event.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction onClick={handleUnpublish}>
+                Continue
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       );
     }
   }

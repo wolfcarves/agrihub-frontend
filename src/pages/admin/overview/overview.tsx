@@ -54,7 +54,7 @@ const OverviewAdmin = () => {
             </h3>
             <hr className="my-1" />
             <p className="text-gray-600">Farm Registered</p>
-            <Link to="/admin/community/farms-application/pending">
+            <Link to="/admin/community/farms-application?tab=pending">
               <Label className="flex cursor-pointer hover:underline">
                 <MdPendingActions className="text-orange-500 mr-1" />{" "}
                 {overviewCards?.pending_farm_applications} pending application
@@ -71,7 +71,7 @@ const OverviewAdmin = () => {
             </h3>
             <hr className="my-1" />
             <p className="text-gray-600">Seedling Request</p>
-            <Link to="/admin/community/seedling-request/pending ">
+            <Link to="/admin/community/seedling-request?tab=pending">
               <Label className="flex cursor-pointer hover:underline">
                 <MdPendingActions className="text-orange-500 mr-1" />
                 {overviewCards?.pending_seedling_requests} pending request
@@ -144,7 +144,7 @@ const OverviewAdmin = () => {
                     <p className="text-gray-600 text-center">
                       Published Learning Materials
                     </p>
-                    <Link to="/admin/resource/learnings/draft">
+                    <Link to="/admin/resource/learnings?tab=draft">
                       <Label className="flex cursor-pointer hover:underline justify-center">
                         <MdPendingActions className="text-orange-500 mr-1" />
                         {resourceDetailed?.draft_learning_material}&nbsp;
@@ -178,7 +178,7 @@ const OverviewAdmin = () => {
                       {resourceDetailed?.blogs}
                     </h3>
                     <p className="text-gray-600 text-center">Blogs posted</p>
-                    <Link to="/admin/resource/blogs/draft">
+                    <Link to="/admin/resource/blogs?tab=draft">
                       <Label className="flex cursor-pointer hover:underline justify-center">
                         <MdPendingActions className="text-orange-500 mr-1" />
                         {resourceDetailed?.draft_blogs}&nbsp; currently in draft

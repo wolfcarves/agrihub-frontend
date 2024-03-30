@@ -1,9 +1,9 @@
 import AdminOutletContainer from "@components/admin/layout/container/AdminOutletContainer";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
-import React from "react";
+import React, { useMemo } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/ui/tabs";
 import BreadCrumb from "@components/ui/custom/breadcrumb/breadcrumb";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import AdminFarmReportedProblems from "@components/admin/farms/table/reported-problems-table";
 import TableCommunityFarmActive from "../../../components/admin/community-farms/table-community-farm-active/table-community-farm-active";
 import TableCommunityFarmArchive from "../../../components/admin/community-farms/table-community-farm-archive/table-community-farm-archive";
@@ -16,7 +16,17 @@ const breadcrumbItems = [
 ];
 
 const FarmCommunity = () => {
-  const { tab }: any = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const params = useMemo(() => {
+    return {
+      tab: searchParams.get("tab") || "active"
+    };
+  }, [searchParams]);
+
+  const setTab = (value: string) => {
+    searchParams.set("tab", value);
+    setSearchParams(searchParams);
+  };
   return (
     <AdminOutletContainer>
       <BreadCrumb items={breadcrumbItems} />
@@ -29,11 +39,17 @@ const FarmCommunity = () => {
         </div>
       </div>
       <hr className="my-4" />
-      <Tabs defaultValue={tab || "active"}>
+      <Tabs value={params.tab}>
         <TabsList>
-          <TabsTrigger value="active">Active</TabsTrigger>
-          <TabsTrigger value="problems">Problems</TabsTrigger>
-          <TabsTrigger value="archived">Archived</TabsTrigger>
+          <TabsTrigger value="active" onClick={() => setTab("active")}>
+            Active
+          </TabsTrigger>
+          <TabsTrigger value="problems" onClick={() => setTab("problems")}>
+            Problems
+          </TabsTrigger>
+          <TabsTrigger value="archived" onClick={() => setTab("archived")}>
+            Archived
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="active">

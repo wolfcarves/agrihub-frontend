@@ -42,14 +42,13 @@ const ViewEvents = () => {
   const navigate = useNavigate();
   const { eventId } = useParams();
   const { data: eventData } = useGetEventsDraftView(eventId || "");
-  console.log(eventData);
 
   const { mutateAsync: deleteDraft, isLoading: deleteLoad } =
     useDeleteEventDraft();
   const handleDeleteDraft = async () => {
     await deleteDraft(eventId || "");
     toast.success("Draft Deleted Successfully!");
-    navigate("/admin/resource/events-draft");
+    navigate("/admin/resource/events?tab=draft");
   };
 
   const { mutateAsync: unpublishMaterial, isLoading: unpublishLoad } =
@@ -57,7 +56,7 @@ const ViewEvents = () => {
   const handleUnpublish = async () => {
     await unpublishMaterial(eventId || "");
     toast.success("Unpublished Successfully!");
-    navigate("/admin/resource/events-draft");
+    navigate("/admin/resource/events?tab=draft");
   };
 
   const { mutateAsync: archiveMaterial, isLoading: archiveLoad } =
@@ -65,7 +64,7 @@ const ViewEvents = () => {
   const handleArchive = async () => {
     await archiveMaterial(eventId || "");
     toast.success("Archive Successfully!");
-    navigate("/admin/resource/events-archives");
+    navigate("/admin/resource/events?tab=archived");
   };
 
   const { mutateAsync: publishMaterial, isLoading: publishLoad } =

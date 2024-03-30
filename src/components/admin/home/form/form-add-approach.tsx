@@ -16,13 +16,17 @@ export const approachSchema = zod.object({
   icon: zod.string({
     required_error: "Icon is required."
   }),
-  title: zod.string({
-    required_error: "Title is required."
-  }),
+  title: zod
+    .string({
+      required_error: "Title is required."
+    })
+    .min(3, "Please add a title"),
 
-  description: zod.string({
-    required_error: "Description is required."
-  })
+  description: zod
+    .string({
+      required_error: "Description is required."
+    })
+    .min(3, "Please add a description")
 });
 
 interface formProps {

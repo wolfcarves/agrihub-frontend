@@ -143,7 +143,7 @@ const PermissionAdminCreate = () => {
         requestBody: compiledData
       });
       toast.success("Admin Created Successfully!");
-      navigate(`/admin/record/admins`);
+      navigate(`/admin/record/admins?tab=active`);
       dispatch(setEmail(""));
       dispatch(setPassword(""));
     } catch (e: any) {

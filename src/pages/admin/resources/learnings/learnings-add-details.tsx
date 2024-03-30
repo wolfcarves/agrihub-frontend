@@ -39,14 +39,13 @@ const UpdateLearnings = () => {
   const navigate = useNavigate();
   const { data: LearningData, isLoading: LearningDataLoading } =
     useGetLearningView(learningsId || "");
-  console.log(LearningData);
 
   const { mutateAsync: deleteDraft, isLoading: deleteLoad } =
     useDeleteLearningDraftDelete();
   const handleDeleteDraft = async () => {
     await deleteDraft(learningsId || "");
     toast.success("Draft Deleted Successfully!");
-    navigate("/admin/resource/learnings");
+    navigate("/admin/resource/learnings?tab=draft");
   };
 
   const { mutateAsync: unpublishMaterial, isLoading: unpublishLoad } =
@@ -54,7 +53,7 @@ const UpdateLearnings = () => {
   const handleUnpublish = async () => {
     await unpublishMaterial(learningsId || "");
     toast.success("Unpublished Successfully!");
-    navigate("/admin/resource/learnings/draft");
+    navigate("/admin/resource/learnings?tab=draft");
   };
 
   const { mutateAsync: archiveMaterial, isLoading: archiveLoad } =
@@ -62,7 +61,7 @@ const UpdateLearnings = () => {
   const handleArchive = async () => {
     await archiveMaterial(learningsId || "");
     toast.success("Archive Successfully!");
-    navigate("/admin/resource/learnings-archives");
+    navigate("/admin/resource/learnings?tab=archived");
   };
 
   const { mutateAsync: publishMaterial, isLoading: publishLoad } =

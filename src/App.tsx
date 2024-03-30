@@ -272,16 +272,18 @@ const App = ReactRouter(
       <Route path="analytics" element={<AnalyticsAdmin />} />
 
       {/* Community  */}
+      <Route path="communities" element={<Farms />} />
       <Route path="community">
-        <Route path="" element={<Farms />} />
-
         <Route path="farms" element={<FarmCommunity />} />
         <Route path="farms/view/:id" element={<FarmActiveView />} />
         <Route path="farms/:tab" element={<FarmCommunity />} />
 
         <Route path="farms-application" element={<FarmsAdmin />} />
         <Route path="farms-application/:tab" element={<FarmsAdmin />} />
-        <Route path="application/:id" element={<FarmApplicationView />} />
+        <Route
+          path="farms-application/view/:id"
+          element={<FarmApplicationView />}
+        />
 
         <Route path="seedling-request" element={<SeedlingRequest />} />
         <Route path="seedling-request/:tab" element={<SeedlingRequest />} />

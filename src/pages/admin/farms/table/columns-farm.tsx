@@ -58,7 +58,7 @@ export const columns: ColumnDef<FarmData>[] = [
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
               onClick={() =>
-                navigate(`/admin/community/application/${farm.id}`)
+                navigate(`/admin/community/farms-application/view/${farm.id}`)
               }
             >
               View

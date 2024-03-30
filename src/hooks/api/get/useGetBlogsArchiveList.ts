@@ -9,7 +9,7 @@ export default function useGetBlogsArchiveList(
   perpage?: string
 ) {
   return useQuery({
-    queryKey: [GET_BLOGS_ARCHIVE_LIST()],
+    queryKey: [GET_BLOGS_ARCHIVE_LIST(), search, page, perpage],
     queryFn: async () => {
       const data = await BlogsService.getApiBlogsArchivedList({
         search,

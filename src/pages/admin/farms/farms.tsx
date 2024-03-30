@@ -29,7 +29,7 @@ const Farms = () => {
             <Label>Pending Farm Applications</Label>
             <CardTitle>{farmOverView?.pending_farm_applications}</CardTitle>
             <CardDescription className="text-green-500 font-poppins-semibold">
-              <Link to="/admin/community/farms/pending">
+              <Link to="/admin/community/farms-application?tab=pending">
                 See all application
               </Link>
             </CardDescription>
@@ -40,7 +40,7 @@ const Farms = () => {
             <Label>Total Community Farm Registered</Label>
             <CardTitle>{farmOverView?.accepted_requests}</CardTitle>
             <CardDescription className="text-green-500 font-poppins-semibold">
-              <Link to="/admin/community/farms/registered">See all farms</Link>
+              <Link to="/admin/community/farms?tab=active">See all farms</Link>
             </CardDescription>
           </CardHeader>
         </Card>

@@ -259,7 +259,14 @@ const QuestionPostBody = ({ data }: QuestionPostBodyProps) => {
 
       <div className="flex flex-wrap gap-2 py-5">
         {data?.question?.tags?.map(({ tag }) => {
-          return <TagChip key={tag} name={tag} size="base" />;
+          return (
+            <TagChip
+              to={`/forum?tag=${tag}`}
+              key={tag}
+              name={tag}
+              size="base"
+            />
+          );
         })}
       </div>
 

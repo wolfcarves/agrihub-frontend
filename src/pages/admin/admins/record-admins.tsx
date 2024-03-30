@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import AdminOutletContainer from "@components/admin/layout/container/AdminOutletContainer";
 import BreadCrumb from "../../../components/ui/custom/breadcrumb/breadcrumb";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
@@ -10,10 +10,20 @@ import TableAdminList from "../../../components/admin/admins/table-admin-list/ta
 import DialogCreateAdmin from "../../../components/admin/admins/dialog-create-admin/dialog-create-admin";
 import TableAdminDisabled from "@components/admin/admins/table-admin-disabled/table-admin-disabled";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/ui/tabs";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 
 const RecordAdmins: React.FC = () => {
-  const { tab }: any = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const params = useMemo(() => {
+    return {
+      tab: searchParams.get("tab") || "active"
+    };
+  }, [searchParams]);
+
+  const setTab = (value: string) => {
+    searchParams.set("tab", value);
+    setSearchParams(searchParams);
+  };
   return (
     <AdminOutletContainer className="container mx-auto py-10 ">
       <BreadCrumb items={breadcrumbItems} />
@@ -27,10 +37,14 @@ const RecordAdmins: React.FC = () => {
         <DialogCreateAdmin />
       </div>
       <hr className="my-4" />
-      <Tabs defaultValue={tab || "active"}>
+      <Tabs value={params.tab}>
         <TabsList>
-          <TabsTrigger value="active">Active</TabsTrigger>
-          <TabsTrigger value="disabled">Disabled</TabsTrigger>
+          <TabsTrigger value="active" onClick={() => setTab("active")}>
+            Active
+          </TabsTrigger>
+          <TabsTrigger value="disabled" onClick={() => setTab("disabled")}>
+            Disabled
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="active">

@@ -25,236 +25,6 @@ import { request as __request } from '../core/request';
 export class ForumsService {
 
     /**
-     * Save a question
-     * @returns any Saved Question Successfully
-     * @throws ApiError
-     */
-    public static postApiForumsSaveQuestion({
-id,
-}: {
-/**
- * The ID of the question to be saved
- */
-id: string,
-}): CancelablePromise<{
-message?: string;
-}> {
-        return __request(OpenAPI, {
-            method: 'POST',
-            url: '/api/forums/save/question/{id}',
-            path: {
-                'id': id,
-            },
-            errors: {
-                400: `Validation Error`,
-                401: `Unauthorized`,
-                404: `Not Found Error`,
-                500: `Server Error`,
-            },
-        });
-    }
-
-    /**
-     * Remove a  saved question
-     * @returns any Removed Question Successfully
-     * @throws ApiError
-     */
-    public static deleteApiForumsRemoveSavedQuestion({
-id,
-}: {
-/**
- * The ID of the question to be removed
- */
-id: string,
-}): CancelablePromise<{
-message?: string;
-}> {
-        return __request(OpenAPI, {
-            method: 'DELETE',
-            url: '/api/forums/remove/saved/question/{id}',
-            path: {
-                'id': id,
-            },
-            errors: {
-                400: `Validation Error`,
-                401: `Unauthorized`,
-                404: `Not Found Error`,
-                500: `Server Error`,
-            },
-        });
-    }
-
-    /**
-     * Delete a question
-     * @returns any Deleted Question Successfully
-     * @throws ApiError
-     */
-    public static deleteApiForumsDeleteQuestion({
-id,
-}: {
-/**
- * The ID of the question to be deleted
- */
-id: string,
-}): CancelablePromise<{
-message?: string;
-}> {
-        return __request(OpenAPI, {
-            method: 'DELETE',
-            url: '/api/forums/delete/question/{id}',
-            path: {
-                'id': id,
-            },
-            errors: {
-                400: `Validation Error`,
-                401: `Unauthorized`,
-                404: `Not Found Error`,
-                500: `Server Error`,
-            },
-        });
-    }
-
-    /**
-     * Get Saved Questions Data
-     * @returns SavedQuestionsResponse Success
-     * @throws ApiError
-     */
-    public static getApiForumsSavedQuestions({
-search,
-page,
-perpage,
-filter,
-}: {
-/**
- * Search term for forums (optional)
- */
-search?: string,
-/**
- * Page number (optional)
- */
-page?: string,
-/**
- * Number of items per page (optional, default 10)
- */
-perpage?: string,
-/**
- * Filter criteria (optional, default newest)
- */
-filter?: 'newest' | 'active' | 'trending',
-}): CancelablePromise<SavedQuestionsResponse> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/api/forums/saved/questions',
-            query: {
-                'search': search,
-                'page': page,
-                'perpage': perpage,
-                'filter': filter,
-            },
-            errors: {
-                400: `Validation Error`,
-                401: `Unauthorized Error`,
-                404: `Validation Error`,
-                500: `Server Error`,
-            },
-        });
-    }
-
-    /**
-     * Report a question
-     * @returns any Success message
-     * @throws ApiError
-     */
-    public static postApiForumsReportQuestion({
-id,
-requestBody,
-}: {
-/**
- * ID of the question to report
- */
-id: string,
-requestBody: ReportQuestionRequestBody,
-}): CancelablePromise<{
-message?: string;
-}> {
-        return __request(OpenAPI, {
-            method: 'POST',
-            url: '/api/forums/report/question/{id}',
-            path: {
-                'id': id,
-            },
-            body: requestBody,
-            mediaType: 'application/json',
-            errors: {
-                400: `Validation Error`,
-                401: `Unauthorized Error`,
-                404: `Not Found Error`,
-                500: `Server Error`,
-            },
-        });
-    }
-
-    /**
-     * Delete an answer
-     * @returns any Answer Deleted Successfully
-     * @throws ApiError
-     */
-    public static deleteApiForumsDeleteAnswer({
-id,
-}: {
-/**
- * The ID of the answer to be deleted
- */
-id: string,
-}): CancelablePromise<{
-message?: string;
-}> {
-        return __request(OpenAPI, {
-            method: 'DELETE',
-            url: '/api/forums/delete/answer/{id}',
-            path: {
-                'id': id,
-            },
-            errors: {
-                400: `Validation Error`,
-                401: `Unauthorized`,
-                404: `Not Found Error`,
-                500: `Server Error`,
-            },
-        });
-    }
-
-    /**
-     * Delete a comment
-     * @returns any Comment Deleted successfully
-     * @throws ApiError
-     */
-    public static deleteApiForumsDeleteComment({
-id,
-}: {
-/**
- * The ID of the comment to be deleted
- */
-id: string,
-}): CancelablePromise<{
-message?: string;
-}> {
-        return __request(OpenAPI, {
-            method: 'DELETE',
-            url: '/api/forums/delete/comment/{id}',
-            path: {
-                'id': id,
-            },
-            errors: {
-                400: `Validation Error`,
-                401: `Unauthorized`,
-                404: `Not Found Error`,
-                500: `Server Error`,
-            },
-        });
-    }
-
-    /**
      * Get Questions Data
      * @returns QuestionsResponse Success
      * @throws ApiError
@@ -265,6 +35,7 @@ page,
 perpage,
 filter,
 profile,
+tag,
 }: {
 /**
  * Search term for forums (optional)
@@ -286,6 +57,10 @@ filter?: 'newest' | 'active' | 'trending',
  * profile query
  */
 profile?: string,
+/**
+ * tag query
+ */
+tag?: string,
 }): CancelablePromise<QuestionsResponse> {
         return __request(OpenAPI, {
             method: 'GET',
@@ -296,6 +71,7 @@ profile?: string,
                 'perpage': perpage,
                 'filter': filter,
                 'profile': profile,
+                'tag': tag,
             },
             errors: {
                 400: `Validation Error`,
@@ -547,6 +323,314 @@ id: string,
             errors: {
                 401: `Validation Error`,
                 429: `Too much request`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Save a question
+     * @returns any Saved Question Successfully
+     * @throws ApiError
+     */
+    public static postApiForumsSaveQuestion({
+id,
+}: {
+/**
+ * The ID of the question to be saved
+ */
+id: string,
+}): CancelablePromise<{
+message?: string;
+}> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/forums/save/question/{id}',
+            path: {
+                'id': id,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Remove a  saved question
+     * @returns any Removed Question Successfully
+     * @throws ApiError
+     */
+    public static deleteApiForumsRemoveSavedQuestion({
+id,
+}: {
+/**
+ * The ID of the question to be removed
+ */
+id: string,
+}): CancelablePromise<{
+message?: string;
+}> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/forums/remove/saved/question/{id}',
+            path: {
+                'id': id,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Delete a question
+     * @returns any Deleted Question Successfully
+     * @throws ApiError
+     */
+    public static deleteApiForumsDeleteQuestion({
+id,
+}: {
+/**
+ * The ID of the question to be deleted
+ */
+id: string,
+}): CancelablePromise<{
+message?: string;
+}> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/forums/delete/question/{id}',
+            path: {
+                'id': id,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Get Saved Questions Data
+     * @returns SavedQuestionsResponse Success
+     * @throws ApiError
+     */
+    public static getApiForumsSavedQuestions({
+search,
+page,
+perpage,
+filter,
+}: {
+/**
+ * Search term for forums (optional)
+ */
+search?: string,
+/**
+ * Page number (optional)
+ */
+page?: string,
+/**
+ * Number of items per page (optional, default 10)
+ */
+perpage?: string,
+/**
+ * Filter criteria (optional, default newest)
+ */
+filter?: 'newest' | 'active' | 'trending',
+}): CancelablePromise<SavedQuestionsResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/forums/saved/questions',
+            query: {
+                'search': search,
+                'page': page,
+                'perpage': perpage,
+                'filter': filter,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized Error`,
+                404: `Validation Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Report a question
+     * @returns any Success message
+     * @throws ApiError
+     */
+    public static postApiForumsReportQuestion({
+id,
+requestBody,
+}: {
+/**
+ * ID of the question to report
+ */
+id: string,
+requestBody: ReportQuestionRequestBody,
+}): CancelablePromise<{
+message?: string;
+}> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/forums/report/question/{id}',
+            path: {
+                'id': id,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized Error`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Delete an answer
+     * @returns any Answer Deleted Successfully
+     * @throws ApiError
+     */
+    public static deleteApiForumsDeleteAnswer({
+id,
+}: {
+/**
+ * The ID of the answer to be deleted
+ */
+id: string,
+}): CancelablePromise<{
+message?: string;
+}> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/forums/delete/answer/{id}',
+            path: {
+                'id': id,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Delete a comment
+     * @returns any Comment Deleted successfully
+     * @throws ApiError
+     */
+    public static deleteApiForumsDeleteComment({
+id,
+}: {
+/**
+ * The ID of the comment to be deleted
+ */
+id: string,
+}): CancelablePromise<{
+message?: string;
+}> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/forums/delete/comment/{id}',
+            path: {
+                'id': id,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Update Forum Answer
+     * @returns any Successful response
+     * @throws ApiError
+     */
+    public static putApiForumsUpdateAnswer({
+id,
+requestBody,
+}: {
+/**
+ * ID of the forum answer to update
+ */
+id: string,
+requestBody: {
+/**
+ * The updated answer content
+ */
+answer: string;
+},
+}): CancelablePromise<{
+message?: string;
+}> {
+        return __request(OpenAPI, {
+            method: 'PUT',
+            url: '/api/forums/update/answer/{id}',
+            path: {
+                'id': id,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Update Forum Comment
+     * @returns any Successful response
+     * @throws ApiError
+     */
+    public static putApiForumsUpdateComment({
+id,
+requestBody,
+}: {
+/**
+ * ID of the forum comment to update
+ */
+id: string,
+requestBody: {
+/**
+ * The updated comment content
+ */
+comment: string;
+},
+}): CancelablePromise<{
+message?: string;
+}> {
+        return __request(OpenAPI, {
+            method: 'PUT',
+            url: '/api/forums/update/comment/{id}',
+            path: {
+                'id': id,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
                 500: `Server Error`,
             },
         });

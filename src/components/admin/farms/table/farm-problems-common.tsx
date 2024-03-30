@@ -49,9 +49,6 @@ const FarmProblemsCommon = () => {
     setSearchParams(searchParams);
   }, 700);
 
-  if (isLoading) {
-    return "loading..";
-  }
   return (
     <>
       <Input

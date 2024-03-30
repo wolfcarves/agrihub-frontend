@@ -49,7 +49,8 @@ const AnalyticsAdmin = () => {
     return (value: number) => {
       const percentage = value / totalFeedback;
       const final = percentage * 100;
-      return final;
+      const finalValue = final.toFixed(0);
+      return finalValue;
     };
   }, [totalFeedback]);
 

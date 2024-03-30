@@ -1,6 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/avatar";
 import useAuth from "@hooks/useAuth";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { RxHamburgerMenu, RxQuestionMarkCircled } from "react-icons/rx";
 import HeaderNotification from "../../../ui/custom/notification/header-notification";
 import { useDispatch } from "../../../../redux/store";
@@ -16,7 +16,7 @@ import {
 import { MdLogout } from "react-icons/md";
 import { IoSettingsOutline } from "react-icons/io5";
 import { BiCommentError } from "react-icons/bi";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { RiAdminLine } from "react-icons/ri";
 import useDeleteAuthMutate from "../../../../hooks/api/delete/useDeleteAuthMutate";
 import { LuUser2 } from "react-icons/lu";
@@ -53,11 +53,15 @@ const AdminTopbar = () => {
     navigate(`/`);
   };
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const pathname = useLocation().pathname;
+  useEffect(() => {
+    setIsOpen(false);
+  }, [pathname]);
   return (
     <div className="sticky top-0 left-0 right-0 border-b w-full">
       <nav className="h-16 flex items-center sm:justify-end justify-between px-5 bg-white opacity-100">
         <div className="block sm:hidden">
-          <Sheet>
+          <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild className="p-1">
               <RxHamburgerMenu size={30} />
             </SheetTrigger>

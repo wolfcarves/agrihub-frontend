@@ -19,6 +19,7 @@ export type { Approach } from './models/Approach';
 export type { ApproachSection } from './models/ApproachSection';
 export type { ArchiveCropResponse } from './models/ArchiveCropResponse';
 export type { ArchivedCrop } from './models/ArchivedCrop';
+export type { AuditLog } from './models/AuditLog';
 export type { Blog } from './models/Blog';
 export type { BlogDraft } from './models/BlogDraft';
 export type { BlogImage } from './models/BlogImage';
@@ -254,6 +255,7 @@ export type { ZodValidationError } from './models/ZodValidationError';
 
 export { AccessService } from './services/AccessService';
 export { AccountService } from './services/AccountService';
+export { AuditLogsService } from './services/AuditLogsService';
 export { AuthService } from './services/AuthService';
 export { BlogsService } from './services/BlogsService';
 export { CmsService } from './services/CmsService';

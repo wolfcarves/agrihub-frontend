@@ -230,7 +230,14 @@ const QuestionCard = ({
 
               <div className="flex flex-wrap gap-2">
                 {tags?.map(({ tag }) => {
-                  return <TagChip key={Math.random()} name={tag} size="sm" />;
+                  return (
+                    <TagChip
+                      to={`/forum?tag=${tag}`}
+                      key={Math.random()}
+                      name={tag}
+                      size="sm"
+                    />
+                  );
                 })}
               </div>
             </div>

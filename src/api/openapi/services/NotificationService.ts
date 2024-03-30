@@ -83,4 +83,29 @@ id: string,
         });
     }
 
+    /**
+     * Mark All Notifications as Read
+     * @returns any Successful response
+     * @throws ApiError
+     */
+    public static postApiNotificationReadAll({
+requestBody,
+}: {
+requestBody?: any,
+}): CancelablePromise<{
+message?: string;
+}> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/notification/read/all',
+            body: requestBody,
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
 }

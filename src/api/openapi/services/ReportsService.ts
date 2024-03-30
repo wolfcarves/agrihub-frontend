@@ -238,6 +238,96 @@ sort?: string,
     }
 
     /**
+     * Get crop reports by ID
+     * @returns CommunityCropReportsResponse Successful response
+     * @throws ApiError
+     */
+    public static getApiReportsCropReportExisting({
+id,
+search,
+page,
+perpage,
+filter,
+sort,
+}: {
+/**
+ * ID of the farm
+ */
+id: string,
+/**
+ * Search term
+ */
+search?: string,
+/**
+ * Page number
+ */
+page?: string,
+/**
+ * Records per page
+ */
+perpage?: string,
+/**
+ * Array of filters
+ */
+filter?: Array<string>,
+/**
+ * Sorting parameter
+ */
+sort?: string,
+}): CancelablePromise<CommunityCropReportsResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/reports/crop/report/existing/{id}',
+            path: {
+                'id': id,
+            },
+            query: {
+                'search': search,
+                'page': page,
+                'perpage': perpage,
+                'filter': filter,
+                'sort': sort,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Set report as inactive
+     * @returns any Event deleted successfully
+     * @throws ApiError
+     */
+    public static postApiReportsCropReportInactive({
+id,
+}: {
+/**
+ * The ID of the report to be set as inactive
+ */
+id: string,
+}): CancelablePromise<{
+message?: string;
+}> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/reports/crop/report/inactive/{id}',
+            path: {
+                'id': id,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
      * Get crop report view by ID
      * @returns CropReportViewResponse Successful response
      * @throws ApiError

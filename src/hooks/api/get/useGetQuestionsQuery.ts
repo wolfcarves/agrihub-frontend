@@ -7,12 +7,21 @@ export type SearchParams = {
   perpage?: string;
   filter?: "newest" | "active" | "trending";
   profile?: string;
+  tag?: string;
 };
 
 export const GET_QUESTION_KEY = () => "GET_QUESTION_KEY";
+
 export default function useGetQuestionsQuery(data: SearchParams) {
   return useQuery({
-    queryKey: [GET_QUESTION_KEY(), data.page, data.filter, data.profile],
+    queryKey: [
+      GET_QUESTION_KEY(),
+      data.page,
+      data.perpage,
+      data.filter,
+      data.profile,
+      data.tag
+    ],
     queryFn: async () => {
       const response = await ForumsService.getApiForums(data);
 

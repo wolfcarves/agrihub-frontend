@@ -153,6 +153,9 @@ export function formatRoles(role: string) {
     case "member":
       formatedRole = "Member";
       break;
+    case "asst_admin":
+      formatedRole = "Assistant Admin";
+      break;
     case "admin":
       formatedRole = "Admin";
       break;

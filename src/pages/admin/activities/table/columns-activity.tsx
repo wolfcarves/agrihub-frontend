@@ -14,6 +14,7 @@ import {
 } from "@components/ui/dropdown-menu";
 import { AuditLog } from "../../../../api/openapi";
 import { format } from "date-fns";
+import { formatRoles } from "../../../../components/lib/utils";
 
 export const columns: ColumnDef<AuditLog>[] = [
   {
@@ -30,7 +31,9 @@ export const columns: ColumnDef<AuditLog>[] = [
   {
     accessorKey: "role",
     header: "Role",
-    cell: ({ row }) => <div>{row.getValue("role")}</div>
+    cell: ({ row }) => (
+      <div className=" capitalize">{formatRoles(row.getValue("role"))}</div>
+    )
   },
   {
     accessorKey: "action",

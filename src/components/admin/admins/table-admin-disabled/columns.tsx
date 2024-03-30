@@ -27,6 +27,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger
 } from "../../../ui/alert-dialog";
+import { formatRoles } from "../../../lib/utils";
 
 export const columns: ColumnDef<AdminUser>[] = [
   {
@@ -53,9 +54,7 @@ export const columns: ColumnDef<AdminUser>[] = [
     accessorKey: "role",
     header: "Role",
     cell: ({ row }) => {
-      return (
-        <div className=" capitalize text-slate-700">{row.original.role}</div>
-      );
+      return <div>{formatRoles(row.original.role || "")}</div>;
     }
   },
   {

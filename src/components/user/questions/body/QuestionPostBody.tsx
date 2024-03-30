@@ -21,15 +21,17 @@ import QuestionFeedbackPanel from "../panel/QuestionFeedbackPanel";
 import useQuestionDeleteVoteMutation from "@hooks/api/get/useQuestionDeleteVoteMutation";
 import { AiOutlineDelete } from "react-icons/ai";
 import QuestionDeleteDefaultDialog from "../dialog/QuestionDeleteDefaultDialog";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useForumsDeleteQuestionMutation from "@hooks/api/delete/useForumsDeleteQuestionMutation";
 import { GET_QUESTION_KEY } from "@hooks/api/get/useGetQuestionsQuery";
+import { MdOutlineEdit } from "react-icons/md";
 
 interface QuestionPostBodyProps {
   data?: QuestionViewSchema;
 }
 
 const QuestionPostBody = ({ data }: QuestionPostBodyProps) => {
+  const navigate = useNavigate();
   const user = useAuth();
   const params = useParams();
   const queryClient = useQueryClient();
@@ -159,16 +161,21 @@ const QuestionPostBody = ({ data }: QuestionPostBodyProps) => {
             replace: domNode => {
               if (domNode instanceof Element) {
                 if (domNode.tagName === "img") {
-                  if (pattern.test(domNode.attribs.src)) {
-                    const replacedImg = (
-                      <img
-                        src={data?.question?.imagesrc?.[index]}
-                        className="w-full max-w-[450px] my-2"
-                      />
-                    );
-                    index++;
-                    return replacedImg;
-                  }
+                  const replacedImg = (
+                    <img
+                      //checks if image has the word blob
+                      src={
+                        pattern.test(domNode.attribs.src)
+                          ? data?.question?.imagesrc?.[index]
+                          : domNode.attribs.src
+                      }
+                      className="w-full max-w-[450px] my-2"
+                    />
+                  );
+
+                  if (pattern.test(domNode.attribs.src)) index++;
+
+                  return replacedImg;
                 }
 
                 if (domNode.tagName === "pre") {
@@ -242,6 +249,14 @@ const QuestionPostBody = ({ data }: QuestionPostBodyProps) => {
         ) : (
           <QuestionFeedbackPanel
             items={[
+              {
+                label: "Edit",
+                icon: <MdOutlineEdit />,
+                requireAuth: true,
+                onClick: () => {
+                  navigate(`/forum/ask/edit/${questionId}`);
+                }
+              },
               {
                 label: "Delete",
                 icon: <AiOutlineDelete />,

@@ -7,6 +7,7 @@ import {
 import { useNavigate, useSearchParams } from "react-router-dom";
 import useGetPopularTagsQuery from "@hooks/api/get/useGetPopularTagsQuery";
 import LoadingSpinner from "@icons/LoadingSpinner";
+import { FaAngleRight } from "react-icons/fa";
 
 const QuestionsAside = () => {
   const [searchParams] = useSearchParams();
@@ -35,7 +36,12 @@ const QuestionsAside = () => {
                   }
                 }}
               >
-                <UserAsideItem>{tag_name}</UserAsideItem>
+                <UserAsideItem>
+                  <p className="truncate">{tag_name}</p>
+                  <span className="w-4 text-md">
+                    <FaAngleRight />
+                  </span>
+                </UserAsideItem>
               </button>
             </div>
           ))

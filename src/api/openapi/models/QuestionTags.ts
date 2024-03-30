@@ -8,4 +8,8 @@ export type QuestionTags = {
      * The tag associated with the question
      */
     tag?: string;
+    /**
+     * The id of tag associated with the question
+     */
+    id?: string;
 };

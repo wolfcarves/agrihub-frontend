@@ -15,10 +15,15 @@ import imageCompression, { Options } from "browser-image-compression";
 
 type ToolbarProps = {
   editor: Editor;
+  allowUploadImage: boolean;
   onImageUpload?: (file: File | null) => void;
 };
 
-const Toolbar: React.FC<ToolbarProps> = ({ editor, onImageUpload }) => {
+const Toolbar: React.FC<ToolbarProps> = ({
+  editor,
+  allowUploadImage,
+  onImageUpload
+}) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const addImage = async (data: React.ChangeEvent<HTMLInputElement>) => {
@@ -141,26 +146,30 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor, onImageUpload }) => {
         <FaMinus />
       </button>
 
-      <button
-        className="relative flex items-center gap-3 active:text-white p-2 rounded-md hover:bg-primary"
-        onClick={e => {
-          e.preventDefault();
-          inputRef?.current?.click();
-        }}
-      >
-        <FaRegImage />
-      </button>
+      {allowUploadImage && (
+        <>
+          <button
+            className="relative flex items-center gap-3 active:text-white p-2 rounded-md hover:bg-primary"
+            onClick={e => {
+              e.preventDefault();
+              inputRef?.current?.click();
+            }}
+          >
+            <FaRegImage />
+          </button>
 
-      <input
-        ref={inputRef}
-        type="file"
-        value={[]}
-        accept="image/png, image/jpg, image/jpeg"
-        className="absolute opacity-0 inset-0 m-auto hidden"
-        onChange={data => {
-          addImage(data);
-        }}
-      />
+          <input
+            ref={inputRef}
+            type="file"
+            value={[]}
+            accept="image/png, image/jpg, image/jpeg"
+            className="absolute opacity-0 inset-0 m-auto hidden"
+            onChange={data => {
+              addImage(data);
+            }}
+          />
+        </>
+      )}
     </>
   );
 };

@@ -1,4 +1,3 @@
-import parse, { Element, domToReact } from "html-react-parser";
 import TagChip from "@components/user/questions/chip/TagChip";
 import { QuestionViewSchema } from "@api/openapi";
 import useQuestionVoteMutation from "@hooks/api/post/useQuestionVoteMutation";
@@ -25,6 +24,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import useForumsDeleteQuestionMutation from "@hooks/api/delete/useForumsDeleteQuestionMutation";
 import { GET_QUESTION_KEY } from "@hooks/api/get/useGetQuestionsQuery";
 import { MdOutlineEdit } from "react-icons/md";
+import parse from "html-react-parser";
+import DOMPurify from "dompurify";
 
 interface QuestionPostBodyProps {
   data?: QuestionViewSchema;
@@ -38,9 +39,6 @@ const QuestionPostBody = ({ data }: QuestionPostBodyProps) => {
   const [isQuestionDeleteDialogOpen, setIsQuestionDeleteDialogOpen] =
     useState<boolean>(false);
   const [isReportOpen, setIsReportOpen] = useState<boolean>(false);
-
-  const pattern = /\bblob\b/;
-  let index = 0;
 
   const { mutateAsync: saveQuestion } = useForumsSaveQuestionMutation();
   const { data: savedQuestionsData } = useGetSavedQuestions();
@@ -134,8 +132,23 @@ const QuestionPostBody = ({ data }: QuestionPostBodyProps) => {
     }
   };
 
+  const [focusedImg, setFocusedImg] = useState<string>("");
+
   return (
     <>
+      {focusedImg !== "" && (
+        <div
+          className="fixed inset-0 h-full w-full flex justify-center items-center z-50 bg-zinc-500/50"
+          onClick={() => setFocusedImg("")}
+        >
+          <img
+            src={focusedImg}
+            alt="attachment_image"
+            width={1152}
+            height={648}
+          />
+        </div>
+      )}
       <div className="pb-5 mb-5">
         <h1
           className="text-xl text-foreground font-poppins-semibold hover:opacity-90"
@@ -156,34 +169,32 @@ const QuestionPostBody = ({ data }: QuestionPostBodyProps) => {
       </div>
 
       <div className="flex justify-between">
-        <div className="flex flex-col" style={{ overflowWrap: "anywhere" }}>
-          {parse(data?.question?.question ?? "", {
-            replace: domNode => {
-              if (domNode instanceof Element) {
-                if (domNode.tagName === "img") {
-                  const replacedImg = (
-                    <img
-                      //checks if image has the word blob
-                      src={
-                        pattern.test(domNode.attribs.src)
-                          ? data?.question?.imagesrc?.[index]
-                          : domNode.attribs.src
-                      }
-                      className="w-full max-w-[450px] my-2"
-                    />
-                  );
+        <div className="flex flex-col">
+          <div
+            className="flex flex-col min-h-80"
+            style={{ overflowWrap: "anywhere" }}
+          >
+            <p
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(data?.question?.question ?? "")
+              }}
+            ></p>
+          </div>
 
-                  if (pattern.test(domNode.attribs.src)) index++;
-
-                  return replacedImg;
-                }
-
-                if (domNode.tagName === "pre") {
-                  return <p>{domToReact(domNode.children)}</p>;
-                }
-              }
-            }
-          })}
+          <div className="flex flex-col " style={{ overflowWrap: "anywhere" }}>
+            <h6 className="font-poppins-medium">Attachments</h6>
+            <div className="flex gap-2">
+              {data?.question?.imagesrc?.map(img => (
+                <img
+                  src={img}
+                  className="w-full max-w-[150px] my-2 object-cover cursor-pointer hover:opacity-90"
+                  onClick={() => {
+                    setFocusedImg(img);
+                  }}
+                />
+              ))}
+            </div>
+          </div>
         </div>
 
         <div className="flex flex-col gap-3 items-center md:px-[2rem] px-[.8rem]">

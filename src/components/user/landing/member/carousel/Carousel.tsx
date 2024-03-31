@@ -3,24 +3,35 @@ import { FaArrowRightLong } from "react-icons/fa6";
 import { Button } from "@components/ui/button";
 import useCmsLandingDetailsQuery from "@hooks/api/get/useCmsLandingDetailsQuery";
 import { Link } from "react-router-dom";
-import CtaImage from "@assets/images/cta-image.png";
+import RegisterFarm from "@pages/user/community/buttons/RegisterFarm";
+import LoadingSpinner from "@icons/LoadingSpinner";
 
 const Carousels: React.FC = () => {
   const { data: cmsData } = useCmsLandingDetailsQuery();
-
+  const { data: cmsDataLanding, isLoading: isImageLoading } =
+    useCmsLandingDetailsQuery();
   const { cta_description, cta_header } = {
     ...cmsData
   };
+
+  const CtaImage = cmsDataLanding?.images?.[0].image;
 
   return (
     <>
       <div className="relative max-w-7xl mx-auto w-full 2xl:h-[75vh] h-[52rem]">
         <div className="absolute inset-0">
-          <img
-            src={CtaImage}
-            alt="Hero Image"
-            className="w-full h-full object-cover object-top sm:block"
-          />
+          {isImageLoading ? (
+            <div className="h-screen flex items-center justify-center">
+              <LoadingSpinner />
+            </div>
+          ) : (
+            <img
+              src={CtaImage}
+              alt="Hero Image"
+              className="w-full h-full object-cover object-top sm:block"
+            />
+          )}
+
           <div
             className="absolute inset-0 z-0 flex items-center text-white lg:hidden"
             style={{ background: "rgba(0, 0, 0, 0.6)" }}
@@ -38,14 +49,18 @@ const Carousels: React.FC = () => {
                   <p className="text-slate-200 lg:text-gray-800 font-poppins-medium leading-relaxed mt-3 max-w-lg">
                     {cta_description}
                   </p>
-                  <Link to="/community">
-                    <Button
-                      className="mt-10 font-poppins-medium"
-                      variant="default"
-                    >
-                      Community <FaArrowRightLong className="ms-3" />
-                    </Button>
-                  </Link>
+
+                  <div className="flex gap-4 mt-10">
+                    <RegisterFarm />
+                    <Link to="/community">
+                      <Button
+                        className="font-poppins-medium"
+                        variant="secondary"
+                      >
+                        Community <FaArrowRightLong className="ms-3" />
+                      </Button>
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>

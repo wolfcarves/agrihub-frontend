@@ -249,7 +249,9 @@ const QuestionCard = ({
             {(attachment ?? 0) > 0 && (
               <div className="flex gap-0.5 items-center bg-accent w-max rounded-md p-1 mt-3">
                 <TiAttachment size={22} />
-                <span className="font-poppins-medium text-sm">Attachment</span>
+                <span className="font-poppins-medium text-sm">
+                  {attachment} Attachment
+                </span>
               </div>
             )}
 

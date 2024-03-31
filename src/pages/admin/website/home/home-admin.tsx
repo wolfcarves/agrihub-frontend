@@ -140,7 +140,7 @@ const HomeAdmin = () => {
       </p>
       <hr className="my-4" />
       <div className="mx-8">
-        <h3 className="font-bold my-2">Carousel items</h3>
+        <h3 className="font-bold my-2">Landing Image</h3>
 
         <Form {...form}>
           <form className="" onSubmit={form.handleSubmit(handleSubmitForm)}>
@@ -156,7 +156,7 @@ const HomeAdmin = () => {
               <div className=" md:col-span-6 col-span-12">
                 <div className="w-full mb-4">
                   <Label className=" font-poppins-medium">
-                    Carousel Header Text
+                    Landing Header Text
                   </Label>
                   <Input
                     type="text"
@@ -168,7 +168,7 @@ const HomeAdmin = () => {
 
                 <div className="mb-4">
                   <Label className=" font-poppins-medium">
-                    Carousel Body Text
+                    Landing Body Text
                   </Label>
                   <Textarea
                     className="h-[9rem] custom-scroll"

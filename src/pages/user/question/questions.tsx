@@ -10,6 +10,7 @@ import QuestionsFilterSelect, {
 import OutletContainer from "@components/user/questions/container/OutletContainer";
 import QuestionsTitleTag from "@components/user/questions/title/QuestionsTitleTag";
 import { Helmet } from "react-helmet-async";
+import LoadingSpinner from "@icons/LoadingSpinner";
 
 const Questions = () => {
   const navigate = useNavigate();
@@ -38,6 +39,14 @@ const Questions = () => {
     searchParams.set("sortBy", value);
     setSearchParams(searchParams);
   };
+
+  if (isQuestionLoading) {
+    return (
+      <div className="py-10">
+        <LoadingSpinner className="text-primary mx-auto" />
+      </div>
+    );
+  }
 
   return (
     <>

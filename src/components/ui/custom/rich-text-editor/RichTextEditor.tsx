@@ -9,6 +9,7 @@ import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
 import Toolbar from "./Toolbar";
 import CharacterCount from "@tiptap/extension-character-count";
+import useFilesToBlobs from "@hooks/utils/useFilesToBlobs";
 
 interface RichTextEditorProps
   extends Omit<
@@ -22,6 +23,7 @@ interface RichTextEditorProps
   }) => void;
   onChange?: (data: { charSize?: number }) => void; // temporary lang to bwisit tong text editor di ko na to gagmitin sa susunod
   withToolbar?: boolean;
+  allowUploadImage?: boolean;
   allowImagePaste?: boolean;
   height?: number;
   disabled?: boolean;
@@ -29,22 +31,12 @@ interface RichTextEditorProps
 }
 
 //put this shit to util folder pero sa susunod na yugto ng ating buhay nalang T_T
-async function filesToBlobs(files: File[]): Promise<Blob[]> {
-  const blobArray: Blob[] = [];
-
-  for (const file of files) {
-    const arrayBuffer = await file.arrayBuffer();
-    const blob = new Blob([arrayBuffer], { type: file.type });
-    blobArray.push(blob);
-  }
-
-  return blobArray;
-}
 
 const RichTextEditor: React.FC<RichTextEditorProps> = ({
   onBlur,
   onChange,
   withToolbar = true,
+  allowUploadImage = true,
   allowImagePaste = true,
   height,
   disabled = false,
@@ -141,7 +133,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
         onBlur &&
           onBlur({
             html,
-            files: filesToBlobs(files as File[]).then((blobs: Blob[]) => {
+            files: useFilesToBlobs(files as File[]).then((blobs: Blob[]) => {
               return blobs;
             }),
             charSize: editor.storage.characterCount.characters()
@@ -177,7 +169,11 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
     >
       {withToolbar && (
         <div className="bg-[#DCF2D3] p-1 flex gap-1">
-          <Toolbar editor={editor} onImageUpload={handleImageUpload} />
+          <Toolbar
+            editor={editor}
+            onImageUpload={handleImageUpload}
+            allowUploadImage={allowUploadImage}
+          />
         </div>
       )}
 

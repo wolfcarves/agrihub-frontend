@@ -24,6 +24,7 @@ import useForumsDeleteCommentMutation from "@hooks/api/delete/useForumsDeleteCom
 import useParseUserRole from "@hooks/utils/useParseUserRole";
 import { Badge } from "@components/ui/badge";
 import { timeAgo } from "@components/lib/utils";
+import QuestionUserAvatar from "../avatar/QuestionUserAvatar";
 
 interface QuestionAnswerListProps {
   data?: Answer;
@@ -106,18 +107,11 @@ const QuestionAnswerCard = ({ data }: QuestionAnswerListProps) => {
         {/* Answers */}
         <div className="flex gap-2 py-4">
           <div className="relative flex h-max rounded-full">
-            <Link
-              to={`/users/${user?.id}/${user?.username}`}
-              className="font-poppins-medium hover:opacity-80"
-            >
-              <Avatar className="border">
-                <AvatarImage
-                  src={user?.avatar ?? ""}
-                  className="object-cover pointer-events-none select-none "
-                />
-                <AvatarFallback>A</AvatarFallback>
-              </Avatar>
-            </Link>
+            <QuestionUserAvatar
+              userId={user?.id}
+              avatar={user?.avatar}
+              username={user?.username}
+            />
           </div>
 
           <div className="flex flex-col">
@@ -246,18 +240,11 @@ const QuestionAnswerCard = ({ data }: QuestionAnswerListProps) => {
                   }}
                 >
                   <div className="flex relative h-max rounded-full">
-                    <Link
-                      to="/"
-                      className="font-poppins-medium hover:opacity-80"
-                    >
-                      <Avatar className="border">
-                        <AvatarImage
-                          src={c.user?.avatar ?? ""}
-                          className="object-cover pointer-events-none select-none "
-                        />
-                        <AvatarFallback>A</AvatarFallback>
-                      </Avatar>
-                    </Link>
+                    <QuestionUserAvatar
+                      userId={c?.user?.id}
+                      avatar={c?.user?.avatar}
+                      username={c?.user?.username}
+                    />
 
                     <div
                       className={`-z-50 absolute w-6 h-7 -start-[1.30rem] bottom-4 rounded-bl-md border-l-[1px] border-b-[1px] border-gray-200/90`}

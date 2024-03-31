@@ -140,17 +140,29 @@ const UserFooter = () => {
             About Us
           </span>
         </div>
-        <div className="flex items-center justify-center  text-[0.7rem] gap-3 text-white">
-          <span className=" font-thin md:block hidden">
+        <div className="flex items-center justify-center text-[0.7rem] gap-3 text-white">
+          <span className="font-thin md:block hidden">
             FOLLOW US ON SOCIAL MEDIA
           </span>
-          <a href="https://www.facebook.com/centerforurbanagri/">
+          <a
+            href="https://www.facebook.com/centerforurbanagri/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <RiFacebookCircleLine size={22} />
           </a>
-          <a href="https://www.youtube.com/@qcenterforurbanagri">
+          <a
+            href="https://www.youtube.com/@qcenterforurbanagri"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <RiYoutubeLine size={22} />
           </a>
-          <a href="https://www.tiktok.com/@centerforurbanagr">
+          <a
+            href="https://www.tiktok.com/@centerforurbanagr"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <RiTiktokLine size={22} />
           </a>
         </div>

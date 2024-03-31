@@ -59,6 +59,7 @@ const QuestionEditForm = () => {
         id: previousQuestionData?.question?.id ?? "1",
         formData: data
       });
+      console.log(data);
 
       toast.success("Question successfully updated");
       navigate(-1);
@@ -231,7 +232,6 @@ const QuestionEditForm = () => {
                         }}
                         onTagsValueChange={e => {
                           onChange(e);
-                          console.log(e);
                         }}
                       />
                     );

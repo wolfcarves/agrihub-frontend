@@ -22,7 +22,7 @@ const QuestionUserAvatar = ({
         <Avatar className="border">
           <AvatarImage
             src={avatar}
-            className="object-cover pointer-events-none select-none "
+            className="object-cover pointer-events-none select-none bg-white "
           />
           <AvatarFallback>A</AvatarFallback>
         </Avatar>

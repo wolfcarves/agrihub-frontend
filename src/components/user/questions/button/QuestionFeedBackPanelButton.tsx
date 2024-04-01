@@ -16,7 +16,7 @@ const QuestionFeedBackPanelButtonWrapper = ({
   return (
     <span
       role="button"
-      className="flex items-center my-auto gap-2 h-full px-2 rounded-lg hover:bg-accent duration-200"
+      className="flex items-center my-auto gap-2 h-full px-2 rounded-lg hover:bg-accent duration-200 bg-white dark:bg-background"
       {...props}
     >
       {children}

@@ -10,25 +10,34 @@ const Carousels: React.FC = () => {
   const { data: cmsData } = useCmsLandingDetailsQuery();
   const { data: cmsDataLanding, isLoading: isImageLoading } =
     useCmsLandingDetailsQuery();
-  const { cta_description, cta_header } = {
-    ...cmsData
-  };
-
-  const CtaImage = cmsDataLanding?.images?.[0].image;
+  const ctaImage = cmsDataLanding?.images?.[0]?.image;
+  const { cta_description, cta_header } = cmsData || {};
 
   return (
     <>
-      <div className="relative max-w-7xl mx-auto w-full 2xl:h-[75vh] h-[52rem]">
+      <div className="relative mx-auto w-full 2xl:h-[75vh] h-[52rem]">
         <div className="absolute inset-0">
           {isImageLoading ? (
-            <div className="h-screen flex items-center justify-center">
+            <div className="absolute inset-0 flex items-center justify-center">
               <LoadingSpinner />
             </div>
+          ) : !ctaImage ? (
+            <>
+              <div
+                className="absolute inset-0 z-0 flex items-center text-white lg:hidden"
+                style={{ background: "rgba(0, 0, 0, 0.6)" }}
+              ></div>
+              <img
+                src="https://images.unsplash.com/photo-1560493676-04071c5f467b?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                alt="Error Image"
+                className="w-full h-full object-cover object-top sm:block"
+              />
+            </>
           ) : (
             <img
-              src={CtaImage}
+              src={ctaImage}
               alt="Hero Image"
-              className="w-full h-full object-cover object-top sm:block"
+              className="w-full h-full object-cover object-top sm:block max-w-screen-2xl mx-auto"
             />
           )}
 
@@ -36,7 +45,7 @@ const Carousels: React.FC = () => {
             className="absolute inset-0 z-0 flex items-center text-white lg:hidden"
             style={{ background: "rgba(0, 0, 0, 0.6)" }}
           ></div>
-          <div className="absolute inset-0 flex items-center mb-60 2xl:mb-40 text-white">
+          <div className="absolute inset-0 flex max-w-7xl mx-auto items-center mb-60 2xl:mb-40 text-white">
             <div className="px-4">
               <div style={{ fontFamily: "Arial Black" }} className="z-50">
                 <div className="flex-1 max-w-lg py-5 sm:mx-auto lg:max-w-max lg:text-left">

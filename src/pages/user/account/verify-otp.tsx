@@ -5,6 +5,7 @@ import {
   InputOTPSeparator,
   InputOTPSlot
 } from "@components/ui/input-otp";
+import AccountOutletContainer from "@components/user/account/container/AccountOutletContainer";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
 import useDeleteAuthMutate from "@hooks/api/delete/useDeleteAuthMutate";
 import useUserSendOtpMutation from "@hooks/api/post/useUserSendOtpMutation";
@@ -71,64 +72,66 @@ const VerifyOtp = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center pt-14">
-      <div className="text-center mb-10">
-        <h1 className="font-poppins-thin">OTP Verification</h1>
-        <p>We just sent one time password to your phone number</p>
+    <AccountOutletContainer>
+      <div className="flex flex-col items-center justify-center pt-14">
+        <div className="text-center mb-10">
+          <h1 className="font-poppins-thin">OTP Verification</h1>
+          <p>We just sent one time password to your phone number</p>
+        </div>
+
+        <InputOTP
+          maxLength={6}
+          onChange={value => setCode(Number(value))}
+          render={({ slots }) => (
+            <>
+              <InputOTPGroup>
+                {slots.slice(0, 3).map((slot, index) => (
+                  <InputOTPSlot key={index} {...slot} />
+                ))}{" "}
+              </InputOTPGroup>
+              <InputOTPSeparator />
+              <InputOTPGroup>
+                {slots.slice(3).map((slot, index) => (
+                  <InputOTPSlot key={index + 3} {...slot} />
+                ))}
+              </InputOTPGroup>
+            </>
+          )}
+        />
+
+        <div className="py-8">{countDown !== 0 && <h4>{countDown}</h4>}</div>
+
+        <div className="w-full space-y-3">
+          <Button
+            variant="outline"
+            className="w-full"
+            onClick={handleSendOtp}
+            isLoading={isSendOtpLoading}
+            disabled={countDown !== 0 || isVerifyOtpLoading}
+          >
+            Resend
+          </Button>
+
+          <Button
+            className="w-full"
+            onClick={handleVerifyOtp}
+            isLoading={isVerifyOtpLoading}
+            disabled={isSendOtpLoading}
+          >
+            Submit
+          </Button>
+
+          <Button
+            variant="outline"
+            className="w-full mt-10"
+            onClick={handleDeleteAuth}
+            isLoading={isDeleteAuthLoading}
+          >
+            Use another phone number instead
+          </Button>
+        </div>
       </div>
-
-      <InputOTP
-        maxLength={6}
-        onChange={value => setCode(Number(value))}
-        render={({ slots }) => (
-          <>
-            <InputOTPGroup>
-              {slots.slice(0, 3).map((slot, index) => (
-                <InputOTPSlot key={index} {...slot} />
-              ))}{" "}
-            </InputOTPGroup>
-            <InputOTPSeparator />
-            <InputOTPGroup>
-              {slots.slice(3).map((slot, index) => (
-                <InputOTPSlot key={index + 3} {...slot} />
-              ))}
-            </InputOTPGroup>
-          </>
-        )}
-      />
-
-      <div className="py-8">{countDown !== 0 && <h4>{countDown}</h4>}</div>
-
-      <div className="w-full space-y-3">
-        <Button
-          variant="outline"
-          className="w-full"
-          onClick={handleSendOtp}
-          isLoading={isSendOtpLoading}
-          disabled={countDown !== 0 || isVerifyOtpLoading}
-        >
-          Resend
-        </Button>
-
-        <Button
-          className="w-full"
-          onClick={handleVerifyOtp}
-          isLoading={isVerifyOtpLoading}
-          disabled={isSendOtpLoading}
-        >
-          Submit
-        </Button>
-
-        <Button
-          variant="outline"
-          className="w-full mt-10"
-          onClick={handleDeleteAuth}
-          isLoading={isDeleteAuthLoading}
-        >
-          Use another phone number instead
-        </Button>
-      </div>
-    </div>
+    </AccountOutletContainer>
   );
 };
 

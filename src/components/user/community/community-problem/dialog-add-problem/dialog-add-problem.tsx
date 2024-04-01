@@ -141,6 +141,7 @@ const DialogAddProblem = () => {
                 type="date"
                 max={getCurrentDate()}
                 {...form.register("date_noticed")}
+                required
               />
             </div>
             {isOther && (

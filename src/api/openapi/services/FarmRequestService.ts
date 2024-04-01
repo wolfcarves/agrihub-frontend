@@ -9,7 +9,6 @@ import type { NewSeedlingRequest } from '../models/NewSeedlingRequest';
 import type { NewSeedlingResponse } from '../models/NewSeedlingResponse';
 import type { RequestCount } from '../models/RequestCount';
 import type { SeedlingRequestListAllResponse } from '../models/SeedlingRequestListAllResponse';
-import type { SeedlingRequestListItem } from '../models/SeedlingRequestListItem';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -73,22 +72,48 @@ message?: string;
 
     /**
      * Retrieve a list of seedling requests by community farm
-     * @returns SeedlingRequestListItem A list of seedling requests
+     * @returns SeedlingRequestListAllResponse A list of all seedling requests
      * @throws ApiError
      */
     public static getApiRequestSeedlingList({
 id,
+search,
+page,
+perpage,
+filter,
 }: {
 /**
- * The ID of the seedling request to be deleted
+ * The ID of the community farm
  */
 id: string,
-}): CancelablePromise<Array<SeedlingRequestListItem>> {
+/**
+ * Search keyword
+ */
+search?: string,
+/**
+ * Page number
+ */
+page?: string,
+/**
+ * Number of items per page
+ */
+perpage?: string,
+/**
+ * Filter by request status
+ */
+filter?: 'pending' | 'accepted' | 'rejected' | '',
+}): CancelablePromise<SeedlingRequestListAllResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/request/seedling/list/{id}',
             path: {
                 'id': id,
+            },
+            query: {
+                'search': search,
+                'page': page,
+                'perpage': perpage,
+                'filter': filter,
             },
             errors: {
                 400: `Validation Error`,

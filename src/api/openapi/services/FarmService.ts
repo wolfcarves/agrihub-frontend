@@ -1038,4 +1038,70 @@ message?: string;
         });
     }
 
+    /**
+     * Assign Head to Farm Community
+     * @returns any Successful response
+     * @throws ApiError
+     */
+    public static postApiFarmCommunityAssignHead({
+id,
+requestBody,
+}: {
+/**
+ * ID of the farm community
+ */
+id: string,
+requestBody?: any,
+}): CancelablePromise<{
+message?: string;
+}> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/farm/community/assign/head/{id}',
+            path: {
+                'id': id,
+            },
+            body: requestBody,
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Unassign Head to Farm Community
+     * @returns any Successful response
+     * @throws ApiError
+     */
+    public static postApiFarmCommunityUnassignHead({
+id,
+requestBody,
+}: {
+/**
+ * ID of the farm community
+ */
+id: string,
+requestBody?: any,
+}): CancelablePromise<{
+message?: string;
+}> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/farm/community/unassign/head/{id}',
+            path: {
+                'id': id,
+            },
+            body: requestBody,
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
 }

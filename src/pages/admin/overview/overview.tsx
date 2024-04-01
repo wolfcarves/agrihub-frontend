@@ -18,7 +18,7 @@ import { Label } from "@components/ui/label";
 import { MdPendingActions } from "react-icons/md";
 import GrowthRateLineChart from "../charts/line-growthrate";
 import { DataTable } from "@components/ui/custom/data-table/data-table";
-import { data, columns } from "../activities/table/columns-activity";
+import { columns } from "../activities/table/columns-activity";
 import {
   Carousel,
   CarouselContent,
@@ -34,6 +34,7 @@ import useGetReportFavouriteCrops from "@hooks/api/get/useGetReportFavouriteCrop
 import { Button } from "@components/ui/button";
 import useGetReportResourceCountDetailed from "../../../hooks/api/get/useGetReportResourceCountDetailed";
 import useGetReportsCommonOverview from "../../../hooks/api/get/useGetReportsCommonOverview";
+import useGetAuditLogsListQuery from "../../../hooks/api/get/useGetAuditLogsListQuery";
 
 const breadcrumbItems = [{ title: "", link: "" }];
 
@@ -41,6 +42,12 @@ const OverviewAdmin = () => {
   const { data: favouriteCrop } = useGetReportFavouriteCrops();
   const { data: resourceDetailed } = useGetReportResourceCountDetailed();
   const { data: overviewCards } = useGetReportsCommonOverview();
+
+  const { data: logsData, isLoading } = useGetAuditLogsListQuery(
+    undefined,
+    "1",
+    "10"
+  );
 
   return (
     <AdminOutletContainer>
@@ -111,7 +118,10 @@ const OverviewAdmin = () => {
             <h3 className="text-gray-800 text-xl font-semibold sm:text-2xl flex items-center">
               Recent activities
             </h3>
-            <DataTable data={data} columns={columns} />
+            <DataTable
+              columns={columns}
+              data={logsData?.data?.slice(0, 3) || []}
+            />
             <Link to="/admin/record/activity-logs">
               <Button variant="outline" className="w-full mt-4">
                 see all

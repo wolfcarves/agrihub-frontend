@@ -124,7 +124,8 @@ const AnalyticsAdmin = () => {
 
                   <div className="bg-gray-300 rounded w-full h-4 ml-3">
                     <div
-                      className={`w-[${rating?.percentage}] h-full rounded bg-[#739072]`}
+                      className={` h-full rounded bg-[#739072]`}
+                      style={{ width: rating.percentage }}
                     ></div>
                   </div>
                   <p className="text-base text-gray-700 font-bold ml-3">

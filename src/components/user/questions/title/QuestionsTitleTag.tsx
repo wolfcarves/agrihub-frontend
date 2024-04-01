@@ -4,7 +4,7 @@ const QuestionsTitleTag = ({ title }: { title?: string | null }) => {
   }
 
   return (
-    <div className="mt-10 w-full max-w-[45rem] mx-auto">
+    <div className="mt-10 mx-auto">
       <h1 className="font-poppins-semibold opacity-80">Tag: [{title}]</h1>
     </div>
   );

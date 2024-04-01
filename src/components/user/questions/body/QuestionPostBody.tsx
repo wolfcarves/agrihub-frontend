@@ -26,6 +26,7 @@ import { GET_QUESTION_KEY } from "@hooks/api/get/useGetQuestionsQuery";
 import { MdOutlineEdit } from "react-icons/md";
 import parse from "html-react-parser";
 import DOMPurify from "dompurify";
+import LoadingSpinner from "@icons/LoadingSpinner";
 
 interface QuestionPostBodyProps {
   data?: QuestionViewSchema;
@@ -138,9 +139,12 @@ const QuestionPostBody = ({ data }: QuestionPostBodyProps) => {
     <>
       {focusedImg !== "" && (
         <div
-          className="fixed inset-0 h-full w-full flex justify-center items-center z-50 bg-zinc-500/50"
+          className="fixed inset-0 h-full w-full flex justify-center items-center z-50 bg-black/70"
           onClick={() => setFocusedImg("")}
         >
+          <div className="absolute inset-0 m-auto h-max w-max -z-10">
+            <LoadingSpinner className="text-primary" />
+          </div>
           <img
             src={focusedImg}
             alt="attachment_image"
@@ -149,16 +153,8 @@ const QuestionPostBody = ({ data }: QuestionPostBodyProps) => {
           />
         </div>
       )}
-      <div className="pb-5 mb-5">
-        <h1
-          className="text-xl text-foreground font-poppins-semibold hover:opacity-90"
-          style={{ overflowWrap: "anywhere" }}
-        >
-          {data?.question?.title}
-        </h1>
-      </div>
 
-      <div className="pb-10">
+      <div className="py-5">
         <QuestionUserProfileButton
           userId={data?.question?.user?.id}
           role={data?.question?.user?.role}
@@ -168,22 +164,38 @@ const QuestionPostBody = ({ data }: QuestionPostBodyProps) => {
         />
       </div>
 
+      <div className="pb-5 sm:pb-10">
+        <h1
+          className="text-lg sm:text-xl text-foreground font-poppins-semibold hover:opacity-90"
+          style={{ overflowWrap: "anywhere" }}
+        >
+          {data?.question?.title}
+        </h1>
+      </div>
+
       <div className="flex justify-between">
         <div className="flex flex-col">
           <div
-            className="flex flex-col min-h-80"
+            className="flex flex-col min-h-72"
             style={{ overflowWrap: "anywhere" }}
           >
             <p
+              className="text-sm sm:text-base"
               dangerouslySetInnerHTML={{
                 __html: DOMPurify.sanitize(data?.question?.question ?? "")
               }}
             ></p>
           </div>
 
-          <div className="flex flex-col " style={{ overflowWrap: "anywhere" }}>
-            <h6 className="font-poppins-medium">Attachments</h6>
-            <div className="flex gap-2">
+          <div>
+            {data?.question?.imagesrc?.[0] && (
+              <h6 className="font-poppins-medium">Attachments</h6>
+            )}
+
+            <div
+              className="flex flex-wrap gap-1 w-full"
+              style={{ overflowWrap: "anywhere" }}
+            >
               {data?.question?.imagesrc?.map(img => (
                 <img
                   src={img}
@@ -197,7 +209,7 @@ const QuestionPostBody = ({ data }: QuestionPostBodyProps) => {
           </div>
         </div>
 
-        <div className="flex flex-col gap-3 items-center md:px-[2rem] px-[.8rem]">
+        <div className="flex flex-col gap-3 items-center px-[.8rem]">
           <QuestionVoteButton
             variant="upvote"
             voteType={data?.question?.vote?.type as "upvote" | "downvote"}
@@ -228,59 +240,40 @@ const QuestionPostBody = ({ data }: QuestionPostBodyProps) => {
 
       <div className="mt-20">
         {!isQuestionOwned ? (
-          <QuestionFeedbackPanel
-            items={[
-              !isSaved
-                ? {
-                    label: "Save",
-                    icon: <LuBookmark />,
-                    requireAuth: true,
-                    onClick: () => {
-                      handleSaveQuestion();
-                    }
-                  }
-                : {
-                    label: "Unsaved",
-                    icon: <LuBookmark />,
-                    requireAuth: true,
-                    onClick: () => {
-                      handleSaveQuestion();
-                    }
-                  },
-              {
-                label: "Report",
-                icon: <GoReport />,
-                requireAuth: true,
-                onClick: () => {
-                  setIsReportOpen(prev => !prev);
-                }
-              }
-            ]}
-          />
+          <QuestionFeedbackPanel>
+            {!isSaved ? (
+              <QuestionFeedbackPanel.ItemWithAuth
+                title="Save"
+                icon={() => <LuBookmark />}
+                onClick={handleSaveQuestion}
+              />
+            ) : (
+              <QuestionFeedbackPanel.ItemWithAuth
+                title="Unsave"
+                icon={() => <LuBookmark />}
+                onClick={handleSaveQuestion}
+              />
+            )}
+            <QuestionFeedbackPanel.ItemWithAuth
+              title="Report"
+              icon={() => <GoReport />}
+              onClick={() => setIsReportOpen(prev => !prev)}
+            />
+          </QuestionFeedbackPanel>
         ) : (
-          <QuestionFeedbackPanel
-            items={[
-              {
-                label: "Edit",
-                icon: <MdOutlineEdit />,
-                requireAuth: true,
-                onClick: () => {
-                  navigate(`/forum/ask/edit/${questionId}`);
-                }
-              },
-              {
-                label: "Delete",
-                icon: <AiOutlineDelete />,
-                requireAuth: true,
-                onClick: () => {
-                  setIsQuestionDeleteDialogOpen(prev => !prev);
-                }
-              }
-            ]}
-          />
+          <QuestionFeedbackPanel>
+            <QuestionFeedbackPanel.ItemWithAuth
+              title="Edit"
+              icon={() => <MdOutlineEdit />}
+              onClick={() => navigate(`/forum/ask/edit/${questionId}`)}
+            />
+            <QuestionFeedbackPanel.ItemWithAuth
+              title="Delete"
+              icon={() => <AiOutlineDelete />}
+              onClick={() => setIsQuestionDeleteDialogOpen(true)}
+            />
+          </QuestionFeedbackPanel>
         )}
-
-        {/* <QuestionFeedbackPanel onSaveBtnClick={handleSaveQuestion} /> */}
       </div>
 
       <div className="flex flex-wrap gap-2 py-5">

@@ -11,10 +11,9 @@ import UserTagInputDropdown from "@components/user/account/input/UserTagInput";
 import { Form, FormField } from "@components/ui/form";
 import { useNavigate, useParams } from "react-router-dom";
 import useGetViewQuestion from "@hooks/api/get/useGetViewQuestion";
-import parse, { Element, domToReact } from "html-react-parser";
-import { renderToString } from "react-dom/server";
 import LoadingSpinner from "@icons/LoadingSpinner";
-import usePutForumsUpdateQuestion from "@hooks/api/put/usePutForumsUpdateQuestion";
+import useFilesToBlobs from "@hooks/utils/useFilesToBlobs";
+import axios from "axios";
 
 const QuestionEditFormRules = () => (
   <div className="pb-14">
@@ -27,10 +26,6 @@ const QuestionEditForm = () => {
   const params = useParams();
   const [searchInputTagValue, setSearchInputTagValue] = useState<string>("");
 
-  //just invoke this and the magic happens but actually have no idea how it works
-  let index = 0;
-  const pattern = /\bblob\b/;
-
   const form = useForm<QuestionSchema>({
     resolver: zodResolver(askQuestionSchema),
     mode: "onBlur"
@@ -41,8 +36,8 @@ const QuestionEditForm = () => {
     isLoading: isPreviousQuestionDataLoading
   } = useGetViewQuestion(params.questionId ?? "");
 
-  const { mutateAsync: updateQuestion, isLoading: isUpdateQuestionLoading } =
-    usePutForumsUpdateQuestion();
+  const [isUpdateQuestionLoading, setIsUpdateQuestionLoading] =
+    useState<boolean>(false);
 
   const prevData = useMemo(() => {
     return {
@@ -53,13 +48,38 @@ const QuestionEditForm = () => {
     };
   }, [previousQuestionData]);
 
+  const [files, setFiles] = useState<File[] | string[] | null>(
+    prevData.imagesrc ?? null
+  );
+
   const handleSubmitForm = async (data: QuestionSchema) => {
     try {
-      await updateQuestion({
-        id: previousQuestionData?.question?.id ?? "1",
-        formData: data
+      setIsUpdateQuestionLoading(true);
+      const formData = new FormData();
+
+      formData.append("title", data.title);
+      formData.append("question", data.question);
+
+      data?.tags?.forEach((tag, idx) => {
+        formData.append(`tags[${idx}]`, tag);
       });
-      console.log(data);
+
+      const blobs = await useFilesToBlobs(files);
+
+      for (const key of Object.keys(blobs)) {
+        console.log(blobs[Number(key)]);
+        formData.append("imagesrc", blobs[Number(key)]);
+      }
+
+      await axios({
+        url: "https://api.qc-agrihub.xyz/api/forums",
+        method: "PUT",
+        data: formData,
+        withCredentials: true
+      }).then(() => {
+        setIsUpdateQuestionLoading(false);
+        navigate(-1);
+      });
 
       toast.success("Question successfully updated");
       navigate(-1);
@@ -69,33 +89,46 @@ const QuestionEditForm = () => {
     }
   };
 
-  const _question = renderToString(
-    parse(prevData?.question ?? "", {
-      replace: domNode => {
-        if (domNode instanceof Element) {
-          if (domNode.tagName === "img") {
-            const replacedImg = (
-              <img
-                //checks if image has the word blob
-                src={
-                  pattern.test(domNode.attribs.src)
-                    ? prevData?.imagesrc?.[index]
-                    : domNode.attribs.src
-                }
-                className="w-full max-w-[450px] my-2"
-              />
-            );
+  const onImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      Array.from(e.target.files).map(file => {
+        setFiles(prev => prev.concat(file));
+      });
+    }
+  };
 
-            return replacedImg;
-          }
+  const renderImages = (dataFile: File[] | string[] | null) => {
+    console.log(dataFile);
 
-          if (domNode.tagName === "pre") {
-            return <p>{domToReact(domNode.children)}</p>;
-          }
-        }
-      }
-    }) as React.ReactElement<any, string | React.JSXElementConstructor<any>>
-  );
+    const pattern = /awsamazon/i;
+
+    const match = pattern.test("www.awsamazon");
+
+    // if (!dataFile) return <></>;
+    // return dataFile.map((f, idx) => {
+    //   return (
+    //     <div className="relative w-max h-max" key={f.name}>
+    //       <img
+    //         width={426}
+    //         height={240}
+    //         src={URL.createObjectURL(f)}
+    //         className=""
+    //       />
+    //       <button
+    //         type="button"
+    //         className="absolute -top-3 -end-3 bg-destructive rounded-full p-1 text-background"
+    //         onClick={() => {
+    //           setFiles(files.filter((_, index) => index !== idx));
+    //         }}
+    //       >
+    //         <div className="-ms-[1px]">
+    //           <LiaTrashAlt size={24} />
+    //         </div>
+    //       </button>
+    //     </div>
+    //   );
+    // });
+  };
 
   if (isPreviousQuestionDataLoading) {
     return <LoadingSpinner className="text-primary mx-auto" />;
@@ -108,20 +141,6 @@ const QuestionEditForm = () => {
           onSubmit={form.handleSubmit(handleSubmitForm)}
           encType="multipart/form-data"
         >
-          <div className="flex justify-end gap-2">
-            <Button type="submit" isLoading={isUpdateQuestionLoading} size="lg">
-              Update
-            </Button>
-            <Button
-              type="button"
-              size="lg"
-              variant="outline"
-              onClick={() => navigate(-1)}
-            >
-              Cancel
-            </Button>
-          </div>
-
           <QuestionEditFormRules />
 
           <div className="max-w-[60rem]">
@@ -158,14 +177,15 @@ const QuestionEditForm = () => {
                 <FormField
                   name="question"
                   control={form.control}
-                  defaultValue={_question}
+                  defaultValue={prevData?.question}
                   render={({ field: { onChange }, fieldState }) => {
                     return (
                       <>
                         <div className="flex">
                           <RichTextEditor
-                            defaultValue={_question}
-                            allowImagePaste
+                            defaultValue={prevData?.question}
+                            allowImagePaste={false}
+                            allowUploadImage={false}
                             onChange={({ charSize }) => {
                               if (charSize! < 20) {
                                 form.setError("question", {
@@ -239,6 +259,52 @@ const QuestionEditForm = () => {
                 />
               )}
             </div>
+          </div>
+
+          <div className="mt-20">
+            <h3 className="text-foreground text-md font-poppins-bold">
+              Attach Image
+            </h3>
+
+            <p className="text-foreground my-2 text-sm">
+              To provide better context for your question, consider attaching an
+              image that can help illustrate your point more effectively
+            </p>
+
+            <div className="max-w-[60rem]">
+              {/* <div className="space-y-4">{renderImages(files)}</div> */}
+
+              <div className="py-5">
+                <button
+                  type="button"
+                  className="relative border border-dashed max-w-[426px] w-full h-20 rounded-xl text-foreground/20 text-xl hover:bg-foreground/5 duration-100 cursor-pointer"
+                >
+                  Upload image +
+                  <input
+                    id="imagesrc"
+                    type="file"
+                    multiple
+                    accept="image/png, image/jpg, image/jpeg"
+                    className="absolute inset-0 text-[0px] cursor-pointer opacity-0"
+                    {...form.register("imagesrc", { required: true })}
+                    onChange={onImageChange}
+                  />
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex gap-2 mt-5">
+            <Button type="submit" isLoading={isUpdateQuestionLoading}>
+              Update
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => navigate(-1)}
+            >
+              Cancel
+            </Button>
           </div>
         </form>
       </Form>

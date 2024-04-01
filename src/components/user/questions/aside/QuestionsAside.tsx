@@ -15,7 +15,7 @@ const QuestionsAside = () => {
   const { data: tagsData, isLoading: isTagsLoading } = useGetPopularTagsQuery();
 
   return (
-    <UserAside className="hidden lg:flex">
+    <UserAside className="hidden xl:flex">
       <UserAsideTitle>Tags</UserAsideTitle>
 
       <UserAsideItemContent className="mt-5">

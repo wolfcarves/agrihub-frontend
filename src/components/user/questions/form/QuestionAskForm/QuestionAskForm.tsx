@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { askQuestionSchema } from "./schema";
@@ -55,7 +55,6 @@ const QuestionAskForm = () => {
   const [searchInputTagValue, setSearchInputTagValue] = useState<string>("");
   const [isQuestionAskLoading, setIsQuestionAskLoading] =
     useState<boolean>(false);
-  const imageRef = useRef<HTMLInputElement>(null);
   const [files, setFiles] = useState<File[]>([]);
 
   const form = useForm<QuestionSchema>({
@@ -77,9 +76,11 @@ const QuestionAskForm = () => {
 
       const blobs = await useFilesToBlobs(files);
 
-      for (const key of Object.keys(blobs)) {
-        console.log(blobs[Number(key)]);
-        formData.append("imagesrc", blobs[Number(key)]);
+      if (blobs) {
+        for (const key of Object.keys(blobs)) {
+          console.log(blobs[Number(key)]);
+          formData.append("imagesrc", blobs[Number(key)]);
+        }
       }
 
       await axios({
@@ -183,7 +184,18 @@ const QuestionAskForm = () => {
                         allowUploadImage={false}
                         allowImagePaste={false}
                         onChange={({ charSize }) => {
+                          //Validation, tiptap's worst documentation
                           if (charSize! < 20) {
+                            if (charSize! < 20) {
+                              form.setError("question", {
+                                message: "Please enter at least 20 characters"
+                              });
+                            } else form.clearErrors("question");
+                            if (charSize! >= 5000) {
+                              form.setError("question", {
+                                message: "5000 characters is the maximum"
+                              });
+                            }
                             form.setError("question", {
                               message: "Please enter at least 20 characters"
                             });
@@ -260,29 +272,32 @@ const QuestionAskForm = () => {
             <div className="py-5">
               <button
                 type="button"
-                className="border border-dashed max-w-[426px] w-full h-20 rounded-xl text-foreground/20 text-xl hover:bg-foreground/5 duration-100"
-                onClick={() => imageRef.current?.click()}
+                className="relative border border-dashed max-w-[426px] w-full h-20 rounded-xl text-foreground/20 text-xl hover:bg-foreground/5 duration-100 cursor-pointer"
               >
                 Upload image +
+                <input
+                  id="imagesrc"
+                  type="file"
+                  multiple
+                  accept="image/png, image/jpg, image/jpeg"
+                  className="absolute inset-0 text-[0px] cursor-pointer opacity-0"
+                  {...form.register("imagesrc", { required: true })}
+                  onChange={onImageChange}
+                />
               </button>
             </div>
-
-            <input
-              id="imagesrc"
-              type="file"
-              multiple
-              accept="image/png, image/jpg, image/jpeg"
-              // className="absolute opacity-0 inset-0 m-auto hidden"
-              {...form.register("imagesrc", { required: true })}
-              onChange={onImageChange}
-            />
           </div>
         </div>
 
         {isQuestionAskLoading && <ActivityIndicator />}
 
         <div className="mt-5">
-          <Button className="px-7" type="submit">
+          <Button
+            className="px-7"
+            type="submit"
+            isLoading={isQuestionAskLoading}
+            disabled={isQuestionAskLoading}
+          >
             Post your question
           </Button>
         </div>

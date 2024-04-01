@@ -31,6 +31,7 @@ import {
 import { LuMessagesSquare } from "react-icons/lu";
 import { TiArrowForwardOutline, TiAttachment } from "react-icons/ti";
 import QuestionFeedbackPanel from "../panel/QuestionFeedbackPanel";
+import LoadingSpinner from "@icons/LoadingSpinner";
 
 interface QuestionCardProps {
   id?: string;
@@ -47,7 +48,7 @@ interface QuestionCardProps {
   voteCount?: string;
   answerCount?: string;
   createdat?: string;
-  attachment?: number;
+  imagesrc?: string[];
   onUpVoteBtnClick?: (e: React.MouseEvent) => void;
   onDownVoteBtnClick?: (e: React.MouseEvent) => void;
   onAnswerBtnClick?: (e: React.MouseEvent) => void;
@@ -67,7 +68,7 @@ const QuestionCard = ({
   voteCount,
   answerCount,
   createdat,
-  attachment,
+  imagesrc,
   onUpVoteBtnClick,
   onDownVoteBtnClick,
   onAnswerBtnClick,
@@ -160,13 +161,32 @@ const QuestionCard = ({
     }
   };
 
+  const [focusedImg, setFocusedImg] = useState<string>("");
+
   return (
     <>
+      {focusedImg !== "" && (
+        <div
+          className="fixed inset-0 h-full w-full flex justify-center items-center z-50 bg-black/70"
+          onClick={() => setFocusedImg("")}
+        >
+          <div className="absolute inset-0 m-auto h-max w-max -z-10">
+            <LoadingSpinner className="text-primary" />
+          </div>
+          <img
+            src={focusedImg}
+            alt="attachment_image"
+            width={1152}
+            height={648}
+          />
+        </div>
+      )}
+
       <div
         key={id}
-        className="flex flex-col rounded-xl hover:bg-neutral-300 duration-200 h-max w-full max-w-[45rem]"
+        className="flex flex-col rounded-2xl hover:bg-neutral-300 duration-200 h-max w-full max-w-[45rem]"
       >
-        <div className="flex flex-col bg-white dark:bg-background border p-3 sm:p-5 rounded-xl min-h-[20rem] h-full max-h-[25rem] hover:shadow-sm hover:-translate-y-2 hover:-translate-x-2 duration-200">
+        <div className="flex flex-col bg-white dark:bg-background border p-3 sm:p-5 rounded-2xl min-h-[20rem] h-full  hover:shadow-sm hover:-translate-y-2 hover:-translate-x-2 duration-200">
           <>
             <div className="flex items-start justify-between w-full">
               <Link to={`/forum/question/${username}/${id}`}>
@@ -242,58 +262,80 @@ const QuestionCard = ({
               </div>
             </div>
             {/* Content Body */}
-            <div className="line-clamp-5" style={{ overflowWrap: "anywhere" }}>
-              {contentHtml}
-            </div>
+            {!imagesrc?.[0] && (
+              <div
+                className="line-clamp-5"
+                style={{ overflowWrap: "anywhere" }}
+              >
+                {contentHtml}
+              </div>
+            )}
 
-            {(attachment ?? 0) > 0 && (
+            {imagesrc?.[0] && (
+              <div className="py-2">
+                <img
+                  alt="question_attachment"
+                  src={imagesrc?.[0]}
+                  className="w-full h-full rounded-xl shadow-lg overflow-hidden hover:brightness-90 duration-200 cursor-pointer"
+                  width={426}
+                  height={240}
+                  onClick={() => setFocusedImg(imagesrc?.[0])}
+                />
+              </div>
+            )}
+
+            {/* {(attachment ?? 0) > 0 && (
               <div className="flex gap-0.5 items-center bg-accent w-max rounded-md p-1 mt-3">
                 <TiAttachment size={22} />
                 <span className="font-poppins-medium text-sm">
                   {attachment} Attachment
                 </span>
               </div>
-            )}
+            )} */}
 
             {/* Actions */}
-            <QuestionFeedbackPanel
-              items={[
-                {
-                  icon:
+
+            <div className="mt-auto">
+              <QuestionFeedbackPanel>
+                <QuestionFeedbackPanel.ItemWithAuth
+                  icon={() =>
                     vote === "upvote" ? (
                       <PiArrowFatUpFill className="text-primary" />
                     ) : (
                       <PiArrowFatUp />
-                    ),
-                  requireAuth: true,
-                  onClick: onUpVoteBtnClick
-                },
-                {
-                  label: voteCount,
-                  isButton: false
-                },
-                {
-                  icon:
+                    )
+                  }
+                  onClick={onUpVoteBtnClick}
+                />
+
+                <div className="px-1">
+                  <span className="font-poppins-medium">{voteCount}</span>
+                </div>
+
+                <QuestionFeedbackPanel.ItemWithAuth
+                  icon={() =>
                     vote === "downvote" ? (
                       <PiArrowFatDownFill className="text-red-500" />
                     ) : (
                       <PiArrowFatDown />
-                    ),
-                  requireAuth: true,
-                  onClick: onDownVoteBtnClick
-                },
-                {
-                  icon: <LuMessagesSquare />,
-                  label: answerCount + " Answers",
-                  onClick: onAnswerBtnClick
-                },
-                {
-                  icon: <TiArrowForwardOutline />,
-                  label: "Share",
-                  onClick: onShareBtnClick
-                }
-              ]}
-            />
+                    )
+                  }
+                  onClick={onDownVoteBtnClick}
+                />
+
+                <QuestionFeedbackPanel.Item
+                  icon={() => <LuMessagesSquare />}
+                  title={`${answerCount} Answers`}
+                  onClick={onAnswerBtnClick}
+                />
+
+                <QuestionFeedbackPanel.Item
+                  icon={() => <TiArrowForwardOutline />}
+                  title="Share"
+                  onClick={onShareBtnClick}
+                />
+              </QuestionFeedbackPanel>
+            </div>
           </>
         </div>
       </div>

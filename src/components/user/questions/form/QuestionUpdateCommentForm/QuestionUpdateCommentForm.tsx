@@ -1,9 +1,10 @@
 import RichTextEditor from "@components/ui/custom/rich-text-editor/RichTextEditor";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@components/ui/button";
 import { useForm } from "react-hook-form";
 import { FormField } from "@components/ui/form";
 import usePutForumsUpdateComment from "@hooks/api/put/usePutForumsUpdateComment";
+import { toast } from "sonner";
 
 interface QuestionUpdateCommentFormProps {
   commentId?: string;
@@ -20,7 +21,9 @@ const QuestionUpdateCommentForm = ({
   onUpdateClick,
   onCancelClick
 }: QuestionUpdateCommentFormProps) => {
-  const { control, setError, clearErrors, handleSubmit } = useForm<{
+  const [charLength, setCharLength] = useState<number>();
+
+  const { control, setError, formState, clearErrors, handleSubmit } = useForm<{
     comment: string;
   }>({
     mode: "onChange"
@@ -31,6 +34,17 @@ const QuestionUpdateCommentForm = ({
 
   const handleSubmitForm = async (data: { comment: string }) => {
     try {
+      if (charLength! < 1) {
+        return setError("comment", {
+          message: "Enter your comment"
+        });
+      } else clearErrors("comment");
+      if (charLength! > 5000) {
+        return setError("comment", {
+          message: "Maximum of 5000 characters"
+        });
+      }
+
       await updateComment({
         id: commentId ?? "",
         requestBody: {
@@ -44,6 +58,12 @@ const QuestionUpdateCommentForm = ({
     }
   };
 
+  useEffect(() => {
+    if (formState.errors.comment?.message) {
+      toast.error(formState.errors.comment?.message);
+    }
+  }, [formState.errors]);
+
   return (
     <form
       className="flex flex-col pb-2"
@@ -54,20 +74,11 @@ const QuestionUpdateCommentForm = ({
         control={control}
         render={({ field: { onChange: onFieldChange } }) => (
           <RichTextEditor
+            maxLength={500}
             defaultValue={value}
             withToolbar={false}
             onChange={({ charSize }) => {
-              if (charSize! < 20) {
-                setError("comment", {
-                  message: "Please enter at least 20 characters"
-                });
-              } else clearErrors("comment");
-              if (charSize! >= 5000) {
-                setError("comment", {
-                  message: "5000 characters is the maximum"
-                });
-              }
-
+              setCharLength(charSize);
               onChange && onChange();
             }}
             onBlur={data => {
@@ -96,7 +107,8 @@ const QuestionUpdateCommentForm = ({
           className="rounded-full"
           onClick={onUpdateClick}
           isLoading={isUpdateCommentLoading}
-          disabled={isUpdateCommentLoading}
+          //charLength checks if input is dirty
+          disabled={isUpdateCommentLoading || charLength === undefined}
         >
           Update
         </Button>

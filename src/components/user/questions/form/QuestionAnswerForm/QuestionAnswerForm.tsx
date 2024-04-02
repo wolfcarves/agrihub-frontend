@@ -28,7 +28,7 @@ type QuestionAnswer = zod.infer<typeof questionAnswerSchema>;
 const QuestionAnswerForm = ({ questionId }: QuestionAnswerFormProps) => {
   const [answerLength, setAnswerLength] = useState<number>(0);
 
-  const { handleSubmit, control } = useForm<QuestionAnswer>({
+  const { handleSubmit, control, setValue } = useForm<QuestionAnswer>({
     resolver: zodResolver(questionAnswerSchema),
     reValidateMode: "onSubmit",
     mode: "onSubmit",
@@ -46,6 +46,8 @@ const QuestionAnswerForm = ({ questionId }: QuestionAnswerFormProps) => {
         questionId: questionId ?? "0",
         userAnswer: data
       });
+
+      setValue("answer", "");
     } catch (err: any) {
       toast.error(err.body.message);
     }

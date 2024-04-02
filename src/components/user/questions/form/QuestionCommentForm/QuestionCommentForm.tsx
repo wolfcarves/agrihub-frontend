@@ -31,7 +31,7 @@ const QuestionCommentForm = ({ answerId }: QuestionCommentFormProps) => {
   const user = useAuth();
   const [answerLength, setAnswerLength] = useState<number>(0);
 
-  const { handleSubmit, control } = useForm<QuestionComment>({
+  const { handleSubmit, control, setValue } = useForm<QuestionComment>({
     resolver: zodResolver(questionAnswerSchema),
     reValidateMode: "onSubmit",
     mode: "onSubmit",
@@ -51,6 +51,8 @@ const QuestionCommentForm = ({ answerId }: QuestionCommentFormProps) => {
           comment: data.comment
         }
       });
+
+      setValue("comment", "");
     } catch (err: any) {
       toast.error(err.body.message);
     }

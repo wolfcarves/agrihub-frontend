@@ -34,14 +34,16 @@ const QuestionUpdateAnswerForm = ({
 
   const handleSubmitForm = async (data: { answer: string }) => {
     try {
+      console.log(charLength);
+
       if (charLength! < 1) {
         return setError("answer", {
           message: "Enter your answer"
         });
       } else clearErrors("answer");
-      if (charLength! >= 1000) {
+      if (charLength! > 5000) {
         return setError("answer", {
-          message: "Maximum of 1000 characters"
+          message: "Maximum of 5000 characters"
         });
       }
 
@@ -74,6 +76,7 @@ const QuestionUpdateAnswerForm = ({
         control={control}
         render={({ field: { onChange: onFieldChange } }) => (
           <RichTextEditor
+            maxLength={500}
             allowUploadImage={false}
             allowImagePaste={false}
             defaultValue={value}
@@ -108,7 +111,8 @@ const QuestionUpdateAnswerForm = ({
           className="rounded-full"
           onClick={onUpdateClick}
           isLoading={isUpdateAnswerLoading}
-          disabled={isUpdateAnswerLoading}
+          //charLength checks if input is dirty
+          disabled={isUpdateAnswerLoading || charLength === undefined}
         >
           Update
         </Button>

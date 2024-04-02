@@ -77,10 +77,10 @@ const QuestionAskForm = () => {
       return (
         <div className="relative w-max h-max" key={f.name}>
           <img
-            width={426}
-            height={240}
+            width={200}
+            height={113}
             src={URL.createObjectURL(f)}
-            className=""
+            className="rounded-2xl"
           />
 
           <button
@@ -259,7 +259,7 @@ const QuestionAskForm = () => {
           </p>
 
           <div className="max-w-[60rem]">
-            <div className="space-y-4">{renderImages(files)}</div>
+            <div className="flex flex-wrap gap-2">{renderImages(files)}</div>
 
             <div className="py-5">
               <button

@@ -48,7 +48,7 @@ interface QuestionCardProps {
   voteCount?: string;
   answerCount?: string;
   createdat?: string;
-  imagesrc?: string[];
+  attachment?: number;
   onUpVoteBtnClick?: (e: React.MouseEvent) => void;
   onDownVoteBtnClick?: (e: React.MouseEvent) => void;
   onAnswerBtnClick?: (e: React.MouseEvent) => void;
@@ -68,7 +68,7 @@ const QuestionCard = ({
   voteCount,
   answerCount,
   createdat,
-  imagesrc,
+  attachment,
   onUpVoteBtnClick,
   onDownVoteBtnClick,
   onAnswerBtnClick,
@@ -165,23 +165,6 @@ const QuestionCard = ({
 
   return (
     <>
-      {focusedImg !== "" && (
-        <div
-          className="fixed inset-0 h-full w-full flex justify-center items-center z-50 bg-black/70"
-          onClick={() => setFocusedImg("")}
-        >
-          <div className="absolute inset-0 m-auto h-max w-max -z-10">
-            <LoadingSpinner className="text-primary" />
-          </div>
-          <img
-            src={focusedImg}
-            alt="attachment_image"
-            width={1152}
-            height={648}
-          />
-        </div>
-      )}
-
       <div
         key={id}
         className="flex flex-col rounded-2xl hover:bg-neutral-300 duration-200 h-max w-full max-w-[45rem]"
@@ -261,37 +244,20 @@ const QuestionCard = ({
                 })}
               </div>
             </div>
+
             {/* Content Body */}
-            {!imagesrc?.[0] && (
-              <div
-                className="line-clamp-5"
-                style={{ overflowWrap: "anywhere" }}
-              >
-                {contentHtml}
-              </div>
-            )}
+            <div className="line-clamp-5" style={{ overflowWrap: "anywhere" }}>
+              {contentHtml}
+            </div>
 
-            {imagesrc?.[0] && (
-              <div className="py-2">
-                <img
-                  alt="question_attachment"
-                  src={imagesrc?.[0]}
-                  className="w-full h-full rounded-xl shadow-lg overflow-hidden hover:brightness-90 duration-200 cursor-pointer"
-                  width={426}
-                  height={240}
-                  onClick={() => setFocusedImg(imagesrc?.[0])}
-                />
-              </div>
-            )}
-
-            {/* {(attachment ?? 0) > 0 && (
-              <div className="flex gap-0.5 items-center bg-accent w-max rounded-md p-1 mt-3">
+            {(attachment ?? 0) > 0 && (
+              <div className="flex gap-0.5 items-center bg-accent w-max rounded-md p-1 my-3">
                 <TiAttachment size={22} />
                 <span className="font-poppins-medium text-sm">
                   {attachment} Attachment
                 </span>
               </div>
-            )} */}
+            )}
 
             {/* Actions */}
 

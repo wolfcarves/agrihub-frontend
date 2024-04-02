@@ -49,7 +49,7 @@ const QuestionUpdateCommentForm = ({
       className="pb-2 w-full min-h-[9.5rem]"
       onSubmit={handleSubmit(handleSubmitForm)}
     >
-      <div>
+      <div className="max-w-[40rem]">
         <FormField
           name="comment"
           control={control}

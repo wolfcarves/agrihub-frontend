@@ -46,38 +46,36 @@ const QuestionUpdateCommentForm = ({
 
   return (
     <form
-      className="pb-2 w-full min-h-[9.5rem]"
+      className="flex flex-col pb-2"
       onSubmit={handleSubmit(handleSubmitForm)}
     >
-      <div className="max-w-[40rem]">
-        <FormField
-          name="comment"
-          control={control}
-          render={({ field: { onChange: onFieldChange } }) => (
-            <RichTextEditor
-              defaultValue={value}
-              withToolbar={false}
-              onChange={({ charSize }) => {
-                if (charSize! < 20) {
-                  setError("comment", {
-                    message: "Please enter at least 20 characters"
-                  });
-                } else clearErrors("comment");
-                if (charSize! >= 5000) {
-                  setError("comment", {
-                    message: "5000 characters is the maximum"
-                  });
-                }
+      <FormField
+        name="comment"
+        control={control}
+        render={({ field: { onChange: onFieldChange } }) => (
+          <RichTextEditor
+            defaultValue={value}
+            withToolbar={false}
+            onChange={({ charSize }) => {
+              if (charSize! < 20) {
+                setError("comment", {
+                  message: "Please enter at least 20 characters"
+                });
+              } else clearErrors("comment");
+              if (charSize! >= 5000) {
+                setError("comment", {
+                  message: "5000 characters is the maximum"
+                });
+              }
 
-                onChange && onChange();
-              }}
-              onBlur={data => {
-                onFieldChange(data?.html);
-              }}
-            />
-          )}
-        />
-      </div>
+              onChange && onChange();
+            }}
+            onBlur={data => {
+              onFieldChange(data?.html);
+            }}
+          />
+        )}
+      />
 
       <div className="flex gap-1 justify-end py-2">
         <Button

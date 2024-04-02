@@ -1,6 +1,6 @@
 import { Answer } from "@api/openapi";
 import DOMPurify from "dompurify";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import QuestionCommentForm from "../form/QuestionCommentForm/QuestionCommentForm";
 import useAuth from "@hooks/useAuth";
 import useForumsVoteAnswerMutation from "@hooks/api/post/useForumsVoteAnswerMutation";
@@ -85,12 +85,23 @@ const QuestionAnswerCard = ({ data }: QuestionAnswerListProps) => {
     }
   };
 
+  //Handle avatar lines
   const handleLineHeight = () => {
     parentRef.current?.style?.setProperty(
       "height",
       grandParentRef.current?.offsetTop + "px"
     );
   };
+
+  useEffect(() => {
+    const resize = (e: UIEvent) => {
+      handleLineHeight();
+    };
+
+    window.addEventListener("resize", resize);
+
+    return () => window.removeEventListener("resize", resize);
+  }, []);
 
   return (
     <>
@@ -105,17 +116,23 @@ const QuestionAnswerCard = ({ data }: QuestionAnswerListProps) => {
             />
           </div>
 
-          <div className={`${editAnswer && "flex-1"}`}>
+          <div
+            className={`${
+              editAnswer && "w-full overflow-hidden pe-2 max-w-[40rem]"
+            }`}
+          >
             {editAnswer ? (
-              <QuestionUpdateAnswerForm
-                answerId={id}
-                value={purifyAnswer}
-                onChange={handleLineHeight}
-                onCancelClick={() => {
-                  handleLineHeight();
-                  setEditAnswer(false);
-                }}
-              />
+              <div className="flex flex-col">
+                <QuestionUpdateAnswerForm
+                  answerId={id}
+                  value={purifyAnswer}
+                  onChange={handleLineHeight}
+                  onCancelClick={() => {
+                    handleLineHeight();
+                    setEditAnswer(false);
+                  }}
+                />
+              </div>
             ) : (
               <>
                 <QuestionAnswerContentCard

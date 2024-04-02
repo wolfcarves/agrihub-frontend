@@ -70,17 +70,23 @@ const QuestionCommentCard = ({
           />
         </div>
 
-        <div className={`${editComment && "flex-1"}`}>
+        <div
+          className={`${
+            editComment && "w-full overflow-hidden pe-2 max-w-[40rem]"
+          }`}
+        >
           {editComment ? (
-            <QuestionUpdateCommentForm
-              commentId={commentData?.id}
-              onChange={handleLineHeight}
-              value={purifyComment}
-              onCancelClick={() => {
-                handleLineHeight();
-                setEditComment(false);
-              }}
-            />
+            <div className="flex flex-col">
+              <QuestionUpdateCommentForm
+                commentId={commentData?.id}
+                onChange={handleLineHeight}
+                value={purifyComment}
+                onCancelClick={() => {
+                  handleLineHeight();
+                  setEditComment(false);
+                }}
+              />
+            </div>
           ) : (
             <QuestionAnswerContentCard
               isOwn={userAuth?.data?.id === commentData?.user?.id}

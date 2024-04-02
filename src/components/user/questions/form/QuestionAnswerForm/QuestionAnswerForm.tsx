@@ -53,37 +53,35 @@ const QuestionAnswerForm = ({ questionId }: QuestionAnswerFormProps) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmitAnswerForm)}>
-      <div>
-        <Divider className="py-10" />
-        <h5 className="font-poppins-semibold mb-5">Your Answers</h5>
-        <FormField
-          name="answer"
-          control={control}
-          render={({ field: { onChange } }) => {
-            return !isPostAnswerLoading ? (
-              <div className="flex">
-                <RichTextEditor
-                  allowImagePaste={false}
-                  withToolbar={false}
-                  onChange={({ charSize }) => {
-                    setAnswerLength(charSize ?? 0);
-                  }}
-                  onBlur={data => {
-                    onChange(data.html);
-                  }}
-                  height={300}
-                />
+      <Divider className="py-10" />
+      <h5 className="font-poppins-semibold mb-5">Your Answers</h5>
+      <FormField
+        name="answer"
+        control={control}
+        render={({ field: { onChange } }) => {
+          return !isPostAnswerLoading ? (
+            <div className="flex">
+              <RichTextEditor
+                allowImagePaste={false}
+                withToolbar={false}
+                onChange={({ charSize }) => {
+                  setAnswerLength(charSize ?? 0);
+                }}
+                onBlur={data => {
+                  onChange(data.html);
+                }}
+                height={300}
+              />
+            </div>
+          ) : (
+            <>
+              <div className="min-h-[20rem] flex justify-center items-center w-full border mx-auto rounded-lg ">
+                <LoadingSpinner className="text-xl" />
               </div>
-            ) : (
-              <>
-                <div className="min-h-[20rem] flex justify-center items-center w-full border mx-auto rounded-lg ">
-                  <LoadingSpinner className="text-xl" />
-                </div>
-              </>
-            );
-          }}
-        />
-      </div>
+            </>
+          );
+        }}
+      />
 
       <Button
         type="submit"

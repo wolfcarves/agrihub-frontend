@@ -105,7 +105,7 @@ const QuestionsList = ({ data, isLoading }: QuestionsListProps) => {
               voteCount={vote_count}
               answerCount={answer_count}
               createdat={createdat}
-              imagesrc={imagesrc}
+              attachment={imagesrc?.length}
               onUpVoteBtnClick={e => {
                 e.preventDefault();
                 handleQuestionVote(

@@ -1,5 +1,5 @@
-import RichTextEditor from "@components/ui/custom/rich-text-editor/RichTextEditor";
 import React from "react";
+import RichTextEditor from "@components/ui/custom/rich-text-editor/RichTextEditor";
 import { Button } from "@components/ui/button";
 import { useForm } from "react-hook-form";
 import { FormField } from "@components/ui/form";
@@ -46,10 +46,10 @@ const QuestionUpdateAnswerForm = ({
 
   return (
     <form
-      className="pb-2 w-full min-h-[9.5rem]"
+      className="flex flex-col pb-2 w-full min-h-[9.5rem] "
       onSubmit={handleSubmit(handleSubmitForm)}
     >
-      <div>
+      <div className="max-w-[40rem]">
         <FormField
           name="answer"
           control={control}

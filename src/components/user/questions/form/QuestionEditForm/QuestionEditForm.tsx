@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { askQuestionSchema } from "../QuestionAskForm/schema";
@@ -14,6 +14,7 @@ import useGetViewQuestion from "@hooks/api/get/useGetViewQuestion";
 import LoadingSpinner from "@icons/LoadingSpinner";
 import useFilesToBlobs from "@hooks/utils/useFilesToBlobs";
 import axios from "axios";
+import { LiaTrashAlt } from "react-icons/lia";
 
 const QuestionEditFormRules = () => (
   <div className="pb-14">
@@ -28,7 +29,7 @@ const QuestionEditForm = () => {
 
   const form = useForm<QuestionSchema>({
     resolver: zodResolver(askQuestionSchema),
-    mode: "onBlur"
+    mode: "onChange"
   });
 
   const {
@@ -39,22 +40,30 @@ const QuestionEditForm = () => {
   const [isUpdateQuestionLoading, setIsUpdateQuestionLoading] =
     useState<boolean>(false);
 
+  const [files, setFiles] = useState<File[]>([]);
+
+  const [prevImages, setPrevImages] = useState<string[] | undefined>(
+    previousQuestionData?.question?.imagesrc
+  );
+
+  //Ensure the prevImage loads, nawawala pag narerefresh nakalagay kasi sa useState which is kailangan talaga
+  useEffect(() => {
+    setPrevImages(previousQuestionData?.question?.imagesrc);
+  }, [previousQuestionData?.question?.imagesrc]);
+
   const prevData = useMemo(() => {
     return {
       title: previousQuestionData?.question?.title,
       question: previousQuestionData?.question?.question,
-      imagesrc: previousQuestionData?.question?.imagesrc,
       tags: previousQuestionData?.question?.tags
     };
-  }, [previousQuestionData]);
+  }, [previousQuestionData, prevImages]);
 
-  const [files, setFiles] = useState<File[] | string[] | null>(
-    prevData.imagesrc ?? null
-  );
+  const [deletedImages, setDeleteImages] = useState<string[]>([]);
 
   const handleSubmitForm = async (data: QuestionSchema) => {
     try {
-      setIsUpdateQuestionLoading(true);
+      // setIsUpdateQuestionLoading(true);
       const formData = new FormData();
 
       formData.append("title", data.title);
@@ -66,13 +75,18 @@ const QuestionEditForm = () => {
 
       const blobs = await useFilesToBlobs(files);
 
-      for (const key of Object.keys(blobs)) {
-        console.log(blobs[Number(key)]);
-        formData.append("imagesrc", blobs[Number(key)]);
+      if (blobs) {
+        for (const key of Object.keys(blobs)) {
+          formData.append("imagesrc", blobs[Number(key)]);
+        }
+      }
+
+      for (const key of Object.keys(deletedImages)) {
+        formData.append("deleted_images", deletedImages[Number(key)]);
       }
 
       await axios({
-        url: "https://api.qc-agrihub.xyz/api/forums",
+        url: `https://api.qc-agrihub.xyz/api/forums/${params.questionId}`,
         method: "PUT",
         data: formData,
         withCredentials: true
@@ -81,11 +95,9 @@ const QuestionEditForm = () => {
         navigate(-1);
       });
 
-      toast.success("Question successfully updated");
-      navigate(-1);
-    } catch (err: any) {
-      console.log(err.body.message);
-      toast.error(err.body.message);
+      toast.success("Question successfully posted!");
+    } catch (e: any) {
+      toast.error(e.body.message);
     }
   };
 
@@ -97,37 +109,35 @@ const QuestionEditForm = () => {
     }
   };
 
-  const renderImages = (dataFile: File[] | string[] | null) => {
-    console.log(dataFile);
+  const handleRemoveImage = (url: string, deletedIdx: number) => {
+    setDeleteImages(prev => prev?.concat(url));
+    setPrevImages(prevImages?.filter((_, idx) => idx !== deletedIdx));
+  };
+  const renderImages = (dataFile: File[]) => {
+    return dataFile.map((f, idx) => {
+      return (
+        <div className="relative w-max h-max" key={f.name}>
+          <img
+            width={200}
+            height={113}
+            src={URL.createObjectURL(f)}
+            className="rounded-2xl"
+          />
 
-    const pattern = /awsamazon/i;
-
-    const match = pattern.test("www.awsamazon");
-
-    // if (!dataFile) return <></>;
-    // return dataFile.map((f, idx) => {
-    //   return (
-    //     <div className="relative w-max h-max" key={f.name}>
-    //       <img
-    //         width={426}
-    //         height={240}
-    //         src={URL.createObjectURL(f)}
-    //         className=""
-    //       />
-    //       <button
-    //         type="button"
-    //         className="absolute -top-3 -end-3 bg-destructive rounded-full p-1 text-background"
-    //         onClick={() => {
-    //           setFiles(files.filter((_, index) => index !== idx));
-    //         }}
-    //       >
-    //         <div className="-ms-[1px]">
-    //           <LiaTrashAlt size={24} />
-    //         </div>
-    //       </button>
-    //     </div>
-    //   );
-    // });
+          <button
+            type="button"
+            className="absolute -top-3 -end-3 bg-destructive rounded-full p-1 text-background"
+            onClick={() => {
+              setFiles(files.filter((_, index) => index !== idx));
+            }}
+          >
+            <div className="-ms-[1px]">
+              <LiaTrashAlt size={24} />
+            </div>
+          </button>
+        </div>
+      );
+    });
   };
 
   if (isPreviousQuestionDataLoading) {
@@ -138,8 +148,8 @@ const QuestionEditForm = () => {
     <div className="flex flex-col pb-20 px-0 lg:px-10">
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit(handleSubmitForm)}
           encType="multipart/form-data"
+          onSubmit={form.handleSubmit(handleSubmitForm)}
         >
           <QuestionEditFormRules />
 
@@ -168,7 +178,7 @@ const QuestionEditForm = () => {
           <div className="mt-10">
             <div className="py-2">
               <h3 className="text-foreground text-md font-poppins-bold">
-                What are the details of your problem?
+                Edit description
               </h3>
             </div>
 
@@ -201,9 +211,9 @@ const QuestionEditForm = () => {
                             }}
                             onBlur={data => {
                               onChange(data.html);
-                              data?.files?.then(blobs => {
-                                form.setValue("imagesrc", blobs);
-                              });
+                              // data?.files?.then(blobs => {
+                              //   form.setValue("imagesrc", blobs);
+                              // });
                             }}
                             height={300}
                           />
@@ -222,15 +232,10 @@ const QuestionEditForm = () => {
             </div>
           </div>
 
-          <div className="mt-10">
-            <h3 className="text-foreground text-md font-poppins-bold">
-              Add Tags
+          <div className="mt-10 ">
+            <h3 className="text-foreground text-md font-poppins-bold py-2">
+              Edit Tags
             </h3>
-
-            <p className="text-foreground my-2 text-sm">
-              Add up to 5 tags to describe what your question is about. Start
-              typing to see suggestions.
-            </p>
 
             <div className="max-w-[60rem]">
               {prevData.tags && (
@@ -272,24 +277,55 @@ const QuestionEditForm = () => {
             </p>
 
             <div className="max-w-[60rem]">
-              {/* <div className="space-y-4">{renderImages(files)}</div> */}
+              <div className="flex flex-wrap gap-2">
+                {/* Previous images, sineperate ko wala namang balikan to eh tsaka ayoko na, gusto ko na makatikim ng real chikas */}
 
-              <div className="py-5">
-                <button
-                  type="button"
-                  className="relative border border-dashed max-w-[426px] w-full h-20 rounded-xl text-foreground/20 text-xl hover:bg-foreground/5 duration-100 cursor-pointer"
-                >
-                  Upload image +
-                  <input
-                    id="imagesrc"
-                    type="file"
-                    multiple
-                    accept="image/png, image/jpg, image/jpeg"
-                    className="absolute inset-0 text-[0px] cursor-pointer opacity-0"
-                    {...form.register("imagesrc", { required: true })}
-                    onChange={onImageChange}
-                  />
-                </button>
+                {prevImages?.map((imgSrc, idx) => (
+                  <div className="relative w-max h-max" key={imgSrc}>
+                    <img
+                      width={200}
+                      height={113}
+                      src={imgSrc}
+                      className="rounded-2xl"
+                    />
+                    <button
+                      type="button"
+                      className="absolute -top-3 -end-3 bg-destructive rounded-full p-1 text-background"
+                      onClick={() => {
+                        const url = imgSrc.split("/");
+                        handleRemoveImage(url?.[url.length - 1], idx);
+                      }}
+                    >
+                      <div className="-ms-[1px]">
+                        <LiaTrashAlt size={24} />
+                      </div>
+                    </button>
+                  </div>
+                ))}
+              </div>
+
+              <div className="max-w-[60rem] mt-2">
+                <div className="flex flex-wrap gap-2">
+                  {renderImages(files)}
+                </div>
+
+                <div className="py-5">
+                  <button
+                    type="button"
+                    className="relative border border-dashed max-w-[426px] w-full h-20 rounded-xl text-foreground/20 text-xl hover:bg-foreground/5 duration-100 cursor-pointer"
+                  >
+                    Upload image +
+                    <input
+                      id="imagesrc"
+                      type="file"
+                      multiple
+                      accept="image/png, image/jpg, image/jpeg"
+                      className="absolute inset-0 text-[0px] cursor-pointer opacity-0"
+                      {...form.register("imagesrc", { required: true })}
+                      onChange={onImageChange}
+                    />
+                  </button>
+                </div>
               </div>
             </div>
           </div>

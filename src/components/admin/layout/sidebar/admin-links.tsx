@@ -49,7 +49,7 @@ export const adminNavigation: NavigationItem[] = [
     module: "id",
     type: "nav"
   },
-
+  // Test icon in items. just add random icons it will not display
   {
     title: "Community",
     icon: <FaUsers size={24} />,

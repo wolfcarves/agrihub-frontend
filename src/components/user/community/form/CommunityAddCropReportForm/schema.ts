@@ -23,6 +23,12 @@ export const cropAddReportSchema = zod.object({
     })
     .min(0, "Withered quantity must be at least 0")
     .max(10000, "Withered quantity cannot exceed 10,000"),
+  kilogram: zod.coerce
+    .number({
+      required_error: "Please provide a kilogram"
+    })
+    .min(0, "Withered quantity must be at least 0")
+    .max(10000, "Withered quantity cannot exceed 10,000"),
   date_planted: zod.string().min(1, { message: "Planted date is Required" }),
   date_harvested: zod.string().min(1, { message: "Harvest date is Required" }),
   notes: zod.string().min(1, { message: "Notes is Required" }),

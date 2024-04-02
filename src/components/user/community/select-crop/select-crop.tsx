@@ -35,7 +35,6 @@ const SelectCrop: React.FC<SelectCropProps> = ({
 }) => {
   const { id } = useParams();
   const { data: farmCrops } = useGetFarmCropsQuery(id || "");
-  console.log(farmCrops);
   const [open, setOpen] = useState(false);
 
   return (

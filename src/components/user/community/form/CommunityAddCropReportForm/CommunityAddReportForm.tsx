@@ -17,7 +17,14 @@ import { Checkbox } from "../../../../ui/checkbox";
 import { addWeeks, format, isBefore } from "date-fns";
 import { CheckedState } from "@radix-ui/react-checkbox";
 import Loader from "../../../../../icons/Loader";
+// function concatPresentTime(dateString) {
+//   const presentTime = new Date().toLocaleTimeString("en-US", { hour12: false });
+//   return `${dateString}T${presentTime}`;
+// }
 
+// const date = "04-01-2024";
+// const result = concatPresentTime(date);
+// console.log("Result:", result);
 const CommunityAddCropReportForm = () => {
   const navigate = useNavigate();
   // const [check, setCheck] = useState<CheckedState>(false);
@@ -30,7 +37,6 @@ const CommunityAddCropReportForm = () => {
       isyield: true
     }
   });
-  console.log(isYield);
 
   useEffect(() => {
     if (form.watch("crop_id") === "") {
@@ -124,21 +130,23 @@ const CommunityAddCropReportForm = () => {
       planted_qty: data.planted_qty,
       harvested_qty: data.harvested_qty,
       withered_crops: data.withered_crops,
+      kilogram: Number(data.kilogram),
       date_planted: data.date_planted,
       date_harvested: data.date_harvested,
       notes: data.notes,
       image: data.image
     };
-
+    console.log(compiledData);
     try {
       await cropReportMutate(compiledData);
       toast.success("Report Submitted Successfully!");
       navigate(-1);
     } catch (error: any) {
       toast.error(error.body.message);
+      console.log(error.body);
     }
   };
-  console.log(form.formState.errors);
+  // console.log(form.formState.errors);
 
   const todayDate = format(new Date(), "yyyy-MM-dd");
 
@@ -234,6 +242,17 @@ const CommunityAddCropReportForm = () => {
           <FormMessage>
             {form.formState.errors.withered_crops?.message}
           </FormMessage>
+        </div>
+        <div className="md:col-span-6 col-span-12">
+          <Label>Harvested Kilogram</Label>
+          <Input
+            {...form.register("kilogram")}
+            type="number"
+            className="h-9 rounded-md"
+            min={0}
+            max={10000}
+          />
+          <FormMessage>{form.formState.errors.kilogram?.message}</FormMessage>
         </div>
         <div className="md:col-span-6 col-span-12">
           <Label>Planted Date</Label>

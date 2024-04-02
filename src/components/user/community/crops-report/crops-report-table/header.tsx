@@ -66,7 +66,10 @@ const Header: React.FC<HeaderProps> = ({
                 Filter Crops <ChevronDown className="ml-2 h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
+            <DropdownMenuContent
+              align="end"
+              className="max-h-[40vh] overflow-y-auto custom-scroll"
+            >
               {farmCrops?.map((crop, i) => {
                 return (
                   <DropdownMenuCheckboxItem

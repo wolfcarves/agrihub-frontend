@@ -18,7 +18,7 @@ interface RichTextEditorProps
   > {
   onBlur?: (data: {
     html?: string;
-    files?: Promise<Blob[]>;
+    files?: Promise<Blob[] | undefined>;
     charSize?: number;
   }) => void;
   onChange?: (data: { charSize?: number }) => void; // temporary lang to bwisit tong text editor di ko na to gagmitin sa susunod
@@ -133,9 +133,11 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
         onBlur &&
           onBlur({
             html,
-            files: useFilesToBlobs(files as File[]).then((blobs: Blob[]) => {
-              return blobs;
-            }),
+            files: useFilesToBlobs(files as File[]).then(
+              (blobs: Blob[] | undefined) => {
+                return blobs;
+              }
+            ),
             charSize: editor.storage.characterCount.characters()
           });
       }
@@ -163,7 +165,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
 
   return (
     <div
-      className={`shadow-md border border-border rounded-md w-full flex flex-col ${
+      className={`shadow-md border border-border rounded-xl w-full flex flex-col bg-white dark:bg-background overflow-hidden flex-1 ${
         disabled ? "opacity-50 pointer-events-none" : ""
       }`}
     >

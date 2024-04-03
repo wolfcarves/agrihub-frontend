@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { askQuestionSchema } from "./schema";
@@ -10,57 +10,21 @@ import { toast } from "sonner";
 import UserTagInputDropdown from "@components/user/account/input/UserTagInput";
 import { FormField } from "@components/ui/form";
 import ActivityIndicator from "@icons/ActivityIndicator";
-import BackButton from "@components/ui/custom/button/back-button";
 import { LiaTrashAlt } from "react-icons/lia";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import useFilesToBlobs from "@hooks/utils/useFilesToBlobs";
-
-const QuestionAskFormRules = () => (
-  <div>
-    <h2 className="font-poppins-bold text-foreground">Ask a public question</h2>
-
-    <div className="mt-10 mb-20 w-full max-w-[60rem] p-7 rounded-md border border-primary bg-secondary">
-      <div className="text-lg">
-        Gabay sa pagsulat ng isang wastong katanungan
-      </div>
-      <p className="mt-3">
-        Alam mo sa sarili mong ikaw ay handa na upang magtanong patungkol sa
-        katanungan ukol sa pagsasaka at itong form na ito ay makakatulong sayo
-        sa pagsasaayos ng iyong itatanong.
-      </p>
-
-      <div className="text-md font-poppins-bold mt-10">Mga pamamaraan</div>
-
-      <div className="text-sm">
-        <ul className="list-disc ps-4">
-          <li className="my-3 ">
-            Ilarawan ang iyong problema gamit ang mas maraming detalye.
-          </li>
-          <li className="my-3 ">
-            Maglagay ng "tags" na makakatulong upang ang iyong katanungan ay
-            agad na makita ng mga miyembro ng mga komunidad.
-          </li>
-          <li className="my-3 ">
-            Suriin ang iyong tanong at i-post ito sa aming website
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-);
 
 const QuestionAskForm = () => {
   const navigate = useNavigate();
   const [searchInputTagValue, setSearchInputTagValue] = useState<string>("");
   const [isQuestionAskLoading, setIsQuestionAskLoading] =
     useState<boolean>(false);
-  const imageRef = useRef<HTMLInputElement>(null);
   const [files, setFiles] = useState<File[]>([]);
 
   const form = useForm<QuestionSchema>({
     resolver: zodResolver(askQuestionSchema),
-    mode: "onBlur"
+    mode: "onChange"
   });
 
   const handleSubmitForm = async (data: QuestionSchema) => {
@@ -77,9 +41,11 @@ const QuestionAskForm = () => {
 
       const blobs = await useFilesToBlobs(files);
 
-      for (const key of Object.keys(blobs)) {
-        console.log(blobs[Number(key)]);
-        formData.append("imagesrc", blobs[Number(key)]);
+      if (blobs) {
+        for (const key of Object.keys(blobs)) {
+          console.log(blobs[Number(key)]);
+          formData.append("imagesrc", blobs[Number(key)]);
+        }
       }
 
       await axios({
@@ -111,10 +77,10 @@ const QuestionAskForm = () => {
       return (
         <div className="relative w-max h-max" key={f.name}>
           <img
-            width={426}
-            height={240}
+            width={200}
+            height={113}
             src={URL.createObjectURL(f)}
-            className=""
+            className="rounded-2xl"
           />
 
           <button
@@ -139,14 +105,19 @@ const QuestionAskForm = () => {
         onSubmit={form.handleSubmit(handleSubmitForm)}
         encType="multipart/form-data"
       >
-        <BackButton className="mb-10" />
-        <QuestionAskFormRules />
-
         <div className="max-w-[60rem]">
-          <h3 className="text-foreground text-md font-poppins-bold">Title</h3>
+          <h3 className="text-foreground text-md font-poppins-bold">
+            Title {"(Pamagat)"}
+          </h3>
 
           <p className="text-foreground my-2 text-sm">
             Be specific and imagine you’re asking a question to another person.
+          </p>
+
+          <p className="text-foreground my-2 text-sm">
+            {
+              "(Maging tiyak sa ilalagay na pamagat ng iyong tanong, Paki-taype ng hindi bababa sa 10 na karakter)"
+            }
           </p>
 
           <FormField
@@ -163,12 +134,19 @@ const QuestionAskForm = () => {
 
         <div className="mt-20">
           <h3 className="text-foreground text-md font-poppins-bold">
-            What are the details of your problem?
+            What are the details of your problem?{" "}
+            {"(Ipaliwanag ang detalye ng iyong katanungan)"}
           </h3>
 
           <p className="text-foreground my-2 text-sm">
             Introduce the problem and expand on what you put in the title.
             Minimum 20 characters.
+          </p>
+          <p className="text-foreground my-2 text-sm">
+            {"("}
+            Ilagay ang paliwanag patungkol sa iyong tanong, Paki-taype ng hindi
+            bababa sa 20 na karakter
+            {")"}
           </p>
 
           <div className="max-w-[60rem]">
@@ -183,7 +161,20 @@ const QuestionAskForm = () => {
                         allowUploadImage={false}
                         allowImagePaste={false}
                         onChange={({ charSize }) => {
+                          //Validation, tiptap's worst documentation
                           if (charSize! < 20) {
+                            if (charSize! < 20) {
+                              form.setError("question", {
+                                message:
+                                  'Please enter at least 20 characters, ("Paki-taype ng hindi bababa sa 20 na karakter."'
+                              });
+                            } else form.clearErrors("question");
+                            if (charSize! >= 5000) {
+                              form.setError("question", {
+                                message:
+                                  '5000 characters is the maximum, ("5000 karakter lamang ang sagad")'
+                              });
+                            }
                             form.setError("question", {
                               message: "Please enter at least 20 characters"
                             });
@@ -215,12 +206,17 @@ const QuestionAskForm = () => {
 
         <div className="mt-20">
           <h3 className="text-foreground text-md font-poppins-bold">
-            Add Tags
+            Add Tags {"(Maglagay ng mga tag)"}
           </h3>
 
           <p className="text-foreground my-2 text-sm">
             Add up to 5 tags to describe what your question is about. Start
-            typing to see suggestions.
+            typing to see suggestions. This is optional
+          </p>
+
+          <p className="text-foreground my-2 text-sm">
+            Idagdag ang mga tag na hinggil sa iyong katanungan, Simulan magtype
+            para makita ang mga mungkahi
           </p>
 
           <div className="max-w-[60rem]">
@@ -246,7 +242,7 @@ const QuestionAskForm = () => {
 
         <div className="mt-20">
           <h3 className="text-foreground text-md font-poppins-bold">
-            Attach Image
+            Attach Image {"(Maglagay ng mga litrato)"}
           </h3>
 
           <p className="text-foreground my-2 text-sm">
@@ -254,35 +250,46 @@ const QuestionAskForm = () => {
             image that can help illustrate your point more effectively
           </p>
 
+          <p className="text-foreground my-2 text-sm max-w-[55rem]">
+            {"("}
+            Upang makapagbigay ng mas magandang konteksto para sa iyong tanong,
+            isaalang-alang ang paglakip ng isang larawan na maaaring makatulong
+            na mailarawan ang iyong punto nang mas epektibo
+            {")"}
+          </p>
+
           <div className="max-w-[60rem]">
-            <div className="space-y-4">{renderImages(files)}</div>
+            <div className="flex flex-wrap gap-2">{renderImages(files)}</div>
 
             <div className="py-5">
               <button
                 type="button"
-                className="border border-dashed max-w-[426px] w-full h-20 rounded-xl text-foreground/20 text-xl hover:bg-foreground/5 duration-100"
-                onClick={() => imageRef.current?.click()}
+                className="relative border border-dashed max-w-[426px] w-full h-20 rounded-xl text-foreground/20 text-xl hover:bg-foreground/5 duration-100 cursor-pointer"
               >
                 Upload image +
+                <input
+                  id="imagesrc"
+                  type="file"
+                  multiple
+                  accept="image/png, image/jpg, image/jpeg"
+                  className="absolute inset-0 text-[0px] cursor-pointer opacity-0"
+                  {...form.register("imagesrc", { required: true })}
+                  onChange={onImageChange}
+                />
               </button>
             </div>
-
-            <input
-              id="imagesrc"
-              type="file"
-              multiple
-              accept="image/png, image/jpg, image/jpeg"
-              // className="absolute opacity-0 inset-0 m-auto hidden"
-              {...form.register("imagesrc", { required: true })}
-              onChange={onImageChange}
-            />
           </div>
         </div>
 
         {isQuestionAskLoading && <ActivityIndicator />}
 
         <div className="mt-5">
-          <Button className="px-7" type="submit">
+          <Button
+            className="px-7"
+            type="submit"
+            isLoading={isQuestionAskLoading}
+            disabled={isQuestionAskLoading}
+          >
             Post your question
           </Button>
         </div>

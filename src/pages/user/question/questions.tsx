@@ -54,7 +54,7 @@ const Questions = () => {
         <title>AgriHub | Forum</title>
       </Helmet>
 
-      <OutletContainer className="pt-10 pb-32 sm:px-2">
+      <OutletContainer className="pt-10 pb-32 sm:px-2 max-w-[45rem] mx-auto">
         <QuestionsInputAddQuestion />
         <QuestionsTitleTag title={params.tag} />
         <QuestionsFilterSelect
@@ -68,7 +68,7 @@ const Questions = () => {
             <Pagination totalPages={totalPages} isLoading={isQuestionLoading} />
           </>
         ) : (
-          <div className="w-full max-w-[45rem] mx-auto text-center">
+          <div className="w-full mx-auto text-center">
             <div>
               <h5>Walang Resulta</h5>
             </div>

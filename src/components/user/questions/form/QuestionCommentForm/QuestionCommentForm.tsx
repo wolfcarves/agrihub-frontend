@@ -10,6 +10,7 @@ import * as zod from "zod";
 import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/avatar";
 import useQuestionAddCommentMutation from "@hooks/api/post/useQuestionAddCommentMutation";
 import useAuth from "@hooks/useAuth";
+import { Button } from "@components/ui/button";
 
 interface QuestionCommentFormProps {
   answerId?: string;
@@ -30,7 +31,7 @@ const QuestionCommentForm = ({ answerId }: QuestionCommentFormProps) => {
   const user = useAuth();
   const [answerLength, setAnswerLength] = useState<number>(0);
 
-  const { handleSubmit, control } = useForm<QuestionComment>({
+  const { handleSubmit, control, setValue } = useForm<QuestionComment>({
     resolver: zodResolver(questionAnswerSchema),
     reValidateMode: "onSubmit",
     mode: "onSubmit",
@@ -50,20 +51,22 @@ const QuestionCommentForm = ({ answerId }: QuestionCommentFormProps) => {
           comment: data.comment
         }
       });
+
+      setValue("comment", "");
     } catch (err: any) {
       toast.error(err.body.message);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmitAnswerForm)}>
+    <form onSubmit={handleSubmit(onSubmitAnswerForm)} className="w-full">
       <FormField
         name="comment"
         control={control}
         render={({ field: { onChange } }) => {
           return (
             <>
-              <div className="flex gap-2 max-w-[43rem]">
+              <div className="flex gap-2">
                 <Avatar className="border">
                   <AvatarImage
                     src={user.data?.avatar}
@@ -97,16 +100,16 @@ const QuestionCommentForm = ({ answerId }: QuestionCommentFormProps) => {
         }}
       />
 
-      <div className="flex gap-2 max-w-[43rem]">
+      <div className="flex justify-end py-2 gap-2">
         {!isPostCommentLoading && (
-          <button
-            className={`${
-              answerLength === 0 && "opacity-60 pointer-events-none"
-            } flex mt-5 ms-auto text-sm border py-2 px-3 rounded-full cursor-pointer hover:bg-accent`}
+          <Button
+            variant="outline"
+            size="sm"
+            className="rounded-full"
             disabled={answerLength === 0}
           >
             Add Comment
-          </button>
+          </Button>
         )}
       </div>
     </form>

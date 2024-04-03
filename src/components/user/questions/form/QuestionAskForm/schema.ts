@@ -14,7 +14,7 @@ export const askQuestionSchema = zod.object({
       required_error: "Title is required."
     })
     .min(10, "Please enter at least 10 characters")
-    .max(200, "Title is too long"),
+    .max(160, "Title is too long"),
 
   question: zod
     .string({

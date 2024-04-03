@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { askQuestionSchema } from "../QuestionAskForm/schema";
@@ -11,10 +11,10 @@ import UserTagInputDropdown from "@components/user/account/input/UserTagInput";
 import { Form, FormField } from "@components/ui/form";
 import { useNavigate, useParams } from "react-router-dom";
 import useGetViewQuestion from "@hooks/api/get/useGetViewQuestion";
-import parse, { Element, domToReact } from "html-react-parser";
-import { renderToString } from "react-dom/server";
 import LoadingSpinner from "@icons/LoadingSpinner";
-import usePutForumsUpdateQuestion from "@hooks/api/put/usePutForumsUpdateQuestion";
+import useFilesToBlobs from "@hooks/utils/useFilesToBlobs";
+import axios from "axios";
+import { LiaTrashAlt } from "react-icons/lia";
 
 const QuestionEditFormRules = () => (
   <div className="pb-14">
@@ -27,13 +27,9 @@ const QuestionEditForm = () => {
   const params = useParams();
   const [searchInputTagValue, setSearchInputTagValue] = useState<string>("");
 
-  //just invoke this and the magic happens but actually have no idea how it works
-  let index = 0;
-  const pattern = /\bblob\b/;
-
   const form = useForm<QuestionSchema>({
     resolver: zodResolver(askQuestionSchema),
-    mode: "onBlur"
+    mode: "onChange"
   });
 
   const {
@@ -41,61 +37,108 @@ const QuestionEditForm = () => {
     isLoading: isPreviousQuestionDataLoading
   } = useGetViewQuestion(params.questionId ?? "");
 
-  const { mutateAsync: updateQuestion, isLoading: isUpdateQuestionLoading } =
-    usePutForumsUpdateQuestion();
+  const [isUpdateQuestionLoading, setIsUpdateQuestionLoading] =
+    useState<boolean>(false);
+
+  const [files, setFiles] = useState<File[]>([]);
+
+  const [prevImages, setPrevImages] = useState<string[] | undefined>(
+    previousQuestionData?.question?.imagesrc
+  );
+
+  //Ensure the prevImage loads, nawawala pag narerefresh nakalagay kasi sa useState which is kailangan talaga
+  useEffect(() => {
+    setPrevImages(previousQuestionData?.question?.imagesrc);
+  }, [previousQuestionData?.question?.imagesrc]);
 
   const prevData = useMemo(() => {
     return {
       title: previousQuestionData?.question?.title,
       question: previousQuestionData?.question?.question,
-      imagesrc: previousQuestionData?.question?.imagesrc,
       tags: previousQuestionData?.question?.tags
     };
-  }, [previousQuestionData]);
+  }, [previousQuestionData, prevImages]);
+
+  const [deletedImages, setDeleteImages] = useState<string[]>([]);
 
   const handleSubmitForm = async (data: QuestionSchema) => {
     try {
-      await updateQuestion({
-        id: previousQuestionData?.question?.id ?? "1",
-        formData: data
-      });
-      console.log(data);
+      // setIsUpdateQuestionLoading(true);
+      const formData = new FormData();
 
-      toast.success("Question successfully updated");
-      navigate(-1);
-    } catch (err: any) {
-      console.log(err.body.message);
-      toast.error(err.body.message);
+      formData.append("title", data.title);
+      formData.append("question", data.question);
+
+      data?.tags?.forEach((tag, idx) => {
+        formData.append(`tags[${idx}]`, tag);
+      });
+
+      const blobs = await useFilesToBlobs(files);
+
+      if (blobs) {
+        for (const key of Object.keys(blobs)) {
+          formData.append("imagesrc", blobs[Number(key)]);
+        }
+      }
+
+      for (const key of Object.keys(deletedImages)) {
+        formData.append("deleted_images", deletedImages[Number(key)]);
+      }
+
+      await axios({
+        url: `https://api.qc-agrihub.xyz/api/forums/${params.questionId}`,
+        method: "PUT",
+        data: formData,
+        withCredentials: true
+      }).then(() => {
+        setIsUpdateQuestionLoading(false);
+        navigate(-1);
+      });
+
+      toast.success("Question successfully posted!");
+    } catch (e: any) {
+      toast.error(e.body.message);
     }
   };
 
-  const _question = renderToString(
-    parse(prevData?.question ?? "", {
-      replace: domNode => {
-        if (domNode instanceof Element) {
-          if (domNode.tagName === "img") {
-            const replacedImg = (
-              <img
-                //checks if image has the word blob
-                src={
-                  pattern.test(domNode.attribs.src)
-                    ? prevData?.imagesrc?.[index]
-                    : domNode.attribs.src
-                }
-                className="w-full max-w-[450px] my-2"
-              />
-            );
+  const onImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      Array.from(e.target.files).map(file => {
+        setFiles(prev => prev.concat(file));
+      });
+    }
+  };
 
-            return replacedImg;
-          }
+  const handleRemoveImage = (url: string, deletedIdx: number) => {
+    setDeleteImages(prev => prev?.concat(url));
+    setPrevImages(prevImages?.filter((_, idx) => idx !== deletedIdx));
+  };
+  const renderImages = (dataFile: File[]) => {
+    return dataFile.map((f, idx) => {
+      return (
+        <div className="relative w-max h-max" key={f.name}>
+          <img
+            width={200}
+            height={113}
+            src={URL.createObjectURL(f)}
+            className="rounded-2xl"
+          />
 
-          if (domNode.tagName === "pre") {
-            return <p>{domToReact(domNode.children)}</p>;
-          }
-        }
-      }
-    }) as React.ReactElement<any, string | React.JSXElementConstructor<any>>
-  );
+          <button
+            type="button"
+            className="absolute -top-3 -end-3 bg-destructive rounded-full p-1 text-background"
+            onClick={() => {
+              setFiles(files.filter((_, index) => index !== idx));
+            }}
+          >
+            <div className="-ms-[1px]">
+              <LiaTrashAlt size={24} />
+            </div>
+          </button>
+        </div>
+      );
+    });
+  };
 
   if (isPreviousQuestionDataLoading) {
     return <LoadingSpinner className="text-primary mx-auto" />;
@@ -105,23 +148,9 @@ const QuestionEditForm = () => {
     <div className="flex flex-col pb-20 px-0 lg:px-10">
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit(handleSubmitForm)}
           encType="multipart/form-data"
+          onSubmit={form.handleSubmit(handleSubmitForm)}
         >
-          <div className="flex justify-end gap-2">
-            <Button type="submit" isLoading={isUpdateQuestionLoading} size="lg">
-              Update
-            </Button>
-            <Button
-              type="button"
-              size="lg"
-              variant="outline"
-              onClick={() => navigate(-1)}
-            >
-              Cancel
-            </Button>
-          </div>
-
           <QuestionEditFormRules />
 
           <div className="max-w-[60rem]">
@@ -149,7 +178,7 @@ const QuestionEditForm = () => {
           <div className="mt-10">
             <div className="py-2">
               <h3 className="text-foreground text-md font-poppins-bold">
-                What are the details of your problem?
+                Edit description
               </h3>
             </div>
 
@@ -158,14 +187,15 @@ const QuestionEditForm = () => {
                 <FormField
                   name="question"
                   control={form.control}
-                  defaultValue={_question}
+                  defaultValue={prevData?.question}
                   render={({ field: { onChange }, fieldState }) => {
                     return (
                       <>
                         <div className="flex">
                           <RichTextEditor
-                            defaultValue={_question}
-                            allowImagePaste
+                            defaultValue={prevData?.question}
+                            allowImagePaste={false}
+                            allowUploadImage={false}
                             onChange={({ charSize }) => {
                               if (charSize! < 20) {
                                 form.setError("question", {
@@ -181,9 +211,9 @@ const QuestionEditForm = () => {
                             }}
                             onBlur={data => {
                               onChange(data.html);
-                              data?.files?.then(blobs => {
-                                form.setValue("imagesrc", blobs);
-                              });
+                              // data?.files?.then(blobs => {
+                              //   form.setValue("imagesrc", blobs);
+                              // });
                             }}
                             height={300}
                           />
@@ -202,15 +232,10 @@ const QuestionEditForm = () => {
             </div>
           </div>
 
-          <div className="mt-10">
-            <h3 className="text-foreground text-md font-poppins-bold">
-              Add Tags
+          <div className="mt-10 ">
+            <h3 className="text-foreground text-md font-poppins-bold py-2">
+              Edit Tags
             </h3>
-
-            <p className="text-foreground my-2 text-sm">
-              Add up to 5 tags to describe what your question is about. Start
-              typing to see suggestions.
-            </p>
 
             <div className="max-w-[60rem]">
               {prevData.tags && (
@@ -239,6 +264,83 @@ const QuestionEditForm = () => {
                 />
               )}
             </div>
+          </div>
+
+          <div className="mt-20">
+            <h3 className="text-foreground text-md font-poppins-bold">
+              Attach Image
+            </h3>
+
+            <p className="text-foreground my-2 text-sm">
+              To provide better context for your question, consider attaching an
+              image that can help illustrate your point more effectively
+            </p>
+
+            <div className="max-w-[60rem]">
+              <div className="flex flex-wrap gap-2">
+                {/* Previous images, sineperate ko wala namang balikan to eh tsaka ayoko na, gusto ko na makatikim ng real chikas */}
+
+                {prevImages?.map((imgSrc, idx) => (
+                  <div className="relative w-max h-max" key={imgSrc}>
+                    <img
+                      width={200}
+                      height={113}
+                      src={imgSrc}
+                      className="rounded-2xl"
+                    />
+                    <button
+                      type="button"
+                      className="absolute -top-3 -end-3 bg-destructive rounded-full p-1 text-background"
+                      onClick={() => {
+                        const url = imgSrc.split("/");
+                        handleRemoveImage(url?.[url.length - 1], idx);
+                      }}
+                    >
+                      <div className="-ms-[1px]">
+                        <LiaTrashAlt size={24} />
+                      </div>
+                    </button>
+                  </div>
+                ))}
+              </div>
+
+              <div className="max-w-[60rem] mt-2">
+                <div className="flex flex-wrap gap-2">
+                  {renderImages(files)}
+                </div>
+
+                <div className="py-5">
+                  <button
+                    type="button"
+                    className="relative border border-dashed max-w-[426px] w-full h-20 rounded-xl text-foreground/20 text-xl hover:bg-foreground/5 duration-100 cursor-pointer"
+                  >
+                    Upload image +
+                    <input
+                      id="imagesrc"
+                      type="file"
+                      multiple
+                      accept="image/png, image/jpg, image/jpeg"
+                      className="absolute inset-0 text-[0px] cursor-pointer opacity-0"
+                      {...form.register("imagesrc", { required: true })}
+                      onChange={onImageChange}
+                    />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex gap-2 mt-5">
+            <Button type="submit" isLoading={isUpdateQuestionLoading}>
+              Update
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => navigate(-1)}
+            >
+              Cancel
+            </Button>
           </div>
         </form>
       </Form>

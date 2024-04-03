@@ -15,7 +15,7 @@ const QuestionVoteButton = ({
   if (variant === "upvote") {
     return (
       <button
-        className={`p-4 border border-gray bg-gray-100 text-foreground rounded-lg hover:rounded-[100px] transition-all duration-300 ${
+        className={`p-3.5 md:p-4 border border-gray bg-gray-100 text-foreground rounded-lg hover:rounded-[100px] transition-all duration-300 ${
           voteType === "upvote" && "rounded-[100px] border-primary bg-secondary"
         } `}
         {...props}
@@ -28,7 +28,7 @@ const QuestionVoteButton = ({
   if (variant === "downvote") {
     return (
       <button
-        className={`p-4 border border-gray bg-gray-100 text-foreground rounded-lg hover:rounded-[100px] transition-all duration-300 ${
+        className={`p-3.5 md:p-4 border border-gray bg-gray-100 text-foreground rounded-lg hover:rounded-[100px] transition-all duration-300 ${
           voteType === "downvote" && "rounded-[100px] border-red-500 bg-red-100"
         } `}
         {...props}

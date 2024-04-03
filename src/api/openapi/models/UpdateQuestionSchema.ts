@@ -17,4 +17,5 @@ export type UpdateQuestionSchema = {
      * One or more tags associated with the forum
      */
     tags?: Array<string>;
+    deleted_images?: Array<string>;
 };

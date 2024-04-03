@@ -11,6 +11,7 @@ import questionViewSlice from "./slices/questionViewSlice";
 import sidebarSlice from "./slices/sidebarSlice";
 import adminSlice from "./slices/adminSlice";
 import notificationSlice from "./slices/notificationSlice";
+import existingCropSlice from "./slices/existingCropSlice";
 
 export const store = configureStore({
   reducer: {
@@ -18,7 +19,8 @@ export const store = configureStore({
     questionView: questionViewSlice,
     sidebar: sidebarSlice,
     admin: adminSlice,
-    notification: notificationSlice
+    notification: notificationSlice,
+    existingCrop: existingCropSlice
   }
 });
 

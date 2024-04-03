@@ -13,6 +13,8 @@ import useCommunityAutorization from "../../../../../hooks/utils/useCommunityAut
 import { useNavigate, useParams } from "react-router-dom";
 import useGetFarmCropsQuery from "../../../../../hooks/api/get/useGetFarmCropsQuery";
 import useDebounce from "../../../../../hooks/utils/useDebounce";
+import { useDispatch } from "../../../../../redux/store";
+import { clearExistingCrop } from "../../../../../redux/slices/existingCropSlice";
 interface HeaderProps {
   search: string;
   setSearch: Dispatch<SetStateAction<string>>;
@@ -25,6 +27,7 @@ const Header: React.FC<HeaderProps> = ({
   filter,
   setFilter
 }) => {
+  const dispatch = useDispatch();
   const { id } = useParams();
   const navigate = useNavigate();
   const { isAllowed, isMember } = useCommunityAutorization();
@@ -35,6 +38,7 @@ const Header: React.FC<HeaderProps> = ({
   }, 100);
 
   const handleAddReport = () => {
+    dispatch(clearExistingCrop());
     navigate("add");
   };
 
@@ -66,7 +70,10 @@ const Header: React.FC<HeaderProps> = ({
                 Filter Crops <ChevronDown className="ml-2 h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
+            <DropdownMenuContent
+              align="end"
+              className="max-h-[40vh] overflow-y-auto custom-scroll"
+            >
               {farmCrops?.map((crop, i) => {
                 return (
                   <DropdownMenuCheckboxItem

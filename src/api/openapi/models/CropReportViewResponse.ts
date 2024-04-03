@@ -5,6 +5,7 @@
 
 export type CropReportViewResponse = {
     id?: string;
+    cfc_id?: string;
     crop_name?: string;
     date_planted?: string;
     date_harvested?: string;

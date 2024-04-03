@@ -13,6 +13,8 @@ import useCommunityAutorization from "../../../../../hooks/utils/useCommunityAut
 import { useNavigate, useParams } from "react-router-dom";
 import useGetFarmCropsQuery from "../../../../../hooks/api/get/useGetFarmCropsQuery";
 import useDebounce from "../../../../../hooks/utils/useDebounce";
+import { useDispatch } from "../../../../../redux/store";
+import { clearExistingCrop } from "../../../../../redux/slices/existingCropSlice";
 interface HeaderProps {
   search: string;
   setSearch: Dispatch<SetStateAction<string>>;
@@ -25,6 +27,7 @@ const Header: React.FC<HeaderProps> = ({
   filter,
   setFilter
 }) => {
+  const dispatch = useDispatch();
   const { id } = useParams();
   const navigate = useNavigate();
   const { isAllowed, isMember } = useCommunityAutorization();
@@ -35,6 +38,7 @@ const Header: React.FC<HeaderProps> = ({
   }, 100);
 
   const handleAddReport = () => {
+    dispatch(clearExistingCrop());
     navigate("add");
   };
 

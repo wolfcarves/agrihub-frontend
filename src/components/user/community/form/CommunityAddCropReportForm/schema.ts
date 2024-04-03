@@ -7,7 +7,8 @@ export const cropAddReportSchema = zod.object({
       required_error: "Please provide a planted quantity"
     })
     .min(0, "Planted quantity must be at least 1")
-    .max(10000, "Planted quantity cannot exceed 10,000"),
+    .max(10000, "Planted quantity cannot exceed 10,000")
+    .optional(),
   is_other: zod.boolean().optional(),
   isyield: zod.boolean().optional(),
   c_name: zod.string().optional(),
@@ -29,7 +30,7 @@ export const cropAddReportSchema = zod.object({
     })
     .min(0, "Withered quantity must be at least 0")
     .max(10000, "Withered quantity cannot exceed 10,000"),
-  date_planted: zod.string().min(1, { message: "Planted date is Required" }),
+  date_planted: zod.string().min(0, { message: "Planted date is Required" }),
   date_harvested: zod.string().min(1, { message: "Harvest date is Required" }),
   notes: zod.string().min(1, { message: "Notes is Required" }),
   image: zod.any().refine((files: Blob[]) => {

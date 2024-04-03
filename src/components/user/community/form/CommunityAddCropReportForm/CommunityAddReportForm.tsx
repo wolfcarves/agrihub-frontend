@@ -12,22 +12,26 @@ import MultiImageUpload from "../../multi-image-input/multi-image-input";
 import { toast } from "sonner";
 import SelectCrop from "../../select-crop/select-crop";
 import useReportCropMutation from "../../../../../hooks/api/post/useReportCropMutation";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Checkbox } from "../../../../ui/checkbox";
 import { addWeeks, format, isBefore } from "date-fns";
 import { CheckedState } from "@radix-ui/react-checkbox";
 import Loader from "../../../../../icons/Loader";
-// function concatPresentTime(dateString) {
-//   const presentTime = new Date().toLocaleTimeString("en-US", { hour12: false });
-//   return `${dateString}T${presentTime}`;
-// }
+import { concatPresentTime, removeTimeFromDate } from "../../../../lib/utils";
+import { useSelector } from "../../../../../redux/store";
+import useGetReportCropListView from "../../../../../hooks/api/get/useGetReportCropListView";
 
-// const date = "04-01-2024";
-// const result = concatPresentTime(date);
-// console.log("Result:", result);
 const CommunityAddCropReportForm = () => {
   const navigate = useNavigate();
+  const { cropId } = useParams();
+  const { data: CropReport, isLoading } = useGetReportCropListView(
+    cropId || ""
+  );
+
+  // const existingCropData = useSelector(state => state.existingCrop);
+  // console.log(existingCropData);
   // const [check, setCheck] = useState<CheckedState>(false);
+
   const [isCrop, setIsCrop] = useState<boolean>(true);
   const [isYield, setIsYield] = useState<boolean>(true);
   const form = useForm<NewCommunityCropReport>({
@@ -63,7 +67,6 @@ const CommunityAddCropReportForm = () => {
       form.setValue("withered_crops", witheredVal || undefined);
     }
   }, [form.watch("planted_qty"), form.watch("harvested_qty"), isYield]);
-  console.log(isYield);
 
   useEffect(() => {
     if (form.formState.errors.crop_id) {
@@ -127,16 +130,18 @@ const CommunityAddCropReportForm = () => {
       c_name: data.c_name,
       is_other: !isCrop ? true : undefined,
       isyield: data.isyield,
-      planted_qty: data.planted_qty,
+      planted_qty: data.planted_qty || 0,
       harvested_qty: data.harvested_qty,
       withered_crops: data.withered_crops,
-      kilogram: Number(data.kilogram),
-      date_planted: data.date_planted,
-      date_harvested: data.date_harvested,
+      kilogram: data.kilogram,
+      date_planted: concatPresentTime(data.date_planted || ""),
+      date_harvested: concatPresentTime(data.date_harvested || ""),
       notes: data.notes,
-      image: data.image
+      image: data.image,
+      is_first_report: cropId ? "" : "true"
     };
     console.log(compiledData);
+
     try {
       await cropReportMutate(compiledData);
       toast.success("Report Submitted Successfully!");
@@ -149,6 +154,11 @@ const CommunityAddCropReportForm = () => {
   // console.log(form.formState.errors);
 
   const todayDate = format(new Date(), "yyyy-MM-dd");
+  console.log(form.formState.errors);
+
+  if (isLoading) {
+    return <Loader isVisible={true} />;
+  }
 
   return (
     <Form {...form}>
@@ -168,23 +178,27 @@ const CommunityAddCropReportForm = () => {
                 field={field}
                 form={form}
                 setIsYield={setIsYield}
+                defaultValue={CropReport?.cfc_id}
+                disabled={cropId ? true : false}
               />
             )}
           />
         </div>
-        <div className="md:col-span-6 col-span-12">
-          <Label>Planted Quantity</Label>
-          <Input
-            {...form.register("planted_qty")}
-            type="number"
-            className="h-9 rounded-md"
-            min={0}
-            max={10000}
-          />
-          <FormMessage>
-            {form.formState.errors.planted_qty?.message}
-          </FormMessage>
-        </div>
+        {!cropId && (
+          <div className="md:col-span-6 col-span-12">
+            <Label>Planted Quantity</Label>
+            <Input
+              {...form.register("planted_qty")}
+              type="number"
+              className="h-9 rounded-md"
+              min={0}
+              max={10000}
+            />
+            <FormMessage>
+              {form.formState.errors.planted_qty?.message}
+            </FormMessage>
+          </div>
+        )}
         {!isCrop && (
           <>
             <div className="flex items-center space-x-2 md:col-span-6 col-span-12 pl-2">
@@ -259,8 +273,10 @@ const CommunityAddCropReportForm = () => {
           <Input
             {...form.register("date_planted")}
             type="date"
-            className="h-9 rounded-md"
+            defaultValue={removeTimeFromDate(CropReport?.date_planted || "")}
+            className="h-9 rounded-md disabled:opacity-90"
             max={todayDate}
+            readOnly={cropId ? true : false}
           />
           <FormMessage>
             {form.formState.errors.date_planted?.message}

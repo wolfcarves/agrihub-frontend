@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "../../../ui/popover";
 import { Button } from "../../../ui/button";
 import { Check, ChevronsUpDown } from "lucide-react";
@@ -26,16 +26,34 @@ interface SelectCropProps {
   };
   other?: boolean;
   setIsYield: Dispatch<SetStateAction<boolean>>;
+  defaultValue?: string;
+  disabled?: boolean;
 }
 const SelectCrop: React.FC<SelectCropProps> = ({
   field,
   form,
   other,
-  setIsYield
+  setIsYield,
+  defaultValue,
+  disabled
 }) => {
   const { id } = useParams();
   const { data: farmCrops } = useGetFarmCropsQuery(id || "");
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    let timeoutId: NodeJS.Timeout | undefined;
+
+    if (defaultValue) {
+      timeoutId = setTimeout(() => {
+        form.setValue("crop_id", defaultValue);
+      }, 50);
+    }
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, []);
 
   return (
     <div>
@@ -44,8 +62,9 @@ const SelectCrop: React.FC<SelectCropProps> = ({
           <Button
             variant="outline"
             role="combobox"
+            disabled={disabled}
             className={cn(
-              "w-full justify-between border-border text-sm rounded py-0 ",
+              "w-full justify-between border-border text-sm rounded bg-transparent py-0 disabled:opacity-90",
               !field.value && "text-muted-foreground"
             )}
           >

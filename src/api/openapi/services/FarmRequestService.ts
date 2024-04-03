@@ -4,9 +4,11 @@
 /* eslint-disable */
 import type { AcceptSeedlingRequest } from '../models/AcceptSeedlingRequest';
 import type { FarmOverview } from '../models/FarmOverview';
+import type { ListToolRequestResponse } from '../models/ListToolRequestResponse';
 import type { MessageResponse } from '../models/MessageResponse';
 import type { NewSeedlingRequest } from '../models/NewSeedlingRequest';
 import type { NewSeedlingResponse } from '../models/NewSeedlingResponse';
+import type { NewToolRequest } from '../models/NewToolRequest';
 import type { RequestCount } from '../models/RequestCount';
 import type { SeedlingRequestListAllResponse } from '../models/SeedlingRequestListAllResponse';
 
@@ -241,6 +243,82 @@ message?: string;
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/request/count',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Submit Tool Request
+     * @returns MessageResponse Successful response
+     * @throws ApiError
+     */
+    public static postApiRequestToolRequest({
+requestBody,
+}: {
+requestBody: NewToolRequest,
+}): CancelablePromise<MessageResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/request/tool-request',
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * List Tool Requests
+     * @returns ListToolRequestResponse Successful response
+     * @throws ApiError
+     */
+    public static getApiRequestToolRequest({
+search,
+page,
+perpage,
+filter,
+farmid,
+}: {
+/**
+ * Search term
+ */
+search?: string,
+/**
+ * Page number
+ */
+page?: string,
+/**
+ * Items per page
+ */
+perpage?: string,
+/**
+ * Filter by status
+ */
+filter?: 'pending' | 'accepted' | 'communicating' | 'rejected' | 'forwarded' | 'completed',
+/**
+ * Filter by farm ID
+ */
+farmid?: string,
+}): CancelablePromise<ListToolRequestResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/request/tool-request',
+            query: {
+                'search': search,
+                'page': page,
+                'perpage': perpage,
+                'filter': filter,
+                'farmid': farmid,
+            },
             errors: {
                 400: `Validation Error`,
                 401: `Unauthorized`,

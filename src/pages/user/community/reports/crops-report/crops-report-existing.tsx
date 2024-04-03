@@ -36,6 +36,12 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger
 } from "../../../../../components/ui/alert-dialog";
+import useReportCropInactive from "../../../../../hooks/api/post/useReportCropInactive";
+import { toast } from "sonner";
+import Loader from "../../../../../icons/Loader";
+
+import StatePagination from "../../../../../components/user/community/state-pagination/state-pagination";
+import Header from "../../../../../components/user/community/crops-report/crops-report-table/header";
 
 const CropsReportExisting = () => {
   const dispatch = useDispatch();
@@ -60,8 +66,28 @@ const CropsReportExisting = () => {
     navigate(`add/${cropData.crop_id}`);
   };
 
+  const { mutateAsync: inactiveMutation, isLoading: inactiveLoading } =
+    useReportCropInactive();
+  const handleInactive = async (id: string) => {
+    try {
+      await inactiveMutation(id || "");
+      toast.success("Crop Report Unlisted Successfully!");
+    } catch (error: any) {
+      toast.error(error.body.message);
+    }
+  };
+  const onPageChange = (newPage: number) => {
+    setPage(newPage);
+  };
+
   return (
     <div>
+      <Header
+        search={search}
+        setSearch={setSearch}
+        filter={filter}
+        setFilter={setFilter}
+      />
       <div className="grid grid-cols-12 gap-3">
         {CropExisting?.reports?.map((crop, i) => (
           <div
@@ -84,9 +110,9 @@ const CropsReportExisting = () => {
                   Harvested Quantity: {crop.harvested_qty}
                 </p> */}
                 <p className="text-sm text-[#b6b6b6] font-medium line-clamp-1"></p>
-                <p className="text-sm text-[#b6b6b6] font-medium line-clamp-1">
+                {/* <p className="text-sm text-[#b6b6b6] font-medium line-clamp-1">
                   Withered Quantity : {crop.withered_crops}
-                </p>
+                </p> */}
 
                 <p className="flex items-center gap-2 my-2 text-xs font-poppins-semibold text-primary capitalize line-clamp-1">
                   <PiPlant size={18} /> Date Planted :{" "}
@@ -129,7 +155,11 @@ const CropsReportExisting = () => {
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                       <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      <AlertDialogAction>Continue</AlertDialogAction>
+                      <AlertDialogAction
+                        onClick={() => handleInactive(crop.crop_id || "")}
+                      >
+                        Continue
+                      </AlertDialogAction>
                     </AlertDialogFooter>
                   </AlertDialogContent>
                 </AlertDialog>
@@ -138,6 +168,14 @@ const CropsReportExisting = () => {
           </div>
         ))}
       </div>
+      {!isLoading && Number(CropExisting?.pagination?.total_records) !== 0 && (
+        <StatePagination
+          currentPage={Number(CropExisting?.pagination?.page)}
+          totalPages={Number(CropExisting?.pagination?.total_pages)}
+          onPageChange={onPageChange}
+        />
+      )}
+      <Loader isVisible={inactiveLoading} />
     </div>
   );
 };

@@ -78,11 +78,14 @@ export const columns: ColumnDef<CommunityFarmProblem>[] = [
         };
 
         try {
+          if (feedback === "") {
+            throw new Error("Feedback is required.");
+          }
           await resolveMutate({ id: item.id || "", requestBody: compiledData });
           toast.success("Submitted Successfully!");
           setIsOpen(false);
         } catch (e: any) {
-          toast.error(e.body.message);
+          toast.error(e.message);
         }
       };
 

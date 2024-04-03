@@ -34,8 +34,11 @@ const QuestionAnswerContentCard = ({
     <div
       className={
         className ??
-        "relative p-2 sm:p-3 rounded-2xl group border bg-white dark:bg-background"
+        "relative p-2 sm:p-3 rounded-2xl group border bg-white dark:bg-background max-w-[40rem]"
       }
+      style={{
+        overflowWrap: "anywhere"
+      }}
       {...props}
     >
       {isOwn && (

@@ -1,9 +1,10 @@
+import React, { useEffect, useState } from "react";
 import RichTextEditor from "@components/ui/custom/rich-text-editor/RichTextEditor";
-import React from "react";
 import { Button } from "@components/ui/button";
 import { useForm } from "react-hook-form";
 import { FormField } from "@components/ui/form";
 import usePutForumsUpdateAnswer from "@hooks/api/put/usePutForumsUpdateAnswer";
+import { toast } from "sonner";
 
 interface QuestionUpdateAnswerFormProps {
   answerId?: string;
@@ -20,7 +21,9 @@ const QuestionUpdateAnswerForm = ({
   onUpdateClick,
   onCancelClick
 }: QuestionUpdateAnswerFormProps) => {
-  const { control, setError, clearErrors, handleSubmit } = useForm<{
+  const [charLength, setCharLength] = useState<number>();
+
+  const { control, setError, formState, clearErrors, handleSubmit } = useForm<{
     answer: string;
   }>({
     mode: "onChange"
@@ -31,6 +34,19 @@ const QuestionUpdateAnswerForm = ({
 
   const handleSubmitForm = async (data: { answer: string }) => {
     try {
+      console.log(charLength);
+
+      if (charLength! < 1) {
+        return setError("answer", {
+          message: "Enter your answer"
+        });
+      } else clearErrors("answer");
+      if (charLength! > 5000) {
+        return setError("answer", {
+          message: "Maximum of 5000 characters"
+        });
+      }
+
       await updateAnswer({
         id: answerId ?? "",
         requestBody: {
@@ -44,40 +60,37 @@ const QuestionUpdateAnswerForm = ({
     }
   };
 
+  useEffect(() => {
+    if (formState.errors.answer?.message) {
+      toast.error(formState.errors.answer?.message);
+    }
+  }, [formState.errors]);
+
   return (
     <form
-      className="pb-2 w-full min-h-[9.5rem]"
+      className="flex flex-col pb-2"
       onSubmit={handleSubmit(handleSubmitForm)}
     >
-      <div>
-        <FormField
-          name="answer"
-          control={control}
-          render={({ field: { onChange: onFieldChange } }) => (
-            <RichTextEditor
-              defaultValue={value}
-              withToolbar={false}
-              onChange={({ charSize }) => {
-                if (charSize! < 20) {
-                  setError("answer", {
-                    message: "Please enter at least 20 characters"
-                  });
-                } else clearErrors("answer");
-                if (charSize! >= 5000) {
-                  setError("answer", {
-                    message: "5000 characters is the maximum"
-                  });
-                }
-
-                onChange && onChange();
-              }}
-              onBlur={data => {
-                onFieldChange(data?.html);
-              }}
-            />
-          )}
-        />
-      </div>
+      <FormField
+        name="answer"
+        control={control}
+        render={({ field: { onChange: onFieldChange } }) => (
+          <RichTextEditor
+            maxLength={500}
+            allowUploadImage={false}
+            allowImagePaste={false}
+            defaultValue={value}
+            withToolbar={false}
+            onChange={({ charSize }) => {
+              setCharLength(charSize);
+              onChange && onChange();
+            }}
+            onBlur={data => {
+              onFieldChange(data?.html);
+            }}
+          />
+        )}
+      />
 
       <div className="flex gap-1 justify-end py-2">
         <Button
@@ -98,7 +111,8 @@ const QuestionUpdateAnswerForm = ({
           className="rounded-full"
           onClick={onUpdateClick}
           isLoading={isUpdateAnswerLoading}
-          disabled={isUpdateAnswerLoading}
+          //charLength checks if input is dirty
+          disabled={isUpdateAnswerLoading || charLength === undefined}
         >
           Update
         </Button>

@@ -262,3 +262,13 @@ export function parseValidString(item: string) {
 
   return item;
 }
+
+export function concatPresentTime(dateString: string) {
+  const presentTime = new Date().toLocaleTimeString("en-US", { hour12: false });
+  return `${dateString}T${presentTime}`;
+}
+
+export function removeTimeFromDate(dateString: string) {
+  const parts = dateString.split("T");
+  return parts[0];
+}

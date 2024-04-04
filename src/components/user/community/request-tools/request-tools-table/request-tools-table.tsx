@@ -17,20 +17,27 @@ import {
   SelectValue
 } from "../../../../ui/select";
 import DialogRequestTool from "../dialog-request-tools/dialog-request-tool";
+import useGetRequestToolListAllQuery from "../../../../../hooks/api/get/useGetRequestToolListAllQuery";
 const RequestToolsTable = () => {
   const { id } = useParams();
   const [search, setSearch] = useState<string>("");
   const [filter, setFilter] = React.useState<
-    "pending" | "accepted" | "rejected" | ""
-  >("");
+    | "pending"
+    | "accepted"
+    | "communicating"
+    | "rejected"
+    | "forwarded"
+    | "completed"
+  >("pending");
   const [page, setPage] = useState<number>(1);
-  const { data, isLoading } = useGetRequestSeedlingList({
-    id: id || "",
+  const { data, isLoading } = useGetRequestToolListAllQuery({
+    farmid: id || "",
     search: search,
     page: String(page),
     perpage: "10",
     filter: filter
   });
+  console.log(data);
 
   const onPageChange = (newPage: number) => {
     setPage(newPage);
@@ -44,7 +51,7 @@ const RequestToolsTable = () => {
     <div>
       <div className="my-2 flex md:flex-row flex-col gap-3 justify-between">
         <Input
-          placeholder="Search crop..."
+          placeholder="Search tool..."
           value={search}
           onChange={e => debouncedSearch(e.target.value)}
           className="max-w-sm focus-visible:ring-0"
@@ -53,9 +60,13 @@ const RequestToolsTable = () => {
           <Select
             onValueChange={value =>
               setFilter(
-                value === "All"
-                  ? ""
-                  : (value as "pending" | "accepted" | "rejected")
+                value as
+                  | "pending"
+                  | "accepted"
+                  | "communicating"
+                  | "rejected"
+                  | "forwarded"
+                  | "completed"
               )
             }
           >
@@ -64,10 +75,12 @@ const RequestToolsTable = () => {
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectItem value="All">All</SelectItem>
                 <SelectItem value="pending">Pending</SelectItem>
                 <SelectItem value="accepted">Accepted</SelectItem>
+                <SelectItem value="communicating">Communicating</SelectItem>
                 <SelectItem value="rejected">Rejected</SelectItem>
+                <SelectItem value="forwarded">Forwarded</SelectItem>
+                <SelectItem value="completed">Completed</SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>

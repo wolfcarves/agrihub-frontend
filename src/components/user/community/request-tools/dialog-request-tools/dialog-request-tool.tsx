@@ -100,12 +100,21 @@ const DialogRequestTool = () => {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Request Crop Seedlings</DialogTitle>
+          <DialogTitle>Request Tools</DialogTitle>
           <DialogDescription>
-            Fill out the form to request seedlings. Click save when you're done.
+            Fill out the form to request tools needed. Click save when you're
+            done.
           </DialogDescription>
         </DialogHeader>
-        <Form {...form}>
+        <div>Under Maintenance </div>
+        <Button
+          variant={"secondary"}
+          type="button"
+          onClick={() => setIsOpen(false)}
+        >
+          Close
+        </Button>
+        {/* <Form {...form}>
           <form
             onSubmit={form.handleSubmit(handleSubmitForm)}
             encType="multipart/form-data"
@@ -147,12 +156,7 @@ const DialogRequestTool = () => {
                 required
               />
             </div>
-            {/* <div className="flex flex-col gap-3">
-              <Label htmlFor="title" className=" font-poppins-medium">
-                Note
-              </Label>
-              <Textarea {...form.register("note")} className="col-span-3" />
-            </div> */}
+            
             <DialogFooter className="flex flex-row gap-2 justify-end">
               <Button
                 variant={"secondary"}
@@ -166,7 +170,7 @@ const DialogRequestTool = () => {
               </Button>
             </DialogFooter>
           </form>
-        </Form>
+        </Form> */}
         <Loader isVisible={addRequestLoading} />
       </DialogContent>
     </Dialog>

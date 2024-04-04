@@ -59,7 +59,7 @@ const RequestSeedlingsTable = () => {
             }
           >
             <SelectTrigger className="w-auto">
-              <SelectValue placeholder="Select a fruit" />
+              <SelectValue placeholder="Select" />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>

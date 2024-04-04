@@ -131,6 +131,7 @@ import Unauthorized from "@pages/user/common/unauthorized";
 import FarmCommunity from "./pages/admin/farms/farm-community";
 import FarmActiveView from "@pages/admin/farms/view/farm-active-view";
 import VerifyPasswordOtp from "@pages/user/account/verify-password-otp";
+import ToolReqeust from "@pages/admin/farms/tool-reqeust";
 
 const App = ReactRouter(
   <>
@@ -286,6 +287,9 @@ const App = ReactRouter(
           path="farms-application/view/:id"
           element={<FarmApplicationView />}
         />
+
+        <Route path="tool-request" element={<ToolReqeust />} />
+        <Route path="tool-request/:tab" element={<ToolReqeust />} />
 
         <Route path="seedling-request" element={<SeedlingRequest />} />
         <Route path="seedling-request/:tab" element={<SeedlingRequest />} />

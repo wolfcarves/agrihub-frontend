@@ -51,7 +51,7 @@ const CommunityDetails = () => {
     <div className="flex justify-center p-5  ">
       <div className="w-full md:min-h-[8rem] min-h-[6rem]  relative flex justify-center mt-[6rem]">
         <img
-          className="absolute -z-10 bg-slate-700 w-[100%] rounded-xl h-[10rem] -top-[6rem] "
+          className="absolute -z-10 bg-slate-700 w-[100%] rounded-xl h-[10rem] -top-[6rem] object-cover"
           src={farmDetails?.cover_photo}
         />
         <div className=" bg-white w-[96%] rounded-xl md:py-6 py-3 md:px-10 px-4 shadow">

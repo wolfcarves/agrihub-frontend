@@ -50,7 +50,7 @@ const UserHeaderMobileSidebar = ({
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
-      <SheetTrigger className="block sm:hidden">
+      <SheetTrigger className="block md:hidden">
         <span
           className=" items-center text-xl opacity-75"
           onClick={() => setIsOpen(prev => !prev)}

@@ -4,13 +4,9 @@ import RequestSeedlingsTable from "../../../../../components/user/community/requ
 
 const SeedlingsRequest = () => {
   return (
-    <div className="md:px-10 px-2 py-6 ">
-      <div className="flex justify-between">
-        <h3 className=" font-poppins-semibold">Seedlings Request</h3>
-      </div>
-      <hr className="my-3 border-primary" />
+    <>
       <RequestSeedlingsTable />
-    </div>
+    </>
   );
 };
 

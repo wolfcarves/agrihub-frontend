@@ -134,7 +134,7 @@ const PermissionAdminCreate = () => {
         user_feedback: userFeedbacks,
         crops: cropsManagement,
         help_center: helpCenter,
-        activity_logs: activityLog
+        activity_logs: true
       }
     };
 
@@ -330,7 +330,7 @@ const PermissionAdminCreate = () => {
         </Card>
 
         {/* logs */}
-        <Card className="my-4 p-5">
+        {/* <Card className="my-4 p-5">
           <div className="flex justify-between items-center">
             <div>
               <h2 className="text-lg font-bold tracking-tight">
@@ -343,7 +343,7 @@ const PermissionAdminCreate = () => {
             </div>
             <Switch checked={activityLog} onCheckedChange={setActivityLogs} />
           </div>
-        </Card>
+        </Card> */}
 
         {/* website management */}
         <Card className="my-4 p-5">

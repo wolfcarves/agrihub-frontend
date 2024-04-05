@@ -235,6 +235,7 @@ export type { UpdatePrivacyPolicyResponse } from './models/UpdatePrivacyPolicyRe
 export type { UpdateQuestionSchema } from './models/UpdateQuestionSchema';
 export type { UpdateTermsConditionsRequest } from './models/UpdateTermsConditionsRequest';
 export type { UpdateTermsConditionsResponse } from './models/UpdateTermsConditionsResponse';
+export { UpdateToolRequestStatus } from './models/UpdateToolRequestStatus';
 export type { UserAuthResponse } from './models/UserAuthResponse';
 export type { UserCompletionSchema } from './models/UserCompletionSchema';
 export type { UserFeedback } from './models/UserFeedback';

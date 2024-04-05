@@ -156,7 +156,7 @@ const SetPermissionAdmin = () => {
       user_feedback: userFeedbacks,
       crops: cropsManagement,
       help_center: helpCenter,
-      activity_logs: activityLog
+      activity_logs: true
     };
 
     try {
@@ -377,7 +377,7 @@ const SetPermissionAdmin = () => {
         </Card>
 
         {/* logs */}
-        <Card className="my-4 p-5">
+        {/* <Card className="my-4 p-5">
           <div className="flex justify-between items-center">
             <div className="w-full">
               <div className="flex justify-between items-center gap-4">
@@ -395,7 +395,7 @@ const SetPermissionAdmin = () => {
               </p>
             </div>
           </div>
-        </Card>
+        </Card> */}
 
         {/* website management */}
         <Card className="my-4 p-5">

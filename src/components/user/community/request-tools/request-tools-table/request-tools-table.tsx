@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { columns } from "./columns";
 import { DataTable } from "../../../../ui/custom/data-table/data-table";
 import useGetRequestSeedlingList from "../../../../../hooks/api/get/useGetRequestSeedlingList";
-import DialogRequestSeedling from "../dialog-request-seedling/dialog-request-seedling";
+
 import { useParams } from "react-router-dom";
 import { Input } from "../../../../ui/input";
 import useDebounce from "../../../../../hooks/utils/useDebounce";
@@ -16,20 +16,28 @@ import {
   SelectTrigger,
   SelectValue
 } from "../../../../ui/select";
-const RequestSeedlingsTable = () => {
+import DialogRequestTool from "../dialog-request-tools/dialog-request-tool";
+import useGetRequestToolListAllQuery from "../../../../../hooks/api/get/useGetRequestToolListAllQuery";
+const RequestToolsTable = () => {
   const { id } = useParams();
   const [search, setSearch] = useState<string>("");
   const [filter, setFilter] = React.useState<
-    "pending" | "accepted" | "rejected" | ""
-  >("");
+    | "pending"
+    | "accepted"
+    | "communicating"
+    | "rejected"
+    | "forwarded"
+    | "completed"
+  >("pending");
   const [page, setPage] = useState<number>(1);
-  const { data, isLoading } = useGetRequestSeedlingList({
-    id: id || "",
+  const { data, isLoading } = useGetRequestToolListAllQuery({
+    farmid: id || "",
     search: search,
     page: String(page),
     perpage: "10",
     filter: filter
   });
+  console.log(data);
 
   const onPageChange = (newPage: number) => {
     setPage(newPage);
@@ -43,7 +51,7 @@ const RequestSeedlingsTable = () => {
     <div>
       <div className="my-2 flex md:flex-row flex-col gap-3 justify-between">
         <Input
-          placeholder="Search crop..."
+          placeholder="Search tool..."
           value={search}
           onChange={e => debouncedSearch(e.target.value)}
           className="max-w-sm focus-visible:ring-0"
@@ -52,9 +60,13 @@ const RequestSeedlingsTable = () => {
           <Select
             onValueChange={value =>
               setFilter(
-                value === "All"
-                  ? ""
-                  : (value as "pending" | "accepted" | "rejected")
+                value as
+                  | "pending"
+                  | "accepted"
+                  | "communicating"
+                  | "rejected"
+                  | "forwarded"
+                  | "completed"
               )
             }
           >
@@ -63,15 +75,17 @@ const RequestSeedlingsTable = () => {
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectItem value="All">All</SelectItem>
                 <SelectItem value="pending">Pending</SelectItem>
                 <SelectItem value="accepted">Accepted</SelectItem>
+                <SelectItem value="communicating">Communicating</SelectItem>
                 <SelectItem value="rejected">Rejected</SelectItem>
+                <SelectItem value="forwarded">Forwarded</SelectItem>
+                <SelectItem value="completed">Completed</SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>
 
-          <DialogRequestSeedling />
+          <DialogRequestTool />
         </div>
       </div>
       <div className="min-h-[63vh] mb-2">
@@ -88,4 +102,4 @@ const RequestSeedlingsTable = () => {
   );
 };
 
-export default RequestSeedlingsTable;
+export default RequestToolsTable;

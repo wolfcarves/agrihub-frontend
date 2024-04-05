@@ -88,13 +88,19 @@ const CropsReportExisting = () => {
         filter={filter}
         setFilter={setFilter}
       />
+      {CropExisting?.reports?.length == 0 && (
+        <div className=" text-center my-16 text-gray-500">
+          No crops currently existing or planted.
+        </div>
+      )}
+
       <div className="grid grid-cols-12 gap-3">
         {CropExisting?.reports?.map((crop, i) => (
           <div
             key={i}
             className="md:col-span-6 lg:col-span-4 col-span-12 hover:shadow-md grid grid-cols-12 rounded-lg border bg-main select-none"
           >
-            <button
+            <div
               // disabled={!isMember}
               className=" col-span-11 grid grid-cols-11 "
             >
@@ -164,7 +170,7 @@ const CropsReportExisting = () => {
                   </AlertDialogContent>
                 </AlertDialog>
               </div>
-            </button>
+            </div>
           </div>
         ))}
       </div>

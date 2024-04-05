@@ -52,7 +52,7 @@ export function withRequireAuth<T extends object>(Component: ComponentType<T>) {
             <div className="text-center text-sm text-foreground mt-auto">
               <span>Already have an account? </span>
               <Link to="/account/login">
-                <span className="hover:underline">Login</span>
+                <span className=" text-primary hover:underline">Login</span>
               </Link>
             </div>
           </DialogContent>

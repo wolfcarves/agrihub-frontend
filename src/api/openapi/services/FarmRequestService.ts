@@ -11,6 +11,7 @@ import type { NewSeedlingResponse } from '../models/NewSeedlingResponse';
 import type { NewToolRequest } from '../models/NewToolRequest';
 import type { RequestCount } from '../models/RequestCount';
 import type { SeedlingRequestListAllResponse } from '../models/SeedlingRequestListAllResponse';
+import type { UpdateToolRequestStatus } from '../models/UpdateToolRequestStatus';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -319,6 +320,38 @@ farmid?: string,
                 'filter': filter,
                 'farmid': farmid,
             },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Update Tool Request Status
+     * @returns MessageResponse Successful response
+     * @throws ApiError
+     */
+    public static postApiRequestToolRequestUpdate({
+id,
+requestBody,
+}: {
+/**
+ * ID of the tool request to update
+ */
+id: string,
+requestBody: UpdateToolRequestStatus,
+}): CancelablePromise<MessageResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/request/tool-request/update/{id}',
+            path: {
+                'id': id,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
             errors: {
                 400: `Validation Error`,
                 401: `Unauthorized`,

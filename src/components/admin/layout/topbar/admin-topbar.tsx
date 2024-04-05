@@ -102,15 +102,14 @@ const AdminTopbar = () => {
                   </Link>
 
                   <DropdownMenuSeparator />
-                  {data?.role === "admin" && (
-                    <DropdownMenuItem
-                      onClick={handleToUser}
-                      className="cursor-pointer h-12 gap-2"
-                    >
-                      <LuUser2 className="text-foreground/80 text-lg " />
-                      <span className="font-poppins-medium">Home Panel</span>
-                    </DropdownMenuItem>
-                  )}
+
+                  <DropdownMenuItem
+                    onClick={handleToUser}
+                    className="cursor-pointer h-12 gap-2"
+                  >
+                    <LuUser2 className="text-foreground/80 text-lg " />
+                    <span className="font-poppins-medium">Home Panel</span>
+                  </DropdownMenuItem>
 
                   <Link to="/helps">
                     <DropdownMenuItem className="cursor-pointer h-12 gap-2">
@@ -121,12 +120,12 @@ const AdminTopbar = () => {
                     </DropdownMenuItem>
                   </Link>
 
-                  <Link to="/feedback">
+                  {/* <Link to="/feedback">
                     <DropdownMenuItem className="cursor-pointer h-12 gap-2">
                       <BiCommentError className="text-foreground/80 text-lg " />
                       <span className="font-poppins-medium">Give Feedback</span>
                     </DropdownMenuItem>
-                  </Link>
+                  </Link> */}
 
                   <Link to="/settings/profile">
                     <DropdownMenuItem className="cursor-pointer h-12 gap-2">

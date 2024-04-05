@@ -170,7 +170,7 @@ const CommunityLanding = () => {
         {/* Header */}
         <div className="flex flex-wrap sm:ml-10 gap-x-3 justify-between">
           <h6 className="font-poppins-medium tracking-tight">
-            Farm Community on Agrihub
+            Mga farm sa AgriHub
           </h6>
         </div>
 
@@ -178,19 +178,20 @@ const CommunityLanding = () => {
         <div className="flex">
           <div className="w-full max-w-[25rem] sm:ml-10 mt-20">
             <h2 className="font-poppins-semibold tracking-tight leading-[2.3rem]">
-              Sumali na sa farm kung saan ka nabibilang
+              Sumali sa iyong kinabibilangan na farm
             </h2>
 
             <p className="mt-5">
-              Ang komunidad ay makakatulong sa iyo upang makahanap ng solusyon
-              sa mga problema ng iyong farm, pag-send ng reports, at pagtanggap
-              ng mga resource materials na makakapagbigay sa iyo ng makabuluhang
-              desisyon gamit ang aming prescriptive analytics
+              Ang pagrehistro ng iyong farm ay makakatulong upang mas madali ang
+              iyong pag pasa ng report at makahanap ng solusyon sa mga problema
+              ng iyong farm, tumanggap ng mga resource materials na
+              makakapagbigay sa iyo ng makabuluhang desisyon gamit ang aming
+              prescriptive analytics
             </p>
 
             <div className="mt-10">
               <Link to="explore">
-                <Button>Alamin</Button>
+                <Button>Sumali sa farm</Button>
               </Link>
             </div>
           </div>
@@ -201,7 +202,7 @@ const CommunityLanding = () => {
         </div>
       </div>
 
-      <p>Mga Farms na nakasali na sa aming komunidad:</p>
+      <p>Mga farms na nakasali na sa aming komunidad:</p>
 
       <div className="grid grid-cols-6 gap-2 mb-20 mt-10">
         {data?.farms
@@ -215,7 +216,7 @@ const CommunityLanding = () => {
       <div className="max-w-xl mx-auto my-8 text-center">
         <img src={logo as unknown as string} width={60} className="mx-auto" />
         <h3 className="text-gray-800 text-3xl font-semibold sm:text-4xl">
-          Ang AgriHub ay makakatulong sa iyo
+          Ang mga benepisyo sa pagsali sa AgriHub
         </h3>
         <p className="text-gray-600 mt-3">
           Sa pagsali sa isang komunidad, ikaw ay maaring maging parte ng isang

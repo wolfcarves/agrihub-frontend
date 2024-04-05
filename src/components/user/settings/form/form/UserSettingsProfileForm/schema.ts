@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const validationMessage = "Alisin ang mga spaces at mga simbolo";
+const validationMessage = "Whitespaces and symbold are not allowed";
 
 export const profileSchema = z.object({
   firstname: z

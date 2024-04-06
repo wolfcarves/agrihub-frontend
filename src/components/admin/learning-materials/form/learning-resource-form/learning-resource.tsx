@@ -17,7 +17,6 @@ import Loader from "../../../../../icons/Loader";
 const LearningResourceForm = () => {
   const { learningsId } = useParams();
   const { data: LearningData } = useGetLearningDraftView(learningsId || "");
-  console.log(LearningData);
 
   const { mutateAsync: deleteResource, isLoading: isDeleteLoad } =
     useDeleteLearningResource();

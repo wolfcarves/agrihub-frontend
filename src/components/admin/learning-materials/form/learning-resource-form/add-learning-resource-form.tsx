@@ -55,6 +55,15 @@ const AddLearningResourceForm: React.FC<AddLearningInterfaceProps> = ({
     }
   }, [activeResource]);
 
+  useEffect(() => {
+    if (selectedType === "image") {
+      form.resetField("resource");
+    }
+    if (selectedType === "video") {
+      form.resetField("image");
+    }
+  }, [selectedType]);
+
   // validations
   useEffect(() => {
     if (form.formState.errors.name) {
@@ -72,6 +81,9 @@ const AddLearningResourceForm: React.FC<AddLearningInterfaceProps> = ({
     if (form.formState.errors.name) {
       toast.error(form?.formState?.errors?.name?.message);
     }
+    if (form.formState.errors.image) {
+      toast.error(form?.formState?.errors?.image?.message);
+    }
   }, [form.formState.errors]);
 
   //create
@@ -83,15 +95,26 @@ const AddLearningResourceForm: React.FC<AddLearningInterfaceProps> = ({
     usePutLearningUpdateResource();
 
   const handleSubmitForm = async (data: NewLearningResource) => {
-    const compiledData: NewLearningResource = {
-      name: data.name,
-      description: data.description,
-      resource: data.resource,
-      type: data.type,
-      image: selectedType === "image" ? data.image : undefined
-    };
-
+    if (
+      selectedType === "image" &&
+      form.getValues("image") === undefined &&
+      activeResource?.type === undefined
+    ) {
+      form.setError("image", {
+        type: "manual",
+        message: "Image is required!"
+      });
+      return null;
+    }
     try {
+      const compiledData: NewLearningResource = {
+        name: data.name,
+        description: data.description,
+        resource: data.resource,
+        type: data.type,
+        image: selectedType === "image" ? data.image : undefined
+      };
+
       if (resourceId) {
         await updateResourceMutate({
           id: resourceId || "",
@@ -110,7 +133,6 @@ const AddLearningResourceForm: React.FC<AddLearningInterfaceProps> = ({
       toast.error(e.body.message);
     }
   };
-  console.log(form.formState.errors);
 
   return (
     <Form {...form}>

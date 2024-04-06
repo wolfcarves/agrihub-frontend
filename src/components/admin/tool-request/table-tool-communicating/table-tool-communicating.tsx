@@ -22,7 +22,6 @@ const TableToolCommunicating = () => {
     filter: "communicating",
     farmid: undefined
   });
-  console.log(ToolData);
 
   const debouncedSearch = useDebounce((value: string) => {
     searchParams.set("search", value);

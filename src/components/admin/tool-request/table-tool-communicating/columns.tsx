@@ -28,89 +28,30 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger
 } from "@components/ui/alert-dialog";
+import { ToolRequest } from "../../../../api/openapi";
+import { format } from "date-fns";
 
-export type SeedlingRequest = {
-  id: number;
-  createdAt: string;
-  updatedAt: string;
-  farm: string;
-  tool: string;
-  quantity_request: number;
-  contact: string;
-  note: string;
-  client_note: string;
-  accepted_by: string;
-  status:
-    | "accepted"
-    | "pending"
-    | "rejected"
-    | "forwarded"
-    | "communicating"
-    | "completed";
-};
-
-export const data: SeedlingRequest[] = [
-  {
-    id: 1,
-    createdAt: "2023-01-15",
-    updatedAt: "2023-01-15",
-    farm: "Sunshine Farm",
-    tool: "Tomato",
-    quantity_request: 100,
-    note: "kulang kami panggupit ng halaman",
-    client_note: "parambalew",
-    accepted_by: "Center for Urban and Department of Agriculture",
-    status: "communicating",
-    contact: "sharon@gmail.com"
-  },
-  {
-    id: 2,
-    createdAt: "2023-02-20",
-    updatedAt: "2023-01-15",
-    farm: "Green Acres",
-    tool: "Lettuce",
-    quantity_request: 200,
-    note: "kulang kami panggupit ng halaman",
-    client_note: "parambalew",
-    accepted_by: "Center for Urban and Department of Agriculture",
-    contact: "sharon@gmail.com",
-    status: "communicating"
-  },
-  {
-    id: 3,
-    createdAt: "2023-03-10",
-    updatedAt: "2023-01-15",
-    farm: "Golden Fields",
-    tool: "Carrot",
-    quantity_request: 150,
-    note: "kulang kami panggupit ng halaman",
-    client_note: "parambalew",
-    accepted_by: "Center for Urban and Department of Agriculture",
-    contact: "sharon@gmail.com",
-    status: "communicating"
-  }
-];
-
-export const columns: ColumnDef<SeedlingRequest>[] = [
+export const columns: ColumnDef<ToolRequest>[] = [
   {
     accessorKey: "updatedAt",
     header: "Updated At",
-    cell: ({ row }) => <div>{row.getValue("updatedAt")}</div>
+    cell: ({ row }) =>
+      format(new Date(row.original.updatedat || ""), "MMM dd, yyyy")
   },
   {
-    accessorKey: "tool",
+    accessorKey: "tool_requested",
     header: "Tool",
-    cell: ({ row }) => <div>{row.getValue("tool")}</div>
+    cell: ({ row }) => <div>{row.getValue("tool_requested")}</div>
   },
   {
-    accessorKey: "farm",
+    accessorKey: "farm_name",
     header: "Requested by",
-    cell: ({ row }) => <div>{row.getValue("farm")}</div>
+    cell: ({ row }) => <div>{row.getValue("farm_name")}</div>
   },
   {
-    accessorKey: "quantity_request",
+    accessorKey: "quantity_requested",
     header: "Quantity Requested",
-    cell: ({ row }) => <div>{row.getValue("quantity_request")}</div>
+    cell: ({ row }) => <div>{row.getValue("quantity_requested")}</div>
   },
   {
     accessorKey: "contact",
@@ -128,13 +69,13 @@ export const columns: ColumnDef<SeedlingRequest>[] = [
     cell: ({ row }) => {
       const request = row.original;
       const status = request.status;
-      const request_date = request.createdAt;
-      const farm = request.farm;
+      const request_date = request.createdat;
+      const farm = request.farm_name;
       const contact = request.contact;
-      const qty = request.quantity_request;
-      const rqstr_note = request.note;
+      const qty = request.quantity_requested;
+      const rqstr_note = request.requester_note;
       const note = request.client_note;
-      const requested = request.tool;
+      const requested = request.tool_requested;
       const accepted_by = request.accepted_by;
 
       const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -156,7 +97,8 @@ export const columns: ColumnDef<SeedlingRequest>[] = [
                 <div>
                   <DialogTitle>Tool Request</DialogTitle>
                   <DialogDescription>
-                    Requested: {formatDate(request_date)}
+                    Requested:{" "}
+                    {format(new Date(request_date || ""), "MMM dd, yyyy")}
                   </DialogDescription>
                 </div>
                 <Badge className="text-white bg-teal-500 hover:bg-teal-400">

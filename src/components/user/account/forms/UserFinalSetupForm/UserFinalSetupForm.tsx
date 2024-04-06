@@ -8,8 +8,10 @@ import { Input } from "@components/ui/custom";
 import { Button } from "@components/ui/button";
 import { toast } from "sonner";
 import useDeleteAuthMutate from "@hooks/api/delete/useDeleteAuthMutate";
+import useAuth from "@hooks/useAuth";
 
 const UserFinalSetupForm = () => {
+  const user = useAuth();
   const inputFileRef = useRef<HTMLInputElement | null>(null);
   const [imgFile, setImgFile] = useState<File | undefined>();
 
@@ -18,7 +20,12 @@ const UserFinalSetupForm = () => {
 
   const form = useForm<UserFinalSetup>({
     resolver: zodResolver(userFinalSetup),
-    mode: "onChange"
+    mode: "onChange",
+    defaultValues: {
+      username:
+        user?.data?.firstname +
+        String(new Date(user?.data?.birthdate ?? "").getDate())
+    }
   });
 
   const { ref: formRef, onChange } = form.register("avatar");
@@ -36,7 +43,7 @@ const UserFinalSetupForm = () => {
   const handleOnSubmitForm = async (rawData: UserFinalSetup) => {
     const data = {
       avatar: rawData.avatar[0],
-      username: rawData.username
+      username: rawData.username.toLowerCase()
     };
 
     try {
@@ -45,7 +52,6 @@ const UserFinalSetupForm = () => {
       toast(e.body.message);
     }
   };
-  console.log(form.formState.errors);
 
   return (
     <Form {...form}>

@@ -5,8 +5,12 @@ import useCmsLandingDetailsQuery from "@hooks/api/get/useCmsLandingDetailsQuery"
 import { Link } from "react-router-dom";
 import RegisterFarm from "@pages/user/community/buttons/RegisterFarm";
 import LoadingSpinner from "@icons/LoadingSpinner";
+import useAuth from "@hooks/useAuth";
+import useGetFarmCheckExistingApplication from "@hooks/api/get/useGetFarmCheckExistingApplication";
 
 const Carousels: React.FC = () => {
+  const { data: UserData } = useAuth();
+  const { isError } = useGetFarmCheckExistingApplication();
   const { data: cmsData } = useCmsLandingDetailsQuery();
   const { data: cmsDataLanding, isLoading: isImageLoading } =
     useCmsLandingDetailsQuery();
@@ -60,7 +64,21 @@ const Carousels: React.FC = () => {
                   </p>
 
                   <div className="flex gap-4 mt-10">
-                    <RegisterFarm />
+                    {UserData?.role !== "subfarm_head" &&
+                      UserData?.role !== "farm_head" &&
+                      UserData?.role !== "farmer" &&
+                      UserData?.role !== "asst_admin" &&
+                      UserData?.role !== "admin" && (
+                        <div>
+                          {!isError ? (
+                            <Link to="/community/register">
+                              <Button>Pending Applicaton</Button>
+                            </Link>
+                          ) : (
+                            <RegisterFarm />
+                          )}
+                        </div>
+                      )}
                     <Link to="/community">
                       <Button
                         className="font-poppins-medium"

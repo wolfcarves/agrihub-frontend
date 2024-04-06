@@ -35,7 +35,7 @@ const ProfilePersonalInformationList = ({
   const { data: farmData } = useGetFarmViewQuery(farmId ?? "");
 
   return (
-    <div className="hidden lg:block max-w-[25rem] w-full mt-10 pb-40 px-3">
+    <div className="lg:block max-w-[25rem] h-max w-full mt-10 p-3 rounded-md bg-foreground/5 border">
       {isOwn && (
         <div className="mb-7">
           <h5 className="font-poppins-semibold tracking-tight">

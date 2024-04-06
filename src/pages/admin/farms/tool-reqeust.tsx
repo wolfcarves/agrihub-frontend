@@ -42,21 +42,22 @@ const ToolReqeust = () => {
       <hr className="my-4" />
       <Tabs value={params.tab}>
         <TabsList className="flex-wrap h-auto">
-          <TabsTrigger
-            value="communicating"
-            onClick={() => setTab("communicating")}
-          >
-            Communicating
-          </TabsTrigger>
-          <TabsTrigger value="accepted" onClick={() => setTab("accepted")}>
-            Accepted
-          </TabsTrigger>
           <TabsTrigger value="pending" onClick={() => setTab("pending")}>
             Pending
           </TabsTrigger>
           <TabsTrigger value="forwarded" onClick={() => setTab("forwarded")}>
             Forwarded
           </TabsTrigger>
+          <TabsTrigger value="accepted" onClick={() => setTab("accepted")}>
+            Accepted
+          </TabsTrigger>
+          <TabsTrigger
+            value="communicating"
+            onClick={() => setTab("communicating")}
+          >
+            Communicating
+          </TabsTrigger>
+
           <TabsTrigger value="completed" onClick={() => setTab("completed")}>
             Completed
           </TabsTrigger>

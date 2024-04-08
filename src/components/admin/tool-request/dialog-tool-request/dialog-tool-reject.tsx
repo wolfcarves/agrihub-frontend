@@ -40,7 +40,7 @@ const formSchema = zod.object({
     .string({
       required_error: "Note is required."
     })
-    .min(3, "Note must have at least 3 characters")
+    .min(1, "Note must have at least 1 characters")
 });
 const DialogToolReject: React.FC<DialogProps> = ({ id }) => {
   const navigate = useNavigate();

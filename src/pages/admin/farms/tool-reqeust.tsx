@@ -23,7 +23,7 @@ const ToolReqeust = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const params = useMemo(() => {
     return {
-      tab: searchParams.get("tab") || "accepted"
+      tab: searchParams.get("tab") || "pending"
     };
   }, [searchParams]);
 

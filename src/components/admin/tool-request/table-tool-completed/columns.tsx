@@ -15,90 +15,30 @@ import { Input } from "@components/ui/input";
 import { Textarea } from "@components/ui/textarea";
 import { Badge } from "@components/ui/badge";
 import { formatDate } from "@components/lib/utils";
+import { ToolRequest } from "../../../../api/openapi";
+import { format } from "date-fns";
 
-export type SeedlingRequest = {
-  id: number;
-  createdAt: string;
-  updatedAt: string;
-  farm: string;
-  contact: string;
-  tool: string;
-  quantity_request: number;
-  accepted_by: string;
-  note: string;
-  client_note: string;
-  status:
-    | "accepted"
-    | "pending"
-    | "rejected"
-    | "forwarded"
-    | "communicating"
-    | "completed";
-};
-
-export const data: SeedlingRequest[] = [
-  {
-    id: 1,
-    createdAt: "2023-01-15",
-    updatedAt: "2023-01-15",
-    farm: "Sunshine Farm",
-    contact: "shenronfarm@gmail.com",
-    tool: "Tomato",
-    quantity_request: 100,
-    note: "kulang kami panggupit ng halaman",
-    client_note: "parambalew",
-    status: "completed",
-    accepted_by: "Center for Urban and Department of Agriculture"
-  },
-  {
-    id: 2,
-    createdAt: "2023-02-20",
-    updatedAt: "2023-01-15",
-    farm: "Green Acres",
-    contact: "shenronfarm@gmail.com",
-    tool: "Lettuce",
-    quantity_request: 200,
-    note: "kulang kami panggupit ng halaman",
-    client_note: "parambalew",
-    status: "completed",
-    accepted_by: "Center for Urban and Department of Agriculture"
-  },
-  {
-    id: 3,
-    createdAt: "2023-03-10",
-    updatedAt: "2023-01-15",
-    farm: "Golden Fields",
-    contact: "shenronfarm@gmail.com",
-    tool: "Carrot",
-    quantity_request: 150,
-    note: "kulang kami panggupit ng halaman",
-    client_note: "parambalew",
-    status: "completed",
-    accepted_by: "Center for Urban and Department of Agriculture"
-  }
-];
-
-export const columns: ColumnDef<SeedlingRequest>[] = [
+export const columns: ColumnDef<ToolRequest>[] = [
   {
     accessorKey: "updatedAt",
     header: "Updated At",
-    cell: ({ row }) => <div>{row.getValue("updatedAt")}</div>
+    cell: ({ row }) =>
+      format(new Date(row.original.updatedat || ""), "MMM dd, yyyy")
   },
   {
-    accessorKey: "tool",
+    accessorKey: "tool_requested",
     header: "Tool",
-    cell: ({ row }) => <div>{row.getValue("tool")}</div>
+    cell: ({ row }) => <div>{row.getValue("tool_requested")}</div>
   },
   {
-    accessorKey: "farm",
+    accessorKey: "farm_name",
     header: "Requested by",
-    cell: ({ row }) => <div>{row.getValue("farm")}</div>
+    cell: ({ row }) => <div>{row.getValue("farm_name")}</div>
   },
-
   {
-    accessorKey: "quantity_request",
+    accessorKey: "quantity_requested",
     header: "Quantity Requested",
-    cell: ({ row }) => <div>{row.getValue("quantity_request")}</div>
+    cell: ({ row }) => <div>{row.getValue("quantity_requested")}</div>
   },
   {
     accessorKey: "accepted_by",
@@ -108,7 +48,9 @@ export const columns: ColumnDef<SeedlingRequest>[] = [
   {
     accessorKey: "status",
     header: "Status",
-    cell: ({ row }) => <div>{row.getValue("status")}</div>
+    cell: ({ row }) => (
+      <div className=" capitalize">{row.getValue("status")}</div>
+    )
   },
   {
     id: "actions",
@@ -116,13 +58,13 @@ export const columns: ColumnDef<SeedlingRequest>[] = [
     cell: ({ row }) => {
       const request = row.original;
       const status = request.status;
-      const request_date = request.createdAt;
-      const farm = request.farm;
+      const request_date = request.createdat;
+      const farm = request.farm_name;
       const contact = request.contact;
-      const qty = request.quantity_request;
-      const rqstr_note = request.note;
+      const qty = request.quantity_requested;
+      const rqstr_note = request.requester_note;
       const note = request.client_note;
-      const requested = request.tool;
+      const requested = request.requester_note;
       const accepted_by = request.accepted_by;
 
       return (
@@ -138,7 +80,8 @@ export const columns: ColumnDef<SeedlingRequest>[] = [
                 <div>
                   <DialogTitle>Tool Request</DialogTitle>
                   <DialogDescription>
-                    Requested: {formatDate(request_date)}
+                    Requested:{" "}
+                    {format(new Date(request_date || ""), "MMM dd, yyyy")}
                   </DialogDescription>
                 </div>
                 <Badge className="text-white bg-black hover:bg-white hover:text-black">

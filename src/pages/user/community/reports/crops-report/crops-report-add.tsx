@@ -15,7 +15,7 @@ const CropsReportAdd = () => {
       >
         <FaArrowLeftLong /> Back
       </div>
-      <h3 className=" font-poppins-medium">Crop Report Form</h3>
+      <h3 className=" font-poppins-medium">Crop Report Form </h3>
       <hr className="mb-4 mt-1 border-primary border" />
       <CommunityAddCropReportForm />
     </OutletContainer>

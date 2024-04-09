@@ -28,8 +28,12 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger
 } from "@components/ui/alert-dialog";
-import { ToolRequest } from "../../../../api/openapi";
+import { ToolRequest, UpdateToolRequestStatus } from "../../../../api/openapi";
 import { format } from "date-fns";
+import usePutRequestToolUpdate from "../../../../hooks/api/put/usePutRequestToolUpdate";
+import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
+import Loader from "../../../../icons/Loader";
 
 export const columns: ColumnDef<ToolRequest>[] = [
   {
@@ -67,6 +71,7 @@ export const columns: ColumnDef<ToolRequest>[] = [
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
+      const navigate = useNavigate();
       const request = row.original;
       const status = request.status;
       const request_date = request.createdat;
@@ -78,10 +83,36 @@ export const columns: ColumnDef<ToolRequest>[] = [
       const requested = request.tool_requested;
       const accepted_by = request.accepted_by;
 
-      const [isEditing, setIsEditing] = useState<boolean>(false);
+      const [isEditing, setIsEditing] = useState<boolean>(true);
+      const [noted, setNoted] = useState<string>(note || "");
 
       const handleToggleEdit = () => {
         setIsEditing(!isEditing);
+      };
+
+      const { mutateAsync, isLoading } = usePutRequestToolUpdate();
+
+      const handleSubmitForm = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (noted === "") {
+          toast.error("Please select an organization");
+          return;
+        }
+        const compiledData: UpdateToolRequestStatus = {
+          client_note: noted,
+          status: UpdateToolRequestStatus.status.COMPLETED
+        };
+
+        try {
+          await mutateAsync({
+            id: request.id || "",
+            requestBody: compiledData
+          });
+          toast.success("Tool Request Completed Successfully!");
+          navigate("/admin/community/tool-request?tab=completed");
+        } catch (e: any) {
+          toast.error(e.body.message);
+        }
       };
 
       return (
@@ -144,7 +175,11 @@ export const columns: ColumnDef<ToolRequest>[] = [
               <div className="mb-4">
                 <Label>Note</Label>
                 <div className="w-full">
-                  <Textarea disabled={isEditing} defaultValue={note} />
+                  <Textarea
+                    disabled={isEditing}
+                    defaultValue={noted}
+                    onChange={e => setNoted(e.target.value)}
+                  />
                 </div>
               </div>
 
@@ -154,7 +189,7 @@ export const columns: ColumnDef<ToolRequest>[] = [
                 </Button>
                 <AlertDialog>
                   <AlertDialogTrigger>
-                    <Button variant="default">Comlete</Button>
+                    <Button variant="default">Complete</Button>
                   </AlertDialogTrigger>
                   <AlertDialogContent>
                     <AlertDialogHeader>
@@ -167,8 +202,11 @@ export const columns: ColumnDef<ToolRequest>[] = [
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                       <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      <AlertDialogAction>Confirm</AlertDialogAction>
+                      <AlertDialogAction onClick={e => handleSubmitForm(e)}>
+                        Confirm
+                      </AlertDialogAction>
                     </AlertDialogFooter>
+                    <Loader isVisible={isLoading} />
                   </AlertDialogContent>
                 </AlertDialog>
               </div>

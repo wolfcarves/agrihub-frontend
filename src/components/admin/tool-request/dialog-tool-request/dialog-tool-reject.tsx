@@ -68,7 +68,7 @@ const DialogToolReject: React.FC<DialogProps> = ({ id }) => {
 
     try {
       await mutateAsync({ id: id, requestBody: compiledData });
-      toast.success("Feedback Submitted Successfully!");
+      toast.success("Tool Rejected Successfully!");
       navigate("/admin/community/tool-request?tab=rejected");
     } catch (e: any) {
       toast.error(e.body.message);

@@ -63,13 +63,13 @@ const DialogToolCommunicate: React.FC<DialogProps> = ({ id }) => {
   const handleSubmitForm = async (data: UpdateToolRequestStatus) => {
     const compiledData: UpdateToolRequestStatus = {
       client_note: data.client_note,
-      status: UpdateToolRequestStatus.status.REJECTED
+      status: UpdateToolRequestStatus.status.COMMUNICATING
     };
 
     try {
       await mutateAsync({ id: id, requestBody: compiledData });
-      toast.success("Feedback Submitted Successfully!");
-      navigate("/admin/community/tool-request?tab=accepted");
+      toast.success("Communicated Successfully!");
+      navigate("/admin/community/tool-request?tab=communicating");
     } catch (e: any) {
       toast.error(e.body.message);
     }

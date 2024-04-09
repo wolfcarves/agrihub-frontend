@@ -133,7 +133,7 @@ export const columns: ColumnDef<ToolRequest>[] = [
               <div className="flex justify-end gap-4 mt-4">
                 <DialogToolReject id={request.id || ""} />
                 <DialogToolForward id={request.id || ""} />
-                <DialogToolAccept />
+                <DialogToolAccept id={request.id || ""} />
               </div>
             </DialogHeader>
           </DialogContent>

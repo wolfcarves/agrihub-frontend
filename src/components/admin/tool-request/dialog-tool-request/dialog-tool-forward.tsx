@@ -19,14 +19,23 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@components/ui/dropdown-menu";
-
+import * as zod from "zod";
 interface Organization {
   name: string;
   checked: boolean;
   email: string;
 }
-
-const DialogToolForward = () => {
+interface DialogProps {
+  id: string;
+}
+const formSchema = zod.object({
+  client_note: zod
+    .string({
+      required_error: "Note is required."
+    })
+    .min(3, "Note must have at least 3 characters")
+});
+const DialogToolForward: React.FC<DialogProps> = ({ id }) => {
   // wag na display email sa select, yung name lang
   const [organizations, setOrganizations] = useState<Organization[]>([
     { name: "Joy for Urban Farming", checked: false, email: "jou@gmail.com" },
@@ -119,7 +128,10 @@ const DialogToolForward = () => {
             </div>
 
             <div className="flex justify-end gap-4 mt-4">
-              <Button variant="secondary">Cancel</Button>
+              <DialogClose asChild>
+                <Button variant="secondary">Cancel</Button>
+              </DialogClose>
+
               <Dialog>
                 <DialogTrigger>
                   <Button variant="default">Accept</Button>

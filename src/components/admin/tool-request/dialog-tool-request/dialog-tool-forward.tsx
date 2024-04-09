@@ -37,6 +37,7 @@ import {
   AlertDialogTrigger
 } from "../../../ui/alert-dialog";
 import Loader from "../../../../icons/Loader";
+import { IoMdAdd } from "react-icons/io";
 interface Organization {
   name: string;
   checked: boolean;
@@ -59,8 +60,7 @@ const organizations = [
     name: "Department of Agriculture",
 
     email: "doa@gmail.com"
-  },
-  { name: "Others", email: "" }
+  }
 ];
 const DialogToolForward: React.FC<DialogProps> = ({ id }) => {
   const navigate = useNavigate();
@@ -72,6 +72,7 @@ const DialogToolForward: React.FC<DialogProps> = ({ id }) => {
   ]);
   const [other, setOther] = useState<boolean>(false);
   const [otherValue, setOtherValue] = useState<string>("");
+  const [otherValueEmail, setOtherValueEmail] = useState<string>("");
 
   const handleCheckedChange = (orgName: string) => {
     if (selectedOrg.includes(orgName)) {
@@ -89,13 +90,14 @@ const DialogToolForward: React.FC<DialogProps> = ({ id }) => {
     }
   };
 
-  const handleOtherInput = (value: string) => {
-    setOtherValue(value);
-  };
+  // const handleOtherInput = (value: string) => {
+  //   setOtherValue(value);
+  // };
 
   const handleOtherConfirm = () => {
-    if (otherValue.trim() !== "") {
+    if (otherValue.trim() !== "" && otherValueEmail.trim() !== "") {
       setSelectedOrgs([...selectedOrg, otherValue]);
+      setSelectedEmail([...selectedEmail, otherValueEmail]);
       setOther(false);
     }
   };
@@ -141,7 +143,7 @@ const DialogToolForward: React.FC<DialogProps> = ({ id }) => {
             </div>
 
             <div className="w-full">
-              <Label>Organizations:</Label>
+              <Label className=" font-poppins-medium">Organizations:</Label>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Input
@@ -166,9 +168,60 @@ const DialogToolForward: React.FC<DialogProps> = ({ id }) => {
                       {org.name}
                     </DropdownMenuCheckboxItem>
                   ))}
+                  <DropdownMenuCheckboxItem
+                    checked={otherValue ? true : false}
+                    onCheckedChange={() => {
+                      if (other) {
+                        setOther(false);
+                        setSelectedOrgs(
+                          selectedOrg.filter(org => org !== otherValue)
+                        );
+                        setSelectedEmail(
+                          selectedEmail.filter(org => org !== otherValueEmail)
+                        );
+                        setOtherValue("");
+                      } else if (!other && otherValue) {
+                        setSelectedOrgs(
+                          selectedOrg.filter(org => org !== otherValue)
+                        );
+                        setSelectedEmail(
+                          selectedEmail.filter(org => org !== otherValueEmail)
+                        );
+                        setOtherValue("");
+                        setOtherValueEmail("");
+                      } else if (!other) {
+                        setOther(true);
+                      }
+                    }}
+                  >
+                    Other
+                  </DropdownMenuCheckboxItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
+            {other && (
+              <>
+                <div className="w-full mt-8">
+                  <Label className=" font-poppins-medium">Name:</Label>
+                  <Input
+                    type="text"
+                    value={otherValue}
+                    onChange={e => setOtherValue(e.target.value)}
+                  />
+                </div>
+                <div className="w-full mt-8">
+                  <Label className=" font-poppins-medium">Email:</Label>
+                  <Input
+                    type="text"
+                    value={otherValueEmail}
+                    onChange={e => setOtherValueEmail(e.target.value)}
+                  />
+                </div>
+                <Button className="w-full my-2" onClick={handleOtherConfirm}>
+                  <IoMdAdd />
+                </Button>
+              </>
+            )}
 
             <div className="flex justify-end gap-4 mt-4">
               <DialogClose asChild>

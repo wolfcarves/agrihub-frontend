@@ -13,10 +13,13 @@ import { Label } from "@components/ui/label";
 import { Input } from "@components/ui/input";
 import { Textarea } from "@components/ui/textarea";
 import { Badge } from "@components/ui/badge";
-import DialogToolAccept from "../dialog-tool-request/dialog-tool-accept";
+import DialogToolAccept, {
+  formatSelectedOrganizations
+} from "../dialog-tool-request/dialog-tool-accept";
 import { formatDate } from "@components/lib/utils";
 import { ToolRequest } from "../../../../api/openapi";
 import { format } from "date-fns";
+import DialogToolReject from "../dialog-tool-request/dialog-tool-reject";
 
 export const columns: ColumnDef<ToolRequest>[] = [
   {
@@ -44,7 +47,9 @@ export const columns: ColumnDef<ToolRequest>[] = [
     accessorKey: "forwarded_to",
     header: "Forwarded to",
     cell: ({ row }) => (
-      <div className=" line-clamp-1">{row.getValue("forwarded_to")}</div>
+      <div className=" line-clamp-1">
+        {formatSelectedOrganizations(row.getValue("forwarded_to"))}
+      </div>
     )
   },
   {
@@ -129,8 +134,8 @@ export const columns: ColumnDef<ToolRequest>[] = [
                 {/* <Button variant="ghost" onClick={handleToggleEdit}>
                   {isEditing ? "Save" : "Edit"}
                 </Button> */}
-                <Button variant="destructive">Rejected</Button>
-                <DialogToolAccept />
+                <DialogToolReject id={request.id || ""} />
+                <DialogToolAccept id={request.id || ""} />
               </div>
             </DialogHeader>
           </DialogContent>

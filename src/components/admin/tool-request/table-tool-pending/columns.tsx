@@ -18,105 +18,50 @@ import { Badge } from "@components/ui/badge";
 import DialogToolAccept from "../dialog-tool-request/dialog-tool-accept";
 import DialogToolForward from "../dialog-tool-request/dialog-tool-forward";
 import DialogToolReject from "../dialog-tool-request/dialog-tool-reject";
-import { formatDate } from "@components/lib/utils";
+import { ToolRequest } from "../../../../api/openapi";
+import { format } from "date-fns";
 
-export type SeedlingRequest = {
-  id: number;
-  createdAt: string;
-  updatedAt: string;
-  farm: string;
-  contact: string;
-  tool: string;
-  quantity_request: number;
-  note: string;
-  status:
-    | "accepted"
-    | "pending"
-    | "rejected"
-    | "forwarded"
-    | "communicating"
-    | "completed";
-};
-
-export const data: SeedlingRequest[] = [
+export const columns: ColumnDef<ToolRequest>[] = [
   {
-    id: 1,
-    createdAt: "2023-01-15",
-    updatedAt: "2023-01-15",
-    farm: "Sunshine Farm",
-    contact: "shenronfarm@gmail.com",
-    tool: "Tomato",
-    quantity_request: 100,
-    status: "pending",
-    note: "test notes"
-  },
-  {
-    id: 2,
-    createdAt: "2023-02-20",
-    updatedAt: "2023-01-15",
-    farm: "Green Acres",
-    contact: "shenronfarm@gmail.com",
-    tool: "Lettuce",
-    quantity_request: 200,
-    status: "pending",
-    note: "test notes"
-  },
-  {
-    id: 3,
-    createdAt: "2023-03-10",
-    updatedAt: "2023-01-15",
-    farm: "Golden Fields",
-    contact: "shenronfarm@gmail.com",
-    tool: "Carrot",
-    quantity_request: 150,
-    status: "pending",
-    note: "test notes"
-  }
-];
-
-export const columns: ColumnDef<SeedlingRequest>[] = [
-  {
-    accessorKey: "updatedAt",
+    accessorKey: "updatedat",
     header: "Updated At",
-    cell: ({ row }) => <div>{row.getValue("updatedAt")}</div>
+    cell: ({ row }) =>
+      format(new Date(row.original.updatedat || ""), "MMM dd, yyyy")
   },
   {
-    accessorKey: "tool",
+    accessorKey: "tool_requested",
     header: "Tool",
-    cell: ({ row }) => <div>{row.getValue("tool")}</div>
+    cell: ({ row }) => <div>{row.getValue("tool_requested")}</div>
   },
   {
-    accessorKey: "farm",
+    accessorKey: "farm_name",
     header: "Requested by",
-    cell: ({ row }) => <div>{row.getValue("farm")}</div>
+    cell: ({ row }) => <div>{row.getValue("farm_name")}</div>
   },
   {
-    accessorKey: "quantity_request",
+    accessorKey: "quantity_requested",
     header: "Quantity Requested",
-    cell: ({ row }) => <div>{row.getValue("quantity_request")}</div>
+    cell: ({ row }) => <div>{row.getValue("quantity_requested")}</div>
   },
   {
-    accessorKey: "note",
+    accessorKey: "requester_note",
     header: "Note",
-    cell: ({ row }) => <div>{row.getValue("note")}</div>
+    cell: ({ row }) => (
+      <div className=" line-clamp-1">{row.getValue("requester_note")}</div>
+    )
   },
   {
     accessorKey: "status",
     header: "Status",
-    cell: ({ row }) => <div>{row.getValue("status")}</div>
+    cell: ({ row }) => (
+      <div className=" capitalize">{row.getValue("status")}</div>
+    )
   },
   {
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
       const request = row.original;
-      const status = request.status;
-      const request_date = request.createdAt;
-      const farm = request.farm;
-      const contact = request.contact;
-      const qty = request.quantity_request;
-      const rqstr_note = request.note;
-      const requested = request.tool;
 
       return (
         <Dialog>
@@ -131,46 +76,62 @@ export const columns: ColumnDef<SeedlingRequest>[] = [
                 <div>
                   <DialogTitle>Tool Request</DialogTitle>
                   <DialogDescription>
-                    Requested: {formatDate(request_date)}
+                    Requested:{" "}
+                    {format(
+                      new Date(row.original.createdat || ""),
+                      "MMM dd, yyyy"
+                    )}
                   </DialogDescription>
                 </div>
-                <Badge className="text-white bg-blue-500 hover:bg-blue-400">
-                  {status}
+                <Badge className="text-white bg-blue-500 hover:bg-blue-400 capitalize">
+                  {request.status}
                 </Badge>
               </div>
 
               <div className="flex gap-4 mb-4">
                 <div className="w-full">
                   <Label>Farm Name</Label>
-                  <Input type="text" defaultValue={farm} disabled />
+                  <Input
+                    type="text"
+                    defaultValue={request.farm_name}
+                    disabled
+                  />
                 </div>
                 <div className="w-full">
                   <Label>Contact</Label>
-                  <Input type="text" defaultValue={contact} disabled />
+                  <Input type="text" defaultValue={request.contact} disabled />
                 </div>
               </div>
 
               <div className="flex w-full gap-4 mb-4">
                 <div className="w-full">
                   <Label>Requested</Label>
-                  <Input type="text" defaultValue={requested} disabled />
+                  <Input
+                    type="text"
+                    defaultValue={request.tool_requested}
+                    disabled
+                  />
                 </div>
 
                 <div className="w-1/3">
                   <Label>Quantity</Label>
-                  <Input type="number" defaultValue={qty} disabled />
+                  <Input
+                    type="number"
+                    defaultValue={request.quantity_requested}
+                    disabled
+                  />
                 </div>
               </div>
 
               <div className="mb-4">
                 <Label>Requester Note</Label>
                 <div className="w-full">
-                  <Textarea defaultValue={rqstr_note} disabled />
+                  <Textarea defaultValue={request.requester_note} disabled />
                 </div>
               </div>
 
               <div className="flex justify-end gap-4 mt-4">
-                <DialogToolReject />
+                <DialogToolReject id={request.id || ""} />
                 <DialogToolForward />
                 <DialogToolAccept />
               </div>

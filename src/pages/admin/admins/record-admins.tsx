@@ -22,6 +22,7 @@ const RecordAdmins: React.FC = () => {
 
   const setTab = (value: string) => {
     searchParams.set("tab", value);
+    searchParams.delete("page");
     setSearchParams(searchParams);
   };
   return (

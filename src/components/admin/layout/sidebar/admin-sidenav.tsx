@@ -12,7 +12,6 @@ const AdminSidenav = () => {
   const navigate = useNavigate();
 
   const { data: authData } = useGetMyProfileQuery();
-  console.log(authData);
 
   return (
     <div

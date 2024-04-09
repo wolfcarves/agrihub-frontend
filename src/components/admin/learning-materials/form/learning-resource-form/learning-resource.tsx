@@ -13,11 +13,11 @@ import usePutLearningFeatured from "../../../../../hooks/api/put/usePutLearningF
 import DialogAddResource from "../../dialogs/dialog-add-resource/dialog-add-resource";
 import DialogEditResource from "../../dialogs/dialog-edit-resource/dialog-edit-resource";
 import Loader from "../../../../../icons/Loader";
+import { convertToEmbedLink } from "../../../../lib/utils";
 
 const LearningResourceForm = () => {
   const { learningsId } = useParams();
   const { data: LearningData } = useGetLearningDraftView(learningsId || "");
-  console.log(LearningData);
 
   const { mutateAsync: deleteResource, isLoading: isDeleteLoad } =
     useDeleteLearningResource();
@@ -92,12 +92,16 @@ const LearningResourceForm = () => {
                 <div className="grid w-full items-center gap-1.5">
                   <div>
                     <Label className=" font-poppins-medium">Video Source</Label>
-                    <Input
-                      type="text"
-                      value={resource.resource}
-                      placeholder="Input resource link"
-                      readOnly
-                    />
+                    <div className="w-full aspect-video max-h-[64] rounded-lg">
+                      <iframe
+                        className="w-full h-full rounded-lg"
+                        src={convertToEmbedLink(resource.resource || "")}
+                        title={resource.name}
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowFullScreen
+                      ></iframe>
+                    </div>
                   </div>
                 </div>
               )}

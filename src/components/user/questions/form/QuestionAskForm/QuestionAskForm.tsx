@@ -107,7 +107,7 @@ const QuestionAskForm = () => {
       >
         <div className="max-w-[60rem]">
           <h3 className="text-foreground text-md font-poppins-bold">
-            Title {"(Pamagat)"}
+            Question Title
           </h3>
 
           <p className="text-foreground my-2 text-sm">
@@ -134,8 +134,7 @@ const QuestionAskForm = () => {
 
         <div className="mt-20">
           <h3 className="text-foreground text-md font-poppins-bold">
-            What are the details of your problem?{" "}
-            {"(Ipaliwanag ang detalye ng iyong katanungan)"}
+            Question Description
           </h3>
 
           <p className="text-foreground my-2 text-sm">
@@ -206,7 +205,7 @@ const QuestionAskForm = () => {
 
         <div className="mt-20">
           <h3 className="text-foreground text-md font-poppins-bold">
-            Add Tags {"(Maglagay ng mga tag)"}
+            Add Tags
           </h3>
 
           <p className="text-foreground my-2 text-sm">
@@ -242,7 +241,7 @@ const QuestionAskForm = () => {
 
         <div className="mt-20">
           <h3 className="text-foreground text-md font-poppins-bold">
-            Attach Image {"(Maglagay ng mga litrato)"}
+            Attach Image
           </h3>
 
           <p className="text-foreground my-2 text-sm">

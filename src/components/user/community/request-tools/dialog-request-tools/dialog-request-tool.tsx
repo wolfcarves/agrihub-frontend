@@ -63,17 +63,20 @@ const DialogRequestTool = () => {
   //   }
   // }, [form.watch("crop_id")]);
 
-  // useEffect(() => {
-  //   if (form.formState.errors.note) {
-  //     toast.error(form?.formState?.errors?.note?.message);
-  //   }
-  //   if (form.formState.errors.other) {
-  //     toast.error(form?.formState?.errors?.other?.message);
-  //   }
-  //   if (form.formState.errors.quantity_request) {
-  //     toast.error(form?.formState?.errors?.quantity_request?.message);
-  //   }
-  // }, [form.formState.errors]);
+  useEffect(() => {
+    if (form.formState.errors.tool_requested) {
+      toast.error(form?.formState?.errors?.tool_requested?.message);
+    }
+    if (form.formState.errors.quantity_requested) {
+      toast.error(form?.formState?.errors?.quantity_requested?.message);
+    }
+    if (form.formState.errors.requester_note) {
+      toast.error(form?.formState?.errors?.requester_note?.message);
+    }
+    if (form.formState.errors.contact) {
+      toast.error(form?.formState?.errors?.contact?.message);
+    }
+  }, [form.formState.errors]);
 
   const { mutateAsync: addRequestMutate, isLoading: addRequestLoading } =
     useRequestToolsCreate();

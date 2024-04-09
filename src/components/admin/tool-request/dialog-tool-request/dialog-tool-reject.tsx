@@ -27,29 +27,48 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger
 } from "../../../ui/alert-dialog";
+import * as zod from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Form } from "../../../ui/form";
 interface DialogProps {
   id: string;
 }
+
+const formSchema = zod.object({
+  client_note: zod
+    .string({
+      required_error: "Note is required."
+    })
+    .min(1, "Note must have at least 1 characters")
+});
 const DialogToolReject: React.FC<DialogProps> = ({ id }) => {
   const navigate = useNavigate();
-  const [note, setNote] = useState<string>("");
+  const [dialog, setDialog] = useState(false);
+
+  const form = useForm<UpdateToolRequestStatus>({
+    resolver: zodResolver(formSchema),
+    mode: "onBlur"
+  });
 
   const { mutateAsync, isLoading } = usePutRequestToolUpdate();
-
-  const handleSubmitForm = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!note.trim()) {
-      toast.error("Note is required");
-      return;
+  const handleValidation = async () => {
+    // console.log("no open");
+    const success = await form.trigger();
+    if (success) {
+      return setDialog(true);
     }
+  };
+
+  const handleSubmitForm = async (data: UpdateToolRequestStatus) => {
     const compiledData: UpdateToolRequestStatus = {
-      client_note: note,
+      client_note: data.client_note,
       status: UpdateToolRequestStatus.status.REJECTED
     };
 
     try {
       await mutateAsync({ id: id, requestBody: compiledData });
-      toast.success("Feedback Submitted Successfully!");
+      toast.success("Tool Rejected Successfully!");
       navigate("/admin/community/tool-request?tab=rejected");
     } catch (e: any) {
       toast.error(e.body.message);
@@ -72,43 +91,62 @@ const DialogToolReject: React.FC<DialogProps> = ({ id }) => {
               </div>
             </div>
 
-            <div className="mb-4">
-              <Label>Note</Label>
-              <div className="w-full">
-                <Textarea onChange={e => setNote(e.target.value)} />
-              </div>
-            </div>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(handleSubmitForm)}>
+                <div className="mb-4">
+                  <Label className=" font-poppins-medium">Note</Label>
+                  <div className="w-full">
+                    <Textarea {...form.register("client_note")} required />
+                  </div>
+                </div>
 
-            <div className="flex justify-end gap-4 mt-4">
-              <Button variant="secondary">Cancel</Button>
-              <AlertDialog>
-                <AlertDialogTrigger>
-                  <Button variant="destructive">Reject</Button>
-                </AlertDialogTrigger>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>Reject this request?</AlertDialogTitle>
-                    <AlertDialogDescription>
-                      This action cannot be undone. This will permanently place
-                      the request in reject status.
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction
-                      className=" bg-destructive"
-                      onClick={e => handleSubmitForm(e)}
-                    >
-                      Continue
-                    </AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
-            </div>
+                <div className="flex justify-end gap-4 mt-4">
+                  <DialogClose asChild>
+                    <Button type="button" variant="secondary">
+                      Cancel
+                    </Button>
+                  </DialogClose>
+
+                  <AlertDialog open={dialog}>
+                    <AlertDialogTrigger>
+                      <Button
+                        variant="destructive"
+                        type="button"
+                        onClick={handleValidation}
+                      >
+                        Reject
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>
+                          Reject this request?
+                        </AlertDialogTitle>
+                        <AlertDialogDescription>
+                          This action cannot be undone. This will permanently
+                          place the request in reject status.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel onClick={() => setDialog(false)}>
+                          Cancel
+                        </AlertDialogCancel>
+                        <AlertDialogAction
+                          className=" bg-destructive"
+                          onClick={form.handleSubmit(handleSubmitForm)}
+                        >
+                          Continue
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                      <Loader isVisible={isLoading} />
+                    </AlertDialogContent>
+                  </AlertDialog>
+                </div>
+              </form>
+            </Form>
           </DialogHeader>
         </DialogContent>
       </Dialog>
-      <Loader isVisible={isLoading} />
     </div>
   );
 };

@@ -92,6 +92,10 @@ export const columns: ColumnDef<ListUser>[] = [
         return <Loader isVisible={true} />;
       }
 
+      const handleProfile = () => {
+        navigate(`/users/${user.id}/${user.username}`);
+      };
+
       return (
         <Dialog>
           <DropdownMenu>
@@ -202,7 +206,7 @@ export const columns: ColumnDef<ListUser>[] = [
                     </AlertDialogFooter>
                   </AlertDialogContent>
                 </AlertDialog>
-                <Button type="submit">PROFILE</Button>
+                <Button onClick={handleProfile}>PROFILE</Button>
               </div>
             </DialogFooter>
           </DialogContent>

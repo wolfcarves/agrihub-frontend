@@ -19,11 +19,7 @@ const FarmActiveDetails = () => {
         </div>
         <div>
           <Label>Farm Size</Label>
-          <Input
-            type="text"
-            defaultValue={`${farmDetails?.size} sqm`}
-            readOnly
-          />
+          <Input type="text" defaultValue={farmDetails?.size} readOnly />
         </div>
       </div>
 

@@ -1,47 +1,29 @@
 import { ColumnDef } from "@tanstack/react-table";
+import { useNavigate } from "react-router-dom";
 import { ArrowUpDown } from "lucide-react";
-import { format } from "date-fns";
-import { toast } from "sonner";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger
-} from "@components/ui/dialog";
-import { Label } from "@components/ui/label";
+import { ToolRequest } from "../../../../api/openapi";
 import { Button } from "../../../ui/button";
-import { SeedlingRequestListItem } from "../../../../api/openapi";
-import useDeleteRequestSeedlingCancel from "../../../../hooks/api/delete/useDeleteRequestSeedlingCancel";
-import Loader from "../../../../icons/Loader";
-import { Textarea } from "../../../ui/textarea";
-import { Input } from "../../../ui/input";
 
-export const columns: ColumnDef<SeedlingRequestListItem>[] = [
+export const columns: ColumnDef<ToolRequest>[] = [
   {
-    accessorKey: "name",
+    accessorKey: "tool_requested",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Crop
+          Tool
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
     cell: ({ row }) => {
-      const cropName = row.original;
-      if (cropName.other) {
-        return <p>{cropName.other}</p>;
-      } else {
-        return <p>{cropName.name}</p>;
-      }
+      return <div>{row.original.tool_requested}</div>;
     }
   },
   {
-    accessorKey: "quantity_request",
+    accessorKey: "quantity_requested",
     header: ({ column }) => {
       return (
         <Button
@@ -66,6 +48,9 @@ export const columns: ColumnDef<SeedlingRequestListItem>[] = [
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
+    },
+    cell: ({ row }) => {
+      return <div className=" capitalize">{row.original.status}</div>;
     }
   }
 
@@ -73,7 +58,6 @@ export const columns: ColumnDef<SeedlingRequestListItem>[] = [
   //   header: "Actions",
   //   id: "actions",
   //   cell: ({ row }) => {
-  //     console.log(row.original);
   //     const request = row.original;
   //     const { mutateAsync: rejectSeedling, isLoading: isSeedlingLoad } =
   //       useDeleteRequestSeedlingCancel();
@@ -87,13 +71,29 @@ export const columns: ColumnDef<SeedlingRequestListItem>[] = [
   //     };
   //     return request.status === "pending" ? (
   //       <>
-  //         <Button
-  //           onClick={handleDelete}
-  //           variant={"destructive"}
-  //           className="text-xs p-3 h-5"
-  //         >
-  //           Cancel
-  //         </Button>
+  //         <AlertDialog>
+  //           <AlertDialogTrigger asChild>
+  //             <Button variant={"destructive"} className="text-xs p-3 h-5">
+  //               Cancel
+  //             </Button>
+  //           </AlertDialogTrigger>
+  //           <AlertDialogContent>
+  //             <AlertDialogHeader>
+  //               <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+  //               <AlertDialogDescription>
+  //                 This action cannot be undone. This action will cancel your
+  //                 seedling request.
+  //               </AlertDialogDescription>
+  //             </AlertDialogHeader>
+  //             <AlertDialogFooter>
+  //               <AlertDialogCancel>Cancel</AlertDialogCancel>
+  //               <AlertDialogAction onClick={handleDelete}>
+  //                 Continue
+  //               </AlertDialogAction>
+  //             </AlertDialogFooter>
+  //           </AlertDialogContent>
+  //         </AlertDialog>
+
   //         <Loader isVisible={isSeedlingLoad} />
   //       </>
   //     ) : request.status === "accepted" ? (

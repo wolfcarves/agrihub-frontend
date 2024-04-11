@@ -34,14 +34,14 @@ const Carousels: React.FC = () => {
               <img
                 src="https://images.unsplash.com/photo-1560493676-04071c5f467b?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 alt="Error Image"
-                className="w-full h-full object-cover object-top sm:block"
+                className="w-full h-screen object-cover object-top sm:block"
               />
             </>
           ) : (
             <img
               src={ctaImage}
               alt="Hero Image"
-              className="w-full h-full object-cover object-top sm:block max-w-screen-2xl mx-auto"
+              className="w-full h-full object-cover object-right-top sm:block max-w-screen-2xl mx-auto"
             />
           )}
 

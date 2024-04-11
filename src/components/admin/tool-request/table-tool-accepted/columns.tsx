@@ -19,6 +19,7 @@ import DialogToolCommunicate from "../dialog-tool-request/dialog-tool-communicat
 import { formatDate } from "@components/lib/utils";
 import { ToolRequest } from "../../../../api/openapi";
 import { format } from "date-fns";
+import { formatSelectedOrganizations } from "../dialog-tool-request/dialog-tool-accept";
 
 export const columns: ColumnDef<ToolRequest>[] = [
   {
@@ -45,7 +46,11 @@ export const columns: ColumnDef<ToolRequest>[] = [
   {
     accessorKey: "accepted_by",
     header: "Accepted by",
-    cell: ({ row }) => <div>{row.getValue("accepted_by")}</div>
+    cell: ({ row }) => (
+      <div className=" line-clamp-1">
+        {formatSelectedOrganizations(row.original.accepted_by || [])}
+      </div>
+    )
   },
   {
     accessorKey: "status",
@@ -125,7 +130,7 @@ export const columns: ColumnDef<ToolRequest>[] = [
                 </div>
 
                 <div className="flex justify-end gap-4 pt-4">
-                  <DialogToolCommunicate />
+                  <DialogToolCommunicate id={request.id || ""} />
                 </div>
               </DialogHeader>
             </DialogContent>

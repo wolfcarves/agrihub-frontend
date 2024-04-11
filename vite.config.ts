@@ -57,12 +57,12 @@ export default defineConfig({
         display: "standalone",
         icons: [
           {
-            src: "/agrihub-logo-192-192.png",
+            src: "/agrihub-192-192.png",
             sizes: "192x192",
             type: "image/png"
           },
           {
-            src: "/agrihub-logo-512-512.png",
+            src: "/agrihub-512-512.png",
             type: "image/png",
             sizes: "512x512"
           }

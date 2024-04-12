@@ -3,6 +3,28 @@ import { useNavigate } from "react-router-dom";
 import { ArrowUpDown } from "lucide-react";
 import { ToolRequest } from "../../../../api/openapi";
 import { Button } from "../../../ui/button";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger
+} from "../../../ui/alert-dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
+} from "../../../ui/dialog";
+import { Input } from "../../../ui/input";
+import { Label } from "../../../ui/label";
+import { Textarea } from "../../../ui/textarea";
+import { format } from "date-fns";
 
 export const columns: ColumnDef<ToolRequest>[] = [
   {
@@ -59,16 +81,16 @@ export const columns: ColumnDef<ToolRequest>[] = [
   //   id: "actions",
   //   cell: ({ row }) => {
   //     const request = row.original;
-  //     const { mutateAsync: rejectSeedling, isLoading: isSeedlingLoad } =
-  //       useDeleteRequestSeedlingCancel();
-  //     const handleDelete = async () => {
-  //       try {
-  //         await rejectSeedling(row.original.id || "");
-  //         toast.success("Request Cancelled!");
-  //       } catch (e: any) {
-  //         toast.error(e.body.message);
-  //       }
-  //     };
+  //     // const { mutateAsync: rejectSeedling, isLoading: isSeedlingLoad } =
+  //     //   useDeleteRequestSeedlingCancel();
+  //     // const handleDelete = async () => {
+  //     //   try {
+  //     //     await rejectSeedling(row.original.id || "");
+  //     //     toast.success("Request Cancelled!");
+  //     //   } catch (e: any) {
+  //     //     toast.error(e.body.message);
+  //     //   }
+  //     // };
   //     return request.status === "pending" ? (
   //       <>
   //         <AlertDialog>
@@ -87,14 +109,10 @@ export const columns: ColumnDef<ToolRequest>[] = [
   //             </AlertDialogHeader>
   //             <AlertDialogFooter>
   //               <AlertDialogCancel>Cancel</AlertDialogCancel>
-  //               <AlertDialogAction onClick={handleDelete}>
-  //                 Continue
-  //               </AlertDialogAction>
+  //               <AlertDialogAction>Continue</AlertDialogAction>
   //             </AlertDialogFooter>
   //           </AlertDialogContent>
   //         </AlertDialog>
-
-  //         <Loader isVisible={isSeedlingLoad} />
   //       </>
   //     ) : request.status === "accepted" ? (
   //       <>
@@ -111,11 +129,11 @@ export const columns: ColumnDef<ToolRequest>[] = [
   //             <div className="grid gap-4 py-4">
   //               <div className="grid grid-cols-4 items-center gap-1">
   //                 <Label className="col-span-4 font-poppins-medium">
-  //                   Delivery Date
+  //                   Requested Date
   //                 </Label>
   //                 <Input
   //                   className="col-span-4 disabled:opacity-100"
-  //                   value={format(new Date(request.delivery_date || ""), "PPP")}
+  //                   value={format(new Date(request.createdat || ""), "PPP")}
   //                   disabled
   //                 />
   //               </div>
@@ -125,7 +143,7 @@ export const columns: ColumnDef<ToolRequest>[] = [
   //                 </Label>
   //                 <Input
   //                   className="col-span-4 disabled:opacity-100"
-  //                   value={request.quantity_approve}
+  //                   value={request.quantity_requested}
   //                   disabled
   //                 />
   //               </div>
@@ -133,7 +151,7 @@ export const columns: ColumnDef<ToolRequest>[] = [
   //                 <Label className="col-span-4 font-poppins-medium">Note</Label>
   //                 <Textarea
   //                   className="col-span-4 disabled:opacity-100"
-  //                   value={request.note}
+  //                   value={request.client_note}
   //                   disabled
   //                 />
   //               </div>

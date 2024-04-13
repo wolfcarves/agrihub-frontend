@@ -31,7 +31,6 @@ import {
 import { LuMessagesSquare } from "react-icons/lu";
 import { TiArrowForwardOutline, TiAttachment } from "react-icons/ti";
 import QuestionFeedbackPanel from "../panel/QuestionFeedbackPanel";
-import LoadingSpinner from "@icons/LoadingSpinner";
 
 interface QuestionCardProps {
   id?: string;
@@ -160,8 +159,6 @@ const QuestionCard = ({
       console.log(error.body.message);
     }
   };
-
-  const [focusedImg, setFocusedImg] = useState<string>("");
 
   return (
     <>

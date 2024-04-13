@@ -6,6 +6,8 @@ import "../../../../globals.css";
 import useGetMyProfileQuery from "@hooks/api/get/useGetMyProfileQuery";
 import AdminNavLink from "./admin-navlink";
 import AdminDropdownNav from "./admin-dropdown-nav";
+import { useSelector } from "../../../../redux/store";
+import { selectSidebarState } from "../../../../redux/slices/sidebarSlice";
 
 const AdminSidenav = () => {
   const [open, setOpen] = useState(true);
@@ -13,9 +15,13 @@ const AdminSidenav = () => {
 
   const { data: authData } = useGetMyProfileQuery();
 
+  const { isOpen } = useSelector(selectSidebarState);
+
   return (
     <div
-      className={` min-w-[17rem] h-full  border-r bg-white  md:block hidden`}
+      className={`  ${
+        isOpen ? "w-[20rem] " : " w-0"
+      } h-full  border-r bg-white  md:block hidden duration-300 `}
     >
       <div className="h-screen custom-scroll overflow-y-auto">
         <div className="flex items-center  flex-col py-6 sticky bg-white z-20 top-0">

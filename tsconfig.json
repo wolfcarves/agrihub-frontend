@@ -37,7 +37,8 @@
       "@icons/*": ["./src/icons/*"],
       "@providers/*": ["./src/providers/*"],
       "@svg/*": ["./src/svg/*"]
-    }
+    },
+    "types": ["vite/client"]
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]

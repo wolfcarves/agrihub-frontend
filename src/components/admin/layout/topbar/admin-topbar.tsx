@@ -3,8 +3,11 @@ import useAuth from "@hooks/useAuth";
 import React, { useEffect, useState } from "react";
 import { RxHamburgerMenu, RxQuestionMarkCircled } from "react-icons/rx";
 import HeaderNotification from "../../../ui/custom/notification/header-notification";
-import { useDispatch } from "../../../../redux/store";
-import { toggleSidebar } from "../../../../redux/slices/sidebarSlice";
+import { useDispatch, useSelector } from "../../../../redux/store";
+import {
+  selectSidebarState,
+  toggleSidebar
+} from "../../../../redux/slices/sidebarSlice";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -52,6 +55,10 @@ const AdminTopbar = () => {
   const handleToUser = () => {
     navigate(`/`);
   };
+
+  const handleToggleSidebar = () => {
+    dispatch(toggleSidebar());
+  };
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const pathname = useLocation().pathname;
   useEffect(() => {
@@ -59,7 +66,7 @@ const AdminTopbar = () => {
   }, [pathname]);
   return (
     <div className="sticky top-0 left-0 right-0 border-b w-full">
-      <nav className="h-16 flex items-center md:justify-end justify-between px-5 bg-white opacity-100">
+      <nav className="h-16 flex items-center justify-between px-5 bg-white opacity-100">
         <div className="block md:hidden">
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild className="p-1">
@@ -69,6 +76,9 @@ const AdminTopbar = () => {
               <AdminMobileSidebarSheet />
             </SheetContent>
           </Sheet>
+        </div>
+        <div className="hidden md:block">
+          <RxHamburgerMenu onClick={handleToggleSidebar} size={22} />
         </div>
         <div>
           <div className="flex gap-4">

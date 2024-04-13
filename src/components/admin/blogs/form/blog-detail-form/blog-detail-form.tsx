@@ -18,9 +18,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { Form, FormField } from "../../../../ui/form";
 import Loader from "../../../../../icons/Loader";
-import RichTextEditor from "../../../../ui/custom/rich-text-editor/RichTextEditor";
 import useGetBlogsDraftView from "../../../../../hooks/api/get/useGetBlogsDraftView";
 import usePutBlogsUpdateDraft from "../../../../../hooks/api/put/usePutBlogsUpdateDraft";
+import RichTextEditor from "../../../../ui/custom/rich-text-editor/RichTextEditor";
 
 const BlogDetailForm = () => {
   const { blogId } = useParams();

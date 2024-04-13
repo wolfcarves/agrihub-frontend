@@ -1,47 +1,51 @@
 import { ColumnDef } from "@tanstack/react-table";
+import { useNavigate } from "react-router-dom";
 import { ArrowUpDown } from "lucide-react";
-import { format } from "date-fns";
-import { toast } from "sonner";
+import { ToolRequest } from "../../../../api/openapi";
+import { Button } from "../../../ui/button";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger
+} from "../../../ui/alert-dialog";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger
-} from "@components/ui/dialog";
-import { Label } from "@components/ui/label";
-import { Button } from "../../../ui/button";
-import { SeedlingRequestListItem } from "../../../../api/openapi";
-import useDeleteRequestSeedlingCancel from "../../../../hooks/api/delete/useDeleteRequestSeedlingCancel";
-import Loader from "../../../../icons/Loader";
-import { Textarea } from "../../../ui/textarea";
+} from "../../../ui/dialog";
 import { Input } from "../../../ui/input";
+import { Label } from "../../../ui/label";
+import { Textarea } from "../../../ui/textarea";
+import { format } from "date-fns";
 
-export const columns: ColumnDef<SeedlingRequestListItem>[] = [
+export const columns: ColumnDef<ToolRequest>[] = [
   {
-    accessorKey: "name",
+    accessorKey: "tool_requested",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Crop
+          Tool
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
     cell: ({ row }) => {
-      const cropName = row.original;
-      if (cropName.other) {
-        return <p>{cropName.other}</p>;
-      } else {
-        return <p>{cropName.name}</p>;
-      }
+      return <div>{row.original.tool_requested}</div>;
     }
   },
   {
-    accessorKey: "quantity_request",
+    accessorKey: "quantity_requested",
     header: ({ column }) => {
       return (
         <Button
@@ -66,6 +70,9 @@ export const columns: ColumnDef<SeedlingRequestListItem>[] = [
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
+    },
+    cell: ({ row }) => {
+      return <div className=" capitalize">{row.original.status}</div>;
     }
   }
 
@@ -73,28 +80,39 @@ export const columns: ColumnDef<SeedlingRequestListItem>[] = [
   //   header: "Actions",
   //   id: "actions",
   //   cell: ({ row }) => {
-  //     console.log(row.original);
   //     const request = row.original;
-  //     const { mutateAsync: rejectSeedling, isLoading: isSeedlingLoad } =
-  //       useDeleteRequestSeedlingCancel();
-  //     const handleDelete = async () => {
-  //       try {
-  //         await rejectSeedling(row.original.id || "");
-  //         toast.success("Request Cancelled!");
-  //       } catch (e: any) {
-  //         toast.error(e.body.message);
-  //       }
-  //     };
+  //     // const { mutateAsync: rejectSeedling, isLoading: isSeedlingLoad } =
+  //     //   useDeleteRequestSeedlingCancel();
+  //     // const handleDelete = async () => {
+  //     //   try {
+  //     //     await rejectSeedling(row.original.id || "");
+  //     //     toast.success("Request Cancelled!");
+  //     //   } catch (e: any) {
+  //     //     toast.error(e.body.message);
+  //     //   }
+  //     // };
   //     return request.status === "pending" ? (
   //       <>
-  //         <Button
-  //           onClick={handleDelete}
-  //           variant={"destructive"}
-  //           className="text-xs p-3 h-5"
-  //         >
-  //           Cancel
-  //         </Button>
-  //         <Loader isVisible={isSeedlingLoad} />
+  //         <AlertDialog>
+  //           <AlertDialogTrigger asChild>
+  //             <Button variant={"destructive"} className="text-xs p-3 h-5">
+  //               Cancel
+  //             </Button>
+  //           </AlertDialogTrigger>
+  //           <AlertDialogContent>
+  //             <AlertDialogHeader>
+  //               <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+  //               <AlertDialogDescription>
+  //                 This action cannot be undone. This action will cancel your
+  //                 seedling request.
+  //               </AlertDialogDescription>
+  //             </AlertDialogHeader>
+  //             <AlertDialogFooter>
+  //               <AlertDialogCancel>Cancel</AlertDialogCancel>
+  //               <AlertDialogAction>Continue</AlertDialogAction>
+  //             </AlertDialogFooter>
+  //           </AlertDialogContent>
+  //         </AlertDialog>
   //       </>
   //     ) : request.status === "accepted" ? (
   //       <>
@@ -111,11 +129,11 @@ export const columns: ColumnDef<SeedlingRequestListItem>[] = [
   //             <div className="grid gap-4 py-4">
   //               <div className="grid grid-cols-4 items-center gap-1">
   //                 <Label className="col-span-4 font-poppins-medium">
-  //                   Delivery Date
+  //                   Requested Date
   //                 </Label>
   //                 <Input
   //                   className="col-span-4 disabled:opacity-100"
-  //                   value={format(new Date(request.delivery_date || ""), "PPP")}
+  //                   value={format(new Date(request.createdat || ""), "PPP")}
   //                   disabled
   //                 />
   //               </div>
@@ -125,7 +143,7 @@ export const columns: ColumnDef<SeedlingRequestListItem>[] = [
   //                 </Label>
   //                 <Input
   //                   className="col-span-4 disabled:opacity-100"
-  //                   value={request.quantity_approve}
+  //                   value={request.quantity_requested}
   //                   disabled
   //                 />
   //               </div>
@@ -133,7 +151,7 @@ export const columns: ColumnDef<SeedlingRequestListItem>[] = [
   //                 <Label className="col-span-4 font-poppins-medium">Note</Label>
   //                 <Textarea
   //                   className="col-span-4 disabled:opacity-100"
-  //                   value={request.note}
+  //                   value={request.client_note}
   //                   disabled
   //                 />
   //               </div>

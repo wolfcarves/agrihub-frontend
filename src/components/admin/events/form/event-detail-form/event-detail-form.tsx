@@ -24,6 +24,7 @@ import { toast } from "sonner";
 import { Form, FormField } from "../../../../ui/form";
 import Loader from "../../../../../icons/Loader";
 import { format } from "date-fns";
+import RichTextEditor from "../../../../ui/custom/rich-text-editor/RichTextEditor";
 const formatDate = (originalDateString: string) => {
   const date = new Date(originalDateString);
   const year = date.getFullYear();
@@ -228,7 +229,7 @@ const EventDetailForm = () => {
               control={form.control}
               render={({ field: { onChange } }) => {
                 return (
-                  <RichTextEditorBottom
+                  <RichTextEditor
                     disabled={!isEditing}
                     defaultValue={eventData?.about}
                     height={300}
@@ -251,7 +252,7 @@ const EventDetailForm = () => {
               control={form.control}
               render={({ field: { onChange } }) => {
                 return (
-                  <RichTextEditorBottom
+                  <RichTextEditor
                     disabled={!isEditing}
                     defaultValue={eventData?.guide}
                     height={200}

@@ -6,9 +6,11 @@ import QuestionsAside from "@components/user/questions/aside/QuestionsAside";
 const QuestionLayout = () => {
   const pathname = useLocation().pathname;
 
-  const sidebarNoneRenderPaths = ["/forum/ask"];
+  const sidebarNoneRenderPaths = ["/forum/ask", "/forum/ask/edit"];
   const asideNoneRenderPaths = ["/forum/tags", "/forum/users"];
-  const sidebarRender = sidebarNoneRenderPaths.includes(pathname);
+  const sidebarRender = sidebarNoneRenderPaths.some(p =>
+    pathname.startsWith(p)
+  );
   const asideRender = asideNoneRenderPaths.includes(pathname);
 
   return (

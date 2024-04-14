@@ -362,6 +362,34 @@ requestBody: UpdateToolRequestStatus,
     }
 
     /**
+     * Cancel Tool Request
+     * @returns MessageResponse Successful response
+     * @throws ApiError
+     */
+    public static postApiRequestToolRequestCancel({
+id,
+}: {
+/**
+ * ID of the tool request to cancel
+ */
+id: string,
+}): CancelablePromise<MessageResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/request/tool-request/cancel/{id}',
+            path: {
+                'id': id,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
      * Get overview of farm reports
      * @returns FarmOverview Overview of farm reports
      * @throws ApiError

@@ -31,6 +31,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger
 } from "../../../../ui/alert-dialog";
+import useDeleteRequestToolsCancel from "../../../../../hooks/api/delete/useDeleteRequestToolsCancel";
 
 export const columns: ColumnDef<ToolRequest>[] = [
   {
@@ -86,16 +87,16 @@ export const columns: ColumnDef<ToolRequest>[] = [
     id: "actions",
     cell: ({ row }) => {
       const request = row.original;
-      // const { mutateAsync: rejectSeedling, isLoading: isSeedlingLoad } =
-      //   useDeleteRequestSeedlingCancel();
-      // const handleDelete = async () => {
-      //   try {
-      //     await rejectSeedling(row.original.id || "");
-      //     toast.success("Request Cancelled!");
-      //   } catch (e: any) {
-      //     toast.error(e.body.message);
-      //   }
-      // };
+      const { mutateAsync: cancelRequest, isLoading: isCancelLoad } =
+        useDeleteRequestToolsCancel();
+      const handleDelete = async () => {
+        try {
+          await cancelRequest(row.original.id || "");
+          toast.success("Request Cancelled!");
+        } catch (e: any) {
+          toast.error(e.body.message);
+        }
+      };
       return request.status === "pending" ? (
         <>
           <AlertDialog>
@@ -114,10 +115,13 @@ export const columns: ColumnDef<ToolRequest>[] = [
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction>Continue</AlertDialogAction>
+                <AlertDialogAction onClick={handleDelete}>
+                  Continue
+                </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
+          <Loader isVisible={isCancelLoad} />
         </>
       ) : request.status === "accepted" ? (
         <>

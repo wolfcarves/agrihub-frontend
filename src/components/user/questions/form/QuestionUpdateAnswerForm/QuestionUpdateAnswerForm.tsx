@@ -34,8 +34,6 @@ const QuestionUpdateAnswerForm = ({
 
   const handleSubmitForm = async (data: { answer: string }) => {
     try {
-      console.log(charLength);
-
       if (charLength! < 1) {
         return setError("answer", {
           message: "Enter your answer"

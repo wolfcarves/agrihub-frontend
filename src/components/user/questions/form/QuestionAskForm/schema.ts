@@ -20,9 +20,7 @@ export const askQuestionSchema = zod.object({
     .string({
       required_error: "Content is required"
     })
-    .min(20, "Please enter at least 20 characters")
-    .max(5000, "Question is too long"),
-
+    .min(20, "Please enter at least 20 characters"),
   tags: zod.array(zod.string()).optional(),
   // .refine(
   //   tags => {

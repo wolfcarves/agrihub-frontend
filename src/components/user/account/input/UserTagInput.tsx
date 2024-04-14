@@ -6,29 +6,41 @@ import { AiOutlineCloseCircle } from "react-icons/ai";
 import TagsInput, { RenderLayout } from "react-tagsinput";
 
 import { TagsSchema } from "@api/openapi";
+import useGetTagByKeyWord from "@hooks/api/get/useGetTagByKeyword";
 
 type TagOptionProps = {
   details?: string;
 } & TagsSchema[number];
 
 interface UserTagInputDropdownProps {
-  option?: TagOptionProps[];
+  keyword: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  defaultIdTagValue?: string[] | (string | undefined)[] | undefined;
+  defaultTagValue?: string[] | (string | undefined)[] | undefined;
   onTagsValueChange?: (e: string[]) => void;
   isError?: boolean;
   disabled?: boolean;
 }
 
 const UserTagInputDropdown = ({
-  option,
+  keyword,
   onChange,
+  defaultTagValue,
+  defaultIdTagValue,
   onTagsValueChange,
   isError,
   disabled
 }: UserTagInputDropdownProps) => {
-  const [tags, setTags] = useState<Array<string>>([]);
-  const [idTags, setIdTags] = useState<Array<string>>([]);
+  //All tags
+  const [tags, setTags] = useState<Array<string>>(
+    (defaultTagValue as string[]) ?? []
+  );
+  const [idTags, setIdTags] = useState<Array<string>>(
+    (defaultIdTagValue as string[]) ?? []
+  );
+
   const [isInputTagFocused, setIsInputTagFocused] = useState<boolean>(false);
+  const { data: option } = useGetTagByKeyWord(keyword);
 
   const handleToggleTag = useCallback(
     (val: string) => {
@@ -105,12 +117,9 @@ const UserTagInputDropdown = ({
             handleToggleTag(tag_name);
           }}
         >
-          <h6 className="text-primary line-clamp-2">{tag_name}</h6>
+          <h6 className="text-primary w-full truncate">{tag_name}</h6>
           <div className="line-clamp-5">
-            <span>
-              {details}
-              sample details here...
-            </span>
+            <span>{details}</span>
           </div>
         </button>
       );
@@ -142,7 +151,7 @@ const UserTagInputDropdown = ({
         <div
           className={`${
             option && isInputTagFocused ? "grid" : "hidden"
-          } grid-cols-3 gap-x-1 gap-y-5 justify-evenly absolute top-[100%] left-0 z-20 w-full overflow-y-scroll
+          } grid-cols-2 sm:grid-cols-3 gap-x-1 gap-y-5 justify-evenly absolute top-[100%] left-0 z-20 w-full overflow-y-scroll
           rounded-lg bg-gray-50 border p-1 min-h-[50px] max-h-[400px]`}
         >
           {option && option.map(renderTagCards)}
@@ -156,12 +165,12 @@ const UserTagInputDropdown = ({
 
         {isInputTagFocused && (
           <button
-            className="me-2"
+            className="me-2 font-poppins-medium text-center mx-auto my-auto text-primary bg-primary/10 p-2 rounded-md"
             onClick={() => {
               setIsInputTagFocused(false);
             }}
           >
-            Close
+            Done
           </button>
         )}
       </div>

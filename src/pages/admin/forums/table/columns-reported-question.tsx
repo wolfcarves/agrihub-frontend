@@ -203,13 +203,10 @@ export const columns: ColumnDef<ReportedQuestion>[] = [
                         </div>
                         <div className="mb-4">
                           <Label>Reason</Label>
-                          <Textarea
-                            disabled
-                            defaultValue="dito yung reason field"
-                          />
+                          <Textarea disabled defaultValue={question.reason} />
                         </div>
-                        <Label>Note</Label>
-                        <Textarea disabled={!isEditing} />
+                        {/* <Label>Note</Label>
+                        <Textarea disabled={!isEditing} /> */}
                       </CardContent>
 
                       {/* report buttons */}

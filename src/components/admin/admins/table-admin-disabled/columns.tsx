@@ -27,6 +27,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger
 } from "../../../ui/alert-dialog";
+import { formatRoles } from "../../../lib/utils";
 
 export const columns: ColumnDef<AdminUser>[] = [
   {
@@ -52,7 +53,9 @@ export const columns: ColumnDef<AdminUser>[] = [
   {
     accessorKey: "role",
     header: "Role",
-    cell: ({ row }) => <div>{row.getValue("role")}</div>
+    cell: ({ row }) => {
+      return <div>{formatRoles(row.original.role || "")}</div>;
+    }
   },
   {
     id: "actions",
@@ -65,7 +68,7 @@ export const columns: ColumnDef<AdminUser>[] = [
       const handleEnable = async () => {
         await enableAdmin(users.id || "");
         toast.success("Enabled Successfully!");
-        navigate("/admin/record/admins");
+        navigate("/admin/record/admins?tab=active");
       };
       if (activeLoading) {
         return <Loader isVisible={true} />;

@@ -10,10 +10,9 @@ import UserReponsiveContainer from "../container/user-reponsive-container";
 import HeaderNotification from "../notification/header-notification";
 import UserHeaderMobileSidebar from "@components/ui/custom/sidebar/user-header-mobile-sidebar";
 import UserHeaderSearch from "./user-header-search";
-import { IoSearch } from "react-icons/io5";
 
 const UserHeaderContainer = ({ children }: { children: ReactNode }) => (
-  <div className="sticky top-0 w-full bg-background z-50 flex justify-center h-14 sm:h-20 border-b">
+  <div className="sticky top-0 w-full bg-background z-50 flex justify-center h-14 md:h-20 border-b">
     <UserReponsiveContainer className="justify-between items-center w-full">
       {children}
     </UserReponsiveContainer>
@@ -24,7 +23,7 @@ const UserHeaderLogo = () => {
   return (
     <Link to="/">
       <img
-        className="w-14 sm:block hidden"
+        className="w-14 md:block hidden"
         src={AgrihubLogo as unknown as string}
       />
     </Link>
@@ -73,7 +72,7 @@ const UserHeader = () => {
         <UserHeaderLogo />
         <UserHeaderMobileSidebar />
         <SearchBar
-          className="lg:flex sm:block  ms-3 w-full"
+          className="block lg:flex ms-3 w-full"
           placeholder="Search..."
           onFocus={() => setIsSearchOpen(true)}
           onChange={e => setSearchValue(e.target.value)}

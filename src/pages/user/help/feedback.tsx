@@ -80,6 +80,10 @@ const Feedback = () => {
 
   const handleSubmitForm = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!feedback.trim()) {
+      toast.error("Feedback is required");
+      return;
+    }
     const compiledData: NewUserFeedback = {
       feedback: feedback,
       rating: rating

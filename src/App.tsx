@@ -29,6 +29,7 @@ import Calendar from "@pages/user/calendar/calendar";
 import ErrorElement from "@pages/user/common/error";
 import UserProfile from "@pages/user/users/profile";
 import QuestionAsk from "@pages/user/question/question-ask";
+import QuestionEdit from "@pages/user/question/question-edit";
 import HelpsLayout from "@pages/user/help/_layout";
 import Helps from "@pages/user/help/helps";
 import Help from "@pages/user/help/help";
@@ -130,6 +131,7 @@ import Unauthorized from "@pages/user/common/unauthorized";
 import FarmCommunity from "./pages/admin/farms/farm-community";
 import FarmActiveView from "@pages/admin/farms/view/farm-active-view";
 import VerifyPasswordOtp from "@pages/user/account/verify-password-otp";
+import ToolReqeust from "@pages/admin/farms/tool-reqeust";
 
 const App = ReactRouter(
   <>
@@ -158,7 +160,7 @@ const App = ReactRouter(
           <Route path="" element={<Questions />} />
           <Route path="tags" element={<QuestionTags />} />
           <Route path="ask" element={<QuestionAsk />} />
-          <Route path="ask" element={<QuestionAsk />} />
+          <Route path="ask/edit/:questionId" element={<QuestionEdit />} />
           <Route path="question/:username/:questionId" element={<Question />} />
         </>
       </Route>
@@ -193,12 +195,13 @@ const App = ReactRouter(
         <Route path="reports/:id" element={<CommunityReport />}>
           <Route path="" element={<CropsReport />} />
           <Route path="add" element={<CropsReportAdd />} />
+          <Route path="add/:cropId" element={<CropsReportAdd />} />
           <Route path="view/:cropId" element={<CropsReportView />} />
         </Route>
         {/* Request */}
-        <Route path="request/:id" element={<CommunityRequest />}>
-          <Route path="" element={<SeedlingsRequest />} />
-        </Route>
+        <Route path="request/:id" element={<CommunityRequest />} />
+        {/* <Route path="" element={<SeedlingsRequest />} /> */}
+
         <Route path="problem/:id" element={<CommunityProblem />} />
       </Route>
 
@@ -272,16 +275,21 @@ const App = ReactRouter(
       <Route path="analytics" element={<AnalyticsAdmin />} />
 
       {/* Community  */}
+      <Route path="communities" element={<Farms />} />
       <Route path="community">
-        <Route path="" element={<Farms />} />
-
         <Route path="farms" element={<FarmCommunity />} />
         <Route path="farms/view/:id" element={<FarmActiveView />} />
         <Route path="farms/:tab" element={<FarmCommunity />} />
 
         <Route path="farms-application" element={<FarmsAdmin />} />
         <Route path="farms-application/:tab" element={<FarmsAdmin />} />
-        <Route path="application/:id" element={<FarmApplicationView />} />
+        <Route
+          path="farms-application/view/:id"
+          element={<FarmApplicationView />}
+        />
+
+        <Route path="tool-request" element={<ToolReqeust />} />
+        <Route path="tool-request/:tab" element={<ToolReqeust />} />
 
         <Route path="seedling-request" element={<SeedlingRequest />} />
         <Route path="seedling-request/:tab" element={<SeedlingRequest />} />

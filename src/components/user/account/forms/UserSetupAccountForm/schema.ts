@@ -1,14 +1,30 @@
 import * as zod from "zod";
 
+const validationMessage = "Whitespaces and symbols are not allowed";
+
 export const userSetupAcountSchema = zod.object({
   firstname: zod
     .string()
     .min(2, "Please enter at least 2 characters")
-    .max(40, "Your firstname is way too long"),
+    .max(40, "Your firstname is way too long")
+    .regex(/^[a-zA-Z]+(?: [a-zA-Z]+)*$/, {
+      message: validationMessage
+    })
+    .refine(value => value.trim() === value, {
+      message: validationMessage,
+      path: ["firstname"]
+    }),
   lastname: zod
     .string()
     .min(2, "Please enter at least 2 characters")
-    .max(40, "Your lastname is way too long"),
+    .max(40, "Your lastname is way too long")
+    .regex(/^[a-zA-Z]+(?: [a-zA-Z]+)*$/, {
+      message: validationMessage
+    })
+    .refine(value => value.trim() === value, {
+      message: validationMessage,
+      path: ["lastname"]
+    }),
   dob: zod
     .date({
       required_error: "Birth day is required",

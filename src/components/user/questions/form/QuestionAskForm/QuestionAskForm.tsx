@@ -1,211 +1,301 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { askQuestionSchema } from "./schema";
 import { QuestionSchema } from "@api/openapi";
-import useQuestionAskMutation from "@hooks/api/post/useQuestionAskMutation";
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/custom";
 import RichTextEditor from "@components/ui/custom/rich-text-editor/RichTextEditor";
 import { toast } from "sonner";
 import UserTagInputDropdown from "@components/user/account/input/UserTagInput";
-import useGetTagByKeyWord from "@hooks/api/get/useGetTagByKeyword";
-import { Form, FormField } from "@components/ui/form";
+import { FormField } from "@components/ui/form";
 import ActivityIndicator from "@icons/ActivityIndicator";
-import BackButton from "@components/ui/custom/button/back-button";
-
-const QuestionAskFormRules = () => (
-  <div>
-    <h2 className="font-poppins-bold text-foreground">Ask a public question</h2>
-
-    <div className="mt-10 mb-20 w-full max-w-[60rem] p-7 rounded-md border border-primary bg-secondary">
-      <div className="text-lg">
-        Gabay sa pagsulat ng isang wastong katanungan
-      </div>
-      <p className="mt-3">
-        Alam mo sa sarili mong ikaw ay handa na upang magtanong patungkol sa
-        katanungan ukol sa pagsasaka at itong form na ito ay makakatulong sayo
-        sa pagsasaayos ng iyong itatanong.
-      </p>
-
-      <div className="text-md font-poppins-bold mt-10">Mga pamamaraan</div>
-
-      <div className="text-sm">
-        <ul className="list-disc ps-4">
-          <li className="my-3 ">
-            Ilarawan ang iyong problema gamit ang mas maraming detalye.
-          </li>
-          <li className="my-3 ">
-            Maglagay ng "tags" na makakatulong upang ang iyong katanungan ay
-            agad na makita ng mga miyembro ng mga komunidad.
-          </li>
-          <li className="my-3 ">
-            Suriin ang iyong tanong at i-post ito sa aming website
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-);
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import useFilesToBlobs from "@hooks/utils/useFilesToBlobs";
+import { IoTrashOutline } from "react-icons/io5";
 
 const QuestionAskForm = () => {
+  const navigate = useNavigate();
   const [searchInputTagValue, setSearchInputTagValue] = useState<string>("");
-  const { data: tagResult } = useGetTagByKeyWord(searchInputTagValue);
+  const [isQuestionAskLoading, setIsQuestionAskLoading] =
+    useState<boolean>(false);
+  const [files, setFiles] = useState<File[]>([]);
 
   const form = useForm<QuestionSchema>({
     resolver: zodResolver(askQuestionSchema),
-    mode: "onBlur"
+    mode: "onChange"
   });
 
-  const { mutateAsync: questionAskMutate, isLoading: isQuestionAskLoading } =
-    useQuestionAskMutation();
-
   const handleSubmitForm = async (data: QuestionSchema) => {
-    const compiledData: QuestionSchema = {
-      title: data.title,
-      imagesrc: data.imagesrc,
-      question: data.question,
-      tags: data.tags
-    };
-
     try {
-      await questionAskMutate(compiledData);
+      setIsQuestionAskLoading(true);
+      const formData = new FormData();
+
+      formData.append("title", data.title);
+      formData.append("question", data.question);
+
+      data?.tags?.forEach((tag, idx) => {
+        formData.append(`tags[${idx}]`, tag);
+      });
+
+      const blobs = await useFilesToBlobs(files);
+
+      if (blobs) {
+        for (const key of Object.keys(blobs)) {
+          console.log(blobs[Number(key)]);
+          formData.append("imagesrc", blobs[Number(key)]);
+        }
+      }
+
+      await axios({
+        url: "https://api.qc-agrihub.xyz/api/forums",
+        method: "POST",
+        data: formData,
+        withCredentials: true
+      }).then(() => {
+        setIsQuestionAskLoading(false);
+        navigate(-1);
+      });
+
       toast.success("Question successfully posted!");
     } catch (e: any) {
       toast.error(e.body.message);
     }
   };
 
+  const onImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      Array.from(e.target.files).map(file => {
+        setFiles(prev => prev.concat(file));
+      });
+    }
+  };
+
+  const renderImages = (dataFile: File[]) => {
+    return dataFile.map((f, idx) => {
+      return (
+        <div className="relative w-max h-max" key={f.name}>
+          <img
+            width={180}
+            src={URL.createObjectURL(f)}
+            className="rounded-2xl aspect-square object-cover"
+          />
+
+          <button
+            type="button"
+            className="absolute -top-3 -end-3 bg-background rounded-full p-1 text-background"
+            onClick={() => {
+              setFiles(files.filter((_, index) => index !== idx));
+            }}
+          >
+            <div className="-ms-[1px]">
+              <IoTrashOutline
+                size={25}
+                className="  border p-1 rounded-full text-red-600 border-red-400/45 bg-red-300/30"
+              />
+            </div>
+          </button>
+        </div>
+      );
+    });
+  };
+
   return (
     <div className="flex flex-col pb-20 px-0 lg:px-10">
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(handleSubmitForm)}
-          encType="multipart/form-data"
-        >
-          <BackButton className="mb-10" />
-          <QuestionAskFormRules />
+      <form
+        onSubmit={form.handleSubmit(handleSubmitForm)}
+        encType="multipart/form-data"
+      >
+        <div className="max-w-[60rem]">
+          <h3 className="text-foreground text-md font-poppins-bold">
+            Question Title
+          </h3>
+
+          <p className="text-foreground my-2 text-sm">
+            Be specific and imagine you’re asking a question to another person.
+          </p>
+
+          <p className="text-foreground my-2 text-sm">
+            {
+              "(Maging tiyak sa ilalagay na pamagat ng iyong tanong, Paki-taype ng hindi bababa sa 10 na karakter)"
+            }
+          </p>
+
+          <FormField
+            name="title"
+            control={form.control}
+            defaultValue=""
+            render={({ field, fieldState }) => {
+              return (
+                <Input {...field} $errorMessage={fieldState.error?.message} />
+              );
+            }}
+          />
+        </div>
+
+        <div className="mt-20">
+          <h3 className="text-foreground text-md font-poppins-bold">
+            Question Description
+          </h3>
+
+          <p className="text-foreground my-2 text-sm">
+            Introduce the problem and expand on what you put in the title.
+            Minimum 20 characters.
+          </p>
+          <p className="text-foreground my-2 text-sm">
+            {"("}
+            Ilagay ang paliwanag patungkol sa iyong tanong, Paki-taype ng hindi
+            bababa sa 20 na karakter
+            {")"}
+          </p>
 
           <div className="max-w-[60rem]">
-            <h3 className="text-foreground text-md font-poppins-bold">Title</h3>
-
-            <p className="text-foreground my-2 text-sm">
-              Be specific and imagine you’re asking a question to another
-              person.
-            </p>
-
             <FormField
-              name="title"
+              name="question"
               control={form.control}
-              defaultValue=""
-              render={({ field, fieldState }) => {
+              render={({ field: { onChange }, fieldState }) => {
                 return (
-                  <Input {...field} $errorMessage={fieldState.error?.message} />
+                  <>
+                    <div className="flex">
+                      <RichTextEditor
+                        allowUploadImage={false}
+                        allowImagePaste={false}
+                        onChange={({ charSize }) => {
+                          //Validation, tiptap's worst documentation
+                          if (charSize! < 20) {
+                            if (charSize! < 20) {
+                              form.setError("question", {
+                                message:
+                                  'Please enter at least 20 characters, ("Paki-taype ng hindi bababa sa 20 na karakter."'
+                              });
+                            } else form.clearErrors("question");
+                            if (charSize! >= 5000) {
+                              form.setError("question", {
+                                message:
+                                  '5000 characters is the maximum, ("5000 karakter lamang ang sagad")'
+                              });
+                            }
+                            form.setError("question", {
+                              message: "Please enter at least 20 characters"
+                            });
+                          } else form.clearErrors("question");
+                          if (charSize! >= 5000) {
+                            form.setError("question", {
+                              message: "5000 characters is the maximum"
+                            });
+                          }
+                        }}
+                        onBlur={data => {
+                          console.log(data.charSize);
+                          onChange(data.html);
+                        }}
+                        height={300}
+                      />
+                    </div>
+
+                    <div className="h-5">
+                      <span className="text-red-500">
+                        {fieldState.error?.message}
+                      </span>
+                    </div>
+                  </>
                 );
               }}
             />
           </div>
+        </div>
 
-          <div className="mt-20">
-            <h3 className="text-foreground text-md font-poppins-bold">
-              What are the details of your problem?
-            </h3>
+        <div className="mt-20">
+          <h3 className="text-foreground text-md font-poppins-bold">
+            Add Tags
+          </h3>
 
-            <p className="text-foreground my-2 text-sm">
-              Introduce the problem and expand on what you put in the title.
-              Minimum 20 characters.
-            </p>
+          <p className="text-foreground my-2 text-sm">
+            Add up to 5 tags to describe what your question is about. Start
+            typing to see suggestions. This is optional
+          </p>
 
-            <div className="max-w-[60rem]">
-              <FormField
-                name="question"
-                control={form.control}
-                render={({ field: { onChange }, fieldState }) => {
-                  return (
-                    <>
-                      <div className="flex">
-                        <RichTextEditor
-                          //worst way to make your code unreadble
-                          //dito ko nalang nilagay validation
-                          onChange={({ charSize }) => {
-                            if (charSize! < 20) {
-                              form.setError("question", {
-                                message: "Please enter at least 20 characters"
-                              });
-                            } else form.clearErrors("question");
+          <p className="text-foreground my-2 text-sm">
+            Idagdag ang mga tag na hinggil sa iyong katanungan, Simulan magtype
+            para makita ang mga mungkahi
+          </p>
 
-                            if (charSize! >= 5000) {
-                              form.setError("question", {
-                                message: "5000 characters is the maximum"
-                              });
-                            }
-                          }}
-                          onBlur={data => {
-                            onChange(data.html);
-                            data?.files?.then(blobs => {
-                              form.setValue("imagesrc", blobs);
-                            });
-                          }}
-                          height={300}
-                        />
-                      </div>
+          <div className="max-w-[60rem]">
+            <FormField
+              name="tags"
+              control={form.control}
+              render={({ field: { onChange } }) => {
+                return (
+                  <UserTagInputDropdown
+                    keyword={searchInputTagValue}
+                    onChange={e => {
+                      setSearchInputTagValue(e.target.value);
+                    }}
+                    onTagsValueChange={e => {
+                      onChange(e);
+                    }}
+                  />
+                );
+              }}
+            />
+          </div>
+        </div>
 
-                      <div className="h-5">
-                        <span className="text-red-500">
-                          {fieldState.error?.message}
-                        </span>
-                      </div>
-                    </>
-                  );
-                }}
-              />
+        <div className="mt-20">
+          <h3 className="text-foreground text-md font-poppins-bold">
+            Attach Image
+          </h3>
+
+          <p className="text-foreground my-2 text-sm">
+            To provide better context for your question, consider attaching an
+            image that can help illustrate your point more effectively
+          </p>
+
+          <p className="text-foreground my-2 text-sm max-w-[55rem]">
+            {"("}
+            Upang makapagbigay ng mas magandang konteksto para sa iyong tanong,
+            isaalang-alang ang paglakip ng isang larawan na maaaring makatulong
+            na mailarawan ang iyong punto nang mas epektibo
+            {")"}
+          </p>
+
+          <div className="max-w-[60rem]">
+            <div className="flex flex-wrap gap-2">{renderImages(files)}</div>
+
+            <div className="py-5">
+              <button
+                type="button"
+                className="relative border border-dashed max-w-[426px] w-full h-20 rounded-xl text-foreground/20 text-xl hover:bg-foreground/5 duration-100 cursor-pointer"
+              >
+                Upload image +
+                <input
+                  id="imagesrc"
+                  type="file"
+                  multiple
+                  accept="image/png, image/jpg, image/jpeg"
+                  className="absolute inset-0 text-[0px] cursor-pointer opacity-0"
+                  {...form.register("imagesrc", { required: true })}
+                  onChange={onImageChange}
+                />
+              </button>
             </div>
           </div>
+        </div>
 
-          <div className="mt-20">
-            <h3 className="text-foreground text-md font-poppins-bold">
-              Add Tags
-            </h3>
+        {isQuestionAskLoading && <ActivityIndicator />}
 
-            <p className="text-foreground my-2 text-sm">
-              Add up to 5 tags to describe what your question is about. Start
-              typing to see suggestions.
-            </p>
-
-            <div className="max-w-[60rem]">
-              <FormField
-                name="tags"
-                control={form.control}
-                render={({ field: { onChange } }) => {
-                  return (
-                    <UserTagInputDropdown
-                      option={tagResult}
-                      onChange={e => {
-                        setSearchInputTagValue(e.target.value);
-                      }}
-                      onTagsValueChange={e => {
-                        onChange(e);
-                      }}
-                    />
-                  );
-                }}
-              />
-            </div>
-          </div>
-
-          {isQuestionAskLoading && <ActivityIndicator />}
-
-          <div className="mt-10">
-            <Button
-              className="px-7"
-              type="submit"
-              disabled={isQuestionAskLoading}
-            >
-              Post your question
-            </Button>
-          </div>
-        </form>
-      </Form>
+        <div className="mt-5">
+          <Button
+            className="px-7"
+            type="submit"
+            isLoading={isQuestionAskLoading}
+            disabled={isQuestionAskLoading}
+          >
+            Post your question
+          </Button>
+        </div>
+      </form>
     </div>
   );
 };

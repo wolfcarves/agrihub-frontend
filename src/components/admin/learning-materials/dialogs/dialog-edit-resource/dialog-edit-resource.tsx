@@ -21,7 +21,7 @@ const DialogEditResource: React.FC<DialogProps> = ({ resourceId }) => {
     <Dialog open={isOpen}>
       <DialogTrigger asChild>
         <Button
-          className="text-primary border-primary hover:bg-primary hover:text-primary-foreground"
+          className="text-primary border-primary hover:bg-primary hover:text-white"
           variant={"outline"}
           onClick={() => setIsOpen(true)}
         >

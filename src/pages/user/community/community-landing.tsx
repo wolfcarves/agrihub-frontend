@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button } from "@components/ui/button";
 import OutletContainer from "@components/user/questions/container/OutletContainer";
 import { Link } from "react-router-dom";
@@ -27,6 +27,88 @@ import {
 } from "@components/ui/accordion";
 import SolutionIllustration from "@icons/community/SolutionIllustration";
 import CommunityIllustration from "@icons/community/CommunityIllustration";
+import { FiChevronDown, FiChevronUp } from "react-icons/fi";
+
+const ScrollToSectionButton: React.FC<{
+  targetRef: React.RefObject<HTMLDivElement>;
+}> = ({ targetRef }) => {
+  const [isVisible, setIsVisible] = useState(true);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        setIsVisible(!entry.isIntersecting);
+      });
+    });
+
+    observer.observe(targetRef.current!);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [targetRef]);
+
+  const scrollToSection = () => {
+    if (targetRef.current) {
+      targetRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  return (
+    <>
+      {isVisible && (
+        <Button
+          variant="secondary"
+          className="z-50 text-xs p-2 hover:text-primary text-primary flex-col h-auto shadow-xl"
+          onClick={scrollToSection}
+        >
+          <FiChevronDown size={24} />
+        </Button>
+      )}
+    </>
+  );
+};
+
+const ScrollToTopButton: React.FC<{
+  targetRef: React.RefObject<HTMLDivElement>;
+}> = ({ targetRef }) => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          setIsVisible(entry.isIntersecting);
+        });
+      },
+      { threshold: 1 }
+    );
+
+    observer.observe(targetRef.current!);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [targetRef]);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  return (
+    <>
+      {isVisible && (
+        <Button
+          variant="secondary"
+          className="z-50 text-xs p-2 hover:text-primary text-primary flex-col h-auto fixed bottom-8 right-8"
+          onClick={scrollToTop}
+        >
+          <FiChevronUp size={24} />
+        </Button>
+      )}
+    </>
+  );
+};
 
 const CommunityLanding = () => {
   const { data: userData } = useAuth();
@@ -36,6 +118,27 @@ const CommunityLanding = () => {
     filter: undefined,
     perpage: "3"
   });
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const bottomRef = useRef<HTMLDivElement>(null);
+  const [marginTop, setMarginTop] = useState(0);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) {
+          setMarginTop(-80);
+        } else {
+          setMarginTop(0);
+        }
+      });
+    });
+
+    observer.observe(sectionRef.current!);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
 
   const faqs = [
     {
@@ -67,7 +170,7 @@ const CommunityLanding = () => {
         {/* Header */}
         <div className="flex flex-wrap sm:ml-10 gap-x-3 justify-between">
           <h6 className="font-poppins-medium tracking-tight">
-            Farm Community on Agrihub
+            Mga farm sa AgriHub
           </h6>
         </div>
 
@@ -75,19 +178,20 @@ const CommunityLanding = () => {
         <div className="flex">
           <div className="w-full max-w-[25rem] sm:ml-10 mt-20">
             <h2 className="font-poppins-semibold tracking-tight leading-[2.3rem]">
-              Sumali na sa farm kung saan ka nabibilang
+              Sumali sa iyong kinabibilangan na farm
             </h2>
 
             <p className="mt-5">
-              Ang komunidad ay makakatulong sa iyo upang makahanap ng solusyon
-              sa mga problema ng iyong farm, pag-send ng reports, at pagtanggap
-              ng mga resource materials na makakapagbigay sa iyo ng makabuluhang
-              desisyon gamit ang aming prescriptive analytics
+              Ang pagrehistro ng iyong farm ay makakatulong upang mas madali ang
+              iyong pag pasa ng report at makahanap ng solusyon sa mga problema
+              ng iyong farm, tumanggap ng mga resource materials na
+              makakapagbigay sa iyo ng makabuluhang desisyon gamit ang aming
+              prescriptive analytics
             </p>
 
             <div className="mt-10">
               <Link to="explore">
-                <Button>Alamin</Button>
+                <Button>Sumali sa farm</Button>
               </Link>
             </div>
           </div>
@@ -98,19 +202,21 @@ const CommunityLanding = () => {
         </div>
       </div>
 
-      <p>Mga Farms na nakasali na sa aming komunidad:</p>
+      <p>Mga farms na nakasali na sa aming komunidad:</p>
 
       <div className="grid grid-cols-6 gap-2 mb-20 mt-10">
         {data?.farms
           ?.filter(farm => farm.id !== userData?.farm_id)
           .map((farm, i) => <FarmCard farm={farm} key={i} />)}
       </div>
-
+      <div className="bottom-8 sm:left-auto left-[46%] right-auto sm:right-8 fixed">
+        <ScrollToSectionButton targetRef={sectionRef} />
+      </div>
       {/* header */}
       <div className="max-w-xl mx-auto my-8 text-center">
         <img src={logo as unknown as string} width={60} className="mx-auto" />
         <h3 className="text-gray-800 text-3xl font-semibold sm:text-4xl">
-          Ang AgriHub ay makakatulong sa iyo
+          Ang mga benepisyo sa pagsali sa AgriHub
         </h3>
         <p className="text-gray-600 mt-3">
           Sa pagsali sa isang komunidad, ikaw ay maaring maging parte ng isang
@@ -121,192 +227,196 @@ const CommunityLanding = () => {
         </p>
       </div>
 
-      {/* features */}
-      <Card className="py-8 px-4">
-        {/* farm reports */}
-        <section className="relative max-w-screen-xl mx-auto py-4 px-4 md:px-8 my-16  ">
-          <div className="relative z-10 gap-5 items-center sm:flex justify-between">
-            <div className="flex-1  sm:mx-auto sm:text-center lg:max-w-max lg:text-left">
-              {/* icons */}
-              <FaWpforms className="h-16 w-16 p-1 text-green-600" />
-              {/* header */}
-              <h3 className="text-3xl text-gray-800 font-semibold md:text-4xl">
-                Mag send{" "}
-                <span className="text-green-600"> ng farm reports</span>
-              </h3>
-              {/* subheader */}
-              <p className="text-gray-500 leading-relaxed mt-3">
-                Maging updated sa mga mahahalagang record ng iyong farm.
-              </p>
-              <hr className="my-4" />
-              {/* description */}
-              <p className="text-gray-500 leading-relaxed mt-3">
-                Ang paggawa ng isang farm report ay makakatulong sa iyo upang
-                masuri mo ang iyong mga Urban Farm records upang makapag-plano
-                ng mabuti at para sa kasulukuyang pagganap.
-              </p>
-            </div>
+      <div ref={sectionRef} style={{ marginTop }}>
+        {/* features */}
+        <Card className="py-8 px-4 mb-16">
+          {/* farm reports */}
+          <section className="relative max-w-screen-xl mx-auto py-4 px-4 md:px-8 my-16  ">
+            <div className="relative z-10 gap-5 items-center sm:flex justify-between">
+              <div className="flex-1  sm:mx-auto sm:text-center lg:max-w-max lg:text-left">
+                {/* icons */}
+                <FaWpforms className="h-16 w-16 p-1 text-green-600" />
+                {/* header */}
+                <h3 className="text-3xl text-gray-800 font-semibold md:text-4xl">
+                  Mag send{" "}
+                  <span className="text-green-600"> ng farm reports</span>
+                </h3>
+                {/* subheader */}
+                <p className="text-gray-500 leading-relaxed mt-3">
+                  Maging updated sa mga mahahalagang record ng iyong farm.
+                </p>
+                <hr className="my-4" />
+                {/* description */}
+                <p className="text-gray-500 leading-relaxed mt-3">
+                  Ang paggawa ng isang farm report ay makakatulong sa iyo upang
+                  masuri mo ang iyong mga Urban Farm records upang makapag-plano
+                  ng mabuti at para sa kasulukuyang pagganap.
+                </p>
+              </div>
 
-            <div className="flex justify-center mt-5 sm:w-1/2 mx-auto lg:mt-0">
-              <ReportIllustration />
+              <div className="flex justify-center mt-5 sm:w-1/2 mx-auto lg:mt-0">
+                <ReportIllustration />
+              </div>
             </div>
+          </section>
+
+          {/* analytics */}
+          <section className="relative max-w-screen-xl mx-auto py-4 px-4 md:px-8 my-16  ">
+            <div className="relative z-10 gap-5 items-center sm:flex justify-between">
+              <div className="flex-1  sm:mx-auto sm:text-center lg:max-w-max lg:text-left">
+                {/* icons */}
+                <TbReportAnalytics className="h-16 w-16 p-1 text-green-600" />
+                {/* header */}
+                <h3 className="text-3xl text-gray-800 font-semibold md:text-4xl">
+                  Kumuha <span className="text-green-600">ng sagot</span>
+                </h3>
+                {/* subheader */}
+                <p className="text-gray-500 leading-relaxed mt-3">
+                  Suriin ang kasaysayan ng iyong farming data gamit ang aming
+                  progresibong analitikal na approach.
+                </p>
+                <hr className="my-4" />
+                {/* description */}
+                <p className="text-gray-500 leading-relaxed mt-3">
+                  Pagandahin ang iyong ani gamit ang aming AIPowered
+                  prescriptive analytics para makakuha ng access na may
+                  makabuluhang ideya para sa rekomendasyon sa mga gawi sa
+                  pagsasaka
+                </p>
+              </div>
+
+              <div className="flex justify-center mt-5 sm:w-1/2 mx-auto lg:mt-0">
+                <AnalyticsIllustration />
+              </div>
+            </div>
+          </section>
+
+          {/* request  */}
+          <section className="relative max-w-screen-xl mx-auto py-4 px-4 md:px-8 my-16  ">
+            <div className="relative z-10 gap-5 items-center sm:flex justify-between">
+              <div className="flex-1  sm:mx-auto sm:text-center lg:max-w-max lg:text-left">
+                {/* icons */}
+                <RiSeedlingLine className="h-16 w-16 p-1 text-green-600" />
+                {/* header */}
+                <h3 className="text-3xl text-gray-800 font-semibold md:text-4xl">
+                  Mag request{" "}
+                  <span className="text-green-600"> ng seedlings</span>
+                </h3>
+                {/* subheader */}
+                <p className="text-gray-500 leading-relaxed mt-3">
+                  Ang komunidad ay maaring magbigay ng request para makuha ang
+                  mga kailangan na punla
+                </p>
+                <hr className="my-4" />
+                {/* description */}
+                <p className="text-gray-500 leading-relaxed mt-3">
+                  Enhance your urban farm's production by requesting seedlings
+                  that aligns with your daily farm needs and environmental
+                  conditions.
+                </p>
+              </div>
+
+              <div className="flex justify-center mt-5 sm:w-1/2 mx-auto lg:mt-0">
+                <RequestIllustration />
+              </div>
+            </div>
+          </section>
+
+          {/* gallery */}
+          <section className="relative max-w-screen-xl mx-auto py-4 px-4 md:px-8 my-16  ">
+            <div className="relative z-10 gap-5 items-center sm:flex justify-between">
+              <div className="flex-1  sm:mx-auto sm:text-center lg:max-w-max lg:text-left">
+                {/* icons */}
+                <MdOutlineUpload className="h-16 w-16 p-1 text-green-600" />
+                {/* header */}
+                <h3 className="text-3xl text-gray-800 font-semibold md:text-4xl">
+                  Mag lagay{" "}
+                  <span className="text-green-600">
+                    ng larawan ng farm at ani
+                  </span>
+                </h3>
+                {/* subheader */}
+                <p className="text-gray-500 leading-relaxed mt-3">
+                  Showcase the highlights of your farm with photos.
+                </p>
+                <hr className="my-4" />
+                {/* description */}
+                <p className="text-gray-500 leading-relaxed mt-3">
+                  Tulungan ang ibang mga farmer at komunidad sa pamamagitan ng
+                  pag-upload ng mga litrato ng iyong urban farm at mga ani sa
+                  iyong community gallery
+                </p>
+              </div>
+
+              <div className="flex justify-center mt-5 sm:w-1/2 mx-auto lg:mt-0">
+                <GalleryIllustration />
+              </div>
+            </div>
+          </section>
+
+          {/* farm problems */}
+          <section className="relative max-w-screen-xl mx-auto py-4 px-4 md:px-8 my-16">
+            <div className="relative z-10 gap-5 items-center sm:flex justify-between">
+              <div className="flex-1 sm:mx-auto sm:text-center lg:max-w-max lg:text-left">
+                {/* Icons */}
+                <MdOutlineReport className="h-16 w-16 p-1 text-green-600" />
+                {/* Header */}
+                <h3 className="text-3xl text-gray-800 font-semibold md:text-4xl">
+                  Report <span className="text-green-600">farm problems</span>
+                </h3>
+                {/* Subheader */}
+                <p className="text-gray-500 leading-relaxed mt-3">
+                  Easily get solutions to common farm problems.
+                </p>
+                <hr className="my-4" />
+                {/* Description */}
+                <p className="text-gray-500 leading-relaxed mt-3">
+                  Easily find solutions to common farm problems, and you can
+                  also report new problems for the admin to review.
+                </p>
+              </div>
+
+              <div className="flex justify-center mt-5 sm:w-1/2 mx-auto lg:mt-0">
+                <SolutionIllustration />
+              </div>
+            </div>
+          </section>
+        </Card>
+
+        {/* faqs */}
+        <div className="p-16">
+          <div className="max-w-xl mx-auto my-8 text-center">
+            <MdOutlineForum className="h-16 w-16 p-1 text-green-600 mx-auto" />
+            <h3 className="text-gray-800 text-3xl font-semibold sm:text-4xl">
+              Tignan ang mga karaniwang tanong.
+            </h3>
+            <p className="text-gray-600 mt-3">
+              Para sa iba pang katanungan pumunta sa aming{" "}
+              <Link
+                to="/helps"
+                className="text-green-700 font-bold hover:underline"
+              >
+                Help Center
+              </Link>
+            </p>
           </div>
-        </section>
-
-        {/* analytics */}
-        <section className="relative max-w-screen-xl mx-auto py-4 px-4 md:px-8 my-16  ">
-          <div className="relative z-10 gap-5 items-center sm:flex justify-between">
-            <div className="flex-1  sm:mx-auto sm:text-center lg:max-w-max lg:text-left">
-              {/* icons */}
-              <TbReportAnalytics className="h-16 w-16 p-1 text-green-600" />
-              {/* header */}
-              <h3 className="text-3xl text-gray-800 font-semibold md:text-4xl">
-                Kumuha <span className="text-green-600">ng sagot</span>
-              </h3>
-              {/* subheader */}
-              <p className="text-gray-500 leading-relaxed mt-3">
-                Suriin ang kasaysayan ng iyong farming data gamit ang aming
-                progresibong analitikal na approach.
-              </p>
-              <hr className="my-4" />
-              {/* description */}
-              <p className="text-gray-500 leading-relaxed mt-3">
-                Pagandahin ang iyong ani gamit ang aming AIPowered prescriptive
-                analytics para makakuha ng access na may makabuluhang ideya para
-                sa rekomendasyon sa mga gawi sa pagsasaka
-              </p>
-            </div>
-
-            <div className="flex justify-center mt-5 sm:w-1/2 mx-auto lg:mt-0">
-              <AnalyticsIllustration />
-            </div>
+          {/* FAQs accordion */}
+          <div className="flex justify-center my-12">
+            <Accordion type="multiple" className="max-w-2xl w-full">
+              {faqs.map((faq, index) => (
+                <AccordionItem key={index} value={`item-${index}`}>
+                  <AccordionTrigger className="hover:no-underline font-semibold text-left">
+                    {faq.question}
+                  </AccordionTrigger>
+                  <AccordionContent>{faq.answer}</AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
           </div>
-        </section>
-
-        {/* request  */}
-        <section className="relative max-w-screen-xl mx-auto py-4 px-4 md:px-8 my-16  ">
-          <div className="relative z-10 gap-5 items-center sm:flex justify-between">
-            <div className="flex-1  sm:mx-auto sm:text-center lg:max-w-max lg:text-left">
-              {/* icons */}
-              <RiSeedlingLine className="h-16 w-16 p-1 text-green-600" />
-              {/* header */}
-              <h3 className="text-3xl text-gray-800 font-semibold md:text-4xl">
-                Mag request{" "}
-                <span className="text-green-600"> ng seedlings</span>
-              </h3>
-              {/* subheader */}
-              <p className="text-gray-500 leading-relaxed mt-3">
-                Ang komunidad ay maaring magbigay ng request para makuha ang mga
-                kailangan na punla
-              </p>
-              <hr className="my-4" />
-              {/* description */}
-              <p className="text-gray-500 leading-relaxed mt-3">
-                Enhance your urban farm's production by requesting seedlings
-                that aligns with your daily farm needs and environmental
-                conditions.
-              </p>
-            </div>
-
-            <div className="flex justify-center mt-5 sm:w-1/2 mx-auto lg:mt-0">
-              <RequestIllustration />
-            </div>
-          </div>
-        </section>
-
-        {/* gallery */}
-        <section className="relative max-w-screen-xl mx-auto py-4 px-4 md:px-8 my-16  ">
-          <div className="relative z-10 gap-5 items-center sm:flex justify-between">
-            <div className="flex-1  sm:mx-auto sm:text-center lg:max-w-max lg:text-left">
-              {/* icons */}
-              <MdOutlineUpload className="h-16 w-16 p-1 text-green-600" />
-              {/* header */}
-              <h3 className="text-3xl text-gray-800 font-semibold md:text-4xl">
-                Mag lagay{" "}
-                <span className="text-green-600">
-                  ng larawan ng farm at ani
-                </span>
-              </h3>
-              {/* subheader */}
-              <p className="text-gray-500 leading-relaxed mt-3">
-                Showcase the highlights of your farm with photos.
-              </p>
-              <hr className="my-4" />
-              {/* description */}
-              <p className="text-gray-500 leading-relaxed mt-3">
-                Tulungan ang ibang mga farmer at komunidad sa pamamagitan ng
-                pag-upload ng mga litrato ng iyong urban farm at mga ani sa
-                iyong community gallery
-              </p>
-            </div>
-
-            <div className="flex justify-center mt-5 sm:w-1/2 mx-auto lg:mt-0">
-              <GalleryIllustration />
-            </div>
-          </div>
-        </section>
-
-        {/* farm problems */}
-        <section className="relative max-w-screen-xl mx-auto py-4 px-4 md:px-8 my-16">
-          <div className="relative z-10 gap-5 items-center sm:flex justify-between">
-            <div className="flex-1 sm:mx-auto sm:text-center lg:max-w-max lg:text-left">
-              {/* Icons */}
-              <MdOutlineReport className="h-16 w-16 p-1 text-green-600" />
-              {/* Header */}
-              <h3 className="text-3xl text-gray-800 font-semibold md:text-4xl">
-                Report <span className="text-green-600">farm problems</span>
-              </h3>
-              {/* Subheader */}
-              <p className="text-gray-500 leading-relaxed mt-3">
-                Easily get solutions to common farm problems.
-              </p>
-              <hr className="my-4" />
-              {/* Description */}
-              <p className="text-gray-500 leading-relaxed mt-3">
-                Easily find solutions to common farm problems, and you can also
-                report new problems for the admin to review.
-              </p>
-            </div>
-
-            <div className="flex justify-center mt-5 sm:w-1/2 mx-auto lg:mt-0">
-              <SolutionIllustration />
-            </div>
-          </div>
-        </section>
-      </Card>
-
-      {/* faqs */}
-      <div className="py-16">
-        <div className="max-w-xl mx-auto my-8 text-center">
-          <MdOutlineForum className="h-16 w-16 p-1 text-green-600 mx-auto" />
-          <h3 className="text-gray-800 text-3xl font-semibold sm:text-4xl">
-            Tignan ang mga karaniwang tanong.
-          </h3>
-          <p className="text-gray-600 mt-3">
-            Para sa iba pang katanungan pumunta sa aming{" "}
-            <Link
-              to="/helps"
-              className="text-green-700 font-bold hover:underline"
-            >
-              Help Center
-            </Link>
-          </p>
-        </div>
-
-        {/* FAQs accordion */}
-        <div className="flex justify-center my-12">
-          <Accordion type="multiple" className="max-w-2xl w-full">
-            {faqs.map((faq, index) => (
-              <AccordionItem key={index} value={`item-${index}`}>
-                <AccordionTrigger className="hover:no-underline font-semibold text-left">
-                  {faq.question}
-                </AccordionTrigger>
-                <AccordionContent>{faq.answer}</AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
         </div>
       </div>
+      <div ref={bottomRef}></div>
+      <ScrollToTopButton targetRef={bottomRef} />
     </OutletContainer>
   );
 };

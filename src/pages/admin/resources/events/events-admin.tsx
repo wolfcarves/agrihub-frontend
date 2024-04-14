@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import AdminOutletContainer from "@components/admin/layout/container/AdminOutletContainer";
 import BreadCrumb from "../../../../components/ui/custom/breadcrumb/breadcrumb";
 import { Input } from "@components/ui/input";
@@ -6,7 +6,7 @@ import { DataTable } from "@components/ui/custom/data-table/data-table";
 import { columns, data } from "../table/columns-event";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
 import { Button } from "@components/ui/button";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import DialogAddEvent from "../../../../components/admin/events/dialogs/dialog-add-event/dialog-add-event";
 import TableEventsPublished from "../../../../components/admin/events/table/table-events-published/table-events-published";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/ui/tabs";
@@ -18,7 +18,18 @@ const breadcrumbItems = [
   { title: "Events", link: "/admin/resource/events" }
 ];
 const EventsAdmin = () => {
-  const { tab }: any = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const params = useMemo(() => {
+    return {
+      tab: searchParams.get("tab") || "published"
+    };
+  }, [searchParams]);
+
+  const setTab = (value: string) => {
+    searchParams.set("tab", value);
+    searchParams.delete("page");
+    setSearchParams(searchParams);
+  };
   return (
     <AdminOutletContainer className="container mx-auto py-10 ">
       <BreadCrumb items={breadcrumbItems} />
@@ -28,11 +39,17 @@ const EventsAdmin = () => {
       </div>
       <p className="text-sm text-muted-foreground">Manage all events.</p>
       <hr className="my-4" />
-      <Tabs defaultValue={tab || "published"}>
+      <Tabs value={params.tab}>
         <TabsList>
-          <TabsTrigger value="published">Published</TabsTrigger>
-          <TabsTrigger value="draft">Drafts</TabsTrigger>
-          <TabsTrigger value="archived">Archived</TabsTrigger>
+          <TabsTrigger value="published" onClick={() => setTab("published")}>
+            Published
+          </TabsTrigger>
+          <TabsTrigger value="draft" onClick={() => setTab("draft")}>
+            Drafts
+          </TabsTrigger>
+          <TabsTrigger value="archived" onClick={() => setTab("archived")}>
+            Archived
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="published">

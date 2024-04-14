@@ -68,7 +68,7 @@ const UserProfile = () => {
         }
       />
 
-      <div className="flex justify-between">
+      <div className="flex flex-wrap-reverse md:flex-nowrap justify-between pb-10">
         {currentIndex === 0 ? (
           <ProfileQuestionList
             isOwn={isOwn}

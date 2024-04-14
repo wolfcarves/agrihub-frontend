@@ -5,4 +5,5 @@
 
 export type PrivacyPolicyResponse = {
     content?: string;
+    updatedat?: string;
 };

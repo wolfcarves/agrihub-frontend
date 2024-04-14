@@ -25,7 +25,7 @@ const MAX_IMAGE_FILE_SIZE = 1024 * 1024 * 10;
 const addImageSchema = zod.object({
   image: zod
     .any()
-    .refine((file: Blob) => file !== undefined, "Please upload a valid ID")
+    .refine((file: Blob) => file !== undefined, "Please select an image")
     .refine(
       (file: Blob) =>
         file?.size === undefined ? true : file.size <= MAX_IMAGE_FILE_SIZE,

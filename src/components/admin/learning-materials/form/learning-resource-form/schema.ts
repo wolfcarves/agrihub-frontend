@@ -6,6 +6,7 @@ function isYouTubeVideoLink(value: string | undefined): boolean {
     /^(https?:\/\/)?(www\.)?(youtube\.com\/(watch\?v=|embed\/|v\/)|youtu\.be\/)/;
   return youtubeRegex.test(value);
 }
+
 export const addResourceSchema = zod.object({
   name: zod
     .string({
@@ -35,7 +36,21 @@ export const addResourceSchema = zod.object({
 
   image: zod
     .any()
-    .refine((file: Blob) => file !== undefined, "Please upload a valid ID")
+    .refine((file: Blob) => {
+      // Check if no file has been uploaded yet
+      if (!file) {
+        return true; // No image uploaded yet
+      }
+
+      // Check if the uploaded file is a valid image
+      const allowedTypes = ["image/jpeg", "image/png", "image/gif"]; // Add more if needed
+      if (allowedTypes.includes(file.type)) {
+        return true; // Valid image
+      }
+
+      return false; // Invalid image type
+    }, "Please upload a valid image (JPEG, PNG, or GIF)")
+
     .refine(
       (file: Blob) =>
         file?.size === undefined ? true : file.size <= MAX_IMAGE_FILE_SIZE,

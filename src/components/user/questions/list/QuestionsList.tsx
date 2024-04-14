@@ -77,7 +77,7 @@ const QuestionsList = ({ data, isLoading }: QuestionsListProps) => {
     );
   }
   return (
-    <div className="flex flex-col pb-20 mx-auto">
+    <div className="flex flex-col pb-20">
       {data?.questions?.map(
         ({
           id,

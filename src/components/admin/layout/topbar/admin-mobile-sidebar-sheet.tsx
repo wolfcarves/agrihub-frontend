@@ -1,70 +1,88 @@
 import React, { ComponentProps, useState } from "react";
-import { UserSidebar, UserSidebarNavLink } from "@components/ui/custom";
-import { TbMessageCircleQuestion } from "react-icons/tb";
-import { useLocation } from "react-router-dom";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger
-} from "@components/ui/accordion";
-import { adminNavigation } from "../sidebar/admin-menu";
+import useGetMyProfileQuery from "../../../../hooks/api/get/useGetMyProfileQuery";
+import { adminNavigation } from "../sidebar/admin-links";
+import AdminNavLink from "../sidebar/admin-navlink";
+import AdminDropdownNav from "../sidebar/admin-dropdown-nav";
+import logo from "@assets/icons/agrihub-topleaf.svg";
 
-type AdminMobileSidebarSheetProps = ComponentProps<"div"> & {
-  onLinkClick?: () => void;
-};
-const AdminMobileSidebarSheet = ({
-  className,
-  onLinkClick,
-  ...props
-}: AdminMobileSidebarSheetProps) => {
-  const pathname = useLocation().pathname;
-
-  const handleEventClick = () => {
-    onLinkClick && onLinkClick();
-  };
-
-  const [clickedItem, setClickedItem] = useState<string | null>(null); // Initialize state as null
-
-  const handleClick = (itemName: string) => {
-    setClickedItem(prevItem => (prevItem === itemName ? null : itemName)); // Toggle clicked item
-  };
-
+const AdminMobileSidebarSheet = () => {
+  const { data: authData } = useGetMyProfileQuery();
   return (
-    <UserSidebar
-      className={`block sm:hidden overflow-y-auto no-scrollbar ${className}`}
-      {...props}
+    <div
+      className={` max-h-screen overflow-y-auto border-r bg-white custom-scroll `}
     >
-      <Accordion type="single" collapsible className="w-full border-none mb-16">
-        {adminNavigation.map((item, idx) => (
-          <AccordionItem value={`item-${idx}`} key={idx}>
-            <AccordionTrigger
-              className="flex justify-between py-4 text-md transition-all no-underline"
-              onClick={() => handleClick(item.name)}
-            >
-              {item.icon}
-              {item.name}
-            </AccordionTrigger>
-            <AccordionContent>
-              {clickedItem === item.name &&
-                item.nav.map((navItem, navIdx) => (
-                  <>
-                    <h6 className="font-bold text-gray-800">{navItem.title}</h6>
-                    <UserSidebarNavLink
-                      key={`${idx}-${navIdx}`}
-                      to={navItem.href}
-                      title={navItem.name}
-                      logo
-                      end={pathname === navItem.href}
-                      onClick={handleEventClick}
-                    />
-                  </>
-                ))}
-            </AccordionContent>
-          </AccordionItem>
-        ))}
-      </Accordion>
-    </UserSidebar>
+      <div></div>
+      <div className="flex items-center  flex-col py-6 sticky bg-white z-20 top-0">
+        <img src={logo as unknown as string} width={150} />
+
+        {/* <h4 className=" text-white font-poppins-medium">Agrihub</h4> */}
+      </div>
+
+      <div className="px-5 flex flex-col gap-2 pb-4">
+        <p className=" font-poppins-medium  text-[#858b94] text-sm my-2">
+          Menu
+        </p>
+
+        {adminNavigation.slice(0, 5).map((navigation, i) => {
+          const checkAuthorization = authData?.[navigation.module];
+          if (!checkAuthorization) {
+            return null;
+          }
+          if (navigation.type === "nav") {
+            return (
+              <AdminNavLink
+                key={i}
+                to={navigation.link || ""}
+                logo={navigation.icon}
+                end={true}
+                title={navigation.title}
+              />
+            );
+          } else if (navigation.type === "drop") {
+            return (
+              <AdminDropdownNav
+                key={i}
+                icon={navigation.icon}
+                title={navigation.title}
+                items={navigation.items || []}
+              />
+            );
+          }
+          return null;
+        })}
+
+        <p className=" font-poppins-medium  text-[#858b94] text-sm my-2">
+          Others
+        </p>
+        {adminNavigation.slice(5, 9).map((navigation, i) => {
+          const checkAuthorization = authData?.[navigation.module];
+          if (!checkAuthorization) {
+            return null;
+          }
+          if (navigation.type === "nav") {
+            return (
+              <AdminNavLink
+                key={i}
+                to={navigation.link || ""}
+                logo={navigation.icon}
+                end={true}
+                title={navigation.title}
+              />
+            );
+          } else if (navigation.type === "drop") {
+            return (
+              <AdminDropdownNav
+                key={i}
+                icon={navigation.icon}
+                title={navigation.title}
+                items={navigation.items || []}
+              />
+            );
+          }
+          return null;
+        })}
+      </div>
+    </div>
   );
 };
 

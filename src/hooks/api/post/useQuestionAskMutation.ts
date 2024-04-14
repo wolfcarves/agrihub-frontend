@@ -24,7 +24,7 @@ export default function useQuestionAskMutation() {
         queryKey: [GET_QUESTION_KEY()]
       });
 
-      navigate("/forum");
+      navigate(-1);
     },
     onError: e => {
       console.log("onError: ", e);

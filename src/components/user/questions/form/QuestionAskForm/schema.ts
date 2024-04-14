@@ -14,15 +14,13 @@ export const askQuestionSchema = zod.object({
       required_error: "Title is required."
     })
     .min(10, "Please enter at least 10 characters")
-    .max(200, "Title is too long"),
+    .max(160, "Title is too long"),
 
   question: zod
     .string({
       required_error: "Content is required"
     })
-    .min(20, "Please enter at least 20 characters")
-    .max(5000, "Question is too long"),
-
+    .min(20, "Please enter at least 20 characters"),
   tags: zod.array(zod.string()).optional(),
   // .refine(
   //   tags => {

@@ -15,6 +15,17 @@ import usePutLearningUnarchive from "../../../../../hooks/api/put/usePutLearning
 import { toast } from "sonner";
 import { format } from "date-fns";
 import Loader from "../../../../../icons/Loader";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger
+} from "../../../../ui/alert-dialog";
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 
@@ -55,12 +66,26 @@ export const columns: ColumnDef<LearningMaterial>[] = [
       }
 
       return (
-        <Button
-          className=" bg-black hover:bg-black/80"
-          onClick={handleUnpublish}
-        >
-          Unarchive
-        </Button>
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button className=" bg-black hover:bg-black/80">Unarchive</Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This action cannot be undone. This will unarchive this learning
+                material.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction onClick={handleUnpublish}>
+                Continue
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       );
     }
   }

@@ -1,69 +1,102 @@
-import React, { Fragment, ReactElement } from "react";
-import QuestionFeedBackPanelButton from "../button/QuestionFeedBackPanelButton";
+import React, { ComponentProps } from "react";
 import withRequireAuth from "@higher-order/account/withRequireAuth";
+import useAuth from "@hooks/useAuth";
 
-interface QuestionFeedbackPanelProps {
-  items?: {
-    label?: string;
-    icon?: JSX.Element | ReactElement;
-    requireAuth?: boolean;
-    isVisible?: boolean;
-    isButton?: boolean;
-    onClick?: (e: React.MouseEvent) => void;
-  }[];
+interface QuestionFeedbackPanelProps extends ComponentProps<"div"> {
+  children: React.ReactNode;
 }
 
-const QuestionFeedBackPanelButtonAuth = withRequireAuth(
-  QuestionFeedBackPanelButton
-);
-
-const QuestionFeedbackPanel = ({ items }: QuestionFeedbackPanelProps) => {
+const QuestionFeedbackPanel = ({
+  children,
+  className
+}: QuestionFeedbackPanelProps) => {
   return (
-    <div className="flex gap-1.5 items-center mt-auto pt-3">
-      {items?.map(
-        (
-          {
-            label,
-            icon,
-            isButton = true,
-            isVisible = true,
-            requireAuth,
-            onClick
-          },
-          idx
-        ) =>
-          !isVisible ? (
-            <Fragment key={`${label} ${idx}`} />
-          ) : !isButton ? (
-            <span
-              key={`${label} ${idx}`}
-              className="px-1 font-poppins-semibold text-foreground text-sm whitespace-nowrap"
-            >
-              {label}
-            </span>
-          ) : requireAuth ? (
-            <div
-              key={`${label} ${idx}`}
-              className="flex gap-3 h-8 border rounded-lg"
-              onClick={onClick}
-            >
-              <QuestionFeedBackPanelButtonAuth title={label} icon={icon} />
-            </div>
-          ) : (
-            <div
-              key={`${label} ${idx}`}
-              className="flex gap-3 h-8 border rounded-lg"
-            >
-              <QuestionFeedBackPanelButton
-                title={label}
-                icon={icon}
-                onClick={onClick}
-              />
-            </div>
-          )
-      )}
+    <div className={`flex gap-1.5 items-center mt-1 ${className}`}>
+      {React.Children.map(children, child => {
+        if (React.isValidElement<QuestionFeedbackPanelItemProps>(child)) {
+          const props = child.props;
+
+          return React.cloneElement(child, {
+            ...props
+          });
+        }
+
+        return child;
+      })}
     </div>
   );
 };
+
+interface QuestionFeedbackPanelItemProps extends ComponentProps<"button"> {
+  children?: React.ReactNode;
+  icon?: () => React.ReactNode;
+  title?: string;
+}
+
+const QuestionFeedbackPanelItem = ({
+  children,
+  icon,
+  title,
+  ...props
+}: QuestionFeedbackPanelItemProps) => {
+  return (
+    <button
+      className="flex items-center my-auto gap-2 px-2 py-1.5 rounded-lg hover:bg-accent duration-200 bg-white dark:bg-background border"
+      {...props}
+    >
+      <>
+        {children ?? (
+          <>
+            <div className="text-md sm:text-lg">{icon && icon()}</div>
+
+            {title && (
+              <span className="text-xs sm:text-sm font-poppins-semibold text-foreground whitespace-nowrap">
+                {title}
+              </span>
+            )}
+          </>
+        )}
+      </>
+    </button>
+  );
+};
+
+QuestionFeedbackPanel.Item = QuestionFeedbackPanelItem;
+
+const QuestionFeedbackPanelItemWithAuth = ({
+  children,
+  icon,
+  title,
+  onClick,
+  ...props
+}: QuestionFeedbackPanelItemProps) => {
+  const user = useAuth();
+
+  return (
+    <button
+      className="flex items-center my-auto gap-1 px-2 py-1.5 rounded-lg hover:bg-accent duration-200 bg-white dark:bg-background border"
+      onClick={user.isAuthenticated ? onClick : undefined}
+      {...props}
+    >
+      <>
+        {children ?? (
+          <>
+            <div className="text-md sm:text-lg">{icon && icon()}</div>
+
+            {title && (
+              <span className="text-sm font-poppins-semibold text-foreground whitespace-nowrap">
+                {title}
+              </span>
+            )}
+          </>
+        )}
+      </>
+    </button>
+  );
+};
+
+QuestionFeedbackPanel.ItemWithAuth = withRequireAuth(
+  QuestionFeedbackPanelItemWithAuth
+);
 
 export default QuestionFeedbackPanel;

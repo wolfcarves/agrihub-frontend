@@ -164,9 +164,9 @@ const QuestionCard = ({
     <>
       <div
         key={id}
-        className="flex flex-col rounded-xl hover:bg-neutral-300 duration-200 h-max w-full max-w-[45rem]"
+        className="flex flex-col rounded-2xl hover:bg-neutral-300 duration-200 h-max w-full max-w-[45rem]"
       >
-        <div className="flex flex-col bg-white dark:bg-background border p-3 sm:p-5 rounded-xl min-h-[20rem] h-full max-h-[25rem] hover:shadow-sm hover:-translate-y-2 hover:-translate-x-2 duration-200">
+        <div className="flex flex-col bg-white dark:bg-background border p-3 sm:p-5 rounded-2xl min-h-[20rem] h-full  hover:shadow-sm hover:-translate-y-2 hover:-translate-x-2 duration-200">
           <>
             <div className="flex items-start justify-between w-full">
               <Link to={`/forum/question/${username}/${id}`}>
@@ -230,17 +230,25 @@ const QuestionCard = ({
 
               <div className="flex flex-wrap gap-2">
                 {tags?.map(({ tag }) => {
-                  return <TagChip key={Math.random()} name={tag} size="sm" />;
+                  return (
+                    <TagChip
+                      to={`/forum?tag=${tag}`}
+                      key={Math.random()}
+                      name={tag}
+                      size="sm"
+                    />
+                  );
                 })}
               </div>
             </div>
+
             {/* Content Body */}
             <div className="line-clamp-5" style={{ overflowWrap: "anywhere" }}>
               {contentHtml}
             </div>
 
             {(attachment ?? 0) > 0 && (
-              <div className="flex gap-0.5 items-center bg-accent w-max rounded-md p-1 mt-3">
+              <div className="flex gap-0.5 items-center bg-accent w-max rounded-md p-1 my-3">
                 <TiAttachment size={22} />
                 <span className="font-poppins-medium text-sm">
                   {attachment} Attachment
@@ -249,44 +257,48 @@ const QuestionCard = ({
             )}
 
             {/* Actions */}
-            <QuestionFeedbackPanel
-              items={[
-                {
-                  icon:
+
+            <div className="mt-auto">
+              <QuestionFeedbackPanel>
+                <QuestionFeedbackPanel.ItemWithAuth
+                  icon={() =>
                     vote === "upvote" ? (
                       <PiArrowFatUpFill className="text-primary" />
                     ) : (
                       <PiArrowFatUp />
-                    ),
-                  requireAuth: true,
-                  onClick: onUpVoteBtnClick
-                },
-                {
-                  label: voteCount,
-                  isButton: false
-                },
-                {
-                  icon:
+                    )
+                  }
+                  onClick={onUpVoteBtnClick}
+                />
+
+                <div className="px-1">
+                  <span className="font-poppins-medium">{voteCount}</span>
+                </div>
+
+                <QuestionFeedbackPanel.ItemWithAuth
+                  icon={() =>
                     vote === "downvote" ? (
                       <PiArrowFatDownFill className="text-red-500" />
                     ) : (
                       <PiArrowFatDown />
-                    ),
-                  requireAuth: true,
-                  onClick: onDownVoteBtnClick
-                },
-                {
-                  icon: <LuMessagesSquare />,
-                  label: answerCount + " Answers",
-                  onClick: onAnswerBtnClick
-                },
-                {
-                  icon: <TiArrowForwardOutline />,
-                  label: "Share",
-                  onClick: onShareBtnClick
-                }
-              ]}
-            />
+                    )
+                  }
+                  onClick={onDownVoteBtnClick}
+                />
+
+                <QuestionFeedbackPanel.Item
+                  icon={() => <LuMessagesSquare />}
+                  title={`${answerCount} Answers`}
+                  onClick={onAnswerBtnClick}
+                />
+
+                <QuestionFeedbackPanel.Item
+                  icon={() => <TiArrowForwardOutline />}
+                  title="Share"
+                  onClick={onShareBtnClick}
+                />
+              </QuestionFeedbackPanel>
+            </div>
           </>
         </div>
       </div>

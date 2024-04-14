@@ -20,6 +20,7 @@ import {
 import ImgModal from "../../../../components/ui/custom/img-modal/Modal";
 import useGetFarmCropsQuery from "../../../../hooks/api/get/useGetFarmCropsQuery";
 import CropCard from "../../../../components/user/community/crop/crop-card/crop-card";
+import RequestToolsTable from "../../../../components/admin/community-view/request-tools-table/request-tools-table";
 
 const breadcrumbItems = [
   {
@@ -67,7 +68,8 @@ const FarmActiveView = () => {
             <TabsList>
               <TabsTrigger value="details">Details</TabsTrigger>
               <TabsTrigger value="report">Report</TabsTrigger>
-              <TabsTrigger value="request">Request</TabsTrigger>
+              <TabsTrigger value="seedling">Seedling</TabsTrigger>
+              <TabsTrigger value="tool">Tool</TabsTrigger>
               <TabsTrigger value="problem">Problem</TabsTrigger>
             </TabsList>
           </div>
@@ -127,13 +129,22 @@ const FarmActiveView = () => {
             <CropsReportTable />
           </Card>
         </TabsContent>
-        <TabsContent value="request">
+        <TabsContent value="seedling">
           <Card className="p-5">
             <div className="flex justify-between">
               <h3 className=" font-poppins-semibold">Seedling Request</h3>
             </div>
             <hr className="my-3 border-primary" />
             <RequestSeedlingsTable />
+          </Card>
+        </TabsContent>
+        <TabsContent value="tool">
+          <Card className="p-5">
+            <div className="flex justify-between">
+              <h3 className=" font-poppins-semibold">Tool Request</h3>
+            </div>
+            <hr className="my-3 border-primary" />
+            <RequestToolsTable />
           </Card>
         </TabsContent>
         <TabsContent value="problem">

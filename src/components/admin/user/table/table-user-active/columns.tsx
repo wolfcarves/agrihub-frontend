@@ -44,7 +44,7 @@ import {
   AlertDialogTrigger
 } from "../../../../ui/alert-dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "../../../../ui/avatar";
-import { formatDateString } from "../../../../lib/utils";
+import { formatDateString, formatRoles } from "../../../../lib/utils";
 import useUserBanUsersMutation from "../../../../../hooks/api/post/useUserBanUsersMutation";
 import Loader from "../../../../../icons/Loader";
 import { toast } from "sonner";
@@ -71,7 +71,9 @@ export const columns: ColumnDef<ListUser>[] = [
   {
     accessorKey: "role",
     header: "Role",
-    cell: ({ row }) => <div className=" capitalize">{row.getValue("role")}</div>
+    cell: ({ row }) => (
+      <div className=" capitalize">{formatRoles(row.getValue("role"))}</div>
+    )
   },
   {
     id: "actions",
@@ -89,6 +91,10 @@ export const columns: ColumnDef<ListUser>[] = [
       if (banLoading) {
         return <Loader isVisible={true} />;
       }
+
+      const handleProfile = () => {
+        navigate(`/users/${user.id}/${user.username}`);
+      };
 
       return (
         <Dialog>
@@ -200,7 +206,7 @@ export const columns: ColumnDef<ListUser>[] = [
                     </AlertDialogFooter>
                   </AlertDialogContent>
                 </AlertDialog>
-                <Button type="submit">PROFILE</Button>
+                <Button onClick={handleProfile}>PROFILE</Button>
               </div>
             </DialogFooter>
           </DialogContent>

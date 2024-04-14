@@ -8,11 +8,14 @@ import { toast } from "sonner";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { Button } from "@components/ui/button";
 import {
+  MdLocationPin,
   MdOutlineRemoveRedEye,
   MdOutlineReportGmailerrorred
 } from "react-icons/md";
 import { MONTHS } from "@pages/user/calendar/calendar";
 import { Skeleton } from "@components/ui/skeleton";
+import { RiCake2Fill } from "react-icons/ri";
+import { IoIosPerson } from "react-icons/io";
 
 interface ProfileImageProps {
   isLoading?: boolean;
@@ -185,7 +188,10 @@ const ProfileImage = ({
                 )}
               </span>
               <span className="text-foreground/70">|</span>
-              <span className="text-foreground/70 font-poppins-medium tracking-tight">
+              <span className="flex gap-1 items-center text-foreground/70 font-poppins-medium tracking-tight">
+                <span className="mb-1">
+                  <RiCake2Fill />
+                </span>
                 {!isLoading ? (
                   `Joined ${joinedAt}`
                 ) : (
@@ -193,7 +199,10 @@ const ProfileImage = ({
                 )}
               </span>
               <span className="text-foreground/70">|</span>
-              <span className="text-foreground/70 font-poppins-medium tracking-tight">
+              <span className="flex gap-1 items-center text-foreground/70 font-poppins-medium tracking-tight">
+                <span className="mb-1">
+                  <IoIosPerson />
+                </span>
                 {!isLoading ? (
                   `${role?.charAt(0)?.toLocaleUpperCase()}${role?.slice(1)}`
                 ) : (
@@ -201,7 +210,10 @@ const ProfileImage = ({
                 )}
               </span>
               <span className="text-foreground/70">|</span>
-              <span className="text-foreground/70 font-poppins-medium tracking-tight">
+              <span className="flex gap-1 items-center text-foreground/70 font-poppins-medium tracking-tight">
+                <span className="mb-1">
+                  <MdLocationPin />
+                </span>
                 {!isLoading ? (
                   `District ${district}`
                 ) : (

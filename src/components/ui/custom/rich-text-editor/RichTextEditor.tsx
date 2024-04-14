@@ -9,6 +9,7 @@ import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
 import Toolbar from "./Toolbar";
 import CharacterCount from "@tiptap/extension-character-count";
+import useFilesToBlobs from "@hooks/utils/useFilesToBlobs";
 
 interface RichTextEditorProps
   extends Omit<
@@ -17,11 +18,12 @@ interface RichTextEditorProps
   > {
   onBlur?: (data: {
     html?: string;
-    files?: Promise<Blob[]>;
+    files?: Promise<Blob[] | undefined>;
     charSize?: number;
   }) => void;
   onChange?: (data: { charSize?: number }) => void; // temporary lang to bwisit tong text editor di ko na to gagmitin sa susunod
   withToolbar?: boolean;
+  allowUploadImage?: boolean;
   allowImagePaste?: boolean;
   height?: number;
   disabled?: boolean;
@@ -29,22 +31,12 @@ interface RichTextEditorProps
 }
 
 //put this shit to util folder pero sa susunod na yugto ng ating buhay nalang T_T
-async function filesToBlobs(files: File[]): Promise<Blob[]> {
-  const blobArray: Blob[] = [];
-
-  for (const file of files) {
-    const arrayBuffer = await file.arrayBuffer();
-    const blob = new Blob([arrayBuffer], { type: file.type });
-    blobArray.push(blob);
-  }
-
-  return blobArray;
-}
 
 const RichTextEditor: React.FC<RichTextEditorProps> = ({
   onBlur,
   onChange,
   withToolbar = true,
+  allowUploadImage = true,
   allowImagePaste = true,
   height,
   disabled = false,
@@ -53,7 +45,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
 }) => {
   const extensions: Extensions = [
     CharacterCount.configure({
-      limit: 5000, //1000 characters only
+      limit: 5000,
       mode: "textSize"
     }),
     Image.configure({
@@ -119,6 +111,8 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
 
       const hardBreakPattern = /(<br>\s*)+/g;
       const emptyParagraphPattern = /(<p class="min-h-\[1rem\]"><\/p>)+/g;
+      const headingOpenTagPattern = /<h[1-4]>/g;
+      const headingClosingTagPattern = /<\/h[1-4]>/g;
 
       const preCodePatternOpenTag =
         /<pre><code class="language-typescriptreact">/g;
@@ -129,7 +123,9 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
         .replace(hardBreakPattern, "<br>")
         .replace(emptyParagraphPattern, `<br>`)
         .replace(preCodePatternOpenTag, `<p class="min-h-[1rem]">`)
-        .replace(preCodePatternCloseTag, "</p>");
+        .replace(preCodePatternCloseTag, "</p>")
+        .replace(headingOpenTagPattern, "<h5>")
+        .replace(headingClosingTagPattern, "</h5>");
 
       const lastTag = html.slice(html.length - 4, html.length);
 
@@ -141,9 +137,11 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
         onBlur &&
           onBlur({
             html,
-            files: filesToBlobs(files as File[]).then((blobs: Blob[]) => {
-              return blobs;
-            }),
+            files: useFilesToBlobs(files as File[]).then(
+              (blobs: Blob[] | undefined) => {
+                return blobs;
+              }
+            ),
             charSize: editor.storage.characterCount.characters()
           });
       }
@@ -171,13 +169,17 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
 
   return (
     <div
-      className={`shadow-md border border-border rounded-md w-full flex flex-col ${
+      className={`shadow-md border border-border rounded-xl w-full flex flex-col bg-white dark:bg-background overflow-hidden flex-1 ${
         disabled ? "opacity-50 pointer-events-none" : ""
       }`}
     >
       {withToolbar && (
         <div className="bg-[#DCF2D3] p-1 flex gap-1">
-          <Toolbar editor={editor} onImageUpload={handleImageUpload} />
+          <Toolbar
+            editor={editor}
+            onImageUpload={handleImageUpload}
+            allowUploadImage={allowUploadImage}
+          />
         </div>
       )}
 

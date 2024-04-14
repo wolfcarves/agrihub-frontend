@@ -67,81 +67,81 @@ export const columns: ColumnDef<SeedlingRequestListItem>[] = [
         </Button>
       );
     }
-  },
-
-  {
-    header: "Actions",
-    id: "actions",
-    cell: ({ row }) => {
-      console.log(row.original);
-      const request = row.original;
-      const { mutateAsync: rejectSeedling, isLoading: isSeedlingLoad } =
-        useDeleteRequestSeedlingCancel();
-      const handleDelete = async () => {
-        try {
-          await rejectSeedling(row.original.id || "");
-          toast.success("Request Cancelled!");
-        } catch (e: any) {
-          toast.error(e.body.message);
-        }
-      };
-      return request.status === "pending" ? (
-        <>
-          <Button
-            onClick={handleDelete}
-            variant={"destructive"}
-            className="text-xs p-3 h-5"
-          >
-            Cancel
-          </Button>
-          <Loader isVisible={isSeedlingLoad} />
-        </>
-      ) : request.status === "accepted" ? (
-        <>
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button variant={"outline"} className="text-xs p-3 h-5">
-                Details
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
-              <DialogHeader>
-                <DialogTitle>Request Details</DialogTitle>
-              </DialogHeader>
-              <div className="grid gap-4 py-4">
-                <div className="grid grid-cols-4 items-center gap-1">
-                  <Label className="col-span-4 font-poppins-medium">
-                    Delivery Date
-                  </Label>
-                  <Input
-                    className="col-span-4 disabled:opacity-100"
-                    value={format(new Date(request.delivery_date || ""), "PPP")}
-                    disabled
-                  />
-                </div>
-                <div className="grid grid-cols-4 items-center gap-1">
-                  <Label className="col-span-4 font-poppins-medium">
-                    Quantity Approve
-                  </Label>
-                  <Input
-                    className="col-span-4 disabled:opacity-100"
-                    value={request.quantity_approve}
-                    disabled
-                  />
-                </div>
-                <div className="grid grid-cols-4 items-center gap-1">
-                  <Label className="col-span-4 font-poppins-medium">Note</Label>
-                  <Textarea
-                    className="col-span-4 disabled:opacity-100"
-                    value={request.note}
-                    disabled
-                  />
-                </div>
-              </div>
-            </DialogContent>
-          </Dialog>
-        </>
-      ) : null;
-    }
   }
+
+  // {
+  //   header: "Actions",
+  //   id: "actions",
+  //   cell: ({ row }) => {
+  //     console.log(row.original);
+  //     const request = row.original;
+  //     const { mutateAsync: rejectSeedling, isLoading: isSeedlingLoad } =
+  //       useDeleteRequestSeedlingCancel();
+  //     const handleDelete = async () => {
+  //       try {
+  //         await rejectSeedling(row.original.id || "");
+  //         toast.success("Request Cancelled!");
+  //       } catch (e: any) {
+  //         toast.error(e.body.message);
+  //       }
+  //     };
+  //     return request.status === "pending" ? (
+  //       <>
+  //         <Button
+  //           onClick={handleDelete}
+  //           variant={"destructive"}
+  //           className="text-xs p-3 h-5"
+  //         >
+  //           Cancel
+  //         </Button>
+  //         <Loader isVisible={isSeedlingLoad} />
+  //       </>
+  //     ) : request.status === "accepted" ? (
+  //       <>
+  //         <Dialog>
+  //           <DialogTrigger asChild>
+  //             <Button variant={"outline"} className="text-xs p-3 h-5">
+  //               Details
+  //             </Button>
+  //           </DialogTrigger>
+  //           <DialogContent className="sm:max-w-[425px]">
+  //             <DialogHeader>
+  //               <DialogTitle>Request Details</DialogTitle>
+  //             </DialogHeader>
+  //             <div className="grid gap-4 py-4">
+  //               <div className="grid grid-cols-4 items-center gap-1">
+  //                 <Label className="col-span-4 font-poppins-medium">
+  //                   Delivery Date
+  //                 </Label>
+  //                 <Input
+  //                   className="col-span-4 disabled:opacity-100"
+  //                   value={format(new Date(request.delivery_date || ""), "PPP")}
+  //                   disabled
+  //                 />
+  //               </div>
+  //               <div className="grid grid-cols-4 items-center gap-1">
+  //                 <Label className="col-span-4 font-poppins-medium">
+  //                   Quantity Approve
+  //                 </Label>
+  //                 <Input
+  //                   className="col-span-4 disabled:opacity-100"
+  //                   value={request.quantity_approve}
+  //                   disabled
+  //                 />
+  //               </div>
+  //               <div className="grid grid-cols-4 items-center gap-1">
+  //                 <Label className="col-span-4 font-poppins-medium">Note</Label>
+  //                 <Textarea
+  //                   className="col-span-4 disabled:opacity-100"
+  //                   value={request.note}
+  //                   disabled
+  //                 />
+  //               </div>
+  //             </div>
+  //           </DialogContent>
+  //         </Dialog>
+  //       </>
+  //     ) : null;
+  //   }
+  // }
 ];

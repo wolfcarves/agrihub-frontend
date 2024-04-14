@@ -1,10 +1,13 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/avatar";
 import useAuth from "@hooks/useAuth";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { RxHamburgerMenu, RxQuestionMarkCircled } from "react-icons/rx";
 import HeaderNotification from "../../../ui/custom/notification/header-notification";
-import { useDispatch } from "../../../../redux/store";
-import { toggleSidebar } from "../../../../redux/slices/sidebarSlice";
+import { useDispatch, useSelector } from "../../../../redux/store";
+import {
+  selectSidebarState,
+  toggleSidebar
+} from "../../../../redux/slices/sidebarSlice";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,7 +19,7 @@ import {
 import { MdLogout } from "react-icons/md";
 import { IoSettingsOutline } from "react-icons/io5";
 import { BiCommentError } from "react-icons/bi";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { RiAdminLine } from "react-icons/ri";
 import useDeleteAuthMutate from "../../../../hooks/api/delete/useDeleteAuthMutate";
 import { LuUser2 } from "react-icons/lu";
@@ -52,30 +55,30 @@ const AdminTopbar = () => {
   const handleToUser = () => {
     navigate(`/`);
   };
+
+  const handleToggleSidebar = () => {
+    dispatch(toggleSidebar());
+  };
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const pathname = useLocation().pathname;
+  useEffect(() => {
+    setIsOpen(false);
+  }, [pathname]);
   return (
     <div className="sticky top-0 left-0 right-0 border-b w-full">
-      <nav className="h-16 flex items-center sm:justify-end justify-between px-5 bg-white opacity-100">
-        <div className="block sm:hidden">
+      <nav className="h-16 flex items-center justify-between px-5 bg-white opacity-100">
+        <div className="block md:hidden">
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
-            <SheetTrigger className="p-1">
-              <RxHamburgerMenu size={20} />
+            <SheetTrigger asChild className="p-1">
+              <RxHamburgerMenu size={30} />
             </SheetTrigger>
-            <SheetContent side="left">
-              <div className="mt-2">
-                <div className="h-20 flex items-center justify-center px-8">
-                  <Link to="/admin/dashboard" className="flex-none">
-                    <img
-                      src={logo as unknown as string}
-                      width={50}
-                      className="mx-auto"
-                    />
-                  </Link>
-                </div>
-              </div>
-              <AdminMobileSidebarSheet onLinkClick={() => setIsOpen(false)} />
+            <SheetContent side="left" className="p-0 bg-white">
+              <AdminMobileSidebarSheet />
             </SheetContent>
           </Sheet>
+        </div>
+        <div className="hidden md:block">
+          <RxHamburgerMenu onClick={handleToggleSidebar} size={22} />
         </div>
         <div>
           <div className="flex gap-4">
@@ -109,15 +112,14 @@ const AdminTopbar = () => {
                   </Link>
 
                   <DropdownMenuSeparator />
-                  {data?.role === "admin" && (
-                    <DropdownMenuItem
-                      onClick={handleToUser}
-                      className="cursor-pointer h-12 gap-2"
-                    >
-                      <LuUser2 className="text-foreground/80 text-lg " />
-                      <span className="font-poppins-medium">Home Panel</span>
-                    </DropdownMenuItem>
-                  )}
+
+                  <DropdownMenuItem
+                    onClick={handleToUser}
+                    className="cursor-pointer h-12 gap-2"
+                  >
+                    <LuUser2 className="text-foreground/80 text-lg " />
+                    <span className="font-poppins-medium">Home Panel</span>
+                  </DropdownMenuItem>
 
                   <Link to="/helps">
                     <DropdownMenuItem className="cursor-pointer h-12 gap-2">
@@ -128,12 +130,12 @@ const AdminTopbar = () => {
                     </DropdownMenuItem>
                   </Link>
 
-                  <Link to="/feedback">
+                  {/* <Link to="/feedback">
                     <DropdownMenuItem className="cursor-pointer h-12 gap-2">
                       <BiCommentError className="text-foreground/80 text-lg " />
                       <span className="font-poppins-medium">Give Feedback</span>
                     </DropdownMenuItem>
-                  </Link>
+                  </Link> */}
 
                   <Link to="/settings/profile">
                     <DropdownMenuItem className="cursor-pointer h-12 gap-2">

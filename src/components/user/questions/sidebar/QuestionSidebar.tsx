@@ -14,7 +14,7 @@ const QuestionSidebar = ({ className, ...props }: QuestionSidebarProps) => {
   const { data, isAuthenticated } = useAuth();
 
   return (
-    <UserSidebar className={`hidden sm:block ${className}`} {...props}>
+    <UserSidebar className={`hidden lg:block ${className}`} {...props}>
       <UserSidebarNavLink
         to="/forum"
         title="Questions"

@@ -7,6 +7,7 @@ import { MONTHS } from "@pages/user/calendar/calendar";
 import { Skeleton } from "@components/ui/skeleton";
 import useGetFarmViewQuery from "@hooks/api/get/useGetFarmViewQuery";
 import { Link } from "react-router-dom";
+import { FaAngleRight } from "react-icons/fa6";
 
 interface ProfilePersonalInformationListProps {
   isOwn?: boolean;
@@ -35,7 +36,7 @@ const ProfilePersonalInformationList = ({
   const { data: farmData } = useGetFarmViewQuery(farmId ?? "");
 
   return (
-    <div className="hidden lg:block max-w-[25rem] w-full mt-10 pb-40 px-3">
+    <div className="lg:block max-w-[25rem] h-max w-full mt-10 p-3 rounded-md bg-foreground/5 border">
       {isOwn && (
         <div className="mb-7">
           <h5 className="font-poppins-semibold tracking-tight">
@@ -85,24 +86,17 @@ const ProfilePersonalInformationList = ({
         </h5>
 
         {farmData?.id ? (
-          <div className="py-3">
-            <div className="flex flex-col border shadow-sm min-h-52 w-full rounded-sm p-6">
-              <div className="space-y-2">
-                <h6 className="font-poppins-medium">{farmData?.farm_name}</h6>
-
-                <p>{farmData?.description}</p>
-              </div>
-
-              <div className="flex items-center mt-auto">
-                <Link
-                  to={`/community/my-community/${farmData?.id}/`}
-                  className="hover:text-primary"
-                >
-                  See more
-                </Link>
-              </div>
+          <>
+            <div className="py-3">
+              <Link
+                to={`/community/my-community/${farmData?.id}/`}
+                className="flex justify-between items-center text-foreground/80 hover:text-primary duration-100"
+              >
+                <h6>{farmData?.farm_name}</h6>
+                <FaAngleRight />
+              </Link>
             </div>
-          </div>
+          </>
         ) : isOwn ? (
           <>
             <h5 className="mt-2">You haven't joined in a community yet.</h5>

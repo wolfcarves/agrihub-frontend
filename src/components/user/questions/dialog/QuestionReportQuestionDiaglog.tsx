@@ -1,13 +1,22 @@
-import React, { useRef } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle
-} from "@components/ui/dialog";
+import React, { useState } from "react";
 import { Button } from "@components/ui/button";
-import { Input } from "@components/ui/custom";
+import { Input } from "@components/ui/input";
+import { Dialog, DialogContent, DialogHeader } from "@components/ui/dialog";
+import { DialogDescription } from "@radix-ui/react-dialog";
+import { LuDiamond } from "react-icons/lu";
+import { Textarea } from "@components/ui/textarea";
+
+const commonReason = [
+  "Misinformation",
+  "Self-harm or Suicide",
+  "Hate",
+  "Spam",
+  "Threatening violence",
+  "Harassment",
+  "Impersonation",
+  "Child Exploitation/Pornography",
+  "Abusive"
+] as const;
 
 interface QuestionReportQuestionDiaglogProps {
   open?: boolean;
@@ -24,47 +33,94 @@ const QuestionReportQuestionDiaglog = ({
   onCancelClick,
   isLoading
 }: QuestionReportQuestionDiaglogProps) => {
-  const inputRef = useRef<HTMLInputElement>(null);
+  const [reasonValue, setReasonValue] =
+    useState<(typeof commonReason)[number]>();
+
+  const [description, setDescription] = useState<string>("");
+
+  const handleReasonClick = (reason: (typeof commonReason)[number]) => {
+    setReasonValue(reason);
+  };
 
   return (
-    <>
-      <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>
-              <h5 className="text-center">Report</h5>
-            </DialogTitle>
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="max-w-[25rem] p-4">
+        <DialogHeader>
+          <h5 className="text-md font-inter-medium">Report this question?</h5>
+        </DialogHeader>
 
-            <DialogDescription>
-              <h6 className="mt-5">Reason:</h6>
-              <Input ref={inputRef} />
-            </DialogDescription>
+        <DialogDescription>
+          <div className="flex items-center gap-1 mt-3">
+            <LuDiamond />
+            <h5 className="text-base font-inter-medium">
+              Please fill out neccessary fields
+            </h5>
+          </div>
 
-            <Button
-              variant="destructive"
-              className="mt-3 w-full"
-              isLoading={isLoading}
+          <div className="flex flex-wrap w-full gap-1 py-5">
+            {commonReason.map(reason => (
+              <Button
+                key={reason}
+                variant="outline"
+                size="sm"
+                onClick={() => handleReasonClick(reason)}
+              >
+                <span className="text-sm font-inter-regular">{reason}</span>
+              </Button>
+            ))}
+          </div>
+
+          <div>
+            <div className="space-y-1.5">
+              <span className="text-sm font-inter-semibold text-foreground/70">
+                Reason
+              </span>
+              <Input
+                value={reasonValue}
+                className="font-inter-regular"
+                onChange={e => setReasonValue(e.target.value as any)}
+              />
+            </div>
+
+            <div className="mt-3 space-y-1.5">
+              <span className="text-sm font-inter-semibold text-foreground/70">
+                Description
+              </span>
+              <Textarea
+                className="text-sm font-inter-regular"
+                onChange={e => setDescription(e.target.value)}
+              />
+            </div>
+          </div>
+        </DialogDescription>
+
+        <div className="flex gap-2 items-center justify-end">
+          <Button
+            variant="outline"
+            className="mt-3 w-full"
+            onClick={() => onCancelClick && onCancelClick()}
+          >
+            <span className="font-inter-semibold">Cancel</span>
+          </Button>
+
+          <Button
+            variant="default"
+            className="mt-3 w-full"
+            isLoading={isLoading}
+          >
+            <span
+              className="font-inter-semibold"
               onClick={() => {
                 onConfirmClick &&
-                  onConfirmClick(inputRef?.current?.value ?? "");
+                  onConfirmClick((reasonValue + ": " + description) as string);
               }}
             >
-              Submit
-            </Button>
-
-            <Button
-              variant="ghost"
-              className="w-full"
-              onClick={() => {
-                onCancelClick && onCancelClick();
-              }}
-            >
-              Cancel
-            </Button>
-          </DialogHeader>
-        </DialogContent>
-      </Dialog>
-    </>
+              Submit Report
+            </span>
+          </Button>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 };
 

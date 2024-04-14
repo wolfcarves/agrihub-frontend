@@ -45,7 +45,15 @@ const BarDistrictOverview = () => {
     }
   };
 
-  return <Bar data={data} options={options} />;
+  return (
+    <>
+      <h2 className="text-xl font-bold tracking-tight ">Farms each district</h2>
+
+      <div className="h-96 mt-4">
+        <Bar data={data} options={options} />
+      </div>
+    </>
+  );
 };
 
 export default BarDistrictOverview;

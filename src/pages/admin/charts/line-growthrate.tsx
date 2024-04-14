@@ -114,7 +114,9 @@ const GrowthRateLineChart = () => {
           </Select>
         </div>
       </div>
-      <Line data={data} options={options} />;
+      <div className=" h-96 mt-4">
+        <Line data={data} options={options} />
+      </div>
     </>
   );
 };

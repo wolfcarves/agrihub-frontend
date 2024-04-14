@@ -45,7 +45,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
 }) => {
   const extensions: Extensions = [
     CharacterCount.configure({
-      limit: 5000, //1000 characters only
+      limit: 5000,
       mode: "textSize"
     }),
     Image.configure({
@@ -111,6 +111,8 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
 
       const hardBreakPattern = /(<br>\s*)+/g;
       const emptyParagraphPattern = /(<p class="min-h-\[1rem\]"><\/p>)+/g;
+      const headingOpenTagPattern = /<h[1-4]>/g;
+      const headingClosingTagPattern = /<\/h[1-4]>/g;
 
       const preCodePatternOpenTag =
         /<pre><code class="language-typescriptreact">/g;
@@ -121,7 +123,9 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
         .replace(hardBreakPattern, "<br>")
         .replace(emptyParagraphPattern, `<br>`)
         .replace(preCodePatternOpenTag, `<p class="min-h-[1rem]">`)
-        .replace(preCodePatternCloseTag, "</p>");
+        .replace(preCodePatternCloseTag, "</p>")
+        .replace(headingOpenTagPattern, "<h5>")
+        .replace(headingClosingTagPattern, "</h5>");
 
       const lastTag = html.slice(html.length - 4, html.length);
 

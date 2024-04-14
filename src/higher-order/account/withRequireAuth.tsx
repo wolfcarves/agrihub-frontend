@@ -1,4 +1,4 @@
-import { ComponentType } from "react";
+import { ComponentType, useState } from "react";
 import { Button } from "@components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@components/ui/dialog";
 import useAuth from "@hooks/useAuth";
@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 
 export function withRequireAuth<T extends object>(Component: ComponentType<T>) {
   const NewComponent = (props: T) => {
+    const [open, setOpen] = useState<boolean>();
+
     const { isAuthenticated } = useAuth();
 
     if (isAuthenticated) {
@@ -14,10 +16,10 @@ export function withRequireAuth<T extends object>(Component: ComponentType<T>) {
 
     return (
       <>
-        <Dialog>
-          <DialogTrigger>
+        <Dialog open={open} onOpenChange={setOpen}>
+          <span onClick={() => setOpen(true)}>
             <Component {...props} />
-          </DialogTrigger>
+          </span>
 
           <DialogContent>
             <h1 className="text-xl text-foreground font-poppins-medium tracking-tight line-clamp-2">

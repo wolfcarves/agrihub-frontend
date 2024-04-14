@@ -20,7 +20,6 @@ const questionAnswerSchema = zod.object({
       required_error: "Answer is empty"
     })
     .min(1, "Answer is empty")
-    .max(500, "Answer is too long")
 });
 
 type QuestionAnswer = zod.infer<typeof questionAnswerSchema>;

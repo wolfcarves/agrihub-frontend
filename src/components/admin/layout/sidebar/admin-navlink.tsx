@@ -18,7 +18,9 @@ const AdminNavLink = ({ title, logo, ...props }: AdminNavLinkProps) => {
       {...props}
     >
       {logo}
-      <span className=" text-sm font-semibold">{title}</span>
+      <span className=" text-sm font-semibold text-nowrap break-normal">
+        {title}
+      </span>
     </NavLink>
   );
 };

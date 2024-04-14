@@ -6,6 +6,7 @@ import type { AnalyticsOverviewPieChartResponse } from '../models/AnalyticsOverv
 import type { AnalyticsOverviewUserFeedbackResponse } from '../models/AnalyticsOverviewUserFeedbackResponse';
 import type { CommonOverviewResponse } from '../models/CommonOverviewResponse';
 import type { CommunityCropReportsResponse } from '../models/CommunityCropReportsResponse';
+import type { CropDistribution } from '../models/CropDistribution';
 import type { CropReportResponse } from '../models/CropReportResponse';
 import type { CropReportViewResponse } from '../models/CropReportViewResponse';
 import type { CropStatisticsResponse } from '../models/CropStatisticsResponse';
@@ -20,7 +21,9 @@ import type { FarmWithGrowthRate } from '../models/FarmWithGrowthRate';
 import type { FavouriteCropData } from '../models/FavouriteCropData';
 import type { ForumCount } from '../models/ForumCount';
 import type { ForumOverview } from '../models/ForumOverview';
+import type { GrowthRateDistribution } from '../models/GrowthRateDistribution';
 import type { GrowthRateResponse } from '../models/GrowthRateResponse';
+import type { HarvestDistribution } from '../models/HarvestDistribution';
 import type { HarvestedWitheredData } from '../models/HarvestedWitheredData';
 import type { LearningMaterialReport } from '../models/LearningMaterialReport';
 import type { MonthlyGrowthRate } from '../models/MonthlyGrowthRate';
@@ -64,10 +67,20 @@ formData: NewCommunityCropReport,
      * @returns FarmerGraphStackedBarResponse Successful response
      * @throws ApiError
      */
-    public static getApiReportsFarmerGraphStackedBar(): CancelablePromise<FarmerGraphStackedBarResponse> {
+    public static getApiReportsFarmerGraphStackedBar({
+month,
+}: {
+/**
+ * Month for which to retrieve growth rate distribution
+ */
+month?: string,
+}): CancelablePromise<FarmerGraphStackedBarResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/reports/farmer/graph/stacked-bar',
+            query: {
+                'month': month,
+            },
             errors: {
                 400: `Validation Error`,
                 401: `Unauthorized`,
@@ -118,10 +131,20 @@ formData: NewCommunityCropReport,
      * @returns FarmerGraphGrowthHarvestResponse Successful response
      * @throws ApiError
      */
-    public static getApiReportsFarmerGraphGrowthHarvest(): CancelablePromise<FarmerGraphGrowthHarvestResponse> {
+    public static getApiReportsFarmerGraphGrowthHarvest({
+month,
+}: {
+/**
+ * Month for which to retrieve growth rate distribution
+ */
+month?: string,
+}): CancelablePromise<FarmerGraphGrowthHarvestResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/reports/farmer/graph/growth-harvest',
+            query: {
+                'month': month,
+            },
             errors: {
                 400: `Validation Error`,
                 401: `Unauthorized`,
@@ -701,6 +724,142 @@ pagination?: PaginationData;
                 'search': search,
                 'page': page,
                 'perpage': perpage,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Get Harvest Distribution Analytics
+     * @returns HarvestDistribution Successful response
+     * @throws ApiError
+     */
+    public static getApiReportsAnalyticsHarvestDistribution({
+month,
+limit,
+}: {
+/**
+ * Month for which to retrieve harvest distribution
+ */
+month: string,
+/**
+ * Limit the number of results (default is 50)
+ */
+limit?: string,
+}): CancelablePromise<Array<HarvestDistribution>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/reports/analytics/harvest/distribution',
+            query: {
+                'month': month,
+                'limit': limit,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Get Crop Distribution Analytics
+     * @returns CropDistribution Successful response
+     * @throws ApiError
+     */
+    public static getApiReportsAnalyticsCropDistribution({
+month,
+limit,
+}: {
+/**
+ * Month for which to retrieve crop distribution
+ */
+month: string,
+/**
+ * Limit the number of results (default is 50)
+ */
+limit?: string,
+}): CancelablePromise<Array<CropDistribution>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/reports/analytics/crop/distribution',
+            query: {
+                'month': month,
+                'limit': limit,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Get Crop Distribution Analytics
+     * @returns CropDistribution Successful response
+     * @throws ApiError
+     */
+    public static getApiReportsAnalyticsCropDistributionCommunity({
+month,
+limit,
+}: {
+/**
+ * Month for which to retrieve crop distribution
+ */
+month: string,
+/**
+ * Limit the number of results (default is 50)
+ */
+limit?: string,
+}): CancelablePromise<Array<CropDistribution>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/reports/analytics/crop/distribution/community',
+            query: {
+                'month': month,
+                'limit': limit,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Get Growth Rate Distribution Analytics
+     * @returns GrowthRateDistribution Successful response
+     * @throws ApiError
+     */
+    public static getApiReportsAnalyticsGrowthRateDistribution({
+month,
+limit,
+}: {
+/**
+ * Month for which to retrieve growth rate distribution
+ */
+month: string,
+/**
+ * Limit the number of results (default is 50)
+ */
+limit?: string,
+}): CancelablePromise<Array<GrowthRateDistribution>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/reports/analytics/growth-rate/distribution',
+            query: {
+                'month': month,
+                'limit': limit,
             },
             errors: {
                 400: `Validation Error`,

@@ -2,6 +2,8 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { ChangeEmailRequest } from '../models/ChangeEmailRequest';
+import type { ConfirmPasswordRequest } from '../models/ConfirmPasswordRequest';
 import type { MessageResponse } from '../models/MessageResponse';
 import type { ResetPasswordRequestBody } from '../models/ResetPasswordRequestBody';
 import type { SendOTPByNumber } from '../models/SendOTPByNumber';
@@ -98,6 +100,54 @@ requestBody: VerifyOTP,
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/auth/verify-token/otp',
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Confirm Password
+     * @returns MessageResponse Successful response
+     * @throws ApiError
+     */
+    public static postApiAuthConfirmPassword({
+requestBody,
+}: {
+requestBody: ConfirmPasswordRequest,
+}): CancelablePromise<MessageResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/auth/confirm/password',
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Update Email
+     * @returns MessageResponse Successful response
+     * @throws ApiError
+     */
+    public static postApiAuthUpdateEmail({
+requestBody,
+}: {
+requestBody: ChangeEmailRequest,
+}): CancelablePromise<MessageResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/auth/update/email',
             body: requestBody,
             mediaType: 'application/json',
             errors: {

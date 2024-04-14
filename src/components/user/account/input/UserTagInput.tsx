@@ -117,12 +117,9 @@ const UserTagInputDropdown = ({
             handleToggleTag(tag_name);
           }}
         >
-          <h6 className="text-primary line-clamp-2">{tag_name}</h6>
+          <h6 className="text-primary w-full truncate">{tag_name}</h6>
           <div className="line-clamp-5">
-            <span>
-              {details}
-              sample details here...
-            </span>
+            <span>{details}</span>
           </div>
         </button>
       );
@@ -154,7 +151,7 @@ const UserTagInputDropdown = ({
         <div
           className={`${
             option && isInputTagFocused ? "grid" : "hidden"
-          } grid-cols-3 gap-x-1 gap-y-5 justify-evenly absolute top-[100%] left-0 z-20 w-full overflow-y-scroll
+          } grid-cols-2 sm:grid-cols-3 gap-x-1 gap-y-5 justify-evenly absolute top-[100%] left-0 z-20 w-full overflow-y-scroll
           rounded-lg bg-gray-50 border p-1 min-h-[50px] max-h-[400px]`}
         >
           {option && option.map(renderTagCards)}
@@ -168,12 +165,12 @@ const UserTagInputDropdown = ({
 
         {isInputTagFocused && (
           <button
-            className="me-2"
+            className="me-2 font-poppins-medium text-center mx-auto my-auto text-primary bg-primary/10 p-2 rounded-md"
             onClick={() => {
               setIsInputTagFocused(false);
             }}
           >
-            Close
+            Done
           </button>
         )}
       </div>

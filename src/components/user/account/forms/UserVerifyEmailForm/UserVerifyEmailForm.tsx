@@ -62,7 +62,7 @@ const UserVerifyEmailForm = () => {
         <Button
           type="submit"
           className="w-full"
-          isLoading={isResendEmailLoading || countDown !== 0}
+          disabled={isResendEmailLoading || countDown !== 0}
           onClick={handleResendEmail}
         >
           Resend

@@ -24,9 +24,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import useForumsDeleteQuestionMutation from "@hooks/api/delete/useForumsDeleteQuestionMutation";
 import { GET_QUESTION_KEY } from "@hooks/api/get/useGetQuestionsQuery";
 import { MdOutlineEdit } from "react-icons/md";
-import parse from "html-react-parser";
 import DOMPurify from "dompurify";
 import LoadingSpinner from "@icons/LoadingSpinner";
+import QuestionImageCarousel from "./QuestionImageCarousel";
 
 interface QuestionPostBodyProps {
   data?: QuestionViewSchema;
@@ -145,11 +145,11 @@ const QuestionPostBody = ({ data }: QuestionPostBodyProps) => {
           <div className="absolute inset-0 m-auto h-max w-max -z-10">
             <LoadingSpinner className="text-primary" />
           </div>
+
           <img
             src={focusedImg}
             alt="attachment_image"
-            width={1152}
-            height={648}
+            className="w-[90%] aspect-auto xl:w-1/2 xl:h-1/2 object-contain"
           />
         </div>
       )}
@@ -189,23 +189,20 @@ const QuestionPostBody = ({ data }: QuestionPostBodyProps) => {
 
           <div>
             {data?.question?.imagesrc?.[0] && (
-              <h6 className="font-poppins-medium">Attachments</h6>
+              <div className="pb-3">
+                <h5 className="font-poppins-semibold">Attachments</h5>
+              </div>
             )}
 
-            <div
-              className="flex flex-wrap gap-1 w-full"
-              style={{ overflowWrap: "anywhere" }}
-            >
-              {data?.question?.imagesrc?.map(img => (
-                <img
-                  src={img}
-                  className="w-full max-w-[150px] my-2 object-cover cursor-pointer hover:opacity-90"
-                  onClick={() => {
+            {data?.question?.imagesrc &&
+              data?.question?.imagesrc.length > 0 && (
+                <QuestionImageCarousel
+                  imagesSrc={data?.question?.imagesrc}
+                  onImageClick={img => {
                     setFocusedImg(img);
                   }}
                 />
-              ))}
-            </div>
+              )}
           </div>
         </div>
 
@@ -276,7 +273,7 @@ const QuestionPostBody = ({ data }: QuestionPostBodyProps) => {
         )}
       </div>
 
-      <div className="flex flex-wrap gap-2 py-5">
+      <div className="flex flex-wrap gap-x-2 gap-y-3 py-5">
         {data?.question?.tags?.map(({ tag }) => {
           return (
             <TagChip

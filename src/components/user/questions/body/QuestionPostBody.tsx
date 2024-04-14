@@ -26,7 +26,7 @@ import { GET_QUESTION_KEY } from "@hooks/api/get/useGetQuestionsQuery";
 import { MdOutlineEdit } from "react-icons/md";
 import DOMPurify from "dompurify";
 import LoadingSpinner from "@icons/LoadingSpinner";
-import QuestionImageCarousel from "./QuestionImageCarousel";
+import QuestionImageCarousel from "../carousel/QuestionImageCarousel";
 
 interface QuestionPostBodyProps {
   data?: QuestionViewSchema;
@@ -154,136 +154,139 @@ const QuestionPostBody = ({ data }: QuestionPostBodyProps) => {
         </div>
       )}
 
-      <div className="py-5">
-        <QuestionUserProfileButton
-          userId={data?.question?.user?.id}
-          role={data?.question?.user?.role}
-          avatarSrc={data?.question?.user?.avatar}
-          username={data?.question?.user?.username}
-          createdAt={data?.question?.createdat}
-        />
-      </div>
+      {/* container */}
+      <div className="border-y">
+        <div className="py-5">
+          <QuestionUserProfileButton
+            userId={data?.question?.user?.id}
+            role={data?.question?.user?.role}
+            avatarSrc={data?.question?.user?.avatar}
+            username={data?.question?.user?.username}
+            createdAt={data?.question?.createdat}
+          />
+        </div>
 
-      <div className="pb-5 sm:pb-10">
-        <h1
-          className="text-lg sm:text-xl text-foreground font-poppins-semibold hover:opacity-90"
-          style={{ overflowWrap: "anywhere" }}
-        >
-          {data?.question?.title}
-        </h1>
-      </div>
-
-      <div className="flex justify-between">
-        <div className="flex flex-col">
-          <div
-            className="flex flex-col min-h-72"
+        <div className="pb-5 sm:pb-10">
+          <h1
+            className="text-lg sm:text-xl text-foreground font-poppins-semibold hover:opacity-90"
             style={{ overflowWrap: "anywhere" }}
           >
-            <p
-              className="text-sm sm:text-base"
-              dangerouslySetInnerHTML={{
-                __html: DOMPurify.sanitize(data?.question?.question ?? "")
-              }}
-            ></p>
+            {data?.question?.title}
+          </h1>
+        </div>
+
+        <div className="flex justify-between">
+          <div className="flex flex-col">
+            <div
+              className="flex flex-col min-h-72"
+              style={{ overflowWrap: "anywhere" }}
+            >
+              <p
+                className="sm:text-base"
+                dangerouslySetInnerHTML={{
+                  __html: DOMPurify.sanitize(data?.question?.question ?? "")
+                }}
+              ></p>
+            </div>
+
+            <div>
+              {data?.question?.imagesrc?.[0] && (
+                <div className="pb-3">
+                  <h5 className="font-poppins-semibold">Attachments</h5>
+                </div>
+              )}
+
+              {data?.question?.imagesrc &&
+                data?.question?.imagesrc.length > 0 && (
+                  <QuestionImageCarousel
+                    imagesSrc={data?.question?.imagesrc}
+                    onImageClick={img => {
+                      setFocusedImg(img);
+                    }}
+                  />
+                )}
+            </div>
           </div>
 
-          <div>
-            {data?.question?.imagesrc?.[0] && (
-              <div className="pb-3">
-                <h5 className="font-poppins-semibold">Attachments</h5>
-              </div>
-            )}
+          <div className="flex flex-col gap-3 items-center px-[.8rem]">
+            <QuestionVoteButton
+              variant="upvote"
+              voteType={data?.question?.vote?.type as "upvote" | "downvote"}
+              onClick={() => {
+                handleQuestionVote(
+                  data?.question?.id || "",
+                  "upvote",
+                  data?.question?.vote?.id
+                );
+              }}
+            />
 
-            {data?.question?.imagesrc &&
-              data?.question?.imagesrc.length > 0 && (
-                <QuestionImageCarousel
-                  imagesSrc={data?.question?.imagesrc}
-                  onImageClick={img => {
-                    setFocusedImg(img);
-                  }}
+            <span className="font-semibold">{data?.question?.vote_count}</span>
+
+            <QuestionVoteButton
+              variant="downvote"
+              voteType={data?.question?.vote?.type as "upvote" | "downvote"}
+              onClick={() => {
+                handleQuestionVote(
+                  data?.question?.id || "",
+                  "downvote",
+                  data?.question?.vote?.id
+                );
+              }}
+            />
+          </div>
+        </div>
+
+        <div className="mt-20">
+          {!isQuestionOwned ? (
+            <QuestionFeedbackPanel>
+              {!isSaved ? (
+                <QuestionFeedbackPanel.ItemWithAuth
+                  title="Save"
+                  icon={() => <LuBookmark />}
+                  onClick={handleSaveQuestion}
+                />
+              ) : (
+                <QuestionFeedbackPanel.ItemWithAuth
+                  title="Unsave"
+                  icon={() => <LuBookmark />}
+                  onClick={handleSaveQuestion}
                 />
               )}
-          </div>
+              <QuestionFeedbackPanel.ItemWithAuth
+                title="Report"
+                icon={() => <GoReport />}
+                onClick={() => setIsReportOpen(prev => !prev)}
+              />
+            </QuestionFeedbackPanel>
+          ) : (
+            <QuestionFeedbackPanel>
+              <QuestionFeedbackPanel.ItemWithAuth
+                title="Edit"
+                icon={() => <MdOutlineEdit />}
+                onClick={() => navigate(`/forum/ask/edit/${questionId}`)}
+              />
+              <QuestionFeedbackPanel.ItemWithAuth
+                title="Delete"
+                icon={() => <AiOutlineDelete />}
+                onClick={() => setIsQuestionDeleteDialogOpen(true)}
+              />
+            </QuestionFeedbackPanel>
+          )}
         </div>
 
-        <div className="flex flex-col gap-3 items-center px-[.8rem]">
-          <QuestionVoteButton
-            variant="upvote"
-            voteType={data?.question?.vote?.type as "upvote" | "downvote"}
-            onClick={() => {
-              handleQuestionVote(
-                data?.question?.id || "",
-                "upvote",
-                data?.question?.vote?.id
-              );
-            }}
-          />
-
-          <span className="font-semibold">{data?.question?.vote_count}</span>
-
-          <QuestionVoteButton
-            variant="downvote"
-            voteType={data?.question?.vote?.type as "upvote" | "downvote"}
-            onClick={() => {
-              handleQuestionVote(
-                data?.question?.id || "",
-                "downvote",
-                data?.question?.vote?.id
-              );
-            }}
-          />
+        <div className="flex flex-wrap gap-x-2 gap-y-3 py-5">
+          {data?.question?.tags?.map(({ tag }) => {
+            return (
+              <TagChip
+                to={`/forum?tag=${tag}`}
+                key={tag}
+                name={tag}
+                size="base"
+              />
+            );
+          })}
         </div>
-      </div>
-
-      <div className="mt-20">
-        {!isQuestionOwned ? (
-          <QuestionFeedbackPanel>
-            {!isSaved ? (
-              <QuestionFeedbackPanel.ItemWithAuth
-                title="Save"
-                icon={() => <LuBookmark />}
-                onClick={handleSaveQuestion}
-              />
-            ) : (
-              <QuestionFeedbackPanel.ItemWithAuth
-                title="Unsave"
-                icon={() => <LuBookmark />}
-                onClick={handleSaveQuestion}
-              />
-            )}
-            <QuestionFeedbackPanel.ItemWithAuth
-              title="Report"
-              icon={() => <GoReport />}
-              onClick={() => setIsReportOpen(prev => !prev)}
-            />
-          </QuestionFeedbackPanel>
-        ) : (
-          <QuestionFeedbackPanel>
-            <QuestionFeedbackPanel.ItemWithAuth
-              title="Edit"
-              icon={() => <MdOutlineEdit />}
-              onClick={() => navigate(`/forum/ask/edit/${questionId}`)}
-            />
-            <QuestionFeedbackPanel.ItemWithAuth
-              title="Delete"
-              icon={() => <AiOutlineDelete />}
-              onClick={() => setIsQuestionDeleteDialogOpen(true)}
-            />
-          </QuestionFeedbackPanel>
-        )}
-      </div>
-
-      <div className="flex flex-wrap gap-x-2 gap-y-3 py-5">
-        {data?.question?.tags?.map(({ tag }) => {
-          return (
-            <TagChip
-              to={`/forum?tag=${tag}`}
-              key={tag}
-              name={tag}
-              size="base"
-            />
-          );
-        })}
       </div>
 
       <QuestionReportQuestionDiaglog

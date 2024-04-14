@@ -74,7 +74,7 @@ const QuestionFeedbackPanelItemWithAuth = ({
 
   return (
     <button
-      className="flex items-center my-auto gap-2 px-2 py-1.5 rounded-lg hover:bg-accent duration-200 bg-white dark:bg-background border"
+      className="flex items-center my-auto gap-1 px-2 py-1.5 rounded-lg hover:bg-accent duration-200 bg-white dark:bg-background border"
       onClick={user.isAuthenticated ? onClick : undefined}
       {...props}
     >
@@ -84,7 +84,7 @@ const QuestionFeedbackPanelItemWithAuth = ({
             <div className="text-md sm:text-lg">{icon && icon()}</div>
 
             {title && (
-              <span className="text-xs sm:text-sm font-poppins-semibold text-foreground whitespace-nowrap">
+              <span className="text-sm font-poppins-semibold text-foreground whitespace-nowrap">
                 {title}
               </span>
             )}

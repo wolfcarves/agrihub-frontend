@@ -21,7 +21,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger
 } from "../../../ui/alert-dialog";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useDispatch } from "../../../../redux/store";
 import { setEmail, setPassword } from "../../../../redux/slices/adminSlice";
@@ -111,16 +111,15 @@ const DialogCreateAdmin = () => {
                   Are you sure you want to create this account as admin?
                 </AlertDialogTitle>
                 <AlertDialogDescription>
-                  This action cannot be undone. This will send an verification
-                  email to the user and will register them as assistant admin of
-                  AgriHub.
+                  This action cannot be undone. This will register the inputed
+                  email and set them as assistant admin of AgriHub.
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
 
                 <AlertDialogAction onClick={handleAdminCredits}>
-                  Continue
+                  Create
                 </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>

@@ -42,6 +42,12 @@ const EventTitle = () => {
 
           <p className="pt-5">{parse(eventData?.about || "")}</p>
         </div>
+
+        <div className="pt-5">
+          <h5 className="font-poppins-semibold">Event Type</h5>
+
+          <p className="pt-5">{eventData?.type}</p>
+        </div>
       </div>
 
       <div className="flex-1 1 p-5 sm:p-10">

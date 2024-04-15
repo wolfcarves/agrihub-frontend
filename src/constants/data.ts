@@ -7,7 +7,8 @@ export const validId: string[] = [
   "Home Development Mutual Fund ID",
   "Driver's License",
   "Unified Multi-Purpose ID"
-];
+] as const;
+
 export const district: string[] = [
   "District 1",
   "District 2",
@@ -15,9 +16,9 @@ export const district: string[] = [
   "District 4",
   "District 5",
   "District 6"
-];
+] as const;
 
-export const district1: string[] = [
+export const district1 = [
   "Vasra",
   "Bagong Pag-asa",
   "Sto. Cristo",
@@ -55,7 +56,7 @@ export const district1: string[] = [
   "N.S Amoranto",
   "Maharlika",
   "Lourdes"
-];
+] as const;
 
 export const district2: string[] = [
   "Bagong Silangan",
@@ -63,7 +64,7 @@ export const district2: string[] = [
   "Commonwealth",
   "Holy Spirit",
   "Payatas"
-];
+] as const;
 
 export const district3: string[] = [
   "Silangan",
@@ -103,7 +104,7 @@ export const district3: string[] = [
   "Bagumbuhay",
   "Tagumpay",
   "Dioquino Zobel"
-];
+] as const;
 
 export const district4: string[] = [
   "Sacred Heart",
@@ -144,7 +145,7 @@ export const district4: string[] = [
   "Sikatuna Village",
   "Botocan",
   "Krus Na Ligas"
-];
+] as const;
 
 export const district5: string[] = [
   "Bagbag",

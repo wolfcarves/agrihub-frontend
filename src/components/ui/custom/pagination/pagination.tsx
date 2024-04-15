@@ -1,5 +1,5 @@
 import {
-  PaginationEllipsis,
+  // PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
@@ -61,13 +61,16 @@ const Pagination = ({
     return <></>;
   }
 
+  if (totalPages === 0) return <></>;
+
   return (
     <>
       <ReactPaginate
         breakLabel={
-          <PaginationItem>
-            <PaginationEllipsis />
-          </PaginationItem>
+          <></>
+          // <PaginationItem>
+          //   <PaginationEllipsis />
+          // </PaginationItem>
         }
         previousLabel={<PaginationPreviousLabel page={params.page} />}
         nextLabel={
@@ -96,6 +99,8 @@ const Pagination = ({
         }}
         className="flex items-center mx-auto w-max list-none"
         pageCount={totalPages}
+        pageRangeDisplayed={5}
+        marginPagesDisplayed={0}
         forcePage={params.page ? params.page - 1 : 0}
         onPageChange={({ selected }) => {
           const selectedPage = String(selected + 1);

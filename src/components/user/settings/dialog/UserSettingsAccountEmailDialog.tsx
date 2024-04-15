@@ -115,7 +115,9 @@ const UserSettingsAccountEmailDialog = ({
                 type="button"
                 className="px-6 shadow-sm"
                 variant="outline"
-                onClick={() => onOpenChange && onOpenChange(false)}
+                onClick={() => {
+                  onOpenChange && onOpenChange(false);
+                }}
               >
                 Cancel
               </Button>

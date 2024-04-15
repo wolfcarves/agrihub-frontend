@@ -385,3 +385,8 @@ code {
     display: none;
   }
 }
+
+
+.object-landing{
+  object-position: top 0px right -170px;
+}

@@ -12,7 +12,7 @@ import UserHeaderMobileSidebar from "@components/ui/custom/sidebar/user-header-m
 import UserHeaderSearch from "./user-header-search";
 
 const UserHeaderContainer = ({ children }: { children: ReactNode }) => (
-  <div className="sticky top-0 w-full bg-background z-50 flex justify-center h-14 md:h-20 border-b">
+  <div className="sticky top-0 w-full bg-background z-50 flex justify-center h-14 lg:h-20 border-b">
     <UserReponsiveContainer className="justify-between items-center w-full">
       {children}
     </UserReponsiveContainer>
@@ -23,7 +23,7 @@ const UserHeaderLogo = () => {
   return (
     <Link to="/">
       <img
-        className="w-14 md:block hidden"
+        className="w-14 lg:block hidden"
         src={AgrihubLogo as unknown as string}
       />
     </Link>

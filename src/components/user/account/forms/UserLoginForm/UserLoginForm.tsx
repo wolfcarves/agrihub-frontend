@@ -42,7 +42,7 @@ const UserLoginForm = () => {
     <>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onLoginSubmit)}>
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-3">
             <FormField
               control={form.control}
               name="user"

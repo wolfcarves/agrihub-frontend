@@ -14,7 +14,7 @@ const commonReason = [
   "Threatening violence",
   "Harassment",
   "Impersonation",
-  "Child Exploitation/Pornography",
+  "Pornography",
   "Abusive"
 ] as const;
 
@@ -78,16 +78,18 @@ const QuestionReportQuestionDiaglog = ({
               <Input
                 value={reasonValue}
                 className="font-inter-regular"
+                placeholder="You can add your own reason here."
                 onChange={e => setReasonValue(e.target.value as any)}
               />
             </div>
 
             <div className="mt-3 space-y-1.5">
               <span className="text-sm font-inter-semibold text-foreground/70">
-                Description
+                Description (Optional)
               </span>
               <Textarea
-                className="text-sm font-inter-regular"
+                className="text-sm font-inter-regular resize-none"
+                placeholder="Add some explanation regarding to reason"
                 onChange={e => setDescription(e.target.value)}
               />
             </div>

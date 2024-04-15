@@ -46,6 +46,12 @@ const PermissionAdminCreate = () => {
   };
 
   useEffect(() => {
+    if (!email || !password) {
+      navigate("/admin/record/admins");
+    }
+  }, []);
+
+  useEffect(() => {
     if (learningMaterials && events && blogs) {
       setAllowAll(true);
     } else {

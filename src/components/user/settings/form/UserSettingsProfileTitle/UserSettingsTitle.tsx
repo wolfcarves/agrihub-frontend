@@ -1,3 +1,5 @@
+import { LuPencil } from "react-icons/lu";
+
 const UserSettingsTitle = ({ title }: { title?: string }) => {
   return (
     <>

@@ -28,6 +28,7 @@
       "@axios/*": ["./src/axios/*"],
       "@components-ui": ["./src/components/ui/index.tsx"],
       "@components/*": ["./src/components/*"],
+      "@constants/*": ["./src/constants/*"],
       "@higher-order/*": ["./src/higher-order/*"],
       "@hooks/*": ["./src/hooks/*"],
       "@lib/*": ["./src/components/lib/*"],

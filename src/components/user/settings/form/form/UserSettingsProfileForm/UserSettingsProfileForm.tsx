@@ -28,8 +28,6 @@ const UserSettingsProfileForm = () => {
   const queryClient = useQueryClient();
   const user = useAuth();
 
-  const bDay = new Date(user?.data?.birthdate ?? "");
-
   const form = useForm<ProfileSchema>({
     resolver: zodResolver(profileSchema),
     mode: "onChange",
@@ -39,7 +37,7 @@ const UserSettingsProfileForm = () => {
       lastname: user?.data?.lastname,
       bio: user?.data?.bio,
       present_address: user?.data?.present_address,
-      dob: bDay
+      dob: new Date(user?.data?.birthdate ?? "")
     }
   });
 
@@ -288,7 +286,8 @@ const UserSettingsProfileForm = () => {
                 firstname: user?.data?.firstname,
                 lastname: user?.data?.lastname,
                 bio: user?.data?.bio,
-                present_address: user?.data?.present_address
+                present_address: user?.data?.present_address,
+                dob: new Date(user?.data?.birthdate ?? "")
               });
             }}
           >

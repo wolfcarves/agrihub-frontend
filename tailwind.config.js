@@ -106,11 +106,20 @@ export default {
         "accordion-up": {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: 0 }
+        },
+        fadeDown: {
+          '0%': { transform: 'translate(0, -40px)', opacity: 0 },
+          '100%': { transform: 'translate(0, 0px)', opacity: 1},
         }
+        // "fade-down": {
+        //   from: {transform: 'translateY(0px, 10px)'},
+        //   to: {transform: 'translateY(0px, 0px)'},
+        // }
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out"
+        "accordion-up": "accordion-up 0.2s ease-out",
+        "appear": "fadeDown 0.5s ease forwards"
       },
     }
   },

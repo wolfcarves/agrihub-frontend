@@ -6,9 +6,10 @@ import BackButton from "@components/ui/custom/button/back-button";
 const Event = () => {
   return (
     <div className="container">
-      <div className="mt-20 sm:mx-8 w-max">
+      <div className="py-10 sm:mx-8 w-max">
         <BackButton />
       </div>
+
       <EventTitle />
       <EventDetailsList />
     </div>

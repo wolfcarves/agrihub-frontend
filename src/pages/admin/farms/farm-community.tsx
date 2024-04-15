@@ -3,7 +3,7 @@ import withAuthGuard from "@higher-order/account/withAuthGuard";
 import React, { useMemo } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/ui/tabs";
 import BreadCrumb from "@components/ui/custom/breadcrumb/breadcrumb";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import AdminFarmReportedProblems from "@components/admin/farms/table/reported-problems-table";
 import TableCommunityFarmActive from "../../../components/admin/community-farms/table-community-farm-active/table-community-farm-active";
 import TableCommunityFarmArchive from "../../../components/admin/community-farms/table-community-farm-archive/table-community-farm-archive";

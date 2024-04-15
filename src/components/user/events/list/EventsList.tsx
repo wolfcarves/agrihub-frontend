@@ -1,15 +1,22 @@
-import React from "react";
+import React, { useMemo } from "react";
 import EventsCard from "../card/EventsCard";
 import useGetEventPublishedListQuery from "@hooks/api/get/useGetEventPublishedListQuery";
 import SkeletonEventsList from "../skeleton/skeleton-events-list";
-import { Divider } from "@components/ui/custom";
+import { Divider, Pagination } from "@components/ui/custom";
+import { useSearchParams } from "react-router-dom";
 
 const EventsList = () => {
+  const [searchParams] = useSearchParams();
+
+  const params = useMemo(() => {
+    return {
+      currentPage: Number(searchParams.get("page")) ?? 1
+    };
+  }, [searchParams]);
+
   const { data: eventsData, isLoading: isEventsLoading } =
     useGetEventPublishedListQuery({
-      search: "",
-      page: "1",
-      perpage: "10"
+      page: String(params.currentPage)
     });
 
   return (
@@ -29,6 +36,13 @@ const EventsList = () => {
             </div>
           );
         })}
+      </div>
+
+      <div className="py-5">
+        <Pagination
+          totalPages={eventsData?.pagination?.total_pages ?? 0}
+          isLoading={isEventsLoading}
+        />
       </div>
     </div>
   );

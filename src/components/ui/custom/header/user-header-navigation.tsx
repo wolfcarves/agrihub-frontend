@@ -35,19 +35,13 @@ const resources: { title: string; href: string; description: string }[] = [
     title: "Blogs",
     href: "/blogs",
     description: "Discover essential and valuable insights by reading our blogs"
-  },
+  }
   // {
   //   title: "Articles",
   //   href: "/articles",
   //   description:
   //     "A modal dialog that interrupts the user with important content and expects a response."
   // },
-  {
-    title: "About",
-    href: "/about",
-    description:
-      "Get to know more about the benefactors and administrators of the Agrihub"
-  }
 ];
 
 const UserHeaderNavigation = () => {
@@ -55,7 +49,7 @@ const UserHeaderNavigation = () => {
     <NavigationMenu
       delayDuration={999999}
       skipDelayDuration={0}
-      className="hidden md:block ms-auto"
+      className="hidden lg:block ms-auto"
     >
       <NavigationMenuList>
         <NavigationMenuItem className="flex h-20">
@@ -120,6 +114,19 @@ const UserHeaderNavigation = () => {
             }
           >
             <span>Forum</span>
+          </NavLink>
+        </NavigationMenuItem>
+
+        <NavigationMenuItem className="flex h-20">
+          <NavLink
+            to="/about"
+            className={({ isActive }) =>
+              isActive
+                ? "flex items-center h-full font-poppins-medium text-primary text-sm px-8 hover:bg-slate-100/50 border-b-[2px] border-b-primary duration-200"
+                : "flex items-center h-full font-poppins-medium text-foreground text-sm px-8 hover:bg-slate-100/50 duration-200"
+            }
+          >
+            <span>About</span>
           </NavLink>
         </NavigationMenuItem>
       </NavigationMenuList>

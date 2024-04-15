@@ -22,7 +22,14 @@ export const profileSchema = z.object({
       path: ["lastname"]
     }),
   bio: z.string().max(50, "50 characters only").optional().nullish(),
-  present_address: z.string().min(8, "Please enter valid address").trim()
+  present_address: z.string().min(8, "Please enter valid address").trim(),
+  dob: z
+    .date({
+      required_error: "Birth day is required",
+      invalid_type_error: "That's not a date!"
+    })
+    .min(new Date("1900-01-01"), "That's not a valid date!")
+    .max(new Date(), "That's not a valid date!")
 });
 
 export type ProfileSchema = z.infer<typeof profileSchema>;

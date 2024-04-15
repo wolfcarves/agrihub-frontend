@@ -70,7 +70,7 @@ const UserFinalSetupForm = () => {
           </div>
 
           <div className="flex flex-col">
-            <h6 className="font-medium">Profile Picture</h6>
+            <h6 className="font-medium">Username</h6>
             <div className="py-2 w-72">
               <FormField
                 name="username"

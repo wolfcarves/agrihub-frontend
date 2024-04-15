@@ -19,7 +19,7 @@ const Input = (
   const [showText, setShowText] = useState<boolean>(false);
 
   return (
-    <div className="relative mt-2">
+    <div className="relative">
       <label htmlFor={inputId}>{$label}</label>
 
       <ShadInput

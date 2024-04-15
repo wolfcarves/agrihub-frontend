@@ -31,6 +31,7 @@ export default defineConfig({
       "@axios": path.resolve(__dirname, "src/axios"),
       "@components-ui": path.resolve(__dirname, "src/components/ui/index.tsx"),
       "@components": path.resolve(__dirname, "src/components"),
+      "@constants": path.resolve(__dirname, "src/constants"),
       "@higher-order": path.resolve(__dirname, "src/higher-order"),
       "@hooks": path.resolve(__dirname, "src/hooks"),
       "@lib": path.resolve(__dirname, "src/components/lib"),

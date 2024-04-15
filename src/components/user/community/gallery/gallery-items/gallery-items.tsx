@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import useGetFarmGalleryQuery from "../../../../../hooks/api/get/useGetFarmGalleryQuery";
-import useAuth from "../../../../../hooks/useAuth";
 import {
   Tooltip,
   TooltipContent,
@@ -10,7 +9,6 @@ import {
 import DeleteImageAlert from "../delete-image-modal/delete-image-alert";
 import useCommunityAutorization from "../../../../../hooks/utils/useCommunityAutorization";
 import ImgModal from "../../../../ui/custom/img-modal/Modal";
-import { CropGalleryItem } from "../../../../../api/openapi";
 import { formatDateTime } from "@components/lib/utils";
 import { Button } from "@components/ui/button";
 import { Card } from "@components/ui/card";
@@ -80,7 +78,7 @@ const GalleryItems = () => {
               <img
                 src={farmGallery[selectedImageIndex].imagesrc}
                 alt="Full View"
-                className="max-w-full"
+                className="max-w-full rounded-tr-lg rounded-tl-lg sm:rounded-tr-none sm:rounded-bl-lg"
               />
             </div>
             <div className="lg:w-2/5 w-full h-auto items-end flex">

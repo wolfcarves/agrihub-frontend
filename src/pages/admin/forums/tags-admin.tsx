@@ -17,8 +17,11 @@ const TagsAdmin = () => {
         <h2 className="text-3xl font-bold tracking-tight">Tags</h2>
         <DialogAddTags />
       </div>
-      <p className="text-sm text-muted-foreground">
-        Manage all tags within the website.
+      <p className="text-sm text-muted-foreground w-10/12">
+        Organize content and facilitate discovery with relevant tags. Enhance
+        user engagement and navigation by categorizing information based on
+        topics, themes, or keywords, allowing for easy exploration and
+        connection across your platform.
       </p>
       <hr className="my-4" />
       <TableTagsList />

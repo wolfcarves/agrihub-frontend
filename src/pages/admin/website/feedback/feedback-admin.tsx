@@ -33,7 +33,6 @@ const FeedbackAdmin = () => {
     searchParams.set("search", value);
     setSearchParams(searchParams);
   }, 100);
-  console.log(feedbackData);
   return (
     <AdminOutletContainer className="container mx-auto py-10 ">
       <BreadCrumb items={breadcrumbItems} />
@@ -42,17 +41,21 @@ const FeedbackAdmin = () => {
           User Feedback and Suggestion
         </h2>
       </div>
-      <p className="text-sm text-muted-foreground">
-        Manage all user feeback and suggestion, and set testimonials in your
-        website.
+      <p className="text-sm text-muted-foreground w-10/12">
+        See what is the users feeback and suggestion in your website. Use
+        feedback to drive improvements and strengthen relationships with your
+        audience
       </p>
       <hr className="my-4" />
-      <Input
-        placeholder="Search title..."
-        className="max-w-sm my-4"
-        value={params.search}
-        onChange={e => debouncedSearch(e.target.value)}
-      />
+      <div className="flex items-center">
+        <Input
+          placeholder="Search title..."
+          className="max-w-sm my-4"
+          value={params.search}
+          onChange={e => debouncedSearch(e.target.value)}
+          autoFocus
+        />
+      </div>
       <DataTable columns={columns} data={feedbackData?.data || []} />
       {feedbackData?.pagination?.total_pages !== 1 && (
         <div className="mt-4">

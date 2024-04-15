@@ -141,8 +141,11 @@ const ClientAdmin = () => {
           Center for Urban Agriculture and Innovation
         </h2>
       </div>
-      <p className="text-sm text-muted-foreground">
-        Minanage ni kinember si berlalu para sa kalabasa.
+      <p className="text-sm text-muted-foreground w-10/12">
+        Manage all the information about your organization, covering its
+        mission, vision, team members, partnerships, and social media presence.
+        Showcase the collective efforts and values driving your platform, along
+        with strategic collaborations and avenues for engagement.
       </p>
       <hr className="my-4" />
 
@@ -182,7 +185,9 @@ const ClientAdmin = () => {
             appendPartner={appendPartner}
             removePartner={removePartner}
           />
-          <Button type="submit">Save</Button>
+          <div className="bottom-8 right-8 fixed">
+            <Button type="submit">Save</Button>
+          </div>
         </form>
       </Form>
       <Loader isVisible={IsMutationLoading} />

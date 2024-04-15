@@ -76,9 +76,11 @@ const TermsAdmin = () => {
           <h2 className="text-3xl font-bold tracking-tight">
             Terms and Conditions
           </h2>
-          <p className="text-sm text-muted-foreground">
-            Liver lover boi, secured ang iyong bituka sa sinigang na manok sa
-            may tinola.
+          <p className="text-sm text-muted-foreground w-10/12">
+            Administrate the terms and conditions to establish clear guidelines
+            for user interaction. Define user rights, responsibilities, and
+            limitations to maintain consistency and legality across the
+            platform.
           </p>
         </div>
       </div>

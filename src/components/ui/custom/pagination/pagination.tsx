@@ -61,6 +61,8 @@ const Pagination = ({
     return <></>;
   }
 
+  if (totalPages === 0) return <></>;
+
   return (
     <>
       <ReactPaginate

@@ -87,7 +87,7 @@ const UserSignupForm = () => {
     <>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSignupSubmit)}>
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-3">
             <Tabs
               value={method}
               onValueChange={e => setMethod(e as "email" | "phone")}

@@ -1,6 +1,23 @@
 import * as zod from "zod";
+import {
+  district1,
+  district2,
+  district3,
+  district4,
+  district5,
+  district6
+} from "../../../../../constants/data";
 
 const validationMessage = "Whitespaces and symbols are not allowed";
+
+const districtsValues = [
+  ...district1,
+  ...district2,
+  ...district3,
+  ...district4,
+  ...district5,
+  ...district6
+] as const;
 
 export const userSetupAcountSchema = zod.object({
   firstname: zod
@@ -32,7 +49,14 @@ export const userSetupAcountSchema = zod.object({
     })
     .min(new Date("1900-01-01"), "That's not a valid date!")
     .max(new Date(), "That's not a valid date!"),
-  presentAddress: zod.string().min(8, "Please enter valid address")
+  presentAddress: zod.string().min(8, "Please enter valid address"),
+  district: zod.string().regex(/^(1|2|3|4|5|6)$/, {
+    message: "Invalid district"
+  })
+  // municipality: zod.enum(districtsValues, {
+  //   required_error: "Please enter your city",
+  //   errorMap: () => ({ message: "Invalid city" })
+  // })
 });
 
 export type UserSetupAccount = zod.infer<typeof userSetupAcountSchema>;

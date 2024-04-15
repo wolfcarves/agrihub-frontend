@@ -59,14 +59,14 @@ const Learnings = () => {
           onClick={() => setIsPreviewing(false)}
         >
           <div
-            className={`relative w-[90%] aspect-auto xl:w-1/2 xl:h-1/2 object-contain animate-appear`}
+            className={`relative w-[90%] aspect-video xl:w-1/2 xl:h-1/2 object-contain animate-appear bg-black`}
           >
             <div className="absolute inset-0 m-auto h-max w-max -z-10">
               <LoadingSpinner className="text-primary" />
             </div>
 
             <iframe
-              className={`w-full h-full object-contain`}
+              className={`w-full h-full object-contain aspect-auto`}
               title={params.videoId ?? ""}
               src={convertToEmbedLink(params.preview || "")}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"

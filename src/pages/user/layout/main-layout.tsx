@@ -1,9 +1,9 @@
 import { useEffect, useRef } from "react";
-import { Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import { ScrollRestoration } from "react-router-dom";
 import LoadingBar, { LoadingBarRef } from "react-top-loading-bar";
 import { UserFooter, UserHeader } from "@components/ui/custom";
-import { ThemeToggler } from "@components/ui/theme-toggler";
+import { MdOutlineQuestionMark } from "react-icons/md";
 
 const MainLayout = () => {
   const loader = useRef<LoadingBarRef>(null);
@@ -31,7 +31,7 @@ const MainLayout = () => {
 
         <ScrollRestoration
           getKey={loc => {
-            return loc.pathname + loc.search;
+            return loc.pathname;
           }}
         />
 
@@ -39,9 +39,16 @@ const MainLayout = () => {
         <Outlet />
         <UserFooter />
 
-        {/* <div className="fixed bottom-5 end-5">
-          <ThemeToggler />
-        </div> */}
+        <Link
+          to="/helps/guides"
+          className="fixed bottom-5 end-5 p-2 bg-primary/70 hover:bg-primary rounded-full cursor-pointer group duration-200"
+        >
+          <MdOutlineQuestionMark className="text-background text-xl lg:text-2xl" />
+
+          <span className="absolute -left-[4.5rem] top-1.5 text-foreground font-poppins-medium text-sm bg-background py-1.5 px-4 my-auto rounded-2xl group-hover:visible group-hover:opacity-100 opacity-0 invisible duration-200 border">
+            Help
+          </span>
+        </Link>
       </div>
     </>
   );

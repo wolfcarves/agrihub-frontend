@@ -54,9 +54,9 @@ const AnalyticsAdmin = () => {
           <div>
             <BarHarvestWithered />
           </div>
-          <Card className="p-5">
+          <div>
             <GrowthRateLineChartAnalytics />
-          </Card>
+          </div>
           <Card className="p-5">
             <BarDistrictOverview />
           </Card>

@@ -19,6 +19,7 @@ import useGetReportCropDistribution from "../../../hooks/api/get/useGetReportCro
 import useGetReportGrowthRateDistribution from "../../../hooks/api/get/useGetReportGrowthRateDistribution";
 import { chartColor } from "../../../constants/data";
 import { Card } from "../../../components/ui/card";
+import useGetReportHarvestDistribution from "../../../hooks/api/get/useGetReportHarvestDistribution";
 
 const BarHarvestWithered = () => {
   const [selectedYear, setSelectedYear] = useState<string>("2024");
@@ -33,13 +34,11 @@ const BarHarvestWithered = () => {
   const { data: cropDistribution } = useGetReportCropDistribution({
     month: activeLabel
   });
-  const { data: growthDistribution } = useGetReportGrowthRateDistribution({
+  const { data: harvestDistribution } = useGetReportHarvestDistribution({
     month: activeLabel
   });
 
   const chartRef = useRef();
-
-  console.log(growthDistribution, activeLabel);
 
   const handleChangeYear = (year: string) => {
     setSelectedYear(year);
@@ -86,12 +85,12 @@ const BarHarvestWithered = () => {
       }
     }
   };
-  const dataGrowth = {
-    labels: growthDistribution?.map(item => item.crop_name),
+  const dataHarvest = {
+    labels: harvestDistribution?.map(item => item.farm_name),
     datasets: [
       {
         label: "Growth Rate",
-        data: growthDistribution?.map(item => item.percentage_distribution),
+        data: harvestDistribution?.map(item => item.percentage_distribution),
         backgroundColor: ["rgba(183, 235, 199, 1)"]
       }
     ]
@@ -232,13 +231,13 @@ const BarHarvestWithered = () => {
           </Card>
         )}
       </div>
-      {Number(growthDistribution?.length || 0) > 0 && (
+      {Number(harvestDistribution?.length || 0) > 0 && (
         <Card className={` mt-4 p-5 duration-300`}>
           <h2 className="text-lg font-bold tracking-tight ">
-            Crops Growth Rate
+            Farm Harvest Distribution
           </h2>
           <div className="h-[350px]">
-            <Bar data={dataGrowth} options={optionsBar} />
+            <Bar data={dataHarvest} options={optionsBar} />
           </div>
         </Card>
       )}

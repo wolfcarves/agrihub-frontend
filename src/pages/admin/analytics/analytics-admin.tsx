@@ -29,6 +29,7 @@ import PieProblems from "../charts/pie-problem";
 import { Link } from "react-router-dom";
 import useGetReportAnalyticsUserFeedback from "../../../hooks/api/get/useGetReportAnalyticsUserFeedback";
 import RatesFeedback from "../charts/rates-feedback";
+import GrowthRateLineChartAnalytics from "../charts/line-growthrate-analytics";
 
 const AnalyticsAdmin = () => {
   const [sort, setSort] = useState<"asc" | "desc" | undefined>("asc");
@@ -50,11 +51,11 @@ const AnalyticsAdmin = () => {
               <RatesFeedback />
             </Card>
           </div>
-          <Card className="p-5">
+          <div>
             <BarHarvestWithered />
-          </Card>
+          </div>
           <Card className="p-5">
-            <GrowthRateLineChart />
+            <GrowthRateLineChartAnalytics />
           </Card>
           <Card className="p-5">
             <BarDistrictOverview />

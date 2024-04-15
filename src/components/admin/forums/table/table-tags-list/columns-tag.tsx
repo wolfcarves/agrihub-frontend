@@ -2,7 +2,7 @@ import * as React from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 
-import { Button } from "@components/ui/button";
+import { Button, buttonVariants } from "@components/ui/button";
 
 import {
   DropdownMenu,
@@ -218,9 +218,7 @@ export const columns: ColumnDef<Tag>[] = [
                     </AlertDialogTrigger>
                     <AlertDialogContent>
                       <AlertDialogHeader>
-                        <AlertDialogTitle>
-                          Are you absolutely sure?
-                        </AlertDialogTitle>
+                        <AlertDialogTitle>Delete this tag?</AlertDialogTitle>
                         <AlertDialogDescription>
                           This action cannot be undone. This will permanently
                           delete a tag and remove tag data from our servers.
@@ -228,8 +226,11 @@ export const columns: ColumnDef<Tag>[] = [
                       </AlertDialogHeader>
                       <AlertDialogFooter>
                         <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        <AlertDialogAction onClick={handleUnpublish}>
-                          Continue
+                        <AlertDialogAction
+                          className="bg-red-500"
+                          onClick={handleUnpublish}
+                        >
+                          Delete
                         </AlertDialogAction>
                       </AlertDialogFooter>
                     </AlertDialogContent>

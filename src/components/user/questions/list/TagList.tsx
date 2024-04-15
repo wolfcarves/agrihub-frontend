@@ -1,5 +1,5 @@
 import SearchBar from "@components/ui/custom/search-bar/SearchBar";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import TagCard from "../card/TagCard";
 import useGetTagsQuery from "@hooks/api/get/useGetTagsQuery";
 import { Pagination } from "@components/ui/custom";
@@ -18,17 +18,23 @@ const TagList = () => {
   const { data: tagsData, isLoading: isTagsDataLoading } = useGetTagsQuery({
     search: query,
     page: String(params.currentPage),
-    perpage: "20"
+    perpage: "40"
   });
+
+  useEffect(() => {
+    scrollTo(0, 0);
+  }, [params.currentPage]);
 
   return (
     <div className="flex flex-col">
-      <div className=" items-center h-full py-3">
+      {/* <div className=" items-center h-full py-3">
         <SearchBar
           placeholder="Filter by tag name"
           onChange={e => setQuery(e.target.value)}
         />
-      </div>
+      </div> */}
+
+      <h2 className="font-poppins-semibold">Question Tags</h2>
 
       <div className="flex flex-wrap gap-x-3 gap-y-7 mt-10">
         {tagsData?.tags?.map(({ id, tag_name, details, count }) => (

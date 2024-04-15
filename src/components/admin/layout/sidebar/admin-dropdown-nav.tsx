@@ -61,7 +61,9 @@ const AdminDropdownNav = ({
         }`}
       >
         {icon}
-        <span className="text-sm font-semibold">{title}</span>
+        <span className="text-sm font-semibold text-nowrap break-normal">
+          {title}
+        </span>
         <div className={`${isOpen ? "rotate-180 duration-300" : ""} ms-auto`}>
           <GoChevronDown size={18} />
         </div>
@@ -96,7 +98,9 @@ const AdminDropdownNav = ({
                       : "flex gap-3 items-center text-[#858b94] px-5 py-3 hover:bg-primary/20 hover:text-primary rounded-lg select-none w-full "
                   }
                 >
-                  <span className=" text-xs font-semibold">{item.title}</span>
+                  <span className=" text-xs font-semibold text-nowrap break-normal">
+                    {item.title}
+                  </span>
                 </NavLink>
               </div>
             </div>

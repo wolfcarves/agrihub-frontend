@@ -14,7 +14,7 @@ import useGetViewQuestion from "@hooks/api/get/useGetViewQuestion";
 import LoadingSpinner from "@icons/LoadingSpinner";
 import useFilesToBlobs from "@hooks/utils/useFilesToBlobs";
 import axios from "axios";
-import { LiaTrashAlt } from "react-icons/lia";
+import { IoTrashOutline } from "react-icons/io5";
 
 const QuestionEditFormRules = () => (
   <div className="pb-14">
@@ -63,7 +63,6 @@ const QuestionEditForm = () => {
 
   const handleSubmitForm = async (data: QuestionSchema) => {
     try {
-      // setIsUpdateQuestionLoading(true);
       const formData = new FormData();
 
       formData.append("title", data.title);
@@ -113,32 +112,39 @@ const QuestionEditForm = () => {
     setDeleteImages(prev => prev?.concat(url));
     setPrevImages(prevImages?.filter((_, idx) => idx !== deletedIdx));
   };
+
   const renderImages = (dataFile: File[]) => {
     return dataFile.map((f, idx) => {
       return (
         <div className="relative w-max h-max" key={f.name}>
           <img
-            width={200}
-            height={113}
+            width={180}
             src={URL.createObjectURL(f)}
-            className="rounded-2xl"
+            className="rounded-2xl aspect-square object-cover"
           />
 
           <button
             type="button"
-            className="absolute -top-3 -end-3 bg-destructive rounded-full p-1 text-background"
+            className="absolute -top-3 -end-3 bg-background rounded-full p-1 text-background"
             onClick={() => {
               setFiles(files.filter((_, index) => index !== idx));
             }}
           >
             <div className="-ms-[1px]">
-              <LiaTrashAlt size={24} />
+              <IoTrashOutline
+                size={25}
+                className="  border p-1 rounded-full text-red-600 border-red-400/45 bg-red-300/30"
+              />
             </div>
           </button>
         </div>
       );
     });
   };
+
+  useEffect(() => {
+    scrollTo(0, 0);
+  }, []);
 
   if (isPreviousQuestionDataLoading) {
     return <LoadingSpinner className="text-primary mx-auto" />;
@@ -286,18 +292,21 @@ const QuestionEditForm = () => {
                       width={200}
                       height={113}
                       src={imgSrc}
-                      className="rounded-2xl"
+                      className="rounded-2xl aspect-square object-cover"
                     />
                     <button
                       type="button"
-                      className="absolute -top-3 -end-3 bg-destructive rounded-full p-1 text-background"
+                      className="absolute -top-3 -end-3 bg-background rounded-full p-1 text-background"
                       onClick={() => {
                         const url = imgSrc.split("/");
                         handleRemoveImage(url?.[url.length - 1], idx);
                       }}
                     >
                       <div className="-ms-[1px]">
-                        <LiaTrashAlt size={24} />
+                        <IoTrashOutline
+                          size={25}
+                          className="  border p-1 rounded-full text-red-600 border-red-400/45 bg-red-300/30"
+                        />
                       </div>
                     </button>
                   </div>

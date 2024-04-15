@@ -10,10 +10,10 @@ import { toast } from "sonner";
 import UserTagInputDropdown from "@components/user/account/input/UserTagInput";
 import { FormField } from "@components/ui/form";
 import ActivityIndicator from "@icons/ActivityIndicator";
-import { LiaTrashAlt } from "react-icons/lia";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import useFilesToBlobs from "@hooks/utils/useFilesToBlobs";
+import { IoTrashOutline } from "react-icons/io5";
 
 const QuestionAskForm = () => {
   const navigate = useNavigate();
@@ -77,21 +77,23 @@ const QuestionAskForm = () => {
       return (
         <div className="relative w-max h-max" key={f.name}>
           <img
-            width={200}
-            height={113}
+            width={180}
             src={URL.createObjectURL(f)}
-            className="rounded-2xl"
+            className="rounded-2xl aspect-square object-cover"
           />
 
           <button
             type="button"
-            className="absolute -top-3 -end-3 bg-destructive rounded-full p-1 text-background"
+            className="absolute -top-3 -end-3 bg-background rounded-full p-1 text-background"
             onClick={() => {
               setFiles(files.filter((_, index) => index !== idx));
             }}
           >
             <div className="-ms-[1px]">
-              <LiaTrashAlt size={24} />
+              <IoTrashOutline
+                size={25}
+                className="  border p-1 rounded-full text-red-600 border-red-400/45 bg-red-300/30"
+              />
             </div>
           </button>
         </div>
@@ -185,6 +187,7 @@ const QuestionAskForm = () => {
                           }
                         }}
                         onBlur={data => {
+                          console.log(data.charSize);
                           onChange(data.html);
                         }}
                         height={300}

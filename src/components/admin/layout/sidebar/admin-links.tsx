@@ -136,6 +136,13 @@ export const adminNavigation: NavigationItem[] = [
         title: "Learning Materials",
         link: "/admin/resource/learnings",
         module: "learning"
+      },
+
+      {
+        icon: <FaRegEdit size={24} />,
+        title: "Crops",
+        link: "/admin/website/crops",
+        module: "crops"
       }
     ]
   },
@@ -224,13 +231,6 @@ export const adminNavigation: NavigationItem[] = [
         title: "User Feedbacks",
         link: "/admin/website/user-feedback",
         module: "user_feedback"
-      },
-
-      {
-        icon: <FaRegEdit size={24} />,
-        title: "Crops",
-        link: "/admin/website/crops",
-        module: "crops"
       }
     ]
   },

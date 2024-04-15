@@ -40,14 +40,6 @@ const Questions = () => {
     setSearchParams(searchParams);
   };
 
-  if (isQuestionLoading) {
-    return (
-      <div className="py-10">
-        <LoadingSpinner className="text-primary mx-auto" />
-      </div>
-    );
-  }
-
   return (
     <>
       <Helmet>

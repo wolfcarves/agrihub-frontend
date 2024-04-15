@@ -1,13 +1,17 @@
+import { data } from "./../../../pages/admin/users/table/columns-user";
 import { useQuery } from "@tanstack/react-query";
 import { ReportsService } from "../../../api/openapi";
 export const GET_REPORT_GROWTH_CHART = () => "GET_REPORT_GROWTH_CHART_KEY";
-
-export default function useGetReportGrowthChart() {
+interface GraphProps {
+  month?: string;
+}
+export default function useGetReportGrowthChart(data: GraphProps) {
   return useQuery({
-    queryKey: [GET_REPORT_GROWTH_CHART()],
+    queryKey: [GET_REPORT_GROWTH_CHART(), data.month],
     queryFn: async () => {
-      const data = await ReportsService.getApiReportsFarmerGraphGrowthHarvest();
-      return data;
+      const response =
+        await ReportsService.getApiReportsFarmerGraphGrowthHarvest(data);
+      return response;
     },
     keepPreviousData: true
   });

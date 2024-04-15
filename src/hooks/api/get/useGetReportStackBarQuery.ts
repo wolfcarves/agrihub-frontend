@@ -1,13 +1,17 @@
+import { data } from "./../../../pages/admin/users/table/columns-user";
 import { useQuery } from "@tanstack/react-query";
 import { ReportsService } from "../../../api/openapi";
 export const GET_REPORT_STACK_BAR = () => "GET_REPORT_STACK_BAR_KEY";
-
-export default function useGetReportStackBarQuery() {
+interface GraphProps {
+  month?: string;
+}
+export default function useGetReportStackBarQuery(data: GraphProps) {
   return useQuery({
-    queryKey: [GET_REPORT_STACK_BAR()],
+    queryKey: [GET_REPORT_STACK_BAR(), data.month],
     queryFn: async () => {
-      const data = await ReportsService.getApiReportsFarmerGraphStackedBar();
-      return data;
+      const response =
+        await ReportsService.getApiReportsFarmerGraphStackedBar(data);
+      return response;
     },
     keepPreviousData: true
   });

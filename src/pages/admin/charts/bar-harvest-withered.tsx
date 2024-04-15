@@ -1,6 +1,11 @@
 import useGetMonthlyWithered from "@hooks/api/get/useGetMonthlyWithered";
-import React, { useState } from "react";
-import { Bar } from "react-chartjs-2";
+import React, { useRef, useState, MouseEvent } from "react";
+import {
+  Bar,
+  getDatasetAtEvent,
+  getElementAtEvent,
+  getElementsAtEvent
+} from "react-chartjs-2";
 import {
   Select,
   SelectContent,
@@ -8,16 +13,30 @@ import {
   SelectTrigger,
   SelectValue
 } from "@components/ui/select";
+import { Chart, ChartOptions } from "chart.js";
+import useGetReportCropDistribution from "../../../hooks/api/get/useGetReportCropDistribution";
+import useGetReportGrowthRateDistribution from "../../../hooks/api/get/useGetReportGrowthRateDistribution";
 
 const BarHarvestWithered = () => {
   const [selectedYear, setSelectedYear] = useState<string>("2024");
   const [startMonth, setStartMonth] = useState<string>("1");
+  const [activeLabel, setActiveLabel] = useState<string>("");
   const [endMonth, setEndMonth] = useState<string>("12");
   const { data: barChartData, isLoading } = useGetMonthlyWithered({
     year: selectedYear,
     start: startMonth,
     end: endMonth
   });
+  const { data: cropDistribution } = useGetReportCropDistribution({
+    month: activeLabel
+  });
+  const { data: growthDistribution } = useGetReportGrowthRateDistribution({
+    month: activeLabel
+  });
+
+  const chartRef = useRef();
+
+  console.log(growthDistribution, activeLabel);
 
   const handleChangeYear = (year: string) => {
     setSelectedYear(year);
@@ -65,6 +84,21 @@ const BarHarvestWithered = () => {
       }
     }
   };
+  const dataGrowth = {
+    labels: growthDistribution?.map(item => item.crop_name),
+    datasets: [
+      {
+        label: "Growth Rate",
+        data: growthDistribution?.map(item => item.percentage_distribution),
+        backgroundColor: ["rgba(183, 235, 199, 1)"]
+      }
+    ]
+  };
+  const optionsBar: ChartOptions<"bar"> = {
+    responsive: true,
+    maintainAspectRatio: false,
+    indexAxis: "y"
+  };
 
   const months = [
     { value: "1", label: "January" },
@@ -80,6 +114,14 @@ const BarHarvestWithered = () => {
     { value: "11", label: "November" },
     { value: "12", label: "December" }
   ];
+
+  const onClick = (event: MouseEvent<HTMLCanvasElement>) => {
+    if (chartRef.current && labels) {
+      const index = getElementAtEvent(chartRef.current, event)[0].index;
+      const activeLabel = index + 1;
+      setActiveLabel(String(activeLabel) || "");
+    }
+  };
 
   return (
     <>
@@ -131,7 +173,16 @@ const BarHarvestWithered = () => {
       </div>
 
       <div className="h-96 mt-4">
-        <Bar data={data} options={options} />
+        <Bar ref={chartRef} onClick={onClick} data={data} options={options} />
+      </div>
+      <div
+        className={`${
+          Number(growthDistribution?.length || 0) > 0 ? "h-96" : "h-0"
+        } mt-4 duration-300`}
+      >
+        {Number(growthDistribution?.length || 0) > 0 && (
+          <Bar data={dataGrowth} options={optionsBar} />
+        )}
       </div>
     </>
   );

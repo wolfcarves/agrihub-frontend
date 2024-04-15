@@ -1,7 +1,6 @@
 import AdminOutletContainer from "@components/admin/layout/container/AdminOutletContainer";
 import { Card } from "@components/ui/card";
-import React, { useMemo, useState } from "react";
-import { Label } from "@components/ui/label";
+import React, { useState } from "react";
 import BarHarvestWithered from "../charts/bar-harvest-withered";
 import {
   Carousel,
@@ -13,8 +12,6 @@ import { GiPlantRoots } from "react-icons/gi";
 import useGetReportAdminGrowthrate from "../../../hooks/api/get/useGetReportAdminGrowthrate";
 import useGetReportFavouriteCrops from "../../../hooks/api/get/useGetReportFavouriteCrops";
 import BarDistrictOverview from "../charts/bar-district-overview";
-import LineForumOverview from "../charts/line-forum-overview";
-import { Button } from "@components/ui/button";
 import PieSeed from "../charts/pie-seed";
 import {
   Select,
@@ -23,11 +20,7 @@ import {
   SelectTrigger,
   SelectValue
 } from "@components/ui/select";
-import DoughnutResource from "../charts/dougnut-resource-overview";
-import GrowthRateLineChart from "../charts/line-growthrate";
 import PieProblems from "../charts/pie-problem";
-import { Link } from "react-router-dom";
-import useGetReportAnalyticsUserFeedback from "../../../hooks/api/get/useGetReportAnalyticsUserFeedback";
 import RatesFeedback from "../charts/rates-feedback";
 import GrowthRateLineChartAnalytics from "../charts/line-growthrate-analytics";
 
@@ -54,9 +47,9 @@ const AnalyticsAdmin = () => {
           <div>
             <BarHarvestWithered />
           </div>
-          <Card className="p-5">
+          <div>
             <GrowthRateLineChartAnalytics />
-          </Card>
+          </div>
           <Card className="p-5">
             <BarDistrictOverview />
           </Card>

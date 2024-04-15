@@ -1,5 +1,5 @@
 import React, { MouseEvent, useRef, useState } from "react";
-import { getElementAtEvent, Line } from "react-chartjs-2";
+import { Bar, getElementAtEvent, Line } from "react-chartjs-2";
 import {
   Select,
   SelectContent,
@@ -8,6 +8,9 @@ import {
   SelectValue
 } from "@components/ui/select";
 import useGetReportGrowthRateMonthly from "../../../hooks/api/get/useGetReportGrowthRateMonthly";
+import useGetReportGrowthRateDistribution from "../../../hooks/api/get/useGetReportGrowthRateDistribution";
+import { Card } from "../../../components/ui/card";
+import { ChartOptions } from "chart.js";
 
 const GrowthRateLineChartAnalytics = () => {
   const chartRef = useRef();
@@ -19,6 +22,9 @@ const GrowthRateLineChartAnalytics = () => {
     year: selectedYear,
     start: startMonth,
     end: endMonth
+  });
+  const { data: growthDistribution } = useGetReportGrowthRateDistribution({
+    month: activeLabel
   });
 
   const handleChangeYear = (year: string) => {
@@ -62,6 +68,16 @@ const GrowthRateLineChartAnalytics = () => {
       }
     ]
   };
+  const dataGrowth = {
+    labels: growthDistribution?.map(item => item.crop_name),
+    datasets: [
+      {
+        label: "Growth Rate",
+        data: growthDistribution?.map(item => item.percentage_distribution),
+        backgroundColor: ["rgba(183, 235, 199, 1)"]
+      }
+    ]
+  };
 
   const options = {
     responsive: true,
@@ -72,65 +88,99 @@ const GrowthRateLineChartAnalytics = () => {
       }
     }
   };
+  const optionsBar: ChartOptions<"bar"> = {
+    responsive: true,
+    maintainAspectRatio: false,
+    indexAxis: "y"
+  };
 
   const onClick = (event: MouseEvent<HTMLCanvasElement>) => {
     if (chartRef.current) {
       const index = getElementAtEvent(chartRef.current, event)[0].index;
+      const growthRate = Object.values(growthMonthly || {})[index];
+
+      // Check if growth rate equals 0
+      if (Number(growthRate) === 0) {
+        return null; // Disable further execution
+      }
       const activeLabel = index + 1;
       setActiveLabel(String(activeLabel) || "");
     }
   };
-  console.log(activeLabel);
 
   return (
     <>
-      <div className="flex justify-between flex-wrap sm:flex-nowrap">
-        <h2 className="text-xl font-bold tracking-tight ">Farms Growth Rate</h2>
-        <div className="flex gap-4 justify-end">
-          <Select onValueChange={e => handleChangeYear(e)}>
-            <SelectTrigger className="w-auto">
-              <SelectValue placeholder="Year" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="2024">2024</SelectItem>
-              <SelectItem value="2023">2023</SelectItem>
-            </SelectContent>
-          </Select>
+      <Card className="p-5">
+        <div className="flex justify-between flex-wrap sm:flex-nowrap">
+          <div>
+            <h2 className="text-xl font-bold tracking-tight ">
+              Farms Growth Rate
+            </h2>
+            <p className="text-xs text-gray-400">
+              Click the dots to view the growth rate summary of that month
+            </p>
+          </div>
+          <div className="flex gap-4 justify-end">
+            <Select onValueChange={e => handleChangeYear(e)}>
+              <SelectTrigger className="w-auto">
+                <SelectValue placeholder="Year" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="2024">2024</SelectItem>
+                <SelectItem value="2023">2023</SelectItem>
+              </SelectContent>
+            </Select>
 
-          <Select onValueChange={e => handleChangeStartMonth(e)}>
-            <SelectTrigger className="w-auto">
-              <SelectValue placeholder="Month From" />
-            </SelectTrigger>
-            <SelectContent>
-              {months.map(month => (
-                <SelectItem key={month.value} value={month.value}>
-                  {month.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+            <Select onValueChange={e => handleChangeStartMonth(e)}>
+              <SelectTrigger className="w-auto">
+                <SelectValue placeholder="Month From" />
+              </SelectTrigger>
+              <SelectContent>
+                {months.map(month => (
+                  <SelectItem key={month.value} value={month.value}>
+                    {month.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
 
-          <Select onValueChange={e => handleChangeEndMonth(e)}>
-            <SelectTrigger className="w-auto">
-              <SelectValue placeholder="Month To" />
-            </SelectTrigger>
-            <SelectContent>
-              {months.map(month => (
-                <SelectItem
-                  key={month.value}
-                  value={month.value}
-                  onClick={() => handleChangeEndMonth(month.value)}
-                >
-                  {month.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+            <Select onValueChange={e => handleChangeEndMonth(e)}>
+              <SelectTrigger className="w-auto">
+                <SelectValue placeholder="Month To" />
+              </SelectTrigger>
+              <SelectContent>
+                {months.map(month => (
+                  <SelectItem
+                    key={month.value}
+                    value={month.value}
+                    onClick={() => handleChangeEndMonth(month.value)}
+                  >
+                    {month.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
         </div>
-      </div>
-      <div className=" h-[350px] mt-4">
-        <Line ref={chartRef} onClick={onClick} data={data} options={options} />
-      </div>
+        <div className=" h-[350px] mt-4">
+          <Line
+            ref={chartRef}
+            onClick={onClick}
+            data={data}
+            options={options}
+          />
+        </div>
+      </Card>
+      {Number(growthDistribution?.length || 0) > 0 && (
+        <Card className={` mt-4 p-5 duration-300`}>
+          <h2 className="text-lg font-bold tracking-tight ">
+            Crops Growth Rate Distribution
+          </h2>
+          <div className="h-[350px]">
+            <Bar data={dataGrowth} options={optionsBar} />
+          </div>
+        </Card>
+      )}
     </>
   );
 };

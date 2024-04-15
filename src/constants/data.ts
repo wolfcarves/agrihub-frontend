@@ -191,6 +191,38 @@ export const farmType: string[] = [
   "Backyard  Garden/Farm"
 ];
 
+export const chartColor: string[] = [
+  "#e91e63",
+  "#9c27b0",
+  "#673ab7",
+  "#3f51b5",
+  "#2196f3",
+  "#03a9f4",
+  "#00bcd4",
+  "#009688",
+  "#4caf50",
+  "#8bc34a",
+  "#cddc39",
+  "#ffeb3b",
+  "#ffc107",
+  "#ff9800",
+  "#e53935",
+  "#d81b60",
+  "#8e24aa",
+  "#5e35b1",
+  "#3949ab",
+  "#1e88e5",
+  "#039be5",
+  "#00acc1",
+  "#00897b",
+  "#43a047",
+  "#7cb342",
+  "#c0ca33",
+  "#fdd835",
+  "#ffb300",
+  "#fb8c00"
+] as const;
+
 export interface MemberSchema {
   name: string;
   applicationStatus: "invited" | "member" | "pending" | "rejected";

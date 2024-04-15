@@ -8,8 +8,7 @@ import type { ReactNode } from "react";
 const CommunityLayoutContainer = ({ children }: { children: ReactNode }) => {
   return (
     <>
-      <UserResponsiveContainer>{children}</UserResponsiveContainer>
-      {/* <UserFooter /> */}
+      <div className="sm:container w-full flex justify-between">{children}</div>
     </>
   );
 };

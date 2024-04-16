@@ -10,7 +10,6 @@ import QuestionsFilterSelect, {
 import OutletContainer from "@components/user/questions/container/OutletContainer";
 import QuestionsTitleTag from "@components/user/questions/title/QuestionsTitleTag";
 import { Helmet } from "react-helmet-async";
-import LoadingSpinner from "@icons/LoadingSpinner";
 
 const Questions = () => {
   const navigate = useNavigate();

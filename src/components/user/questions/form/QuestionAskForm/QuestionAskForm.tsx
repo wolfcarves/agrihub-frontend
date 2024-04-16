@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { askQuestionSchema } from "./schema";
@@ -14,9 +14,13 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import useFilesToBlobs from "@hooks/utils/useFilesToBlobs";
 import { IoTrashOutline } from "react-icons/io5";
+import QuestionProfanityWarningDialog from "../../dialog/QuestionProfanityWarningDialog";
 
 const QuestionAskForm = () => {
   const navigate = useNavigate();
+
+  const [isContainProfane, setIsContainProfane] = useState<boolean>(false);
+  const [isProfane, setIsProfane] = useState<boolean>(false);
   const [searchInputTagValue, setSearchInputTagValue] = useState<string>("");
   const [isQuestionAskLoading, setIsQuestionAskLoading] =
     useState<boolean>(false);
@@ -29,6 +33,12 @@ const QuestionAskForm = () => {
 
   const handleSubmitForm = async (data: QuestionSchema) => {
     try {
+      if (isContainProfane) {
+        setIsProfane(true);
+
+        return;
+      }
+
       setIsQuestionAskLoading(true);
       const formData = new FormData();
 
@@ -43,7 +53,6 @@ const QuestionAskForm = () => {
 
       if (blobs) {
         for (const key of Object.keys(blobs)) {
-          console.log(blobs[Number(key)]);
           formData.append("imagesrc", blobs[Number(key)]);
         }
       }
@@ -71,6 +80,10 @@ const QuestionAskForm = () => {
       });
     }
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const renderImages = (dataFile: File[]) => {
     return dataFile.map((f, idx) => {
@@ -186,9 +199,14 @@ const QuestionAskForm = () => {
                             });
                           }
                         }}
-                        onBlur={data => {
-                          console.log(data.charSize);
-                          onChange(data.html);
+                        onBlur={({ html, isProfane: _isProfane }) => {
+                          if (_isProfane) {
+                            setIsContainProfane(true);
+                          } else {
+                            setIsContainProfane(false);
+                          }
+
+                          onChange(html);
                         }}
                         height={300}
                       />
@@ -296,6 +314,11 @@ const QuestionAskForm = () => {
           </Button>
         </div>
       </form>
+
+      <QuestionProfanityWarningDialog
+        open={isProfane}
+        onOpenChange={setIsProfane}
+      />
     </div>
   );
 };

@@ -1,6 +1,5 @@
-import { useState } from "react";
+import { useEffect } from "react";
 import useGetClientDetails from "@hooks/api/get/useGetClientDetails";
-import useGetCropsQuery from "@hooks/api/get/useGetCropsQuery";
 import PlantingCalendarTitle from "@components/user/calendar/title/PlantingCalendarTitle";
 import PlantingCalendarOutletContainer from "@components/user/calendar/container/PlantingCalendarOutletContainer";
 import PlantingCalendarCardTitle from "@components/user/calendar/title/PlantingCalendarCardTitle";
@@ -24,6 +23,10 @@ export const MONTHS = [
 
 const PlantingCalendar = () => {
   const { data: cmsClientDetails } = useGetClientDetails();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <PlantingCalendarOutletContainer>

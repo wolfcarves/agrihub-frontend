@@ -10,6 +10,12 @@ import Image from "@tiptap/extension-image";
 import Toolbar from "./Toolbar";
 import CharacterCount from "@tiptap/extension-character-count";
 import useFilesToBlobs from "@hooks/utils/useFilesToBlobs";
+import BadWords from "bad-words";
+import { tagalogRestrictedWords } from "./words/restricted-words";
+
+const filterBadWords = new BadWords({
+  list: [...tagalogRestrictedWords]
+});
 
 interface RichTextEditorProps
   extends Omit<
@@ -20,6 +26,7 @@ interface RichTextEditorProps
     html?: string;
     files?: Promise<Blob[] | undefined>;
     charSize?: number;
+    isProfane?: boolean;
   }) => void;
   onChange?: (data: { charSize?: number }) => void; // temporary lang to bwisit tong text editor di ko na to gagmitin sa susunod
   withToolbar?: boolean;
@@ -129,6 +136,8 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
         .replace(headingOpenTagPattern, "<h5>")
         .replace(headingClosingTagPattern, "</h5>");
 
+      const isProfane = filterBadWords.isProfane(html);
+
       const lastTag = html.slice(html.length - 4, html.length);
 
       if (lastTag === "<br>") {
@@ -144,7 +153,8 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
                 return blobs;
               }
             ),
-            charSize: editor.storage.characterCount.characters()
+            charSize: editor.storage.characterCount.characters(),
+            isProfane
           });
       }
     }

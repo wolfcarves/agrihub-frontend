@@ -52,6 +52,7 @@ export const tagalogRestrictedWords = [
   "pakshet",
   "pakyu",
   "pesteng yawa",
+  "pepe",
   "poke",
   "poki",
   "pokpok",

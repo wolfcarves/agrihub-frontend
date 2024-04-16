@@ -16,11 +16,12 @@ const TableAdminList = () => {
     };
   }, [searchParams]);
   const { data: adminData, isLoading } = useGetUserAdminListQuery({
-    perpage: "20",
+    perpage: "10",
     page: String(params.currentPage),
     search: params.search,
     filter: "active"
   });
+  console.log(adminData);
   const debouncedSearch = useDebounce((value: string) => {
     searchParams.set("search", value);
     setSearchParams(searchParams);

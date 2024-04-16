@@ -21,7 +21,6 @@ import {
 } from "@components/ui/carousel";
 import BreadCrumb from "@components/ui/custom/breadcrumb/breadcrumb";
 import CaptureWithDelete from "@components/ui/custom/input/capture-with-delete";
-import RichTextEditor from "@components/ui/custom/rich-text-editor/RichTextEditor";
 import { Label } from "@components/ui/label";
 import { Textarea } from "@components/ui/textarea";
 import Capture from "@components/user/community/capture/capture";
@@ -185,9 +184,11 @@ const AboutAdmin = () => {
       <div className="flex justify-between items-center">
         <h2 className="text-3xl font-bold tracking-tight">About Us Page</h2>
       </div>
-      <p className="text-sm text-muted-foreground">
-        Manage about us page by customizing carousel, about us details and
-        messages from respective ferzons.
+      <p className="text-sm text-muted-foreground w-10/12">
+        Create the essence of your platform, highlighting its dedication to
+        excellence and service. Share insights into the company's values, goals,
+        and commitment to users. Customize this page to reflect the unique
+        identity and purpose of your platform.
       </p>
       <hr className="my-4" />
       <Form {...form}>
@@ -288,8 +289,8 @@ const AboutAdmin = () => {
           <hr className="my-4" />
           {/* city commitment */}
           <h3 className="font-bold my-2">City Commitment</h3>
-          <div className="flex gap-4">
-            <div className="w-96">
+          <div className="flex sm:flex-nowrap flex-wrap gap-4">
+            <div className="w-full">
               <FormField
                 control={form.control}
                 name="city_image"
@@ -309,7 +310,7 @@ const AboutAdmin = () => {
           <hr className="my-4" />
           {/* president message */}
           <h3 className="font-bold my-2">President Message</h3>
-          <div className="flex gap-4">
+          <div className="flex sm:flex-nowrap flex-wrap gap-4">
             <Textarea
               defaultValue={aboutData?.president_message}
               {...form.register("president_message")}
@@ -367,7 +368,7 @@ const AboutAdmin = () => {
             </div>
           </div>
 
-          <div className="flex justify-end gap-4 my-8">
+          <div className="bottom-8 right-8 fixed">
             <Button type="submit">Save</Button>
             {/* <AlertDialog>
               <AlertDialogTrigger>

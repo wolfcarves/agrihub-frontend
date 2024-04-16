@@ -1,10 +1,9 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { Input } from "@components/ui/input";
 import { columns } from "./columns";
 import useDebounce from "@hooks/utils/useDebounce";
 import { DataTable } from "../../../../ui/custom/data-table/data-table";
 import useGetUserActiveList from "../../../../../hooks/api/get/useGetUserActiveList";
-import StatePagination from "../../../../user/community/state-pagination/state-pagination";
 import { useSearchParams } from "react-router-dom";
 import { Pagination } from "../../../../ui/custom";
 
@@ -17,7 +16,7 @@ const TableUserActive = () => {
     };
   }, [searchParams]);
   const { data: userData, isLoading } = useGetUserActiveList({
-    perpage: "20",
+    perpage: "10",
     page: String(params.currentPage),
     search: params.search,
     filter: undefined
@@ -31,7 +30,7 @@ const TableUserActive = () => {
     <div className="w-full">
       <div className="flex items-center py-4">
         <Input
-          placeholder="Search name..."
+          placeholder="Search full name..."
           className="max-w-sm"
           value={params.search}
           onChange={e => debouncedSearch(e.target.value)}

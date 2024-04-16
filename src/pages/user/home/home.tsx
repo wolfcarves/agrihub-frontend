@@ -125,7 +125,6 @@ const Home: React.FC<HomeProps> = () => {
         <ContentWhatWeDo />;
       </div>
       <div ref={bottomRef}></div>
-      <ScrollToTopButton targetRef={bottomRef} />
     </div>
   );
 };

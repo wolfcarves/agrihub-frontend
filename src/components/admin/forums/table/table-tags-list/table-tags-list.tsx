@@ -31,7 +31,7 @@ const TableTagsList = () => {
   return (
     <>
       <Input
-        placeholder="Search title..."
+        placeholder="Search tag name..."
         className="max-w-sm my-4"
         value={params.search}
         onChange={e => debouncedSearch(e.target.value)}

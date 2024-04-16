@@ -3,8 +3,7 @@ import AdminOutletContainer from "@components/admin/layout/container/AdminOutlet
 import BreadCrumb from "../../../components/ui/custom/breadcrumb/breadcrumb";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
 const breadcrumbItems = [
-  { title: "Admin Management", link: "/admin/record/admins" },
-  { title: "Admin", link: "/admin/record/admins" }
+  { title: "Admin Management", link: "/admin/record/admins" }
 ];
 import TableAdminList from "../../../components/admin/admins/table-admin-list/table-admin-list";
 import DialogCreateAdmin from "../../../components/admin/admins/dialog-create-admin/dialog-create-admin";
@@ -31,7 +30,13 @@ const RecordAdmins: React.FC = () => {
       <div className="flex justify-between">
         <div>
           <h2 className="text-3xl font-bold tracking-tight">Admin Accounts</h2>
-          <p className="text-sm text-muted-foreground">Manage all admins.</p>
+          <p className="text-sm text-muted-foreground">
+            Manage administrative access and permissions to ensure smooth
+            operation and security of the platform. Set up, monitor, and modify
+            admin accounts as needed to maintain control and oversight.
+            Safeguard sensitive information and functionalities by controlling
+            access levels and authentication protocols.
+          </p>
         </div>
 
         {/* new admin */}

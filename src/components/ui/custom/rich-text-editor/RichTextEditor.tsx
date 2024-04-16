@@ -114,7 +114,8 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
       const headingOpenTagPattern = /<h[1-4]>/g;
       const headingClosingTagPattern = /<\/h[1-4]>/g;
 
-      const preCodePatternOpenTag =
+      const preCodePatternOpenTag = /<pre><code>/g;
+      const preCodePatternOpenTags =
         /<pre><code class="language-typescriptreact">/g;
       const preCodePatternCloseTag = /(<\/code><\/pre>)/g;
 
@@ -123,6 +124,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
         .replace(hardBreakPattern, "<br>")
         .replace(emptyParagraphPattern, `<br>`)
         .replace(preCodePatternOpenTag, `<p class="min-h-[1rem]">`)
+        .replace(preCodePatternOpenTags, `<p class="min-h-[1rem]">`)
         .replace(preCodePatternCloseTag, "</p>")
         .replace(headingOpenTagPattern, "<h5>")
         .replace(headingClosingTagPattern, "</h5>");

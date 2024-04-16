@@ -73,9 +73,11 @@ const PrivacyAdmin = () => {
       <div className="flex justify-between items-center">
         <div>
           <h2 className="text-3xl font-bold tracking-tight">Privacy Policy</h2>
-          <p className="text-sm text-muted-foreground">
-            Liver lover boi, secured ang iyong bituka sa sinigang na manok sa
-            may tinola.
+          <p className="text-sm text-muted-foreground w-10/12">
+            Review and manage the privacy policy to ensure compliance with data
+            protection regulations and to safeguard user privacy. Understand the
+            collection, usage, and protection of user data to maintain
+            transparency and build trust."
           </p>
         </div>
       </div>

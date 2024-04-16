@@ -132,6 +132,7 @@ import FarmCommunity from "./pages/admin/farms/farm-community";
 import FarmActiveView from "@pages/admin/farms/view/farm-active-view";
 import VerifyPasswordOtp from "@pages/user/account/verify-password-otp";
 import ToolReqeust from "@pages/admin/farms/tool-reqeust";
+import UserGuides from "@pages/user/help/guides";
 
 const App = ReactRouter(
   <>
@@ -233,6 +234,7 @@ const App = ReactRouter(
       <Route path="/helps" element={<HelpsLayout />}>
         <Route path="" element={<Helps />} />
         <Route path=":ref" element={<Help />} />
+        <Route path="guides" element={<UserGuides />} />
       </Route>
 
       {/* Profile Page  */}
@@ -322,6 +324,7 @@ const App = ReactRouter(
           <Route path="" element={<LearningsAdmin />} />
           <Route path="view/:learningsId" element={<UpdateLearnings />} />
         </Route>
+
         <Route path="learnings/:tab" element={<LearningsAdmin />} />
       </Route>
 

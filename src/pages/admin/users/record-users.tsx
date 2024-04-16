@@ -3,7 +3,7 @@ import AdminOutletContainer from "@components/admin/layout/container/AdminOutlet
 import BreadCrumb from "../../../components/ui/custom/breadcrumb/breadcrumb";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
 import TableUserActive from "../../../components/admin/user/table/table-user-active/table-user-active";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/ui/tabs";
 import TableUserReported from "@components/admin/user/table/table-user-reported/table-user-reported";
 import TableUserBanned from "@components/admin/user/table/table-user-banned/table-user-banned";
@@ -29,7 +29,13 @@ const RecordUsers = () => {
     <AdminOutletContainer className="container mx-auto py-10 ">
       <BreadCrumb items={breadcrumbItems} />
       <h2 className="text-3xl font-bold tracking-tight">Users</h2>
-      <p className="text-sm text-muted-foreground">Manage all users.</p>
+      <p className="text-sm text-muted-foreground w-10/12">
+        Oversee user accounts with precision and authority, wielding the power
+        to ban or warn users for inappropriate behavior. Exercise control over
+        user permissions and access levels to maintain a safe and respectful
+        community environment. Utilize tools and protocols to monitor user
+        actions and enforce platform policies effectively.
+      </p>
       <hr className="my-4" />
       <Tabs value={params.tab}>
         <TabsList>

@@ -3,7 +3,7 @@ import { TfiEmail } from "react-icons/tfi";
 import { LiaBirthdayCakeSolid } from "react-icons/lia";
 import { HiOutlinePhone } from "react-icons/hi";
 import { IoHomeOutline } from "react-icons/io5";
-import { MONTHS } from "@pages/user/calendar/calendar";
+import { MONTHS } from "@pages/user/planting-calendar/planting-calendar";
 import { Skeleton } from "@components/ui/skeleton";
 import useGetFarmViewQuery from "@hooks/api/get/useGetFarmViewQuery";
 import { Link } from "react-router-dom";

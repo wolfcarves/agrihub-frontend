@@ -24,6 +24,7 @@ import { NewAdminRequestBody } from "../../../api/openapi";
 import { toast } from "sonner";
 import Loader from "../../../icons/Loader";
 import { setEmail, setPassword } from "../../../redux/slices/adminSlice";
+import BackButton from "@components/ui/custom/button/back-button";
 
 const breadcrumbItems = [
   { title: "Admin Management", link: "/admin/record/admins" },
@@ -34,15 +35,18 @@ const PermissionAdminCreate = () => {
   const dispatch = useDispatch();
   const { email, password } = useSelector(state => state.admin);
 
+  console.log(dispatch, "email");
   const [allowAll, setAllowAll] = useState<boolean>(false);
   const [learningMaterials, setLearningMaterials] = useState<boolean>(false);
   const [events, setEvents] = useState<boolean>(false);
   const [blogs, setBlogs] = useState<boolean>(false);
+  const [cropsManagement, setCropsManagement] = useState<boolean>(false);
   const handleAllowAllChange = (isChecked: boolean) => {
     setAllowAll(isChecked);
     setLearningMaterials(isChecked);
     setEvents(isChecked);
     setBlogs(isChecked);
+    setCropsManagement(isChecked);
   };
 
   useEffect(() => {
@@ -57,14 +61,13 @@ const PermissionAdminCreate = () => {
     } else {
       setAllowAll(false);
     }
-  }, [learningMaterials, events, blogs, allowAll]);
+  }, [learningMaterials, events, blogs, cropsManagement, allowAll]);
 
   const [forumManagement, setForumManagement] = useState<boolean>(false);
   const [userManagement, setUserManagement] = useState<boolean>(false);
   const [adminManagement, setAdminManagement] = useState<boolean>(false);
   const [communityManagement, setCommunityManagement] =
     useState<boolean>(false);
-  const [activityLog, setActivityLogs] = useState<boolean>(false);
 
   const [allowAllManagement, setAllowAllManagement] = useState<boolean>(false);
   const [clientDetails, setClientDetails] = useState<boolean>(false);
@@ -74,7 +77,6 @@ const PermissionAdminCreate = () => {
   const [termsAndConditions, setTermsAndConditions] = useState<boolean>(false);
   const [userFeedbacks, setUserFeedbacks] = useState<boolean>(false);
   const [helpCenter, setHelpCenter] = useState<boolean>(false);
-  const [cropsManagement, setCropsManagement] = useState<boolean>(false);
 
   const handleAllManagementChange = (isChecked: boolean) => {
     setAllowAllManagement(isChecked);
@@ -85,7 +87,6 @@ const PermissionAdminCreate = () => {
     setTermsAndConditions(isChecked);
     setUserFeedbacks(isChecked);
     setHelpCenter(isChecked);
-    setCropsManagement(isChecked);
   };
 
   useEffect(() => {
@@ -96,8 +97,7 @@ const PermissionAdminCreate = () => {
       privacyPolicy &&
       termsAndConditions &&
       userFeedbacks &&
-      helpCenter &&
-      cropsManagement
+      helpCenter
     ) {
       setAllowAllManagement(true);
     } else {
@@ -111,8 +111,7 @@ const PermissionAdminCreate = () => {
     privacyPolicy,
     termsAndConditions,
     userFeedbacks,
-    helpCenter,
-    cropsManagement
+    helpCenter
   ]);
 
   //edit
@@ -188,57 +187,61 @@ const PermissionAdminCreate = () => {
         <hr className="my-4" />
 
         {/* community */}
-        <Card className="my-4 p-5">
-          <div className="flex justify-between items-center">
-            <div>
+        <Card className="p-5">
+          <div className="flex-col w-full items-center">
+            <div className="flex justify-between items-center w-full">
               <h2 className="text-lg font-bold tracking-tight">
-                Community Management
+                <BackButton /> Community Management
               </h2>
-              <p className="text-sm text-muted-foreground max-w-2xl">
-                Turning on this permission allows users to access farm details
-                and accept or reject farm applications. It will also allow users
-                to view seedling requests from farms and accept or reject them.
-              </p>
+              <Switch
+                checked={communityManagement}
+                onCheckedChange={setCommunityManagement}
+              />
             </div>
-            <Switch
-              checked={communityManagement}
-              onCheckedChange={setCommunityManagement}
-            />
+            <p className="text-sm text-muted-foreground max-w-2xl">
+              Turning on this permission allows users to access farm details and
+              accept or reject farm applications. It will also allow users to
+              view seedling requests from farms and accept or reject them.
+            </p>
           </div>
         </Card>
 
         {/* resource module */}
         <Card className="my-4 p-5">
           <div className="flex justify-between items-center">
-            <div>
-              <h2 className="text-lg font-bold tracking-tight">
-                Resource Module
-              </h2>
+            <div className="w-full">
+              <div className="flex gap-4 justify-between">
+                <h2 className="text-lg font-bold tracking-tight">
+                  Resource Module
+                </h2>
+                <div className="flex sm:gap-4 items-center">
+                  <Label>Allow All</Label>
+                  <Switch
+                    checked={allowAll}
+                    onCheckedChange={handleAllowAllChange}
+                  />
+                </div>
+              </div>
               <p className="text-sm text-muted-foreground max-w-2xl">
                 Turning on this permission allows users to have modification
                 access to learning materials, events, and blogs.
               </p>
             </div>
-            <div className="flex gap-4 items-center">
-              <Label>Allow All</Label>
-              <Switch
-                checked={allowAll}
-                onCheckedChange={handleAllowAllChange}
-              />
-            </div>
           </div>
 
-          <div className="flex w-full gap-4 my-4">
+          <div className="flex flex-wrap sm:flex-nowrap gap-4 my-4">
             <div className="w-full">
-              <div className="flex items-center gap-4">
-                <Switch
-                  checked={learningMaterials}
-                  onCheckedChange={setLearningMaterials}
-                />
-                <div>
+              <div className="flex-col items-center gap-4">
+                <div className="flex gap-4 justify-between mb-2">
                   <h2 className="text-md font-bold tracking-tight">
                     Learning Materials
                   </h2>
+                  <Switch
+                    checked={learningMaterials}
+                    onCheckedChange={setLearningMaterials}
+                  />
+                </div>
+                <div>
                   <p className="text-sm text-muted-foreground">
                     Allow users to have add, edit, and delete access to Learning
                     Materials.
@@ -248,10 +251,12 @@ const PermissionAdminCreate = () => {
               <hr className="my-4" />
             </div>
             <div className="w-full">
-              <div className="flex items-center gap-4">
-                <Switch checked={events} onCheckedChange={setEvents} />
-                <div>
+              <div className="flex-col items-center gap-4">
+                <div className="flex mb-2 gap-4 justify-between">
                   <h2 className="text-md font-bold tracking-tight">Events</h2>
+                  <Switch checked={events} onCheckedChange={setEvents} />
+                </div>
+                <div>
                   <p className="text-sm text-muted-foreground">
                     Allow users to have add, edit, and delete access to Events.
                   </p>
@@ -261,14 +266,35 @@ const PermissionAdminCreate = () => {
             </div>
           </div>
 
-          <div className="flex w-1/2 gap-4 my-4">
+          <div className="flex flex-wrap sm:flex-nowrap gap-4 my-4">
             <div className="w-full">
-              <div className="flex items-center gap-4">
-                <Switch checked={blogs} onCheckedChange={setBlogs} />
-                <div>
+              <div className="flex-col items-center gap-4">
+                <div className="flex gap-4 mb-2 justify-between">
                   <h2 className="text-md font-bold tracking-tight">Blogs</h2>
+                  <Switch checked={blogs} onCheckedChange={setBlogs} />
+                </div>
+                <div>
                   <p className="text-sm text-muted-foreground">
                     Allow users to have add, edit, and delete access to Blogs.
+                  </p>
+                </div>
+              </div>
+              <hr className="my-4" />
+            </div>
+            <div className="w-full">
+              <div className="flex-col items-center gap-4">
+                <div className="flex justify-between items-center">
+                  <h2 className="text-md font-bold tracking-tight">
+                    Crops Management
+                  </h2>
+                  <Switch
+                    checked={cropsManagement}
+                    onCheckedChange={setCropsManagement}
+                  />
+                </div>
+                <div>
+                  <p className="text-sm text-muted-foreground">
+                    Modify what individuals on this role can do
                   </p>
                 </div>
               </div>
@@ -280,84 +306,83 @@ const PermissionAdminCreate = () => {
         {/* forum */}
         <Card className="my-4 p-5">
           <div className="flex justify-between items-center">
-            <div>
-              <h2 className="text-lg font-bold tracking-tight">
-                Forum Management
-              </h2>
+            <div className="w-full">
+              <div className="flex gap-4 justify-between items-center">
+                <h2 className="text-lg font-bold tracking-tight">
+                  Forum Management
+                </h2>
+                <Switch
+                  checked={forumManagement}
+                  onCheckedChange={setForumManagement}
+                />
+              </div>
               <p className="text-sm text-muted-foreground max-w-2xl">
                 Turning on this permission allows users to access reported
                 questions and answers. It also allows users to add new tags and
                 delete them.
               </p>
             </div>
-            <Switch
-              checked={forumManagement}
-              onCheckedChange={setForumManagement}
-            />
           </div>
         </Card>
 
         {/* user management */}
         <Card className="my-4 p-5">
           <div className="flex justify-between items-center">
-            <div>
-              <h2 className="text-lg font-bold tracking-tight">
-                User Management
-              </h2>
+            <div className="w-full">
+              <div className="flex gap-4 justify-between items-center">
+                <h2 className="text-lg font-bold tracking-tight">
+                  User Management
+                </h2>
+                <Switch
+                  checked={userManagement}
+                  onCheckedChange={setUserManagement}
+                />
+              </div>
               <p className="text-sm text-muted-foreground max-w-2xl">
                 Turning on this permission allows users to manage reported user
                 accounts and ban accounts.
               </p>
             </div>
-            <Switch
-              checked={userManagement}
-              onCheckedChange={setUserManagement}
-            />
           </div>
         </Card>
 
         {/* admin management */}
         <Card className="my-4 p-5">
           <div className="flex justify-between items-center">
-            <div>
-              <h2 className="text-lg font-bold tracking-tight">
-                Admin Management
-              </h2>
+            <div className="w-full">
+              <div className="flex items-center gap-4 justify-between">
+                <h2 className="text-lg font-bold tracking-tight">
+                  Admin Management
+                </h2>
+                <Switch
+                  checked={adminManagement}
+                  onCheckedChange={setAdminManagement}
+                />
+              </div>
               <p className="text-sm text-muted-foreground">
                 Turning on this permission allows users to add new admins and
                 edit their permissions.
               </p>
             </div>
-            <Switch
-              checked={adminManagement}
-              onCheckedChange={setAdminManagement}
-            />
           </div>
         </Card>
-
-        {/* logs */}
-        {/* <Card className="my-4 p-5">
-          <div className="flex justify-between items-center">
-            <div>
-              <h2 className="text-lg font-bold tracking-tight">
-                Activity Logs
-              </h2>
-              <p className="text-sm text-muted-foreground max-w-2xl">
-                Turning on this permission allows users to access activity logs
-                of other admin
-              </p>
-            </div>
-            <Switch checked={activityLog} onCheckedChange={setActivityLogs} />
-          </div>
-        </Card> */}
 
         {/* website management */}
         <Card className="my-4 p-5">
           <div className="flex justify-between items-center">
-            <div>
-              <h2 className="text-lg font-bold tracking-tight">
-                Website Management
-              </h2>
+            <div className="w-full">
+              <div className="w-full justify-between items-center flex">
+                <h2 className="text-lg font-bold tracking-tight">
+                  Website Management
+                </h2>
+                <div className="flex gap-4 items-center">
+                  <Label>Allow All</Label>
+                  <Switch
+                    checked={allowAllManagement}
+                    onCheckedChange={handleAllManagementChange}
+                  />
+                </div>
+              </div>
               <p className="text-sm text-muted-foreground max-w-2xl">
                 Turning on this permission allows users to have modification
                 access to client details, home page, about us, privacy policy,
@@ -365,25 +390,20 @@ const PermissionAdminCreate = () => {
                 management.
               </p>
             </div>
-            <div className="flex gap-4 items-center">
-              <Label>Allow All</Label>
-              <Switch
-                checked={allowAllManagement}
-                onCheckedChange={handleAllManagementChange}
-              />
-            </div>
           </div>
-          <div className="flex w-full gap-4 my-4">
+          <div className="flex flex-wrap sm:flex-nowrap w-full gap-4 my-4">
             <div className="w-full">
-              <div className="flex items-center gap-4">
-                <Switch
-                  checked={clientDetails}
-                  onCheckedChange={setClientDetails}
-                />
-                <div>
+              <div className="flex-col items-center gap-4">
+                <div className="flex justify-between items-center mb-2">
                   <h2 className="text-md font-bold tracking-tight">
                     Client details
                   </h2>
+                  <Switch
+                    checked={clientDetails}
+                    onCheckedChange={setClientDetails}
+                  />
+                </div>
+                <div>
                   <p className="text-sm text-muted-foreground">
                     Allow user to modify client details
                   </p>
@@ -392,12 +412,14 @@ const PermissionAdminCreate = () => {
               <hr className="my-4" />
             </div>
             <div className="w-full">
-              <div className="flex items-center gap-4">
-                <Switch checked={homePage} onCheckedChange={setHomePage} />
-                <div>
+              <div className="flex-col items-center gap-4">
+                <div className="flex justify-between mb-2 items-center">
                   <h2 className="text-md font-bold tracking-tight">
                     Home Page
                   </h2>
+                  <Switch checked={homePage} onCheckedChange={setHomePage} />
+                </div>
+                <div>
                   <p className="text-sm text-muted-foreground">
                     Modify what individuals on this role can do
                   </p>
@@ -407,12 +429,14 @@ const PermissionAdminCreate = () => {
             </div>
           </div>
 
-          <div className="flex w-full gap-4 my-4">
+          <div className="flex w-full gap-4 my-4 flex-wrap sm:flex-nowrap">
             <div className="w-full">
-              <div className="flex items-center gap-4">
-                <Switch checked={aboutUs} onCheckedChange={setAboutUs} />
-                <div>
+              <div className="flex-col items-center gap-4">
+                <div className="flex mb-2 justify-between">
                   <h2 className="text-md font-bold tracking-tight">About Us</h2>
+                  <Switch checked={aboutUs} onCheckedChange={setAboutUs} />
+                </div>
+                <div>
                   <p className="text-sm text-muted-foreground">
                     Modify what individuals on this role can do
                   </p>
@@ -421,15 +445,17 @@ const PermissionAdminCreate = () => {
               <hr className="my-4" />
             </div>
             <div className="w-full">
-              <div className="flex items-center gap-4">
-                <Switch
-                  checked={privacyPolicy}
-                  onCheckedChange={setPrivacyPolicy}
-                />
-                <div>
+              <div className="flex-col items-center gap-4">
+                <div className="flex mb-2 items-center justify-between">
                   <h2 className="text-md font-bold tracking-tight">
                     Privacy Policy
                   </h2>
+                  <Switch
+                    checked={privacyPolicy}
+                    onCheckedChange={setPrivacyPolicy}
+                  />
+                </div>
+                <div>
                   <p className="text-sm text-muted-foreground">
                     Modify what individuals on this role can do
                   </p>
@@ -438,17 +464,19 @@ const PermissionAdminCreate = () => {
               <hr className="my-4" />
             </div>
           </div>
-          <div className="flex w-full gap-4 my-4">
+          <div className="flex w-full gap-4 my-4 flex-wrap sm:flex-nowrap">
             <div className="w-full">
-              <div className="flex items-center gap-4">
-                <Switch
-                  checked={termsAndConditions}
-                  onCheckedChange={setTermsAndConditions}
-                />
-                <div>
+              <div className="flex-col items-center gap-4">
+                <div className="flex mb-2 justify-between items-center">
                   <h2 className="text-md font-bold tracking-tight">
                     Terms and Condition
                   </h2>
+                  <Switch
+                    checked={termsAndConditions}
+                    onCheckedChange={setTermsAndConditions}
+                  />
+                </div>
+                <div>
                   <p className="text-sm text-muted-foreground">
                     Modify what individuals on this role can do
                   </p>
@@ -457,15 +485,17 @@ const PermissionAdminCreate = () => {
               <hr className="my-4" />
             </div>
             <div className="w-full">
-              <div className="flex items-center gap-4">
-                <Switch
-                  checked={userFeedbacks}
-                  onCheckedChange={setUserFeedbacks}
-                />
-                <div>
+              <div className="flex-col items-center gap-4">
+                <div className="flex mb-2 justify-between items-center">
                   <h2 className="text-md font-bold tracking-tight">
                     User Feedbacks
                   </h2>
+                  <Switch
+                    checked={userFeedbacks}
+                    onCheckedChange={setUserFeedbacks}
+                  />
+                </div>
+                <div>
                   <p className="text-sm text-muted-foreground">
                     Modify what individuals on this role can do
                   </p>
@@ -474,31 +504,19 @@ const PermissionAdminCreate = () => {
               <hr className="my-4" />
             </div>
           </div>
-          <div className="flex w-full gap-4 my-4">
+          <div className="flex sm:w-1/2 w-full gap-4 my-4 flex-wrap sm:flex-nowrap">
             <div className="w-full">
-              <div className="flex items-center gap-4">
-                <Switch checked={helpCenter} onCheckedChange={setHelpCenter} />
-                <div>
+              <div className="flex-col items-center gap-4">
+                <div className="flex justify-between items-center">
                   <h2 className="text-md font-bold tracking-tight">
                     Help Center
                   </h2>
-                  <p className="text-sm text-muted-foreground">
-                    Modify what individuals on this role can do
-                  </p>
+                  <Switch
+                    checked={helpCenter}
+                    onCheckedChange={setHelpCenter}
+                  />
                 </div>
-              </div>
-              <hr className="my-4" />
-            </div>
-            <div className="w-full">
-              <div className="flex items-center gap-4">
-                <Switch
-                  checked={cropsManagement}
-                  onCheckedChange={setCropsManagement}
-                />
                 <div>
-                  <h2 className="text-md font-bold tracking-tight">
-                    Crops Management
-                  </h2>
                   <p className="text-sm text-muted-foreground">
                     Modify what individuals on this role can do
                   </p>
@@ -511,7 +529,7 @@ const PermissionAdminCreate = () => {
         <div className="my-4 flex justify-end gap-4">
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button>Continue</Button>
+              <Button>Create</Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
@@ -529,7 +547,7 @@ const PermissionAdminCreate = () => {
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
 
                 <AlertDialogAction onClick={handleSubmitForm}>
-                  Continue
+                  Confirm
                 </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>

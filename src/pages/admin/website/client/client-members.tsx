@@ -342,7 +342,11 @@ function MemberForm({
           <DialogTitle>
             {currentMember?.id ? "Update Member" : "Add Member"}
           </DialogTitle>
-          <DialogDescription>Add a new team member.</DialogDescription>
+          <DialogDescription>
+            {currentMember?.id
+              ? "Update team member"
+              : "Add a new team member."}
+          </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4">
           <div>
@@ -418,10 +422,10 @@ function MemberForm({
             </>
           </div>
         </div>
-        <DialogFooter>
+        <DialogFooter className="mt-4">
           <div className="flex justify-end">
             <Button
-              variant="outline"
+              variant="default"
               type="button"
               onClick={triggerFormSubmition}
             >

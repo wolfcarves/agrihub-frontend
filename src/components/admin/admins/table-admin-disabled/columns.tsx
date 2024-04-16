@@ -101,17 +101,16 @@ export const columns: ColumnDef<AdminUser>[] = [
           </DropdownMenu>
           <AlertDialogContent>
             <AlertDialogHeader>
-              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+              <AlertDialogTitle>Activate this admin account?</AlertDialogTitle>
               <AlertDialogDescription>
-                This action is irreversible and will result in the activation of
-                the admin account, the administrator will able to sign in again
-                to the system.
+                This action will result in the activation of the admin account,
+                the administrator will able to sign in again to the system.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel>Cancel</AlertDialogCancel>
               <AlertDialogAction onClick={handleEnable}>
-                Continue
+                Activate
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>

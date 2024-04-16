@@ -12,7 +12,7 @@ import {
   MdOutlineRemoveRedEye,
   MdOutlineReportGmailerrorred
 } from "react-icons/md";
-import { MONTHS } from "@pages/user/calendar/calendar";
+import { MONTHS } from "@pages/user/planting-calendar/planting-calendar";
 import { Skeleton } from "@components/ui/skeleton";
 import { RiCake2Fill } from "react-icons/ri";
 import { IoIosPerson } from "react-icons/io";

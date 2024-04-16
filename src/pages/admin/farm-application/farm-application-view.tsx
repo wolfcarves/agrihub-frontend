@@ -91,9 +91,9 @@ const FarmApplicationView = () => {
                 <Badge
                   className={
                     data?.status === "pending"
-                      ? "bg-blue-500"
+                      ? "bg-blue-500 text-white hover:text-blue-500 hover:bg-white"
                       : data?.status === "rejected"
-                      ? "bg-red-500"
+                      ? "bg-red-500 text-white hover:text-red-500 hover:bg-white"
                       : ""
                   }
                 >

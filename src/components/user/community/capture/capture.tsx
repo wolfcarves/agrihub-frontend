@@ -40,7 +40,7 @@ const Capture: React.FC<DropzoneProps> = ({ onChange, defaultValue }) => {
         <img
           src={imagePreview}
           alt="Uploaded"
-          className="h-64 w-full rounded-lg object-cover object-center"
+          className="h-full w-full rounded-lg object-cover object-center"
         />
       ) : (
         <div className="flex flex-col items-center justify-center pt-5 pb-6">

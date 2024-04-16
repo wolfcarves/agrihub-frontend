@@ -44,7 +44,7 @@ const CaptureWithDelete: React.FC<DropzoneProps> = ({
 
   return (
     <div
-      className={`border-2 border-gray-300 flex flex-col items-center justify-center w-full h-64 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600`}
+      className={`border-2 border-gray-300 flex flex-col items-center justify-center w-full border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600`}
       onClick={() => inputRef.current?.click()}
     >
       {imagePreview ? (
@@ -52,7 +52,7 @@ const CaptureWithDelete: React.FC<DropzoneProps> = ({
           <img
             src={imagePreview}
             alt="Uploaded"
-            className="w-full object-cover "
+            className="h-auto w-full max-h-[70vh] object-cover object-center rounded-md"
           />
           <button
             className="absolute top-0 right-0 text-white bg-red-600 rounded-full p-1 cursor-pointer"

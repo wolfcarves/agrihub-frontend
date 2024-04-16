@@ -8,7 +8,7 @@ import QuestionLayout from "@pages/user/question/question-layout";
 import UserAccountLayout from "@pages/user/account/account-layout";
 import UserProfileLayout from "@pages/user/users/profile-layout";
 import UserHomeLayout from "@pages/user/home/home-layout";
-import CalendarLayout from "@pages/user/calendar/calendar-layout";
+import PlantingCalendarLayout from "@pages/user/planting-calendar/planting-calendar-layout";
 
 //Pages
 import Home from "./pages/user/home/home";
@@ -23,7 +23,7 @@ import Questions from "@pages/user/question/questions";
 import QuestionTags from "@pages/user/question/question-tags";
 import Question from "@pages/user/question/question";
 
-import Calendar from "@pages/user/calendar/calendar";
+import PlantingCalendar from "@pages/user/planting-calendar/planting-calendar";
 
 //Others
 import ErrorElement from "@pages/user/common/error";
@@ -113,7 +113,7 @@ import ViewEvents from "@pages/admin/resources/events/events-view";
 import MainLayout from "@pages/user/layout/main-layout";
 import ViewBlogs from "./pages/admin/resources/blogs/blogs-view";
 import AnalyticsAdmin from "@pages/admin/analytics/analytics-admin";
-import CropView from "@pages/user/calendar/crop-view";
+import CropView from "@pages/user/planting-calendar/crop-view";
 import CommunityRequest from "./pages/user/community/community-request";
 import SeedlingsRequest from "./pages/user/community/request/seedlings-request/seedlings-request";
 import ForgotPassword from "@pages/user/account/forgot-password";
@@ -225,8 +225,8 @@ const App = ReactRouter(
       </Route>
 
       {/* Planting Calendar Page */}
-      <Route path="/planting-calendar" element={<CalendarLayout />}>
-        <Route path="" element={<Calendar />} />
+      <Route path="/planting-calendar" element={<PlantingCalendarLayout />}>
+        <Route path="" element={<PlantingCalendar />} />
         <Route path=":cropName" element={<CropView />} />
       </Route>
 

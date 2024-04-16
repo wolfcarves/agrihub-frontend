@@ -45,6 +45,8 @@ const Learnings = () => {
     setSearchParams(searchParams);
   };
 
+  const handleSortChange = (value: string) => {};
+
   const totalPages =
     learningsData?.pagination?.total_pages ?? params.currentPage + 1;
 
@@ -89,21 +91,36 @@ const Learnings = () => {
               kasiglahan ng iyong farm.
             </p>
           </div>
-          <Select onValueChange={handleFilterChange}>
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Filter" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectItem value="All">All</SelectItem>
-                <SelectItem value="English">English</SelectItem>
-                <SelectItem value="Tagalog">Tagalog</SelectItem>
-                <SelectItem value="Tagalog and English">
-                  Tagalog and English
-                </SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+
+          <div className="flex gap-2 items-center">
+            <Select onValueChange={handleFilterChange}>
+              <SelectTrigger className="w-[170px]">
+                <SelectValue placeholder="Filter" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectItem value="All">All</SelectItem>
+                  <SelectItem value="English">English</SelectItem>
+                  <SelectItem value="Tagalog">Tagalog</SelectItem>
+                  <SelectItem value="Tagalog and English">
+                    Tagalog and English
+                  </SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+
+            <Select onValueChange={handleSortChange}>
+              <SelectTrigger className="w-[120px]">
+                <SelectValue placeholder="Filter" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectItem value="All">Newest</SelectItem>
+                  <SelectItem value="English">Oldest</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
         <div className="mt-12 flex flex-wrap justify-center gap-2">
           {isLoading && (

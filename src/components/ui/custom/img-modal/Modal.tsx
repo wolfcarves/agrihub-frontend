@@ -1,3 +1,4 @@
+import { Card } from "@components/ui/card";
 import React, { ReactNode, useRef, useEffect } from "react";
 import { IoMdClose } from "react-icons/io";
 
@@ -26,15 +27,15 @@ const ImgModal: React.FC<ModalProps> = ({ setModal, children }) => {
   return (
     <div className="fixed z-[100] inset-0 bg-white bg-opacity-25 backdrop-blur-sm flex items-center justify-center py-2 overflow-y-auto animate-in">
       <div className="mx-auto rounded-xl " ref={modalRef}>
-        <div className="absolute top-2 right-2">
+        <Card className="absolute top-2 right-2">
           <IoMdClose
             size={40}
-            className="cursor-pointer text-gray-300"
+            className="cursor-pointer text-gray-500"
             onClick={() => {
               setModal(false);
             }}
           />
-        </div>
+        </Card>
         <div className="p-1">{children}</div>
       </div>
     </div>

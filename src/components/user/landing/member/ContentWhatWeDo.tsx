@@ -15,10 +15,11 @@ import useCmsLandingDetailsQuery from "@hooks/api/get/useCmsLandingDetailsQuery"
 import useGetBlogsPublishList from "@hooks/api/get/useGetBlogsPublishListQuery";
 import useGetClientDetails from "@hooks/api/get/useGetClientDetails";
 import parse from "html-react-parser";
-import Autoplay from "embla-carousel-autoplay";
-import { IoIosArrowForward } from "react-icons/io";
+import * as Icons from "react-icons/bi";
+import { renderIcon } from "@components/lib/RenderIcon";
 import { formatDate } from "../../../lib/utils";
 import useGetVisionStats from "@hooks/api/get/useGetVisionStats";
+type IconType = keyof typeof Icons;
 
 const ContentWhatWeDo: React.FC = () => {
   const { data: cmsDataLanding } = useCmsLandingDetailsQuery();
@@ -36,54 +37,7 @@ const ContentWhatWeDo: React.FC = () => {
     perpage: "3"
   });
 
-  const features = [
-    {
-      icon: <MdDevices className="w-6 h-6" />,
-      title: "Progressive Web Application",
-      desc: "Discover our Progressive Web Application (PWA), designed to provide a seamless platform experience across all your devices. Whether you're on your smartphone or desktop, access and download our PWA to enjoy our platform effortlessly."
-    },
-    {
-      icon: <MdOutlineAnalytics className="w-6 h-6" />,
-      title: "Prescriptive Analytics",
-      desc: "Gain actionable insights and recommendations tailored to your farm's needs with our Prescriptive Analytics feature. Utilize data-driven decision-making to optimize your crop yields and resource allocation, maximizing profitability."
-    },
-
-    {
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="w-6 h-6"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M6.429 9.75L2.25 12l4.179 2.25m0-4.5l5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L21.75 12l-4.179 2.25m0 0l4.179 2.25L12 21.75 2.25 16.5l4.179-2.25m11.142 0l-5.571 3-5.571-3"
-          />
-        </svg>
-      ),
-      title: "Resources",
-      desc: "Access an extensive library of articles, blogs, and learning materials. Stay updated with the latest trends, techniques, and insights from other farmers to optimize your farm's productivity."
-    },
-    {
-      icon: <MdOutlineCalendarMonth className="w-6 h-6" />,
-      title: "Planting Calendar",
-      desc: "Stay organized and optimize your planting schedule with our intuitive Planting Calendar. Discover the best crops to plant and harvest each month"
-    },
-    {
-      icon: <RiCommunityLine className="w-6 h-6" />,
-      title: "Community",
-      desc: "Connect with fellow farmers, agricultural experts, and enthusiasts in our vibrant Community. Share knowledge, experiences, and best practices, fostering collaboration and growth within the agricultural industry."
-    },
-    {
-      icon: <MdOutlineForum className="w-6 h-6" />,
-      title: "Forums",
-      desc: "Engage in discussions, ask questions, and share insights with a diverse community of farmers, agricultural professionals, and enthusiasts. Exchange ideas, troubleshoot problems, and discover innovative solutions to challenges in farming and agribusiness."
-    }
-  ];
+  const features = cmsDataLanding?.approach_items;
 
   const { data: visionStats } = useGetVisionStats();
 
@@ -136,31 +90,6 @@ const ContentWhatWeDo: React.FC = () => {
           </Button>
         </Link>
       </div>
-      {/* <Carousel
-        plugins={[plugin.current]}
-        onMouseEnter={plugin.current.stop}
-        onMouseLeave={plugin.current.reset}
-        opts={{
-          loop: true
-        }}
-        className="py-4 max-w-full sm:max-w-7xl mx-auto"
-      >
-        <CarouselContent className="">
-          {images?.map(img => {
-            return (
-              <CarouselItem
-                className="sm:pl-1 md:basis-1/2 lg:basis-1/4 "
-                key={img.id}
-              >
-                <img
-                  src={img.image}
-                  className="w-full object-cover min-h-72 max-h-72 rounded-lg"
-                />
-              </CarouselItem>
-            );
-          })}
-        </CarouselContent>
-      </Carousel> */}
 
       {/* our approach part */}
       <section className="relative py-16 bg-gray-900">
@@ -173,16 +102,16 @@ const ContentWhatWeDo: React.FC = () => {
           </div>
           <div className="mt-12 lg:mt-0">
             <ul className="grid gap-8 sm:grid-cols-2">
-              {features.map((item, idx) => (
+              {features?.map((item, idx) => (
                 <p key={idx} className="flex gap-x-4">
                   <div className="flex-none w-12 h-12 bg-gray-700 text-green-400 rounded-lg flex items-center justify-center">
-                    {item.icon}
+                    {renderIcon(item?.icon as IconType, { size: 24 })}
                   </div>
                   <div>
                     <h4 className="text-lg text-gray-100 font-semibold">
                       {item.title}
                     </h4>
-                    <p className="mt-3">{item.desc}</p>
+                    <p className="mt-3">{item.description}</p>
                   </div>
                 </p>
               ))}

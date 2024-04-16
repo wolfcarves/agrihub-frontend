@@ -134,7 +134,7 @@ const AwsUploader: React.FC<DropzoneProps> = ({
           <img
             src={imagePreview}
             alt="Error fetching image from server. Recommended action: delete this image. Please add and reupload a new image."
-            className="h-64 w-full rounded-lg object-fit aspect-square"
+            className="h-64 w-full rounded-lg object-cover object-right-top aspect-video"
           />
         ) : (
           <div className="flex flex-col items-center justify-center pt-5 pb-6">

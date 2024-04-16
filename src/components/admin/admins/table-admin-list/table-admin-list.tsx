@@ -15,6 +15,7 @@ const TableAdminList = () => {
       search: searchParams.get("search") ?? undefined
     };
   }, [searchParams]);
+
   const { data: adminData, isLoading } = useGetUserAdminListQuery({
     perpage: "10",
     page: String(params.currentPage),

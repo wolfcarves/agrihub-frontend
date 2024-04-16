@@ -1,30 +1,16 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import PlantingCalendarSeasonCarousel from "../carousel/PlantingCalendarSeasonCarousel";
 import PlantingCalendarSeedlingCarousel from "../carousel/PlantingCalendarSeedlingCarousel";
 import useGetCropsQuery from "@hooks/api/get/useGetCropsQuery";
 import { useNavigate, useSearchParams } from "react-router-dom";
-
-export const MONTHS = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December"
-] as const;
+import { MONTHS } from "@pages/user/planting-calendar/planting-calendar";
 
 interface PlantingCalendarCropListProps {}
 
 const PlantingCalendarCropList = ({}: PlantingCalendarCropListProps) => {
   const navigate = useNavigate();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
   const params = useMemo(() => {
     return {

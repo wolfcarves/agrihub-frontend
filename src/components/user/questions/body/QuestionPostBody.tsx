@@ -155,7 +155,7 @@ const QuestionPostBody = ({ data }: QuestionPostBodyProps) => {
       )}
 
       {/* container */}
-      <div className="border-y">
+      <div className="border-b">
         <div className="py-5">
           <QuestionUserProfileButton
             userId={data?.question?.user?.id}

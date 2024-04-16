@@ -2,7 +2,7 @@ import { UserResponsiveContainer } from "@components/ui/custom";
 import { Helmet } from "react-helmet-async";
 import { Outlet } from "react-router-dom";
 
-const CalendarLayout = () => {
+const PlantingCalendarLayout = () => {
   return (
     <>
       <Helmet>
@@ -16,4 +16,4 @@ const CalendarLayout = () => {
   );
 };
 
-export default CalendarLayout;
+export default PlantingCalendarLayout;

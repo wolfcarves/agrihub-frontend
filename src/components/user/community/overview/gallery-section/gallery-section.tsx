@@ -30,7 +30,6 @@ const GallerySection = () => {
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(
     null
   );
-  console.log(id, "id sa overview");
   const handleImageClick = (index: number) => {
     setSelectedImageIndex(index);
   };

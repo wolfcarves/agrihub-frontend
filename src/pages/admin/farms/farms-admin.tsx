@@ -6,7 +6,7 @@ import AdminFarmsRegistered from "./tabs/farms/farms-registered";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/ui/tabs";
 import AdminFarmsPending from "./tabs/farms/farms-pending";
 import AdminFarmsRejected from "./tabs/farms/farms-rejected";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 const breadcrumbItems = [
   { title: "Farm Management", link: "/admin/community" },

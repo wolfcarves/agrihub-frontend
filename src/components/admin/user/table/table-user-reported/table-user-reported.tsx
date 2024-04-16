@@ -41,7 +41,7 @@ const TableUserReported = () => {
     <div className="w-full">
       <div className="flex items-center justify-between py-4">
         <Input
-          placeholder="Search name..."
+          placeholder="Search reported name..."
           className="max-w-sm"
           value={params.search}
           onChange={e => debouncedSearch(e.target.value)}

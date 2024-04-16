@@ -17,13 +17,14 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger
 } from "@components/ui/alert-dialog";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../../../icons/Loader";
 import useGetAccessViewQuery from "../../../hooks/api/get/useGetAccessViewQuery";
 import usePutAccessUpdate from "../../../hooks/api/put/usePutAccessUpdate";
 import { UpdateAccessControl } from "../../../api/openapi";
 import { toast } from "sonner";
 import { formatImage } from "../../../components/lib/utils";
+import BackButton from "@components/ui/custom/button/back-button";
 
 const breadcrumbItems = [
   { title: "Admin Management", link: "/admin/record/admins" },
@@ -41,20 +42,22 @@ const SetPermissionAdmin = () => {
   const [learningMaterials, setLearningMaterials] = useState<boolean>(false);
   const [events, setEvents] = useState<boolean>(false);
   const [blogs, setBlogs] = useState<boolean>(false);
+  const [cropsManagement, setCropsManagement] = useState<boolean>(false);
   const handleAllowAllChange = (isChecked: boolean) => {
     setAllowAll(isChecked);
     setLearningMaterials(isChecked);
     setEvents(isChecked);
     setBlogs(isChecked);
+    setCropsManagement(isChecked);
   };
 
   useEffect(() => {
-    if (learningMaterials && events && blogs) {
+    if (learningMaterials && events && blogs && cropsManagement) {
       setAllowAll(true);
     } else {
       setAllowAll(false);
     }
-  }, [learningMaterials, events, blogs, allowAll]);
+  }, [learningMaterials, events, blogs, cropsManagement, allowAll]);
 
   const [forumManagement, setForumManagement] = useState<boolean>(false);
   const [userManagement, setUserManagement] = useState<boolean>(false);
@@ -71,7 +74,6 @@ const SetPermissionAdmin = () => {
   const [termsAndConditions, setTermsAndConditions] = useState<boolean>(false);
   const [userFeedbacks, setUserFeedbacks] = useState<boolean>(false);
   const [helpCenter, setHelpCenter] = useState<boolean>(false);
-  const [cropsManagement, setCropsManagement] = useState<boolean>(false);
 
   const handleAllManagementChange = (isChecked: boolean) => {
     setAllowAllManagement(isChecked);
@@ -93,8 +95,7 @@ const SetPermissionAdmin = () => {
       privacyPolicy &&
       termsAndConditions &&
       userFeedbacks &&
-      helpCenter &&
-      cropsManagement
+      helpCenter
     ) {
       setAllowAllManagement(true);
     } else {
@@ -108,8 +109,7 @@ const SetPermissionAdmin = () => {
     privacyPolicy,
     termsAndConditions,
     userFeedbacks,
-    helpCenter,
-    cropsManagement
+    helpCenter
   ]);
 
   useEffect(() => {
@@ -178,8 +178,17 @@ const SetPermissionAdmin = () => {
   return (
     <AdminOutletContainer className="container mx-auto py-10 ">
       <BreadCrumb items={breadcrumbItems} />
-      <h2 className="text-3xl font-bold tracking-tight">Update admin access</h2>
-      <p className="text-sm text-muted-foreground">Set what admin can do</p>
+      <h2 className="text-3xl font-bold tracking-tight flex gap-4">
+        <BackButton />
+        Update admin access
+      </h2>
+      <p className="text-sm text-muted-foreground w-10/12">
+        Maintain the integrity and security of your platform by keeping admin
+        accounts up-to-date. Manage changes to access levels, permissions, and
+        credentials to reflect evolving roles and responsibilities. Ensure that
+        only authorized personnel have appropriate access to critical
+        functionalities and sensitive information.
+      </p>
       <hr className="my-4" />
       <Card className="w-full p-5">
         <div className="flex flex-wrap sm:flex-nowrap justify-between items-center">
@@ -257,7 +266,7 @@ const SetPermissionAdmin = () => {
             </div>
           </div>
 
-          <div className="flex w- flex-wrap sm:flex-nowrap gap-4 my-4">
+          <div className="flex flex-wrap sm:flex-nowrap gap-4 my-4">
             <div className="w-full">
               <div className="flex-col items-center gap-4">
                 <div className="flex gap-4 justify-between mb-2">
@@ -294,7 +303,7 @@ const SetPermissionAdmin = () => {
             </div>
           </div>
 
-          <div className="flex sm:w-1/2 gap-4 my-4 pr-2">
+          <div className="flex flex-wrap sm:flex-nowrap gap-4 my-4">
             <div className="w-full">
               <div className="flex-col items-center gap-4">
                 <div className="flex gap-4 mb-2 justify-between">
@@ -304,6 +313,25 @@ const SetPermissionAdmin = () => {
                 <div>
                   <p className="text-sm text-muted-foreground">
                     Allow users to have add, edit, and delete access to Blogs.
+                  </p>
+                </div>
+              </div>
+              <hr className="my-4" />
+            </div>
+            <div className="w-full">
+              <div className="flex-col items-center gap-4">
+                <div className="flex justify-between items-center">
+                  <h2 className="text-md font-bold tracking-tight">
+                    Crops Management
+                  </h2>
+                  <Switch
+                    checked={cropsManagement}
+                    onCheckedChange={setCropsManagement}
+                  />
+                </div>
+                <div>
+                  <p className="text-sm text-muted-foreground">
+                    Modify what individuals on this role can do
                   </p>
                 </div>
               </div>
@@ -375,27 +403,6 @@ const SetPermissionAdmin = () => {
             </div>
           </div>
         </Card>
-
-        {/* logs */}
-        {/* <Card className="my-4 p-5">
-          <div className="flex justify-between items-center">
-            <div className="w-full">
-              <div className="flex justify-between items-center gap-4">
-                <h2 className="text-lg font-bold tracking-tight">
-                  Activity Logs
-                </h2>
-                <Switch
-                  checked={activityLog}
-                  onCheckedChange={setActivityLogs}
-                />
-              </div>
-              <p className="text-sm text-muted-foreground max-w-2xl">
-                Turning on this permission allows users to access activity logs
-                of other admin
-              </p>
-            </div>
-          </div>
-        </Card> */}
 
         {/* website management */}
         <Card className="my-4 p-5">
@@ -534,7 +541,7 @@ const SetPermissionAdmin = () => {
               <hr className="my-4" />
             </div>
           </div>
-          <div className="flex w-full gap-4 my-4 flex-wrap sm:flex-nowrap">
+          <div className="flex sm:w-1/2 w-full gap-4 my-4 flex-wrap sm:flex-nowrap">
             <div className="w-full">
               <div className="flex-col items-center gap-4">
                 <div className="flex justify-between items-center">
@@ -554,31 +561,12 @@ const SetPermissionAdmin = () => {
               </div>
               <hr className="my-4" />
             </div>
-            <div className="w-full">
-              <div className="flex-col items-center gap-4">
-                <div className="flex justify-between items-center">
-                  <h2 className="text-md font-bold tracking-tight">
-                    Crops Management
-                  </h2>
-                  <Switch
-                    checked={cropsManagement}
-                    onCheckedChange={setCropsManagement}
-                  />
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">
-                    Modify what individuals on this role can do
-                  </p>
-                </div>
-              </div>
-              <hr className="my-4" />
-            </div>
           </div>
         </Card>
         <div className="my-4 flex justify-end gap-4">
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button>Continue</Button>
+              <Button>Update</Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
@@ -596,7 +584,7 @@ const SetPermissionAdmin = () => {
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
 
                 <AlertDialogAction onClick={handleSubmitForm}>
-                  Continue
+                  Confirm
                 </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>

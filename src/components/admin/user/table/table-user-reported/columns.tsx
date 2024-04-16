@@ -8,15 +8,9 @@ import {
   DropdownMenuTrigger
 } from "@components/ui/dropdown-menu";
 import { Button } from "@components/ui/button";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
-import {
-  AdminUser,
-  FarmApplicationData,
-  LearningMaterial,
-  ReportedUser,
-  SeedlingRequestListItem
-} from "@api/openapi";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { MoreHorizontal } from "lucide-react";
+import { ReportedUser } from "@api/openapi";
+import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
 import {
   Dialog,
@@ -28,10 +22,8 @@ import {
   DialogTrigger
 } from "@components/ui/dialog";
 import { Label } from "@components/ui/label";
-import { Input } from "@components/ui/input";
 import { Textarea } from "@components/ui/textarea";
 import { Badge } from "@components/ui/badge";
-import { useState } from "react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -182,7 +174,7 @@ export const columns: ColumnDef<ReportedUser>[] = [
                         <img
                           src={formatImage(image)}
                           key={i}
-                          className="h-20 border border-border"
+                          className="h-20 border border-border object-cover object-center"
                         />
                       ))}
                     </div>

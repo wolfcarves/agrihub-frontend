@@ -40,8 +40,6 @@ const PlantingCalendarCropList = ({}: PlantingCalendarCropListProps) => {
 
       if (prev === MONTHS.length - 1) newValue = 0;
 
-      console.log(prev);
-
       navigate(`/planting-calendar?month=${newValue}`, { replace: true });
 
       return newValue;
@@ -51,7 +49,7 @@ const PlantingCalendarCropList = ({}: PlantingCalendarCropListProps) => {
   const { data: cropData, isLoading: isCropDataLoading } = useGetCropsQuery();
 
   return (
-    <div className="border w-full h-full rounded-xl px-10">
+    <div className="border w-full h-full rounded-xl px-2 sm:px-10">
       <div className="flex gap-5 justify-center items-center py-2">
         <button
           className="p-2 bg-accent h-max rounded-md"

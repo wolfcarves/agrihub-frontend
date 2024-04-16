@@ -6,7 +6,7 @@ const S3_BASE_URL = import.meta.env.VITE_S3_BUCKET_BASEURL;
 const PlantingCalendarCardTitle = ({ logo }: { logo?: string }) => {
   return (
     <>
-      <div className="flex items-center space-x-5 mx-auto w-max pb-3">
+      <div className="flex justify-center items-center space-x-5 mx-auto pb-3 w-full">
         <img
           src={QcuLogo as unknown as string}
           width={53}
@@ -14,7 +14,12 @@ const PlantingCalendarCardTitle = ({ logo }: { logo?: string }) => {
           className="mb-3"
         />
 
-        <h3 className="text-center font-poppins-bold italic text-wrap whitespace-pre-line">
+        <h3
+          className="text-center font-poppins-bold italic "
+          style={{
+            overflowWrap: "anywhere"
+          }}
+        >
           Center for Urban Agriculture <br className="md:block hidden" /> and
           Innovation
         </h3>

@@ -38,9 +38,9 @@ const PlantingCalendarSeasonCarousel = ({
             align: "start",
             dragFree: true
           }}
-          className="w-full"
+          className="relative w-full"
         >
-          <CarouselContent className="w-full m-0 p-0 h-[165px]">
+          <CarouselContent className="w-full m-0 p-0 h-[170px]">
             {isLoading ? (
               <LoadingSpinner className="text-primary mx-auto mt-10" />
             ) : (
@@ -60,7 +60,7 @@ const PlantingCalendarSeasonCarousel = ({
                           />
                         </div>
 
-                        <h4 className="font-[TimesNewRoman] font-semibold">
+                        <h4 className="text-[14px] sm:text-[20px] text-center font-[TimesNewRoman] font-semibold">
                           {name}
                         </h4>
                       </CarouselItem>
@@ -71,7 +71,7 @@ const PlantingCalendarSeasonCarousel = ({
             )}
           </CarouselContent>
 
-          <div className="absolute top-0 bottom-0 w-full my-auto h-max px-10">
+          <div className="absolute start-0 end-0 bottom-5 mx-auto w-max h-max px-5 sm:px-10">
             <CarouselPrevious />
             <CarouselNext />
           </div>

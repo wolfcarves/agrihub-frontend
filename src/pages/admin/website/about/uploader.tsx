@@ -7,6 +7,18 @@ import LoadingSpinner from "@icons/LoadingSpinner";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { formatImage, parseValidString } from "@lib/utils";
 import useCmsAboutAddCarousel from "../../../../hooks/api/post/useCmsAboutAddCarousel";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger
+} from "@components/ui/alert-dialog";
+import { Button } from "@components/ui/button";
 
 interface DropzoneProps {
   onChange?: (file: string) => void;
@@ -142,7 +154,7 @@ const AwsUploader: React.FC<DropzoneProps> = ({
           <img
             src={formatImage(imagePreview)}
             alt="Error fetching image from server. Recommended action: delete this image. Please add and reupload a new image."
-            className="h-64 w-full rounded-lg object-fit aspesct-square"
+            className="h-full w-full rounded-lg object-cover aspesct-video"
           />
         ) : (
           <div className="flex flex-col items-center justify-center pt-5 pb-6">
@@ -168,17 +180,34 @@ const AwsUploader: React.FC<DropzoneProps> = ({
         (imagePreview ||
           parseValidString(imagePreview as string) === "" ||
           parseValidString(imagePreview as string) === "null") && (
-          <button
-            type="button"
-            className="absolute top-0 right-0 text-white bg-red-600 rounded-full p-1 cursor-pointer"
-            onClick={handleDeleteImage}
-          >
-            {isDeleteLoading ? (
-              <LoadingSpinner className="absolute" />
-            ) : (
+          <AlertDialog>
+            <AlertDialogTrigger className="absolute top-0 right-0 text-white bg-red-600 rounded-full p-1 cursor-pointer">
               <FaRegTrashCan />
-            )}
-          </button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Delete this carousel item?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This action cannot be undone. This will permanently delete the
+                  image and remove its data from our servers.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction
+                  type="button"
+                  onClick={handleDeleteImage}
+                  className="bg-red-500 hover:bg-red-500"
+                >
+                  {isDeleteLoading ? (
+                    <LoadingSpinner className="absolute" />
+                  ) : (
+                    <Button variant="destructive">Delete</Button>
+                  )}
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         )}
     </div>
   );

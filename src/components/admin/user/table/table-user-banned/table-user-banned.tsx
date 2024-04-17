@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { Input } from "@components/ui/input";
 import { columns } from "./columns";
 import useDebounce from "@hooks/utils/useDebounce";
@@ -16,7 +16,7 @@ const TableUserBanned = () => {
     };
   }, [searchParams]);
   const { data: userData, isLoading } = useGetUserBannedList({
-    perpage: "20",
+    perpage: "10",
     page: String(params.currentPage),
     search: params.search,
     filter: "banned"
@@ -31,7 +31,7 @@ const TableUserBanned = () => {
     <div className="w-full">
       <div className="flex items-center py-4">
         <Input
-          placeholder="Search name..."
+          placeholder="Search full name..."
           className="max-w-sm"
           value={params.search}
           onChange={e => debouncedSearch(e.target.value)}

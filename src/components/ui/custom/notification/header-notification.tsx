@@ -17,6 +17,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/ui/tabs";
 import { useDispatch } from "react-redux";
 import { hideNotificationBadge } from "@redux/slices/notificationSlice";
 import { useSelector } from "@redux/store";
+import { Button } from "@components/ui/button";
+import usePostUserNotificationReadAll from "../../../../hooks/api/post/usePostUserNotificationReadAll";
 
 const HeaderNotification = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -36,6 +38,15 @@ const HeaderNotification = () => {
   });
 
   const { mutateAsync: readNotificationMutate } = usePutUserNotificationRead();
+  const { mutateAsync: readAllNotificationMutate, isLoading: isReadLoading } =
+    usePostUserNotificationReadAll();
+  const handleReadAllNotification = async (id: string | undefined) => {
+    try {
+      readAllNotificationMutate(id ?? "");
+    } catch (error: any) {
+      toast.error(error.body.message);
+    }
+  };
 
   const handleReadNotification = async (
     redirect: string | undefined,
@@ -46,6 +57,9 @@ const HeaderNotification = () => {
       if (redirect !== "") {
         navigate(redirect ?? "");
       }
+      toast.success(
+        "All notifications have been marked as read. There are no unread notifications now."
+      );
     } catch (error: any) {
       toast.error(error.body.message);
     }
@@ -55,6 +69,12 @@ const HeaderNotification = () => {
     () => userNotifications?.notifications?.filter(item => !item.viewed).length,
     [userNotifications]
   );
+
+  const unreadNotificationIds = userNotifications?.notifications
+    ? userNotifications.notifications
+        .filter(item => !item.viewed)
+        .map(item => item.id)
+    : [];
 
   const handleNotificationClick = () => {
     setIsOpen(prev => !prev);
@@ -190,6 +210,24 @@ const HeaderNotification = () => {
                 )}
               </div>
             </TabsContent>
+
+            <div className="pt-1">
+              <Button
+                onClick={() =>
+                  unreadNotificationIds.forEach(id =>
+                    handleReadAllNotification(id)
+                  )
+                }
+                className={`w-full bg-gray-200 ${
+                  isReadLoading
+                    ? "cursor-not-allowed"
+                    : "hover:bg-black hover:text-gray-200 text-black"
+                }`}
+                disabled={isReadLoading}
+              >
+                {isReadLoading ? "Marking all as read..." : "Mark all as read"}
+              </Button>
+            </div>
           </Tabs>
         </DropdownMenuContent>
       </DropdownMenu>

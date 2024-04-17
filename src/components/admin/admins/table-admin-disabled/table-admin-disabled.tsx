@@ -16,7 +16,7 @@ const TableAdminDisabled = () => {
     };
   }, [searchParams]);
   const { data: adminData, isLoading } = useGetUserAdminListQuery({
-    perpage: "20",
+    perpage: "10",
     page: String(params.currentPage),
     search: params.search,
     filter: "banned"

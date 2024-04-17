@@ -17,7 +17,7 @@ const commonReason = [
   "Harassment",
   "Scamming",
   "Fake News/Disinformation",
-  "Child Exploitation/Pornography",
+  "Pornography",
   "Violent Content"
 ] as const;
 
@@ -84,6 +84,7 @@ const ProfileReportUserDialog = ({
               <Input
                 value={reasonValue}
                 className="font-inter-regular"
+                placeholder="You can add your own reason here."
                 onChange={e => setReasonValue(e.target.value as any)}
               />
             </div>
@@ -93,7 +94,8 @@ const ProfileReportUserDialog = ({
                 Description
               </span>
               <Textarea
-                className="text-sm font-inter-regular"
+                className="text-sm font-inter-regular resize-none"
+                placeholder="Add some explanation regarding to reason"
                 onChange={e => setDescription(e.target.value)}
               />
             </div>

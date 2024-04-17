@@ -27,7 +27,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm }) => {
           </AvatarFallback>
         </Avatar>
         <div className="flex flex-col">
-          <span className="text-gray-700 hover:text-black font-poppins-semibold text-md">
+          <span className="text-gray-700 hover:text-black font-poppins-semibold text-md line-clamp-2">
             {farm.farm_name}
           </span>
           <span className="text-sm font-poppins-medium text-gray-500">

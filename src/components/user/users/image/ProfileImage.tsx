@@ -12,7 +12,7 @@ import {
   MdOutlineRemoveRedEye,
   MdOutlineReportGmailerrorred
 } from "react-icons/md";
-import { MONTHS } from "@pages/user/calendar/calendar";
+import { MONTHS } from "@pages/user/planting-calendar/planting-calendar";
 import { Skeleton } from "@components/ui/skeleton";
 import { RiCake2Fill } from "react-icons/ri";
 import { IoIosPerson } from "react-icons/io";
@@ -170,7 +170,7 @@ const ProfileImage = ({
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-3 items-center justify-between pt-5 pb-3 border-b">
+        <div className="flex flex-wrap gap-3 items-center justify-between border-b pt-5 pb-3">
           <div className="space-y-1.5 ">
             <h4 className="font-poppins-semibold tracking-tight text-3xl">
               {!isLoading ? fullname : <Skeleton className="h-7 w-60 mb-5" />}
@@ -227,6 +227,7 @@ const ProfileImage = ({
             {!isLoading ? (
               <Link
                 to={`/users/${userId}/${username}/`}
+                replace
                 onClick={() => {
                   setScrollPosition(window.scrollY);
                 }}
@@ -249,6 +250,7 @@ const ProfileImage = ({
             {!isLoading && isOwn ? (
               <Link
                 to={`/users/${userId}/${username}/saved`}
+                replace
                 onClick={() => {
                   setScrollPosition(window.scrollY);
                 }}

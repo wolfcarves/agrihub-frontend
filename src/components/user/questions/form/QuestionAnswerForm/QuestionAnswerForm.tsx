@@ -9,6 +9,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as zod from "zod";
+import QuestionProfanityWarningDialog from "../../dialog/QuestionProfanityWarningDialog";
 
 interface QuestionAnswerFormProps {
   questionId?: string;
@@ -26,6 +27,8 @@ type QuestionAnswer = zod.infer<typeof questionAnswerSchema>;
 
 const QuestionAnswerForm = ({ questionId }: QuestionAnswerFormProps) => {
   const [answerLength, setAnswerLength] = useState<number>(0);
+  const [isContainProfane, setIsContainProfane] = useState<boolean>(false);
+  const [isProfane, setIsProfane] = useState<boolean>(false);
 
   const { handleSubmit, control, setValue } = useForm<QuestionAnswer>({
     resolver: zodResolver(questionAnswerSchema),
@@ -41,6 +44,11 @@ const QuestionAnswerForm = ({ questionId }: QuestionAnswerFormProps) => {
 
   const onSubmitAnswerForm = async (data: QuestionAnswer) => {
     try {
+      if (isContainProfane) {
+        setIsProfane(true);
+        return;
+      }
+
       await postAnswer({
         questionId: questionId ?? "0",
         userAnswer: data
@@ -53,45 +61,58 @@ const QuestionAnswerForm = ({ questionId }: QuestionAnswerFormProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmitAnswerForm)}>
-      <Divider className="py-10" />
-      <h5 className="font-poppins-semibold mb-5">Your Answers</h5>
-      <FormField
-        name="answer"
-        control={control}
-        render={({ field: { onChange } }) => {
-          return !isPostAnswerLoading ? (
-            <div className="flex">
-              <RichTextEditor
-                allowImagePaste={false}
-                withToolbar={false}
-                onChange={({ charSize }) => {
-                  setAnswerLength(charSize ?? 0);
-                }}
-                onBlur={data => {
-                  onChange(data.html);
-                }}
-                height={300}
-              />
-            </div>
-          ) : (
-            <>
-              <div className="min-h-[20rem] flex justify-center items-center w-full border mx-auto rounded-lg ">
-                <LoadingSpinner className="text-xl" />
-              </div>
-            </>
-          );
-        }}
-      />
+    <>
+      <form onSubmit={handleSubmit(onSubmitAnswerForm)}>
+        <Divider className="py-10" />
+        <h5 className="font-poppins-semibold mb-5">Your Answers</h5>
+        <FormField
+          name="answer"
+          control={control}
+          render={({ field: { onChange } }) => {
+            return !isPostAnswerLoading ? (
+              <div className="flex">
+                <RichTextEditor
+                  allowImagePaste={false}
+                  withToolbar={false}
+                  onChange={({ charSize }) => {
+                    setAnswerLength(charSize ?? 0);
+                  }}
+                  onBlur={({ html, isProfane: _isProfane }) => {
+                    if (_isProfane) {
+                      setIsContainProfane(true);
+                    } else {
+                      setIsContainProfane(false);
+                    }
 
-      <Button
-        type="submit"
-        className="mt-10"
-        disabled={answerLength === 0 || isPostAnswerLoading}
-      >
-        Post Answer
-      </Button>
-    </form>
+                    onChange(html);
+                  }}
+                  height={300}
+                />
+              </div>
+            ) : (
+              <>
+                <div className="min-h-[20rem] flex justify-center items-center w-full border mx-auto rounded-lg ">
+                  <LoadingSpinner className="text-xl" />
+                </div>
+              </>
+            );
+          }}
+        />
+
+        <Button
+          type="submit"
+          className="mt-10"
+          disabled={answerLength === 0 || isPostAnswerLoading}
+        >
+          Post Answer
+        </Button>
+      </form>
+
+      <QuestionProfanityWarningDialog
+        open={isProfane}
+        onOpenChange={setIsProfane}
+      />
+    </>
   );
 };
 

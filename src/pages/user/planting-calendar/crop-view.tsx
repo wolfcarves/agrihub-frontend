@@ -2,7 +2,7 @@ import { Button } from "@components/ui/button";
 import useGetCropsQuery from "@hooks/api/get/useGetCropsQuery";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
-import { MONTHS } from "./calendar";
+import { MONTHS } from "./planting-calendar";
 import LoadingSpinner from "@icons/LoadingSpinner";
 import PlantingCalendarCard from "@components/user/community/card/PlantingCalendarCard";
 import {

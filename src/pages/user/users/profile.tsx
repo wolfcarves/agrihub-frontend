@@ -12,6 +12,7 @@ import ProfileReportUserDialog from "@components/user/users/dialog/ProfileReport
 import useUserReportUsersMutation from "@hooks/api/post/useUserReportUsersMutation";
 import { toast } from "sonner";
 import ProfilePersonalInformationList from "@components/user/users/list/ProfilePersonalInformationList";
+import BackButton from "@components/ui/custom/button/back-button";
 
 const UserProfile = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -68,7 +69,11 @@ const UserProfile = () => {
         }
       />
 
-      <div className="flex flex-wrap-reverse md:flex-nowrap justify-between pb-10">
+      <div className="pt-5">
+        <BackButton />
+      </div>
+
+      <div className="flex flex-wrap-reverse md:flex-nowrap justify-between min-h-[35rem]">
         {currentIndex === 0 ? (
           <ProfileQuestionList
             isOwn={isOwn}

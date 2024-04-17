@@ -87,14 +87,14 @@ const ClientSocials = ({
         ) : (
           socialFields.map((socialMedia, index) => (
             <Card key={index} className="p-5 mb-4">
-              <div className="flex flex-wrap sm:flex-nowrap w-full gap-4 items-center">
+              <div className="flex flex-wrap justify-between sm:flex-nowrap w-full gap-4 items-center">
                 <FormField
                   control={form.control}
                   name={`socials.${index}.link`}
                   defaultValue={socialMedia?.link}
                   // disabled={!isEditing}
                   render={({ field, fieldState }) => (
-                    <FormItem>
+                    <FormItem className="w-full">
                       <FormControl>
                         <Input
                           {...field}

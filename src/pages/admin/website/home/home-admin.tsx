@@ -23,6 +23,17 @@ import * as Icons from "react-icons/bi";
 import { renderIcon } from "../../../../components/lib/RenderIcon";
 import DialogEditAprroach from "../../../../components/admin/home/dialog-edit-aprroach";
 import DialogAddAprroach from "../../../../components/admin/home/dialog-add-approach";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger
+} from "@components/ui/alert-dialog";
 type IconType = keyof typeof Icons;
 const updateLandingSchema = zod.object({
   cta_header: zod
@@ -131,12 +142,14 @@ const HomeAdmin = () => {
     <AdminOutletContainer className="container mx-auto py-10 ">
       <BreadCrumb items={breadcrumbItems} />
       <div className="flex justify-between items-center">
-        <h2 className="text-3xl font-bold tracking-tight">
-          Home page contents
-        </h2>
+        <h2 className="text-3xl font-bold tracking-tight">Home page</h2>
       </div>
-      <p className="text-sm text-muted-foreground">
-        This includes call to action section and our approach
+      <p className="text-sm text-muted-foreground w-10/12">
+        Craft the welcoming gateway to your platform, featuring an eye-catching
+        landing photo and compelling call-to-action header and description to
+        engage visitors. Provide a glimpse into the organization's approach,
+        projecting its unique strategy and values to captivate audiences and
+        encourage exploration.
       </p>
       <hr className="my-4" />
       <div className="mx-8">
@@ -178,7 +191,7 @@ const HomeAdmin = () => {
                 </div>
               </div>
               <div className="mb-4 col-span-12">
-                <Label className=" font-poppins-medium">`Our Approach</Label>
+                <h3 className="font-bold my-2">Our Approach</h3>
                 <Textarea
                   className=" custom-scroll"
                   defaultValue={landingData?.approach}
@@ -195,7 +208,8 @@ const HomeAdmin = () => {
         </Form>
 
         <div className="mb-4 mt-10">
-          <h3 className="font-bold my-2">Approach items</h3>
+          <Label className=" font-poppins-medium">Approach items</Label>
+
           <div className="grid grid-cols-10 gap-3">
             {landingData?.approach_items?.map((approach, i) => (
               <div
@@ -203,11 +217,36 @@ const HomeAdmin = () => {
                 className=" col-span-10 lg:col-span-5 grid grid-cols-10 bg-white border border-border rounded-md p-4 relative"
               >
                 <div className="absolute flex gap-1 top-1 right-1">
-                  <IoTrashOutline
-                    onClick={() => handleDeleteApproach(approach.id || "")}
-                    size={25}
-                    className="  border p-1 rounded-full text-red-600 border-red-400/45 bg-red-300/30 hover:animate-pulse"
-                  />
+                  <AlertDialog>
+                    <AlertDialogTrigger>
+                      <IoTrashOutline
+                        size={25}
+                        className="  border p-1 rounded-full text-red-600 border-red-400/45 bg-red-300/30 hover:animate-pulse"
+                      />
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>
+                          Delete this approach?
+                        </AlertDialogTitle>
+                        <AlertDialogDescription>
+                          This action cannot be undone. This will permanently
+                          delete the item and remove its data from our servers.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction
+                          onClick={() =>
+                            handleDeleteApproach(approach.id || "")
+                          }
+                          className="bg-red-500"
+                        >
+                          Delete
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
                   <DialogEditAprroach approachId={approach.id || ""} />
                 </div>
                 <div className=" col-span-2 flex justify-center items-center text-primary">

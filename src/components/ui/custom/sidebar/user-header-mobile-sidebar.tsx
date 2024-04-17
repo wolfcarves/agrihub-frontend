@@ -50,7 +50,7 @@ const UserHeaderMobileSidebar = ({
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
-      <SheetTrigger className="block md:hidden">
+      <SheetTrigger className="block lg:hidden">
         <span
           className=" items-center text-xl opacity-75"
           onClick={() => setIsOpen(prev => !prev)}
@@ -63,7 +63,7 @@ const UserHeaderMobileSidebar = ({
         </span>
       </SheetTrigger>
       <SheetContent side="left" className="overflow-y-scroll">
-        <h4 className="py-3 px-4 mb-8 font-bold text-gray-800 md:px-8 ">
+        <h4 className="py-3 px-4 mb-8 font-bold text-gray-800 lg:px-8 ">
           <div className="flex items-center justify-center px-8">
             <div className="flex-none">
               <img

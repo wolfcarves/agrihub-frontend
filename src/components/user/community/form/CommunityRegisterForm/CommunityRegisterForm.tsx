@@ -37,9 +37,9 @@ const CommunityRegisterForm = () => {
   const [isOther, setIsOther] = useState<boolean>(false);
   const [otherId, setOtherId] = useState<string>("");
 
-  useEffect(() => {
-    setDialogOpen(true);
-  }, []);
+  // useEffect(() => {
+  //   setDialogOpen(true);
+  // }, []);
 
   const navigate = useNavigate();
   const form = useForm<RegisterCommunitySchema>({

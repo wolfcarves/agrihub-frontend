@@ -853,11 +853,16 @@ filter?: string,
      * @throws ApiError
      */
     public static getApiFarmFarmerMembers({
+id,
 search,
 page,
 perpage,
 filter,
 }: {
+/**
+ * ID of the farm
+ */
+id: string,
 /**
  * Search parameter (optional)
  */
@@ -877,7 +882,10 @@ filter?: string,
 }): CancelablePromise<ListFarmMembersResponse> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/api/farm/farmer/members',
+            url: '/api/farm/farmer/members/{id}',
+            path: {
+                'id': id,
+            },
             query: {
                 'search': search,
                 'page': page,

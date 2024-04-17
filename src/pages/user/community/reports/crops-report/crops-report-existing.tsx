@@ -59,7 +59,7 @@ const CropsReportExisting = () => {
     filter: filter,
     sort: undefined
   });
-  console.log(CropExisting);
+  console.log(CropExisting, "asdasd");
 
   const handleCropReport = (cropData: CommunityCropReportResponseItem) => {
     // dispatch(setExistingCrop(cropData));

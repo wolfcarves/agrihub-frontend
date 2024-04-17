@@ -55,7 +55,11 @@ export const columns: ColumnDef<ArchivedCrop>[] = [
     accessorKey: "growth_span",
     header: "Growth Span",
     cell: ({ row }) => {
-      return `${row.original.growth_span} Months`;
+      if (row.original.growth_span === null) {
+        return "";
+      } else {
+        return `${row.original.growth_span} Months`;
+      }
     }
   },
 
@@ -69,6 +73,7 @@ export const columns: ColumnDef<ArchivedCrop>[] = [
         unarchiveCrop(crop.id);
         toast.success("Unarchived Successfully!");
       };
+      console.log(crop);
 
       return (
         <AlertDialog>

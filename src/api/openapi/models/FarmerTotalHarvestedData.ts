@@ -8,4 +8,5 @@ export type FarmerTotalHarvestedData = {
     crop_name?: string;
     image?: string;
     total_harvested?: string;
+    total_kg?: string;
 };

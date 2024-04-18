@@ -31,6 +31,7 @@ import { toast } from "sonner";
 import useFarmAssignHeadMutation from "../../../../../hooks/api/post/useFarmAssignHeadMutation";
 import useFarmUnassignHeadMutation from "../../../../../hooks/api/post/useFarmUnassignHeadMutation";
 import { useState } from "react";
+import useAuth from "../../../../../hooks/useAuth";
 
 export const columns: ColumnDef<FarmMember>[] = [
   {
@@ -47,6 +48,12 @@ export const columns: ColumnDef<FarmMember>[] = [
       );
     },
     cell: ({ row }) => {
+      const { data: useDAta } = useAuth();
+      if (useDAta?.id === row.original.id) {
+        return (
+          <div className="text-green-700">{`${row.original.firstname} ${row.original.lastname} (You)`}</div>
+        );
+      }
       return `${row.original.firstname} ${row.original.lastname}`;
     }
   },
@@ -64,6 +71,14 @@ export const columns: ColumnDef<FarmMember>[] = [
       );
     },
     cell: ({ row }) => {
+      const { data: useDAta } = useAuth();
+      if (useDAta?.id === row.original.id) {
+        return (
+          <div className=" text-green-700">
+            {formatRoles(row.original.role)}
+          </div>
+        );
+      }
       return formatRoles(row.original.role);
     }
   },

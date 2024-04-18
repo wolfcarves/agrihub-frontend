@@ -28,6 +28,7 @@ import DataPrivacyDialog from "../../../../ui/custom/data-privacy-dialog/data-pr
 import SelectBarangay from "../../select-barangay/select-barangay";
 import ReviewDialog from "../../review-dialog/review-dialog";
 import { CheckedState } from "@radix-ui/react-checkbox";
+import Capture from "../../capture/capture";
 
 const CommunityRegisterForm = () => {
   const [isDialogOpen, setDialogOpen] = useState<boolean>(false);
@@ -37,9 +38,9 @@ const CommunityRegisterForm = () => {
   const [isOther, setIsOther] = useState<boolean>(false);
   const [otherId, setOtherId] = useState<string>("");
 
-  useEffect(() => {
-    setDialogOpen(true);
-  }, []);
+  // useEffect(() => {
+  //   setDialogOpen(true);
+  // }, []);
 
   const navigate = useNavigate();
   const form = useForm<RegisterCommunitySchema>({
@@ -112,7 +113,10 @@ const CommunityRegisterForm = () => {
 
   return (
     <div className="w-full md:px-0 px-2 my-4">
-      <h2 className="font-poppins-medium">Register Community</h2>
+      <div className="">
+        <h2 className="font-poppins-medium">Register Community</h2>
+        <div></div>
+      </div>
       <hr className="mb-4 mt-1 border-primary border-2" />
       <Form {...form}>
         <form
@@ -270,7 +274,7 @@ const CommunityRegisterForm = () => {
                 control={form.control}
                 name="valid_id"
                 render={() => (
-                  <Dropzone
+                  <Capture
                     onChange={value => form.setValue("valid_id", value)}
                   />
                 )}

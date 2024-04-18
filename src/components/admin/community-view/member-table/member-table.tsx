@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { columns } from "./columns";
-import { DataTable } from "../../../../ui/custom/data-table/data-table";
 import Header from "./header";
-import useGetFarmMembersQuery from "../../../../../hooks/api/get/useGetFarmMembersQuery";
+import useGetFarmMembersQuery from "../../../../hooks/api/get/useGetFarmMembersQuery";
+import { DataTable } from "../../../ui/custom/data-table/data-table";
 const MemberTable = () => {
   const { id } = useParams();
   const [search, setSearch] = useState<string>("");

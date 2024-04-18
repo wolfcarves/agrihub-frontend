@@ -118,11 +118,11 @@ const CommunityDetails = () => {
                 ) : null}
               </div>
 
-              <div className="flex justify-end items-center w-full  gap-3 text-gray-500 md:text-[1.2rem] text-base">
+              {/* <div className="flex justify-end items-center w-full  gap-3 text-gray-500 md:text-[1.2rem] text-base">
                 <GiPlantSeed />
                 <TbBrandGoogleAnalytics />
                 <TbReportAnalytics />
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

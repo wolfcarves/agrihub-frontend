@@ -3,6 +3,6 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type ChangeEmailRequest = {
-    email?: string;
+export type ConfirmNumberRequest = {
+    otp?: number;
 };

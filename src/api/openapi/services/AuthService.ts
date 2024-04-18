@@ -3,11 +3,14 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { ChangeEmailRequest } from '../models/ChangeEmailRequest';
+import type { ChangeNumberRequest } from '../models/ChangeNumberRequest';
+import type { ConfirmNumberRequest } from '../models/ConfirmNumberRequest';
 import type { ConfirmPasswordRequest } from '../models/ConfirmPasswordRequest';
 import type { MessageResponse } from '../models/MessageResponse';
 import type { ResetPasswordRequestBody } from '../models/ResetPasswordRequestBody';
 import type { SendOTPByNumber } from '../models/SendOTPByNumber';
 import type { SendResetTokenRequestBody } from '../models/SendResetTokenRequestBody';
+import type { UpdatePasswordRequestBody } from '../models/UpdatePasswordRequestBody';
 import type { UserAuthResponse } from '../models/UserAuthResponse';
 import type { UserLoginSchema } from '../models/UserLoginSchema';
 import type { UserSchema } from '../models/UserSchema';
@@ -148,6 +151,78 @@ requestBody: ChangeEmailRequest,
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/auth/update/email',
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Update Number
+     * @returns MessageResponse Successful response
+     * @throws ApiError
+     */
+    public static postApiAuthUpdateNumber({
+requestBody,
+}: {
+requestBody: ChangeNumberRequest,
+}): CancelablePromise<MessageResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/auth/update/number',
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Confirm Update Number
+     * @returns MessageResponse Successful response
+     * @throws ApiError
+     */
+    public static postApiAuthConfirmNumberUpdate({
+requestBody,
+}: {
+requestBody: ConfirmNumberRequest,
+}): CancelablePromise<MessageResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/auth/confirm/number-update',
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Update User Password
+     * @returns MessageResponse Successful response
+     * @throws ApiError
+     */
+    public static postApiAuthUpdatePassword({
+requestBody,
+}: {
+requestBody: UpdatePasswordRequestBody,
+}): CancelablePromise<MessageResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/auth/update/password',
             body: requestBody,
             mediaType: 'application/json',
             errors: {

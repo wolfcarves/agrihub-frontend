@@ -25,6 +25,7 @@ import type { GrowthRateDistribution } from '../models/GrowthRateDistribution';
 import type { GrowthRateResponse } from '../models/GrowthRateResponse';
 import type { HarvestDistribution } from '../models/HarvestDistribution';
 import type { HarvestedWitheredData } from '../models/HarvestedWitheredData';
+import type { InactiveFarmReport } from '../models/InactiveFarmReport';
 import type { LearningMaterialReport } from '../models/LearningMaterialReport';
 import type { MonthlyGrowthRate } from '../models/MonthlyGrowthRate';
 import type { NewCommunityCropReport } from '../models/NewCommunityCropReport';
@@ -208,6 +209,7 @@ name: string,
     public static getApiReportsCropReport({
 id,
 search,
+month,
 page,
 perpage,
 filter,
@@ -221,6 +223,10 @@ id: string,
  * Search term
  */
 search?: string,
+/**
+ * Month Term (1-12)
+ */
+month?: string,
 /**
  * Page number
  */
@@ -246,6 +252,7 @@ sort?: string,
             },
             query: {
                 'search': search,
+                'month': month,
                 'page': page,
                 'perpage': perpage,
                 'filter': filter,
@@ -861,6 +868,24 @@ limit?: string,
                 'month': month,
                 'limit': limit,
             },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Get Inactive Farm Reports
+     * @returns InactiveFarmReport Successful response
+     * @throws ApiError
+     */
+    public static getApiReportsFarmInactive(): CancelablePromise<InactiveFarmReport> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/reports/farm/inactive',
             errors: {
                 400: `Validation Error`,
                 401: `Unauthorized`,

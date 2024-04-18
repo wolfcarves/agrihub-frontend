@@ -25,6 +25,17 @@ import {
 import Autoplay from "embla-carousel-autoplay";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
 import { FaArrowLeftLong } from "react-icons/fa6";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger
+} from "../../../components/ui/alert-dialog";
 
 const FarmApplicationView = () => {
   const navigate = useNavigate();
@@ -207,10 +218,53 @@ const FarmApplicationView = () => {
           </div>
           {data?.status === "pending" ? (
             <div className="flex gap-4 mt-2 justify-end">
-              <Button onClick={handleRejectApplication} variant={"destructive"}>
-                Reject
-              </Button>
-              <Button onClick={handleAcceptApplication}>Accept</Button>
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button variant={"destructive"}>Reject</Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>
+                      Reject Farm Application?
+                    </AlertDialogTitle>
+                    <AlertDialogDescription>
+                      Rejecting this farm application ends the process
+                      permanently. Sure you want to reject?
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction
+                      className="bg-red-400"
+                      onClick={handleRejectApplication}
+                    >
+                      Continue
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button>Accept</Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>
+                      Accept Farm Application?
+                    </AlertDialogTitle>
+                    <AlertDialogDescription>
+                      Are you absolutely sure you want to accept this farm
+                      application?
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction onClick={handleAcceptApplication}>
+                      Continue
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
             </div>
           ) : (
             ""

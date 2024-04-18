@@ -1,14 +1,16 @@
 import React from "react";
-import useGetCropsQuery from "@hooks/api/get/useGetCropsQuery";
 import {
   Table,
   TableBody,
+  TableCaption,
   TableCell,
+  TableFooter,
   TableHead,
   TableHeader,
   TableRow
 } from "@components/ui/table";
 import { formatDate } from "@components/lib/utils";
+import { Card } from "@components/ui/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,35 +24,18 @@ import { MoreHorizontal } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
   AlertDialogTrigger
 } from "../../../../../ui/alert-dialog";
 import useDeleteFarmCropArchiveAdmin from "../../../../../../hooks/api/delete/useDeleteFarmCropArchiveAdmin";
 import { toast } from "sonner";
 import Loader from "../../../../../../icons/Loader";
+import useGetFarmCropsArchiveListAdmin from "../../../../../../hooks/api/get/useGetFarmCropsArchiveListAdmin";
 
-const TableCropsOthers = () => {
-  const { data: cropData } = useGetCropsQuery();
+const TableCropsArchived = () => {
+  const { data: cropData } = useGetFarmCropsArchiveListAdmin();
 
   const navigate = useNavigate();
 
-  const { mutateAsync: archiveMaterial, isLoading: archieveLoading } =
-    useDeleteFarmCropArchiveAdmin();
-  const handleArchive = async (id: string) => {
-    await archiveMaterial(id || "");
-    toast.success("Archive Successfully!");
-    navigate("/admin/website/crops?tab=archived");
-  };
-
-  if (archieveLoading) {
-    return <Loader isVisible={true} />;
-  }
   return (
     <div className="border border-border rounded-md">
       <Table>
@@ -95,29 +80,10 @@ const TableCropsOthers = () => {
                         <DropdownMenuItem>View/update crop</DropdownMenuItem>
                       </Link>
                       <DropdownMenuItem>
-                        <AlertDialogTrigger>Archive</AlertDialogTrigger>
+                        <AlertDialogTrigger>Unarchive</AlertDialogTrigger>
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
-                  <AlertDialogContent>
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>
-                        Are you absolutely sure?
-                      </AlertDialogTitle>
-                      <AlertDialogDescription>
-                        This action cannot be undone. This will archive the
-                        community crop and will be hidden in community list.
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      <AlertDialogAction
-                        onClick={() => handleArchive(crops.id || "")}
-                      >
-                        Continue
-                      </AlertDialogAction>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
                 </AlertDialog>
               </TableCell>
             </TableRow>
@@ -128,4 +94,4 @@ const TableCropsOthers = () => {
   );
 };
 
-export default TableCropsOthers;
+export default TableCropsArchived;

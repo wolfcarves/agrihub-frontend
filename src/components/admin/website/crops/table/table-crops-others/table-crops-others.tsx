@@ -34,9 +34,10 @@ import {
 import useDeleteFarmCropArchiveAdmin from "../../../../../../hooks/api/delete/useDeleteFarmCropArchiveAdmin";
 import { toast } from "sonner";
 import Loader from "../../../../../../icons/Loader";
+import useGetFarmCropOthersListAdmin from "../../../../../../hooks/api/get/useGetFarmCropOthersListAdmin";
 
 const TableCropsOthers = () => {
-  const { data: cropData } = useGetCropsQuery();
+  const { data: cropData } = useGetFarmCropOthersListAdmin();
 
   const navigate = useNavigate();
 
@@ -45,7 +46,7 @@ const TableCropsOthers = () => {
   const handleArchive = async (id: string) => {
     await archiveMaterial(id || "");
     toast.success("Archive Successfully!");
-    navigate("/admin/website/crops?tab=archived");
+    navigate("/admin/website/crops?tab=archive");
   };
 
   if (archieveLoading) {
@@ -91,12 +92,12 @@ const TableCropsOthers = () => {
                         Copy crop ID
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
-                      <Link to={`/admin/website/crops/update/${crops.id}`}>
+                      {/* <Link to={`/admin/website/crops/update/${crops.id}`}>
                         <DropdownMenuItem>View/update crop</DropdownMenuItem>
-                      </Link>
-                      <DropdownMenuItem>
+                      </Link> */}
+                      {/* <DropdownMenuItem>
                         <AlertDialogTrigger>Archive</AlertDialogTrigger>
-                      </DropdownMenuItem>
+                      </DropdownMenuItem> */}
                     </DropdownMenuContent>
                   </DropdownMenu>
                   <AlertDialogContent>

@@ -8,7 +8,7 @@ export default function useGetFarmCropsArchiveListAdmin() {
   return useQuery({
     queryKey: [GET_CROP_ARCHIVE_LIST_ADMIN()],
     queryFn: async () => {
-      const response = await FarmService.getApiFarmCropFind();
+      const response = await FarmService.getApiFarmCropFindArchived();
       return response;
     }
   });

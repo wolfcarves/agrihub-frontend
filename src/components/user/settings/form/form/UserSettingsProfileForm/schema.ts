@@ -29,7 +29,10 @@ export const profileSchema = z.object({
       invalid_type_error: "That's not a date!"
     })
     .min(new Date("1900-01-01"), "That's not a valid date!")
-    .max(new Date(), "That's not a valid date!")
+    .max(new Date(), "That's not a valid date!"),
+  district: z.string().regex(/^(1|2|3|4|5|6)$/, {
+    message: "Invalid district"
+  })
 });
 
 export type ProfileSchema = z.infer<typeof profileSchema>;

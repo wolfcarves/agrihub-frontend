@@ -45,12 +45,9 @@ const TableCropsRegistered = () => {
   const handleArchive = async (id: string) => {
     await archiveMaterial(id || "");
     toast.success("Archive Successfully!");
-    navigate("/admin/website/crops?tab=archived");
+    navigate("/admin/website/crops?tab=archive");
   };
 
-  if (archieveLoading) {
-    return <Loader isVisible={true} />;
-  }
   return (
     <div className="border border-border rounded-md">
       <Table>
@@ -124,6 +121,7 @@ const TableCropsRegistered = () => {
           ))}
         </TableBody>
       </Table>
+      <Loader isVisible={archieveLoading} />
     </div>
   );
 };

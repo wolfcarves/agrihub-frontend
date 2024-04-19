@@ -628,6 +628,30 @@ perpage?: string,
     }
 
     /**
+     * Retrieve a list of crops
+     * @returns CropData List of crops
+     * @throws ApiError
+     */
+    public static getApiFarmCropFindArchived(): CancelablePromise<Array<CropData>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/farm/crop/find/archived',
+        });
+    }
+
+    /**
+     * Retrieve a other list of crops
+     * @returns CropData List of crops
+     * @throws ApiError
+     */
+    public static getApiFarmCropFindOther(): CancelablePromise<Array<CropData>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/farm/crop/find/other',
+        });
+    }
+
+    /**
      * Get overview details for a subfarm
      * @returns SubfarmOverviewResponse Success. Returns overview details for the subfarm.
      * @throws ApiError
@@ -1099,6 +1123,72 @@ message?: string;
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/farm/community/unassign/head/{id}',
+            path: {
+                'id': id,
+            },
+            body: requestBody,
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Archive a crop
+     * @returns any Successful response
+     * @throws ApiError
+     */
+    public static deleteApiFarmCropArchive({
+id,
+requestBody,
+}: {
+/**
+ * ID of the crop
+ */
+id: string,
+requestBody?: any,
+}): CancelablePromise<{
+message?: string;
+}> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/farm/crop/archive/{id}',
+            path: {
+                'id': id,
+            },
+            body: requestBody,
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Unarchive a crop
+     * @returns any Successful response
+     * @throws ApiError
+     */
+    public static putApiFarmCropUnarchive({
+id,
+requestBody,
+}: {
+/**
+ * ID of the crop
+ */
+id: string,
+requestBody?: any,
+}): CancelablePromise<{
+message?: string;
+}> {
+        return __request(OpenAPI, {
+            method: 'PUT',
+            url: '/api/farm/crop/unarchive/{id}',
             path: {
                 'id': id,
             },

@@ -23,6 +23,7 @@ import {
 import PieProblems from "../charts/pie-problem";
 import RatesFeedback from "../charts/rates-feedback";
 import GrowthRateLineChartAnalytics from "../charts/line-growthrate-analytics";
+import FallbackImg from "@assets/images/agrihub-leaves.png";
 
 const AnalyticsAdmin = () => {
   const [sort, setSort] = useState<"asc" | "desc" | undefined>("asc");
@@ -147,8 +148,13 @@ const AnalyticsAdmin = () => {
                       <div className=" mx-auto p-5">
                         <div className="h-24 w-24 mx-auto">
                           <img
-                            src={item.avatar}
-                            className="w-full h-full rounded-full"
+                            src={
+                              item.avatar ===
+                              "https://s3.ap-southeast-1.amazonaws.com/agrihub-bucket/"
+                                ? FallbackImg
+                                : item.avatar
+                            }
+                            className="w-full h-full rounded-full border-border border shadow"
                             alt=""
                           />
                         </div>

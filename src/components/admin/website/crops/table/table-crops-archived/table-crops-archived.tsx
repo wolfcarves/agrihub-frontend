@@ -1,14 +1,16 @@
 import React from "react";
-import useGetCropsQuery from "@hooks/api/get/useGetCropsQuery";
 import {
   Table,
   TableBody,
+  TableCaption,
   TableCell,
+  TableFooter,
   TableHead,
   TableHeader,
   TableRow
 } from "@components/ui/table";
 import { formatDate } from "@components/lib/utils";
+import { Card } from "@components/ui/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -34,24 +36,21 @@ import {
 import useDeleteFarmCropArchiveAdmin from "../../../../../../hooks/api/delete/useDeleteFarmCropArchiveAdmin";
 import { toast } from "sonner";
 import Loader from "../../../../../../icons/Loader";
-import useGetFarmCropOthersListAdmin from "../../../../../../hooks/api/get/useGetFarmCropOthersListAdmin";
+import useGetFarmCropsArchiveListAdmin from "../../../../../../hooks/api/get/useGetFarmCropsArchiveListAdmin";
+import usePutFarmCropAdminUnarchive from "../../../../../../hooks/api/put/usePutFarmCropAdminUnarchive";
 
-const TableCropsOthers = () => {
-  const { data: cropData } = useGetFarmCropOthersListAdmin();
+const TableCropsArchived = () => {
+  const { data: cropData } = useGetFarmCropsArchiveListAdmin();
 
   const navigate = useNavigate();
-
   const { mutateAsync: archiveMaterial, isLoading: archieveLoading } =
-    useDeleteFarmCropArchiveAdmin();
+    usePutFarmCropAdminUnarchive();
   const handleArchive = async (id: string) => {
     await archiveMaterial(id || "");
-    toast.success("Archive Successfully!");
-    navigate("/admin/website/crops?tab=archive");
+    toast.success("Unarchive Successfully!");
+    navigate("/admin/website/crops?tab=registered");
   };
 
-  if (archieveLoading) {
-    return <Loader isVisible={true} />;
-  }
   return (
     <div className="border border-border rounded-md">
       <Table>
@@ -92,12 +91,12 @@ const TableCropsOthers = () => {
                         Copy crop ID
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
-                      {/* <Link to={`/admin/website/crops/update/${crops.id}`}>
+                      <Link to={`/admin/website/crops/update/${crops.id}`}>
                         <DropdownMenuItem>View/update crop</DropdownMenuItem>
-                      </Link> */}
-                      {/* <DropdownMenuItem>
-                        <AlertDialogTrigger>Archive</AlertDialogTrigger>
-                      </DropdownMenuItem> */}
+                      </Link>
+                      <DropdownMenuItem>
+                        <AlertDialogTrigger>Unarchive</AlertDialogTrigger>
+                      </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                   <AlertDialogContent>
@@ -106,7 +105,7 @@ const TableCropsOthers = () => {
                         Are you absolutely sure?
                       </AlertDialogTitle>
                       <AlertDialogDescription>
-                        This action cannot be undone. This will archive the
+                        This action cannot be undone. This will unarchive the
                         community crop and will be hidden in community list.
                       </AlertDialogDescription>
                     </AlertDialogHeader>
@@ -125,8 +124,9 @@ const TableCropsOthers = () => {
           ))}
         </TableBody>
       </Table>
+      <Loader isVisible={archieveLoading} />
     </div>
   );
 };
 
-export default TableCropsOthers;
+export default TableCropsArchived;

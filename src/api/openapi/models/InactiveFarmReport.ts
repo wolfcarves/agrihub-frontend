@@ -5,6 +5,4 @@
 
 import type { FarmInactiveDetails } from './FarmInactiveDetails';
 
-export type InactiveFarmReport = {
-    data?: Array<FarmInactiveDetails>;
-};
+export type InactiveFarmReport = Array<FarmInactiveDetails>;

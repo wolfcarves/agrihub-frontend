@@ -12,6 +12,7 @@ export type CropReportViewResponse = {
     harvested_qty?: string;
     withered_crops?: string;
     farmid?: string;
+    planted_qty?: string;
     image?: string;
     images?: Array<{
 image?: string;

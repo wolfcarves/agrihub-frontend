@@ -20,6 +20,7 @@ import Loader from "../../../../../icons/Loader";
 import { concatPresentTime, removeTimeFromDate } from "../../../../lib/utils";
 import { useSelector } from "../../../../../redux/store";
 import useGetReportCropListView from "../../../../../hooks/api/get/useGetReportCropListView";
+import { InputNumber } from "../../../../ui/custom/input/input-number";
 
 const CommunityAddCropReportForm = () => {
   const navigate = useNavigate();
@@ -202,7 +203,7 @@ const CommunityAddCropReportForm = () => {
             <Label>Planted Quantity</Label>
             <Input
               type="number"
-              value={10}
+              value={CropReport?.planted_qty}
               disabled
               className="h-9 rounded-md"
               min={0}
@@ -257,8 +258,7 @@ const CommunityAddCropReportForm = () => {
         </div>
         <div className="md:col-span-6 col-span-12">
           <Label>Withered Crops</Label>
-          <Input
-            {...form.register("withered_crops")}
+          <InputNumber
             type="number"
             className="h-9 rounded-md"
             min={0}
@@ -285,9 +285,9 @@ const CommunityAddCropReportForm = () => {
             {...form.register("date_planted")}
             type="date"
             defaultValue={removeTimeFromDate(CropReport?.date_planted || "")}
-            className="h-9 rounded-md disabled:opacity-90"
+            className="h-9 rounded-md "
             max={todayDate}
-            readOnly={cropId ? true : false}
+            disabled={cropId ? true : false}
           />
           <FormMessage>
             {form.formState.errors.date_planted?.message}

@@ -7,6 +7,7 @@ import { useSearchParams } from "react-router-dom";
 import AdminFarmReportedProblems from "@components/admin/farms/table/reported-problems-table";
 import TableCommunityFarmActive from "../../../components/admin/community-farms/table-community-farm-active/table-community-farm-active";
 import TableCommunityFarmArchive from "../../../components/admin/community-farms/table-community-farm-archive/table-community-farm-archive";
+import TableCommunityFarmInactive from "../../../components/admin/community-farms/table-community-farm-inactive/table-community-farm-inactive";
 
 const breadcrumbItems = [
   {
@@ -51,6 +52,9 @@ const FarmCommunity = () => {
           <TabsTrigger value="archived" onClick={() => setTab("archived")}>
             Archived
           </TabsTrigger>
+          <TabsTrigger value="inactive" onClick={() => setTab("inactive")}>
+            Inactive
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="active">
@@ -63,6 +67,9 @@ const FarmCommunity = () => {
 
         <TabsContent value="archived">
           <TableCommunityFarmArchive />
+        </TabsContent>
+        <TabsContent value="inactive">
+          <TableCommunityFarmInactive />
         </TabsContent>
       </Tabs>
     </AdminOutletContainer>

@@ -74,6 +74,9 @@ export const columns: ColumnDef<CommunityFarmData>[] = [
       if (archieveLoading) {
         return <Loader isVisible={true} />;
       }
+      const handleView = async () => {
+        navigate(`/admin/community/farms/view/${request.id}`);
+      };
 
       return (
         <AlertDialog>
@@ -93,7 +96,7 @@ export const columns: ColumnDef<CommunityFarmData>[] = [
               >
                 Copy application ID
               </DropdownMenuItem>
-
+              <DropdownMenuItem onClick={handleView}>View</DropdownMenuItem>
               <DropdownMenuItem>
                 <AlertDialogTrigger>Unarchive</AlertDialogTrigger>
               </DropdownMenuItem>

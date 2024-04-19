@@ -21,6 +21,7 @@ import ImgModal from "../../../../components/ui/custom/img-modal/Modal";
 import useGetFarmCropsQuery from "../../../../hooks/api/get/useGetFarmCropsQuery";
 import CropCard from "../../../../components/user/community/crop/crop-card/crop-card";
 import RequestToolsTable from "../../../../components/admin/community-view/request-tools-table/request-tools-table";
+import MemberTable from "../../../../components/admin/community-view/member-table/member-table";
 
 const breadcrumbItems = [
   {
@@ -71,6 +72,7 @@ const FarmActiveView = () => {
               <TabsTrigger value="seedling">Seedling</TabsTrigger>
               <TabsTrigger value="tool">Tool</TabsTrigger>
               <TabsTrigger value="problem">Problem</TabsTrigger>
+              <TabsTrigger value="members">Members</TabsTrigger>
             </TabsList>
           </div>
         </div>
@@ -154,6 +156,15 @@ const FarmActiveView = () => {
             </div>
             <hr className="my-3 border-primary" />
             <CommunityProblemTable />
+          </Card>
+        </TabsContent>
+        <TabsContent value="members">
+          <Card className="p-5">
+            <div className="flex justify-between">
+              <h3 className=" font-poppins-semibold">Community Members</h3>
+            </div>
+            <hr className="my-3 border-primary" />
+            <MemberTable />
           </Card>
         </TabsContent>
       </Tabs>

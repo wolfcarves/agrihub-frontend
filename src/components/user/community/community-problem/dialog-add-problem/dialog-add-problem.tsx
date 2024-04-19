@@ -22,9 +22,10 @@ const DialogAddProblem = () => {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Submit a problem</DialogTitle>
+          <DialogTitle>Report a farm problem</DialogTitle>
           <DialogDescription>
-            Fill out the form to submit a problem. Click save when you're done.
+            Report problems your farm currently facing. Fill out the form to
+            report a farn problem, click submit when you're done.
           </DialogDescription>
         </DialogHeader>
 

@@ -29,8 +29,11 @@ const ArchiveCropAlert: React.FC<ArchiveCropAlertProps> = ({ cropId }) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <button className="mt-2 text-white bg-red-600 rounded-full p-[.30rem] cursor-pointer">
+        <button className="mt-2 text-white bg-red-600 rounded-full p-[.30rem] cursor-pointer group relative">
           <GoArchive />
+          <span className="absolute right-[1.7rem] z-20 -top-[.2rem] text-foreground font-poppins-medium text-xs bg-background py-1.5 px-4 my-auto rounded-2xl group-hover:visible group-hover:opacity-100 opacity-0 invisible duration-200 border">
+            Archive
+          </span>
         </button>
       </AlertDialogTrigger>
       <AlertDialogContent>

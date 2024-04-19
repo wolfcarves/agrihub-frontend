@@ -15,6 +15,7 @@ import { Button } from "../../../../../ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import useGetFarmMemberInvited from "../../../../../../hooks/api/get/useGetFarmMemberInvited";
 import useFarmCancelInviteMutation from "../../../../../../hooks/api/post/useFarmCancelInviteMutation";
+import LoadingSpinner from "../../../../../../icons/LoadingSpinner";
 interface PendingTabProps {}
 const PendingTab: React.FC<PendingTabProps> = () => {
   const [search, setSearch] = useState<string>("");
@@ -25,9 +26,9 @@ const PendingTab: React.FC<PendingTabProps> = () => {
     perpage: "10",
     filter: ""
   });
-  console.log(MemberList);
 
-  const { mutateAsync: farmInviteCancel } = useFarmCancelInviteMutation();
+  const { mutateAsync: farmInviteCancel, isLoading } =
+    useFarmCancelInviteMutation();
 
   const handleInvite = async (userid: string) => {
     try {
@@ -52,11 +53,22 @@ const PendingTab: React.FC<PendingTabProps> = () => {
           value={search}
           onChange={e => setSearch(e.target.value)}
         />
+
         <ScrollArea className=" col-span-12 h-[47vh] overflow-y-auto ">
+          {Number(MemberList?.invitations?.length) <= 0 && (
+            <p className=" text-center mt-4 text-gray-500 text-sm font-poppins-regular">
+              -- No Pending Invite's --
+            </p>
+          )}
+          {isLoading && (
+            <LoadingSpinner className=" text-primary absolute left-[45%] top-[30%]" />
+          )}
           {MemberList?.invitations?.map((user, i) => (
             <div
               key={i}
-              className="w-full grid grid-cols-12 px-2 border-y py-2"
+              className={`w-full grid grid-cols-12 px-2 border-y py-2 ${
+                isLoading && " opacity-50"
+              }`}
             >
               <Avatar className=" col-span-2">
                 <AvatarImage src={user.avatar} />

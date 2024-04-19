@@ -148,7 +148,6 @@ const CommunityAddCropReportForm = () => {
       navigate(-1);
     } catch (error: any) {
       toast.error(error.body.message);
-      console.log(error.body);
     }
   };
   // console.log(form.formState.errors);
@@ -184,7 +183,7 @@ const CommunityAddCropReportForm = () => {
             )}
           />
         </div>
-        {!cropId && (
+        {!cropId ? (
           <div className="md:col-span-6 col-span-12">
             <Label>Planted Quantity</Label>
             <Input
@@ -197,6 +196,18 @@ const CommunityAddCropReportForm = () => {
             <FormMessage>
               {form.formState.errors.planted_qty?.message}
             </FormMessage>
+          </div>
+        ) : (
+          <div className="md:col-span-6 col-span-12">
+            <Label>Planted Quantity</Label>
+            <Input
+              type="number"
+              value={10}
+              disabled
+              className="h-9 rounded-md"
+              min={0}
+              max={10000}
+            />
           </div>
         )}
         {!isCrop && (

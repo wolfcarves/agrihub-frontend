@@ -15,6 +15,7 @@ import { toast } from "sonner";
 import { Avatar, AvatarFallback, AvatarImage } from "../../../../../ui/avatar";
 import { Button } from "../../../../../ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import LoadingSpinner from "../../../../../../icons/LoadingSpinner";
 interface InviteTabProps {}
 const InviteTab: React.FC<InviteTabProps> = () => {
   const [inviteStates, setInviteStates] = useState<Record<string, boolean>>({});
@@ -28,7 +29,8 @@ const InviteTab: React.FC<InviteTabProps> = () => {
   });
   console.log(MemberList);
 
-  const { mutateAsync: farmInviteMember } = useFarmSendInviteMutation();
+  const { mutateAsync: farmInviteMember, isLoading } =
+    useFarmSendInviteMutation();
 
   const handleInvite = async (userid: string) => {
     try {
@@ -62,11 +64,16 @@ const InviteTab: React.FC<InviteTabProps> = () => {
           value={search}
           onChange={e => setSearch(e.target.value)}
         />
-        <ScrollArea className=" col-span-12 h-[47vh] overflow-y-auto ">
+        <ScrollArea className=" col-span-12 h-[47vh] overflow-y-auto relative">
+          {isLoading && (
+            <LoadingSpinner className=" text-primary absolute left-[45%] top-[30%]" />
+          )}
           {MemberList?.members?.map((user, i) => (
             <div
               key={i}
-              className="w-full grid grid-cols-12 px-2 border-y py-2"
+              className={`w-full grid grid-cols-12 px-2 border-y py-2 ${
+                isLoading && " opacity-50"
+              }`}
             >
               <Avatar className=" col-span-2">
                 <AvatarImage src={user.avatar} />

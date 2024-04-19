@@ -65,7 +65,7 @@ const AdminFarmReportedProblems = () => {
             }}
           >
             <SelectTrigger className="w-[120px] focus-visible:ring-0 focus:ring-0">
-              <SelectValue placeholder="Select" />
+              <SelectValue placeholder="Sort" />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>

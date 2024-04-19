@@ -1,5 +1,4 @@
 import NotFoundIllustration from "@icons/NotFoundIllustration";
-import UnauthorizeIllustration from "@icons/UnauthorizeIllustration";
 import { IoMdArrowBack, IoMdArrowForward, IoMdBook } from "react-icons/io";
 import { IoDocumentText } from "react-icons/io5";
 import { RiContactsLine } from "react-icons/ri";

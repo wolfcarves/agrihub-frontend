@@ -3,6 +3,7 @@ import withAuthGuard from "@higher-order/account/withAuthGuard";
 import React from "react";
 import BreadCrumb from "@components/ui/custom/breadcrumb/breadcrumb";
 import CropsForm from "@components/admin/website/crops/forms/crops-form";
+import BackButton from "@components/ui/custom/button/back-button";
 
 const breadcrumbItems = [
   {
@@ -21,7 +22,9 @@ const AddCropsAdmin = () => {
       <BreadCrumb items={breadcrumbItems} />
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-3xl font-bold tracking-tight">Crops</h2>
+          <h2 className="text-3xl font-bold tracking-tight flex gap-4">
+            <BackButton /> Crops
+          </h2>
           <p className="text-sm text-muted-foreground">
             Manage all registered and unregistered crops within the community
           </p>

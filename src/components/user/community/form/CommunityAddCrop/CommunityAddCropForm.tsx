@@ -73,7 +73,6 @@ const CommunityAddCropForm: React.FC<CommunityAddCropFormProps> = ({
     }
   };
 
-  console.log(form.formState.errors);
   return (
     <Form {...form}>
       <form

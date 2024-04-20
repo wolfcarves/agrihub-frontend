@@ -163,7 +163,7 @@ const CommunityRegisterForm = () => {
               {form.formState.errors.farm_size?.message}
             </FormMessage>
           </div>
-          <div className=" md:col-span-4 col-span-12">
+          <div className=" md:col-span-3 col-span-12">
             <Label className=" font-poppins-medium">District</Label>
             <FormField
               control={form.control}
@@ -176,7 +176,7 @@ const CommunityRegisterForm = () => {
               )}
             />
           </div>
-          <div className=" md:col-span-4 col-span-12">
+          <div className=" md:col-span-3 col-span-12">
             <Label className=" font-poppins-medium">Barangay</Label>
             <FormField
               control={form.control}
@@ -189,7 +189,7 @@ const CommunityRegisterForm = () => {
               )}
             />
           </div>
-          <div className=" md:col-span-4 col-span-12">
+          <div className=" md:col-span-3 col-span-12">
             <Label className=" font-poppins-medium">Street</Label>
             <Input
               type="text"
@@ -198,6 +198,19 @@ const CommunityRegisterForm = () => {
               {...form.register("street")}
             />
             <FormMessage>{form.formState.errors.street?.message}</FormMessage>
+          </div>
+          <div className=" md:col-span-3 col-span-12">
+            <Label className=" font-poppins-medium">City & Country</Label>
+            <Input
+              type="text"
+              className="h-10 bg-transparent disabled:opacity-90"
+              value={"Quezon City, Phillipines"}
+              placeholder="Enter Location..."
+              disabled
+            />
+            <p className=" text-[.6rem] text-gray-400 ms-2">
+              Farm application only accept inside of Quezon City.
+            </p>
           </div>
           <div className="md:col-span-6 col-span-12">
             <Label className=" font-poppins-medium">Farm Ownership</Label>

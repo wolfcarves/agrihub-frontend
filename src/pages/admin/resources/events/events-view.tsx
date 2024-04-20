@@ -31,6 +31,7 @@ import useDeleteEventArchive from "../../../../hooks/api/delete/useDeleteEventAr
 import usePutEventsPublish from "../../../../hooks/api/put/usePutEventsPublish";
 import Loader from "../../../../icons/Loader";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
+import BackButton from "@components/ui/custom/button/back-button";
 
 const breadcrumbItems = [
   { title: "Resource Management", link: "/admin/resources" },
@@ -83,7 +84,9 @@ const ViewEvents = () => {
     <AdminOutletContainer>
       <BreadCrumb items={breadcrumbItems} />
       <div className="flex justify-between items-center">
-        <h2 className="text-3xl font-bold tracking-tight">New Event Form</h2>
+        <h2 className="text-3xl font-bold tracking-tight flex gap-4">
+          <BackButton /> Event Form
+        </h2>
       </div>
       <p className="text-sm text-muted-foreground">
         Add new event here and complete all required fields for publication.

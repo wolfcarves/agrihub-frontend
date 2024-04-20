@@ -24,6 +24,7 @@ import useGetLeaningRelated from "../../../hooks/api/get/useGetLeaningRelated";
 import Loader from "@icons/Loader";
 import LoadingSpinner from "@icons/LoadingSpinner";
 import { FaArrowLeftLong } from "react-icons/fa6";
+import BackButton from "@components/ui/custom/button/back-button";
 
 const Learning = () => {
   const { learningsId } = useParams();
@@ -43,19 +44,12 @@ const Learning = () => {
   return (
     <>
       <div className="max-w-4xl lg:max-w-6xl lg:p-6 mx-auto">
-        <div className="my-4 w-max">
-          <Link to="/learning-materials">
-            <span className="flex items-center gap-x-2 text-foreground font-poppins-semibold hover:underline hover:underline-offset-2 py-2.5 px-1.5 rounded-lg duration-200">
-              <FaArrowLeftLong /> Back
-            </span>
-          </Link>
-        </div>
         <div className="text-sm lg:text-md font-thin mx-4 underline decoration-solid decoration-green-400 underline-offset-[3px]">
           <Link to="/learning-materials">Learning Material</Link> |{" "}
           {learningDetail.language}
         </div>
-        <h2 className="text-2xl lg:text-4xl font-bold mx-4 my-1">
-          {learningDetail.title}
+        <h2 className="flex gap-4 text-2xl lg:text-4xl font-bold mx-4 my-1">
+          <BackButton /> {learningDetail.title}
         </h2>
         <p className="text-gray-700 m-4">
           last updated: {formatDateTime(learningDetail.updatedat)}
@@ -112,7 +106,7 @@ const Learning = () => {
           </CarouselContent>
         </Carousel>
 
-        <div className="m-4 flex flex-wrap gap-2">
+        <div className="m-4 flex flex-wrap gap-2 w-[85%] lg:w-[75%] mx-auto">
           {learningDetail?.tags?.map((tag, index) => (
             <span
               key={index}

@@ -33,6 +33,7 @@ import usePutLearningPublish from "../../../../hooks/api/put/usePutLearningPubli
 import useGetLearningView from "../../../../hooks/api/get/useGetLearningView";
 import Loader from "../../../../icons/Loader";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
+import BackButton from "@components/ui/custom/button/back-button";
 
 const UpdateLearnings = () => {
   const { learningsId } = useParams();
@@ -90,7 +91,8 @@ const UpdateLearnings = () => {
     <AdminOutletContainer>
       <BreadCrumb items={breadcrumbItems} />
       <div className="flex justify-between items-center">
-        <h2 className="text-3xl font-bold tracking-tight">
+        <h2 className="text-3xl font-bold tracking-tight flex gap-4">
+          <BackButton />
           Learning Material# {learningsId}
         </h2>
       </div>

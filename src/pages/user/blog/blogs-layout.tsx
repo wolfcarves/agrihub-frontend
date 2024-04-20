@@ -17,7 +17,7 @@ const BlogLayout = () => {
         <title>Blogs | AgriHub</title>
       </Helmet>
 
-      <div className="container">
+      <div className="">
         <Outlet />
       </div>
     </>

@@ -1,16 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useAuth from "@hooks/useAuth";
 import useGetFarmListQuery from "@hooks/api/get/useGetFarmListQuery";
 import FarmCard from "@components/user/community/farm-card/farm-card";
 import { Button } from "@components/ui/button";
-import {
-  MdDevices,
-  MdOutlineAnalytics,
-  MdOutlineCalendarMonth,
-  MdOutlineForum
-} from "react-icons/md";
-import { RiCommunityLine } from "react-icons/ri";
 import useCmsLandingDetailsQuery from "@hooks/api/get/useCmsLandingDetailsQuery";
 import useGetBlogsPublishList from "@hooks/api/get/useGetBlogsPublishListQuery";
 import useGetClientDetails from "@hooks/api/get/useGetClientDetails";
@@ -19,11 +12,16 @@ import * as Icons from "react-icons/bi";
 import { renderIcon } from "@components/lib/RenderIcon";
 import { formatDate } from "../../../lib/utils";
 import useGetVisionStats from "@hooks/api/get/useGetVisionStats";
+import { IoPersonOutline } from "react-icons/io5";
+import { TfiWrite } from "react-icons/tfi";
+import { PiPlant } from "react-icons/pi";
+import { IoMdAddCircleOutline } from "react-icons/io";
 type IconType = keyof typeof Icons;
 
 const ContentWhatWeDo: React.FC = () => {
   const { data: cmsDataLanding } = useCmsLandingDetailsQuery();
   const { data: cmsClientDetail } = useGetClientDetails();
+  const navigate = useNavigate();
 
   const { approach, images } = {
     ...cmsDataLanding
@@ -69,7 +67,34 @@ const ContentWhatWeDo: React.FC = () => {
     }
   ];
 
+  const guides = [
+    {
+      time: "0:30",
+      title: "Pag gawa ng account",
+      description:
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam facilis, voluptates error alias dolorem praesentium sit soluta iure incidunt labore explicabo eaque, quia architecto veritatis dolores, enim cons equatur nihil ipsum.",
+      icon: <IoPersonOutline size={64} />
+    },
+    {
+      time: "1:28",
+      title: "Pag rehistro ng farm",
+      description:
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam facilis, voluptates error alias dolorem praesentium sit soluta iure incidunt labore explicabo eaque, quia architecto veritatis dolores, enim cons equatur nihil ipsum.",
+      icon: <TfiWrite size={64} />
+    },
+    {
+      time: "3:00",
+      title: "Dolorem praesentium",
+      description:
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam facilis, voluptates error alias dolorem praesentium sit soluta iure incidunt labore explicabo eaque, quia architecto veritatis dolores, enim cons equatur nihil ipsum.",
+      icon: <PiPlant size={64} />
+    }
+  ];
+
   const { data: blogData } = useGetBlogsPublishList();
+  const seeGuide = () => {
+    navigate("/helps/guides");
+  };
 
   return (
     <div className="w-full mx-auto my-0 md:my-15 mb-8">
@@ -238,6 +263,40 @@ const ContentWhatWeDo: React.FC = () => {
           </div>
         </div>
       </div>
+
+      <section className="dark:bg-gray-800 dark:text-gray-100">
+        <div className="container mx-auto flex flex-col p-6">
+          <h2 className="py-4 text-3xl font-bold text-center">User Guides</h2>
+          <div className="divide-y divide-gray-700">
+            {guides.map((guide, index) => (
+              <div
+                key={index}
+                className="grid justify-center grid-cols-4 p-8 mx-auto space-y-8 lg:space-y-0"
+                style={{ cursor: "pointer" }}
+              >
+                <div className="flex items-center justify-center lg:col-span-1 col-span-full">
+                  {guide.icon}
+                </div>
+                <div className="flex flex-col justify-center max-w-3xl text-center col-span-full lg:col-span-3 lg:text-left">
+                  <span className="text-xs tracki uppercase dark:text-violet-400">
+                    {guide.time} - {guide.title}
+                  </span>
+                  <span className="mt-4 dark:text-gray-300">
+                    {guide.description}
+                  </span>
+                </div>
+              </div>
+            ))}
+            <Button
+              variant="outline"
+              className="w-full my-4"
+              onClick={seeGuide}
+            >
+              See More
+            </Button>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };

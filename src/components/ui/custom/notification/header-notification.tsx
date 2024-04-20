@@ -43,6 +43,9 @@ const HeaderNotification = () => {
   const handleReadAllNotification = async (id: string | undefined) => {
     try {
       readAllNotificationMutate(id ?? "");
+      toast.success(
+        "All notifications have been marked as read. There are no unread notifications now."
+      );
     } catch (error: any) {
       toast.error(error.body.message);
     }
@@ -57,9 +60,6 @@ const HeaderNotification = () => {
       if (redirect !== "") {
         navigate(redirect ?? "");
       }
-      toast.success(
-        "All notifications have been marked as read. There are no unread notifications now."
-      );
     } catch (error: any) {
       toast.error(error.body.message);
     }

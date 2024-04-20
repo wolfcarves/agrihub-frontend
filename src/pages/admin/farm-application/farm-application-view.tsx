@@ -24,7 +24,6 @@ import {
 } from "@components/ui/dialog";
 import Autoplay from "embla-carousel-autoplay";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
-import { FaArrowLeftLong } from "react-icons/fa6";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -36,6 +35,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger
 } from "../../../components/ui/alert-dialog";
+import BackButton from "@components/ui/custom/button/back-button";
 
 const FarmApplicationView = () => {
   const navigate = useNavigate();
@@ -67,15 +67,8 @@ const FarmApplicationView = () => {
 
   return (
     <AdminOutletContainer>
-      <div className="w-max">
-        <Link to="/admin/community/farms-application">
-          <span className="flex items-center gap-x-2 text-foreground font-poppins-semibold hover:underline hover:underline-offset-2 py-2.5 px-1.5 rounded-lg duration-200">
-            <FaArrowLeftLong /> Back
-          </span>
-        </Link>
-      </div>
-      <h2 className="text-3xl font-bold tracking-tight">
-        View Farm Applications
+      <h2 className="text-3xl font-bold flex gap-4 tracking-tight">
+        <BackButton /> View Farm Applications
       </h2>
       <div className="flex gap-4">
         <Card className="p-5 mt-8 w-full flex flex-wrap sm:flex-nowrap">
@@ -201,7 +194,7 @@ const FarmApplicationView = () => {
               <Input type="text" value={data?.proof} />
             </div>
             <div>
-              <Label>Size</Label>
+              <Label>Size(square meter)</Label>
               <Input type="text" value={data?.farm_size} />
             </div>
           </div>

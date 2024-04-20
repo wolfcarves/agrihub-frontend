@@ -29,6 +29,7 @@ import SelectBarangay from "../../select-barangay/select-barangay";
 import ReviewDialog from "../../review-dialog/review-dialog";
 import { CheckedState } from "@radix-ui/react-checkbox";
 import Capture from "../../capture/capture";
+import InputNumber from "../../../../ui/custom/input/input-number";
 
 const CommunityRegisterForm = () => {
   const [isDialogOpen, setDialogOpen] = useState<boolean>(false);
@@ -138,19 +139,31 @@ const CommunityRegisterForm = () => {
           </div>
           <div className=" md:col-span-4 col-span-12">
             <Label className=" font-poppins-medium">Farm Size (&#x33A1;)</Label>
-            <Input
+            {/* <Input
               type="number"
               className="h-10 bg-transparent"
               placeholder="Enter farm size..."
               min={0}
               max={10000}
               {...form.register("farm_size")}
+            /> */}
+            <FormField
+              control={form.control}
+              name="farm_size"
+              render={() => (
+                <InputNumber
+                  className="h-10 bg-transparent rounded-md"
+                  suffix={" sqm"}
+                  placeholder="Enter farm size..."
+                  onChange={value => form.setValue("farm_size", Number(value))}
+                />
+              )}
             />
             <FormMessage>
               {form.formState.errors.farm_size?.message}
             </FormMessage>
           </div>
-          <div className=" md:col-span-4 col-span-12">
+          <div className=" md:col-span-3 col-span-12">
             <Label className=" font-poppins-medium">District</Label>
             <FormField
               control={form.control}
@@ -163,7 +176,7 @@ const CommunityRegisterForm = () => {
               )}
             />
           </div>
-          <div className=" md:col-span-4 col-span-12">
+          <div className=" md:col-span-3 col-span-12">
             <Label className=" font-poppins-medium">Barangay</Label>
             <FormField
               control={form.control}
@@ -176,7 +189,7 @@ const CommunityRegisterForm = () => {
               )}
             />
           </div>
-          <div className=" md:col-span-4 col-span-12">
+          <div className=" md:col-span-3 col-span-12">
             <Label className=" font-poppins-medium">Street</Label>
             <Input
               type="text"
@@ -185,6 +198,19 @@ const CommunityRegisterForm = () => {
               {...form.register("street")}
             />
             <FormMessage>{form.formState.errors.street?.message}</FormMessage>
+          </div>
+          <div className=" md:col-span-3 col-span-12">
+            <Label className=" font-poppins-medium">City & Country</Label>
+            <Input
+              type="text"
+              className="h-10 bg-transparent disabled:opacity-90"
+              value={"Quezon City, Phillipines"}
+              placeholder="Enter Location..."
+              disabled
+            />
+            <p className=" text-[.6rem] text-gray-400 ms-2">
+              Farm application only accept inside of Quezon City.
+            </p>
           </div>
           <div className="md:col-span-6 col-span-12">
             <Label className=" font-poppins-medium">Farm Ownership</Label>
@@ -202,8 +228,11 @@ const CommunityRegisterForm = () => {
                     </SelectTrigger>
                     <SelectContent>
                       {ownership.map((id, i) => (
-                        <SelectItem key={i} value={id}>
-                          {id}
+                        <SelectItem key={i} value={id.title}>
+                          {id.title}
+                          <p className=" text-[.6rem] text-gray-500 overflow-hidden text-wrap">
+                            {id.description}
+                          </p>
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -229,8 +258,11 @@ const CommunityRegisterForm = () => {
                     </SelectTrigger>
                     <SelectContent>
                       {farmType.map((id, i) => (
-                        <SelectItem key={i} value={id}>
-                          {id}
+                        <SelectItem key={i} value={id.title} className="">
+                          {id.title}
+                          <p className=" text-[.6rem] text-gray-500 overflow-hidden text-wrap">
+                            {id.description}
+                          </p>
                         </SelectItem>
                       ))}
                     </SelectContent>

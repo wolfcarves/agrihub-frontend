@@ -42,9 +42,11 @@ const FeedbackAdmin = () => {
         </h2>
       </div>
       <p className="text-sm text-muted-foreground w-10/12">
-        See what is the users feeback and suggestion in your website. Use
-        feedback to drive improvements and strengthen relationships with your
-        audience
+        Facilitate open communication and collaboration with users by providing
+        a platform for feedback and suggestions. Encourage users to share their
+        thoughts, ideas, and concerns to help improve the platform. Actively
+        listen to user feedback and incorporate valuable suggestions into
+        ongoing enhancements to enhance user experience and satisfaction.
       </p>
       <hr className="my-4" />
       <div className="flex items-center">
@@ -53,7 +55,6 @@ const FeedbackAdmin = () => {
           className="max-w-sm my-4"
           value={params.search}
           onChange={e => debouncedSearch(e.target.value)}
-          autoFocus
         />
       </div>
       <DataTable columns={columns} data={feedbackData?.data || []} />

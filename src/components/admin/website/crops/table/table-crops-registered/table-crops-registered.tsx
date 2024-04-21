@@ -98,12 +98,10 @@ const TableCropsRegistered = () => {
                   </DropdownMenu>
                   <AlertDialogContent>
                     <AlertDialogHeader>
-                      <AlertDialogTitle>
-                        Are you absolutely sure?
-                      </AlertDialogTitle>
+                      <AlertDialogTitle>Archive this crop?</AlertDialogTitle>
                       <AlertDialogDescription>
-                        This action cannot be undone. This will archive the
-                        community crop and will be hidden in community list.
+                        This will archive the community crop and will be hidden
+                        in planting calendar
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>

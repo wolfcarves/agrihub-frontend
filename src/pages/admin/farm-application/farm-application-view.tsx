@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useGetFarmApplication from "../../../hooks/api/get/useGetFarmApplication";
 import AdminOutletContainer from "../../../components/admin/layout/container/AdminOutletContainer";
 import { timeAgo } from "../../../components/lib/utils";
@@ -246,8 +246,8 @@ const FarmApplicationView = () => {
                       Accept Farm Application?
                     </AlertDialogTitle>
                     <AlertDialogDescription>
-                      Are you absolutely sure you want to accept this farm
-                      application?
+                      This will allow the user to manage the farm it applies and
+                      will have a farm head access to its community.
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>

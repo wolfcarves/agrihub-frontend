@@ -7,7 +7,7 @@ import TableBlogsPublished from "../../../../components/admin/blogs/table/table-
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/ui/tabs";
 import TableBlogsDraft from "@components/admin/blogs/table/table-blogs-draft/table-blogs-draft";
 import TableBlogsArchive from "@components/admin/blogs/table/table-blogs-archive/table-blogs-archive";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 const breadcrumbItems = [
   { title: "Resource Management", link: "/admin/resources" },
@@ -34,7 +34,13 @@ const BlogsAdmin = () => {
         <h2 className="text-3xl font-bold tracking-tight">Blogs</h2>
         <DialogAddBlogs />
       </div>
-      <p className="text-sm text-muted-foreground">Manage all blogs.</p>
+      <p className="text-sm text-muted-foreground w-11/12">
+        Manage and curate our blog section, showcasing the latest news,
+        initiatives, and organizational focus. Keep stakeholders informed about
+        industry trends, company updates, and impactful projects through
+        engaging blog posts. Use this platform to convey our mission and vision,
+        sharing insights and perspectives with our audience.
+      </p>
       <hr className="my-4" />
       <Tabs value={params.tab}>
         <TabsList>

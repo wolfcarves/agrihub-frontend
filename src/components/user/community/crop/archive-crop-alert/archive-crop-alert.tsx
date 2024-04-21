@@ -1,6 +1,5 @@
 import React from "react";
 
-import useFarmDeleteGalleryMutation from "../../../../../hooks/api/post/useFarmDeleteGalleryMutaion";
 import { toast } from "sonner";
 import { GoArchive } from "react-icons/go";
 import {
@@ -38,7 +37,7 @@ const ArchiveCropAlert: React.FC<ArchiveCropAlertProps> = ({ cropId }) => {
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogTitle>Archive crop?</AlertDialogTitle>
           <AlertDialogDescription>
             This action will archive the crop and all of its data in your
             community

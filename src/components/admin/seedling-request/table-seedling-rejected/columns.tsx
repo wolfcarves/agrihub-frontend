@@ -4,18 +4,11 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@components/ui/dropdown-menu";
 import { Button } from "@components/ui/button";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
-import {
-  FarmApplicationData,
-  LearningMaterial,
-  SeedlingRequestListItem
-} from "@api/openapi";
-import { Link, useNavigate } from "react-router-dom";
-import { format } from "date-fns";
+import { SeedlingRequestListItem } from "@api/openapi";
 import {
   Dialog,
   DialogContent,
@@ -26,20 +19,38 @@ import {
 } from "@components/ui/dialog";
 import { Label } from "@components/ui/label";
 import { Input } from "@components/ui/input";
-import { Textarea } from "@components/ui/textarea";
 import { Badge } from "@components/ui/badge";
-import { useState } from "react";
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 
 export const columns: ColumnDef<SeedlingRequestListItem>[] = [
   {
     accessorKey: "farm_name",
-    header: "Farm"
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          FARM
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    }
   },
   {
     accessorKey: "name",
-    header: "Crop",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          CROP
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => {
       const cropName = row.original;
       if (cropName.other) {
@@ -51,16 +62,37 @@ export const columns: ColumnDef<SeedlingRequestListItem>[] = [
   },
   {
     accessorKey: "quantity_request",
-    header: "Quantity Requested",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          QUANTITY REQUESTED
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => <div>{row.getValue("quantity_request")}</div>
   },
   {
     accessorKey: "status",
-    header: "Status",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          STATUS
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => <div>{row.getValue("status")}</div>
   },
   {
     id: "actions",
+    header: "Actions",
     enableHiding: false,
     cell: ({ row }) => {
       const request = row.original;

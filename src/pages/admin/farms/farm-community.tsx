@@ -35,8 +35,13 @@ const FarmCommunity = () => {
       <div className="flex justify-between items-center">
         <div>
           <h2 className="text-3xl font-bold tracking-tight">Community Farm</h2>
-          <p className="text-sm text-muted-foreground">
-            Manage all registered community in the system
+          <p className="text-sm text-muted-foreground w-11/12">
+            Facilitate community engagement and collaboration in sustainable
+            agriculture through community farms. Showcase local farming
+            initiatives, collaborative projects, and shared resources within the
+            community. Foster a sense of collective responsibility and
+            empowerment as members work together to cultivate and harvest crops,
+            promote food security, and support environmental stewardship.
           </p>
         </div>
       </div>

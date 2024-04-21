@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { Input } from "../../../../ui/input";
 import { DataTable } from "../../../../ui/custom/data-table/data-table";
 import { columns } from "./columns";
@@ -22,6 +22,7 @@ const TableBlogsDraft = () => {
   );
   const debouncedSearch = useDebounce((value: string) => {
     searchParams.set("search", value);
+    searchParams.delete("page");
     setSearchParams(searchParams);
   }, 100);
   return (

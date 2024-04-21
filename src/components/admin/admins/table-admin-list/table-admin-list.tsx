@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { columns } from "./columns";
 import useDebounce from "@hooks/utils/useDebounce";
 import { DataTable } from "../../../ui/custom/data-table/data-table";
@@ -25,6 +25,7 @@ const TableAdminList = () => {
   console.log(adminData);
   const debouncedSearch = useDebounce((value: string) => {
     searchParams.set("search", value);
+    searchParams.delete("page");
     setSearchParams(searchParams);
   }, 100);
   return (

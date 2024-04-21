@@ -7,7 +7,7 @@ import TableBlogsPublished from "../../../../components/admin/blogs/table/table-
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/ui/tabs";
 import TableBlogsDraft from "@components/admin/blogs/table/table-blogs-draft/table-blogs-draft";
 import TableBlogsArchive from "@components/admin/blogs/table/table-blogs-archive/table-blogs-archive";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 const breadcrumbItems = [
   { title: "Resource Management", link: "/admin/resources" },

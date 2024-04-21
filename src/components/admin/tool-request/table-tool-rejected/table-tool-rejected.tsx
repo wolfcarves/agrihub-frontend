@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { Input } from "@components/ui/input";
 import { columns } from "./columns";
 import { DataTable } from "@components/ui/custom/data-table/data-table";
@@ -25,6 +25,7 @@ const TableToolRejected = () => {
 
   const debouncedSearch = useDebounce((value: string) => {
     searchParams.set("search", value);
+    searchParams.delete("page");
     setSearchParams(searchParams);
   }, 100);
 

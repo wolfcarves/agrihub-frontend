@@ -2,15 +2,12 @@ import React from "react";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow
 } from "@components/ui/table";
 import { formatDate } from "@components/lib/utils";
-import { Card } from "@components/ui/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -33,7 +30,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger
 } from "../../../../../ui/alert-dialog";
-import useDeleteFarmCropArchiveAdmin from "../../../../../../hooks/api/delete/useDeleteFarmCropArchiveAdmin";
 import { toast } from "sonner";
 import Loader from "../../../../../../icons/Loader";
 import useGetFarmCropsArchiveListAdmin from "../../../../../../hooks/api/get/useGetFarmCropsArchiveListAdmin";
@@ -101,12 +97,10 @@ const TableCropsArchived = () => {
                   </DropdownMenu>
                   <AlertDialogContent>
                     <AlertDialogHeader>
-                      <AlertDialogTitle>
-                        Are you absolutely sure?
-                      </AlertDialogTitle>
+                      <AlertDialogTitle>Unarchive this crop?</AlertDialogTitle>
                       <AlertDialogDescription>
-                        This action cannot be undone. This will unarchive the
-                        community crop and will be hidden in community list.
+                        This will unarchive the community crop and will be shown
+                        in community crop list and planting calendar.
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>

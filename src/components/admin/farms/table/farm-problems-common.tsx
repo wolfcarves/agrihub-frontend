@@ -38,6 +38,7 @@ const FarmProblemsCommon = () => {
         page: String(page)
       });
       searchParams.set("search", search);
+      searchParams.delete("page");
       setSearchParams(searchParams);
       return data;
     },
@@ -46,6 +47,7 @@ const FarmProblemsCommon = () => {
 
   const handleSearch = useDebounce((search: string) => {
     searchParams.set("search", search);
+    searchParams.delete("page");
     setSearchParams(searchParams);
   }, 700);
 

@@ -179,7 +179,7 @@ export const columns: ColumnDef<FarmMember>[] = [
           <AlertDialog open={showPromote}>
             <AlertDialogContent>
               <AlertDialogHeader>
-                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogTitle>Promote this user?</AlertDialogTitle>
                 <AlertDialogDescription>
                   This action will change the role from Farmer to Farm Head and
                   the user will have access of the community resources exclusive
@@ -199,7 +199,7 @@ export const columns: ColumnDef<FarmMember>[] = [
           <AlertDialog open={showDemote}>
             <AlertDialogContent>
               <AlertDialogHeader>
-                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogTitle>Remove farm head access?</AlertDialogTitle>
                 <AlertDialogDescription>
                   This action will demote the Farm Head to Farmer from the
                   community and the user will no longer have access of the

@@ -8,7 +8,7 @@ import {
   DropdownMenuTrigger
 } from "@components/ui/dropdown-menu";
 import { Button } from "@components/ui/button";
-import { MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { ReportedUser } from "@api/openapi";
 import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
@@ -47,31 +47,81 @@ import useUserWarnUsersMutation from "../../../../../hooks/api/post/useUserWarnU
 export const columns: ColumnDef<ReportedUser>[] = [
   {
     accessorKey: "createdat",
-    header: "Created At",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          CREATED AT
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => format(new Date(row.original.createdat || ""), "PPP")
   },
   {
     accessorKey: "reported",
-    header: "Reported",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          REPORTED
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => (
       <div>{`${row.original.reported?.firstname} ${row.original.reported?.lastname}`}</div>
     )
   },
   {
     accessorKey: "reporter",
-    header: "Reporter",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          REPORTER
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => (
       <div>{`${row.original.reported_by?.firstname} ${row.original.reported_by?.lastname}`}</div>
     )
   },
   {
     accessorKey: "reason",
-    header: "Reason",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          REASON
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => <div>{row.getValue("reason")}</div>
   },
   {
     accessorKey: "status",
-    header: "Status",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          STATUS
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => (
       <div className=" capitalize">{row.getValue("status")}</div>
     )
@@ -80,6 +130,7 @@ export const columns: ColumnDef<ReportedUser>[] = [
   {
     id: "actions",
     enableHiding: false,
+    header: "Actions",
     cell: ({ row }) => {
       const report = row.original;
       const navigate = useNavigate();

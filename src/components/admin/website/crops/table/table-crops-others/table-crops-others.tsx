@@ -1,5 +1,4 @@
 import React from "react";
-import useGetCropsQuery from "@hooks/api/get/useGetCropsQuery";
 import {
   Table,
   TableBody,
@@ -19,7 +18,7 @@ import {
 } from "@components/ui/dropdown-menu";
 import { Button } from "@components/ui/button";
 import { MoreHorizontal } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -28,8 +27,7 @@ import {
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger
+  AlertDialogTitle
 } from "../../../../../ui/alert-dialog";
 import useDeleteFarmCropArchiveAdmin from "../../../../../../hooks/api/delete/useDeleteFarmCropArchiveAdmin";
 import { toast } from "sonner";

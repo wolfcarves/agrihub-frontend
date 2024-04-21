@@ -7,25 +7,9 @@ import {
   DropdownMenuTrigger
 } from "@components/ui/dropdown-menu";
 import { Button } from "@components/ui/button";
-import { MoreHorizontal } from "lucide-react";
-import {
-  CommunityFarmData,
-  FarmInactiveDetails,
-  InactiveFarmReport,
-  SeedlingRequestListItem
-} from "@api/openapi";
+import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { FarmInactiveDetails } from "@api/openapi";
 import { format } from "date-fns";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger
-} from "@components/ui/dialog";
-import { Label } from "@components/ui/label";
-import { Input } from "@components/ui/input";
-import { Badge } from "@components/ui/badge";
 import { useNavigate } from "react-router-dom";
 import usePutCommunityRestore from "../../../../hooks/api/put/usePutCommunityRestore";
 import { toast } from "sonner";
@@ -53,23 +37,54 @@ export const columns: ColumnDef<FarmInactiveDetails>[] = [
   // },
   {
     accessorKey: "farm_name",
-    header: "Farm"
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          FARM
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    }
   },
   {
     accessorKey: "last_report_date",
-    header: "Last Report",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          LAST REPORT
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) =>
       format(new Date(row.original.last_report_date || ""), "PPP")
   },
   {
     accessorKey: "location",
-    header: "Location",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          LOCATION
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => (
       <div>{formatMonth(row.original.months_since_last_report || "")}</div>
     )
   },
   {
     id: "actions",
+    header: "Actions",
     enableHiding: false,
     cell: ({ row }) => {
       const request = row.original;
@@ -115,10 +130,9 @@ export const columns: ColumnDef<FarmInactiveDetails>[] = [
           </DropdownMenu>
           <AlertDialogContent>
             <AlertDialogHeader>
-              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+              <AlertDialogTitle>Unarchive this community?</AlertDialogTitle>
               <AlertDialogDescription>
-                This action cannot be undone. This community will be visible
-                again in community farm list.
+                This community will be visible again in community farm list.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>

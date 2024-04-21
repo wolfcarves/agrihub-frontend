@@ -33,7 +33,7 @@ const DeleteImageAlert: React.FC<DeleteImageAlertProps> = ({ imageId }) => {
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogTitle>Delete this image?</AlertDialogTitle>
           <AlertDialogDescription>
             This action cannot be undone. This will permanently delete image in
             the gallery and remove this data from our servers.

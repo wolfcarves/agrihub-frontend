@@ -56,7 +56,9 @@ const PendingPage = () => {
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
-                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogTitle>
+                  Cancel your farm application?
+                </AlertDialogTitle>
                 <AlertDialogDescription>
                   This action will cancel the farm application and all the data
                   you submitted will be deleted

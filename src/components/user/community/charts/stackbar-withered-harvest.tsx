@@ -8,7 +8,9 @@ import {
   SelectTrigger,
   SelectValue
 } from "../../../ui/select";
-
+import ChartDataLabels from "chartjs-plugin-datalabels";
+import { Chart, ChartOptions } from "chart.js";
+Chart.register(ChartDataLabels);
 const StackbarWitheredHarvest = () => {
   const [monthSelected, setMonthSelected] = useState<string | undefined>(
     undefined
@@ -26,6 +28,12 @@ const StackbarWitheredHarvest = () => {
       },
       y: {
         stacked: true
+      }
+    },
+    plugins: {
+      datalabels: {
+        display: "auto",
+        color: "rgba(4, 147, 114, 1)" // Customize datalabels color
       }
     }
   };

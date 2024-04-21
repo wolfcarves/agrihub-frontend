@@ -27,6 +27,25 @@ const BarchartHarvest = () => {
       y: {
         beginAtZero: true
       }
+    },
+    onHover: (event: any, chartElement: any) => {
+      // console.log(event);
+      // console.log(chartElement);
+      if (chartElement.length === 1) {
+        event.native.target.style.cursor = "pointer";
+      }
+      if (chartElement.length === 0) {
+        event.native.target.style.cursor = "default";
+      }
+    },
+    plugins: {
+      datalabels: {
+        display: true,
+        color: "rgba(1, 50, 67, 1)",
+        font: {
+          weight: "bold" as "bold"
+        }
+      }
     }
   };
   const optionsRadar = {
@@ -34,7 +53,24 @@ const BarchartHarvest = () => {
     maintainAspectRatio: false,
 
     scale: {
-      ticks: { beginAtZero: true }
+      y: {
+        beginAtZero: true,
+        ticks: {
+          display: false
+        }
+      }
+    },
+    plugins: {
+      datalabels: {
+        display: true,
+        color: "rgba(228, 241, 254, 1)",
+        anchor: "end" as "end",
+        align: "start" as "start",
+        offset: 8,
+        font: {
+          weight: "bold" as "bold"
+        }
+      }
     }
   };
 
@@ -44,7 +80,7 @@ const BarchartHarvest = () => {
       {
         label: "Harvest",
         data: Object.values(harvestChart || {}),
-        backgroundColor: ["#9ACD32", "#7FFF00", "#98FB98", "#00FA9A", "#00FF7F"]
+        backgroundColor: ["#7FFF00"]
       }
     ]
   };
@@ -68,6 +104,7 @@ const BarchartHarvest = () => {
       setActiveIndex(String(activeLabel) || "");
     }
   };
+
   return (
     <div className="grid grid-cols-12 gap-x-4 gap-y-[2.5rem]">
       <div className="border border-border p-4 rounded-lg lg:col-span-8 col-span-12">

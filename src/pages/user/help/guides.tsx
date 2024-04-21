@@ -1,12 +1,12 @@
-import { convertToEmbedLink } from "@components/lib/utils";
-import LoadingSpinner from "@icons/LoadingSpinner";
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import { FaPlay, FaRegImage } from "react-icons/fa6";
 import { IoPersonOutline } from "react-icons/io5";
 import { PiPlant } from "react-icons/pi";
 import { TfiWrite } from "react-icons/tfi";
+import LoadingSpinner from "@icons/LoadingSpinner";
 import { useSearchParams } from "react-router-dom";
 import extractYouTubeVideoId from "../learning/util/extractYtUrl";
+import { convertToEmbedLink } from "@components/lib/utils";
 
 interface Guide {
   time: string;
@@ -17,14 +17,14 @@ interface Guide {
 
 const guides: Guide[] = [
   {
-    time: "0:30",
+    time: "30",
     title: "Pag gawa ng account",
     description:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam facilis, voluptates error alias dolorem praesentium sit soluta iure incidunt labore explicabo eaque, quia architecto veritatis dolores, enim cons equatur nihil ipsum.",
     icon: <IoPersonOutline size={64} />
   },
   {
-    time: "1:28",
+    time: "98",
     title: "Pag rehistro ng farm",
     description:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam facilis, voluptates error alias dolorem praesentium sit soluta iure incidunt labore explicabo eaque, quia architecto veritatis dolores, enim cons equatur nihil ipsum.",
@@ -49,27 +49,43 @@ const guides: Guide[] = [
 const UserGuides = () => {
   const [isPreviewing, setIsPreviewing] = useState<boolean>(false);
   const [searchParams, setSearchParams] = useSearchParams();
-  const [videoSrc, setVideoSrc] = useState<string>(
-    "https://www.youtube.com/embed/BrXOiFAf84c?si=QYGAHaxj2RDddr03"
-  );
-  const guidelineVid = "https://youtu.be/Zx31bB2vMns?si=UuB92dqimBUbA3KJ";
-
+  const guidelineVid = "https://youtu.be/tBxpyTiJWNw";
+  const [videoSrc, setVideoSrc] = useState<string>(guidelineVid);
+  // nakukuha na seconds pero yung link aralin pa
   const handleTimeClick = (time: string) => {
-    setVideoSrc(
-      `https://www.youtube.com/embed/BrXOiFAf84c?start=${time}&si=QYGAHaxj2RDddr03`
-    );
+    setVideoSrc(`https://youtu.be/tBxpyTiJWNw&t=${time}s`);
   };
 
   return (
     <>
+      {isPreviewing && (
+        <div
+          className="fixed inset-0 h-full w-full flex justify-center items-center z-50 bg-black/70"
+          onClick={() => setIsPreviewing(false)}
+        >
+          <div
+            className={`relative w-[90%] aspect-video xl:w-1/2 xl:h-1/2 object-contain animate-appear bg-black`}
+          >
+            <div className="absolute inset-0 m-auto h-max w-max -z-10">
+              <LoadingSpinner className="text-primary" />
+            </div>
+
+            <iframe
+              className={`w-full h-full object-contain aspect-auto`}
+              src={convertToEmbedLink(videoSrc || "")}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+            ></iframe>
+          </div>
+        </div>
+      )}
       <div className="container py-10">
         <h2 className="font-poppins-semibold">User Guides</h2>
-        {/* Video iframe */}
         <div className="w-full flex justify-center">
-          <div className="relative w-full aspect-video rounded-t-md border">
+          <div className="relative w-1/2 aspect-video rounded-md border">
             <img
               src={`https://i.ytimg.com/vi/${extractYouTubeVideoId(
-                guidelineVid
+                videoSrc
               )}/hqdefault.jpg`}
               className="w-full h-full object-cover rounded-t-md"
             />
@@ -78,7 +94,7 @@ const UserGuides = () => {
               className="absolute inset-0"
               onClick={e => {
                 e.preventDefault();
-                searchParams.set("preview", guidelineVid);
+                searchParams.set("preview", videoSrc);
                 setSearchParams(searchParams);
                 setIsPreviewing(true);
               }}
@@ -87,13 +103,6 @@ const UserGuides = () => {
                 <FaPlay className="text-background translate-x-1" size={36} />
               </div>
             </button>
-            {/* <iframe
-                      className="w-full h-full rounded-t-md"
-                      src={convertToEmbedLink(items.thumbnail.resource || "")}
-                      title={items.thumbnail.id}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      allowFullScreen
-                    ></iframe> */}
           </div>
         </div>
         <section className="dark:bg-gray-800 dark:text-gray-100">

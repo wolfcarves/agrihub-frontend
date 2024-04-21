@@ -102,7 +102,7 @@ const Learnings = () => {
               </article>
             </div>
             <div className="w-full">
-              <div className="bg-white p-4 sm:p-6">
+              <div className="p-4 sm:p-6">
                 <time className="block text-xs text-gray-500">
                   {formatDate(firstItem.createdat)} | {firstItem.language}
                 </time>

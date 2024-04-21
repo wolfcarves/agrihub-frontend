@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import AdminOutletContainer from "@components/admin/layout/container/AdminOutletContainer";
 import BreadCrumb from "../../../../components/ui/custom/breadcrumb/breadcrumb";
 
@@ -8,7 +8,7 @@ import TableLearningMaterial from "../../../../components/admin/learning-materia
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/ui/tabs";
 import TableLearningMaterialDraft from "@components/admin/learning-materials/tables/table-learning-material-draft/table-learning-material-draft";
 import TableLearningMaterialArchive from "@components/admin/learning-materials/tables/table-learning-material-archive/table-learning-material-archive";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 const breadcrumbItems = [
   { title: "Resource Management", link: "/admin/resources" },

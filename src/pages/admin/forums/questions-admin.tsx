@@ -5,7 +5,7 @@ import withAuthGuard from "@higher-order/account/withAuthGuard";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/ui/tabs";
 import QuestionsPosted from "./questions-posted";
 import QuestionsReported from "./questions-reported";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 const breadcrumbItems = [
   { title: "Forum Management", link: "/admin/forum" },

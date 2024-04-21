@@ -14,7 +14,20 @@ import {
 } from "@components/ui/dropdown-menu";
 import { AuditLog } from "../../../../api/openapi";
 import { format } from "date-fns";
-import { formatRoles } from "../../../../components/lib/utils";
+import { formatDateTime, formatRoles } from "../../../../components/lib/utils";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogTitle,
+  DialogTrigger
+} from "@components/ui/dialog";
+import { DialogHeader } from "@components/ui/custom/dialog/dialog";
+import { Label } from "@components/ui/label";
+import { Input } from "@components/ui/input";
+import { Badge } from "@components/ui/badge";
 
 export const columns: ColumnDef<AuditLog>[] = [
   {
@@ -47,28 +60,93 @@ export const columns: ColumnDef<AuditLog>[] = [
   },
   {
     id: "actions",
+    header: "Actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const payment = row.original;
-
+      const activity = row.original;
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id || "")}
-            >
-              Copy log ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <Dialog>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuItem
+                onClick={() => navigator.clipboard.writeText(activity.id || "")}
+              >
+                Copy log ID
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <DialogTrigger>View Activity</DialogTrigger>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>Activity #{activity?.id}</DialogTitle>
+              <DialogDescription>
+                Action taken: {formatDateTime(activity?.createdat || "")}
+              </DialogDescription>
+            </DialogHeader>
+            <div className="flex gap-4 justify-between items-center">
+              <div className="w-full">
+                <Label htmlFor="name" className="text-right">
+                  Name
+                </Label>
+                <div className="flex gap-4 items-center">
+                  <div className="w-full">
+                    <Input
+                      id="name"
+                      defaultValue={
+                        activity?.firstname + " " + activity?.lastname
+                      }
+                      className="w-full"
+                      disabled
+                    />
+                  </div>
+                  <div className=" flex justify-end">
+                    <Badge>{activity?.role}</Badge>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div className="w-full">
+                <Label htmlFor="name" className="text-right">
+                  Section
+                </Label>
+                <Input
+                  id="name"
+                  defaultValue={activity?.section}
+                  className="w-full"
+                  disabled
+                />
+              </div>
+              <div className="w-full">
+                <Label htmlFor="name" className="text-right">
+                  Action
+                </Label>
+
+                <Input
+                  id="name"
+                  defaultValue={activity?.action}
+                  className="w-full"
+                  disabled
+                />
+              </div>
+            </div>
+            <DialogFooter className="w-full justify-end">
+              <DialogClose>
+                <Button variant="secondary">Close</Button>
+              </DialogClose>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       );
     }
   }

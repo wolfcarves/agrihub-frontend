@@ -17,6 +17,8 @@ import type { FarmerGraphPiechartResponse } from '../models/FarmerGraphPiechartR
 import type { FarmerGraphStackedBarResponse } from '../models/FarmerGraphStackedBarResponse';
 import type { FarmerGraphTotalHarvestResponse } from '../models/FarmerGraphTotalHarvestResponse';
 import type { FarmerTotalHarvestedResponse } from '../models/FarmerTotalHarvestedResponse';
+import type { FarmLandSizeAnalytics } from '../models/FarmLandSizeAnalytics';
+import type { FarmLandSizeByDistrict } from '../models/FarmLandSizeByDistrict';
 import type { FarmWithGrowthRate } from '../models/FarmWithGrowthRate';
 import type { FavouriteCropData } from '../models/FavouriteCropData';
 import type { ForumCount } from '../models/ForumCount';
@@ -878,14 +880,88 @@ limit?: string,
     }
 
     /**
-     * Get Inactive Farm Reports
+     * Get Inactive Farm Report
      * @returns InactiveFarmReport Successful response
      * @throws ApiError
      */
-    public static getApiReportsFarmInactive(): CancelablePromise<InactiveFarmReport> {
+    public static getApiReportsFarmInactive({
+search,
+page,
+perpage,
+}: {
+/**
+ * Search term to filter farms
+ */
+search?: string,
+/**
+ * Page number for pagination
+ */
+page?: string,
+/**
+ * Number of records per page
+ */
+perpage?: string,
+}): CancelablePromise<InactiveFarmReport> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/reports/farm/inactive',
+            query: {
+                'search': search,
+                'page': page,
+                'perpage': perpage,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Get Farm Land Size Analytics by District
+     * @returns FarmLandSizeAnalytics Successful response
+     * @throws ApiError
+     */
+    public static getApiReportsFarmLandSizeAnalytics(): CancelablePromise<FarmLandSizeAnalytics> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/reports/farm/land-size/analytics',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Get Farm Land Size Analytics by District
+     * @returns FarmLandSizeByDistrict Successful response
+     * @throws ApiError
+     */
+    public static getApiReportsFarmLandSizeAnalyticsDistrict({
+district,
+limit = 50,
+}: {
+/**
+ * The district name (e.g., District 1, District 2, etc.)
+ */
+district?: 'District 1' | 'District 2' | 'District 3' | 'District 4' | 'District 5' | 'District 6',
+/**
+ * The maximum number of results to return
+ */
+limit?: number,
+}): CancelablePromise<Array<FarmLandSizeByDistrict>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/reports/farm/land-size/analytics/district',
+            query: {
+                'district': district,
+                'limit': limit,
+            },
             errors: {
                 400: `Validation Error`,
                 401: `Unauthorized`,

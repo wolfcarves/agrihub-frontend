@@ -1,12 +1,8 @@
 import React, { useMemo } from "react";
 import AdminOutletContainer from "@components/admin/layout/container/AdminOutletContainer";
 import BreadCrumb from "../../../../components/ui/custom/breadcrumb/breadcrumb";
-import { Input } from "@components/ui/input";
-import { DataTable } from "@components/ui/custom/data-table/data-table";
-import { columns, data } from "../table/columns-event";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
-import { Button } from "@components/ui/button";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import DialogAddEvent from "../../../../components/admin/events/dialogs/dialog-add-event/dialog-add-event";
 import TableEventsPublished from "../../../../components/admin/events/table/table-events-published/table-events-published";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/ui/tabs";

@@ -51,6 +51,7 @@ export const columns: ColumnDef<SeedlingRequestListItem>[] = [
   },
   {
     id: "actions",
+    header: "Actions",
     enableHiding: false,
     cell: ({ row }) => {
       const request = row.original;

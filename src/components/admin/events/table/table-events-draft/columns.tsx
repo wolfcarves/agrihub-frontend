@@ -42,6 +42,7 @@ export const columns: ColumnDef<EventDetails>[] = [
   {
     id: "actions",
     enableHiding: false,
+    header: "Actions",
     cell: ({ row }) => {
       const payment = row.original;
 

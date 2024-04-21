@@ -11,12 +11,7 @@ interface HeaderProps {
   filter: string;
   setFilter: React.Dispatch<React.SetStateAction<string>>;
 }
-const Header: React.FC<HeaderProps> = ({
-  search,
-  setSearch,
-  filter,
-  setFilter
-}) => {
+const Header: React.FC<HeaderProps> = ({ search, setSearch }) => {
   const [dialog, setDialog] = useState<boolean>(false);
   const { isAllowed, isMember } = useCommunityAutorization();
 

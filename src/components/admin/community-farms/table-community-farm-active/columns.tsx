@@ -8,19 +8,8 @@ import {
 } from "@components/ui/dropdown-menu";
 import { Button } from "@components/ui/button";
 import { MoreHorizontal } from "lucide-react";
-import { CommunityFarmData, SeedlingRequestListItem } from "@api/openapi";
+import { CommunityFarmData } from "@api/openapi";
 import { format } from "date-fns";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger
-} from "@components/ui/dialog";
-import { Label } from "@components/ui/label";
-import { Input } from "@components/ui/input";
-import { Badge } from "@components/ui/badge";
 import Loader from "../../../../icons/Loader";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -61,6 +50,7 @@ export const columns: ColumnDef<CommunityFarmData>[] = [
   {
     id: "actions",
     enableHiding: false,
+    header: "Actions",
     cell: ({ row }) => {
       const request = row.original;
       const navigate = useNavigate();

@@ -16,7 +16,6 @@ import { Label } from "@components/ui/label";
 import { Input } from "@components/ui/input";
 import { Textarea } from "@components/ui/textarea";
 import { Badge } from "@components/ui/badge";
-import { formatDate } from "@components/lib/utils";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -69,6 +68,7 @@ export const columns: ColumnDef<ToolRequest>[] = [
   },
   {
     id: "actions",
+    header: "Actions",
     enableHiding: false,
     cell: ({ row }) => {
       const navigate = useNavigate();
@@ -117,7 +117,7 @@ export const columns: ColumnDef<ToolRequest>[] = [
 
       return (
         <Dialog>
-          <DialogTrigger className="ml-2 px-2">
+          <DialogTrigger>
             <Button variant="outline" className="rounded-full">
               View
             </Button>

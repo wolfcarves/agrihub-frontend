@@ -1,10 +1,9 @@
 import * as React from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@components/ui/button";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { EventDetails } from "../../../../../api/openapi";
 import Loader from "../../../../../icons/Loader";
-import usePutEventsUnarchieve from "../../../../../hooks/api/put/usePutEventsUnarchieve";
 import { toast } from "sonner";
 import { format } from "date-fns";
 import usePutBlogsUnarchive from "../../../../../hooks/api/put/usePutBlogsUnarchive";
@@ -47,6 +46,7 @@ export const columns: ColumnDef<EventDetails>[] = [
   {
     id: "actions",
     enableHiding: false,
+    header: "Actions",
     cell: ({ row }) => {
       const material = row.original;
       const navigate = useNavigate();

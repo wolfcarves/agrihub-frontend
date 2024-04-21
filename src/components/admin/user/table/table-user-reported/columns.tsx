@@ -80,6 +80,7 @@ export const columns: ColumnDef<ReportedUser>[] = [
   {
     id: "actions",
     enableHiding: false,
+    header: "Actions",
     cell: ({ row }) => {
       const report = row.original;
       const navigate = useNavigate();

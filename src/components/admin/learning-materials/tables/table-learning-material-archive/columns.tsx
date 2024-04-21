@@ -1,16 +1,7 @@
 import { ColumnDef } from "@tanstack/react-table";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger
-} from "@components/ui/dropdown-menu";
 import { Button } from "@components/ui/button";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
-import { FarmApplicationData, LearningMaterial } from "@api/openapi";
-import { Link, useNavigate } from "react-router-dom";
+import { LearningMaterial } from "@api/openapi";
+import { useNavigate } from "react-router-dom";
 import usePutLearningUnarchive from "../../../../../hooks/api/put/usePutLearningUnarchive";
 import { toast } from "sonner";
 import { format } from "date-fns";
@@ -50,7 +41,7 @@ export const columns: ColumnDef<LearningMaterial>[] = [
 
   {
     id: "actions",
-
+    header: "Actions",
     cell: ({ row }) => {
       const material = row.original;
       const navigate = useNavigate();

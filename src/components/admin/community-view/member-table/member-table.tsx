@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { columns } from "./columns";
 import Header from "./header";
 import useGetFarmMembersQuery from "../../../../hooks/api/get/useGetFarmMembersQuery";

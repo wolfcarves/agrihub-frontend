@@ -60,12 +60,13 @@ export const columns: ColumnDef<ToolRequest>[] = [
   {
     id: "actions",
     enableHiding: false,
+    header: "Actions",
     cell: ({ row }) => {
       const request = row.original;
 
       return (
         <Dialog>
-          <DialogTrigger className="ml-2 px-2">
+          <DialogTrigger>
             <Button variant="outline" className="rounded-full">
               View
             </Button>

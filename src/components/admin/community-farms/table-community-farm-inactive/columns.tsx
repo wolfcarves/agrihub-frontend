@@ -8,24 +8,8 @@ import {
 } from "@components/ui/dropdown-menu";
 import { Button } from "@components/ui/button";
 import { MoreHorizontal } from "lucide-react";
-import {
-  CommunityFarmData,
-  FarmInactiveDetails,
-  InactiveFarmReport,
-  SeedlingRequestListItem
-} from "@api/openapi";
+import { FarmInactiveDetails } from "@api/openapi";
 import { format } from "date-fns";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger
-} from "@components/ui/dialog";
-import { Label } from "@components/ui/label";
-import { Input } from "@components/ui/input";
-import { Badge } from "@components/ui/badge";
 import { useNavigate } from "react-router-dom";
 import usePutCommunityRestore from "../../../../hooks/api/put/usePutCommunityRestore";
 import { toast } from "sonner";
@@ -70,6 +54,7 @@ export const columns: ColumnDef<FarmInactiveDetails>[] = [
   },
   {
     id: "actions",
+    header: "Actions",
     enableHiding: false,
     cell: ({ row }) => {
       const request = row.original;

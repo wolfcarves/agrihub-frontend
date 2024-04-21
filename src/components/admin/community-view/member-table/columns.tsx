@@ -1,5 +1,5 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown } from "lucide-react";
 import { FarmMember } from "../../../../api/openapi";
 import { Button } from "../../../ui/button";
 import { formatRoles } from "../../../lib/utils";

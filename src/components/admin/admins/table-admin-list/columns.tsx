@@ -60,6 +60,7 @@ export const columns: ColumnDef<AdminUser>[] = [
   {
     id: "actions",
     enableHiding: false,
+    header: "Actions",
     cell: ({ row }) => {
       const users = row.original;
       const navigate = useNavigate();

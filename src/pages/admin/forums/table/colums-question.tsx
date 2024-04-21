@@ -23,9 +23,7 @@ import {
   DropdownMenuTrigger
 } from "@components/ui/dropdown-menu";
 
-import { ComboboxPopoverStatus } from "./components/combobox-status";
 import { PiArrowFatUpThin, PiArrowFatDownThin } from "react-icons/pi";
-import { NewQuestionSchema } from "../../../../api/openapi";
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import parse from "html-react-parser";
@@ -93,6 +91,7 @@ export const columns: ColumnDef<Question>[] = [
   {
     id: "actions",
     enableHiding: false,
+    header: "Actions",
     cell: ({ row }) => {
       const [isOpen, setIsOpen] = React.useState<boolean>(false);
       const question = row.original;

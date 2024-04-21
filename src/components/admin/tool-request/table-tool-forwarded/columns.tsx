@@ -16,7 +16,6 @@ import { Badge } from "@components/ui/badge";
 import DialogToolAccept, {
   formatSelectedOrganizations
 } from "../dialog-tool-request/dialog-tool-accept";
-import { formatDate } from "@components/lib/utils";
 import { ToolRequest } from "../../../../api/openapi";
 import { format } from "date-fns";
 import DialogToolReject from "../dialog-tool-request/dialog-tool-reject";
@@ -61,6 +60,7 @@ export const columns: ColumnDef<ToolRequest>[] = [
   },
   {
     id: "actions",
+    header: "Actions",
     enableHiding: false,
     cell: ({ row }) => {
       const request = row.original;
@@ -75,7 +75,7 @@ export const columns: ColumnDef<ToolRequest>[] = [
 
       return (
         <Dialog>
-          <DialogTrigger className="ml-2 px-2">
+          <DialogTrigger>
             <Button variant="outline" className="rounded-full">
               View
             </Button>

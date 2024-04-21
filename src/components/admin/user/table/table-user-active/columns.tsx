@@ -8,16 +8,10 @@ import {
   DropdownMenuTrigger
 } from "@components/ui/dropdown-menu";
 import { Button } from "@components/ui/button";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
-import {
-  AdminUser,
-  FarmApplicationData,
-  LearningMaterial,
-  ListUser,
-  SeedlingRequestListItem
-} from "@api/openapi";
-import { Link, useNavigate } from "react-router-dom";
-import { format, formatISO } from "date-fns";
+import { MoreHorizontal } from "lucide-react";
+import { ListUser } from "@api/openapi";
+import { useNavigate } from "react-router-dom";
+import { format } from "date-fns";
 import {
   Dialog,
   DialogContent,
@@ -27,11 +21,7 @@ import {
   DialogTitle,
   DialogTrigger
 } from "@components/ui/dialog";
-import { Label } from "@components/ui/label";
-import { Input } from "@components/ui/input";
-import { Textarea } from "@components/ui/textarea";
 import { Badge } from "@components/ui/badge";
-import { useState } from "react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -78,6 +68,7 @@ export const columns: ColumnDef<ListUser>[] = [
   {
     id: "actions",
     enableHiding: false,
+    header: "Actions",
     cell: ({ row }) => {
       const user = row.original;
       const navigate = useNavigate();

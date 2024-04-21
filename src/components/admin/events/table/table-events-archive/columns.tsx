@@ -56,6 +56,7 @@ export const columns: ColumnDef<EventDetails>[] = [
   },
   {
     id: "actions",
+    header: "Actions",
     enableHiding: false,
     cell: ({ row }) => {
       const material = row.original;

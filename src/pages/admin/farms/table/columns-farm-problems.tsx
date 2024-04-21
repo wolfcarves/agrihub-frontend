@@ -44,6 +44,7 @@ export const columns: ColumnDef<FarmProblem>[] = [
   {
     id: "actions",
     enableHiding: false,
+    header: "Actions",
     cell: ({ row }) => {
       const problem = row.original;
 

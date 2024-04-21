@@ -2,7 +2,7 @@ import * as React from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 
-import { Button, buttonVariants } from "@components/ui/button";
+import { Button } from "@components/ui/button";
 
 import {
   DropdownMenu,
@@ -87,6 +87,7 @@ export const columns: ColumnDef<Tag>[] = [
   {
     id: "actions",
     enableHiding: false,
+    header: "Actions",
     cell: ({ row }) => {
       const tag = row.original;
       const [isOpen, setIsOpen] = React.useState<boolean>();

@@ -16,7 +16,6 @@ import {
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -29,7 +28,6 @@ import { Textarea } from "@components/ui/textarea";
 import { UserFeedback } from "../../../../api/openapi";
 import { format } from "date-fns";
 import useGetCmsUserFeedbackView from "../../../../hooks/api/get/useGetCmsUserFeedbackView";
-import Loader from "../../../../icons/Loader";
 import { formatImage } from "../../../../components/lib/utils";
 import { DialogClose } from "../../../../components/ui/custom/dialog/dialog";
 
@@ -59,12 +57,12 @@ export const columns: ColumnDef<UserFeedback>[] = [
   {
     id: "actions",
     enableHiding: false,
+    header: "Actions",
     cell: ({ row }) => {
       const feedback = row.original;
       const { data: feedbackData, isLoading } = useGetCmsUserFeedbackView(
         feedback.id || ""
       );
-      console.log(feedbackData, "asd");
       if (isLoading) {
         return <></>;
       }

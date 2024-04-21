@@ -3,7 +3,6 @@ import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 
 import { Button } from "@components/ui/button";
-import { Badge } from "@components/ui/badge";
 
 import {
   Drawer,
@@ -35,22 +34,10 @@ import {
   CardHeader,
   CardTitle
 } from "@components/ui/card";
-
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue
-} from "@components/ui/select";
-
 import { ComboboxPopoverStatus } from "./components/combobox-status";
 import { PiArrowFatUpThin, PiArrowFatDownThin } from "react-icons/pi";
 import { Label } from "@components/ui/label";
 import { Textarea } from "@components/ui/textarea";
-import { useState } from "react";
 import { ReportedQuestion } from "../../../../api/openapi";
 import { format } from "date-fns";
 import parse from "html-react-parser";
@@ -95,6 +82,7 @@ export const columns: ColumnDef<ReportedQuestion>[] = [
   {
     id: "actions",
     enableHiding: false,
+    header: "Actions",
     cell: ({ row }) => {
       const question = row.original;
 
@@ -106,15 +94,6 @@ export const columns: ColumnDef<ReportedQuestion>[] = [
       };
 
       const { data: viewQuestion } = useGetViewQuestion(question.forumid ?? "");
-      const [isEditing, setIsEditing] = useState(false);
-
-      const handleEdit = () => {
-        setIsEditing(true);
-      };
-
-      const handleSave = () => {
-        setIsEditing(false);
-      };
 
       const { mutateAsync: banUserMutation, isLoading: banLoading } =
         useUserBanUsersMutation();

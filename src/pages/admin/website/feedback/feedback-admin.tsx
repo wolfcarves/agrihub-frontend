@@ -55,7 +55,6 @@ const FeedbackAdmin = () => {
           className="max-w-sm my-4"
           value={params.search}
           onChange={e => debouncedSearch(e.target.value)}
-          autoFocus
         />
       </div>
       <DataTable columns={columns} data={feedbackData?.data || []} />

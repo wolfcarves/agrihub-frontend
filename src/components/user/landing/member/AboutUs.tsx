@@ -229,9 +229,9 @@ const About = () => {
                 Let us know how we can help
               </p>
               <p>
-                We’re here to help and answer any question you might have, We
-                look forward to hearing from you! Please fill out the form, or
-                us the contact information bellow.
+                We are here to help and answer questions you might have, we're
+                looking forward to hear from you! Please fill out this form or
+                click the contact information below.
               </p>
               <div>
                 <ul className="mt-6 flex flex-wrap gap-x-10 gap-y-6 items-center">

@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Pagination } from "@components/ui/custom";
 import useGetBlogsPublishList from "@hooks/api/get/useGetBlogsPublishListQuery";
 import parse from "html-react-parser";
@@ -17,6 +17,7 @@ import {
 
 const Blogs = () => {
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const params = String(searchParams.get("page")) ?? "1";
 
   const { data: blogData, isLoading } = useGetBlogsPublishList(
@@ -28,16 +29,21 @@ const Blogs = () => {
   let headerContent = null;
   if (!isLoading && (blogData?.data?.length ?? 0) > 0) {
     const [firstItem] = blogData?.data ?? [];
-
+    const navigateFirst = () => {
+      navigate(`/blogs/view/${firstItem.id}`);
+    };
     headerContent = (
-      <div className="relative w-full h-[100vh] overflow-hidden">
+      <div
+        className="relative w-full cursor-pointer h-[70vh] sm:h-screen overflow-hidden "
+        onClick={navigateFirst}
+      >
         <div className="absolute inset-0">
           <div className="absolute inset-0 flex justify-end mx-4 items-center text-white ">
-            <div className="w-ful py-10 rounded-lg">
+            <div className="w-full p-0 sm:py-10">
               <div>
                 <img
                   src={firstItem?.thumbnail}
-                  className="w-full h-full object-cover"
+                  className="w-full rounded-lg h-full object-cover"
                   alt="Blog Thumbnail"
                 />
                 <h5 className="text-gray-600 pt-1 text-sm">
@@ -65,9 +71,6 @@ const Blogs = () => {
                     ))}
                   </div>
                 </div>
-                {/* <Link to={`/blogs/view/${firstItem?.id}`} key={firstItem?.id}>
-                  <Button>View Blog</Button>
-                </Link> */}
               </div>
             </div>
           </div>
@@ -89,31 +92,28 @@ const Blogs = () => {
           <SkeletonCard count={9} className="md:w-1/3 w-full" />
         </div>
       )}
-      <div className="flex gap-2">
+      <div className="flex-nowrap sm:flex gap-2">
         {/* header */}
 
-        <div className="relative w-full h-[100vh] overflow-hidden">
+        <div className="relative w-full h-auto sm:h-screen overflow-hidden">
           {headerContent}
         </div>
-        <div className="mx-4 overflow-hidden w-full">
-          <Carousel
-            orientation="vertical"
-            className="flex flex-wrap justify-center gap-2"
-          >
-            <CarouselContent className="h-screen">
+        <div className="px-4 overflow-auto no-scrollbar w-full">
+          <div className="flex flex-wrap justify-center gap-2">
+            <div className="h-full sm:h-screen">
               {blogData?.data?.map((item, index) => {
                 if (index === 0) {
                   return null;
                 }
                 return (
-                  <CarouselItem className="basis-1/3">
+                  <div>
                     <Link to={`/blogs/view/${item.id}`} key={index}>
-                      <div className="group flex items-center">
-                        <div className="aspect-video w-full overflow-hidden ">
+                      <div className="group flex sm:flex-nowrap flex-wrap items-center mx-auto">
+                        <div className="aspect-video w-full overflow-hidden rounded-lg">
                           <img
                             src={item?.thumbnail}
                             alt={item.title}
-                            className="w-full rounded-lg  object-cover group-hover:scale-110 duration-300"
+                            className="w-full group-hover:scale-110 duration-300"
                           />
                         </div>
 
@@ -146,20 +146,18 @@ const Blogs = () => {
                         </div>
                       </div>
                     </Link>
-                  </CarouselItem>
+                  </div>
                 );
               })}
-            </CarouselContent>
-            {/* <CarouselPrevious />
-            <CarouselNext /> */}
-          </Carousel>
-          <div className="mt-auto py-4">
-            <Pagination
-              totalPages={blogData?.pagination?.total_pages ?? 1}
-              isLoading={false}
-            />
+            </div>
           </div>
         </div>
+      </div>
+      <div className="mt-auto py-4">
+        <Pagination
+          totalPages={blogData?.pagination?.total_pages ?? 1}
+          isLoading={false}
+        />
       </div>
     </>
   );

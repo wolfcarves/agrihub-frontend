@@ -7,7 +7,7 @@ import {
   DropdownMenuTrigger
 } from "@components/ui/dropdown-menu";
 import { Button } from "@components/ui/button";
-import { MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { FarmInactiveDetails } from "@api/openapi";
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
@@ -37,17 +37,47 @@ export const columns: ColumnDef<FarmInactiveDetails>[] = [
   // },
   {
     accessorKey: "farm_name",
-    header: "Farm"
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          FARM
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    }
   },
   {
     accessorKey: "last_report_date",
-    header: "Last Report",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          LAST REPORT
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) =>
       format(new Date(row.original.last_report_date || ""), "PPP")
   },
   {
     accessorKey: "location",
-    header: "Location",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          LOCATION
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => (
       <div>{formatMonth(row.original.months_since_last_report || "")}</div>
     )

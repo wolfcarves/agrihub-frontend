@@ -33,37 +33,98 @@ import usePutRequestToolUpdate from "../../../../hooks/api/put/usePutRequestTool
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../../../icons/Loader";
+import { ArrowUpDown } from "lucide-react";
 
 export const columns: ColumnDef<ToolRequest>[] = [
   {
-    accessorKey: "updatedAt",
-    header: "Updated At",
+    accessorKey: "updatedat",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          CREATED AT
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) =>
       format(new Date(row.original.updatedat || ""), "MMM dd, yyyy")
   },
   {
     accessorKey: "tool_requested",
-    header: "Tool",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          TOOL
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => <div>{row.getValue("tool_requested")}</div>
   },
   {
     accessorKey: "farm_name",
-    header: "Requested by",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          REQUESTED BY
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => <div>{row.getValue("farm_name")}</div>
   },
   {
     accessorKey: "quantity_requested",
-    header: "Quantity Requested",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          QUANTITY REQUESTED
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => <div>{row.getValue("quantity_requested")}</div>
   },
   {
     accessorKey: "contact",
-    header: "Contact",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          CONTACT
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => <div>{row.getValue("contact")}</div>
   },
   {
     accessorKey: "status",
-    header: "Status",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          STATUS
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => <div>{row.getValue("status")}</div>
   },
   {

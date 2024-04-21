@@ -134,16 +134,16 @@ export const columns: ColumnDef<CommunityFarmData>[] = [
           </DropdownMenu>
           <AlertDialogContent>
             <AlertDialogHeader>
-              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+              <AlertDialogTitle>Unarchive this community?</AlertDialogTitle>
               <AlertDialogDescription>
-                This action cannot be undone. This community will be visible
-                again in community farm list.
+                This action will allow the community to be visible again in
+                community farm list.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel>Cancel</AlertDialogCancel>
               <AlertDialogAction onClick={handleUnrchive}>
-                Continue
+                Confirm
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>

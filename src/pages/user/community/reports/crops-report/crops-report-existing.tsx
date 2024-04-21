@@ -152,7 +152,7 @@ const CropsReportExisting = () => {
             </DropdownMenu>
             <AlertDialogContent>
               <AlertDialogHeader>
-                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogTitle>Remove existing crop??</AlertDialogTitle>
                 <AlertDialogDescription>
                   This action cannot be undone. This will permanently this crop
                   report in the list of existing planted crops.

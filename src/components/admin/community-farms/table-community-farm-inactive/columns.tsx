@@ -130,10 +130,9 @@ export const columns: ColumnDef<FarmInactiveDetails>[] = [
           </DropdownMenu>
           <AlertDialogContent>
             <AlertDialogHeader>
-              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+              <AlertDialogTitle>Unarchive this community?</AlertDialogTitle>
               <AlertDialogDescription>
-                This action cannot be undone. This community will be visible
-                again in community farm list.
+                This community will be visible again in community farm list.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>

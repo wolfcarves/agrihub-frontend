@@ -140,9 +140,9 @@ export const columns: ColumnDef<EventDetails>[] = [
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
-              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+              <AlertDialogTitle>Unarchive this event?</AlertDialogTitle>
               <AlertDialogDescription>
-                This action cannot be undone. This will unarchive this event.
+                This will make the event be visible in draft list again.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>

@@ -246,8 +246,8 @@ const FarmApplicationView = () => {
                       Accept Farm Application?
                     </AlertDialogTitle>
                     <AlertDialogDescription>
-                      Are you absolutely sure you want to accept this farm
-                      application?
+                      This will allow the user to manage the farm it applies and
+                      will have a farm head access to its community.
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>

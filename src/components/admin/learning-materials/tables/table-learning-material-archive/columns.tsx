@@ -104,10 +104,9 @@ export const columns: ColumnDef<LearningMaterial>[] = [
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
-              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+              <AlertDialogTitle>Unarchive this material?</AlertDialogTitle>
               <AlertDialogDescription>
-                This action cannot be undone. This will unarchive this learning
-                material.
+                This will make the material be visible again in draft list.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>

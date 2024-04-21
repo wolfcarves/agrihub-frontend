@@ -249,7 +249,7 @@ export const columns: ColumnDef<Question>[] = [
                         <AlertDialogContent>
                           <AlertDialogHeader>
                             <AlertDialogTitle>
-                              Are you absolutely sure?
+                              Delete Question?
                             </AlertDialogTitle>
                             <AlertDialogDescription>
                               This action cannot be undone. This will

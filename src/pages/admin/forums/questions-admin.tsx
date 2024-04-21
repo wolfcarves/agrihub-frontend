@@ -28,8 +28,12 @@ const QuestionsAdmin = () => {
     <AdminOutletContainer className="container mx-auto py-10 ">
       <BreadCrumb items={breadcrumbItems} />
       <h2 className="text-3xl font-bold tracking-tight">Questions</h2>
-      <p className="text-sm text-muted-foreground">
-        Manage all question and answer in forums.
+      <p className="text-sm text-muted-foreground w-11/12">
+        Promote community engagement and collaboration through dedicated forums.
+        Provide a platform for users to discuss topics, ask questions, and share
+        insights. Cultivate a supportive and interactive community environment
+        where users can connect, learn, and contribute to meaningful
+        discussions.
       </p>
       <hr className="my-4" />
       <Tabs value={params.tab}>

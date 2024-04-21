@@ -36,8 +36,12 @@ const LearningsAdmin = () => {
         </h2>
         <DialogAddLearning />
       </div>
-      <p className="text-sm text-muted-foreground">
-        Manage all learning materials.
+      <p className="text-sm text-muted-foreground w-11/12">
+        Administer a repository of educational resources and materials to
+        support continuous learning and skill development. Curate a diverse
+        collection of tutorials, guides, and reference materials covering
+        various topics. Empower users with access to valuable learning resources
+        to enhance their knowledge and expertise.
       </p>
       <hr className="my-4" />
       <Tabs value={params.tab}>

@@ -33,7 +33,13 @@ const EventsAdmin = () => {
         <h2 className="text-3xl font-bold tracking-tight">Events</h2>
         <DialogAddEvent />
       </div>
-      <p className="text-sm text-muted-foreground">Manage all events.</p>
+      <p className="text-sm text-muted-foreground w-11/12">
+        Organize and manage upcoming events, workshops, and gatherings to engage
+        our community. Showcase a calendar of events, including details,
+        schedules, and registration information. Facilitate networking and
+        knowledge sharing opportunities, fostering connections and collaboration
+        among participants
+      </p>
       <hr className="my-4" />
       <Tabs value={params.tab}>
         <TabsList>

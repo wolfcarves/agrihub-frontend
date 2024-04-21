@@ -35,13 +35,19 @@ const CropsAdmin = () => {
       <div className="flex justify-between items-center">
         <div>
           <h2 className="text-3xl font-bold tracking-tight">Crops</h2>
-          <p className="text-sm text-muted-foreground">
-            Manage all registered and unregistered crops within the community
-          </p>
         </div>
         <Link to="/admin/website/crops/add">
           <Button>Register Crop</Button>
         </Link>
+      </div>
+      <div className="w-11/12">
+        <p className="text-sm text-muted-foreground">
+          Provide comprehensive guidance on the optimal planting times and
+          conditions for various crops. Offer a detailed calendar outlining
+          planting schedules, recommended varieties, and cultivation tips.
+          Empower users with the knowledge they need to plan and manage their
+          crop production effectively throughout the year.
+        </p>
       </div>
       <hr className="my-4" />
       <Tabs value={params.tab}>

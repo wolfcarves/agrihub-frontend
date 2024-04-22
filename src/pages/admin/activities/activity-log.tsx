@@ -26,18 +26,22 @@ const ActivityLog = () => {
     String(params.currentPage),
     "10"
   );
-  console.log(logsData);
 
   const debouncedSearch = useDebounce((value: string) => {
     searchParams.set("search", value);
+    searchParams.delete("page");
     setSearchParams(searchParams);
   }, 100);
   return (
     <AdminOutletContainer className="container mx-auto py-10 ">
       <BreadCrumb items={breadcrumbItems} />
       <h2 className="text-3xl font-bold tracking-tight">Admin Activities</h2>
-      <p className="text-sm text-muted-foreground">
-        Manage admin activity logs.
+      <p className="text-sm text-muted-foreground w-11/12">
+        Track and monitor admin activities to maintain transparency and
+        accountability within the platform. Access detailed logs of admin
+        actions, including user bans, warnings, and more. Use activity logs to
+        review and audit administrative activities, ensuring compliance with
+        policies and regulations while upholding platform integrity
       </p>
       <hr className="my-4" />
       <Input

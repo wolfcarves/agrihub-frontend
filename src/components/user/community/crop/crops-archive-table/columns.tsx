@@ -1,10 +1,7 @@
 import { ColumnDef } from "@tanstack/react-table";
-
-import { useNavigate } from "react-router-dom";
 import { ArchivedCrop } from "../../../../../api/openapi";
 import { Button } from "../../../../ui/button";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
-import { format } from "date-fns";
+import { ArrowUpDown } from "lucide-react";
 import usePutFarmCropUnarchive from "../../../../../hooks/api/put/usePutFarmCropUnarchive";
 import { toast } from "sonner";
 import { Avatar, AvatarFallback, AvatarImage } from "../../../../ui/avatar";
@@ -55,7 +52,11 @@ export const columns: ColumnDef<ArchivedCrop>[] = [
     accessorKey: "growth_span",
     header: "Growth Span",
     cell: ({ row }) => {
-      return `${row.original.growth_span} Months`;
+      if (row.original.growth_span === null) {
+        return "";
+      } else {
+        return `${row.original.growth_span} Months`;
+      }
     }
   },
 
@@ -69,6 +70,7 @@ export const columns: ColumnDef<ArchivedCrop>[] = [
         unarchiveCrop(crop.id);
         toast.success("Unarchived Successfully!");
       };
+      console.log(crop);
 
       return (
         <AlertDialog>
@@ -77,10 +79,10 @@ export const columns: ColumnDef<ArchivedCrop>[] = [
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
-              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+              <AlertDialogTitle>Unarchive this crop?</AlertDialogTitle>
               <AlertDialogDescription>
-                This action cannot be undone. Unarchiving the crop will
-                permanently restore it and can be use for reporting again.
+                Unarchiving the crop will restore its data and can be use for
+                reporting again.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>

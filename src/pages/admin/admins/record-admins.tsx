@@ -9,7 +9,7 @@ import TableAdminList from "../../../components/admin/admins/table-admin-list/ta
 import DialogCreateAdmin from "../../../components/admin/admins/dialog-create-admin/dialog-create-admin";
 import TableAdminDisabled from "@components/admin/admins/table-admin-disabled/table-admin-disabled";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/ui/tabs";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 const RecordAdmins: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();

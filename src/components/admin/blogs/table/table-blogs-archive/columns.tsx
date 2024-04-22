@@ -1,10 +1,9 @@
 import * as React from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@components/ui/button";
-import { Link, useNavigate } from "react-router-dom";
-import { EventDetails } from "../../../../../api/openapi";
+import { useNavigate } from "react-router-dom";
+import { Blog } from "../../../../../api/openapi";
 import Loader from "../../../../../icons/Loader";
-import usePutEventsUnarchieve from "../../../../../hooks/api/put/usePutEventsUnarchieve";
 import { toast } from "sonner";
 import { format } from "date-fns";
 import usePutBlogsUnarchive from "../../../../../hooks/api/put/usePutBlogsUnarchive";
@@ -19,34 +18,101 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger
 } from "../../../../ui/alert-dialog";
+import { ArrowUpDown } from "lucide-react";
 
-export const columns: ColumnDef<EventDetails>[] = [
+export const columns: ColumnDef<Blog>[] = [
   {
     accessorKey: "createdat",
-    header: "Created At",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          CREATED AT
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => format(new Date(row.original.createdat || ""), "PPP")
   },
   {
     accessorKey: "updatedat",
-    header: "Updated At",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          UPDATED AT
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => format(new Date(row.original.updatedat || ""), "PPP")
   },
   {
     accessorKey: "title",
-    header: "Title"
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          TITLE
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    }
   },
   {
     accessorKey: "author",
-    header: "Author"
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          AUTHOR
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    }
   },
   {
     accessorKey: "status",
-    header: "Status",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          STATUS
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => <div>{row.getValue("status")}</div>
+  },
+  {
+    accessorKey: "status",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          STATUS
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => <div>{row.getValue("status")}</div>
   },
   {
     id: "actions",
     enableHiding: false,
+    header: "Actions",
     cell: ({ row }) => {
       const material = row.original;
       const navigate = useNavigate();
@@ -68,9 +134,10 @@ export const columns: ColumnDef<EventDetails>[] = [
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
-              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+              <AlertDialogTitle>Unarchive this blog?</AlertDialogTitle>
               <AlertDialogDescription>
-                This action cannot be undone. This will unarchive this blog.
+                This action will unarchive this blog and going to be placed in
+                blog drafts.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>

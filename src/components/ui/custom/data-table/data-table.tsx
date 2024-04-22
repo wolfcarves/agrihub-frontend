@@ -43,7 +43,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="rounded-md border">
-      <div className="rounded-md w-full max-h-[63vh] overflow-auto custom-scroll">
+      <div className="rounded-md w-full ">
         <Table className="relative">
           <TableHeader className=" sticky top-0 uppercase font-semibold">
             {table.getHeaderGroups().map(headerGroup => (

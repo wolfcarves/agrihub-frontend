@@ -152,10 +152,10 @@ const FormAddProblem: React.FC<formProps> = ({ setIsOpen }) => {
               type="button"
               onClick={() => setIsOpen(false)}
             >
-              Close
+              Cancel
             </Button>
             <Button type="submit" disabled={addProblemLoading}>
-              Save
+              Submit
             </Button>
           </DialogFooter>
         </form>

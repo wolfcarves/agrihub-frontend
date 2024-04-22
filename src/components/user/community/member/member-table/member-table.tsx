@@ -1,14 +1,15 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { columns } from "./columns";
 import { DataTable } from "../../../../ui/custom/data-table/data-table";
-import { memberData } from "../../../../../constants/data";
 import Header from "./header";
 import useGetFarmMembersQuery from "../../../../../hooks/api/get/useGetFarmMembersQuery";
 const MemberTable = () => {
+  const { id } = useParams();
   const [search, setSearch] = useState<string>("");
   const [filter, setFilter] = React.useState<string>("member");
   const { data: MemberData } = useGetFarmMembersQuery({
+    id: id || "",
     search: search,
     page: "",
     perpage: undefined,

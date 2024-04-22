@@ -1,8 +1,8 @@
 import * as React from "react";
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 
-import { Button, buttonVariants } from "@components/ui/button";
+import { Button } from "@components/ui/button";
 
 import {
   DropdownMenu,
@@ -70,23 +70,54 @@ const addTagSchema = zod.object({
 export const columns: ColumnDef<Tag>[] = [
   {
     accessorKey: "createdat",
-    header: "Created At",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          CREATED AT
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) =>
       format(new Date(row.original.createdat || ""), "MMM dd, yyyy")
   },
   {
     accessorKey: "tag_name",
-    header: "Name",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          NAME
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => <div>{row.getValue("tag_name")}</div>
   },
   {
     accessorKey: "details",
-    header: "Detail",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          DETAIL
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => <div>{row.getValue("details")}</div>
   },
   {
     id: "actions",
     enableHiding: false,
+    header: "Actions",
     cell: ({ row }) => {
       const tag = row.original;
       const [isOpen, setIsOpen] = React.useState<boolean>();

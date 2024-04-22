@@ -1,7 +1,6 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { Input } from "../../../../ui/input";
 import { DataTable } from "../../../../ui/custom/data-table/data-table";
-import useGetEventsDraftList from "../../../../../hooks/api/get/useGetEventsDraftList";
 import { columns } from "./columns";
 import useGetEventPublishedListQuery from "../../../../../hooks/api/get/useGetEventPublishedListQuery";
 import useDebounce from "../../../../../hooks/utils/useDebounce";
@@ -32,6 +31,7 @@ const TableEventsPublished = () => {
 
   const debouncedSearch = useDebounce((value: string) => {
     searchParams.set("search", value);
+    searchParams.delete("page");
     setSearchParams(searchParams);
   }, 100);
 

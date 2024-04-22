@@ -1,7 +1,6 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { Input } from "@components/ui/input";
 import { columns } from "./columns";
-import useGetLearningPublishedList from "@hooks/api/get/useGetLearningPublishedList";
 import useDebounce from "@hooks/utils/useDebounce";
 import { DataTable } from "../../../ui/custom/data-table/data-table";
 import useGetRequestSeedlingListAll from "../../../../hooks/api/get/useGetRequestSeedlingListAll";
@@ -25,6 +24,7 @@ const TableSeedlingPending = () => {
 
   const debouncedSearch = useDebounce((value: string) => {
     searchParams.set("search", value);
+    searchParams.delete("page");
     setSearchParams(searchParams);
   }, 100);
 

@@ -7,6 +7,7 @@ import { useSearchParams } from "react-router-dom";
 import AdminFarmReportedProblems from "@components/admin/farms/table/reported-problems-table";
 import TableCommunityFarmActive from "../../../components/admin/community-farms/table-community-farm-active/table-community-farm-active";
 import TableCommunityFarmArchive from "../../../components/admin/community-farms/table-community-farm-archive/table-community-farm-archive";
+import TableCommunityFarmInactive from "../../../components/admin/community-farms/table-community-farm-inactive/table-community-farm-inactive";
 
 const breadcrumbItems = [
   {
@@ -34,8 +35,13 @@ const FarmCommunity = () => {
       <div className="flex justify-between items-center">
         <div>
           <h2 className="text-3xl font-bold tracking-tight">Community Farm</h2>
-          <p className="text-sm text-muted-foreground">
-            Manage all registered community in the system
+          <p className="text-sm text-muted-foreground w-11/12">
+            Facilitate community engagement and collaboration in sustainable
+            agriculture through community farms. Showcase local farming
+            initiatives, collaborative projects, and shared resources within the
+            community. Foster a sense of collective responsibility and
+            empowerment as members work together to cultivate and harvest crops,
+            promote food security, and support environmental stewardship.
           </p>
         </div>
       </div>
@@ -51,6 +57,9 @@ const FarmCommunity = () => {
           <TabsTrigger value="archived" onClick={() => setTab("archived")}>
             Archived
           </TabsTrigger>
+          <TabsTrigger value="inactive" onClick={() => setTab("inactive")}>
+            Inactive
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="active">
@@ -63,6 +72,9 @@ const FarmCommunity = () => {
 
         <TabsContent value="archived">
           <TableCommunityFarmArchive />
+        </TabsContent>
+        <TabsContent value="inactive">
+          <TableCommunityFarmInactive />
         </TabsContent>
       </Tabs>
     </AdminOutletContainer>

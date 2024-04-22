@@ -16,36 +16,86 @@ import { Input } from "@components/ui/input";
 import { Textarea } from "@components/ui/textarea";
 import { Badge } from "@components/ui/badge";
 import DialogToolCommunicate from "../dialog-tool-request/dialog-tool-communicate";
-import { formatDate } from "@components/lib/utils";
 import { ToolRequest } from "../../../../api/openapi";
 import { format } from "date-fns";
 import { formatSelectedOrganizations } from "../dialog-tool-request/dialog-tool-accept";
+import { ArrowUpDown } from "lucide-react";
 
 export const columns: ColumnDef<ToolRequest>[] = [
   {
-    accessorKey: "updatedAt",
-    header: "Updated At",
+    accessorKey: "updatedat",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          UPDATED AT
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) =>
       format(new Date(row.original.updatedat || ""), "MMM dd, yyyy")
   },
   {
     accessorKey: "tool_requested",
-    header: "Tool",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          TOOL
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => <div>{row.getValue("tool_requested")}</div>
   },
   {
     accessorKey: "farm_name",
-    header: "Requested by",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          REQUESTED BY
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => <div>{row.getValue("farm_name")}</div>
   },
   {
     accessorKey: "quantity_requested",
-    header: "Quantity Requested",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          QUANTITY REQUESTED
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => <div>{row.getValue("quantity_requested")}</div>
   },
   {
     accessorKey: "accepted_by",
-    header: "Accepted by",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          ACCEPTED BY
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => (
       <div className=" line-clamp-1">
         {formatSelectedOrganizations(row.original.accepted_by || [])}
@@ -54,13 +104,24 @@ export const columns: ColumnDef<ToolRequest>[] = [
   },
   {
     accessorKey: "status",
-    header: "Status",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          STATUS
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => (
       <div className=" capitalize">{row.getValue("status")}</div>
     )
   },
   {
     id: "actions",
+    header: "Actions",
     enableHiding: false,
     cell: ({ row }) => {
       const request = row.original;
@@ -76,7 +137,7 @@ export const columns: ColumnDef<ToolRequest>[] = [
       return (
         <div>
           <Dialog>
-            <DialogTrigger className="ml-2 px-2">
+            <DialogTrigger>
               <Button variant="outline" className="rounded-full">
                 View
               </Button>

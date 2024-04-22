@@ -36,8 +36,12 @@ const ToolReqeust = () => {
     <AdminOutletContainer className="container mx-auto py-10 ">
       <BreadCrumb items={breadcrumbItems} />
       <h2 className="text-3xl font-bold tracking-tight">Tool Request</h2>
-      <p className="text-sm text-muted-foreground">
-        Manage tool request of farms.
+      <p className="text-sm text-muted-foreground w-11/12">
+        Manage and process requests for agricultural tools and equipment to
+        support farming activities. Enable users to submit requests for specific
+        tools or machinery needed for their farming operations. Streamline the
+        request review and fulfillment process to ensure timely access to
+        essential resources, enhancing productivity and efficiency on the farm
       </p>
       <hr className="my-4" />
       <Tabs value={params.tab}>

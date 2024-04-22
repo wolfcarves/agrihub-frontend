@@ -1,6 +1,6 @@
 import * as React from "react";
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 
 import { Button } from "@components/ui/button";
 
@@ -9,33 +9,71 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@components/ui/dropdown-menu";
 import { FarmData } from "@api/openapi";
 import { useNavigate } from "react-router-dom";
-import { format } from "date-fns";
+import { formatDate } from "@components/lib/utils";
 
 export const columns: ColumnDef<FarmData>[] = [
   {
     accessorKey: "createdat",
-    header: "Created At",
-    cell: ({ row }) =>
-      format(new Date(row.original.createdat || ""), "MMM dd, yyyy")
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          CREATED AT
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => <div>{formatDate(row.getValue("createdat"))}</div>
   },
   {
     accessorKey: "farm_name",
-    header: "Farm",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          FARM
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => <div>{row.getValue("farm_name")}</div>
   },
   {
     accessorKey: "district",
-    header: "District",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          DISTRICT
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => <div>{row.getValue("district")}</div>
   },
   {
     accessorKey: "location",
-    header: "Location",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          LOCATION
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => <div>{row.getValue("location")}</div>
   },
   {
@@ -63,8 +101,6 @@ export const columns: ColumnDef<FarmData>[] = [
             >
               View
             </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Delete</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

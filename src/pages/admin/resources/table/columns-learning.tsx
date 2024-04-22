@@ -91,11 +91,7 @@ export const columns: ColumnDef<LearningMaterial>[] = [
     header: "Language",
     cell: ({ row }) => <div>{row.getValue("language")}</div>
   },
-  {
-    accessorKey: "tags",
-    header: "Tags",
-    cell: ({ row }) => <div>{row.getValue("tags").join(", ")}</div>
-  },
+
   {
     id: "actions",
     enableHiding: false,

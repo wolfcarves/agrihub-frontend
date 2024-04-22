@@ -1,12 +1,13 @@
 import AdminOutletContainer from "@components/admin/layout/container/AdminOutletContainer";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
-import React from "react";
+import React, { useMemo } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/ui/tabs";
 import CropsRegistered from "./crops-registered";
 import CropsOthers from "./crops-others";
 import BreadCrumb from "@components/ui/custom/breadcrumb/breadcrumb";
 import { Button } from "@components/ui/button";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
+import TableCropsArchived from "../../../../components/admin/website/crops/table/table-crops-archived/table-crops-archived";
 
 const breadcrumbItems = [
   {
@@ -16,25 +17,50 @@ const breadcrumbItems = [
 ];
 
 const CropsAdmin = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const params = useMemo(() => {
+    return {
+      tab: searchParams.get("tab") || "registered"
+    };
+  }, [searchParams]);
+
+  const setTab = (value: string) => {
+    searchParams.set("tab", value);
+    searchParams.delete("page");
+    setSearchParams(searchParams);
+  };
   return (
     <AdminOutletContainer>
       <BreadCrumb items={breadcrumbItems} />
       <div className="flex justify-between items-center">
         <div>
           <h2 className="text-3xl font-bold tracking-tight">Crops</h2>
-          <p className="text-sm text-muted-foreground">
-            Manage all registered and unregistered crops within the community
-          </p>
         </div>
         <Link to="/admin/website/crops/add">
           <Button>Register Crop</Button>
         </Link>
       </div>
+      <div className="w-11/12">
+        <p className="text-sm text-muted-foreground">
+          Provide comprehensive guidance on the optimal planting times and
+          conditions for various crops. Offer a detailed calendar outlining
+          planting schedules, recommended varieties, and cultivation tips.
+          Empower users with the knowledge they need to plan and manage their
+          crop production effectively throughout the year.
+        </p>
+      </div>
       <hr className="my-4" />
-      <Tabs defaultValue="registered">
+      <Tabs value={params.tab}>
         <TabsList>
-          <TabsTrigger value="registered">Registered</TabsTrigger>
-          <TabsTrigger value="others">Others</TabsTrigger>
+          <TabsTrigger value="registered" onClick={() => setTab("registered")}>
+            Registered
+          </TabsTrigger>
+          <TabsTrigger value="others" onClick={() => setTab("others")}>
+            Others
+          </TabsTrigger>
+          <TabsTrigger value="archive" onClick={() => setTab("archive")}>
+            Archived
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="registered">
@@ -43,6 +69,9 @@ const CropsAdmin = () => {
 
         <TabsContent value="others">
           <CropsOthers />
+        </TabsContent>
+        <TabsContent value="archive">
+          <TableCropsArchived />
         </TabsContent>
       </Tabs>
     </AdminOutletContainer>

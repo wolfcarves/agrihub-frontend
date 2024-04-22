@@ -99,7 +99,7 @@ const ApplicationDialog: React.FC<ReviewDialogProps> = ({ details }) => {
             <div className="">
               <Label className=" font-poppins-medium">Upload ID</Label>
 
-              <img className="h-20 w-20" src={details?.valid_id} />
+              <img className="h-20 " src={details?.valid_id} />
             </div>
           </div>
 
@@ -108,7 +108,7 @@ const ApplicationDialog: React.FC<ReviewDialogProps> = ({ details }) => {
 
             <div className="flex flex-wrap">
               {details?.farm_actual_images?.map((url, index) => (
-                <img key={index} src={url} className="h-20 w-20" />
+                <img key={index} src={url} className="h-20" />
               ))}
             </div>
           </div>

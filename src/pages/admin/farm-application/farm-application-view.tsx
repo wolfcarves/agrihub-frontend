@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useGetFarmApplication from "../../../hooks/api/get/useGetFarmApplication";
 import AdminOutletContainer from "../../../components/admin/layout/container/AdminOutletContainer";
 import { timeAgo } from "../../../components/lib/utils";
@@ -24,7 +24,18 @@ import {
 } from "@components/ui/dialog";
 import Autoplay from "embla-carousel-autoplay";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
-import { FaArrowLeftLong } from "react-icons/fa6";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger
+} from "../../../components/ui/alert-dialog";
+import BackButton from "@components/ui/custom/button/back-button";
 
 const FarmApplicationView = () => {
   const navigate = useNavigate();
@@ -56,15 +67,8 @@ const FarmApplicationView = () => {
 
   return (
     <AdminOutletContainer>
-      <div className="w-max">
-        <Link to="/admin/community/farms-application">
-          <span className="flex items-center gap-x-2 text-foreground font-poppins-semibold hover:underline hover:underline-offset-2 py-2.5 px-1.5 rounded-lg duration-200">
-            <FaArrowLeftLong /> Back
-          </span>
-        </Link>
-      </div>
-      <h2 className="text-3xl font-bold tracking-tight">
-        View Farm Applications
+      <h2 className="text-3xl font-bold flex gap-4 tracking-tight">
+        <BackButton /> View Farm Applications
       </h2>
       <div className="flex gap-4">
         <Card className="p-5 mt-8 w-full flex flex-wrap sm:flex-nowrap">
@@ -190,7 +194,7 @@ const FarmApplicationView = () => {
               <Input type="text" value={data?.proof} />
             </div>
             <div>
-              <Label>Size</Label>
+              <Label>Size(square meter)</Label>
               <Input type="text" value={data?.farm_size} />
             </div>
           </div>
@@ -207,10 +211,53 @@ const FarmApplicationView = () => {
           </div>
           {data?.status === "pending" ? (
             <div className="flex gap-4 mt-2 justify-end">
-              <Button onClick={handleRejectApplication} variant={"destructive"}>
-                Reject
-              </Button>
-              <Button onClick={handleAcceptApplication}>Accept</Button>
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button variant={"destructive"}>Reject</Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>
+                      Reject Farm Application?
+                    </AlertDialogTitle>
+                    <AlertDialogDescription>
+                      Rejecting this farm application ends the process
+                      permanently. Sure you want to reject?
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction
+                      className="bg-red-400"
+                      onClick={handleRejectApplication}
+                    >
+                      Continue
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button>Accept</Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>
+                      Accept Farm Application?
+                    </AlertDialogTitle>
+                    <AlertDialogDescription>
+                      This will allow the user to manage the farm it applies and
+                      will have a farm head access to its community.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction onClick={handleAcceptApplication}>
+                      Continue
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
             </div>
           ) : (
             ""

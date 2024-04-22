@@ -10,6 +10,7 @@ import UserReponsiveContainer from "../container/user-reponsive-container";
 import HeaderNotification from "../notification/header-notification";
 import UserHeaderMobileSidebar from "@components/ui/custom/sidebar/user-header-mobile-sidebar";
 import UserHeaderSearch from "./user-header-search";
+import InstallPWA from "../pwa/pwaInstall";
 
 const UserHeaderContainer = ({ children }: { children: ReactNode }) => (
   <div className="sticky top-0 w-full bg-background z-50 flex justify-center h-14 lg:h-20 border-b">
@@ -89,6 +90,7 @@ const UserHeader = () => {
       <UserHeaderNavigation />
 
       <div className="flex items-center gap-2 ps-3">
+        <InstallPWA />
         {isAuthenticated && <HeaderNotification />}
         {isAuthenticated ? <UserHeaderMenu /> : <AuthButtonsGroup />}
       </div>

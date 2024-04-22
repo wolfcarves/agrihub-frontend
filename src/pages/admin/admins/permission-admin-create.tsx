@@ -56,7 +56,7 @@ const PermissionAdminCreate = () => {
   }, []);
 
   useEffect(() => {
-    if (learningMaterials && events && blogs && cropsManagement) {
+    if (learningMaterials && events && blogs) {
       setAllowAll(true);
     } else {
       setAllowAll(false);

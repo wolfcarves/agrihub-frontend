@@ -3,7 +3,7 @@ import AdminOutletContainer from "@components/admin/layout/container/AdminOutlet
 import BreadCrumb from "../../../components/ui/custom/breadcrumb/breadcrumb";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/ui/tabs";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import TableSeedlingAccepted from "@components/admin/seedling-request/table-seedling-accepted/table-seedling-accepted";
 import TableSeedlingPending from "@components/admin/seedling-request/table-seedling-pending/table-seedling-pending";
 import TableSeedlingRejected from "@components/admin/seedling-request/table-seedling-rejected/table-seedling-rejected";
@@ -33,8 +33,12 @@ const SeedlingRequestAdmin = () => {
     <AdminOutletContainer className="container mx-auto py-10 ">
       <BreadCrumb items={breadcrumbItems} />
       <h2 className="text-3xl font-bold tracking-tight">Seedling Request</h2>
-      <p className="text-sm text-muted-foreground">
-        Manage seedling request of farms.
+      <p className="text-sm text-muted-foreground w-11/12">
+        Facilitate the process of requesting seedlings for planting purposes.
+        Allow users to submit requests for specific types of seedlings needed
+        for their agricultural activities. Streamline the request review and
+        fulfillment process to ensure timely delivery of quality seedlings,
+        supporting successful crop cultivation and sustainability efforts.
       </p>
       <hr className="my-4" />
       <Tabs value={params.tab}>

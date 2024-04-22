@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import AdminOutletContainer from "@components/admin/layout/container/AdminOutletContainer";
 import BreadCrumb from "../../../../components/ui/custom/breadcrumb/breadcrumb";
 
@@ -8,7 +8,7 @@ import TableLearningMaterial from "../../../../components/admin/learning-materia
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/ui/tabs";
 import TableLearningMaterialDraft from "@components/admin/learning-materials/tables/table-learning-material-draft/table-learning-material-draft";
 import TableLearningMaterialArchive from "@components/admin/learning-materials/tables/table-learning-material-archive/table-learning-material-archive";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 const breadcrumbItems = [
   { title: "Resource Management", link: "/admin/resources" },
@@ -36,8 +36,12 @@ const LearningsAdmin = () => {
         </h2>
         <DialogAddLearning />
       </div>
-      <p className="text-sm text-muted-foreground">
-        Manage all learning materials.
+      <p className="text-sm text-muted-foreground w-11/12">
+        Administer a repository of educational resources and materials to
+        support continuous learning and skill development. Curate a diverse
+        collection of tutorials, guides, and reference materials covering
+        various topics. Empower users with access to valuable learning resources
+        to enhance their knowledge and expertise.
       </p>
       <hr className="my-4" />
       <Tabs value={params.tab}>

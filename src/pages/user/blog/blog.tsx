@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import imageagri from "@assets/images/Ellipse-agrilogo.png";
 import { Link, useParams } from "react-router-dom";
 import {
   Carousel,
@@ -8,7 +7,6 @@ import {
 } from "@components/ui/carousel";
 import useGetBlogsPublishyIdQuery from "@hooks/api/get/useGetBlogsPublishyIdQuery";
 import parse from "html-react-parser";
-import LoadingSpinner from "@icons/LoadingSpinner";
 import useGetBlogsPublishList from "@hooks/api/get/useGetBlogsPublishListQuery";
 import Autoplay from "embla-carousel-autoplay";
 import SkeletonCard from "@components/ui/custom/skeleton/skeleton-card";
@@ -16,7 +14,7 @@ import { formatDate } from "@components/lib/utils";
 import SkeletonBlogView from "@components/user/blogs/skeleton/skeleton-blog-view";
 import useGetClientDetails from "@hooks/api/get/useGetClientDetails";
 import { IoIosArrowForward } from "react-icons/io";
-import { FaArrowLeftLong } from "react-icons/fa6";
+import BackButton from "@components/ui/custom/button/back-button";
 
 export const ellipsis = (text: string, maxLength: number): string => {
   if (text.length <= maxLength) {
@@ -50,15 +48,11 @@ const Blog = () => {
     useGetBlogsPublishList();
 
   return (
-    <>
+    <div className="mx-2">
       <div>
         <div className="mt-2">
-          <div className="my-4 sm:mx-8">
-            <Link to="/blogs">
-              <span className="flex items-center gap-x-2 text-foreground font-poppins-semibold hover:underline hover:underline-offset-2 py-2.5 px-1.5 rounded-lg duration-200">
-                <FaArrowLeftLong /> Back
-              </span>
-            </Link>
+          <div className="my-4 max-w-5xl w-full mx-auto font-bold flex items-center gap-4">
+            <BackButton title="back" />
           </div>
           {mainImage && (
             <img
@@ -194,7 +188,7 @@ const Blog = () => {
           </CarouselContent>
         </Carousel>
       </div>
-    </>
+    </div>
   );
 };
 

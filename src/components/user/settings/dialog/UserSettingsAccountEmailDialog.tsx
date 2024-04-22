@@ -15,6 +15,7 @@ import useUserSettingsConfirmPasswordMutation from "@hooks/api/post/useUserSetti
 import { toast } from "sonner";
 import LoadingSpinner from "@icons/LoadingSpinner";
 import useUserSettingsChangeEmailMutation from "@hooks/api/post/useUserSettingsChangeEmailMutation";
+import useAuth from "@hooks/useAuth";
 
 interface UserSettingsAccountEmailDialogProps {
   open?: boolean;
@@ -25,6 +26,10 @@ const UserSettingsAccountEmailDialog = ({
   open,
   onOpenChange
 }: UserSettingsAccountEmailDialogProps) => {
+  const { data } = useAuth()
+
+  const hasEmail = data?.email
+
   const confirmPasswordForm = useForm<ConfirmPasswordSchema>({
     mode: "onChange",
     reValidateMode: "onChange",
@@ -56,6 +61,11 @@ const UserSettingsAccountEmailDialog = ({
       await confirmPassword(data.password);
       setIsPasswordCorrect(true);
     } catch (err: any) {
+      if (err.body.message === "Email Already Exists") {
+        toast.error("Email is already linked to another account");
+        return;
+      }
+
       toast.error(err.body.message);
     }
   };
@@ -142,7 +152,7 @@ const UserSettingsAccountEmailDialog = ({
             Enter email address
           </DialogHeader>
 
-          <DialogDescription>Enter the replacing email</DialogDescription>
+          <DialogDescription>{hasEmail ? "Enter the replacing email" : "Enter email you want to link"}</DialogDescription>
 
           <form
             onSubmit={changeEmailForm.handleSubmit(handleChangeEmailForm)}
@@ -154,6 +164,7 @@ const UserSettingsAccountEmailDialog = ({
               </span>
 
               <Input
+                placeholder="Email address"
                 {...changeEmailForm.register("email")}
                 $errorMessage={changeEmailForm.formState?.errors.email?.message}
               />

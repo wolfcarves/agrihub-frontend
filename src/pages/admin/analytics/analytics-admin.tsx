@@ -48,15 +48,17 @@ const AnalyticsAdmin = () => {
               <img src={banner} className="rounded h-full w-full" />
               <Avatar className=" absolute top-[5.5rem] left-[4%] lg:h-[9.5rem] lg:w-[9.5rem] sm:h-[7.5rem] sm:w-[7.5rem] h-[5.5rem] w-[5.5rem]  border-[5px] border-white">
                 <AvatarImage
-                  src="https://github.com/shadcn.png"
+                  src={lowestGrowth && lowestGrowth[0]?.avatar}
                   alt="@shadcn"
                 />
-                <AvatarFallback>CN</AvatarFallback>
+                <AvatarFallback>
+                  {lowestGrowth && lowestGrowth[0]?.farm_name?.charAt(0, 1)}
+                </AvatarFallback>
               </Avatar>
-              <div className="absolute top-[10.4rem] right-[10%] uppercase text-3xl font-poppins-bold text-white">
+              <div className="absolute md:top-[10.4rem] top-[6.5rem] right-[10%] uppercase md:text-3xl text-xl font-poppins-bold text-white">
                 {lowestGrowth && lowestGrowth[0]?.farm_name}
               </div>
-              <div className="absolute bottom-[2.5rem] right-[8%] uppercase text-3xl font-poppins-bold text-white">
+              <div className="absolute bottom-[2.5rem] right-[8%] uppercase md:text-3xl text-xl font-poppins-bold text-white">
                 {lowestGrowth &&
                   Number(lowestGrowth[0].avg_growth_rate).toFixed(2)}
                 %

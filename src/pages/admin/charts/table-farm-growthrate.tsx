@@ -33,11 +33,12 @@ const TableFarmGrowthrate = () => {
       <div className="flex justify-between flex-wrap sm:flex-nowrap">
         <div>
           <h2 className="text-xl font-bold tracking-tight ">
-            Farms Growth Rate
+            Top 5 Farms With {sort === "desc" ? "Highest" : "Lowest"} Growth
+            Rate
           </h2>
-          <p className="text-xs text-gray-400">
+          {/* <p className="text-xs text-gray-400">
             Click the dots to view the growth rate summary of that month
-          </p>
+          </p> */}
         </div>
         <div className="flex gap-4 justify-end">
           <Select

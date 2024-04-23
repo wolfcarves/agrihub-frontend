@@ -105,7 +105,7 @@ const BarHarvestWithered = () => {
     labels: harvestDistribution?.map(item => item.farm_name),
     datasets: [
       {
-        label: "Growth Rate",
+        label: "Harvest",
         data: harvestDistribution?.map(item => item.percentage_distribution),
         backgroundColor: ["rgba(183, 235, 199, 1)"]
       }

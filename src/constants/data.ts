@@ -216,6 +216,11 @@ export const farmType = [
 ];
 
 export const chartColor: string[] = [
+  "#21C45D",
+  "#FF4069",
+  "#059BFF",
+  "#FF9F40",
+  "#FFC234",
   "#e91e63",
   "#9c27b0",
   "#673ab7",

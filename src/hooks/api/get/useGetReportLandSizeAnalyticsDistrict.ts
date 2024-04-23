@@ -13,7 +13,9 @@ interface GraphProps {
 
   limit?: number;
 }
-export default function useGetReportLandSizeAnalyticsQuery(data: GraphProps) {
+export default function useGetReportLandSizeAnalyticsDistrict(
+  data: GraphProps
+) {
   return useQuery({
     queryKey: [
       GET_REPORT_LAND_SIZE_ANALYTICS_DISTRICT(),

@@ -13,6 +13,7 @@ import {
 } from "../../../ui/select";
 import { district } from "../../../../constants/data";
 import useGetReportInactiveFarmList from "../../../../hooks/api/get/useGetReportInactiveFarmList";
+import { Pagination } from "../../../ui/custom";
 type SortValues =
   | "All"
   | "District 1"
@@ -31,8 +32,11 @@ const TableCommunityFarmInactive = () => {
       sortBy: searchParams.get("sortBy") as SortValues
     };
   }, [searchParams]);
-  const { data: farmData } = useGetReportInactiveFarmList();
-  console.log(farmData, "asdasd");
+  const { data: farmData, isLoading } = useGetReportInactiveFarmList({
+    perpage: "10",
+    page: String(params.currentPage),
+    search: params.search
+  });
 
   const debouncedSearch = useDebounce((value: string) => {
     searchParams.set("search", value);
@@ -69,15 +73,15 @@ const TableCommunityFarmInactive = () => {
           </SelectContent>
         </Select>
       </div>
-      <DataTable columns={columns} data={farmData || []} />
-      {/* {farmData?.pagination?.total_pages !== 1 && (
+      <DataTable columns={columns} data={farmData?.data || []} />
+      {farmData?.pagination?.total_pages !== 1 && (
         <div className="mt-4">
           <Pagination
             totalPages={Number(farmData?.pagination?.total_pages)}
             isLoading={isLoading}
           />
         </div>
-      )} */}
+      )}
     </div>
   );
 };

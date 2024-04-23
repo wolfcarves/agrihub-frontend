@@ -11,13 +11,19 @@ import useGetReportGrowthRateMonthly from "../../../hooks/api/get/useGetReportGr
 import useGetReportGrowthRateDistribution from "../../../hooks/api/get/useGetReportGrowthRateDistribution";
 import { Card } from "../../../components/ui/card";
 import { ChartOptions } from "chart.js";
+import PieProblems from "./pie-problem";
 
 const GrowthRateLineChartAnalytics = () => {
   const chartRef = useRef();
-  const [selectedYear, setSelectedYear] = useState<string>("2024");
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
+  const currentMonth = currentDate.getMonth() + 1;
+
+  const [selectedYear, setSelectedYear] = useState<string>(String(currentYear));
   const [startMonth, setStartMonth] = useState<string>("1");
+  const [endMonth, setEndMonth] = useState<string>(String(currentMonth));
   const [activeLabel, setActiveLabel] = useState<string>("");
-  const [endMonth, setEndMonth] = useState<string>("12");
+
   const { data: growthMonthly, isLoading } = useGetReportGrowthRateMonthly({
     year: selectedYear,
     start: startMonth,
@@ -59,7 +65,9 @@ const GrowthRateLineChartAnalytics = () => {
     datasets: [
       {
         label: "Growth Rate",
-        data: Object.values(growthMonthly || {}),
+        data: Object.values(growthMonthly || {}).map(value =>
+          Number(value).toFixed(2)
+        ),
         borderColor: "rgb(46, 139, 87)",
         backgroundColor: "rgba(46, 139, 87, 0.5)",
         pointRadius: 5,
@@ -86,12 +94,42 @@ const GrowthRateLineChartAnalytics = () => {
       y: {
         beginAtZero: true
       }
+    },
+    plugins: {
+      datalabels: {
+        display: "auto",
+        color: "#1F51FF",
+        anchor: "end" as "end",
+        align: "top" as "top"
+      }
     }
   };
   const optionsBar: ChartOptions<"bar"> = {
     responsive: true,
     maintainAspectRatio: false,
-    indexAxis: "y"
+    indexAxis: "y",
+    scales: {
+      y: {
+        display: false,
+        ticks: {
+          display: false
+        }
+      },
+      x: { display: false }
+    },
+    plugins: {
+      datalabels: {
+        anchor: "start",
+        align: "end",
+        formatter: function (value, context) {
+          if (context.chart.data.labels) {
+            return `${context?.chart?.data?.labels[
+              context.dataIndex
+            ]} - ${value}`;
+          }
+        }
+      }
+    }
   };
 
   const onClick = (event: MouseEvent<HTMLCanvasElement>) => {
@@ -110,67 +148,95 @@ const GrowthRateLineChartAnalytics = () => {
 
   return (
     <>
-      <Card className="p-5">
-        <div className="flex justify-between flex-wrap sm:flex-nowrap">
-          <div>
-            <h2 className="text-xl font-bold tracking-tight ">
-              Farms Growth Rate
-            </h2>
-            <p className="text-xs text-gray-400">
-              Click the dots to view the growth rate summary of that month
-            </p>
-          </div>
-          <div className="flex gap-4 justify-end">
-            <Select onValueChange={e => handleChangeYear(e)}>
-              <SelectTrigger className="w-auto">
-                <SelectValue placeholder="Year" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="2024">2024</SelectItem>
-                <SelectItem value="2023">2023</SelectItem>
-              </SelectContent>
-            </Select>
+      <div className="grid grid-cols-12 gap-4">
+        <Card className="col-span-12 md:col-span-8 p-5">
+          <div className="flex justify-between flex-wrap sm:flex-nowrap">
+            <div>
+              <h2 className="text-xl font-bold tracking-tight ">
+                Farms Growth Rate
+              </h2>
+              <p className="text-xs text-gray-400">
+                Click the dots to view the growth rate summary of that month
+              </p>
+            </div>
+            <div className="flex gap-4 justify-end">
+              <Select
+                onValueChange={e => handleChangeYear(e)}
+                defaultValue={selectedYear}
+              >
+                <SelectTrigger className="w-auto">
+                  <SelectValue placeholder="Year" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="2024">2024</SelectItem>
+                  <SelectItem value="2023">2023</SelectItem>
+                </SelectContent>
+              </Select>
 
-            <Select onValueChange={e => handleChangeStartMonth(e)}>
-              <SelectTrigger className="w-auto">
-                <SelectValue placeholder="Month From" />
-              </SelectTrigger>
-              <SelectContent>
-                {months.map(month => (
-                  <SelectItem key={month.value} value={month.value}>
-                    {month.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+              <Select
+                onValueChange={e => handleChangeStartMonth(e)}
+                defaultValue={startMonth}
+              >
+                <SelectTrigger className="w-auto">
+                  <SelectValue placeholder="Month From" />
+                </SelectTrigger>
+                <SelectContent>
+                  {months
+                    .slice(
+                      0,
+                      String(currentYear) === selectedYear
+                        ? Number(currentMonth)
+                        : 12
+                    )
+                    .map(month => (
+                      <SelectItem key={month.value} value={month.value}>
+                        {month.label}
+                      </SelectItem>
+                    ))}
+                </SelectContent>
+              </Select>
 
-            <Select onValueChange={e => handleChangeEndMonth(e)}>
-              <SelectTrigger className="w-auto">
-                <SelectValue placeholder="Month To" />
-              </SelectTrigger>
-              <SelectContent>
-                {months.map(month => (
-                  <SelectItem
-                    key={month.value}
-                    value={month.value}
-                    onClick={() => handleChangeEndMonth(month.value)}
-                  >
-                    {month.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+              <Select
+                onValueChange={e => handleChangeEndMonth(e)}
+                defaultValue={endMonth}
+              >
+                <SelectTrigger className="w-auto">
+                  <SelectValue placeholder="Month To" />
+                </SelectTrigger>
+                <SelectContent>
+                  {months
+                    .slice(
+                      0,
+                      String(currentYear) === selectedYear
+                        ? Number(currentMonth)
+                        : 12
+                    )
+                    .map(month => (
+                      <SelectItem
+                        key={month.value}
+                        value={month.value}
+                        onClick={() => handleChangeEndMonth(month.value)}
+                      >
+                        {month.label}
+                      </SelectItem>
+                    ))}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
-        </div>
-        <div className=" h-[350px] mt-4">
-          <Line
-            ref={chartRef}
-            onClick={onClick}
-            data={data}
-            options={options}
-          />
-        </div>
-      </Card>
+          <div className=" h-[350px] mt-4">
+            <Line
+              ref={chartRef}
+              onClick={onClick}
+              data={data}
+              options={options}
+            />
+          </div>
+        </Card>
+        <Card className="col-span-12 md:col-span-4  p-5">
+          <PieProblems />
+        </Card>
+      </div>
       {Number(growthDistribution?.length || 0) > 0 && (
         <Card className={` mt-4 p-5 duration-300`}>
           <h2 className="text-lg font-bold tracking-tight ">

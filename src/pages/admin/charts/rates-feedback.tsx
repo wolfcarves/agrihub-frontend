@@ -64,7 +64,7 @@ const RatesFeedback = () => {
         </div>
       </div>
 
-      <div className="space-y-2">
+      <div className="space-y-3 mt-2">
         {ratings.map((rating, index) => (
           <div key={index} className="flex items-center">
             <p className="text-base text-gray-700 font-bold">{rating.value}</p>

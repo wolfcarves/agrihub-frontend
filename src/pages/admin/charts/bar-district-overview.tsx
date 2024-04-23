@@ -51,7 +51,7 @@ const BarDistrictOverview = () => {
         Harvest each district
       </h2>
 
-      <div className="h-96 mt-4">
+      <div className="h-[350px] mt-4">
         <Bar data={data} options={options} />
       </div>
     </>

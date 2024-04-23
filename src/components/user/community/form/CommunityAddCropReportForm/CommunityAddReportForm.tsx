@@ -196,7 +196,6 @@ const CommunityAddCropReportForm = () => {
       image: data.image,
       is_first_report: cropId ? "" : "true"
     };
-    console.log(compiledData);
 
     try {
       await cropReportMutate(compiledData);
@@ -248,7 +247,7 @@ const CommunityAddCropReportForm = () => {
               render={() => (
                 <InputNumber
                   className="h-9 rounded-md"
-                  suffix={" pcs"}
+                  suffix={" pieces"}
                   onChange={value =>
                     form.setValue("planted_qty", Number(value))
                   }
@@ -264,7 +263,7 @@ const CommunityAddCropReportForm = () => {
             <Label>Planted Quantity</Label>
             <Input
               type="text"
-              value={`${CropReport?.planted_qty} pcs`}
+              value={`${CropReport?.planted_qty} pieces`}
               disabled
               className="h-9 rounded-md"
             />
@@ -310,7 +309,7 @@ const CommunityAddCropReportForm = () => {
             render={() => (
               <InputNumber
                 className="h-9 rounded-md"
-                suffix={" pcs"}
+                suffix={" pieces"}
                 onChange={value =>
                   form.setValue("harvested_qty", Number(value))
                 }
@@ -322,14 +321,14 @@ const CommunityAddCropReportForm = () => {
           </FormMessage>
         </div>
         <div className="md:col-span-6 col-span-12">
-          <Label>Withered Crops</Label>
+          <Label>Withered Plant</Label>
           <FormField
             control={form.control}
             name="withered_crops"
             render={() => (
               <InputNumber
                 className="h-9 rounded-md"
-                suffix={" pcs"}
+                suffix={" pieces"}
                 onChange={value =>
                   form.setValue("withered_crops", Number(value))
                 }
@@ -350,7 +349,7 @@ const CommunityAddCropReportForm = () => {
             render={() => (
               <InputNumber
                 className="h-9 rounded-md"
-                suffix={" kg"}
+                suffix={" kilogram"}
                 onChange={value => form.setValue("kilogram", value)}
               />
             )}

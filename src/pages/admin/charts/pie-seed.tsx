@@ -51,7 +51,11 @@ const PieSeed = () => {
     }
   };
 
-  return <Doughnut data={data} options={options} />;
+  return (
+    <div className=" h-[350px]">
+      <Doughnut data={data} options={options} />
+    </div>
+  );
 };
 
 export default PieSeed;

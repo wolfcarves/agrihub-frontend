@@ -106,7 +106,7 @@ const BarHarvestWithered = () => {
     datasets: [
       {
         label: "Harvest",
-        data: harvestDistribution?.map(item => item.percentage_distribution),
+        data: harvestDistribution?.map(item => item.farm_harvest_qty),
         backgroundColor: ["rgba(183, 235, 199, 1)"]
       }
     ]
@@ -199,7 +199,7 @@ const BarHarvestWithered = () => {
   return (
     <>
       <div className=" grid grid-cols-12 gap-4">
-        <Card className={`p-5 col-span-12 md:col-span-8`}>
+        <Card className={`p-5 col-span-12 lg:col-span-8`}>
           <div className="flex flex-col justify-between flex-wrap ">
             <div>
               <h2 className="text-lg font-bold tracking-tight ">
@@ -284,30 +284,35 @@ const BarHarvestWithered = () => {
             />
           </div>
         </Card>
-        <Card className="col-span-12 md:col-span-4  p-5">
+        <Card className="col-span-12 lg:col-span-4 lg:block hidden p-5">
+          <PieSeed />
+        </Card>
+        {Number(cropDistribution?.length || 0) > 0 && (
+          <>
+            <Card className="p-5 lg:col-span-7 col-span-12">
+              <h2 className="text-lg font-bold tracking-tight ">
+                Crops Distribution
+              </h2>
+              <div
+                className={`h-[350px] mt-4 duration-300 flex flex-col gap-1`}
+              >
+                <Line data={lineData} options={optionsLine} />
+              </div>
+            </Card>
+            <Card className={` p-5 duration-300 lg:col-span-5 col-span-12`}>
+              <h2 className="text-lg font-bold tracking-tight ">
+                Farm Harvest Distribution
+              </h2>
+              <div className="h-[350px]">
+                <Bar data={dataHarvest} options={optionsBar} />
+              </div>
+            </Card>
+          </>
+        )}
+        <Card className="col-span-12 lg:col-span-4 block lg:hidden p-5">
           <PieSeed />
         </Card>
       </div>
-      {Number(cropDistribution?.length || 0) > 0 && (
-        <div className=" grid grid-cols-12 gap-4 mt-4 col-span-12">
-          <Card className="p-5 lg:col-span-7 col-span-12">
-            <h2 className="text-lg font-bold tracking-tight ">
-              Crops Distribution
-            </h2>
-            <div className={`h-[350px] mt-4 duration-300 flex flex-col gap-1`}>
-              <Line data={lineData} options={optionsLine} />
-            </div>
-          </Card>
-          <Card className={` p-5 duration-300 lg:col-span-5 col-span-12`}>
-            <h2 className="text-lg font-bold tracking-tight ">
-              Farm Harvest Distribution
-            </h2>
-            <div className="h-[350px]">
-              <Bar data={dataHarvest} options={optionsBar} />
-            </div>
-          </Card>
-        </div>
-      )}
     </>
   );
 };

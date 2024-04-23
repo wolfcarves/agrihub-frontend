@@ -125,7 +125,7 @@ const DougnutLandsizeAnalytics = () => {
 
   return (
     <div className=" grid grid-cols-12 gap-4">
-      <Card className={`p-5 col-span-12 md:col-span-4`}>
+      <Card className={`p-5 col-span-12 lg:col-span-4`}>
         <div>
           <h2 className="text-lg font-bold tracking-tight ">
             Total Land Size Per District
@@ -144,7 +144,7 @@ const DougnutLandsizeAnalytics = () => {
         </div>
       </Card>
       {district && (
-        <Card className={`p-5 col-span-12 md:col-span-8`}>
+        <Card className={`p-5 col-span-12 lg:col-span-8`}>
           <h2 className="text-lg font-bold tracking-tight ">
             Land Size Per Farm
           </h2>

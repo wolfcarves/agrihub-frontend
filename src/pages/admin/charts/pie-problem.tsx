@@ -50,7 +50,11 @@ const PieProblems = () => {
     }
   };
 
-  return <Pie data={data} options={options} />;
+  return (
+    <div className=" h-[350px]">
+      <Pie data={data} options={options} />
+    </div>
+  );
 };
 
 export default PieProblems;

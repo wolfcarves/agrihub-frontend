@@ -78,10 +78,10 @@ const AnalyticsAdmin = () => {
             <BarDistrictOverview />
           </Card>
           <div className="grid grid-cols-12 gap-4">
-            <Card className="p-5 col-span-12 md:col-span-8">
+            <Card className="p-5 col-span-12 lg:col-span-8">
               <TableFarmGrowthrate />
             </Card>
-            <Card className="col-span-12 md:col-span-4 p-5">
+            <Card className="col-span-12 lg:col-span-4 p-5">
               {/* favourite crops */}
               <div className="">
                 <div className="flex justify-between items-center mb-2">

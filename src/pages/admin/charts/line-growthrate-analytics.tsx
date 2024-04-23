@@ -100,7 +100,10 @@ const GrowthRateLineChartAnalytics = () => {
         display: "auto",
         color: "#1F51FF",
         anchor: "end" as "end",
-        align: "top" as "top"
+        align: "top" as "top",
+        formatter: function (value: any) {
+          return ` ${value} %`;
+        }
       }
     }
   };
@@ -125,7 +128,7 @@ const GrowthRateLineChartAnalytics = () => {
           if (context.chart.data.labels) {
             return `${context?.chart?.data?.labels[
               context.dataIndex
-            ]} - ${value}`;
+            ]} - ${value} %`;
           }
         }
       }
@@ -149,7 +152,7 @@ const GrowthRateLineChartAnalytics = () => {
   return (
     <>
       <div className="grid grid-cols-12 gap-4">
-        <Card className="col-span-12 md:col-span-8 p-5">
+        <Card className="col-span-12 lg:col-span-8 p-5">
           <div className="flex justify-between flex-wrap sm:flex-nowrap">
             <div>
               <h2 className="text-xl font-bold tracking-tight ">
@@ -224,7 +227,7 @@ const GrowthRateLineChartAnalytics = () => {
               </Select>
             </div>
           </div>
-          <div className=" h-[350px] mt-4">
+          <div className=" h-[350px] mt-4 ">
             <Line
               ref={chartRef}
               onClick={onClick}
@@ -233,20 +236,23 @@ const GrowthRateLineChartAnalytics = () => {
             />
           </div>
         </Card>
-        <Card className="col-span-12 md:col-span-4  p-5">
+        <Card className="col-span-12 lg:col-span-4 lg:block hidden p-5">
+          <PieProblems />
+        </Card>
+        {Number(growthDistribution?.length || 0) > 0 && (
+          <Card className={` col-span-12 mt-4 p-5 duration-300`}>
+            <h2 className="text-lg font-bold tracking-tight ">
+              Crops Growth Rate Distribution
+            </h2>
+            <div className="h-[350px]">
+              <Bar data={dataGrowth} options={optionsBar} />
+            </div>
+          </Card>
+        )}
+        <Card className="col-span-12 lg:col-span-4 lg:hidden block p-5">
           <PieProblems />
         </Card>
       </div>
-      {Number(growthDistribution?.length || 0) > 0 && (
-        <Card className={` mt-4 p-5 duration-300`}>
-          <h2 className="text-lg font-bold tracking-tight ">
-            Crops Growth Rate Distribution
-          </h2>
-          <div className="h-[350px]">
-            <Bar data={dataGrowth} options={optionsBar} />
-          </div>
-        </Card>
-      )}
     </>
   );
 };

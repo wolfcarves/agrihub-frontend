@@ -1,6 +1,6 @@
 import React from "react";
 import useGetReportPiechartQuery from "../../../../hooks/api/get/useGetReportPiechartQuery";
-import { Pie } from "react-chartjs-2";
+import { Doughnut, Pie } from "react-chartjs-2";
 import { chartColor } from "../../../../constants/data";
 
 const PiechartCropsQuantity = () => {
@@ -16,7 +16,7 @@ const PiechartCropsQuantity = () => {
     },
     plugins: {
       datalabels: {
-        display: "auto",
+        display: false,
         color: "rgba(228, 241, 254, 1)",
         anchor: "end" as "end",
         align: "start" as "start",
@@ -41,7 +41,7 @@ const PiechartCropsQuantity = () => {
     <>
       <h5 className="font-poppins-medium">Crops Quantity</h5>
       <div className="h-[400px]  ">
-        <Pie data={pieData} options={chartOptions} />
+        <Doughnut data={pieData} options={chartOptions} />
       </div>
     </>
   );

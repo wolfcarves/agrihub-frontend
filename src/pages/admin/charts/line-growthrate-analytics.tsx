@@ -80,7 +80,7 @@ const GrowthRateLineChartAnalytics = () => {
     labels: growthDistribution?.map(item => item.crop_name),
     datasets: [
       {
-        label: "Growth Rate",
+        label: "Distribution",
         data: growthDistribution?.map(item => item.percentage_distribution),
         backgroundColor: ["rgba(183, 235, 199, 1)"]
       }

@@ -215,7 +215,7 @@ month,
 page,
 perpage,
 filter,
-sort,
+order,
 }: {
 /**
  * ID of the farm
@@ -241,10 +241,7 @@ perpage?: string,
  * Array of filters
  */
 filter?: Array<string>,
-/**
- * Sorting parameter
- */
-sort?: string,
+order?: 'asc' | 'desc',
 }): CancelablePromise<CommunityCropReportsResponse> {
         return __request(OpenAPI, {
             method: 'GET',
@@ -258,7 +255,7 @@ sort?: string,
                 'page': page,
                 'perpage': perpage,
                 'filter': filter,
-                'sort': sort,
+                'order': order,
             },
             errors: {
                 400: `Validation Error`,
@@ -280,7 +277,7 @@ search,
 page,
 perpage,
 filter,
-sort,
+order,
 }: {
 /**
  * ID of the farm
@@ -302,10 +299,7 @@ perpage?: string,
  * Array of filters
  */
 filter?: Array<string>,
-/**
- * Sorting parameter
- */
-sort?: string,
+order?: 'asc' | 'desc',
 }): CancelablePromise<CommunityCropReportsResponse> {
         return __request(OpenAPI, {
             method: 'GET',
@@ -318,7 +312,7 @@ sort?: string,
                 'page': page,
                 'perpage': perpage,
                 'filter': filter,
-                'sort': sort,
+                'order': order,
             },
             errors: {
                 400: `Validation Error`,

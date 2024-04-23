@@ -194,9 +194,12 @@ const CommunityAddCropReportForm = () => {
       date_harvested: concatPresentTime(data.date_harvested || ""),
       notes: data.notes,
       image: data.image,
-      is_first_report: cropId ? "" : "true"
+      is_first_report: cropId ? "" : "true",
+      report_id: cropId
     };
-
+    if (!cropId) {
+      delete compiledData.report_id;
+    }
     try {
       await cropReportMutate(compiledData);
       toast.success("Report Submitted Successfully!");

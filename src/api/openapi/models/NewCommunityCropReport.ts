@@ -16,5 +16,6 @@ export type NewCommunityCropReport = {
     notes?: string;
     is_first_report?: string;
     kilogram?: string;
+    report_id?: string;
     image?: Array<Blob>;
 };

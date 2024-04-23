@@ -81,7 +81,7 @@ const DougnutLandsizeAnalytics = () => {
           if (context.chart.data.labels) {
             return `${context?.chart?.data?.labels[
               context.dataIndex
-            ]} - ${value}`;
+            ]} - ${value} sqm`;
           }
         }
       }
@@ -92,7 +92,7 @@ const DougnutLandsizeAnalytics = () => {
     labels: farmLand?.map(item => item.farm_name),
     datasets: [
       {
-        label: "Growth Rate",
+        label: "Land Size",
         data: farmLand?.map(item => item.size),
         backgroundColor: ["rgba(183, 235, 199, 1)"]
       }

@@ -70,8 +70,8 @@ const GrowthRateLineChartAnalytics = () => {
         ),
         borderColor: "rgb(46, 139, 87)",
         backgroundColor: "rgba(46, 139, 87, 0.5)",
-        pointRadius: 5,
-        pointHoverRadius: 8,
+        pointRadius: 7,
+        pointHoverRadius: 10,
         tension: 0.2
       }
     ]
@@ -93,6 +93,14 @@ const GrowthRateLineChartAnalytics = () => {
     scales: {
       y: {
         beginAtZero: true
+      }
+    },
+    onHover: (event: any, chartElement: any) => {
+      if (chartElement.length === 1) {
+        event.native.target.style.cursor = "pointer";
+      }
+      if (chartElement.length === 0) {
+        event.native.target.style.cursor = "default";
       }
     },
     plugins: {

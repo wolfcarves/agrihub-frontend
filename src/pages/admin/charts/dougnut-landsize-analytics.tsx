@@ -44,6 +44,14 @@ const DougnutLandsizeAnalytics = () => {
         display: false
       }
     },
+    onHover: (event: any, chartElement: any) => {
+      if (chartElement.length === 1) {
+        event.native.target.style.cursor = "pointer";
+      }
+      if (chartElement.length === 0) {
+        event.native.target.style.cursor = "default";
+      }
+    },
     plugins: {
       datalabels: {
         display: "auto",

@@ -91,6 +91,16 @@ const BarHarvestWithered = () => {
         beginAtZero: true
       }
     },
+    onHover: (event: any, chartElement: any) => {
+      // console.log(event);
+      // console.log(chartElement);
+      if (chartElement.length === 1) {
+        event.native.target.style.cursor = "pointer";
+      }
+      if (chartElement.length === 0) {
+        event.native.target.style.cursor = "default";
+      }
+    },
     plugins: {
       datalabels: {
         display: "auto",

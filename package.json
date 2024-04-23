@@ -88,6 +88,7 @@
     "react-spinners": "^0.13.8",
     "react-svg": "^16.1.29",
     "react-tagsinput": "^3.20.3",
+    "react-to-print": "^2.15.1",
     "react-top-loading-bar": "^2.3.1",
     "slick-carousel": "^1.8.1",
     "socket.io-client": "^4.7.4",

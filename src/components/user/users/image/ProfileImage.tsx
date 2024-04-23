@@ -16,6 +16,7 @@ import { MONTHS } from "@pages/user/planting-calendar/planting-calendar";
 import { Skeleton } from "@components/ui/skeleton";
 import { RiCake2Fill } from "react-icons/ri";
 import { IoIosPerson } from "react-icons/io";
+import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/avatar";
 
 interface ProfileImageProps {
   isLoading?: boolean;
@@ -90,19 +91,19 @@ const ProfileImage = ({
   };
 
   const handleRemovePhoto = async () => {
-    toast.info("You can't remove your photo at the meantime.");
+    try {
+      await updateUserProfile({
+        id: user?.data?.id ?? "",
+        formData: {
+          avatar: undefined
+        }
+      });
 
-    // try {
-    //   const res = await updateUserProfile({
-    //     id: user?.data?.id ?? "",
-    //     formData: {
-    //       avatar: undefined
-    //     }
-    //   });
-    //   console.log(res.message);
-    // } catch (error: any) {
-    //   console.log(error.body.message);
-    // }
+      toast.error("Photo removed");
+    } catch (error: any) {
+      console.log(error.body.message);
+      toast.error(error.body.message);
+    }
   };
 
   return (
@@ -118,10 +119,14 @@ const ProfileImage = ({
               setIsPopOverOpen(prev => !prev);
             }}
           >
-            <img
-              src={avatar}
-              className="w-[10rem] aspect-square absolute inset-0 object-cover object-center group-hover:brightness-110 "
-            />
+            <Avatar className="w-full h-full">
+              <AvatarImage
+                src={avatar}
+                className="w-full aspect-square absolute inset-0 object-cover object-center group-hover:brightness-110 "
+              />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
+
             {isOwn && (
               <input
                 ref={imageRef}
@@ -307,6 +312,7 @@ const ProfileImage = ({
                     className="flex gap-3 items-center h-full text-sm hover:bg-black/10 rounded-md p-2"
                     onClick={() => {
                       handleRemovePhoto();
+                      setIsPopOverOpen(prev => !prev);
                     }}
                   >
                     <FaRegTrashCan className="text-lg w-5" />

@@ -52,7 +52,7 @@ const AnalyticsAdmin = () => {
                   alt="@shadcn"
                 />
                 <AvatarFallback>
-                  {lowestGrowth && lowestGrowth[0]?.farm_name?.charAt(0, 1)}
+                  {lowestGrowth && lowestGrowth[0]?.farm_name?.charAt(1)}
                 </AvatarFallback>
               </Avatar>
               <div className="absolute md:top-[10.4rem] top-[6.5rem] right-[10%] uppercase md:text-3xl text-xl font-poppins-bold text-white">

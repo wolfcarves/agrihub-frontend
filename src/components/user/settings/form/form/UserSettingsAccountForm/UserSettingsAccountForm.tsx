@@ -29,13 +29,13 @@ const UserSettingsAccountForm = () => {
               Change
             </Button>
           ) : (
-            <Button variant="outline" size="sm" className="rounded-full px-5">
+            <Button variant="outline" size="sm" className="rounded-full px-5" onClick={() => setIsEmailDialogOpen(prev => !prev)}>
               Link
             </Button>
           )
         }
-        // errMessage={fieldState.error?.message}
-        // {...field}
+      // errMessage={fieldState.error?.message}
+      // {...field}
       />
 
       <hr />
@@ -53,7 +53,10 @@ const UserSettingsAccountForm = () => {
               variant="outline"
               size="sm"
               className="rounded-full px-5"
-              onClick={e => e.preventDefault()}
+              onClick={e => {
+                e.preventDefault()
+                setIsPhoneLinkDiaglogOpen(true)
+              }}
             >
               Change
             </Button>
@@ -62,17 +65,19 @@ const UserSettingsAccountForm = () => {
               variant="outline"
               size="sm"
               className="rounded-full px-5"
-              onClick={() => setIsPhoneLinkDiaglogOpen(prev => !prev)}
-            >
+              onClick={e => {
+                e.preventDefault()
+                setIsPhoneLinkDiaglogOpen(true)
+              }}            >
               Link
             </Button>
           )
         }
-        // errMessage={fieldState.error?.message}
-        // {...field}
+      // errMessage={fieldState.error?.message}
+      // {...field}
       />
 
-      <hr />
+      {/* <hr />
 
       <h5 className="font-poppins-semibold text-destructive">Danger Zone</h5>
 
@@ -92,9 +97,9 @@ const UserSettingsAccountForm = () => {
             Delete
           </Button>
         }
-        // errMessage={fieldState.error?.message}
-        // {...field}
-      />
+      // errMessage={fieldState.error?.message}
+      // {...field}
+      /> */}
 
       <UserSettingsAccountEmailDialog
         open={isEmailDiaglogOpen}

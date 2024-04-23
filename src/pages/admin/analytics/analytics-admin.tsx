@@ -39,7 +39,7 @@ const AnalyticsAdmin = () => {
                 src={banner}
                 className="rounded h-full w-full object-fill object-center"
               />
-              <Avatar className=" absolute top-[5.5rem] left-[4%] lg:h-[9.5rem] lg:w-[9.5rem] sm:h-[7.5rem] sm:w-[7.5rem] h-[5.5rem] w-[5.5rem]  border-[5px] border-white">
+              <Avatar className=" absolute top-[26%] left-[4%] lg:h-[12.5rem] lg:w-[12.5rem] sm:h-[7.5rem] sm:w-[7.5rem] h-[5.5rem] w-[5.5rem]  border-[5px] border-white">
                 <AvatarImage
                   src={lowestGrowth && lowestGrowth[0]?.avatar}
                   alt="@shadcn"

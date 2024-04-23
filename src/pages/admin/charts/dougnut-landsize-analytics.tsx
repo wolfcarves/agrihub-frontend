@@ -16,6 +16,7 @@ const DougnutLandsizeAnalytics = () => {
     | "District 6"
     | undefined
   >();
+
   const chartRef = useRef();
 
   const { data: farmLand } = useGetReportLandSizeAnalyticsDistrict({
@@ -142,14 +143,16 @@ const DougnutLandsizeAnalytics = () => {
           />
         </div>
       </Card>
-      <Card className={`p-5 col-span-12 md:col-span-8`}>
-        <h2 className="text-lg font-bold tracking-tight ">
-          Land Size Per Farm
-        </h2>
-        <div className="h-[350px]">
-          <Bar data={dataSize} options={optionsBar} />
-        </div>
-      </Card>
+      {district && (
+        <Card className={`p-5 col-span-12 md:col-span-8`}>
+          <h2 className="text-lg font-bold tracking-tight ">
+            Land Size Per Farm
+          </h2>
+          <div className="h-[350px]">
+            <Bar data={dataSize} options={optionsBar} />
+          </div>
+        </Card>
+      )}
     </div>
   );
 };

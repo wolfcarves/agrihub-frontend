@@ -9,6 +9,8 @@ export type CommunityFarmProblem = {
     date_noticed?: string;
     date_solved?: string;
     status?: string;
+    is_helpful?: boolean;
+    feedback?: string;
     problem?: string;
     description?: string;
 };

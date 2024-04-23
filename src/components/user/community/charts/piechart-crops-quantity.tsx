@@ -10,7 +10,20 @@ const PiechartCropsQuantity = () => {
     maintainAspectRatio: false,
     scales: {
       y: {
-        beginAtZero: true
+        beginAtZero: true,
+        display: false
+      }
+    },
+    plugins: {
+      datalabels: {
+        display: "auto",
+        color: "rgba(228, 241, 254, 1)",
+        anchor: "end" as "end",
+        align: "start" as "start",
+        offset: 8,
+        font: {
+          weight: "bold" as "bold"
+        }
       }
     }
   };

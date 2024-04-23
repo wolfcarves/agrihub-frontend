@@ -25,6 +25,17 @@ import { toast } from "sonner";
 import usePutCrops from "@hooks/api/put/usePutCrops";
 import useCropCreate from "@hooks/api/post/useCropsCreate";
 import { Checkbox } from "@components/ui/checkbox";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger
+} from "../../../../ui/alert-dialog";
 
 const CropsForm = () => {
   const { cropId } = useParams();
@@ -170,7 +181,7 @@ const CropsForm = () => {
   console.log(form.formState.errors, "errorss");
 
   return (
-    <div>
+    <>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(handleSubmitForm)}
@@ -406,14 +417,35 @@ const CropsForm = () => {
           )}
           {/* add crop button */}
           <div className="flex justify-end my-8">
-            <Button variant="default" type="submit" disabled={isCropLoading}>
-              Confirm
-            </Button>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button>Confirm</Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>
+                    Are you want to register for this crop?
+                  </AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Please confirm by clicking 'Continue' or 'Cancel' to abort.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction
+                    disabled={isCropLoading || isCropsLoading}
+                    onClick={form.handleSubmit(handleSubmitForm)}
+                  >
+                    Continue
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </div>
           <Loader isVisible={isCropLoading} />
         </form>
       </Form>
-    </div>
+    </>
   );
 };
 

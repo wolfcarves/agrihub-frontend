@@ -8,7 +8,6 @@ import StatsGrowthRate from "../../../../components/user/community/charts/stats-
 import LinechartGrowthHarvest from "../../../../components/user/community/charts/linechart-growth-harvest";
 import PiechartCropsQuantity from "../../../../components/user/community/charts/piechart-crops-quantity";
 import BarchartHarvest from "../../../../components/user/community/charts/barchart-harvest";
-
 Chart.register(...registerables);
 
 const Analytics = () => {

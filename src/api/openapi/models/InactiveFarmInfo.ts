@@ -3,7 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type FarmInactiveDetails = {
+export type InactiveFarmInfo = {
     /**
      * The ID of the inactive farm
      */
@@ -17,7 +17,7 @@ export type FarmInactiveDetails = {
      */
     last_report_date?: string;
     /**
-     * The number of months since the last report was submitted for the farm
+     * The number of months since the last report
      */
     months_since_last_report?: string;
 };

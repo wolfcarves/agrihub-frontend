@@ -3,6 +3,10 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { FarmInactiveDetails } from './FarmInactiveDetails';
+import type { InactiveFarmInfo } from './InactiveFarmInfo';
+import type { PaginationData } from './PaginationData';
 
-export type InactiveFarmReport = Array<FarmInactiveDetails>;
+export type InactiveFarmReport = {
+    data?: Array<InactiveFarmInfo>;
+    pagination?: PaginationData;
+};

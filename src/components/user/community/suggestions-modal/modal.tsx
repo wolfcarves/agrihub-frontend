@@ -23,7 +23,7 @@ const SuggestionsModal = () => {
         <IoIosWarning className="text-xl text-red-500" />
         <p className="text-white text-xs">
           Action Needed: Average Growth Rate Dips Below 85% -{" "}
-          <span className="hover:underline underline-offset-3">
+          <span className="underline underline-offset-3">
             Click here for Immediate Solutions and Contribute Your Insights.
           </span>
         </p>

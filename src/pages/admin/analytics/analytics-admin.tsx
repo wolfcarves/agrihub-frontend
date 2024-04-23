@@ -26,7 +26,7 @@ import GrowthRateLineChartAnalytics from "../charts/line-growthrate-analytics";
 import FallbackImg from "@assets/images/agrihub-leaves.png";
 import TableFarmGrowthrate from "../charts/table-farm-growthrate";
 import DougnutLandsizeAnalytics from "../charts/dougnut-landsize-analytics";
-import banner from "@assets/images/admin-banner.png";
+import banner from "@assets/images/ForAnalytics.webp";
 import {
   Avatar,
   AvatarFallback,
@@ -45,7 +45,10 @@ const AnalyticsAdmin = () => {
         <div className=" col-span-12 lg:col-span-12 flex flex-col gap-y-4">
           <div className=" grid grid-cols-12  gap-4">
             <div className="col-span-12 lg:col-span-8 md:h-[350px] h-[250px] rounded border border-border relative">
-              <img src={banner} className="rounded h-full w-full" />
+              <img
+                src={banner}
+                className="rounded h-full w-full object-fill object-center"
+              />
               <Avatar className=" absolute top-[5.5rem] left-[4%] lg:h-[9.5rem] lg:w-[9.5rem] sm:h-[7.5rem] sm:w-[7.5rem] h-[5.5rem] w-[5.5rem]  border-[5px] border-white">
                 <AvatarImage
                   src={lowestGrowth && lowestGrowth[0]?.avatar}

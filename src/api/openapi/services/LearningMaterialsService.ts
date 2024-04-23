@@ -471,6 +471,7 @@ search,
 page,
 perpage,
 filter,
+sortBy,
 }: {
 /**
  * Search query string (optional)
@@ -485,6 +486,7 @@ page?: string,
  */
 perpage?: string,
 filter?: 'Tagalog' | 'English' | 'Tagalog and English',
+sortBy?: 'asc' | 'desc',
 }): CancelablePromise<ListPublishedLearningMaterialsResponse> {
         return __request(OpenAPI, {
             method: 'GET',
@@ -494,6 +496,7 @@ filter?: 'Tagalog' | 'English' | 'Tagalog and English',
                 'page': page,
                 'perpage': perpage,
                 'filter': filter,
+                'sortBy': sortBy,
             },
             errors: {
                 400: `Validation Error`,

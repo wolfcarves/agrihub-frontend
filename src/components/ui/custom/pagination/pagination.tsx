@@ -61,7 +61,7 @@ const Pagination = ({
     return <></>;
   }
 
-  if (totalPages === 0) return <></>;
+  if (totalPages === 1) return <></>;
 
   return (
     <>

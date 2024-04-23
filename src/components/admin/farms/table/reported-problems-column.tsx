@@ -15,6 +15,8 @@ import { DialogHeader } from "../../../ui/custom/dialog/dialog";
 import { Switch } from "../../../ui/switch";
 import { Label } from "../../../ui/label";
 import { Textarea } from "../../../ui/textarea";
+import { Input } from "../../../ui/input";
+import { format } from "date-fns";
 
 export const columns: ColumnDef<CommunityFarmProblem>[] = [
   {
@@ -85,9 +87,7 @@ export const columns: ColumnDef<CommunityFarmProblem>[] = [
 
                 <form className="grid gap-4">
                   <div className="flex items-center gap-3">
-                    <Switch
-                    // checked={helpful}
-                    />
+                    <Switch checked={Boolean(item.is_helpful)} />
                     <Label className=" font-poppins-medium">Helpful?</Label>
                   </div>
                   <div className="flex flex-col gap-1">
@@ -97,9 +97,19 @@ export const columns: ColumnDef<CommunityFarmProblem>[] = [
                     <Textarea
                       placeholder="Input a feedback"
                       className="col-span-3 focus-visible:ring-0"
-                      // value={feedback}
-                      // onChange={e => setFeedback(e.target.value)}
-                      required
+                      value={item.feedback}
+                      readOnly
+                    />
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    <Label htmlFor="title" className=" font-poppins-medium">
+                      Date Solved
+                    </Label>
+                    <Input
+                      placeholder="Input a feedback"
+                      className="col-span-3 focus-visible:ring-0"
+                      value={format(new Date(item.date_solved || ""), "PPP")}
+                      readOnly
                     />
                   </div>
 

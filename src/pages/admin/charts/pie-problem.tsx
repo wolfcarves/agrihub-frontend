@@ -32,7 +32,7 @@ const PieProblems = () => {
     plugins: {
       title: {
         display: true,
-        text: "Farm Problems",
+        text: "Seedling Request",
         font: {
           size: 14
         }

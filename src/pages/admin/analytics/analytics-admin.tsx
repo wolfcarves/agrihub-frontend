@@ -12,21 +12,11 @@ import { GiPlantRoots } from "react-icons/gi";
 import useGetReportAdminGrowthrate from "../../../hooks/api/get/useGetReportAdminGrowthrate";
 import useGetReportFavouriteCrops from "../../../hooks/api/get/useGetReportFavouriteCrops";
 import BarDistrictOverview from "../charts/bar-district-overview";
-import PieSeed from "../charts/pie-seed";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from "@components/ui/select";
-import PieProblems from "../charts/pie-problem";
 import RatesFeedback from "../charts/rates-feedback";
 import GrowthRateLineChartAnalytics from "../charts/line-growthrate-analytics";
-import FallbackImg from "@assets/images/agrihub-leaves.png";
 import TableFarmGrowthrate from "../charts/table-farm-growthrate";
 import DougnutLandsizeAnalytics from "../charts/dougnut-landsize-analytics";
-import banner from "@assets/images/ForAnalytics.webp";
+import banner from "@assets/images/ForAnalytics-2.webp";
 import {
   Avatar,
   AvatarFallback,
@@ -61,7 +51,7 @@ const AnalyticsAdmin = () => {
               <div className="absolute md:top-[10.4rem] top-[6.5rem] right-[10%] uppercase md:text-3xl text-xl font-poppins-bold text-white">
                 {lowestGrowth && lowestGrowth[0]?.farm_name}
               </div>
-              <div className="absolute bottom-[2.5rem] right-[8%] uppercase md:text-3xl text-xl font-poppins-bold text-white">
+              <div className="absolute bottom-[5.5rem] right-[10%] uppercase md:text-3xl text-xl font-poppins-bold text-white">
                 {lowestGrowth &&
                   Number(lowestGrowth[0].avg_growth_rate).toFixed(2)}
                 %

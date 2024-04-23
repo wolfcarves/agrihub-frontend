@@ -389,6 +389,17 @@ const BarHarvestWithered = () => {
               <div className="h-[350px]">
                 <Bar data={dataHarvest} options={optionsBar} />
               </div>
+              <p className="text-xs text-gray-400 mt-1">
+                The{" "}
+                <span className=" text-primary">
+                  {harvestDistribution && harvestDistribution[0].farm_name}
+                </span>{" "}
+                has the highest harvest of this month with a harvest value of{" "}
+                <span className=" text-primary">
+                  {harvestDistribution &&
+                    harvestDistribution[0].farm_harvest_qty}
+                </span>
+              </p>
             </Card>
           </>
         )}

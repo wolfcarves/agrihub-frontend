@@ -272,3 +272,31 @@ export function removeTimeFromDate(dateString: string) {
   const parts = dateString.split("T");
   return parts[0];
 }
+
+export function formatMonth(monthNumber: string): string | null {
+  // Parse the monthNumber to integer
+  const monthNum = parseInt(monthNumber);
+
+  // Array containing month names
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ];
+
+  // Check if the input is a valid month number
+  if (monthNum >= 1 && monthNum <= 12) {
+    return months[monthNum - 1];
+  } else {
+    return null;
+  }
+}

@@ -9,28 +9,10 @@ import {
 } from "@components/ui/dropdown-menu";
 import { Button } from "@components/ui/button";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
-import {
-  AdminUser,
-  FarmApplicationData,
-  LearningMaterial,
-  SeedlingRequestListItem
-} from "@api/openapi";
-import { Link, useNavigate } from "react-router-dom";
+import { AdminUser } from "@api/openapi";
+import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger
-} from "@components/ui/dialog";
-import { Label } from "@components/ui/label";
-import { Input } from "@components/ui/input";
-import { Textarea } from "@components/ui/textarea";
-import { Badge } from "@components/ui/badge";
-import { useState } from "react";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -45,21 +27,52 @@ import {
 import useUserUnbanUserMutation from "../../../../../hooks/api/post/useUserUnbanUserMutation";
 import { toast } from "sonner";
 import Loader from "../../../../../icons/Loader";
+import { formatRoles } from "@components/lib/utils";
 
 export const columns: ColumnDef<AdminUser>[] = [
   {
     accessorKey: "createdat",
-    header: "Created At",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          CREATED AT
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => format(new Date(row.original.createdat || ""), "PPP")
   },
   {
     accessorKey: "username",
-    header: "Username",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          USERNAME
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => <div>{row.getValue("username")}</div>
   },
   {
     accessorKey: "fullName",
-    header: "Full Name",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          FULL NAME
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => (
       <div>{`${row.original.firstname} ${row.original.lastname}`}</div>
     )
@@ -67,12 +80,25 @@ export const columns: ColumnDef<AdminUser>[] = [
 
   {
     accessorKey: "role",
-    header: "Role",
-    cell: ({ row }) => <div className=" capitalize">{row.getValue("role")}</div>
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          ROLE
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => (
+      <div className=" capitalize">{formatRoles(row.getValue("role"))}</div>
+    )
   },
   {
     id: "actions",
     enableHiding: false,
+    header: "Actions",
     cell: ({ row }) => {
       const user = row.original;
       const navigate = useNavigate();

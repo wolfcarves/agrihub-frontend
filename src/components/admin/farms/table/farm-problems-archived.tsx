@@ -1,6 +1,5 @@
 import React, { useMemo } from "react";
 import { columns } from "@pages/admin/farms/table/columns-farm-problems";
-import { Card } from "@components/ui/card";
 import { Input } from "@components/ui/input";
 import { DataTable } from "@components/ui/custom/data-table/data-table";
 import { useQuery } from "@tanstack/react-query";
@@ -37,6 +36,7 @@ const FarmProblemsArchived = () => {
         page: String(page)
       });
       searchParams.set("search", search);
+      searchParams.delete("page");
       setSearchParams(searchParams);
       return data;
     },
@@ -45,6 +45,7 @@ const FarmProblemsArchived = () => {
 
   const handleSearch = useDebounce((search: string) => {
     searchParams.set("search", search);
+    searchParams.delete("page");
     setSearchParams(searchParams);
   }, 700);
 

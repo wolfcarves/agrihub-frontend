@@ -6,7 +6,6 @@ import { Input } from "../../../../ui/input";
 import { Textarea } from "../../../../ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { cropAddReportSchema } from "./schema";
 import { NewCommunityCropReport } from "../../../../../api/openapi";
 import MultiImageUpload from "../../multi-image-input/multi-image-input";
 import { toast } from "sonner";
@@ -20,6 +19,8 @@ import Loader from "../../../../../icons/Loader";
 import { concatPresentTime, removeTimeFromDate } from "../../../../lib/utils";
 import { useSelector } from "../../../../../redux/store";
 import useGetReportCropListView from "../../../../../hooks/api/get/useGetReportCropListView";
+import InputNumber from "../../../../ui/custom/input/input-number";
+import * as zod from "zod";
 
 const CommunityAddCropReportForm = () => {
   const navigate = useNavigate();
@@ -31,6 +32,59 @@ const CommunityAddCropReportForm = () => {
   // const existingCropData = useSelector(state => state.existingCrop);
   // console.log(existingCropData);
   // const [check, setCheck] = useState<CheckedState>(false);
+
+  const cropAddReportSchema = zod.object({
+    crop_id: zod.string().optional(),
+    planted_qty: cropId
+      ? zod.coerce
+          .number({
+            required_error: "Please provide a planted quantity"
+          })
+          .min(0, "Planted quantity must be at least 1")
+          .max(10000, "Planted quantity cannot exceed 10,000")
+          .optional()
+      : zod.coerce
+          .number({
+            required_error: "Please provide a planted quantity"
+          })
+          .min(0, "Planted quantity must be at least 1")
+          .max(10000, "Planted quantity cannot exceed 10,000"),
+    is_other: zod.boolean().optional(),
+    isyield: zod.boolean().optional(),
+    c_name: zod.string().optional(),
+    harvested_qty: zod.coerce
+      .number({
+        required_error: "Please provide a harvested quantity"
+      })
+      .min(0, "Harvested quantity must be at least 1")
+      .max(10000, "Harvested quantity cannot exceed 10,000"),
+    withered_crops: zod.coerce
+      .number({
+        required_error: "Please provide a withered quantity"
+      })
+      .min(0, "Withered quantity must be at least 0")
+      .max(10000, "Withered quantity cannot exceed 10,000"),
+    kilogram: zod.coerce
+      .number({
+        required_error: "Please provide a kilogram"
+      })
+      .min(0, "Kilogram must be at least 0")
+      .max(100000, "Kilogram cannot exceed 100,000"),
+    date_planted: cropId
+      ? zod.string().min(0, { message: "Planted date is Required" }).optional()
+      : zod.string().min(0, { message: "Planted date is Required" }),
+    date_harvested: zod
+      .string()
+      .min(1, { message: "Harvest date is Required" }),
+    notes: zod.string().min(1, { message: "Notes is Required" }),
+    image: zod.any().refine((files: Blob[]) => {
+      if (!files || files.length === 0) {
+        return false;
+      }
+
+      return true;
+    }, "Please upload at least one image of your farm.")
+  });
 
   const [isCrop, setIsCrop] = useState<boolean>(true);
   const [isYield, setIsYield] = useState<boolean>(true);
@@ -134,7 +188,9 @@ const CommunityAddCropReportForm = () => {
       harvested_qty: data.harvested_qty,
       withered_crops: data.withered_crops,
       kilogram: data.kilogram,
-      date_planted: concatPresentTime(data.date_planted || ""),
+      date_planted: cropId
+        ? CropReport?.date_planted
+        : concatPresentTime(data.date_planted || ""),
       date_harvested: concatPresentTime(data.date_harvested || ""),
       notes: data.notes,
       image: data.image,
@@ -148,17 +204,16 @@ const CommunityAddCropReportForm = () => {
       navigate(-1);
     } catch (error: any) {
       toast.error(error.body.message);
-      console.log(error.body);
     }
   };
-  // console.log(form.formState.errors);
+  console.log(form.formState.errors);
 
   const todayDate = format(new Date(), "yyyy-MM-dd");
-  console.log(form.formState.errors);
 
   if (isLoading) {
     return <Loader isVisible={true} />;
   }
+  console.log(form.watch("withered_crops"));
 
   return (
     <Form {...form}>
@@ -184,19 +239,35 @@ const CommunityAddCropReportForm = () => {
             )}
           />
         </div>
-        {!cropId && (
+        {!cropId ? (
           <div className="md:col-span-6 col-span-12">
             <Label>Planted Quantity</Label>
-            <Input
-              {...form.register("planted_qty")}
-              type="number"
-              className="h-9 rounded-md"
-              min={0}
-              max={10000}
+            <FormField
+              control={form.control}
+              name="planted_qty"
+              render={() => (
+                <InputNumber
+                  className="h-9 rounded-md"
+                  suffix={" pcs"}
+                  onChange={value =>
+                    form.setValue("planted_qty", Number(value))
+                  }
+                />
+              )}
             />
             <FormMessage>
               {form.formState.errors.planted_qty?.message}
             </FormMessage>
+          </div>
+        ) : (
+          <div className="md:col-span-6 col-span-12">
+            <Label>Planted Quantity</Label>
+            <Input
+              type="text"
+              value={`${CropReport?.planted_qty} pcs`}
+              disabled
+              className="h-9 rounded-md"
+            />
           </div>
         )}
         {!isCrop && (
@@ -233,12 +304,18 @@ const CommunityAddCropReportForm = () => {
 
         <div className="md:col-span-6 col-span-12">
           <Label>Harvested Quantity</Label>
-          <Input
-            {...form.register("harvested_qty")}
-            type="number"
-            max={10000}
-            min={0}
-            className="h-9 rounded-md"
+          <FormField
+            control={form.control}
+            name="harvested_qty"
+            render={() => (
+              <InputNumber
+                className="h-9 rounded-md"
+                suffix={" pcs"}
+                onChange={value =>
+                  form.setValue("harvested_qty", Number(value))
+                }
+              />
+            )}
           />
           <FormMessage>
             {form.formState.errors.harvested_qty?.message}
@@ -246,37 +323,50 @@ const CommunityAddCropReportForm = () => {
         </div>
         <div className="md:col-span-6 col-span-12">
           <Label>Withered Crops</Label>
-          <Input
-            {...form.register("withered_crops")}
-            type="number"
-            className="h-9 rounded-md"
-            min={0}
-            max={10000}
+          <FormField
+            control={form.control}
+            name="withered_crops"
+            render={() => (
+              <InputNumber
+                className="h-9 rounded-md"
+                suffix={" pcs"}
+                onChange={value =>
+                  form.setValue("withered_crops", Number(value))
+                }
+              />
+            )}
           />
+
           <FormMessage>
             {form.formState.errors.withered_crops?.message}
           </FormMessage>
         </div>
         <div className="md:col-span-6 col-span-12">
           <Label>Harvested Kilogram</Label>
-          <Input
-            {...form.register("kilogram")}
-            type="number"
-            className="h-9 rounded-md"
-            min={0}
-            max={10000}
+
+          <FormField
+            control={form.control}
+            name="kilogram"
+            render={() => (
+              <InputNumber
+                className="h-9 rounded-md"
+                suffix={" kg"}
+                onChange={value => form.setValue("kilogram", value)}
+              />
+            )}
           />
           <FormMessage>{form.formState.errors.kilogram?.message}</FormMessage>
         </div>
+
         <div className="md:col-span-6 col-span-12">
           <Label>Planted Date</Label>
           <Input
             {...form.register("date_planted")}
             type="date"
             defaultValue={removeTimeFromDate(CropReport?.date_planted || "")}
-            className="h-9 rounded-md disabled:opacity-90"
+            className="h-9 rounded-md "
             max={todayDate}
-            readOnly={cropId ? true : false}
+            disabled={cropId ? true : false}
           />
           <FormMessage>
             {form.formState.errors.date_planted?.message}

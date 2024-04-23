@@ -126,7 +126,7 @@ const ReviewDialog: React.FC<ReviewDialogProps> = ({
             <div className="">
               <Label className=" font-poppins-medium">Upload ID</Label>
 
-              <img className="h-20 w-20" src={previewUrl} />
+              <img className="h-20 " src={previewUrl} />
             </div>
           </div>
 
@@ -135,7 +135,7 @@ const ReviewDialog: React.FC<ReviewDialogProps> = ({
 
             <div className="flex flex-wrap">
               {previewUrlArray?.map((url, index) => (
-                <img key={index} src={url} className="h-20 w-20" />
+                <img key={index} src={url} className="h-20" />
               ))}
             </div>
           </div>

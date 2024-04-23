@@ -107,7 +107,7 @@ export const columns: ColumnDef<ToolRequest>[] = [
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
-                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogTitle>Cancel seedling request?</AlertDialogTitle>
                 <AlertDialogDescription>
                   This action cannot be undone. This action will cancel your
                   seedling request.

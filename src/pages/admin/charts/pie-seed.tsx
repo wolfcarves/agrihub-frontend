@@ -1,7 +1,8 @@
 import React from "react";
-import { Pie } from "react-chartjs-2";
+import { Doughnut, Pie } from "react-chartjs-2";
 import useGetRequestCountGraph from "../../../hooks/api/get/useGetRequestCountGraph";
 import useGetReportAnalyticsPiechart from "../../../hooks/api/get/useGetReportAnalyticsPiechart";
+import { chartColor } from "../../../constants/data";
 
 const PieSeed = () => {
   const { data: requestCount } = useGetReportAnalyticsPiechart();
@@ -15,7 +16,7 @@ const PieSeed = () => {
           requestCount?.seedling_requests,
           requestCount?.pending_seedling_requests
         ],
-        backgroundColor: ["rgb(210, 227, 200)", "rgb(79, 111, 82)"]
+        backgroundColor: chartColor.map(color => color)
       }
     ]
   };
@@ -25,7 +26,8 @@ const PieSeed = () => {
     maintainAspectRatio: false,
     scales: {
       y: {
-        beginAtZero: true
+        beginAtZero: true,
+        display: false
       }
     },
     plugins: {
@@ -35,11 +37,21 @@ const PieSeed = () => {
         font: {
           size: 14
         }
+      },
+      datalabels: {
+        display: "auto",
+        color: "rgba(228, 241, 254, 1)",
+
+        offset: 8,
+        font: {
+          weight: "bold" as "bold",
+          size: 14
+        }
       }
     }
   };
 
-  return <Pie data={data} options={options} />;
+  return <Doughnut data={data} options={options} />;
 };
 
 export default PieSeed;

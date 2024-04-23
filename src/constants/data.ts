@@ -177,21 +177,50 @@ export const district6: string[] = [
   "Talipapa"
 ];
 
-export const ownership: string[] = [
-  "Private Property",
-  "Public Property",
-  "Goverment Property"
+export const ownership = [
+  {
+    title: "Private Property",
+    description: "Owned by individuals or companies."
+  },
+  {
+    title: "Public Property",
+    description: "Owned collectively or by the government."
+  },
+  {
+    title: "Goverment Property",
+    description: "Owned and managed by the government."
+  }
 ];
 
-export const farmType: string[] = [
-  "Rooftop Gardens/Farm",
-  "Community Farm",
-  "School Farm",
-  "Urban Market Farm",
-  "Backyard  Garden/Farm"
+export const farmType = [
+  {
+    title: "Rooftop Gardens/Farm",
+    description: "Farms located on building rooftops."
+  },
+  {
+    title: "Community Farm",
+    description: "Farms managed by a local community."
+  },
+  {
+    title: "School Farm",
+    description: "Farms operated by educational institutions "
+  },
+  {
+    title: "Urban Market Farm",
+    description: "Farms in urban areas supplying to local markets."
+  },
+  {
+    title: "Backyard  Garden/Farm",
+    description: "Farms in residential areas for personal use."
+  }
 ];
 
 export const chartColor: string[] = [
+  "#21C45D",
+  "#FF4069",
+  "#059BFF",
+  "#FF9F40",
+  "#FFC234",
   "#e91e63",
   "#9c27b0",
   "#673ab7",

@@ -17,7 +17,7 @@ import {
   MdOutlineReport,
   MdOutlineUpload
 } from "react-icons/md";
-import { RiSeedlingLine } from "react-icons/ri";
+import { RiDropboxLine, RiSeedlingLine } from "react-icons/ri";
 import { TbReportAnalytics } from "react-icons/tb";
 import {
   Accordion,
@@ -28,6 +28,7 @@ import {
 import SolutionIllustration from "@icons/community/SolutionIllustration";
 import CommunityIllustration from "@icons/community/CommunityIllustration";
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
+import ToolIllustration from "@icons/community/ToolIllustration";
 
 const ScrollToSectionButton: React.FC<{
   targetRef: React.RefObject<HTMLDivElement>;
@@ -394,6 +395,38 @@ const CommunityLanding = () => {
 
               <div className="flex justify-center mt-5 sm:w-1/2 mx-auto lg:mt-0">
                 <SolutionIllustration />
+              </div>
+            </div>
+          </section>
+
+          {/* Tool reqeust  */}
+          <section className="relative max-w-screen-xl mx-auto py-4 px-4 md:px-8 my-16">
+            <div className="relative z-10 gap-5 items-center sm:flex justify-between">
+              <div className="flex-1 sm:mx-auto sm:text-center lg:max-w-max lg:text-left">
+                {/* Icons */}
+                <RiDropboxLine className="h-16 w-16 p-1 text-green-600" />
+                {/* Header */}
+                <h3 className="text-3xl text-gray-800 font-semibold md:text-4xl">
+                  Humingi <span className="text-green-600">ng kagamitan</span>
+                </h3>
+                {/* Subheader */}
+                <p className="text-gray-500 leading-relaxed mt-3">
+                  Ang isang community o farm ay maaring magpadala ng request
+                  upang makakuha ng kinakailangang materyales para sa
+                  pagpapayabong ng isang urban farm.
+                </p>
+                <hr className="my-4" />
+                {/* Description */}
+                <p className="text-gray-500 leading-relaxed mt-3">
+                  Punan ang pangangailangan ng iyong urban farm sa pamamagitan
+                  ng pag-send ng request sa Agrihub upang humingi ng mga
+                  materyales at kagamitan na maaring makatulong sa
+                  pang-araw-araw na gawain sa iyong Urban Farm.
+                </p>
+              </div>
+
+              <div className="flex justify-center mt-5 sm:w-1/2 mx-auto lg:mt-0">
+                <ToolIllustration />
               </div>
             </div>
           </section>

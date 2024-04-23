@@ -31,6 +31,7 @@ import { toast } from "sonner";
 import useFarmAssignHeadMutation from "../../../../../hooks/api/post/useFarmAssignHeadMutation";
 import useFarmUnassignHeadMutation from "../../../../../hooks/api/post/useFarmUnassignHeadMutation";
 import { useState } from "react";
+import useAuth from "../../../../../hooks/useAuth";
 
 export const columns: ColumnDef<FarmMember>[] = [
   {
@@ -47,6 +48,12 @@ export const columns: ColumnDef<FarmMember>[] = [
       );
     },
     cell: ({ row }) => {
+      const { data: useDAta } = useAuth();
+      if (useDAta?.id === row.original.id) {
+        return (
+          <div className="text-green-700">{`${row.original.firstname} ${row.original.lastname} (You)`}</div>
+        );
+      }
       return `${row.original.firstname} ${row.original.lastname}`;
     }
   },
@@ -64,6 +71,14 @@ export const columns: ColumnDef<FarmMember>[] = [
       );
     },
     cell: ({ row }) => {
+      const { data: useDAta } = useAuth();
+      if (useDAta?.id === row.original.id) {
+        return (
+          <div className=" text-green-700">
+            {formatRoles(row.original.role)}
+          </div>
+        );
+      }
       return formatRoles(row.original.role);
     }
   },
@@ -164,7 +179,7 @@ export const columns: ColumnDef<FarmMember>[] = [
           <AlertDialog open={showPromote}>
             <AlertDialogContent>
               <AlertDialogHeader>
-                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogTitle>Promote this user?</AlertDialogTitle>
                 <AlertDialogDescription>
                   This action will change the role from Farmer to Farm Head and
                   the user will have access of the community resources exclusive
@@ -184,7 +199,7 @@ export const columns: ColumnDef<FarmMember>[] = [
           <AlertDialog open={showDemote}>
             <AlertDialogContent>
               <AlertDialogHeader>
-                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogTitle>Remove farm head access?</AlertDialogTitle>
                 <AlertDialogDescription>
                   This action will demote the Farm Head to Farmer from the
                   community and the user will no longer have access of the

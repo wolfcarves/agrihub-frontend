@@ -4,8 +4,5 @@
 /* eslint-disable */
 
 export type ChangeEmailRequest = {
-    /**
-     * The password to confirm
-     */
     email?: string;
 };

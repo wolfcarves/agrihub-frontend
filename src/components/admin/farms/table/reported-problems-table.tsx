@@ -46,6 +46,7 @@ const AdminFarmReportedProblems = () => {
 
   const debouncedSearch = useDebounce((value: string) => {
     searchParams.set("search", value);
+    searchParams.delete("page");
     setSearchParams(searchParams);
   }, 100);
   return (
@@ -65,7 +66,7 @@ const AdminFarmReportedProblems = () => {
             }}
           >
             <SelectTrigger className="w-[120px] focus-visible:ring-0 focus:ring-0">
-              <SelectValue placeholder="Select" />
+              <SelectValue placeholder="Sort" />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>

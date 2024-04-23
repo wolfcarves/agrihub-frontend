@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@components/ui/button";
 import { ProfileSchema, profileSchema } from "./schema";
 import useAuth from "@hooks/useAuth";
@@ -23,6 +23,14 @@ import {
   PopoverContent
 } from "@components/ui/popover";
 import { Calendar } from "@components/ui/calendar";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from "@components/ui/select";
+import { district } from "@constants/data";
 
 const UserSettingsProfileForm = () => {
   const queryClient = useQueryClient();
@@ -37,7 +45,8 @@ const UserSettingsProfileForm = () => {
       lastname: user?.data?.lastname,
       bio: user?.data?.bio,
       present_address: user?.data?.present_address,
-      dob: new Date(user?.data?.birthdate ?? "")
+      dob: new Date(user?.data?.birthdate ?? ""),
+      district: user?.data?.district
     }
   });
 
@@ -69,7 +78,8 @@ const UserSettingsProfileForm = () => {
         lastname: data?.lastname,
         bio: data?.bio,
         present_address: data?.present_address,
-        dob: new Date(data?.dob ?? "")
+        dob: new Date(data?.dob ?? ""),
+        district: data?.district
       });
     } catch (error: any) {
       console.log(error.body.message);
@@ -229,41 +239,42 @@ const UserSettingsProfileForm = () => {
           }}
         />
 
-        {/* <FormField
-          name="Birth Date"
+        <FormField
+          name="district"
           control={form.control}
-          defaultValue={user?.data?.birthdate}
+          defaultValue="1"
           render={({ field, fieldState }) => {
             return (
-              <>
-                <SettingsField
-                  label="Birth Date"
-                  errMessage={fieldState.error?.message}
-                  {...field}
-                />
-              </>
+              <FormItem>
+                <FormControl>
+                  <Select
+                    value={String(field.value)}
+                    onValueChange={value => {
+                      field.onChange(value);
+                      // form.setValue("municipality", "");
+                    }}
+                  >
+                    <SelectTrigger className="w-[180px] bg-white h-11 text-foreground/70 font-poppins-regular text-base">
+                      <SelectValue placeholder="District 1" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {district.map((label, idx) => {
+                        const dist = (idx + 1).toString();
+
+                        return (
+                          <SelectItem value={dist} className="cursor-pointer">
+                            {label}
+                          </SelectItem>
+                        );
+                      })}
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormMessage>{fieldState.error?.message}</FormMessage>
+              </FormItem>
             );
           }}
-        /> */}
-
-        {/* <hr /> */}
-
-        {/* <FormField
-          name="firstname"
-          control={form.control}
-          defaultValue={user?.data?.birthdate}
-          render={({ field, fieldState }) => {
-            return (
-              <>
-                <SettingsField
-                  label="Birth Date"
-                  errMessage={fieldState.error?.message}
-                  {...field}
-                />
-              </>
-            );
-          }}
-        /> */}
+        />
 
         <div className="flex gap-3">
           <Button
@@ -287,7 +298,8 @@ const UserSettingsProfileForm = () => {
                 lastname: user?.data?.lastname,
                 bio: user?.data?.bio,
                 present_address: user?.data?.present_address,
-                dob: new Date(user?.data?.birthdate ?? "")
+                dob: new Date(user?.data?.birthdate ?? ""),
+                district: user?.data?.district
               });
             }}
           >

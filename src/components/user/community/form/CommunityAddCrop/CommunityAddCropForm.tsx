@@ -17,6 +17,7 @@ import useFarmAddCropMutation from "../../../../../hooks/api/post/useFarmAddCrop
 import useGetFarmAllCropsQuery from "../../../../../hooks/api/get/useGetFarmAllCropsQuery";
 import { useParams } from "react-router-dom";
 import Loader from "../../../../../icons/Loader";
+import useGetFarmCropsQuery from "../../../../../hooks/api/get/useGetFarmCropsQuery";
 
 const addCropCommunitySchema = zod.object({
   cropId: zod
@@ -51,9 +52,11 @@ const CommunityAddCropForm: React.FC<CommunityAddCropFormProps> = ({
   }, [form.formState.errors]);
 
   const { data } = useGetFarmAllCropsQuery();
+  const { data: farmCrops } = useGetFarmCropsQuery(id || "");
 
   const { mutateAsync: farmAddCropMutate, isLoading: isFarmCropLoading } =
     useFarmAddCropMutation();
+
   const handleSubmitForm = async (data: CommunityCropTypes) => {
     const compiledData: CommunityCropTypes = {
       farmId: id || "",
@@ -70,7 +73,6 @@ const CommunityAddCropForm: React.FC<CommunityAddCropFormProps> = ({
     }
   };
 
-  console.log(form.formState.errors);
   return (
     <Form {...form}>
       <form
@@ -89,11 +91,16 @@ const CommunityAddCropForm: React.FC<CommunityAddCropFormProps> = ({
                   <SelectValue placeholder="Select a crop..." />
                 </SelectTrigger>
                 <SelectContent className="overflow-y-auto max-h-[40vh]">
-                  {data?.map((crop, i) => (
-                    <SelectItem key={i} value={crop?.id || ""}>
-                      {crop.name}
-                    </SelectItem>
-                  ))}
+                  {data
+                    ?.filter(
+                      crop =>
+                        !farmCrops?.some(fcCrop => fcCrop.name === crop.name)
+                    )
+                    .map((crop, i) => (
+                      <SelectItem key={i} value={crop?.id || ""}>
+                        {crop.name}
+                      </SelectItem>
+                    ))}
                 </SelectContent>
               </Select>
             )}

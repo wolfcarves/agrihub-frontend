@@ -24,6 +24,7 @@ const TableSeedlingAccepted = () => {
 
   const debouncedSearch = useDebounce((value: string) => {
     searchParams.set("search", value);
+    searchParams.delete("page");
     setSearchParams(searchParams);
   }, 100);
 

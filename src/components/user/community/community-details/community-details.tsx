@@ -96,12 +96,11 @@ const CommunityDetails = () => {
                       <AlertDialogContent>
                         <AlertDialogHeader>
                           <AlertDialogTitle>
-                            Are you absolutely sure?
+                            Leave your community?
                           </AlertDialogTitle>
                           <AlertDialogDescription>
-                            This action cannot be undone. This will permanently
-                            remove your account and remove your data from the
-                            community.
+                            This will permanently remove your account and remove
+                            your data from the community.
                           </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
@@ -118,11 +117,11 @@ const CommunityDetails = () => {
                 ) : null}
               </div>
 
-              <div className="flex justify-end items-center w-full  gap-3 text-gray-500 md:text-[1.2rem] text-base">
+              {/* <div className="flex justify-end items-center w-full  gap-3 text-gray-500 md:text-[1.2rem] text-base">
                 <GiPlantSeed />
                 <TbBrandGoogleAnalytics />
                 <TbReportAnalytics />
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

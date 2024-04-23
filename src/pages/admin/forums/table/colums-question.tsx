@@ -1,6 +1,6 @@
 import * as React from "react";
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 
 import { Button } from "@components/ui/button";
 import {
@@ -23,9 +23,7 @@ import {
   DropdownMenuTrigger
 } from "@components/ui/dropdown-menu";
 
-import { ComboboxPopoverStatus } from "./components/combobox-status";
 import { PiArrowFatUpThin, PiArrowFatDownThin } from "react-icons/pi";
-import { NewQuestionSchema } from "../../../../api/openapi";
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import parse from "html-react-parser";
@@ -69,30 +67,71 @@ export type Question = {
 
 export const columns: ColumnDef<Question>[] = [
   {
-    accessorKey: "createdAt",
-    header: "Created At",
+    accessorKey: "createdat",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          CREATED AT
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) =>
       format(new Date(row.original.createdat || ""), "MMM dd, yyyy")
   },
   {
     accessorKey: "title",
-    header: "Title",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          TITLE
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => <div>{row.getValue("title")}</div>
   },
   {
     accessorKey: "answer_count",
-    header: "Answer Count",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          ANSWERS COUNT
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => <div>{row.getValue("answer_count")}</div>
   },
   {
     accessorKey: "vote_count",
-    header: "Vote Count",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          VOTE COUNT
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => <div>{row.getValue("vote_count")}</div>
   },
 
   {
     id: "actions",
     enableHiding: false,
+    header: "Actions",
     cell: ({ row }) => {
       const [isOpen, setIsOpen] = React.useState<boolean>(false);
       const question = row.original;
@@ -210,7 +249,7 @@ export const columns: ColumnDef<Question>[] = [
                         <AlertDialogContent>
                           <AlertDialogHeader>
                             <AlertDialogTitle>
-                              Are you absolutely sure?
+                              Delete Question?
                             </AlertDialogTitle>
                             <AlertDialogDescription>
                               This action cannot be undone. This will

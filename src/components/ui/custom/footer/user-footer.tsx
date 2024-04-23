@@ -1,12 +1,16 @@
 import React from "react";
 import agrihub from "@icons/main-logo.svg";
-import urban from "@icons/center-logo.svg";
 import qcu from "@icons/qcu-logo.svg";
 import { BsTelephone } from "react-icons/bs";
 import {
   RiTiktokLine,
   RiFacebookCircleLine,
-  RiYoutubeLine
+  RiYoutubeLine,
+  RiTwitterLine,
+  RiInstagramLine,
+  RiWhatsappLine,
+  RiTelegramLine,
+  RiSnapchatLine
 } from "react-icons/ri";
 import { PiLeaf } from "react-icons/pi";
 import { MdKeyboardDoubleArrowRight } from "react-icons/md";
@@ -20,6 +24,7 @@ import useGetClientDetails from "@hooks/api/get/useGetClientDetails";
 const UserFooter = () => {
   const { data: cmsClientDetails } = useGetClientDetails();
   const navigate = useNavigate();
+  console.log(cmsClientDetails?.socials);
 
   const S3_BASE_URL = import.meta.env.VITE_S3_BUCKET_BASEURL;
 
@@ -144,27 +149,23 @@ const UserFooter = () => {
           <span className="font-thin md:block hidden">
             FOLLOW US ON SOCIAL MEDIA
           </span>
-          <a
-            href="https://www.facebook.com/centerforurbanagri/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <RiFacebookCircleLine size={22} />
-          </a>
-          <a
-            href="https://www.youtube.com/@qcenterforurbanagri"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <RiYoutubeLine size={22} />
-          </a>
-          <a
-            href="https://www.tiktok.com/@centerforurbanagr"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <RiTiktokLine size={22} />
-          </a>
+          {cmsClientDetails?.socials?.map(media => (
+            <a
+              key={media.id}
+              href={media.link}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {media.name === "Facebook" && <RiFacebookCircleLine size={22} />}
+              {media.name === "Youtube" && <RiYoutubeLine size={22} />}
+              {media.name === "TikTok" && <RiTiktokLine size={22} />}
+              {media.name === "Twitter" && <RiTwitterLine size={22} />}
+              {media.name === "Instagram" && <RiInstagramLine size={22} />}
+              {media.name === "WhatsApp" && <RiWhatsappLine size={22} />}
+              {media.name === "Telegram" && <RiTelegramLine size={22} />}
+              {media.name === "Snapchat" && <RiSnapchatLine size={22} />}
+            </a>
+          ))}
         </div>
       </div>
       <hr className="border-t border-[#767676] my-2" />

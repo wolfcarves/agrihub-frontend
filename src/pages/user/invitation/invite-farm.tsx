@@ -97,7 +97,7 @@ const InviteFarm = () => {
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
-                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                  <AlertDialogTitle>Accept farm invitation?</AlertDialogTitle>
                   <AlertDialogDescription>
                     By accepting this farm invite, you will become a farmer of
                     the farm community. and you will be granted access to view

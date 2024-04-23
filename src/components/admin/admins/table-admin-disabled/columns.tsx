@@ -1,6 +1,6 @@
 import * as React from "react";
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Button } from "@components/ui/button";
 import {
   DropdownMenu,
@@ -31,17 +31,47 @@ import { formatRoles } from "../../../lib/utils";
 
 export const columns: ColumnDef<AdminUser>[] = [
   {
-    accessorKey: "createdAt",
-    header: "Created At",
+    accessorKey: "createdat",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          CREATED AT
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => format(new Date(row.original.createdat || ""), "PPP")
   },
   {
     accessorKey: "username",
-    header: "Username"
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          USERNAME
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    }
   },
   {
     accessorKey: "email",
-    header: "Email"
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          EMAIL
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    }
   },
   {
     accessorKey: "isbanned",
@@ -52,13 +82,24 @@ export const columns: ColumnDef<AdminUser>[] = [
   },
   {
     accessorKey: "role",
-    header: "Role",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          ROLE
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => {
       return <div>{formatRoles(row.original.role || "")}</div>;
     }
   },
   {
     id: "actions",
+    header: "Actions",
     enableHiding: false,
     cell: ({ row }) => {
       const users = row.original;

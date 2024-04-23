@@ -11,5 +11,6 @@ export type CommunityCropReportResponseItem = {
     date_harvested?: string;
     harvested_qty?: string;
     withered_crops?: string;
+    planted_qty?: string;
     image?: string;
 };

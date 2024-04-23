@@ -17,6 +17,8 @@ import type { FarmerGraphPiechartResponse } from '../models/FarmerGraphPiechartR
 import type { FarmerGraphStackedBarResponse } from '../models/FarmerGraphStackedBarResponse';
 import type { FarmerGraphTotalHarvestResponse } from '../models/FarmerGraphTotalHarvestResponse';
 import type { FarmerTotalHarvestedResponse } from '../models/FarmerTotalHarvestedResponse';
+import type { FarmLandSizeAnalytics } from '../models/FarmLandSizeAnalytics';
+import type { FarmLandSizeByDistrict } from '../models/FarmLandSizeByDistrict';
 import type { FarmWithGrowthRate } from '../models/FarmWithGrowthRate';
 import type { FavouriteCropData } from '../models/FavouriteCropData';
 import type { ForumCount } from '../models/ForumCount';
@@ -25,6 +27,7 @@ import type { GrowthRateDistribution } from '../models/GrowthRateDistribution';
 import type { GrowthRateResponse } from '../models/GrowthRateResponse';
 import type { HarvestDistribution } from '../models/HarvestDistribution';
 import type { HarvestedWitheredData } from '../models/HarvestedWitheredData';
+import type { InactiveFarmReport } from '../models/InactiveFarmReport';
 import type { LearningMaterialReport } from '../models/LearningMaterialReport';
 import type { MonthlyGrowthRate } from '../models/MonthlyGrowthRate';
 import type { NewCommunityCropReport } from '../models/NewCommunityCropReport';
@@ -208,6 +211,7 @@ name: string,
     public static getApiReportsCropReport({
 id,
 search,
+month,
 page,
 perpage,
 filter,
@@ -221,6 +225,10 @@ id: string,
  * Search term
  */
 search?: string,
+/**
+ * Month Term (1-12)
+ */
+month?: string,
 /**
  * Page number
  */
@@ -246,6 +254,7 @@ sort?: string,
             },
             query: {
                 'search': search,
+                'month': month,
                 'page': page,
                 'perpage': perpage,
                 'filter': filter,
@@ -859,6 +868,98 @@ limit?: string,
             url: '/api/reports/analytics/growth-rate/distribution',
             query: {
                 'month': month,
+                'limit': limit,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Get Inactive Farm Report
+     * @returns InactiveFarmReport Successful response
+     * @throws ApiError
+     */
+    public static getApiReportsFarmInactive({
+search,
+page,
+perpage,
+}: {
+/**
+ * Search term to filter farms
+ */
+search?: string,
+/**
+ * Page number for pagination
+ */
+page?: string,
+/**
+ * Number of records per page
+ */
+perpage?: string,
+}): CancelablePromise<InactiveFarmReport> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/reports/farm/inactive',
+            query: {
+                'search': search,
+                'page': page,
+                'perpage': perpage,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Get Farm Land Size Analytics by District
+     * @returns FarmLandSizeAnalytics Successful response
+     * @throws ApiError
+     */
+    public static getApiReportsFarmLandSizeAnalytics(): CancelablePromise<FarmLandSizeAnalytics> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/reports/farm/land-size/analytics',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Get Farm Land Size Analytics by District
+     * @returns FarmLandSizeByDistrict Successful response
+     * @throws ApiError
+     */
+    public static getApiReportsFarmLandSizeAnalyticsDistrict({
+district,
+limit = 50,
+}: {
+/**
+ * The district name (e.g., District 1, District 2, etc.)
+ */
+district?: 'District 1' | 'District 2' | 'District 3' | 'District 4' | 'District 5' | 'District 6',
+/**
+ * The maximum number of results to return
+ */
+limit?: number,
+}): CancelablePromise<Array<FarmLandSizeByDistrict>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/reports/farm/land-size/analytics/district',
+            query: {
+                'district': district,
                 'limit': limit,
             },
             errors: {

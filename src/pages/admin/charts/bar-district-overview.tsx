@@ -8,18 +8,18 @@ const BarDistrictOverview = () => {
   const data = {
     labels: districtFarm?.map(item => item.district_name),
     datasets: [
-      {
-        label: "Farms",
-        data: districtFarm?.map(item => item.total_farms),
-        backgroundColor: [
-          "rgba(183, 235, 199, 1)",
-          "rgba(149, 220, 167, 1)",
-          "rgba(111, 195, 136, 1)",
-          "rgba(65, 171, 104, 1)",
-          "rgba(29, 138, 79, 1)",
-          "rgba(7, 89, 52, 1)"
-        ]
-      },
+      // {
+      //   label: "Farms",
+      //   data: districtFarm?.map(item => item.total_farms),
+      //   backgroundColor: [
+      //     "rgba(183, 235, 199, 1)",
+      //     "rgba(149, 220, 167, 1)",
+      //     "rgba(111, 195, 136, 1)",
+      //     "rgba(65, 171, 104, 1)",
+      //     "rgba(29, 138, 79, 1)",
+      //     "rgba(7, 89, 52, 1)"
+      //   ]
+      // },
       {
         label: "Harvest",
         data: districtFarm?.map(item => item.total_harvest),
@@ -47,9 +47,11 @@ const BarDistrictOverview = () => {
 
   return (
     <>
-      <h2 className="text-xl font-bold tracking-tight ">Farms each district</h2>
+      <h2 className="text-xl font-bold tracking-tight ">
+        Harvest each district
+      </h2>
 
-      <div className="h-96 mt-4">
+      <div className="h-[350px] mt-4">
         <Bar data={data} options={options} />
       </div>
     </>

@@ -29,8 +29,8 @@ const LinechartGrowthHarvest = () => {
       {
         label: "Harvest Quantity",
         data: growthChart?.map(crop => crop.avg_harvest_qty),
-        backgroundColor: "#20B2AA",
-        borderColor: "#20B2AA",
+        backgroundColor: "rgba(37, 116, 169)",
+        borderColor: "rgba(37, 116, 169)",
         borderWidth: 2,
         tension: 0.4
       }
@@ -42,6 +42,14 @@ const LinechartGrowthHarvest = () => {
     scales: {
       y: {
         beginAtZero: true
+      }
+    },
+    plugins: {
+      datalabels: {
+        display: "auto",
+        color: "#1F51FF",
+        anchor: "end" as "end",
+        align: "top" as "top"
       }
     }
   };

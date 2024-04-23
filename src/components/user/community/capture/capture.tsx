@@ -45,6 +45,13 @@ const Capture: React.FC<DropzoneProps> = ({ onChange, defaultValue }) => {
       ) : (
         <div className="flex flex-col items-center justify-center pt-5 pb-6">
           <IoCamera size={80} className="mb-3 text-gray-400" />
+          <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+            <span className="font-semibold">Click to capture</span>, to upload
+            image
+          </p>
+          <p className="text-xs text-gray-500 dark:text-gray-400">
+            SVG, PNG, JPG, or GIF (MAX. 10mb)
+          </p>
         </div>
       )}
       <input

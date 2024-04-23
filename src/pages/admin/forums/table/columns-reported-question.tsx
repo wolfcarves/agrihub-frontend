@@ -1,9 +1,8 @@
 import * as React from "react";
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 
 import { Button } from "@components/ui/button";
-import { Badge } from "@components/ui/badge";
 
 import {
   Drawer,
@@ -35,22 +34,10 @@ import {
   CardHeader,
   CardTitle
 } from "@components/ui/card";
-
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue
-} from "@components/ui/select";
-
 import { ComboboxPopoverStatus } from "./components/combobox-status";
 import { PiArrowFatUpThin, PiArrowFatDownThin } from "react-icons/pi";
 import { Label } from "@components/ui/label";
 import { Textarea } from "@components/ui/textarea";
-import { useState } from "react";
 import { ReportedQuestion } from "../../../../api/openapi";
 import { format } from "date-fns";
 import parse from "html-react-parser";
@@ -74,20 +61,51 @@ import { Input } from "../../../../components/ui/input";
 import useGetViewQuestion from "../../../../hooks/api/get/useGetViewQuestion";
 export const columns: ColumnDef<ReportedQuestion>[] = [
   {
-    accessorKey: "createdAt",
-    header: "Created At",
+    accessorKey: "createdat",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          ACTOR
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) =>
       format(new Date(row.original.createdat || ""), "MMM dd, yyyy")
   },
 
   {
     accessorKey: "reason",
-    header: "Reason",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          REASON
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => <div>{row.getValue("reason")}</div>
   },
 
   {
-    header: "Reported By",
+    accessorKey: "firstname",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          REPORTED BY
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => (
       <div>{`${row.original.firstname} ${row.original.lastname}`}</div>
     )
@@ -95,6 +113,7 @@ export const columns: ColumnDef<ReportedQuestion>[] = [
   {
     id: "actions",
     enableHiding: false,
+    header: "Actions",
     cell: ({ row }) => {
       const question = row.original;
 
@@ -106,15 +125,6 @@ export const columns: ColumnDef<ReportedQuestion>[] = [
       };
 
       const { data: viewQuestion } = useGetViewQuestion(question.forumid ?? "");
-      const [isEditing, setIsEditing] = useState(false);
-
-      const handleEdit = () => {
-        setIsEditing(true);
-      };
-
-      const handleSave = () => {
-        setIsEditing(false);
-      };
 
       const { mutateAsync: banUserMutation, isLoading: banLoading } =
         useUserBanUsersMutation();

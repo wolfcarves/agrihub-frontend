@@ -3,6 +3,7 @@ import { FarmService } from "../../../api/openapi";
 
 export const GET_FARM_MEMBERS = () => "GET_FARM_MEMBERS_KEY";
 interface MembersParams {
+  id: string;
   search?: string;
   page?: string;
   filter?: string;

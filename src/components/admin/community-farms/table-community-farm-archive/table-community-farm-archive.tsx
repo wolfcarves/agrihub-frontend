@@ -3,7 +3,6 @@ import { Input } from "@components/ui/input";
 import { columns } from "./columns";
 import useDebounce from "@hooks/utils/useDebounce";
 import { DataTable } from "../../../ui/custom/data-table/data-table";
-import useGetRequestSeedlingListAll from "../../../../hooks/api/get/useGetRequestSeedlingListAll";
 import { Pagination } from "../../../ui/custom";
 import { useSearchParams } from "react-router-dom";
 import {
@@ -42,11 +41,13 @@ const TableCommunityFarmArchive = () => {
 
   const debouncedSearch = useDebounce((value: string) => {
     searchParams.set("search", value);
+    searchParams.delete("page");
     setSearchParams(searchParams);
   }, 100);
 
   const handleFilterChange = (value: string) => {
     searchParams.set("sortBy", value);
+    searchParams.delete("page");
     setSearchParams(searchParams);
   };
 

@@ -29,8 +29,13 @@ const FarmsAdmin = () => {
     <AdminOutletContainer className="container mx-auto py-10 ">
       <BreadCrumb items={breadcrumbItems} />
       <h2 className="text-3xl font-bold tracking-tight">Farm Application</h2>
-      <p className="text-sm text-muted-foreground">
-        Manage all farms within the community.
+      <p className="text-sm text-muted-foreground w-11/12">
+        Administer and manage farm applications to streamline the process of
+        joining our agricultural community. Provide a platform for farmers to
+        apply for participation, submit required documentation, and express
+        their interest in farming opportunities. Facilitate efficient
+        communication and decision-making throughout the application review and
+        approval process.
       </p>
       <hr className="my-4" />
       <Tabs value={params.tab}>

@@ -1,15 +1,6 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { useNavigate } from "react-router-dom";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger
-} from "@components/ui/dropdown-menu";
 import { Button } from "@components/ui/button";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown } from "lucide-react";
 import { format } from "date-fns";
 import { CommunityCropReportResponseItem } from "../../../../api/openapi";
 

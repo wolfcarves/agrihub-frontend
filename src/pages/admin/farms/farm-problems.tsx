@@ -4,14 +4,9 @@ import React, { useMemo } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/ui/tabs";
 import BreadCrumb from "@components/ui/custom/breadcrumb/breadcrumb";
 import { Button } from "@components/ui/button";
-import { Link, useParams, useSearchParams } from "react-router-dom";
-// import { Card } from "@components/ui/card";
-// import { Input } from "@components/ui/input";
-// import { DataTable } from "@components/ui/custom/data-table/data-table";
-// import { columns } from "./table/columns-farm-problems";
+import { Link, useSearchParams } from "react-router-dom";
 import FarmProblemsCommon from "@components/admin/farms/table/farm-problems-common";
 import FarmProblemsArchived from "@components/admin/farms/table/farm-problems-archived";
-import AdminFarmReportedProblems from "@components/admin/farms/table/reported-problems-table";
 import FarmProblemsUnusual from "../../../components/admin/farms/table/farm-problems-unusual";
 
 const breadcrumbItems = [
@@ -40,14 +35,19 @@ const FarmProblemsAdmin = () => {
       <div className="flex justify-between items-center">
         <div>
           <h2 className="text-3xl font-bold tracking-tight">Problems</h2>
-          <p className="text-sm text-muted-foreground">
-            Manage all registered and unregistered crops within the community
-          </p>
         </div>
         <Link to="/admin/community/problems/add">
           <Button>+ Problems</Button>
         </Link>
       </div>
+      <p className="text-sm text-muted-foreground w-11/12">
+        Provide a platform for farmers to report and address challenges
+        encountered in their farming operations. Enable users to submit
+        descriptions of farm-related issues, such as pest infestations, crop
+        diseases, or soil degradation. Facilitate collaboration and support
+        among the agricultural community to troubleshoot problems, share
+        solutions, and promote resilience in farming practices.
+      </p>
       <hr className="my-4" />
       <Tabs value={params.tab}>
         <TabsList>

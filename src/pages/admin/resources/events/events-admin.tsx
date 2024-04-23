@@ -1,12 +1,8 @@
 import React, { useMemo } from "react";
 import AdminOutletContainer from "@components/admin/layout/container/AdminOutletContainer";
 import BreadCrumb from "../../../../components/ui/custom/breadcrumb/breadcrumb";
-import { Input } from "@components/ui/input";
-import { DataTable } from "@components/ui/custom/data-table/data-table";
-import { columns, data } from "../table/columns-event";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
-import { Button } from "@components/ui/button";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import DialogAddEvent from "../../../../components/admin/events/dialogs/dialog-add-event/dialog-add-event";
 import TableEventsPublished from "../../../../components/admin/events/table/table-events-published/table-events-published";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/ui/tabs";
@@ -37,7 +33,13 @@ const EventsAdmin = () => {
         <h2 className="text-3xl font-bold tracking-tight">Events</h2>
         <DialogAddEvent />
       </div>
-      <p className="text-sm text-muted-foreground">Manage all events.</p>
+      <p className="text-sm text-muted-foreground w-11/12">
+        Organize and manage upcoming events, workshops, and gatherings to engage
+        our community. Showcase a calendar of events, including details,
+        schedules, and registration information. Facilitate networking and
+        knowledge sharing opportunities, fostering connections and collaboration
+        among participants
+      </p>
       <hr className="my-4" />
       <Tabs value={params.tab}>
         <TabsList>

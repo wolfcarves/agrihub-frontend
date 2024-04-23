@@ -24,24 +24,47 @@ import PieProblems from "../charts/pie-problem";
 import RatesFeedback from "../charts/rates-feedback";
 import GrowthRateLineChartAnalytics from "../charts/line-growthrate-analytics";
 import FallbackImg from "@assets/images/agrihub-leaves.png";
-
+import TableFarmGrowthrate from "../charts/table-farm-growthrate";
+import DougnutLandsizeAnalytics from "../charts/dougnut-landsize-analytics";
+import banner from "@assets/images/admin-banner.png";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage
+} from "../../../components/ui/avatar";
 const AnalyticsAdmin = () => {
   const [sort, setSort] = useState<"asc" | "desc" | undefined>("asc");
-  const { data: lowestGrowth } = useGetReportAdminGrowthrate({ order: sort });
+  const { data: lowestGrowth } = useGetReportAdminGrowthrate({ order: "desc" });
   const { data: favouriteCrop } = useGetReportFavouriteCrops();
+
+  // console.log(lowestGrowth[0], "asdasd");
 
   return (
     <AdminOutletContainer>
       <div className="grid grid-cols-12  gap-4 w-full">
-        <div className=" col-span-12 md:col-span-9 flex flex-col gap-y-4">
+        <div className=" col-span-12 lg:col-span-12 flex flex-col gap-y-4">
           <div className=" grid grid-cols-12  gap-4">
-            <Card className="col-span-12 md:col-span-4  p-5">
-              <PieSeed />
-            </Card>
-            <Card className="col-span-12 md:col-span-4  p-5">
-              <PieProblems />
-            </Card>
-            <Card className="col-span-12 md:col-span-4  p-5">
+            <div className="col-span-12 lg:col-span-8 md:h-[350px] h-[250px] rounded border border-border relative">
+              <img src={banner} className="rounded h-full w-full" />
+              <Avatar className=" absolute top-[5.5rem] left-[4%] lg:h-[9.5rem] lg:w-[9.5rem] sm:h-[7.5rem] sm:w-[7.5rem] h-[5.5rem] w-[5.5rem]  border-[5px] border-white">
+                <AvatarImage
+                  src={lowestGrowth && lowestGrowth[0]?.avatar}
+                  alt="@shadcn"
+                />
+                <AvatarFallback>
+                  {lowestGrowth && lowestGrowth[0]?.farm_name?.charAt(1)}
+                </AvatarFallback>
+              </Avatar>
+              <div className="absolute md:top-[10.4rem] top-[6.5rem] right-[10%] uppercase md:text-3xl text-xl font-poppins-bold text-white">
+                {lowestGrowth && lowestGrowth[0]?.farm_name}
+              </div>
+              <div className="absolute bottom-[2.5rem] right-[8%] uppercase md:text-3xl text-xl font-poppins-bold text-white">
+                {lowestGrowth &&
+                  Number(lowestGrowth[0].avg_growth_rate).toFixed(2)}
+                %
+              </div>
+            </div>
+            <Card className="col-span-12 lg:col-span-4  p-5">
               <RatesFeedback />
             </Card>
           </div>
@@ -54,142 +77,75 @@ const AnalyticsAdmin = () => {
           <Card className="p-5">
             <BarDistrictOverview />
           </Card>
-          <Card className="col-span-1 md:col-span-9 row-span-3 md:row-span-3 md:row-start-8 p-5">
-            {/* favourite crops */}
-            <div className="">
-              <div className="flex justify-between items-center mb-2">
-                <div>
-                  <h2 className="text-xl font-bold tracking-tight">
-                    Favourite Crops
-                  </h2>
-                  <p className="text-sm text-muted-foreground">
-                    Top planted crops in communities
-                  </p>
+          <div className="grid grid-cols-12 gap-4">
+            <Card className="p-5 col-span-12 md:col-span-8">
+              <TableFarmGrowthrate />
+            </Card>
+            <Card className="col-span-12 md:col-span-4 p-5">
+              {/* favourite crops */}
+              <div className="">
+                <div className="flex justify-between items-center mb-2">
+                  <div>
+                    <h2 className="text-xl font-bold tracking-tight">
+                      Favourite Crops
+                    </h2>
+                    <p className="text-sm text-muted-foreground">
+                      Top planted crops in communities
+                    </p>
+                  </div>
                 </div>
-              </div>
-              <Carousel className="w-full">
-                <CarouselContent className="-ml-1">
-                  {favouriteCrop?.map((crop, i) => (
-                    <CarouselItem
-                      key={i}
-                      className="pl-1 md:basis-1/2 lg:basis-1/3"
-                    >
-                      <div className="p-1">
-                        <div className="bg-white shadow-md rounded-lg border-border border overflow-hidden">
-                          <img
-                            src={crop.image}
-                            className="w-full h-48 object-cover"
-                          />
-                          <div className="p-4">
-                            <h5 className="text-lg font-bold">
-                              {crop.crop_name}
-                            </h5>
-                            <ul className="mt-3 text-sm flex justify-between w-full">
-                              <div>
-                                <div className="flex">
-                                  <PiPottedPlantLight size={20} />{" "}
-                                  {crop.total_planted}
+                <Carousel className="grid grid-cols-1">
+                  <CarouselContent className="">
+                    {favouriteCrop?.map((crop, i) => (
+                      <CarouselItem key={i} className=" col-span-1">
+                        <div className="h-full">
+                          <div className="bg-white shadow-md rounded-lg border-border border overflow-hidden">
+                            <img
+                              src={crop.image}
+                              className="w-full h-48 object-cover"
+                            />
+                            <div className="p-4">
+                              <h5 className="text-lg font-bold">
+                                {crop.crop_name}
+                              </h5>
+                              <ul className="mt-3 text-sm flex justify-between w-full">
+                                <div>
+                                  <div className="flex">
+                                    <PiPottedPlantLight size={20} />{" "}
+                                    {crop.total_planted}
+                                  </div>
+                                  planted
                                 </div>
-                                planted
-                              </div>
 
-                              <div>
-                                <div className="flex">
-                                  <GiPlantRoots size={20} />{" "}
-                                  {crop.total_harvested}
+                                <div>
+                                  <div className="flex">
+                                    <GiPlantRoots size={20} />{" "}
+                                    {crop.total_harvested}
+                                  </div>
+                                  harvested
                                 </div>
-                                harvested
-                              </div>
 
-                              <div>
-                                <div className="flex">
-                                  <PiPottedPlantLight size={20} />{" "}
-                                  {crop.total_withered}
+                                <div>
+                                  <div className="flex">
+                                    <PiPottedPlantLight size={20} />{" "}
+                                    {crop.total_withered}
+                                  </div>
+                                  withered
                                 </div>
-                                withered
-                              </div>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-              </Carousel>
-            </div>
-          </Card>
-        </div>
-        {/* right side */}
-        <div className="col-span-12 md:col-span-3">
-          <Card className="  p-5">
-            {/* lowest growth rate */}
-            <div className="flex-col flex-wrap sm:flex-nowrap w-full">
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-lg font-bold tracking-tight ">
-                  Growth Rate
-                </h2>
-                <Select
-                  onValueChange={e => setSort(e as "asc" | "desc" | undefined)}
-                >
-                  <SelectTrigger className="w-auto">
-                    <SelectValue placeholder="Lowest" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="asc">Lowest</SelectItem>
-                    <SelectItem value="desc">Highest</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <hr className="my-2" />
-              <div className="overflow-y-auto h-full no-scrollbar">
-                {lowestGrowth?.map((item, i) => (
-                  <Card key={i} className="p-4 mb-4">
-                    <div className="flex justify-center items-center h-full">
-                      <div className=" mx-auto p-5">
-                        <div className="h-24 w-24 mx-auto">
-                          <img
-                            src={
-                              item.avatar ===
-                              "https://s3.ap-southeast-1.amazonaws.com/agrihub-bucket/"
-                                ? FallbackImg
-                                : item.avatar
-                            }
-                            className="w-full h-full rounded-full border-border border shadow"
-                            alt=""
-                          />
-                        </div>
-                        <div>
-                          <div className="flex flex-col items-center justify-center">
-                            <h3 className="text-gray-800 text-3xl font-semibold text-center sm:text-xl line-clamp-2">
-                              {item.farm_name}
-                            </h3>
-                            <div className="text-[3em] p-0 m-0 leading-none text-green-700">
-                              {Number(item.avg_growth_rate).toFixed(0)}%
-                            </div>
-                            <div className="text-left font-semibold text-lg">
-                              Growth Rate
+                              </ul>
                             </div>
                           </div>
                         </div>
-
-                        <div className="flex-grow grid">
-                          {/* <div className="text-left">
-                            <div className=" text-gray-400 font-medium">
-                              86% from last harvest
-                            </div>
-                          </div> */}
-                          {/* <Label className=" text-gray-400 text-left">
-                      Sharon Farm is not doing well!!! Current plant growth is
-                      lower than average growth by 80.28%.
-                    </Label> */}
-                        </div>
-                      </div>
-                    </div>
-                  </Card>
-                ))}
+                      </CarouselItem>
+                    ))}
+                  </CarouselContent>
+                </Carousel>
               </div>
-            </div>
-          </Card>
+            </Card>
+          </div>
+          <div>
+            <DougnutLandsizeAnalytics />
+          </div>
         </div>
       </div>
     </AdminOutletContainer>

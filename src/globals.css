@@ -350,6 +350,12 @@ code {
   object-position: center;
 }
 
+.bg-banner {
+  background-image: url("./assets/images/admin-banner.png");
+  object-fit: contain;
+  object-position: center;
+}
+
 .sr-only {
   display: none;
 }
@@ -358,35 +364,33 @@ code {
   animation: AnimatingText 3s forwards;
 }
 
-
 @keyframes AnimatingText {
   0% {
     translate: 0 -2.5rem;
     opacity: 0;
   }
-  
+
   10% {
     translate: 0 0;
     opacity: 1;
   }
-  
+
   50% {
     translate: 0 0;
   }
-  
+
   90% {
     opacity: 1;
     translate: 0 0;
   }
-  
+
   100% {
-    translate: 0 1.5rem ;
+    translate: 0 1.5rem;
     opacity: 0;
     display: none;
   }
 }
 
-
-.object-landing{
+.object-landing {
   object-position: top 0px right -170px;
 }

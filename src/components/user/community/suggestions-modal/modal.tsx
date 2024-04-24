@@ -31,7 +31,9 @@ const SuggestionsModal = () => {
         </p>
       </DialogTrigger>
       <DialogContent>
-        <div className="font-poppins-semibold text-xl ">Diagnostics</div>
+        <div className="font-poppins-semibold text-xl ">
+          Diagnostics for {PreDefined?.plant}:
+        </div>
         <div className="flex flex-col justify-center px-4 mb-3">
           <div className="mb-2">{PreDefined?.crop_yield}.</div>
           <div className="mb-2">{PreDefined?.withered_reports}.</div>

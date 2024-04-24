@@ -1,4 +1,3 @@
-import LoadingSpinner from "@icons/LoadingSpinner";
 import { SortValues } from "../select/QuestionsFilterSelect";
 import { QuestionsResponse } from "@api/openapi";
 import { toast } from "sonner";
@@ -7,7 +6,6 @@ import QuestionCard from "../card/QuestionCard";
 import useQuestionDeleteVoteMutation from "@hooks/api/get/useQuestionDeleteVoteMutation";
 import useAuth from "@hooks/useAuth";
 import { useNavigate } from "react-router-dom";
-import { Skeleton } from "@components/ui/skeleton";
 
 interface QuestionsListProps {
   data?: QuestionsResponse;
@@ -70,45 +68,6 @@ const QuestionsList = ({ data, isLoading }: QuestionsListProps) => {
     }
   };
 
-  if (isLoading) {
-    return (
-      <div className="flex flex-col space-y-5 w-full min-h-[40rem] py-4">
-        {Array.from({ length: 10 }).map(() => (
-          <div className="border border-border/70 w-full h-[20rem] rounded-2xl p-4">
-            <div className="flex justify-between items-center">
-              <Skeleton className="h-7 w-[70%]" />
-              <Skeleton className="h-7 w-10" />
-            </div>
-
-            <div className="flex gap-2 py-4">
-              <Skeleton className="h-10 w-10 rounded-full" />
-
-              <div className="space-y-1">
-                <Skeleton className="h-4 w-40 rounded-full" />
-                <Skeleton className="h-4 w-20 rounded-full" />
-              </div>
-            </div>
-
-            <div>
-              <div className="space-y-3 pe-10">
-                {Array.from({ length: 6 }).map((_, idx) => (
-                  <Skeleton
-                    className="h-4 rounded-full"
-                    style={{
-                      width: `${Math.random() * 50 + 50}%`
-                    }}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    );
-    // <div className="flex pt-10 mx-auto min-h-[40rem]">
-    //   <LoadingSpinner className="text-primary" />
-    // </div>
-  }
   return (
     <div className="flex flex-col pb-20">
       {data?.questions?.map(

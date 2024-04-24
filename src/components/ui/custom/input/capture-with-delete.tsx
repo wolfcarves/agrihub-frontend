@@ -2,6 +2,17 @@ import React, { useRef, useState } from "react";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { IoCamera } from "react-icons/io5";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger
+} from "../../alert-dialog";
 
 interface DropzoneProps {
   onChange?: (blob: Blob) => void;
@@ -48,19 +59,34 @@ const CaptureWithDelete: React.FC<DropzoneProps> = ({
       onClick={() => inputRef.current?.click()}
     >
       {imagePreview ? (
-        <div className="relative overflow-hidden">
+        <div className="relative overflow-hidden w-full">
           <img
             src={imagePreview}
             alt="Uploaded"
-            className="h-auto w-full max-h-[70vh] object-cover object-center rounded-md"
+            className=" w-full  max-h-[70vh] object-cover object-center rounded-md"
           />
-          <button
-            className="absolute top-0 right-0 text-white bg-red-600 rounded-full p-1 cursor-pointer"
-            onClick={handleDelete}
-            disabled={disabled}
-          >
-            <FaRegTrashAlt />
-          </button>
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <button className="absolute top-0 right-0 text-white bg-red-600 rounded-full p-1 cursor-pointer">
+                <FaRegTrashAlt />
+              </button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This action cannot be undone. This will permanently delete the
+                  image and remove it from our servers.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={handleDelete} disabled={disabled}>
+                  Continue
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </div>
       ) : (
         <div className="flex flex-col items-center justify-center pt-5 pb-6">

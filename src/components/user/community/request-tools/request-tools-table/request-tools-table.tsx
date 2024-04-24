@@ -28,7 +28,8 @@ const RequestToolsTable = () => {
     | "rejected"
     | "forwarded"
     | "completed"
-  >("pending");
+    | undefined
+  >(undefined);
   const [page, setPage] = useState<number>(1);
   const { data, isLoading } = useGetRequestToolListAllQuery({
     farmid: id || "",
@@ -60,13 +61,15 @@ const RequestToolsTable = () => {
           <Select
             onValueChange={value =>
               setFilter(
-                value as
-                  | "pending"
-                  | "accepted"
-                  | "communicating"
-                  | "rejected"
-                  | "forwarded"
-                  | "completed"
+                value === "All"
+                  ? undefined
+                  : (value as
+                      | "pending"
+                      | "accepted"
+                      | "communicating"
+                      | "rejected"
+                      | "forwarded"
+                      | "completed")
               )
             }
           >
@@ -75,6 +78,7 @@ const RequestToolsTable = () => {
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
+                <SelectItem value="All">All</SelectItem>
                 <SelectItem value="pending">Pending</SelectItem>
                 <SelectItem value="accepted">Accepted</SelectItem>
                 <SelectItem value="communicating">Communicating</SelectItem>

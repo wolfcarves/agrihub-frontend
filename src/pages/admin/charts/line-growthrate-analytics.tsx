@@ -14,9 +14,7 @@ import { ChartOptions } from "chart.js";
 import PieProblems from "./pie-problem";
 import { object } from "zod";
 import { formatNumberWithCommas } from "../../../components/lib/utils";
-interface MonthlyGrowthRate {
-  [key: string]: string;
-}
+
 const GrowthRateLineChartAnalytics = () => {
   const chartRef = useRef();
   const currentDate = new Date();
@@ -28,11 +26,12 @@ const GrowthRateLineChartAnalytics = () => {
   const [endMonth, setEndMonth] = useState<string>(String(currentMonth));
   const [activeLabel, setActiveLabel] = useState<string>("");
 
-  const { data: growthMonthly, isLoading } = useGetReportGrowthRateMonthly({
-    year: selectedYear,
-    start: startMonth,
-    end: endMonth
-  });
+  const { data: growthMonthly, isLoading: isLoadingLine } =
+    useGetReportGrowthRateMonthly({
+      year: selectedYear,
+      start: startMonth,
+      end: endMonth
+    });
   const { data: growthDistribution } = useGetReportGrowthRateDistribution({
     month: activeLabel
   });
@@ -277,22 +276,24 @@ const GrowthRateLineChartAnalytics = () => {
               options={options}
             />
           </div>
-          <p className="text-xs text-gray-400 mt-1">
-            Based on the graph, the highest growth rate among the selected
-            timeframe is in{" "}
-            <span className=" text-primary">{extremumData?.highkey}</span> with
-            a growth rate value of{" "}
-            <span className=" text-primary">
-              {extremumData?.highvalue.toFixed(2)}%
-            </span>
-            . The lowest growth rate is in{" "}
-            <span className="  text-destructive">{extremumData?.lowkey}</span>{" "}
-            at{" "}
-            <span className="  text-destructive">
-              {extremumData?.lowvalue.toFixed(2)}%
-            </span>
-            .
-          </p>
+          {!isLoadingLine && (
+            <p className="text-xs text-gray-400 mt-1">
+              Based on the graph, the highest growth rate among the selected
+              timeframe is in{" "}
+              <span className=" text-primary">{extremumData?.highkey}</span>{" "}
+              with a growth rate value of{" "}
+              <span className=" text-primary">
+                {extremumData?.highvalue.toFixed(2)}%
+              </span>
+              . The lowest growth rate is in{" "}
+              <span className="  text-destructive">{extremumData?.lowkey}</span>{" "}
+              at{" "}
+              <span className="  text-destructive">
+                {extremumData?.lowvalue.toFixed(2)}%
+              </span>
+              .
+            </p>
+          )}
         </Card>
         <Card className="col-span-12 lg:col-span-4 lg:block hidden p-5">
           <PieProblems />

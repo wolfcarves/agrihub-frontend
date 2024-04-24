@@ -259,6 +259,7 @@ const GrowthRateLineChartAnalytics = () => {
                       <SelectItem
                         key={month.value}
                         value={month.value}
+                        disabled={startMonth > month.value}
                         onClick={() => handleChangeEndMonth(month.value)}
                       >
                         {month.label}

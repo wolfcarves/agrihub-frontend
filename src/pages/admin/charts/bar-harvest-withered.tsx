@@ -314,15 +314,18 @@ const BarHarvestWithered = () => {
                         ? Number(currentMonth)
                         : 12
                     )
-                    .map(month => (
-                      <SelectItem
-                        key={month.value}
-                        value={month.value}
-                        onClick={() => handleChangeEndMonth(month.value)}
-                      >
-                        {month.label}
-                      </SelectItem>
-                    ))}
+                    .map(month => {
+                      return (
+                        <SelectItem
+                          key={month.value}
+                          value={month.value}
+                          onClick={() => handleChangeEndMonth(month.value)}
+                          disabled={startMonth > month.value}
+                        >
+                          {month.label}
+                        </SelectItem>
+                      );
+                    })}
                 </SelectContent>
               </Select>
             </div>

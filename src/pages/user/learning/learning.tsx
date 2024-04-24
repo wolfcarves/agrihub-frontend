@@ -10,7 +10,9 @@ import {
 import {
   Carousel,
   CarouselContent,
-  CarouselItem
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious
 } from "../../../components/ui/carousel";
 import {
   Accordion,
@@ -21,10 +23,11 @@ import {
 import Autoplay from "embla-carousel-autoplay";
 import useGetLearningViewPublic from "../../../hooks/api/get/useGetLearningViewPublic";
 import useGetLeaningRelated from "../../../hooks/api/get/useGetLeaningRelated";
-import Loader from "@icons/Loader";
 import LoadingSpinner from "@icons/LoadingSpinner";
-import { FaArrowLeftLong } from "react-icons/fa6";
 import BackButton from "@components/ui/custom/button/back-button";
+import { toast } from "sonner";
+import { TiArrowForwardOutline } from "react-icons/ti";
+import { Card } from "@components/ui/card";
 
 const Learning = () => {
   const { learningsId } = useParams();
@@ -32,6 +35,31 @@ const Learning = () => {
   const { data: relateds } = useGetLeaningRelated(
     learningDetail?.tags?.map(tag => tag.tag)
   );
+
+  const handleShare = async (
+    title: string | undefined,
+    text: string | undefined,
+    url: string | undefined
+  ) => {
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title,
+          text,
+          url: `${window.location.origin}/${url}`
+        });
+      } else {
+        throw new Error("Web Share API is not supported");
+      }
+    } catch (error: any) {
+      toast(error.message, {
+        duration: 2000,
+        style: {
+          backgroundColor: "#ff5733"
+        }
+      });
+    }
+  };
 
   if (!learningDetail) {
     return (
@@ -48,9 +76,27 @@ const Learning = () => {
           <Link to="/learning-materials">Learning Material</Link> |{" "}
           {learningDetail.language}
         </div>
-        <h2 className="flex gap-4 text-2xl lg:text-4xl font-bold mx-4 my-1">
-          <BackButton /> {learningDetail.title}
-        </h2>
+        <div className="flex-wrap justify-between items-center">
+          <h2 className="flex gap-4 text-2xl lg:text-4xl font-bold mx-4 my-1">
+            <BackButton /> {learningDetail.title}
+          </h2>
+          <div className="flex justify-start sm:justify-end">
+            <Card
+              className="flex max-w-24 font-poppins-medium px-4 py-1 items-center justify-center mx-4 cursor-pointer"
+              onClick={e => {
+                e.preventDefault();
+                handleShare(
+                  learningDetail.title,
+                  learningDetail.language,
+                  `learning-materials/view/${learningDetail.id}`
+                );
+              }}
+            >
+              Share
+              <TiArrowForwardOutline size="24" />
+            </Card>
+          </div>
+        </div>
         <p className="text-gray-700 m-4">
           last updated: {formatDateTime(learningDetail.updatedat)}
         </p>

@@ -4,7 +4,9 @@ import Autoplay from "embla-carousel-autoplay";
 import {
   Carousel,
   CarouselContent,
-  CarouselItem
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious
 } from "@components/ui/carousel";
 import useGetCmsAboutDetails from "@hooks/api/get/useGetCmsAboutDetails";
 import { MdOutlineMail } from "react-icons/md";

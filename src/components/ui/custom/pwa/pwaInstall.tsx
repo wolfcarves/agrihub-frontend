@@ -12,10 +12,11 @@ const InstallPWA: React.FC = () => {
       setSupportsPWA(true);
       setPromptInstall(e);
     };
+    console.log(supportsPWA, "suuportpwa");
     window.addEventListener("beforeinstallprompt", handler);
 
     return () => window.removeEventListener("beforeinstallprompt", handler);
-  }, []);
+  }, [supportsPWA, promptInstall]);
 
   const onClick = (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     evt.preventDefault();

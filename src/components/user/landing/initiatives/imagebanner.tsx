@@ -26,7 +26,7 @@ const Imagebanner: React.FC = () => {
       </div>
 
       <div className="flex items-center justify-center text-black p-8 sm:p-12 md:p-20 lg:p-24 xl:p-32">
-        <div className="w-full sm:w-10/12 md:w-9/12 lg:w-8/12 xl:w-7/12 text-left text-md">
+        <div className="w-full max-w-7xl text-justify text-md">
           <p>
             Everything is here, containing all the initiatives of the Center of
             Urban Agriculture and Innovation. The center is dedicated to

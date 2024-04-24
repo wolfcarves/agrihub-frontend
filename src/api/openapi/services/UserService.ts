@@ -330,6 +330,24 @@ message?: string;
     }
 
     /**
+     * Delete User Avatar
+     * @returns MessageResponse Successful response
+     * @throws ApiError
+     */
+    public static deleteApiUserDeleteAvatar(): CancelablePromise<MessageResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/user/delete/avatar',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
      * Get a list of users
      * @returns ListUserResponse Success. Returns a list of users.
      * @throws ApiError

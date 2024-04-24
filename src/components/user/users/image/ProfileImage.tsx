@@ -2,7 +2,7 @@ import useAuth from "@hooks/useAuth";
 import { useEffect, useRef, useState } from "react";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { LuPencil, LuUpload } from "react-icons/lu";
-import useUpdateUserProfileMutation from "./useUpdateUserProfileMutation";
+import useUpdateUserProfileMutation from "@hooks/api/post/useUpdateUserProfileMutation";
 import ProfileUploadPhotoDialog from "../dialog/ProfileUploadPhotoDialog";
 import { toast } from "sonner";
 import { Link, useLocation, useParams } from "react-router-dom";
@@ -18,6 +18,8 @@ import { RiCake2Fill } from "react-icons/ri";
 import { IoIosPerson } from "react-icons/io";
 import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/avatar";
 import { formatRoles } from "../../../lib/utils";
+import useDeleteUserProfileAvatar from "@hooks/api/delete/useDeleteUserProfileAvatar";
+import LoadingSpinner from "@icons/LoadingSpinner";
 
 interface ProfileImageProps {
   isLoading?: boolean;
@@ -91,16 +93,27 @@ const ProfileImage = ({
     }
   };
 
+  const { mutateAsync: deleteAvatar, isLoading: isDeleteAvatarLoading } =
+    useDeleteUserProfileAvatar();
+
+  const handleViewAvatar = () => {
+    const splitted = avatar?.split("/");
+    if (splitted?.[splitted?.length - 1] !== "null") {
+      window.open(avatar ?? "");
+    }
+  };
+
   const handleRemovePhoto = async () => {
     try {
-      await updateUserProfile({
-        id: user?.data?.id ?? "",
-        formData: {
-          avatar: undefined
-        }
-      });
+      const splitted = avatar?.split("/");
 
-      toast.error("Photo removed");
+      if (splitted?.[splitted?.length - 1] === "null") {
+        toast.info("You have nothing to delete");
+        return;
+      }
+
+      await deleteAvatar();
+      toast.info("Photo removed");
     } catch (error: any) {
       console.log(error.body.message);
       toast.error(error.body.message);
@@ -120,14 +133,20 @@ const ProfileImage = ({
               setIsPopOverOpen(prev => !prev);
             }}
           >
-            <Avatar className="w-full h-full">
-              <AvatarImage
-                src={avatar}
-                className="w-full aspect-square absolute inset-0 object-cover object-center group-hover:brightness-110 "
-              />
-              <AvatarFallback className=" text-3xl">
-                {fullname?.charAt(0)}
-              </AvatarFallback>
+            <Avatar className="w-full h-full flex">
+              {isUpdateUserLoading || isDeleteAvatarLoading ? (
+                <LoadingSpinner className="m-auto h-max text-border text-2xl" />
+              ) : (
+                <>
+                  <AvatarImage
+                    src={avatar}
+                    className="w-full aspect-square absolute inset-0 object-cover object-center group-hover:brightness-110 "
+                  />
+                  <AvatarFallback className=" text-3xl">
+                    {fullname?.charAt(0)}
+                  </AvatarFallback>
+                </>
+              )}
             </Avatar>
 
             {isOwn && (
@@ -287,9 +306,7 @@ const ProfileImage = ({
             <>
               <button
                 className="flex gap-3 items-center h-full text-sm hover:bg-black/10 rounded-md p-2"
-                onClick={() => {
-                  window.open(avatar ?? "");
-                }}
+                onClick={handleViewAvatar}
               >
                 <MdOutlineRemoveRedEye className="text-xl w-5" />
                 <span className="font-poppins-bold text-black/80">

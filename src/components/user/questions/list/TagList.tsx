@@ -27,14 +27,14 @@ const TagList = () => {
 
   return (
     <div className="flex flex-col">
-      {/* <div className=" items-center h-full py-3">
+      <h2 className="font-poppins-semibold">Question Tags</h2>
+
+      <div className=" items-center h-full py-3">
         <SearchBar
           placeholder="Filter by tag name"
           onChange={e => setQuery(e.target.value)}
         />
-      </div> */}
-
-      <h2 className="font-poppins-semibold">Question Tags</h2>
+      </div>
 
       <div className="flex flex-wrap gap-x-3 gap-y-7 mt-10">
         {tagsData?.tags?.map(({ id, tag_name, details, count }) => (

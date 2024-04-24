@@ -1,4 +1,4 @@
-import React, { MouseEvent, useRef, useState } from "react";
+import React, { MouseEvent, useMemo, useRef, useState } from "react";
 import { Bar, getElementAtEvent, Line } from "react-chartjs-2";
 import {
   Select,
@@ -12,7 +12,11 @@ import useGetReportGrowthRateDistribution from "../../../hooks/api/get/useGetRep
 import { Card } from "../../../components/ui/card";
 import { ChartOptions } from "chart.js";
 import PieProblems from "./pie-problem";
-
+import { object } from "zod";
+import { formatNumberWithCommas } from "../../../components/lib/utils";
+interface MonthlyGrowthRate {
+  [key: string]: string;
+}
 const GrowthRateLineChartAnalytics = () => {
   const chartRef = useRef();
   const currentDate = new Date();
@@ -32,6 +36,35 @@ const GrowthRateLineChartAnalytics = () => {
   const { data: growthDistribution } = useGetReportGrowthRateDistribution({
     month: activeLabel
   });
+
+  const extremumData = useMemo(() => {
+    if (!growthMonthly) return null;
+
+    let highestValue = -Infinity;
+    let highestKey = "";
+    let lowestValue = Infinity;
+    let lowestKey = "";
+
+    // Iterate through data object to find the highest and lowest values and their keys
+    for (const [key, value] of Object.entries(growthMonthly)) {
+      const numericValue = parseFloat(value);
+      if (numericValue > highestValue) {
+        highestValue = numericValue;
+        highestKey = key;
+      }
+      if (numericValue < lowestValue) {
+        lowestValue = numericValue;
+        lowestKey = key;
+      }
+    }
+
+    return {
+      highkey: highestKey,
+      highvalue: highestValue,
+      lowkey: lowestKey,
+      lowvalue: lowestValue
+    };
+  }, [growthMonthly]);
 
   const handleChangeYear = (year: string) => {
     setSelectedYear(year);
@@ -70,8 +103,8 @@ const GrowthRateLineChartAnalytics = () => {
         ),
         borderColor: "rgb(46, 139, 87)",
         backgroundColor: "rgba(46, 139, 87, 0.5)",
-        pointRadius: 5,
-        pointHoverRadius: 8,
+        pointRadius: 7,
+        pointHoverRadius: 10,
         tension: 0.2
       }
     ]
@@ -80,7 +113,7 @@ const GrowthRateLineChartAnalytics = () => {
     labels: growthDistribution?.map(item => item.crop_name),
     datasets: [
       {
-        label: "Growth Rate",
+        label: "Distribution",
         data: growthDistribution?.map(item => item.percentage_distribution),
         backgroundColor: ["rgba(183, 235, 199, 1)"]
       }
@@ -95,12 +128,23 @@ const GrowthRateLineChartAnalytics = () => {
         beginAtZero: true
       }
     },
+    onHover: (event: any, chartElement: any) => {
+      if (chartElement.length === 1) {
+        event.native.target.style.cursor = "pointer";
+      }
+      if (chartElement.length === 0) {
+        event.native.target.style.cursor = "default";
+      }
+    },
     plugins: {
       datalabels: {
         display: "auto",
         color: "#1F51FF",
         anchor: "end" as "end",
-        align: "top" as "top"
+        align: "top" as "top",
+        formatter: function (value: any) {
+          return ` ${value} %`;
+        }
       }
     }
   };
@@ -125,7 +169,7 @@ const GrowthRateLineChartAnalytics = () => {
           if (context.chart.data.labels) {
             return `${context?.chart?.data?.labels[
               context.dataIndex
-            ]} - ${value}`;
+            ]} - ${value} %`;
           }
         }
       }
@@ -149,7 +193,7 @@ const GrowthRateLineChartAnalytics = () => {
   return (
     <>
       <div className="grid grid-cols-12 gap-4">
-        <Card className="col-span-12 md:col-span-8 p-5">
+        <Card className="col-span-12 lg:col-span-8 p-5">
           <div className="flex justify-between flex-wrap sm:flex-nowrap">
             <div>
               <h2 className="text-xl font-bold tracking-tight ">
@@ -215,6 +259,7 @@ const GrowthRateLineChartAnalytics = () => {
                       <SelectItem
                         key={month.value}
                         value={month.value}
+                        disabled={startMonth > month.value}
                         onClick={() => handleChangeEndMonth(month.value)}
                       >
                         {month.label}
@@ -224,7 +269,7 @@ const GrowthRateLineChartAnalytics = () => {
               </Select>
             </div>
           </div>
-          <div className=" h-[350px] mt-4">
+          <div className=" h-[350px] mt-4 ">
             <Line
               ref={chartRef}
               onClick={onClick}
@@ -232,21 +277,52 @@ const GrowthRateLineChartAnalytics = () => {
               options={options}
             />
           </div>
+          <p className="text-xs text-gray-400 mt-1">
+            Based on the graph, the highest growth rate among the selected
+            timeframe is in{" "}
+            <span className=" text-primary">{extremumData?.highkey}</span> with
+            a growth rate value of{" "}
+            <span className=" text-primary">
+              {extremumData?.highvalue.toFixed(2)}%
+            </span>
+            . The lowest growth rate is in{" "}
+            <span className="  text-destructive">{extremumData?.lowkey}</span>{" "}
+            at{" "}
+            <span className="  text-destructive">
+              {extremumData?.lowvalue.toFixed(2)}%
+            </span>
+            .
+          </p>
         </Card>
-        <Card className="col-span-12 md:col-span-4  p-5">
+        <Card className="col-span-12 lg:col-span-4 lg:block hidden p-5">
+          <PieProblems />
+        </Card>
+        {Number(growthDistribution?.length || 0) > 0 && (
+          <Card className={` col-span-12 mt-4 p-5 duration-300`}>
+            <h2 className="text-lg font-bold tracking-tight ">
+              Crops Growth Rate Distribution
+            </h2>
+            <p className="text-xs text-gray-400 mt-1">
+              The{" "}
+              <span className=" text-primary">
+                {growthDistribution && growthDistribution[0]?.crop_name}
+              </span>{" "}
+              has the highest contribution of this month farms growth rate with
+              a value of{" "}
+              <span className=" text-primary">
+                {growthDistribution &&
+                  growthDistribution[0]?.percentage_distribution}
+              </span>
+            </p>
+            <div className="h-[350px]">
+              <Bar data={dataGrowth} options={optionsBar} />
+            </div>
+          </Card>
+        )}
+        <Card className="col-span-12 lg:col-span-4 lg:hidden block p-5">
           <PieProblems />
         </Card>
       </div>
-      {Number(growthDistribution?.length || 0) > 0 && (
-        <Card className={` mt-4 p-5 duration-300`}>
-          <h2 className="text-lg font-bold tracking-tight ">
-            Crops Growth Rate Distribution
-          </h2>
-          <div className="h-[350px]">
-            <Bar data={dataGrowth} options={optionsBar} />
-          </div>
-        </Card>
-      )}
     </>
   );
 };

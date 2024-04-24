@@ -33,59 +33,89 @@ const CommunityAddCropReportForm = () => {
   // console.log(existingCropData);
   // const [check, setCheck] = useState<CheckedState>(false);
 
-  const cropAddReportSchema = zod.object({
-    crop_id: zod.string().optional(),
-    planted_qty: cropId
-      ? zod.coerce
-          .number({
-            required_error: "Please provide a planted quantity"
-          })
-          .min(0, "Planted quantity must be at least 1")
-          .max(10000, "Planted quantity cannot exceed 10,000")
-          .optional()
-      : zod.coerce
-          .number({
-            required_error: "Please provide a planted quantity"
-          })
-          .min(0, "Planted quantity must be at least 1")
-          .max(10000, "Planted quantity cannot exceed 10,000"),
-    is_other: zod.boolean().optional(),
-    isyield: zod.boolean().optional(),
-    c_name: zod.string().optional(),
-    harvested_qty: zod.coerce
-      .number({
-        required_error: "Please provide a harvested quantity"
-      })
-      .min(0, "Harvested quantity must be at least 1")
-      .max(10000, "Harvested quantity cannot exceed 10,000"),
-    withered_crops: zod.coerce
-      .number({
-        required_error: "Please provide a withered quantity"
-      })
-      .min(0, "Withered quantity must be at least 0")
-      .max(10000, "Withered quantity cannot exceed 10,000"),
-    kilogram: zod.coerce
-      .number({
-        required_error: "Please provide a kilogram"
-      })
-      .min(0, "Kilogram must be at least 0")
-      .max(100000, "Kilogram cannot exceed 100,000"),
-    date_planted: cropId
-      ? zod.string().min(0, { message: "Planted date is Required" }).optional()
-      : zod.string().min(0, { message: "Planted date is Required" }),
-    date_harvested: zod
-      .string()
-      .min(1, { message: "Harvest date is Required" }),
-    notes: zod.string().min(1, { message: "Notes is Required" }),
-    image: zod.any().refine((files: Blob[]) => {
-      if (!files || files.length === 0) {
-        return false;
+  const cropAddReportSchema = zod
+    .object({
+      crop_id: zod.string().optional(),
+      planted_qty: cropId
+        ? zod.coerce
+            .number({
+              required_error: "Please provide a planted quantity"
+            })
+            .min(0, "Planted quantity must be at least 1")
+            .max(10000, "Planted quantity cannot exceed 10,000")
+            .optional()
+        : zod.coerce
+            .number({
+              required_error: "Please provide a planted quantity"
+            })
+            .min(0, "Planted quantity must be at least 1")
+            .max(10000, "Planted quantity cannot exceed 10,000"),
+      is_other: zod.boolean().optional(),
+      isyield: zod.boolean().optional(),
+      c_name: zod.string().optional(),
+      harvested_qty: zod.coerce
+        .number({
+          required_error: "Please provide a harvested quantity"
+        })
+        .min(0, "Harvested quantity must be at least 1")
+        .max(10000, "Harvested quantity cannot exceed 10,000"),
+      withered_crops: zod.coerce
+        .number({
+          required_error: "Please provide a withered quantity"
+        })
+        .min(0, "Withered quantity must be at least 0")
+        .max(10000, "Withered quantity cannot exceed 10,000"),
+      kilogram: zod.coerce
+        .number({
+          required_error: "Please provide a kilogram"
+        })
+        .min(0, "Kilogram must be at least 0")
+        .max(100000, "Kilogram cannot exceed 100,000"),
+      date_planted: cropId
+        ? zod
+            .string()
+            .min(0, { message: "Planted date is Required" })
+            .optional()
+        : zod.string().min(0, { message: "Planted date is Required" }),
+      date_harvested: zod
+        .string()
+        .min(1, { message: "Harvest date is Required" }),
+      notes: zod.string().min(1, { message: "Notes is Required" }),
+      image: zod.any().refine((files: Blob[]) => {
+        if (!files || files.length === 0) {
+          return false;
+        }
+
+        return true;
+      }, "Please upload at least one image of your farm.")
+    })
+    .refine(
+      data => {
+        if (CropReport?.isyield) {
+          const Quantity =
+            Number(CropReport?.planted_qty || "0") - data.withered_crops;
+          if (Quantity <= 0) {
+            return false;
+          }
+          return true;
+        } else {
+          const Quantity =
+            Number(CropReport?.planted_qty || "0") -
+            (data.withered_crops + data.harvested_qty);
+
+          if (Quantity <= 0) {
+            return false;
+          }
+          return true;
+        }
+      },
+      {
+        message: CropReport?.isyield
+          ? "Withered plants quantity canno't be greater than planted quantity"
+          : "The combined quantity of withered plants and harvested canno't be greater than planted quantity",
+        path: [CropReport?.isyield ? "withered_crops" : "harvested_qty"] // You can specify the path where the error will be shown
       }
-
-      return true;
-    }, "Please upload at least one image of your farm.")
-  });
-
+    );
   const [isCrop, setIsCrop] = useState<boolean>(true);
   const [isYield, setIsYield] = useState<boolean>(true);
   const form = useForm<NewCommunityCropReport>({
@@ -194,10 +224,12 @@ const CommunityAddCropReportForm = () => {
       date_harvested: concatPresentTime(data.date_harvested || ""),
       notes: data.notes,
       image: data.image,
-      is_first_report: cropId ? "" : "true"
+      is_first_report: cropId ? "" : "true",
+      report_id: cropId
     };
-    console.log(compiledData);
-
+    if (!cropId) {
+      delete compiledData.report_id;
+    }
     try {
       await cropReportMutate(compiledData);
       toast.success("Report Submitted Successfully!");
@@ -248,7 +280,7 @@ const CommunityAddCropReportForm = () => {
               render={() => (
                 <InputNumber
                   className="h-9 rounded-md"
-                  suffix={" pcs"}
+                  suffix={" pieces"}
                   onChange={value =>
                     form.setValue("planted_qty", Number(value))
                   }
@@ -264,7 +296,7 @@ const CommunityAddCropReportForm = () => {
             <Label>Planted Quantity</Label>
             <Input
               type="text"
-              value={`${CropReport?.planted_qty} pcs`}
+              value={`${CropReport?.planted_qty} pieces`}
               disabled
               className="h-9 rounded-md"
             />
@@ -310,7 +342,7 @@ const CommunityAddCropReportForm = () => {
             render={() => (
               <InputNumber
                 className="h-9 rounded-md"
-                suffix={" pcs"}
+                suffix={" pieces"}
                 onChange={value =>
                   form.setValue("harvested_qty", Number(value))
                 }
@@ -322,14 +354,14 @@ const CommunityAddCropReportForm = () => {
           </FormMessage>
         </div>
         <div className="md:col-span-6 col-span-12">
-          <Label>Withered Crops</Label>
+          <Label>Withered Plant</Label>
           <FormField
             control={form.control}
             name="withered_crops"
             render={() => (
               <InputNumber
                 className="h-9 rounded-md"
-                suffix={" pcs"}
+                suffix={" pieces"}
                 onChange={value =>
                   form.setValue("withered_crops", Number(value))
                 }
@@ -350,7 +382,7 @@ const CommunityAddCropReportForm = () => {
             render={() => (
               <InputNumber
                 className="h-9 rounded-md"
-                suffix={" kg"}
+                suffix={" kilogram"}
                 onChange={value => form.setValue("kilogram", value)}
               />
             )}

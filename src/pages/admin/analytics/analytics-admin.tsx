@@ -5,33 +5,27 @@ import BarHarvestWithered from "../charts/bar-harvest-withered";
 import {
   Carousel,
   CarouselContent,
-  CarouselItem
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious
 } from "@components/ui/carousel";
 import { PiPottedPlantLight } from "react-icons/pi";
 import { GiPlantRoots } from "react-icons/gi";
 import useGetReportAdminGrowthrate from "../../../hooks/api/get/useGetReportAdminGrowthrate";
 import useGetReportFavouriteCrops from "../../../hooks/api/get/useGetReportFavouriteCrops";
 import BarDistrictOverview from "../charts/bar-district-overview";
-import PieSeed from "../charts/pie-seed";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from "@components/ui/select";
-import PieProblems from "../charts/pie-problem";
 import RatesFeedback from "../charts/rates-feedback";
 import GrowthRateLineChartAnalytics from "../charts/line-growthrate-analytics";
-import FallbackImg from "@assets/images/agrihub-leaves.png";
 import TableFarmGrowthrate from "../charts/table-farm-growthrate";
 import DougnutLandsizeAnalytics from "../charts/dougnut-landsize-analytics";
-import banner from "@assets/images/admin-banner.png";
+import banner from "@assets/images/ForAnalytics-2.webp";
+import Autoplay from "embla-carousel-autoplay";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage
 } from "../../../components/ui/avatar";
+import BarDistrictOverviewAnalytics from "../charts/bar-district-overview-analytics";
 const AnalyticsAdmin = () => {
   const [sort, setSort] = useState<"asc" | "desc" | undefined>("asc");
   const { data: lowestGrowth } = useGetReportAdminGrowthrate({ order: "desc" });
@@ -45,8 +39,11 @@ const AnalyticsAdmin = () => {
         <div className=" col-span-12 lg:col-span-12 flex flex-col gap-y-4">
           <div className=" grid grid-cols-12  gap-4">
             <div className="col-span-12 lg:col-span-8 md:h-[350px] h-[250px] rounded border border-border relative">
-              <img src={banner} className="rounded h-full w-full" />
-              <Avatar className=" absolute top-[5.5rem] left-[4%] lg:h-[9.5rem] lg:w-[9.5rem] sm:h-[7.5rem] sm:w-[7.5rem] h-[5.5rem] w-[5.5rem]  border-[5px] border-white">
+              <img
+                src={banner}
+                className="rounded h-full w-full object-fill object-center"
+              />
+              <Avatar className=" absolute top-[26%] left-[4%] lg:h-[12.5rem] lg:w-[12.5rem] sm:h-[7.5rem] sm:w-[7.5rem] h-[5.5rem] w-[5.5rem]  border-[5px] border-white">
                 <AvatarImage
                   src={lowestGrowth && lowestGrowth[0]?.avatar}
                   alt="@shadcn"
@@ -58,7 +55,7 @@ const AnalyticsAdmin = () => {
               <div className="absolute md:top-[10.4rem] top-[6.5rem] right-[10%] uppercase md:text-3xl text-xl font-poppins-bold text-white">
                 {lowestGrowth && lowestGrowth[0]?.farm_name}
               </div>
-              <div className="absolute bottom-[2.5rem] right-[8%] uppercase md:text-3xl text-xl font-poppins-bold text-white">
+              <div className="absolute bottom-[5.5rem] right-[10%] uppercase md:text-3xl text-xl font-poppins-bold text-white">
                 {lowestGrowth &&
                   Number(lowestGrowth[0].avg_growth_rate).toFixed(2)}
                 %
@@ -71,17 +68,18 @@ const AnalyticsAdmin = () => {
           <div>
             <BarHarvestWithered />
           </div>
+          <Card className="p-5">
+            <BarDistrictOverviewAnalytics />
+          </Card>
           <div>
             <GrowthRateLineChartAnalytics />
           </div>
-          <Card className="p-5">
-            <BarDistrictOverview />
-          </Card>
+
           <div className="grid grid-cols-12 gap-4">
-            <Card className="p-5 col-span-12 md:col-span-8">
+            <Card className="p-5 col-span-12 lg:col-span-8">
               <TableFarmGrowthrate />
             </Card>
-            <Card className="col-span-12 md:col-span-4 p-5">
+            <Card className="col-span-12 lg:col-span-4 p-5">
               {/* favourite crops */}
               <div className="">
                 <div className="flex justify-between items-center mb-2">
@@ -90,11 +88,19 @@ const AnalyticsAdmin = () => {
                       Favourite Crops
                     </h2>
                     <p className="text-sm text-muted-foreground">
-                      Top planted crops in communities
+                      Top 5 planted crops in communities
                     </p>
                   </div>
                 </div>
-                <Carousel className="grid grid-cols-1">
+                <Carousel
+                  plugins={[
+                    Autoplay({
+                      delay: 3000,
+                      stopOnInteraction: true
+                    })
+                  ]}
+                  className="grid grid-cols-1"
+                >
                   <CarouselContent className="">
                     {favouriteCrop?.map((crop, i) => (
                       <CarouselItem key={i} className=" col-span-1">
@@ -139,6 +145,8 @@ const AnalyticsAdmin = () => {
                       </CarouselItem>
                     ))}
                   </CarouselContent>
+                  <CarouselPrevious className=" -left-[1rem] -top-[10rem]" />
+                  <CarouselNext className=" -right-[1rem] -top-[10rem]" />
                 </Carousel>
               </div>
             </Card>

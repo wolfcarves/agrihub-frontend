@@ -70,11 +70,15 @@ const HeaderNotification = () => {
     [userNotifications]
   );
 
-  const unreadNotificationIds = userNotifications?.notifications
-    ? userNotifications.notifications
-        .filter(item => !item.viewed)
-        .map(item => item.id)
-    : [];
+  const unreadNotificationIds = useMemo(
+    () =>
+      userNotifications?.notifications
+        ? userNotifications.notifications
+            .filter(item => !item.viewed)
+            .map(item => item.id)
+        : [],
+    [userNotifications]
+  );
 
   const handleNotificationClick = () => {
     setIsOpen(prev => !prev);

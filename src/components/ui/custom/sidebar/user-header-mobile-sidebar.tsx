@@ -1,6 +1,5 @@
 import React, { ComponentProps, useEffect, useState } from "react";
 import { UserSidebarNavLink } from "@components/ui/custom";
-import logo from "../../../../icons/leaves.svg";
 import { BsTags } from "react-icons/bs";
 import { TbMessageCircleQuestion } from "react-icons/tb";
 import { IoBookmarkOutline } from "react-icons/io5";
@@ -23,6 +22,7 @@ import { RxQuestionMarkCircled } from "react-icons/rx";
 import { GoBook } from "react-icons/go";
 import { Sheet, SheetContent, SheetTrigger } from "@components/ui/sheet";
 import useGetFarmViewQuery from "@hooks/api/get/useGetFarmViewQuery";
+import useGetCmsAboutDetails from "@hooks/api/get/useGetCmsAboutDetails";
 
 type UserHeaderMobileSidebarProps = ComponentProps<"div"> & {
   onLinkClick?: () => void;
@@ -47,6 +47,8 @@ const UserHeaderMobileSidebar = ({
   const { data: farmData } = useGetFarmViewQuery(id || "");
 
   const farmName = farmData?.farm_name;
+  const { data: aboutDetails } = useGetCmsAboutDetails();
+  const S3_BASE_URL = import.meta.env.VITE_S3_BUCKET_BASEURL;
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -67,7 +69,7 @@ const UserHeaderMobileSidebar = ({
           <div className="flex items-center justify-center px-8">
             <div className="flex-none">
               <img
-                src={logo as unknown as string}
+                src={S3_BASE_URL + aboutDetails?.agrihub_user_logo}
                 width={50}
                 className="mx-auto"
               />

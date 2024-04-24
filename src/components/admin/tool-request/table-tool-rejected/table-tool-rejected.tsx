@@ -27,15 +27,14 @@ const TableToolRejected = () => {
     searchParams.set("search", value);
     searchParams.delete("page");
     setSearchParams(searchParams);
-  }, 100);
+  }, 400);
 
   return (
     <div className="w-full">
       <div className="flex items-center py-4">
         <Input
-          placeholder="Search tool..."
+          placeholder="Search..."
           className="max-w-sm"
-          value={params.search}
           onChange={e => debouncedSearch(e.target.value)}
         />
       </div>

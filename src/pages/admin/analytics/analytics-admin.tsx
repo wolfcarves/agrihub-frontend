@@ -5,7 +5,9 @@ import BarHarvestWithered from "../charts/bar-harvest-withered";
 import {
   Carousel,
   CarouselContent,
-  CarouselItem
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious
 } from "@components/ui/carousel";
 import { PiPottedPlantLight } from "react-icons/pi";
 import { GiPlantRoots } from "react-icons/gi";
@@ -17,11 +19,13 @@ import GrowthRateLineChartAnalytics from "../charts/line-growthrate-analytics";
 import TableFarmGrowthrate from "../charts/table-farm-growthrate";
 import DougnutLandsizeAnalytics from "../charts/dougnut-landsize-analytics";
 import banner from "@assets/images/ForAnalytics-2.webp";
+import Autoplay from "embla-carousel-autoplay";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage
 } from "../../../components/ui/avatar";
+import BarDistrictOverviewAnalytics from "../charts/bar-district-overview-analytics";
 const AnalyticsAdmin = () => {
   const [sort, setSort] = useState<"asc" | "desc" | undefined>("asc");
   const { data: lowestGrowth } = useGetReportAdminGrowthrate({ order: "desc" });
@@ -64,12 +68,13 @@ const AnalyticsAdmin = () => {
           <div>
             <BarHarvestWithered />
           </div>
+          <Card className="p-5">
+            <BarDistrictOverviewAnalytics />
+          </Card>
           <div>
             <GrowthRateLineChartAnalytics />
           </div>
-          <Card className="p-5">
-            <BarDistrictOverview />
-          </Card>
+
           <div className="grid grid-cols-12 gap-4">
             <Card className="p-5 col-span-12 lg:col-span-8">
               <TableFarmGrowthrate />
@@ -83,11 +88,19 @@ const AnalyticsAdmin = () => {
                       Favourite Crops
                     </h2>
                     <p className="text-sm text-muted-foreground">
-                      Top planted crops in communities
+                      Top 5 planted crops in communities
                     </p>
                   </div>
                 </div>
-                <Carousel className="grid grid-cols-1">
+                <Carousel
+                  plugins={[
+                    Autoplay({
+                      delay: 3000,
+                      stopOnInteraction: true
+                    })
+                  ]}
+                  className="grid grid-cols-1"
+                >
                   <CarouselContent className="">
                     {favouriteCrop?.map((crop, i) => (
                       <CarouselItem key={i} className=" col-span-1">
@@ -132,6 +145,8 @@ const AnalyticsAdmin = () => {
                       </CarouselItem>
                     ))}
                   </CarouselContent>
+                  <CarouselPrevious className=" -left-[1rem] -top-[10rem]" />
+                  <CarouselNext className=" -right-[1rem] -top-[10rem]" />
                 </Carousel>
               </div>
             </Card>

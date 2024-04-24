@@ -1,4 +1,4 @@
-import React, { MouseEvent, useRef, useState } from "react";
+import React, { MouseEvent, useMemo, useRef, useState } from "react";
 import { Bar, getElementAtEvent, Line } from "react-chartjs-2";
 import {
   Select,
@@ -12,7 +12,11 @@ import useGetReportGrowthRateDistribution from "../../../hooks/api/get/useGetRep
 import { Card } from "../../../components/ui/card";
 import { ChartOptions } from "chart.js";
 import PieProblems from "./pie-problem";
-
+import { object } from "zod";
+import { formatNumberWithCommas } from "../../../components/lib/utils";
+interface MonthlyGrowthRate {
+  [key: string]: string;
+}
 const GrowthRateLineChartAnalytics = () => {
   const chartRef = useRef();
   const currentDate = new Date();
@@ -32,6 +36,35 @@ const GrowthRateLineChartAnalytics = () => {
   const { data: growthDistribution } = useGetReportGrowthRateDistribution({
     month: activeLabel
   });
+
+  const extremumData = useMemo(() => {
+    if (!growthMonthly) return null;
+
+    let highestValue = -Infinity;
+    let highestKey = "";
+    let lowestValue = Infinity;
+    let lowestKey = "";
+
+    // Iterate through data object to find the highest and lowest values and their keys
+    for (const [key, value] of Object.entries(growthMonthly)) {
+      const numericValue = parseFloat(value);
+      if (numericValue > highestValue) {
+        highestValue = numericValue;
+        highestKey = key;
+      }
+      if (numericValue < lowestValue) {
+        lowestValue = numericValue;
+        lowestKey = key;
+      }
+    }
+
+    return {
+      highkey: highestKey,
+      highvalue: highestValue,
+      lowkey: lowestKey,
+      lowvalue: lowestValue
+    };
+  }, [growthMonthly]);
 
   const handleChangeYear = (year: string) => {
     setSelectedYear(year);
@@ -243,6 +276,22 @@ const GrowthRateLineChartAnalytics = () => {
               options={options}
             />
           </div>
+          <p className="text-xs text-gray-400 mt-1">
+            Based on the graph, the highest growth rate among the selected
+            timeframe is in{" "}
+            <span className=" text-primary">{extremumData?.highkey}</span> with
+            a growth rate value of{" "}
+            <span className=" text-primary">
+              {extremumData?.highvalue.toFixed(2)}%
+            </span>
+            . The lowest growth rate is in{" "}
+            <span className="  text-destructive">{extremumData?.lowkey}</span>{" "}
+            at{" "}
+            <span className="  text-destructive">
+              {extremumData?.lowvalue.toFixed(2)}%
+            </span>
+            .
+          </p>
         </Card>
         <Card className="col-span-12 lg:col-span-4 lg:block hidden p-5">
           <PieProblems />
@@ -252,6 +301,18 @@ const GrowthRateLineChartAnalytics = () => {
             <h2 className="text-lg font-bold tracking-tight ">
               Crops Growth Rate Distribution
             </h2>
+            <p className="text-xs text-gray-400 mt-1">
+              The{" "}
+              <span className=" text-primary">
+                {growthDistribution && growthDistribution[0]?.crop_name}
+              </span>{" "}
+              has the highest contribution of this month farms growth rate with
+              a value of{" "}
+              <span className=" text-primary">
+                {growthDistribution &&
+                  growthDistribution[0]?.percentage_distribution}
+              </span>
+            </p>
             <div className="h-[350px]">
               <Bar data={dataGrowth} options={optionsBar} />
             </div>

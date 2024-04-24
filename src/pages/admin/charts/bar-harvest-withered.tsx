@@ -374,11 +374,11 @@ const BarHarvestWithered = () => {
               <p className="text-xs text-gray-400 mt-1">
                 The{" "}
                 <span className=" text-primary">
-                  {cropDistribution && cropDistribution[0].crop_name}
+                  {cropDistribution && cropDistribution[0]?.crop_name}
                 </span>{" "}
                 has the highest harvest of this month with a harvest value of{" "}
                 <span className=" text-primary">
-                  {cropDistribution && cropDistribution[0].total_harvested_qty}
+                  {cropDistribution && cropDistribution[0]?.total_harvested_qty}
                 </span>
               </p>
             </Card>
@@ -392,12 +392,12 @@ const BarHarvestWithered = () => {
               <p className="text-xs text-gray-400 mt-1">
                 The{" "}
                 <span className=" text-primary">
-                  {harvestDistribution && harvestDistribution[0].farm_name}
+                  {harvestDistribution && harvestDistribution[0]?.farm_name}
                 </span>{" "}
                 has the highest harvest of this month with a harvest value of{" "}
                 <span className=" text-primary">
                   {harvestDistribution &&
-                    harvestDistribution[0].farm_harvest_qty}
+                    harvestDistribution[0]?.farm_harvest_qty}
                 </span>
               </p>
             </Card>

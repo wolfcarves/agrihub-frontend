@@ -3,7 +3,6 @@ import useGetCropsQuery from "@hooks/api/get/useGetCropsQuery";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 import { MONTHS } from "./planting-calendar";
-import LoadingSpinner from "@icons/LoadingSpinner";
 import PlantingCalendarCard from "@components/user/community/card/PlantingCalendarCard";
 import {
   Carousel,
@@ -17,6 +16,9 @@ import parse from "html-react-parser";
 import SkeletonCropCard from "@components/user/calendar/skeleton/skeleton-crop-card";
 import SkeletonCropView from "@components/user/calendar/skeleton/skeleton-crop-view";
 import { FaArrowLeftLong } from "react-icons/fa6";
+import { Card } from "@components/ui/card";
+import { TiArrowForwardOutline } from "react-icons/ti";
+import { toast } from "sonner";
 
 const CropView = () => {
   const { data, isLoading: isCropDataLoading } = useGetCropsQuery();
@@ -40,6 +42,31 @@ const CropView = () => {
     />
   ));
 
+  const handleShare = async (
+    title: string | undefined,
+    text: string | undefined,
+    url: string | undefined
+  ) => {
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title,
+          text,
+          url: `${window.location.origin}/${url}`
+        });
+      } else {
+        throw new Error("Web Share API is not supported");
+      }
+    } catch (error: any) {
+      toast(error.message, {
+        duration: 2000,
+        style: {
+          backgroundColor: "#ff5733"
+        }
+      });
+    }
+  };
+
   return (
     <div className="w-full">
       <div className="my-4 sm:mx-8">
@@ -58,9 +85,25 @@ const CropView = () => {
           </div>
 
           <div className="mx-auto px-4 sm:px-8">
-            <h1 className="text-9xl font-poppins-bold uppercase mt-5">
-              {cropData?.name}
-            </h1>
+            <div className="flex-wrap items-center">
+              <h1 className="text-9xl font-poppins-bold uppercase mt-5">
+                {cropData?.name}
+              </h1>
+              <Card
+                className="flex max-w-24 font-poppins-medium px-4 py-1 items-center justify-center cursor-pointer"
+                onClick={e => {
+                  e.preventDefault();
+                  handleShare(
+                    cropData?.name,
+                    cropData?.description,
+                    `planting-calendar/${cropData?.name}`
+                  );
+                }}
+              >
+                Share
+                <TiArrowForwardOutline size="24" />
+              </Card>
+            </div>
             <h4 className="max-w-[70rem]">
               {parse(cropData?.description || "")}
             </h4>

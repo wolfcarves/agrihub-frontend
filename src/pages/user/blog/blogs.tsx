@@ -6,14 +6,6 @@ import parse from "html-react-parser";
 import { formatDate } from "@components/lib/utils";
 import SkeletonCard from "@components/ui/custom/skeleton/skeleton-card";
 import { IoIosArrowForward } from "react-icons/io";
-import { Button } from "@components/ui/button";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious
-} from "@components/ui/carousel";
 
 const Blogs = () => {
   const [searchParams] = useSearchParams();

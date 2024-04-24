@@ -12,7 +12,7 @@ const Signup = () => {
       </Helmet>
 
       <div className="w-full mx-auto max-w-[28rem]">
-        <BackButton className="mb-10" />
+        <BackButton className="mt-20 mb-10" />
         <UserSignupFormTitle />
         <UserSignupForm />
       </div>

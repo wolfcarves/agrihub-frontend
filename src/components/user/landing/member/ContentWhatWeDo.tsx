@@ -12,18 +12,20 @@ import * as Icons from "react-icons/bi";
 import { renderIcon } from "@components/lib/RenderIcon";
 import { formatDate } from "../../../lib/utils";
 import useGetVisionStats from "@hooks/api/get/useGetVisionStats";
-import { IoPersonOutline } from "react-icons/io5";
-import { TfiWrite } from "react-icons/tfi";
-import { PiPlant } from "react-icons/pi";
-import { IoMdAddCircleOutline } from "react-icons/io";
 type IconType = keyof typeof Icons;
+
+interface Guide {
+  time: string;
+  title: string;
+  description: string;
+}
 
 const ContentWhatWeDo: React.FC = () => {
   const { data: cmsDataLanding } = useCmsLandingDetailsQuery();
   const { data: cmsClientDetail } = useGetClientDetails();
   const navigate = useNavigate();
 
-  const { approach, images } = {
+  const { approach } = {
     ...cmsDataLanding
   };
 
@@ -67,33 +69,34 @@ const ContentWhatWeDo: React.FC = () => {
     }
   ];
 
-  const guides = [
+  const guides: Guide[] = [
     {
-      time: "0:30",
-      title: "Pag gawa ng account",
+      time: "00:01",
+      title: "Ano ang AgriHub?",
       description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam facilis, voluptates error alias dolorem praesentium sit soluta iure incidunt labore explicabo eaque, quia architecto veritatis dolores, enim cons equatur nihil ipsum.",
-      icon: <IoPersonOutline size={64} />
+        "Samahan natin si Kuya Wil upang alamin kung paano nga ba nagsimula ang Agrihub maging ang mga mahahalagang layunin at misyon na makatutulong sa mga urban farmers ng Lungsod Quezon."
     },
     {
-      time: "1:28",
-      title: "Pag rehistro ng farm",
+      time: "01:39",
+      title: "Ano ang mga nilalaman ng Agrihub",
       description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam facilis, voluptates error alias dolorem praesentium sit soluta iure incidunt labore explicabo eaque, quia architecto veritatis dolores, enim cons equatur nihil ipsum.",
-      icon: <TfiWrite size={64} />
+        "Tuklasin ang mga mahahalagang nilalaman ng Agrihub na una ninyong makikita matapos bisitahin ang website. Sa parteng ito ay ipapaliwanag ni Kuya Wil kung ano ang nagagawa ng mga ito."
     },
     {
-      time: "3:00",
-      title: "Dolorem praesentium",
+      time: "03:32",
+      title: "Paano mag-register ng isang farm?",
       description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam facilis, voluptates error alias dolorem praesentium sit soluta iure incidunt labore explicabo eaque, quia architecto veritatis dolores, enim cons equatur nihil ipsum.",
-      icon: <PiPlant size={64} />
+        "Ang pagkakaroon ng isang urban farming community ay isa sa pinakamahalagang misyon ng Agrihub. Alamin kung ano ang mga kinakailangang impormasyon upang mairehistro sa Agrihub ang iyong komunidad."
     }
   ];
 
   const { data: blogData } = useGetBlogsPublishList();
   const seeGuide = () => {
     navigate("/helps/guides");
+  };
+
+  const seeApproach = () => {
+    navigate("/about/our-focus");
   };
 
   return (
@@ -169,12 +172,13 @@ const ContentWhatWeDo: React.FC = () => {
                     and community collaboration.
                   </p>
                 </header>
-
-                <Link to="/about/our-focus">
-                  <Button className="mt-8 px-12 py-3" variant="default">
-                    Show All
-                  </Button>
-                </Link>
+                <Button
+                  onClick={seeApproach}
+                  className="mt-8 px-12 py-3"
+                  variant="default"
+                >
+                  Show All
+                </Button>
               </div>
             </div>
 
@@ -274,12 +278,13 @@ const ContentWhatWeDo: React.FC = () => {
                 className="grid justify-center grid-cols-4 p-8 mx-auto space-y-8 lg:space-y-0"
                 style={{ cursor: "pointer" }}
               >
-                <div className="flex items-center justify-center lg:col-span-1 col-span-full">
-                  {guide.icon}
-                </div>
+                <div className="flex items-center justify-center lg:col-span-1 col-span-full"></div>
                 <div className="flex flex-col justify-center max-w-3xl text-center col-span-full lg:col-span-3 lg:text-left">
                   <span className="text-xs tracki uppercase dark:text-violet-400">
-                    {guide.time} - {guide.title}
+                    {guide.time}
+                  </span>
+                  <span className="text-xl font-bold md:text-2xl">
+                    {guide.title}
                   </span>
                   <span className="mt-4 dark:text-gray-300">
                     {guide.description}

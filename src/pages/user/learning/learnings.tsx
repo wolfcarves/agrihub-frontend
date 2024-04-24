@@ -24,11 +24,12 @@ const Learnings = () => {
   const params = useMemo(() => {
     return {
       currentPage: Number(searchParams.get("page")) ?? 1,
-      sortBy: searchParams.get("sortBy") as
-        | "Tagalog"
-        | "English"
-        | "Tagalog and English"
-        | "All",
+      sortBy:
+        (searchParams.get("sortBy") as
+          | "Tagalog"
+          | "English"
+          | "Tagalog and English"
+          | "All") ?? "Tagalog",
       videoId: searchParams.get("videoId"),
       preview: searchParams.get("preview")
     };

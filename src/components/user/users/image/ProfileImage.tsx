@@ -17,6 +17,7 @@ import { Skeleton } from "@components/ui/skeleton";
 import { RiCake2Fill } from "react-icons/ri";
 import { IoIosPerson } from "react-icons/io";
 import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/avatar";
+import { formatRoles } from "../../../lib/utils";
 
 interface ProfileImageProps {
   isLoading?: boolean;
@@ -124,7 +125,9 @@ const ProfileImage = ({
                 src={avatar}
                 className="w-full aspect-square absolute inset-0 object-cover object-center group-hover:brightness-110 "
               />
-              <AvatarFallback>CN</AvatarFallback>
+              <AvatarFallback className=" text-3xl">
+                {fullname?.charAt(0)}
+              </AvatarFallback>
             </Avatar>
 
             {isOwn && (
@@ -209,7 +212,7 @@ const ProfileImage = ({
                   <IoIosPerson />
                 </span>
                 {!isLoading ? (
-                  `${role?.charAt(0)?.toLocaleUpperCase()}${role?.slice(1)}`
+                  `${formatRoles(role || "")}`
                 ) : (
                   <Skeleton className="h-5 w-24" />
                 )}

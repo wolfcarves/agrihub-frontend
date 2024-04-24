@@ -71,6 +71,7 @@ export default function UserSetupAccountForm() {
     const refinedData = {
       firstname: data.firstname,
       lastname: data.lastname,
+      middlename: data.middlename,
       birthdate: new Date(data?.dob ?? "").toLocaleDateString("en-US", {
         year: "numeric",
         month: "short",
@@ -120,6 +121,21 @@ export default function UserSetupAccountForm() {
               <FormItem>
                 <FormControl>
                   <Input {...field} placeholder="Lastname" />
+                </FormControl>
+                <FormMessage>{fieldState.error?.message}</FormMessage>
+              </FormItem>
+            )}
+          />
+        </div>
+        <div>
+          <FormField
+            name="middlename"
+            control={form.control}
+            defaultValue=""
+            render={({ field, fieldState }) => (
+              <FormItem>
+                <FormControl>
+                  <Input {...field} placeholder="Middlename" />
                 </FormControl>
                 <FormMessage>{fieldState.error?.message}</FormMessage>
               </FormItem>

@@ -42,6 +42,17 @@ export const userSetupAcountSchema = zod.object({
       message: validationMessage,
       path: ["lastname"]
     }),
+  middlename: zod
+    .string()
+    .min(2, "Please enter at least 2 characters")
+    .max(40, "Your lastname is way too long")
+    .regex(/^[a-zA-Z]+(?: [a-zA-Z]+)*$/, {
+      message: validationMessage
+    })
+    .refine(value => value.trim() === value, {
+      message: validationMessage,
+      path: ["middlename"]
+    }),
   dob: zod
     .date({
       required_error: "Birth day is required",

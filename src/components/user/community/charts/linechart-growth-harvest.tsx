@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Line } from "react-chartjs-2";
 import useGetReportGrowthChart from "../../../../hooks/api/get/useGetReportGrowthChart";
 import {
@@ -8,6 +8,9 @@ import {
   SelectTrigger,
   SelectValue
 } from "../../../ui/select";
+import { useReactToPrint } from "react-to-print";
+import { Button } from "../../../ui/button";
+import { FaFilePdf } from "react-icons/fa6";
 const LinechartGrowthHarvest = () => {
   const [monthSelected, setMonthSelected] = useState<string | undefined>(
     undefined
@@ -71,8 +74,12 @@ const LinechartGrowthHarvest = () => {
     { value: "11", label: "November" },
     { value: "12", label: "December" }
   ];
+  const componentRef = useRef<HTMLDivElement>(null);
+  const handlePrint = useReactToPrint({
+    content: () => componentRef?.current
+  });
   return (
-    <>
+    <div ref={componentRef} className="print:p-2">
       <div className="flex justify-between items-center gap-4">
         <h5 className="font-poppins-medium">Growth Span & Harvest Quantity</h5>
         <div className="flex gap-2">
@@ -106,12 +113,18 @@ const LinechartGrowthHarvest = () => {
               ))}
             </SelectContent>
           </Select>
+          <Button
+            className="print:hidden p-4 bg-[#DE2429]"
+            onClick={handlePrint}
+          >
+            <FaFilePdf size={16} />
+          </Button>
         </div>
       </div>
-      <div className="h-[350px] ">
-        <Line data={lineData} options={chartOptions} />
+      <div className="h-[350px] print:h-[400px]">
+        <Line className="chart_export" data={lineData} options={chartOptions} />
       </div>
-    </>
+    </div>
   );
 };
 

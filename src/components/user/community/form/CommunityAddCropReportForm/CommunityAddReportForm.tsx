@@ -91,23 +91,26 @@ const CommunityAddCropReportForm = () => {
     })
     .refine(
       data => {
-        if (CropReport?.isyield) {
-          const Quantity =
-            Number(CropReport?.planted_qty || "0") - data.withered_crops;
-          if (Quantity <= 0) {
-            return false;
-          }
-          return true;
-        } else {
-          const Quantity =
-            Number(CropReport?.planted_qty || "0") -
-            (data.withered_crops + data.harvested_qty);
+        if (cropId) {
+          if (CropReport?.isyield) {
+            const Quantity =
+              Number(CropReport?.planted_qty || "0") - data.withered_crops;
+            if (Quantity <= 0) {
+              return false;
+            }
+            return true;
+          } else {
+            const Quantity =
+              Number(CropReport?.planted_qty || "0") -
+              (data.withered_crops + data.harvested_qty);
 
-          if (Quantity <= 0) {
-            return false;
+            if (Quantity <= 0) {
+              return false;
+            }
+            return true;
           }
-          return true;
         }
+        return true;
       },
       {
         message: CropReport?.isyield

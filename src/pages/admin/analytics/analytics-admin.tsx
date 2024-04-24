@@ -26,9 +26,11 @@ import {
   AvatarImage
 } from "../../../components/ui/avatar";
 import BarDistrictOverviewAnalytics from "../charts/bar-district-overview-analytics";
+import { Skeleton } from "../../../components/ui/skeleton";
 const AnalyticsAdmin = () => {
   const [sort, setSort] = useState<"asc" | "desc" | undefined>("asc");
-  const { data: lowestGrowth } = useGetReportAdminGrowthrate({ order: "desc" });
+  const { data: lowestGrowth, isLoading: TopFarmLoad } =
+    useGetReportAdminGrowthrate({ order: "desc" });
   const { data: favouriteCrop } = useGetReportFavouriteCrops();
 
   // console.log(lowestGrowth[0], "asdasd");
@@ -38,29 +40,33 @@ const AnalyticsAdmin = () => {
       <div className="grid grid-cols-12  gap-4 w-full">
         <div className=" col-span-12 lg:col-span-12 flex flex-col gap-y-4">
           <div className=" grid grid-cols-12  gap-4">
-            <div className="col-span-12 lg:col-span-8 md:h-[350px] h-[250px] rounded border border-border relative">
-              <img
-                src={banner}
-                className="rounded h-full w-full object-fill object-center"
-              />
-              <Avatar className=" absolute top-[26%] left-[4%] lg:h-[12.5rem] lg:w-[12.5rem] sm:h-[7.5rem] sm:w-[7.5rem] h-[5.5rem] w-[5.5rem]  border-[5px] border-white">
-                <AvatarImage
-                  src={lowestGrowth && lowestGrowth[0]?.avatar}
-                  alt="@shadcn"
+            {TopFarmLoad ? (
+              <Skeleton className="col-span-12 lg:col-span-8 md:h-[350px] h-[250px] rounded relative" />
+            ) : (
+              <div className="col-span-12 lg:col-span-8 md:h-[350px] h-[250px] rounded border border-border relative">
+                <img
+                  src={banner}
+                  className="rounded h-full w-full object-fill object-center"
                 />
-                <AvatarFallback>
-                  {lowestGrowth && lowestGrowth[0]?.farm_name?.charAt(1)}
-                </AvatarFallback>
-              </Avatar>
-              <div className="absolute md:top-[10.4rem] top-[6.5rem] right-[10%] uppercase md:text-3xl text-xl font-poppins-bold text-white">
-                {lowestGrowth && lowestGrowth[0]?.farm_name}
+                <Avatar className=" absolute top-[26%] left-[4%] lg:h-[12.5rem] lg:w-[12.5rem] sm:h-[7.5rem] sm:w-[7.5rem] h-[5.5rem] w-[5.5rem]  border-[5px] border-white">
+                  <AvatarImage
+                    src={lowestGrowth && lowestGrowth[0]?.avatar}
+                    alt="@shadcn"
+                  />
+                  <AvatarFallback>
+                    {lowestGrowth && lowestGrowth[0]?.farm_name?.charAt(1)}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="absolute md:top-[10.4rem] top-[6.5rem] right-[10%] uppercase md:text-3xl text-xl font-poppins-bold text-white">
+                  {lowestGrowth && lowestGrowth[0]?.farm_name}
+                </div>
+                <div className="absolute bottom-[5.5rem] right-[10%] uppercase md:text-3xl text-xl font-poppins-bold text-white">
+                  {lowestGrowth &&
+                    Number(lowestGrowth[0].avg_growth_rate).toFixed(2)}
+                  %
+                </div>
               </div>
-              <div className="absolute bottom-[5.5rem] right-[10%] uppercase md:text-3xl text-xl font-poppins-bold text-white">
-                {lowestGrowth &&
-                  Number(lowestGrowth[0].avg_growth_rate).toFixed(2)}
-                %
-              </div>
-            </div>
+            )}
             <Card className="col-span-12 lg:col-span-4  p-5">
               <RatesFeedback />
             </Card>

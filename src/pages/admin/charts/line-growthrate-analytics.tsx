@@ -14,9 +14,7 @@ import { ChartOptions } from "chart.js";
 import PieProblems from "./pie-problem";
 import { object } from "zod";
 import { formatNumberWithCommas } from "../../../components/lib/utils";
-interface MonthlyGrowthRate {
-  [key: string]: string;
-}
+
 const GrowthRateLineChartAnalytics = () => {
   const chartRef = useRef();
   const currentDate = new Date();

@@ -44,6 +44,14 @@ const BarchartHarvest = () => {
         color: "rgba(1, 50, 67, 1)",
         font: {
           weight: "bold" as "bold"
+        },
+        formatter: function (value: any) {
+          console.log(value);
+          if (value === "0") {
+            return "";
+          } else {
+            return value;
+          }
         }
       }
     }

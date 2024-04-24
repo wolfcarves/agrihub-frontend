@@ -23,6 +23,7 @@ import { chartColor } from "../../../constants/data";
 import { Card } from "../../../components/ui/card";
 import useGetReportHarvestDistribution from "../../../hooks/api/get/useGetReportHarvestDistribution";
 import PieSeed from "./pie-seed";
+import { formatNumberWithCommas } from "../../../components/lib/utils";
 
 const BarHarvestWithered = () => {
   const currentDate = new Date();
@@ -59,6 +60,48 @@ const BarHarvestWithered = () => {
     setEndMonth(month);
   };
 
+  const {
+    highestMonth,
+    highestValue,
+    lowestMonth,
+    lowestValue,
+    highestMonthWithered,
+    highestValueWithered
+  } = useMemo(() => {
+    let highestWithered = Number.MIN_SAFE_INTEGER;
+    let highestMonthWithered = "";
+    let highestHarvested = Number.MIN_SAFE_INTEGER;
+    let highestMonth = "";
+    let lowestHarvested = Number.MAX_SAFE_INTEGER;
+    let lowestMonth = "";
+
+    barChartData?.forEach(item => {
+      if (item.harvested && item.month && item.withered) {
+        if (item?.harvested > highestHarvested) {
+          highestHarvested = item.harvested;
+          highestMonth = item.month;
+        }
+        if (item?.withered > highestWithered) {
+          highestWithered = item.withered;
+          highestMonthWithered = item.month;
+        }
+        if (item?.harvested < lowestHarvested) {
+          lowestHarvested = item.harvested;
+          lowestMonth = item.month;
+        }
+      }
+    });
+
+    return {
+      highestMonth,
+      highestValue: highestHarvested,
+      highestMonthWithered,
+      highestValueWithered: highestWithered,
+      lowestMonth,
+      lowestValue: lowestHarvested
+    };
+  }, [barChartData]);
+
   const labels = barChartData?.map(item => item.month);
   const data = {
     labels,
@@ -91,6 +134,16 @@ const BarHarvestWithered = () => {
         beginAtZero: true
       }
     },
+    onHover: (event: any, chartElement: any) => {
+      // console.log(event);
+      // console.log(chartElement);
+      if (chartElement.length === 1) {
+        event.native.target.style.cursor = "pointer";
+      }
+      if (chartElement.length === 0) {
+        event.native.target.style.cursor = "default";
+      }
+    },
     plugins: {
       datalabels: {
         display: "auto",
@@ -106,7 +159,7 @@ const BarHarvestWithered = () => {
     datasets: [
       {
         label: "Harvest",
-        data: harvestDistribution?.map(item => item.percentage_distribution),
+        data: harvestDistribution?.map(item => item.farm_harvest_qty),
         backgroundColor: ["rgba(183, 235, 199, 1)"]
       }
     ]
@@ -199,8 +252,8 @@ const BarHarvestWithered = () => {
   return (
     <>
       <div className=" grid grid-cols-12 gap-4">
-        <Card className={`p-5 col-span-12 md:col-span-8`}>
-          <div className="flex flex-col justify-between flex-wrap ">
+        <Card className={`p-5 col-span-12 lg:col-span-8`}>
+          <div className="flex justify-between flex-wrap sm:flex-nowrap ">
             <div>
               <h2 className="text-lg font-bold tracking-tight ">
                 Farm harvest and withered each month
@@ -209,7 +262,7 @@ const BarHarvestWithered = () => {
                 Click the bar to view the harvest summary of that month
               </p>
             </div>
-            <div className="flex gap-4 justify-end mt-2">
+            <div className="flex gap-4 justify-end">
               <Select
                 onValueChange={e => handleChangeYear(e)}
                 defaultValue={selectedYear}
@@ -261,15 +314,18 @@ const BarHarvestWithered = () => {
                         ? Number(currentMonth)
                         : 12
                     )
-                    .map(month => (
-                      <SelectItem
-                        key={month.value}
-                        value={month.value}
-                        onClick={() => handleChangeEndMonth(month.value)}
-                      >
-                        {month.label}
-                      </SelectItem>
-                    ))}
+                    .map(month => {
+                      return (
+                        <SelectItem
+                          key={month.value}
+                          value={month.value}
+                          onClick={() => handleChangeEndMonth(month.value)}
+                          disabled={startMonth > month.value}
+                        >
+                          {month.label}
+                        </SelectItem>
+                      );
+                    })}
                 </SelectContent>
               </Select>
             </div>
@@ -283,31 +339,77 @@ const BarHarvestWithered = () => {
               options={options}
             />
           </div>
+          <p className="text-xs text-gray-400 mt-1">
+            Based on the graph, the highest harvest among the selected months is
+            in <span className=" text-primary">{highestMonth}</span> with a
+            harvest value of{" "}
+            <span className=" text-primary">
+              {formatNumberWithCommas(highestValue)}
+            </span>
+            . The lowest harvest is in{" "}
+            <span className="  text-destructive">{lowestMonth}</span> at{" "}
+            <span className="  text-destructive">
+              {formatNumberWithCommas(lowestValue)}
+            </span>
+            . The highest withered count is in{" "}
+            <span className="  text-destructive">{highestMonthWithered}</span>{" "}
+            at{" "}
+            <span className="  text-destructive">
+              {formatNumberWithCommas(highestValueWithered)}
+            </span>
+            .
+          </p>
         </Card>
-        <Card className="col-span-12 md:col-span-4  p-5">
+        <Card className="col-span-12 lg:col-span-4 lg:block hidden p-5">
+          <PieSeed />
+        </Card>
+        {Number(cropDistribution?.length || 0) > 0 && (
+          <>
+            <Card className="p-5 lg:col-span-7 col-span-12">
+              <h2 className="text-lg font-bold tracking-tight ">
+                Crops Distribution
+              </h2>
+              <div
+                className={`h-[350px] mt-4 duration-300 flex flex-col gap-1`}
+              >
+                <Line data={lineData} options={optionsLine} />
+              </div>
+              <p className="text-xs text-gray-400 mt-1">
+                The{" "}
+                <span className=" text-primary">
+                  {cropDistribution && cropDistribution[0]?.crop_name}
+                </span>{" "}
+                has the highest harvest of this month with a harvest value of{" "}
+                <span className=" text-primary">
+                  {cropDistribution && cropDistribution[0]?.total_harvested_qty}
+                </span>
+              </p>
+            </Card>
+            <Card className={` p-5 duration-300 lg:col-span-5 col-span-12`}>
+              <h2 className="text-lg font-bold tracking-tight ">
+                Farm Harvest Distribution
+              </h2>
+              <div className="h-[350px]">
+                <Bar data={dataHarvest} options={optionsBar} />
+              </div>
+              <p className="text-xs text-gray-400 mt-1">
+                The{" "}
+                <span className=" text-primary">
+                  {harvestDistribution && harvestDistribution[0]?.farm_name}
+                </span>{" "}
+                has the highest harvest of this month with a harvest value of{" "}
+                <span className=" text-primary">
+                  {harvestDistribution &&
+                    harvestDistribution[0]?.farm_harvest_qty}
+                </span>
+              </p>
+            </Card>
+          </>
+        )}
+        <Card className="col-span-12 lg:col-span-4 block lg:hidden p-5">
           <PieSeed />
         </Card>
       </div>
-      {Number(cropDistribution?.length || 0) > 0 && (
-        <div className=" grid grid-cols-12 gap-4 mt-4 col-span-12">
-          <Card className="p-5 lg:col-span-7 col-span-12">
-            <h2 className="text-lg font-bold tracking-tight ">
-              Crops Distribution
-            </h2>
-            <div className={`h-[350px] mt-4 duration-300 flex flex-col gap-1`}>
-              <Line data={lineData} options={optionsLine} />
-            </div>
-          </Card>
-          <Card className={` p-5 duration-300 lg:col-span-5 col-span-12`}>
-            <h2 className="text-lg font-bold tracking-tight ">
-              Farm Harvest Distribution
-            </h2>
-            <div className="h-[350px]">
-              <Bar data={dataHarvest} options={optionsBar} />
-            </div>
-          </Card>
-        </div>
-      )}
     </>
   );
 };

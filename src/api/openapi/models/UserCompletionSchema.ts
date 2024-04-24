@@ -5,6 +5,7 @@
 
 export type UserCompletionSchema = {
     firstname: string;
+    middlename?: string;
     lastname: string;
     birthdate: string;
     present_address: string;

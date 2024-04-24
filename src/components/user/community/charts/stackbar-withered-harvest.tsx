@@ -15,8 +15,12 @@ const StackbarWitheredHarvest = () => {
   const [monthSelected, setMonthSelected] = useState<string | undefined>(
     undefined
   );
+  const [yearSelected, setYearSelected] = useState<string | undefined>(
+    undefined
+  );
   const { data: stackBar } = useGetReportStackBarQuery({
-    month: monthSelected
+    month: monthSelected,
+    year: yearSelected
   });
 
   const optionsBar = {
@@ -82,24 +86,38 @@ const StackbarWitheredHarvest = () => {
     <>
       <div className="flex justify-between items-center gap-4">
         <h5 className="font-poppins-medium">Total Withered & Total Harvest</h5>
-        <Select
-          onValueChange={value =>
-            setMonthSelected(value === "all" ? undefined : value)
-          }
-          defaultValue="all"
-        >
-          <SelectTrigger className="w-auto ">
-            <SelectValue placeholder="Select Month" />
-          </SelectTrigger>
-          <SelectContent className=" max-h-[40vh]">
-            <SelectItem value={"all"}>All</SelectItem>
-            {months.map(month => (
-              <SelectItem key={month.value} value={month.value}>
-                {month.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <div className="flex gap-2">
+          <Select
+            onValueChange={value => setYearSelected(value)}
+            defaultValue="2024"
+          >
+            <SelectTrigger className="w-auto focus-visible:ring-0">
+              <SelectValue placeholder="Select Month" />
+            </SelectTrigger>
+            <SelectContent className=" max-h-[40vh]">
+              <SelectItem value={"2023"}>2023</SelectItem>
+              <SelectItem value={"2024"}>2024</SelectItem>
+            </SelectContent>
+          </Select>
+          <Select
+            onValueChange={value =>
+              setMonthSelected(value === "all" ? undefined : value)
+            }
+            defaultValue="all"
+          >
+            <SelectTrigger className="w-auto focus-visible:ring-0">
+              <SelectValue placeholder="Select Month" />
+            </SelectTrigger>
+            <SelectContent className=" max-h-[40vh]">
+              <SelectItem value={"all"}>All</SelectItem>
+              {months.map(month => (
+                <SelectItem key={month.value} value={month.value}>
+                  {month.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
       </div>
       <div className="h-[350px]">
         <Bar data={stackBarData} options={optionsBar} />

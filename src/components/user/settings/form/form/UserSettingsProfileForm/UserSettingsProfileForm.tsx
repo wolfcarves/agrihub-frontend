@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button } from "@components/ui/button";
 import { ProfileSchema, profileSchema } from "./schema";
 import useAuth from "@hooks/useAuth";
-import useUpdateUserProfileMutation from "@components/user/users/image/useUpdateUserProfileMutation";
+import useUpdateUserProfileMutation from "@hooks/api/post/useUpdateUserProfileMutation";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";

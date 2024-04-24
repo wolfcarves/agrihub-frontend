@@ -177,6 +177,7 @@ export type { Pagination } from './models/Pagination';
 export type { PaginationData } from './models/PaginationData';
 export type { Partner } from './models/Partner';
 export type { PartnerUpdate } from './models/PartnerUpdate';
+export type { PreDefinedMessages } from './models/PreDefinedMessages';
 export type { PrivacyPolicyResponse } from './models/PrivacyPolicyResponse';
 export type { ProblemMaterials } from './models/ProblemMaterials';
 export type { PublishedBlog } from './models/PublishedBlog';

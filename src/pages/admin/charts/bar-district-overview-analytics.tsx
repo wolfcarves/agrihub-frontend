@@ -39,14 +39,7 @@ const BarDistrictOverviewAnalytics = () => {
       {
         label: "Harvest",
         data: districtFarm?.map(item => item.total_harvest),
-        backgroundColor: [
-          "rgba(183, 235, 199, 0.5)",
-          "rgba(149, 220, 167, 0.5)",
-          "rgba(111, 195, 136, 0.5)",
-          "rgba(65, 171, 104, 0.5)",
-          "rgba(29, 138, 79, 0.5)",
-          "rgba(7, 89, 52, 0.5)"
-        ]
+        backgroundColor: ["rgba(183, 235, 199, 0.5)"]
       }
     ]
   };
@@ -57,6 +50,23 @@ const BarDistrictOverviewAnalytics = () => {
     scales: {
       y: {
         beginAtZero: true
+      }
+    },
+    plugins: {
+      datalabels: {
+        display: true,
+        color: "rgba(1, 50, 67, 1)",
+        font: {
+          weight: "bold" as "bold"
+        },
+        formatter: function (value: any) {
+          console.log(value);
+          if (value === "0") {
+            return "";
+          } else {
+            return value;
+          }
+        }
       }
     }
   };

@@ -24,13 +24,13 @@ const TableLearningMaterialArchive = () => {
     searchParams.set("search", value);
     searchParams.delete("page");
     setSearchParams(searchParams);
-  }, 100);
+  }, 400);
 
   return (
     <div className="w-full">
       <div className="flex items-center py-4">
         <Input
-          placeholder="Search title..."
+          placeholder="Search..."
           value={params.search}
           onChange={e => debouncedSearch(e.target.value)}
           className="max-w-sm"

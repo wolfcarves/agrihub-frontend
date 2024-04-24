@@ -26,12 +26,12 @@ const TableTagsList = () => {
     searchParams.set("search", value);
     searchParams.delete("page");
     setSearchParams(searchParams);
-  }, 100);
+  }, 400);
 
   return (
     <>
       <Input
-        placeholder="Search tag name..."
+        placeholder="Search..."
         className="max-w-sm my-4"
         value={params.search}
         onChange={e => debouncedSearch(e.target.value)}

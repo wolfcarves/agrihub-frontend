@@ -36,6 +36,7 @@ const SocketProvider = (props: { children: React.ReactNode }) => {
   };
 
   const showNotification = (payload: string) => {
+    console.log(payload, "WEB SOCKET");
     queryClient.invalidateQueries({ queryKey: ["GET_USER_NOTIFICATIONS"] });
     if (Notification.permission === "granted") {
       new Notification("Hello!", {

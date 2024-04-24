@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import logo from "@assets/icons/agrihub-topleaf.svg";
 import { adminNavigation } from "./admin-links";
-import { useNavigate } from "react-router-dom";
 import "../../../../globals.css";
 import useGetMyProfileQuery from "@hooks/api/get/useGetMyProfileQuery";
 import AdminNavLink from "./admin-navlink";
@@ -10,9 +9,6 @@ import { useSelector } from "../../../../redux/store";
 import { selectSidebarState } from "../../../../redux/slices/sidebarSlice";
 
 const AdminSidenav = () => {
-  const [open, setOpen] = useState(true);
-  const navigate = useNavigate();
-
   const { data: authData } = useGetMyProfileQuery();
 
   const { isOpen } = useSelector(selectSidebarState);

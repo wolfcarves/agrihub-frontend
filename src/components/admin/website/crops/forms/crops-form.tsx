@@ -60,11 +60,21 @@ const CropsForm = () => {
   ];
 
   const { data, isLoading: isCropDataLoading } = useGetCropsQuery();
+
   const cropData = data?.find(p => p.id === cropId);
-  const companion = cropData?.companion;
+
+  const companion = useMemo(() => {
+    return cropData?.companion;
+  }, [data]);
+
   const seedling = cropData?.seedling_season;
   const harvest = cropData?.harvest_season;
   const [companions, setCompanions] = useState<string[]>(companion || []);
+  const [openDialog, setOpenDialog] = useState(false);
+
+  useEffect(() => {
+    setCompanions(cropData?.companion || []);
+  }, [data]);
   // Form
   const form = useForm<NewCropRequest>({
     resolver: zodResolver(addCropSchema),
@@ -154,7 +164,8 @@ const CropsForm = () => {
       planting_season: "0",
       companion: allCompanions
     };
-    console.log(compiledData, "compiled");
+    console.log(companions, "compiled");
+    console.log(data.isyield, "YIELD");
     try {
       if (cropId) {
         await updateCropMutate({
@@ -172,6 +183,7 @@ const CropsForm = () => {
     } catch (e: any) {
       toast.error(e.body.message);
     }
+    setOpenDialog(false);
   };
 
   if (isCropDataLoading) {
@@ -191,6 +203,19 @@ const CropsForm = () => {
             {/* Crop name */}
             <div className="w-full">
               <Label>Crop Name</Label>
+              {/* <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <Input
+                    type="text"
+                    placeholder="Crop name"
+                    onChange={field.onChange}
+                    defaultValue={cropData?.name}
+                    // value={field.value}
+                  />
+                )}
+              /> */}
               <Input
                 type="text"
                 placeholder="Crop name"
@@ -208,7 +233,8 @@ const CropsForm = () => {
                 render={({ field }) => (
                   <div className="flex justify-center">
                     <Checkbox
-                      checked={field.value}
+                      // checked={field.value}
+                      defaultChecked={cropData?.isyield ?? false}
                       onCheckedChange={field.onChange}
                     />
                   </div>
@@ -402,13 +428,14 @@ const CropsForm = () => {
                   Delete
                 </Button>
                 {!editMode || editIndex !== index ? (
-                  <Button
-                    type="button"
-                    variant="outline"
+                  <div
+                    // type="button"
+                    // variant="outline"
+                    className="border border-slate-200 bg-white hover:bg-slate-100 hover:text-slate-900 dark:border-slate-800 dark:bg-slate-950 dark:hover:bg-slate-800 dark:hover:text-slate-50 rounded-lg h-10 px-4 py-2"
                     onClick={() => handleEditCompanion(index, companion)}
                   >
                     Edit
-                  </Button>
+                  </div>
                 ) : (
                   <Button onClick={handleAddCompanion}>Save</Button>
                 )}
@@ -417,10 +444,10 @@ const CropsForm = () => {
           )}
           {/* add crop button */}
           <div className="flex justify-end my-8">
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button>Confirm</Button>
-              </AlertDialogTrigger>
+            <Button type="button" onClick={() => setOpenDialog(true)}>
+              Confirm
+            </Button>
+            <AlertDialog open={openDialog}>
               <AlertDialogContent>
                 <AlertDialogHeader>
                   <AlertDialogTitle>

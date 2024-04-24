@@ -28,12 +28,11 @@ const QuestionsReported = () => {
     searchParams.set("search", value);
     searchParams.delete("page");
     setSearchParams(searchParams);
-  }, 100);
-  console.log(questionData, "asdsa");
+  }, 400);
   return (
     <>
       <Input
-        placeholder="Search title..."
+        placeholder="Search..."
         className="max-w-sm my-4"
         value={params.search}
         onChange={e => debouncedSearch(e.target.value)}

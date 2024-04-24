@@ -9,6 +9,7 @@ interface CropsReportParams {
   perpage?: string;
   filter?: Array<string>;
   sort?: string;
+  month?: string;
 }
 export default function useGetReportCropListQuery(data: CropsReportParams) {
   return useQuery({

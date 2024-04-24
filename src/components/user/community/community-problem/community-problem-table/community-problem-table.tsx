@@ -19,6 +19,9 @@ import DialogAddProblem from "../dialog-add-problem/dialog-add-problem";
 import useDebounce from "../../../../../hooks/utils/useDebounce";
 import { Input } from "../../../../ui/input";
 import { Pagination } from "../../../../ui/custom";
+import { Button } from "../../../../ui/button";
+import { CSVLink } from "react-csv";
+import { PiFileCsvFill } from "react-icons/pi";
 const CommunityProblemTable = () => {
   const { id } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -39,6 +42,33 @@ const CommunityProblemTable = () => {
     filter: params.sortBy
   });
 
+  const { data: ProblemExport } = useGetProblemsCommunityList({
+    id: id || "",
+    search: params.search,
+    page: "1",
+    perpage: "100000",
+    filter: params.sortBy
+  });
+
+  const headers = [
+    { label: "Farm Problem", key: "problem" },
+    { label: "Status", key: "status" },
+    { label: "Date Notice", key: "date_noticed" }
+  ];
+
+  const problemData = useMemo(() => {
+    return (
+      ProblemExport?.data?.map(item => ({
+        problem: item.problem,
+        status: item.status,
+        date_noticed: item.date_noticed
+      })) || []
+    );
+  }, [ProblemExport]);
+
+  const currentDate = new Date();
+  const currentDateTime = currentDate.toISOString();
+
   const debouncedSearch = useDebounce((value: string) => {
     searchParams.set("search", value);
     setSearchParams(searchParams);
@@ -53,6 +83,16 @@ const CommunityProblemTable = () => {
           onChange={e => debouncedSearch(e.target.value)}
         />
         <div className="flex gap-3">
+          <Button>
+            <CSVLink
+              className="flex items-center gap-1"
+              data={problemData}
+              headers={headers}
+              filename={`farm-problem-${currentDateTime}.csv`}
+            >
+              <PiFileCsvFill size={18} /> Export
+            </CSVLink>
+          </Button>
           <Select
             onValueChange={val => {
               searchParams.set("sortBy", val);

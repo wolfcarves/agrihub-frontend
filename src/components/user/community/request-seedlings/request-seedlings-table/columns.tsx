@@ -85,7 +85,6 @@ export const columns: ColumnDef<SeedlingRequestListItem>[] = [
     header: "Actions",
     id: "actions",
     cell: ({ row }) => {
-      console.log(row.original);
       const request = row.original;
       const { mutateAsync: rejectSeedling, isLoading: isSeedlingLoad } =
         useDeleteRequestSeedlingCancel();

@@ -187,7 +187,7 @@ const Blog = () => {
             loop: true
           }}
         >
-          <CarouselPrevious />
+          <CarouselPrevious className="" />
           <CarouselNext />
           <CarouselContent className="-ml-2 md:-ml-4">
             {blogData?.data?.map((item, index) => {

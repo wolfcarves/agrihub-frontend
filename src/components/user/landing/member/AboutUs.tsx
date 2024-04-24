@@ -86,6 +86,10 @@ const About = () => {
                 </CarouselItem>
               ))}
             </CarouselContent>
+            <div className="relative">
+              <CarouselPrevious className="left-4 -top-32" />
+              <CarouselNext className="right-4 -top-32" />
+            </div>
           </Carousel>
         </div>
       </div>

@@ -15,9 +15,9 @@ import {
 
 import { Pagination } from "../../../ui/custom";
 import useDebounce from "@hooks/utils/useDebounce";
-import Input from "../../../ui/custom/input/input";
 import { useQuery } from "@tanstack/react-query";
 import { FarmProblemsService } from "../../../../api/openapi";
+import { Input } from "@components/ui/input";
 const AdminFarmReportedProblems = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -48,14 +48,13 @@ const AdminFarmReportedProblems = () => {
     searchParams.set("search", value);
     searchParams.delete("page");
     setSearchParams(searchParams);
-  }, 100);
+  }, 400);
   return (
     <div>
-      <div className="flex justify-between gap-3 mb-4">
+      <div className="flex justify-between gap-3 py-4">
         <Input
-          placeholder="Search problem..."
+          placeholder="Search..."
           className="max-w-sm"
-          value={params.search}
           onChange={e => debouncedSearch(e.target.value)}
         />
         <div className="flex gap-3">

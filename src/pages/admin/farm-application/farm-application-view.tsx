@@ -259,9 +259,7 @@ const FarmApplicationView = () => {
                 </AlertDialogContent>
               </AlertDialog>
             </div>
-          ) : (
-            ""
-          )}
+          ) : null}
         </Card>
       </div>
     </AdminOutletContainer>

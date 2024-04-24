@@ -3,16 +3,17 @@ import QuestionsInputAddQuestion from "@components/user/questions/input/Question
 import QuestionsList from "@components/user/questions/list/QuestionsList";
 import { Pagination } from "@components/ui/custom";
 import useGetQuestionsQuery from "@hooks/api/get/useGetQuestionsQuery";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import QuestionsFilterSelect, {
   SortValues
 } from "@components/user/questions/select/QuestionsFilterSelect";
 import OutletContainer from "@components/user/questions/container/OutletContainer";
 import QuestionsTitleTag from "@components/user/questions/title/QuestionsTitleTag";
 import { Helmet } from "react-helmet-async";
+import QuestionCardSkeleton from "@components/user/questions/skeleton/QuestionCardSkeleton";
+import QuestionTagNoResultResponse from "@components/user/questions/error/QuestionTagNoResultResponse";
 
 const Questions = () => {
-  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const params = useMemo(() => {
@@ -39,6 +40,9 @@ const Questions = () => {
     setSearchParams(searchParams);
   };
 
+  const hasQuestion =
+    questionData?.questions?.length && questionData?.questions.length > 0; //may problem sa backend temporary solution lang muna to
+
   return (
     <>
       <Helmet>
@@ -52,27 +56,16 @@ const Questions = () => {
           selected={params.sortBy}
           onFilterChange={handleFilterChange}
         />
-        {questionData?.questions?.length &&
-        questionData?.questions?.length > 0 ? (
+
+        {isQuestionLoading ? (
+          <QuestionCardSkeleton />
+        ) : hasQuestion ? (
           <>
             <QuestionsList data={questionData} isLoading={isQuestionLoading} />
             <Pagination totalPages={totalPages} isLoading={isQuestionLoading} />
           </>
         ) : (
-          <div className="w-full mx-auto text-center">
-            <div>
-              <h5>Walang Resulta</h5>
-            </div>
-
-            <div>
-              <button
-                onClick={() => navigate(-1)}
-                className="flex items-center w-max underline mx-auto cursor-pointer"
-              >
-                Bumalik
-              </button>
-            </div>
-          </div>
+          <QuestionTagNoResultResponse />
         )}
       </OutletContainer>
     </>

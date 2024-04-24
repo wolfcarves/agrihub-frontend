@@ -300,3 +300,24 @@ export function formatMonth(monthNumber: string): string | null {
     return null;
   }
 }
+
+export function formatNumberWithCommas(number: number) {
+  // Convert number to string
+  let numberString = number.toString();
+
+  // Split the string into parts if it has a decimal
+  let parts = numberString.split(".");
+
+  // Get the whole number part
+  let wholeNumber = parts[0];
+
+  // Add commas to separate thousands
+  let formattedNumber = wholeNumber.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+  // Add back the decimal part if it exists
+  if (parts.length > 1) {
+    formattedNumber += "." + parts[1];
+  }
+
+  return formattedNumber;
+}

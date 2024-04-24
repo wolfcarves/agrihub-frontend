@@ -49,14 +49,13 @@ const FarmProblemsCommon = () => {
     searchParams.set("search", search);
     searchParams.delete("page");
     setSearchParams(searchParams);
-  }, 700);
+  }, 400);
 
   return (
     <>
       <Input
-        placeholder="Search title..."
+        placeholder="Search..."
         className="max-w-sm my-4"
-        // value={searchParams.get("search") as string}
         onChange={e => handleSearch(e.target.value)}
       />
       <DataTable columns={columns} data={data?.data || []} />

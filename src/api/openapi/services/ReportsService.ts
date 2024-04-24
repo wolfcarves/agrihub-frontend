@@ -32,6 +32,7 @@ import type { LearningMaterialReport } from '../models/LearningMaterialReport';
 import type { MonthlyGrowthRate } from '../models/MonthlyGrowthRate';
 import type { NewCommunityCropReport } from '../models/NewCommunityCropReport';
 import type { PaginationData } from '../models/PaginationData';
+import type { PreDefinedMessages } from '../models/PreDefinedMessages';
 import type { ReportedQuestionList } from '../models/ReportedQuestionList';
 import type { ResourceCount } from '../models/ResourceCount';
 
@@ -72,17 +73,23 @@ formData: NewCommunityCropReport,
      */
     public static getApiReportsFarmerGraphStackedBar({
 month,
+year,
 }: {
 /**
  * Month for which to retrieve growth rate distribution
  */
 month?: string,
+/**
+ * Year for which to retrieve growth rate distribution
+ */
+year?: string,
 }): CancelablePromise<FarmerGraphStackedBarResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/reports/farmer/graph/stacked-bar',
             query: {
                 'month': month,
+                'year': year,
             },
             errors: {
                 400: `Validation Error`,
@@ -136,17 +143,23 @@ month?: string,
      */
     public static getApiReportsFarmerGraphGrowthHarvest({
 month,
+year,
 }: {
 /**
  * Month for which to retrieve growth rate distribution
  */
 month?: string,
+/**
+ * Month for which to retrieve growth rate distribution
+ */
+year?: string,
 }): CancelablePromise<FarmerGraphGrowthHarvestResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/reports/farmer/graph/growth-harvest',
             query: {
                 'month': month,
+                'year': year,
             },
             errors: {
                 400: `Validation Error`,
@@ -215,7 +228,7 @@ month,
 page,
 perpage,
 filter,
-sort,
+order,
 }: {
 /**
  * ID of the farm
@@ -241,10 +254,7 @@ perpage?: string,
  * Array of filters
  */
 filter?: Array<string>,
-/**
- * Sorting parameter
- */
-sort?: string,
+order?: 'asc' | 'desc',
 }): CancelablePromise<CommunityCropReportsResponse> {
         return __request(OpenAPI, {
             method: 'GET',
@@ -258,7 +268,7 @@ sort?: string,
                 'page': page,
                 'perpage': perpage,
                 'filter': filter,
-                'sort': sort,
+                'order': order,
             },
             errors: {
                 400: `Validation Error`,
@@ -280,7 +290,7 @@ search,
 page,
 perpage,
 filter,
-sort,
+order,
 }: {
 /**
  * ID of the farm
@@ -302,10 +312,7 @@ perpage?: string,
  * Array of filters
  */
 filter?: Array<string>,
-/**
- * Sorting parameter
- */
-sort?: string,
+order?: 'asc' | 'desc',
 }): CancelablePromise<CommunityCropReportsResponse> {
         return __request(OpenAPI, {
             method: 'GET',
@@ -318,7 +325,7 @@ sort?: string,
                 'page': page,
                 'perpage': perpage,
                 'filter': filter,
-                'sort': sort,
+                'order': order,
             },
             errors: {
                 400: `Validation Error`,
@@ -962,6 +969,24 @@ limit?: number,
                 'district': district,
                 'limit': limit,
             },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Get Pre-defined Messages
+     * @returns PreDefinedMessages Successful response
+     * @throws ApiError
+     */
+    public static getApiReportsAnalyticsPreDefined(): CancelablePromise<PreDefinedMessages> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/reports/analytics/pre-defined',
             errors: {
                 400: `Validation Error`,
                 401: `Unauthorized`,

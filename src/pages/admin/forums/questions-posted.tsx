@@ -27,14 +27,13 @@ const QuestionsPosted = () => {
     searchParams.set("search", value);
     searchParams.delete("page");
     setSearchParams(searchParams);
-  }, 100);
+  }, 400);
   console.log(questionData);
   return (
     <>
       <Input
-        placeholder="Search title..."
+        placeholder="Search..."
         className="max-w-sm my-4"
-        value={params.search}
         onChange={e => debouncedSearch(e.target.value)}
       />
       <DataTable columns={columns} data={questionData?.questions || []} />

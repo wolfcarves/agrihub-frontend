@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import useGetReportStackBarQuery from "../../../../hooks/api/get/useGetReportStackBarQuery";
 import { Bar } from "react-chartjs-2";
 import {
@@ -10,6 +10,10 @@ import {
 } from "../../../ui/select";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import { Chart, ChartOptions } from "chart.js";
+import { useReactToPrint } from "react-to-print";
+import { Button } from "../../../ui/button";
+import { GrDocumentPdf } from "react-icons/gr";
+import { FaFilePdf } from "react-icons/fa6";
 Chart.register(ChartDataLabels);
 const StackbarWitheredHarvest = () => {
   const [monthSelected, setMonthSelected] = useState<string | undefined>(
@@ -82,8 +86,13 @@ const StackbarWitheredHarvest = () => {
     { value: "11", label: "November" },
     { value: "12", label: "December" }
   ];
+
+  const componentRef = useRef<HTMLDivElement>(null);
+  const handlePrint = useReactToPrint({
+    content: () => componentRef?.current
+  });
   return (
-    <>
+    <div ref={componentRef} className="print:p-2">
       <div className="flex justify-between items-center gap-4">
         <h5 className="font-poppins-medium">Total Withered & Total Harvest</h5>
         <div className="flex gap-2">
@@ -117,12 +126,22 @@ const StackbarWitheredHarvest = () => {
               ))}
             </SelectContent>
           </Select>
+          <Button
+            className="print:hidden p-4 bg-[#DE2429]"
+            onClick={handlePrint}
+          >
+            <FaFilePdf size={16} />
+          </Button>
         </div>
       </div>
-      <div className="h-[350px]">
-        <Bar data={stackBarData} options={optionsBar} />
+      <div className="h-[350px] print:h-[400px]">
+        <Bar
+          className="chart_export"
+          data={stackBarData}
+          options={optionsBar}
+        />
       </div>
-    </>
+    </div>
   );
 };
 

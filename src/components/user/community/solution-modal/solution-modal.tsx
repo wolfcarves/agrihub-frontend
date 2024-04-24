@@ -20,7 +20,7 @@ interface SolutionProps {
 }
 const SolutionModal: React.FC<SolutionProps> = ({ problemId }) => {
   const { data: LearningMaterials } = useGetProblemsFarmById(problemId);
-  console.log(LearningMaterials, "asdad");
+
   return (
     <Dialog>
       <DialogTrigger>

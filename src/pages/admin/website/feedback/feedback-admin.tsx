@@ -31,8 +31,9 @@ const FeedbackAdmin = () => {
   );
   const debouncedSearch = useDebounce((value: string) => {
     searchParams.set("search", value);
+    searchParams.delete("page");
     setSearchParams(searchParams);
-  }, 100);
+  }, 400);
   return (
     <AdminOutletContainer className="container mx-auto py-10 ">
       <BreadCrumb items={breadcrumbItems} />
@@ -51,9 +52,8 @@ const FeedbackAdmin = () => {
       <hr className="my-4" />
       <div className="flex items-center">
         <Input
-          placeholder="Search title..."
+          placeholder="Search..."
           className="max-w-sm my-4"
-          value={params.search}
           onChange={e => debouncedSearch(e.target.value)}
         />
       </div>

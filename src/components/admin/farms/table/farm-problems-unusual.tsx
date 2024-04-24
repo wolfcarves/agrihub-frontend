@@ -1,6 +1,5 @@
 import React, { useMemo } from "react";
 import { columns } from "../../../../pages/admin/farms/table/columns-farm-problems";
-import { Card } from "@components/ui/card";
 import { Input } from "@components/ui/input";
 import { DataTable } from "@components/ui/custom/data-table/data-table";
 import { useSearchParams } from "react-router-dom";
@@ -49,14 +48,13 @@ const FarmProblemsUnusual = () => {
     searchParams.set("search", search);
     searchParams.delete("page");
     setSearchParams(searchParams);
-  }, 700);
+  }, 400);
 
   return (
     <>
       <Input
-        placeholder="Search title..."
+        placeholder="Search..."
         className="max-w-sm my-4"
-        // value={searchParams.get("search") as string}
         onChange={e => handleSearch(e.target.value)}
       />
       <DataTable columns={columns} data={data?.data || []} />

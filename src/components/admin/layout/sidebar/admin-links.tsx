@@ -1,19 +1,12 @@
-import { MdAdminPanelSettings, MdOutlineViewComfy } from "react-icons/md";
+import { MdAdminPanelSettings } from "react-icons/md";
 import { IoAnalyticsSharp } from "react-icons/io5";
-import { GiFarmTractor } from "react-icons/gi";
 import { MdOutlineSource } from "react-icons/md";
 import { MdOutlineForum } from "react-icons/md";
-import { FaRegEdit, FaRegUser, FaUserCog, FaUsers } from "react-icons/fa";
-import { MdOutlineAdminPanelSettings } from "react-icons/md";
+import { FaRegEdit, FaUserCog, FaUsers } from "react-icons/fa";
 import { RxActivityLog } from "react-icons/rx";
 import { ReactNode } from "react";
 import { module_keys } from "../../../../higher-order/account/withAuthGuard";
-import {
-  RiCommunityFill,
-  RiCommunityLine,
-  RiDashboardFill
-} from "react-icons/ri";
-import { LiaUsersSolid } from "react-icons/lia";
+import { RiCommunityLine, RiDashboardFill } from "react-icons/ri";
 import { BsFillFolderSymlinkFill } from "react-icons/bs";
 
 type DropdownItem = {
@@ -83,8 +76,8 @@ export const adminNavigation: NavigationItem[] = [
       },
       {
         icon: <RiCommunityLine size={24} />,
-        title: "Tool Request",
-        link: "/admin/community/tool-request",
+        title: "Problem List",
+        link: "/admin/community/problems",
         module: "farms"
       },
       {
@@ -95,8 +88,8 @@ export const adminNavigation: NavigationItem[] = [
       },
       {
         icon: <RiCommunityLine size={24} />,
-        title: "Problem List",
-        link: "/admin/community/problems",
+        title: "Tool Request",
+        link: "/admin/community/tool-request",
         module: "farms"
       }
     ]

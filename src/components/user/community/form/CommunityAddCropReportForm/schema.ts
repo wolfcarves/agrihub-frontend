@@ -91,34 +91,5 @@ export const cropAddReportSchema = (
           : "The combined quantity of withered plants and harvested canno't be greater than planted quantity",
         path: [CropReport?.isyield ? "withered_crops" : "harvested_qty"] // You can specify the path where the error will be shown
       }
-    )
-    .refine(
-      data => {
-        const selectedCrop = farmCrops?.find(obj => obj.id === data.crop_id);
-        if (selectedCrop?.isyield) {
-          if (selectedCrop?.isyield && data?.planted_qty) {
-            const Quantity = data?.planted_qty - data.withered_crops;
-            if (Quantity <= 0) {
-              return false;
-            }
-            return true;
-          } else {
-            const Quantity =
-              data?.planted_qty ||
-              0 - (data.withered_crops + data.harvested_qty);
-
-            if (Quantity <= 0) {
-              return false;
-            }
-            return true;
-          }
-        }
-        return true;
-      },
-      {
-        message:
-          "Withered plants or harvested quantity canno't be greater than planted quantity",
-        path: ["withered_crops"] // You can specify the path where the error will be shown
-      }
     );
 };

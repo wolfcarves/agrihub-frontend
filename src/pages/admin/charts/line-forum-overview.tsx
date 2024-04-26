@@ -38,6 +38,21 @@ const LineForumOverview = () => {
       y: {
         beginAtZero: true
       }
+    },
+    plugins: {
+      datalabels: {
+        display: "auto",
+        color: "rgba(27, 163, 156)",
+        anchor: "end" as "end",
+        align: "top" as "top",
+        formatter: function (value: any) {
+          if (value === "0") {
+            return "";
+          } else {
+            return value;
+          }
+        }
+      }
     }
   };
 

@@ -10,7 +10,7 @@ import useGetClientDetails from "@hooks/api/get/useGetClientDetails";
 import parse from "html-react-parser";
 import * as Icons from "react-icons/bi";
 import { renderIcon } from "@components/lib/RenderIcon";
-import { formatDate } from "../../../lib/utils";
+import { formatDate, formatDistrict } from "../../../lib/utils";
 import useGetVisionStats from "@hooks/api/get/useGetVisionStats";
 type IconType = keyof typeof Icons;
 
@@ -29,11 +29,20 @@ const ContentWhatWeDo: React.FC = () => {
     ...cmsDataLanding
   };
 
-  const { data: userData } = useAuth();
+  const { data: userData, isFetching } = useAuth();
   const { data } = useGetFarmListQuery({
     search: undefined,
     page: "1",
-    filter: undefined,
+    filter:
+      !isFetching && userData
+        ? (formatDistrict(userData?.district || "") as
+            | "District 1"
+            | "District 2"
+            | "District 3"
+            | "District 4"
+            | "District 5"
+            | "District 6")
+        : undefined,
     perpage: "3"
   });
 
@@ -254,16 +263,15 @@ const ContentWhatWeDo: React.FC = () => {
               Who's using AgriHub?
             </h3>
             <p className="text-gray-600 mt-3">
-              This are some of the registered farm within the community{" "}
+              This are some of the registered farm within{" "}
+              {userData ? "your District" : "the Community"}{" "}
               <Link to="/community/explore">explore</Link>
             </p>
           </div>
-          <div className="mt-12 flex justify-between">
-            <div className="grid grid-cols-6 gap-2">
-              {data?.farms
-                ?.filter(farm => farm.id !== userData?.farm_id)
-                .map((farm, i) => <FarmCard farm={farm} key={i} />)}
-            </div>
+          <div className="grid grid-cols-6 gap-2 mt-12">
+            {data?.farms
+              ?.filter(farm => farm.id !== userData?.farm_id)
+              .map((farm, i) => <FarmCard farm={farm} key={i} />)}
           </div>
         </div>
       </div>

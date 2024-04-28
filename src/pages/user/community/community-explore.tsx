@@ -19,6 +19,8 @@ import useGetFarmCheckExistingApplication from "../../../hooks/api/get/useGetFar
 import { Button } from "../../../components/ui/button";
 import SearchNotFoundIllustration from "@icons/community/SearchNotFoundIllustration";
 import LoadingSpinner from "@icons/LoadingSpinner";
+import { formatDistrict } from "../../../components/lib/utils";
+import { User } from "lucide-react";
 
 type SortValues =
   | "All"
@@ -31,7 +33,7 @@ type SortValues =
   | undefined;
 
 const Explore = () => {
-  const { data: UserData } = useAuth();
+  const { data: UserData, isFetching } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
   const { isError } = useGetFarmCheckExistingApplication();
 
@@ -46,9 +48,22 @@ const Explore = () => {
   const { data, isLoading } = useGetFarmListQuery({
     search: params.search ?? "",
     page: String(params.currentPage) ?? "1",
-    filter: params.sortBy === "All" ? undefined : params.sortBy,
+    filter: params.sortBy
+      ? params.sortBy === "All"
+        ? undefined
+        : params.sortBy
+      : (formatDistrict(UserData?.district || "") as
+          | "District 1"
+          | "District 2"
+          | "District 3"
+          | "District 4"
+          | "District 5"
+          | "District 6"
+          | undefined),
     perpage: "9"
   });
+
+  console.log(data);
 
   const totalPages = data?.pagination?.total_pages ?? params.currentPage + 1;
 
@@ -119,13 +134,13 @@ const Explore = () => {
           </Select>
         </div>
         <div className="min-h-[16.5rem]">
-          {isLoading && (
+          {isLoading && isFetching && (
             <div className="flex justify-center items-center h-96">
               <LoadingSpinner />
             </div>
           )}
 
-          {!isLoading && (
+          {!isLoading && !isFetching && (
             <div className="grid grid-cols-6 gap-2 mt-4 mb-3">
               {data?.farms && data.farms.length > 0 ? (
                 data.farms

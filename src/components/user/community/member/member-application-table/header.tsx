@@ -19,8 +19,10 @@ import MemberApplicationDrawer from "../member-application-drawer/member-applica
 interface HeaderProps {
   search: string;
   setSearch: React.Dispatch<React.SetStateAction<string>>;
-  filter: string;
-  setFilter: React.Dispatch<React.SetStateAction<string>>;
+  filter: string | undefined;
+  setFilter: React.Dispatch<
+    React.SetStateAction<"pending" | "accepted" | "rejected" | undefined>
+  >;
 }
 const Header: React.FC<HeaderProps> = ({
   search,
@@ -29,7 +31,7 @@ const Header: React.FC<HeaderProps> = ({
   setFilter
 }) => {
   const [dialog, setDialog] = useState<boolean>(false);
-  const { isAllowed, isMember } = useCommunityAutorization();
+  // const { isAllowed, isMember } = useCommunityAutorization();
 
   return (
     <div className="my-2 flex md:flex-row flex-col gap-3 justify-between">
@@ -41,17 +43,7 @@ const Header: React.FC<HeaderProps> = ({
       />
 
       <div className=" flex gap-1 items-center">
-        {/* <MemberApplicationDrawer /> */}
-        <div className="flex items-center justify-end gap-2">
-          {isAllowed && isMember && (
-            <Button
-              onClick={() => setDialog(true)}
-              className="flex items-center gap-1"
-            >
-              <IoMdAdd size={15} /> Invite
-            </Button>
-          )}
-        </div>
+        <MemberApplicationDrawer />
       </div>
       <MemberInviteDialog dialog={dialog} setDialog={setDialog} />
     </div>

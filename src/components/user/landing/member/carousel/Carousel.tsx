@@ -59,7 +59,7 @@ const Carousels: React.FC = () => {
                   <h3 className="text-3xl text-slate-200 lg:text-gray-800 font-poppins-semibold md:text-4xl sm:max-w-md">
                     {cta_header}
                   </h3>
-                  <p className="text-slate-200 lg:text-gray-800 font-poppins-medium leading-relaxed mt-3 max-w-lg">
+                  <p className="text-slate-200 lg:text-gray-800 font-poppins-medium leading-relaxed mt-3 max-w-[31rem]">
                     {cta_description}
                   </p>
 

@@ -37,11 +37,11 @@ const FormQuestions: React.FC<dialogProps> = ({ setIsOpen, questionId }) => {
     useCommunityFarmQuestionsCreate();
 
   const handleSubmitForm = async (data: FarmQuestion) => {
-    // const compiledData: FarmQuestion = {
-    //   id: null,
-    //   farmid: id,
-    //   question: data.map(question => question)
-    // };
+    const compiledData: FarmQuestion = {
+      id: questionId ?? null,
+      farmid: id,
+      question: data.map(question => question)
+    };
 
     try {
       await formMutate({ requestBody: data });

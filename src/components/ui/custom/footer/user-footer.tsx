@@ -184,9 +184,9 @@ const UserFooter = () => {
             Terms of Use
           </Link>
           {" | "}
-          {/* <Link to="/helps" className="hover:underline">
+          <Link to="/helps" className="hover:underline">
             Help center
-          </Link> */}
+          </Link>
         </p>
       </div>
     </div>

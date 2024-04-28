@@ -5,6 +5,7 @@ import parse from "html-react-parser";
 import { toast } from "sonner";
 import { Card } from "@components/ui/card";
 import { TiArrowForwardOutline } from "react-icons/ti";
+import { format } from "date-fns";
 
 const EventTitle = () => {
   const params = useParams();
@@ -12,20 +13,13 @@ const EventTitle = () => {
     String(params.eventId)
   );
 
-  const s = new Date(eventData?.event_start ?? "");
-  const e = new Date(eventData?.event_end ?? "");
+  const backupDateString = "2024-01-01"; // Don't make this empty string fuck date-fns!
 
-  const dateOptions = {
-    month: "short",
-    day: "numeric",
-    year: "numeric"
-  } as Intl.DateTimeFormatOptions | undefined;
+  const s = new Date(eventData?.event_start ?? backupDateString);
+  const e = new Date(eventData?.event_end ?? backupDateString);
 
-  const startEvent =
-    s?.toLocaleDateString("en-US", dateOptions) + " " + s?.toLocaleTimeString();
-
-  const endEvent =
-    e?.toLocaleDateString("en-US", dateOptions) + " " + e?.toLocaleTimeString();
+  const startEvent = format(s, "MMMM d, yyyy hh:mm:a");
+  const endEvent = format(e, "MMMM d, yyyy hh:mm:a");
 
   const handleShare = async (
     title: string | undefined,
@@ -65,20 +59,6 @@ const EventTitle = () => {
         </div>
 
         <div className=" pb-3">
-          <Card
-            className="flex max-w-24 font-poppins-medium px-4 py-1 items-center justify-center cursor-pointer"
-            onClick={e => {
-              e.preventDefault();
-              handleShare(
-                eventData?.title,
-                eventData?.type,
-                `events/${eventData?.id}`
-              );
-            }}
-          >
-            Share
-            <TiArrowForwardOutline size="24" />
-          </Card>
           <h5 className="font-poppins-semibold">About this event</h5>
 
           <p className="pt-5">{parse(eventData?.about || "")}</p>
@@ -89,6 +69,21 @@ const EventTitle = () => {
 
           <p className="pt-5">{eventData?.type}</p>
         </div>
+
+        <Card
+          className="flex max-w-24 font-poppins-medium px-4 py-1 items-center justify-center cursor-pointer mt-5"
+          onClick={e => {
+            e.preventDefault();
+            handleShare(
+              eventData?.title,
+              eventData?.type,
+              `events/${eventData?.id}`
+            );
+          }}
+        >
+          Share
+          <TiArrowForwardOutline size="24" />
+        </Card>
       </div>
 
       <div className="flex-1 1 p-5 sm:p-10">

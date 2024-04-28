@@ -1,17 +1,21 @@
-import AgrihubLogo from "@icons/AgrihubLogo";
+import useGetCmsAboutDetails from "@hooks/api/get/useGetCmsAboutDetails";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 const UserSignupFormTitle = () => {
   const navigate = useNavigate();
-
+  const S3_BASE_URL = import.meta.env.VITE_S3_BUCKET_BASEURL;
+  const { data: aboutDetails } = useGetCmsAboutDetails();
   return (
     <>
       <Link
         to="/"
         className="flex w-max rounded-xl hover:scale-[1.10] duration-200"
       >
-        <AgrihubLogo className="w-[2.5rem]" />
+        <img
+          className="h-12 rounded-full"
+          src={S3_BASE_URL + aboutDetails?.agrihub_user_logo}
+        />
       </Link>
 
       <div className="flex flex-col gap-2 py-5 ">

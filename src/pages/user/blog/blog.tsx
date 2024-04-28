@@ -3,7 +3,9 @@ import { Link, useParams } from "react-router-dom";
 import {
   Carousel,
   CarouselContent,
-  CarouselItem
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious
 } from "@components/ui/carousel";
 import useGetBlogsPublishyIdQuery from "@hooks/api/get/useGetBlogsPublishyIdQuery";
 import parse from "html-react-parser";
@@ -15,6 +17,9 @@ import SkeletonBlogView from "@components/user/blogs/skeleton/skeleton-blog-view
 import useGetClientDetails from "@hooks/api/get/useGetClientDetails";
 import { IoIosArrowForward } from "react-icons/io";
 import BackButton from "@components/ui/custom/button/back-button";
+import { Card } from "@components/ui/card";
+import { TiArrowForwardOutline } from "react-icons/ti";
+import { toast } from "sonner";
 
 export const ellipsis = (text: string, maxLength: number): string => {
   if (text.length <= maxLength) {
@@ -47,6 +52,31 @@ const Blog = () => {
   const { data: blogData, isLoading: isLoadingSuggested } =
     useGetBlogsPublishList();
 
+  const handleShare = async (
+    title: string | undefined,
+    text: string | undefined,
+    url: string | undefined
+  ) => {
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title,
+          text,
+          url: `${window.location.origin}/${url}`
+        });
+      } else {
+        throw new Error("Web Share API is not supported");
+      }
+    } catch (error: any) {
+      toast(error.message, {
+        duration: 2000,
+        style: {
+          backgroundColor: "#ff5733"
+        }
+      });
+    }
+  };
+
   return (
     <div className="mx-2">
       <div>
@@ -75,6 +105,8 @@ const Blog = () => {
               })
             ]}
           >
+            <CarouselPrevious />
+            <CarouselNext />
             <CarouselContent className="-ml-1">
               {data?.images.map((image, index) => (
                 <CarouselItem
@@ -108,10 +140,27 @@ const Blog = () => {
             </div>
           )}
 
-          <h1 className="text-gray-800 text-xl sm:text-2xl duration-150 font-semibold text-center">
-            {data?.title}
-          </h1>
-
+          <div className="flex-wrap sm:flex gap-4 item-center justify-center">
+            <h1 className="text-gray-800 text-xl sm:text-2xl duration-150 font-semibold text-center">
+              {data?.title}
+            </h1>
+            <div>
+              <Card
+                className="mx-auto flex max-w-24 font-poppins-medium px-4 py-1 items-center justify-center cursor-pointer"
+                onClick={e => {
+                  e.preventDefault();
+                  handleShare(
+                    data?.title,
+                    data?.content,
+                    `blogs/view/${data?.id}`
+                  );
+                }}
+              >
+                Share
+                <TiArrowForwardOutline size="24" />
+              </Card>
+            </div>
+          </div>
           <div className="flex justify-center py-10">
             {data?.tags.map(({ tag }) => (
               <p className="text-base text-primary rounded-md w-auto border border-[#BBE3AD] bg-secondary px-2 mr-2 py-1">
@@ -127,8 +176,7 @@ const Blog = () => {
       </div>
 
       <h3 className="mt-20 mb-5 max-w-5xl mx-auto font-poppins-medium">
-        {" "}
-        Suggested Blogs{" "}
+        Recent Blogs
       </h3>
       <div className="mb-16 mx-auto max-w-5xl">
         {isLoadingSuggested && <SkeletonCard count={3} className="md:w-1/3" />}
@@ -139,6 +187,8 @@ const Blog = () => {
             loop: true
           }}
         >
+          <CarouselPrevious className="" />
+          <CarouselNext />
           <CarouselContent className="-ml-2 md:-ml-4">
             {blogData?.data?.map((item, index) => {
               return (

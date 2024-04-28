@@ -15,7 +15,7 @@ const DoughnutResource = () => {
           resourceCount?.learning_materials,
           resourceCount?.events
         ],
-        backgroundColor: ["#4F6F52", "#739072", "#D2E3C8"]
+        backgroundColor: ["#4F6F52", "#739072", "rgba(30, 130, 76)"]
       }
     ]
   };
@@ -26,6 +26,17 @@ const DoughnutResource = () => {
     scales: {
       y: {
         beginAtZero: true
+      }
+    },
+    plugins: {
+      datalabels: {
+        display: "auto",
+        color: "rgba(228, 241, 254, 1)",
+
+        font: {
+          weight: "bold" as "bold",
+          size: 14
+        }
       }
     }
   };

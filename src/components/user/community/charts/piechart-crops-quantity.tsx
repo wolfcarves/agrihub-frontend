@@ -16,7 +16,7 @@ const PiechartCropsQuantity = () => {
     },
     plugins: {
       datalabels: {
-        display: false,
+        display: "auto",
         color: "rgba(228, 241, 254, 1)",
         anchor: "end" as "end",
         align: "start" as "start",

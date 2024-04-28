@@ -1,4 +1,3 @@
-import AgrihubLogo from "@icons/leaves.svg";
 import UserHeaderNavigation from "./user-header-navigation";
 import SearchBar from "../search-bar/SearchBar";
 import { ReactNode, useEffect, useState } from "react";
@@ -11,6 +10,7 @@ import HeaderNotification from "../notification/header-notification";
 import UserHeaderMobileSidebar from "@components/ui/custom/sidebar/user-header-mobile-sidebar";
 import UserHeaderSearch from "./user-header-search";
 import InstallPWA from "../pwa/pwaInstall";
+import useGetCmsAboutDetails from "@hooks/api/get/useGetCmsAboutDetails";
 
 const UserHeaderContainer = ({ children }: { children: ReactNode }) => (
   <div className="sticky top-0 w-full bg-background z-50 flex justify-center h-14 lg:h-20 border-b">
@@ -21,11 +21,13 @@ const UserHeaderContainer = ({ children }: { children: ReactNode }) => (
 );
 
 const UserHeaderLogo = () => {
+  const { data: aboutDetails } = useGetCmsAboutDetails();
+  const S3_BASE_URL = import.meta.env.VITE_S3_BUCKET_BASEURL;
   return (
     <Link to="/">
       <img
         className="w-14 lg:block hidden"
-        src={AgrihubLogo as unknown as string}
+        src={S3_BASE_URL + aboutDetails?.agrihub_user_logo}
       />
     </Link>
   );

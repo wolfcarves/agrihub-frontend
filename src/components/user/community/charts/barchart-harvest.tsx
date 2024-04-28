@@ -11,6 +11,9 @@ import {
 import useGetFarmAllCropsQuery from "../../../../hooks/api/get/useGetFarmAllCropsQuery";
 import useGetReportCropDistributionCommunity from "../../../../hooks/api/get/useGetReportCropDistributionCommunity";
 import { chartColor } from "../../../../constants/data";
+import { Button } from "../../../ui/button";
+import { FaFilePdf } from "react-icons/fa6";
+import { useReactToPrint } from "react-to-print";
 const BarchartHarvest = () => {
   const [activeIndex, setActiveIndex] = useState<string>("");
   const chartRef = useRef();
@@ -113,14 +116,30 @@ const BarchartHarvest = () => {
     }
   };
 
+  const componentRef = useRef<HTMLDivElement>(null);
+  const handlePrint = useReactToPrint({
+    content: () => componentRef?.current
+  });
+
   return (
-    <div className="grid grid-cols-12 gap-x-4 gap-y-[2.5rem]">
+    <div
+      ref={componentRef}
+      className="grid grid-cols-12 gap-x-4 gap-y-[2.5rem]"
+    >
       <div className="border border-border p-4 rounded-lg lg:col-span-8 col-span-12">
-        <div className="flex flex-col ">
-          <h5 className="font-poppins-medium">Monthly Harvest</h5>
-          <p className="text-xs text-gray-400">
-            Click the bar to view the harvest summary of that month
-          </p>
+        <div className="flex justify-between ">
+          <div>
+            <h5 className="font-poppins-medium">Monthly Harvest</h5>
+            <p className="text-xs text-gray-400">
+              Click the bar to view the harvest summary of that month
+            </p>
+          </div>
+          <Button
+            className="print:hidden p-4 bg-[#DE2429]"
+            onClick={handlePrint}
+          >
+            <FaFilePdf size={16} />
+          </Button>
           {/* <Select>
             <SelectTrigger className="w-auto focus-visible:ring-0">
               <SelectValue placeholder="Select Month" />
@@ -136,6 +155,7 @@ const BarchartHarvest = () => {
         </div>
         <div className="h-[350px]  ">
           <Bar
+            className="chart_export"
             ref={chartRef}
             onClick={onClick}
             data={barData}

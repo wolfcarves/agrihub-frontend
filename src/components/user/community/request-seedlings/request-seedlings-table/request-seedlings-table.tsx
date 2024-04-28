@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { columns } from "./columns";
 import { DataTable } from "../../../../ui/custom/data-table/data-table";
 import useGetRequestSeedlingList from "../../../../../hooks/api/get/useGetRequestSeedlingList";
@@ -16,6 +16,10 @@ import {
   SelectTrigger,
   SelectValue
 } from "../../../../ui/select";
+import { CSVLink } from "react-csv";
+import { Button } from "../../../../ui/button";
+import { PiFileCsvFill } from "react-icons/pi";
+
 const RequestSeedlingsTable = () => {
   const { id } = useParams();
   const [search, setSearch] = useState<string>("");
@@ -31,6 +35,13 @@ const RequestSeedlingsTable = () => {
     filter: filter
   });
 
+  const { data: AllData, isLoading: exportLoad } = useGetRequestSeedlingList({
+    id: id || "",
+    page: "1",
+    perpage: "100000",
+    filter: filter
+  });
+
   const onPageChange = (newPage: number) => {
     setPage(newPage);
   };
@@ -39,16 +50,47 @@ const RequestSeedlingsTable = () => {
     setSearch(value);
   }, 100);
 
+  const headers = [
+    { label: "Crop Name", key: "name" },
+    { label: "Status", key: "status" },
+    { label: "Farm Name", key: "farm_name" },
+    { label: "Quantity Request", key: "request" }
+  ];
+
+  const seedlingData = useMemo(() => {
+    return (
+      AllData?.data?.map(item => ({
+        name: item.name === null ? item.other : item.name,
+        status: item.status,
+        farm_name: item.farm_name,
+        request: item.quantity_request
+      })) || []
+    );
+  }, [AllData]);
+
+  const currentDate = new Date();
+  const currentDateTime = currentDate.toISOString();
+
   return (
     <div>
       <div className="my-2 flex md:flex-row flex-col gap-3 justify-between">
         <Input
           placeholder="Search crop..."
-          value={search}
           onChange={e => debouncedSearch(e.target.value)}
           className="max-w-sm focus-visible:ring-0"
         />
         <div className="flex items-center gap-2">
+          <Button>
+            <CSVLink
+              className="flex items-center gap-1"
+              data={seedlingData}
+              headers={headers}
+              filename={`seedling-request-${currentDateTime}.csv`}
+            >
+              <PiFileCsvFill size={18} /> Export
+            </CSVLink>
+          </Button>
+
           <Select
             onValueChange={value =>
               setFilter(
@@ -70,7 +112,6 @@ const RequestSeedlingsTable = () => {
               </SelectGroup>
             </SelectContent>
           </Select>
-
           <DialogRequestSeedling />
         </div>
       </div>

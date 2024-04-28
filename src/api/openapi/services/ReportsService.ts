@@ -32,6 +32,7 @@ import type { LearningMaterialReport } from '../models/LearningMaterialReport';
 import type { MonthlyGrowthRate } from '../models/MonthlyGrowthRate';
 import type { NewCommunityCropReport } from '../models/NewCommunityCropReport';
 import type { PaginationData } from '../models/PaginationData';
+import type { PreDefinedMessages } from '../models/PreDefinedMessages';
 import type { ReportedQuestionList } from '../models/ReportedQuestionList';
 import type { ResourceCount } from '../models/ResourceCount';
 
@@ -968,6 +969,24 @@ limit?: number,
                 'district': district,
                 'limit': limit,
             },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Get Pre-defined Messages
+     * @returns PreDefinedMessages Successful response
+     * @throws ApiError
+     */
+    public static getApiReportsAnalyticsPreDefined(): CancelablePromise<PreDefinedMessages> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/reports/analytics/pre-defined',
             errors: {
                 400: `Validation Error`,
                 401: `Unauthorized`,

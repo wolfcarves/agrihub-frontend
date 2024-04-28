@@ -34,7 +34,6 @@ import {
   CardHeader,
   CardTitle
 } from "@components/ui/card";
-import { ComboboxPopoverStatus } from "./components/combobox-status";
 import { PiArrowFatUpThin, PiArrowFatDownThin } from "react-icons/pi";
 import { Label } from "@components/ui/label";
 import { Textarea } from "@components/ui/textarea";
@@ -247,30 +246,6 @@ export const columns: ColumnDef<ReportedQuestion>[] = [
                               </AlertDialogFooter>
                             </AlertDialogContent>
                           </AlertDialog>
-                          {/* <AlertDialog>
-                            <AlertDialogTrigger>
-                              <Button className="bg-yellow-500 hover:bg-yellow-500/80">
-                                Warning
-                              </Button>
-                            </AlertDialogTrigger>
-                            <AlertDialogContent>
-                              <AlertDialogHeader>
-                                <AlertDialogTitle>
-                                  Send Warning to user
-                                </AlertDialogTitle>
-                                <AlertDialogDescription>
-                                  This action will send a notification to user
-                                  about the action he've done.
-                                </AlertDialogDescription>
-                              </AlertDialogHeader>
-                              <AlertDialogFooter>
-                                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                <AlertDialogAction onClick={handleWarn}>
-                                  Send
-                                </AlertDialogAction>
-                              </AlertDialogFooter>
-                            </AlertDialogContent>
-                          </AlertDialog> */}
                         </div>
                       </CardFooter>
                     </Card>
@@ -284,7 +259,6 @@ export const columns: ColumnDef<ReportedQuestion>[] = [
                           <DrawerTitle>
                             {viewQuestion?.question?.id}
                           </DrawerTitle>
-                          <ComboboxPopoverStatus />
                         </div>
                       </DrawerHeader>
 

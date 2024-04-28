@@ -13,10 +13,12 @@ import {
 import { IoIosWarning } from "react-icons/io";
 import useGetReportLearningMaterials from "../../../../hooks/api/get/useGetReportLearningMaterials";
 import { Link } from "react-router-dom";
+import useGetReportsAnalyticsPredefined from "../../../../hooks/api/get/useGetReportsAnalyticsPredefined";
 
 const SuggestionsModal = () => {
   const { data: LearningMaterials } = useGetReportLearningMaterials();
-
+  const { data: PreDefined } = useGetReportsAnalyticsPredefined();
+  console.log(PreDefined, "ghh");
   return (
     <Dialog>
       <DialogTrigger className="bg-red-300 rounded-lg flex items-center p-1 w-full gap-2 px-2 ">
@@ -29,10 +31,18 @@ const SuggestionsModal = () => {
         </p>
       </DialogTrigger>
       <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Learning Materials</DialogTitle>
-        </DialogHeader>
+        <div className="font-poppins-semibold text-xl ">
+          Diagnostics for {PreDefined?.plant}:
+        </div>
+        <div className="flex flex-col justify-center px-4 mb-3">
+          <div className="mb-2">{PreDefined?.crop_yield}.</div>
+          <div className="mb-2">{PreDefined?.withered_reports}.</div>
+          <div className="mb-2">{PreDefined?.net_yield}.</div>
+        </div>
 
+        <DialogHeader>
+          <DialogTitle>Here are suggested learning materials:</DialogTitle>
+        </DialogHeader>
         <div className="px-[1rem] flex flex-col gap-2 max-h-[60vh] overflow-y-auto">
           {LearningMaterials?.map((materials, i) => (
             <Link key={i} to={`/learning-materials/view/${materials.id}`}>

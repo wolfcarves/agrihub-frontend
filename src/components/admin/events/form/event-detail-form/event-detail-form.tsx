@@ -54,21 +54,21 @@ const EventDetailForm = () => {
     }
   });
 
-  useEffect(() => {
-    const startDate = new Date(form.watch("event_start") || "");
-    const endDate = new Date(form.watch("event_end") || "");
+  // useEffect(() => {
+  //   const startDate = new Date(form.watch("event_start") || "");
+  //   const endDate = new Date(form.watch("event_end") || "");
 
-    const timeDifference = endDate.getTime() - startDate.getTime();
+  //   const timeDifference = endDate.getTime() - startDate.getTime();
 
-    const daysDifference = timeDifference / (1000 * 3600 * 24);
+  //   const daysDifference = timeDifference / (1000 * 3600 * 24);
 
-    if (daysDifference <= 1) {
-      toast.warning(
-        "Warning: The event end date is 1 day away from the start date."
-      );
-    }
-  }, [form.watch("event_start"), form.watch("event_end")]);
-  console.log(form.watch("event_start"), form.watch("event_end"));
+  //   if (daysDifference <= 1) {
+  //     toast.warning(
+  //       "Warning: The event end date is 1 day away from the start date."
+  //     );
+  //   }
+  // }, [form.watch("event_start"), form.watch("event_end")]);
+  // console.log(form.watch("event_start"), form.watch("event_end"));
 
   // validations
   useEffect(() => {

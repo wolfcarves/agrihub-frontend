@@ -10,9 +10,13 @@ import {
 import useGetReportGrowthRateMonthly from "../../../hooks/api/get/useGetReportGrowthRateMonthly";
 
 const GrowthRateLineChart = () => {
-  const [selectedYear, setSelectedYear] = useState<string>("2024");
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
+  const currentMonth = currentDate.getMonth() + 1;
+
+  const [selectedYear, setSelectedYear] = useState<string>(String(currentYear));
   const [startMonth, setStartMonth] = useState<string>("1");
-  const [endMonth, setEndMonth] = useState<string>("12");
+  const [endMonth, setEndMonth] = useState<string>(String(currentMonth));
   const { data: growthMonthly, isLoading } = useGetReportGrowthRateMonthly({
     year: selectedYear,
     start: startMonth,
@@ -51,9 +55,13 @@ const GrowthRateLineChart = () => {
     datasets: [
       {
         label: "Growth Rate",
-        data: Object.values(growthMonthly || {}),
+        data: Object.values(growthMonthly || {}).map(value =>
+          Number(value).toFixed(2)
+        ),
         borderColor: "rgb(46, 139, 87)",
-        backgroundColor: "rgba(46, 139, 87, 0.5)"
+        backgroundColor: "rgba(46, 139, 87, 0.5)",
+
+        tension: 0.2
       }
     ]
   };
@@ -65,6 +73,17 @@ const GrowthRateLineChart = () => {
       y: {
         beginAtZero: true
       }
+    },
+    plugins: {
+      datalabels: {
+        display: "auto",
+        color: "rgba(27, 163, 156)",
+        anchor: "end" as "end",
+        align: "top" as "top",
+        formatter: function (value: any) {
+          return ` ${value} %`;
+        }
+      }
     }
   };
 
@@ -73,7 +92,10 @@ const GrowthRateLineChart = () => {
       <div className="flex justify-between flex-wrap sm:flex-nowrap">
         <h2 className="text-xl font-bold tracking-tight ">Farms Growth Rate</h2>
         <div className="flex gap-4 justify-end">
-          <Select onValueChange={e => handleChangeYear(e)}>
+          <Select
+            onValueChange={e => handleChangeYear(e)}
+            defaultValue={selectedYear}
+          >
             <SelectTrigger className="w-auto">
               <SelectValue placeholder="Year" />
             </SelectTrigger>
@@ -83,33 +105,54 @@ const GrowthRateLineChart = () => {
             </SelectContent>
           </Select>
 
-          <Select onValueChange={e => handleChangeStartMonth(e)}>
+          <Select
+            onValueChange={e => handleChangeStartMonth(e)}
+            defaultValue={startMonth}
+          >
             <SelectTrigger className="w-auto">
               <SelectValue placeholder="Month From" />
             </SelectTrigger>
             <SelectContent>
-              {months.map(month => (
-                <SelectItem key={month.value} value={month.value}>
-                  {month.label}
-                </SelectItem>
-              ))}
+              {months
+                .slice(
+                  0,
+                  String(currentYear) === selectedYear
+                    ? Number(currentMonth)
+                    : 12
+                )
+                .map(month => (
+                  <SelectItem key={month.value} value={month.value}>
+                    {month.label}
+                  </SelectItem>
+                ))}
             </SelectContent>
           </Select>
 
-          <Select onValueChange={e => handleChangeEndMonth(e)}>
+          <Select
+            onValueChange={e => handleChangeEndMonth(e)}
+            defaultValue={endMonth}
+          >
             <SelectTrigger className="w-auto">
               <SelectValue placeholder="Month To" />
             </SelectTrigger>
             <SelectContent>
-              {months.map(month => (
-                <SelectItem
-                  key={month.value}
-                  value={month.value}
-                  onClick={() => handleChangeEndMonth(month.value)}
-                >
-                  {month.label}
-                </SelectItem>
-              ))}
+              {months
+                .slice(
+                  0,
+                  String(currentYear) === selectedYear
+                    ? Number(currentMonth)
+                    : 12
+                )
+                .map(month => (
+                  <SelectItem
+                    key={month.value}
+                    value={month.value}
+                    disabled={startMonth > month.value}
+                    onClick={() => handleChangeEndMonth(month.value)}
+                  >
+                    {month.label}
+                  </SelectItem>
+                ))}
             </SelectContent>
           </Select>
         </div>

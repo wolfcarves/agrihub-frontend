@@ -4,7 +4,9 @@ import Autoplay from "embla-carousel-autoplay";
 import {
   Carousel,
   CarouselContent,
-  CarouselItem
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious
 } from "@components/ui/carousel";
 import useGetCmsAboutDetails from "@hooks/api/get/useGetCmsAboutDetails";
 import { MdOutlineMail } from "react-icons/md";
@@ -84,6 +86,10 @@ const About = () => {
                 </CarouselItem>
               ))}
             </CarouselContent>
+            <div className="relative">
+              <CarouselPrevious className="left-4 -top-32" />
+              <CarouselNext className="right-4 -top-32" />
+            </div>
           </Carousel>
         </div>
       </div>

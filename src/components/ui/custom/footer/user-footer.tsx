@@ -1,5 +1,4 @@
 import React from "react";
-import agrihub from "@icons/main-logo.svg";
 import qcu from "@icons/qcu-logo.svg";
 import { BsTelephone } from "react-icons/bs";
 import {
@@ -20,11 +19,12 @@ import { FaRegNewspaper } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import useGetClientDetails from "@hooks/api/get/useGetClientDetails";
+import useGetCmsAboutDetails from "@hooks/api/get/useGetCmsAboutDetails";
 
 const UserFooter = () => {
   const { data: cmsClientDetails } = useGetClientDetails();
+  const { data: aboutDetails } = useGetCmsAboutDetails();
   const navigate = useNavigate();
-  console.log(cmsClientDetails?.socials);
 
   const S3_BASE_URL = import.meta.env.VITE_S3_BUCKET_BASEURL;
 
@@ -47,7 +47,10 @@ const UserFooter = () => {
     <div className="bg-[#404040] p-10 mt-auto">
       <div className="flex justify-center items-center gap-1">
         <img className="h-[3.5rem]" src={qcu as unknown as string} />
-        <img className="h-[5.4rem]" src={agrihub as unknown as string} />
+        <img
+          className="h-[5.4rem] bg-[#1C381A] rounded-full"
+          src={S3_BASE_URL + aboutDetails?.agrihub_user_logo}
+        />
         <img
           className="h-[2.6rem] ml-1 rounded-full"
           src={S3_BASE_URL + cmsClientDetails?.logo}
@@ -181,9 +184,9 @@ const UserFooter = () => {
             Terms of Use
           </Link>
           {" | "}
-          <Link to="/helps" className="hover:underline">
+          {/* <Link to="/helps" className="hover:underline">
             Help center
-          </Link>
+          </Link> */}
         </p>
       </div>
     </div>

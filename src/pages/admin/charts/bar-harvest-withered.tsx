@@ -34,7 +34,7 @@ const BarHarvestWithered = () => {
   const [startMonth, setStartMonth] = useState<string>("1");
   const [endMonth, setEndMonth] = useState<string>(String(currentMonth));
   const [activeLabel, setActiveLabel] = useState<string>("");
-  const { data: barChartData, isLoading } = useGetMonthlyWithered({
+  const { data: barChartData, isLoading: barLoading } = useGetMonthlyWithered({
     year: selectedYear,
     start: startMonth,
     end: endMonth
@@ -339,26 +339,28 @@ const BarHarvestWithered = () => {
               options={options}
             />
           </div>
-          <p className="text-xs text-gray-400 mt-1">
-            Based on the graph, the highest harvest among the selected months is
-            in <span className=" text-primary">{highestMonth}</span> with a
-            harvest value of{" "}
-            <span className=" text-primary">
-              {formatNumberWithCommas(highestValue)}
-            </span>
-            . The lowest harvest is in{" "}
-            <span className="  text-destructive">{lowestMonth}</span> at{" "}
-            <span className="  text-destructive">
-              {formatNumberWithCommas(lowestValue)}
-            </span>
-            . The highest withered count is in{" "}
-            <span className="  text-destructive">{highestMonthWithered}</span>{" "}
-            at{" "}
-            <span className="  text-destructive">
-              {formatNumberWithCommas(highestValueWithered)}
-            </span>
-            .
-          </p>
+          {!barLoading && (
+            <p className="text-xs text-gray-400 mt-1">
+              Based on the graph, the highest harvest among the selected months
+              is in <span className=" text-primary">{highestMonth}</span> with a
+              harvest value of{" "}
+              <span className=" text-primary">
+                {formatNumberWithCommas(highestValue)}
+              </span>
+              . The lowest harvest is in{" "}
+              <span className="  text-destructive">{lowestMonth}</span> at{" "}
+              <span className="  text-destructive">
+                {formatNumberWithCommas(lowestValue)}
+              </span>
+              . The highest withered count is in{" "}
+              <span className="  text-destructive">{highestMonthWithered}</span>{" "}
+              at{" "}
+              <span className="  text-destructive">
+                {formatNumberWithCommas(highestValueWithered)}
+              </span>
+              .
+            </p>
+          )}
         </Card>
         <Card className="col-span-12 lg:col-span-4 lg:block hidden p-5">
           <PieSeed />

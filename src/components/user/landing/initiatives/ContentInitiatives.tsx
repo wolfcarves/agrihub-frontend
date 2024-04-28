@@ -5,7 +5,7 @@ import parse from "html-react-parser";
 import useGetBlogsPublishList from "@hooks/api/get/useGetBlogsPublishListQuery";
 import { Button } from "@components/ui/button";
 import SkeletonCard from "@components/ui/custom/skeleton/skeleton-card";
-import { IoIosArrowForward, IoIosArrowRoundForward } from "react-icons/io";
+import { IoIosArrowForward } from "react-icons/io";
 
 export const ellipsis = (text: string, maxLength: number): string => {
   if (text.length <= maxLength) {

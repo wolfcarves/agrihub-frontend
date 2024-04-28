@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Label } from "../../../../ui/label";
 import { Form, FormField, FormMessage } from "../../../../ui/form";
 import { Button } from "../../../../ui/button";
@@ -14,17 +14,19 @@ import useReportCropMutation from "../../../../../hooks/api/post/useReportCropMu
 import { useNavigate, useParams } from "react-router-dom";
 import { Checkbox } from "../../../../ui/checkbox";
 import { addWeeks, format, isBefore } from "date-fns";
-import { CheckedState } from "@radix-ui/react-checkbox";
 import Loader from "../../../../../icons/Loader";
 import { concatPresentTime, removeTimeFromDate } from "../../../../lib/utils";
-import { useSelector } from "../../../../../redux/store";
 import useGetReportCropListView from "../../../../../hooks/api/get/useGetReportCropListView";
 import InputNumber from "../../../../ui/custom/input/input-number";
-import * as zod from "zod";
+import useGetFarmCropsQuery from "../../../../../hooks/api/get/useGetFarmCropsQuery";
+import ReviewDialog from "./ReviewDialog";
+import { cropAddReportSchema } from "./schema";
 
 const CommunityAddCropReportForm = () => {
+  const [dialogReview, setDialogReview] = useState<boolean>();
   const navigate = useNavigate();
-  const { cropId } = useParams();
+  const { id, cropId } = useParams();
+  const { data: farmCrops } = useGetFarmCropsQuery(id || "");
   const { data: CropReport, isLoading } = useGetReportCropListView(
     cropId || ""
   );
@@ -33,93 +35,12 @@ const CommunityAddCropReportForm = () => {
   // console.log(existingCropData);
   // const [check, setCheck] = useState<CheckedState>(false);
 
-  const cropAddReportSchema = zod
-    .object({
-      crop_id: zod.string().optional(),
-      planted_qty: cropId
-        ? zod.coerce
-            .number({
-              required_error: "Please provide a planted quantity"
-            })
-            .min(0, "Planted quantity must be at least 1")
-            .max(10000, "Planted quantity cannot exceed 10,000")
-            .optional()
-        : zod.coerce
-            .number({
-              required_error: "Please provide a planted quantity"
-            })
-            .min(0, "Planted quantity must be at least 1")
-            .max(10000, "Planted quantity cannot exceed 10,000"),
-      is_other: zod.boolean().optional(),
-      isyield: zod.boolean().optional(),
-      c_name: zod.string().optional(),
-      harvested_qty: zod.coerce
-        .number({
-          required_error: "Please provide a harvested quantity"
-        })
-        .min(0, "Harvested quantity must be at least 1")
-        .max(10000, "Harvested quantity cannot exceed 10,000"),
-      withered_crops: zod.coerce
-        .number({
-          required_error: "Please provide a withered quantity"
-        })
-        .min(0, "Withered quantity must be at least 0")
-        .max(10000, "Withered quantity cannot exceed 10,000"),
-      kilogram: zod.coerce
-        .number({
-          required_error: "Please provide a kilogram"
-        })
-        .min(0, "Kilogram must be at least 0")
-        .max(100000, "Kilogram cannot exceed 100,000"),
-      date_planted: cropId
-        ? zod
-            .string()
-            .min(0, { message: "Planted date is Required" })
-            .optional()
-        : zod.string().min(0, { message: "Planted date is Required" }),
-      date_harvested: zod
-        .string()
-        .min(1, { message: "Harvest date is Required" }),
-      notes: zod.string().min(1, { message: "Notes is Required" }),
-      image: zod.any().refine((files: Blob[]) => {
-        if (!files || files.length === 0) {
-          return false;
-        }
-
-        return true;
-      }, "Please upload at least one image of your farm.")
-    })
-    .refine(
-      data => {
-        if (CropReport?.isyield) {
-          const Quantity =
-            Number(CropReport?.planted_qty || "0") - data.withered_crops;
-          if (Quantity <= 0) {
-            return false;
-          }
-          return true;
-        } else {
-          const Quantity =
-            Number(CropReport?.planted_qty || "0") -
-            (data.withered_crops + data.harvested_qty);
-
-          if (Quantity <= 0) {
-            return false;
-          }
-          return true;
-        }
-      },
-      {
-        message: CropReport?.isyield
-          ? "Withered plants quantity canno't be greater than planted quantity"
-          : "The combined quantity of withered plants and harvested canno't be greater than planted quantity",
-        path: [CropReport?.isyield ? "withered_crops" : "harvested_qty"] // You can specify the path where the error will be shown
-      }
-    );
   const [isCrop, setIsCrop] = useState<boolean>(true);
   const [isYield, setIsYield] = useState<boolean>(true);
   const form = useForm<NewCommunityCropReport>({
-    resolver: zodResolver(cropAddReportSchema),
+    resolver: zodResolver(
+      cropAddReportSchema(cropId || "", CropReport || {}, farmCrops || [])
+    ),
     mode: "onBlur",
     defaultValues: {
       isyield: true
@@ -133,6 +54,43 @@ const CommunityAddCropReportForm = () => {
       setIsCrop(true);
     }
   }, [form.watch("crop_id")]);
+
+  const targetCrop = useMemo(() => {
+    const selectedId = form.watch("crop_id");
+    return farmCrops?.find(obj => obj.id === selectedId);
+  }, [farmCrops, form.watch("crop_id")]);
+
+  // useEffect(() => {
+  //   // if (isYield === false) {
+  //   //   const witheredVal =
+  //   //     Number(form.watch("planted_qty") || 0) -
+  //   //     Number(form.watch("harvested_qty") || 0);
+  //   //   form.setValue("withered_crops", witheredVal || undefined);
+  //   // }
+  //   if (targetCrop?.isyield) {
+  //     if (
+  //       Number(form.watch("planted_qty") || "0") <
+  //       Number(form.watch("withered_crops") || "0")
+  //     ) {
+  //       form.setError("withered_crops", {
+  //         type: "manual",
+  //         message: "Withered plants can't be higher than planted quantity"
+  //       });
+  //     }
+  //   }
+  //   if (!targetCrop?.isyield) {
+  //     const Combined =
+  //       Number(form.watch("withered_crops") || "0") +
+  //       Number(form.watch("date_harvested") || "0");
+  //     if (Number(form.watch("planted_qty") || "0") < 10) {
+  //       form.setError("date_harvested", {
+  //         type: "manual",
+  //         message:
+  //           "Withered plants and harvested crops combined value can't be higher than planted quantity"
+  //       });
+  //     }
+  //   }
+  // }, [targetCrop, form.watch("withered_crops"), form.watch("harvested_qty")]);
 
   useEffect(() => {
     if (form.watch("isyield") === true) {
@@ -181,6 +139,13 @@ const CommunityAddCropReportForm = () => {
 
   const { mutateAsync: cropReportMutate, isLoading: cropReportLoading } =
     useReportCropMutation();
+
+  const handleValidations = async () => {
+    const success = await form.trigger();
+    if (success) {
+      return setDialogReview(true);
+    }
+  };
 
   const handleSubmitForm = async (data: NewCommunityCropReport) => {
     const { date_planted, date_harvested } = data;
@@ -245,7 +210,6 @@ const CommunityAddCropReportForm = () => {
   if (isLoading) {
     return <Loader isVisible={true} />;
   }
-  console.log(form.watch("withered_crops"));
 
   return (
     <Form {...form}>
@@ -446,9 +410,21 @@ const CommunityAddCropReportForm = () => {
           </Label>
         </div> */}
         <div className="col-span-12">
-          <Button disabled={cropReportLoading} type="submit">
+          <Button
+            disabled={cropReportLoading}
+            type="button"
+            onClick={handleValidations}
+          >
             Submit
           </Button>
+          <ReviewDialog
+            plantedDate={CropReport?.date_planted}
+            plantedQty={CropReport?.planted_qty}
+            dialogReview={dialogReview}
+            setDialogReview={setDialogReview}
+            form={form}
+            handleSubmitForm={handleSubmitForm}
+          />
         </div>
       </form>
       <Loader isVisible={cropReportLoading} />

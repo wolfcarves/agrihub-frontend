@@ -19,8 +19,10 @@ import MemberApplicationDrawer from "../member-application-drawer/member-applica
 interface HeaderProps {
   search: string;
   setSearch: React.Dispatch<React.SetStateAction<string>>;
-  filter: string;
-  setFilter: React.Dispatch<React.SetStateAction<string>>;
+  filter: string | undefined;
+  setFilter: React.Dispatch<
+    React.SetStateAction<"pending" | "accepted" | "rejected" | undefined>
+  >;
 }
 const Header: React.FC<HeaderProps> = ({
   search,

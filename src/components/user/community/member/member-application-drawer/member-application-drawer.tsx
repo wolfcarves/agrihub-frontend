@@ -11,8 +11,42 @@ import {
 } from "../../../../ui/drawer";
 import { Button } from "../../../../ui/button";
 import { MdQuestionMark } from "react-icons/md";
+import { useParams } from "react-router-dom";
+import useGetCommunityFarmQuestions from "../../../../../hooks/api/get/useGetCommunityFarmQuestions";
+import { BsFillQuestionSquareFill } from "react-icons/bs";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { BiMessageRoundedEdit, BiSolidMessageRoundedAdd } from "react-icons/bi";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger
+} from "../../../../ui/alert-dialog";
+import useDeleteCommunityFarmQuestions from "../../../../../hooks/api/delete/useDeleteCommunityFarmQuestions";
+import { toast } from "sonner";
+import DialogCreateQuestions from "../dialog-questions/dialog-create-questions";
+import Loader from "../../../../../icons/Loader";
+import DialogEditQuestions from "../dialog-questions/dialog-edit-questions";
 
 const MemberApplicationDrawer = () => {
+  const { id } = useParams();
+  const { data: questionData } = useGetCommunityFarmQuestions(id || "");
+
+  const { mutateAsync: deleteMutation, isLoading: deleteLoad } =
+    useDeleteCommunityFarmQuestions();
+  const handleDelete = async (id: string) => {
+    try {
+      await deleteMutation(id);
+      toast.success("Question Deleted Successfully!");
+    } catch (error: any) {
+      toast.error(error.message);
+    }
+  };
   return (
     <Drawer>
       <DrawerTrigger asChild>
@@ -22,65 +56,60 @@ const MemberApplicationDrawer = () => {
         </Button>
       </DrawerTrigger>
       <DrawerContent>
-        <div className="mx-auto w-full max-w-sm h-[80vh] p-3 md:px-32 overflow-auto scroll-smooth">
+        <div className="mx-auto w-full  h-[80vh] p-3 md:px-32 overflow-auto scroll-smooth">
           <DrawerHeader>
-            <DrawerTitle>Move Goal</DrawerTitle>
-            <DrawerDescription>Set your daily activity goal.</DrawerDescription>
+            <DrawerTitle>Question List</DrawerTitle>
+            <DrawerDescription>
+              Make questions you want your farmer applicants to answer
+            </DrawerDescription>
           </DrawerHeader>
-          {/* <div className="p-4 pb-0">
-            <div className="flex items-center justify-center space-x-2">
-              <Button
-                variant="outline"
-                size="icon"
-                className="h-8 w-8 shrink-0 rounded-full"
-                onClick={() => onClick(-10)}
-                disabled={goal <= 200}
-              >
-                <Minus className="h-4 w-4" />
-                <span className="sr-only">Decrease</span>
-              </Button>
-              <div className="flex-1 text-center">
-                <div className="text-7xl font-bold tracking-tighter">
-                  {goal}
-                </div>
-                <div className="text-[0.70rem] uppercase text-muted-foreground">
-                  Calories/day
+          <div className=" py-4">
+            <div className=" flex justify-end">
+              <DialogCreateQuestions />
+            </div>
+            {questionData?.map((question, i) => (
+              <div key={i} className="flex items-center gap-2">
+                <BsFillQuestionSquareFill className=" text-primary text-2xl" />
+                <div>{question.question}</div>
+                <div className="flex items-center gap-2">
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button className=" bg-destructive p-3">
+                        <RiDeleteBin6Line size={16} />
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>
+                          Do you want to delete this question?
+                        </AlertDialogTitle>
+                        <AlertDialogDescription>
+                          This action cannot be undone. This will permanently
+                          delete this question and remove from our servers.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction
+                          onClick={() => handleDelete(question.id || "")}
+                        >
+                          Continue
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+                  <DialogEditQuestions questionId={question.id || ""} />
                 </div>
               </div>
-              <Button
-                variant="outline"
-                size="icon"
-                className="h-8 w-8 shrink-0 rounded-full"
-                onClick={() => onClick(10)}
-                disabled={goal >= 400}
-              >
-                <Plus className="h-4 w-4" />
-                <span className="sr-only">Increase</span>
-              </Button>
-            </div>
-            <div className="mt-3 h-[120px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={data}>
-                  <Bar
-                    dataKey="goal"
-                    style={
-                      {
-                        fill: "hsl(var(--foreground))",
-                        opacity: 0.9
-                      } as React.CSSProperties
-                    }
-                  />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-          </div> */}
-          <DrawerFooter>
-            <Button>Submit</Button>
+            ))}
+          </div>
+          <div className="flex gap-2 items-center justify-end">
             <DrawerClose asChild>
-              <Button variant="outline">Cancel</Button>
+              <Button variant="outline">Close</Button>
             </DrawerClose>
-          </DrawerFooter>
+          </div>
         </div>
+        <Loader isVisible={deleteLoad} />
       </DrawerContent>
     </Drawer>
   );

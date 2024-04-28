@@ -11,7 +11,7 @@ import {
 } from "../../../../ui/dropdown-menu";
 import { Button } from "../../../../ui/button";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
-import { FarmMember } from "../../../../../api/openapi";
+
 import { formatRoles } from "../../../../lib/utils";
 import {
   AlertDialog,
@@ -32,8 +32,28 @@ import useFarmAssignHeadMutation from "../../../../../hooks/api/post/useFarmAssi
 import useFarmUnassignHeadMutation from "../../../../../hooks/api/post/useFarmUnassignHeadMutation";
 import { useState } from "react";
 import useAuth from "../../../../../hooks/useAuth";
+import useGetUserProfileQuery from "../../../../../hooks/api/get/useGetUserProfileQuery";
+import { format } from "date-fns";
+import { FarmerApplication } from "../../../../../api/openapi";
 
-export const columns: ColumnDef<FarmMember>[] = [
+export const columns: ColumnDef<FarmerApplication>[] = [
+  {
+    accessorKey: "createdat",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Created At
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      return `${format(new Date(row.original.createdat || ""), "PPP")}`;
+    }
+  },
   {
     accessorKey: "firstname",
     header: ({ column }) => {
@@ -48,38 +68,14 @@ export const columns: ColumnDef<FarmMember>[] = [
       );
     },
     cell: ({ row }) => {
+      const { data } = useGetUserProfileQuery(row.original.username || "");
       const { data: useDAta } = useAuth();
       if (useDAta?.id === row.original.id) {
         return (
-          <div className="text-green-700">{`${row.original.firstname} ${row.original.lastname} (You)`}</div>
+          <div className="text-green-700">{`${data?.firstname} ${row.original.lastname} (You)`}</div>
         );
       }
-      return `${row.original.firstname} ${row.original.lastname}`;
-    }
-  },
-  {
-    accessorKey: "role",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Role
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => {
-      const { data: useDAta } = useAuth();
-      if (useDAta?.id === row.original.id) {
-        return (
-          <div className=" text-green-700">
-            {formatRoles(row.original.role)}
-          </div>
-        );
-      }
-      return formatRoles(row.original.role);
+      return `${data?.firstname} ${row.original.lastname}`;
     }
   },
 
@@ -87,58 +83,17 @@ export const columns: ColumnDef<FarmMember>[] = [
     header: "Actions",
     id: "actions",
     cell: ({ row }) => {
-      const [showPromote, setShowPromote] = useState<boolean>(false);
-      const [showDemote, setShowDemote] = useState(false);
-      const [showKick, setShowKick] = useState(false);
       const user = row.original;
+      const { data: users } = useAuth();
       const navigate = useNavigate();
-      const { isMember, isAllowed } = useCommunityAutorization();
       const handleProfile = () => {
         navigate(`/users/${user.id}/${user.username}`);
       };
-
-      //kick member
-      const { mutateAsync: kickMemberMutation, isLoading: kickLoading } =
-        useFarmKickMember();
-      const handleKick = async () => {
-        try {
-          await kickMemberMutation(user.id || "");
-          toast.success("Removed From Community Successfully!");
-          setShowKick(false);
-        } catch (error: any) {
-          toast.error(error.body.message);
-        }
+      const handleApplication = () => {
+        navigate(
+          `/community/my-community/${users?.farm_id}/application/${user.username}/${user.id}`
+        );
       };
-
-      //assign head
-      const { mutateAsync: assignHeadMutation, isLoading: assignLoading } =
-        useFarmAssignHeadMutation();
-      const handleAssign = async () => {
-        try {
-          await assignHeadMutation(user.id || "");
-          toast.success(`${user.firstname} was promoted to Farm Head!`);
-          setShowPromote(false);
-        } catch (error: any) {
-          toast.error(error.body.message);
-          console.log(user.id);
-        }
-      };
-
-      //unassign head
-      const { mutateAsync: unassignHeadMutation, isLoading: unassignLoading } =
-        useFarmUnassignHeadMutation();
-      const handleUnassign = async () => {
-        try {
-          await unassignHeadMutation(user.id || "");
-          toast.success(`${user.firstname} was demoted to Farmer!`);
-          setShowDemote(false);
-        } catch (error: any) {
-          toast.error(error.body.message);
-        }
-      };
-      if (kickLoading || assignLoading || unassignLoading) {
-        return <Loader isVisible={true} />;
-      }
 
       return (
         <>
@@ -157,87 +112,11 @@ export const columns: ColumnDef<FarmMember>[] = [
               <DropdownMenuItem onClick={handleProfile}>
                 View Profile
               </DropdownMenuItem>
-              {isMember && isAllowed && user.role !== "farm_head" && (
-                <DropdownMenuItem onClick={() => setShowPromote(true)}>
-                  Promote to Farm Head
-                </DropdownMenuItem>
-              )}
-
-              {isMember && isAllowed && user.role !== "farmer" && (
-                <DropdownMenuItem onClick={() => setShowDemote(true)}>
-                  Demote to Farmer
-                </DropdownMenuItem>
-              )}
-
-              {isMember && isAllowed && user.role !== "farm_head" && (
-                <DropdownMenuItem onClick={() => setShowKick(true)}>
-                  Kick Member
-                </DropdownMenuItem>
-              )}
+              <DropdownMenuItem onClick={handleApplication}>
+                View Application
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <AlertDialog open={showPromote}>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Promote this user?</AlertDialogTitle>
-                <AlertDialogDescription>
-                  This action will change the role from Farmer to Farm Head and
-                  the user will have access of the community resources exclusive
-                  for Farm Head.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel onClick={() => setShowPromote(false)}>
-                  Cancel
-                </AlertDialogCancel>
-                <AlertDialogAction onClick={handleAssign}>
-                  Continue
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
-          <AlertDialog open={showDemote}>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Remove farm head access?</AlertDialogTitle>
-                <AlertDialogDescription>
-                  This action will demote the Farm Head to Farmer from the
-                  community and the user will no longer have access of the
-                  community resources exclusive for Farm.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel onClick={() => setShowDemote(false)}>
-                  Cancel
-                </AlertDialogCancel>
-                <AlertDialogAction onClick={handleUnassign}>
-                  Continue
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
-          <AlertDialog open={showKick}>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>
-                  Remove user in the community?
-                </AlertDialogTitle>
-                <AlertDialogDescription>
-                  This action will remove the user account from the community
-                  and the user will no longer have access of the community
-                  resources.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel onClick={() => setShowKick(false)}>
-                  Cancel
-                </AlertDialogCancel>
-                <AlertDialogAction onClick={handleKick}>
-                  Continue
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
         </>
       );
     }

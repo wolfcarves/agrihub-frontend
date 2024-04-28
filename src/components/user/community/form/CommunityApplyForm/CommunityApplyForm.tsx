@@ -31,6 +31,7 @@ import { CheckedState } from "@radix-ui/react-checkbox";
 import Capture from "../../capture/capture";
 import InputNumber from "../../../../ui/custom/input/input-number";
 import useGetFarmViewQuery from "../../../../../hooks/api/get/useGetFarmViewQuery";
+import useGetCommunityFarmQuestions from "../../../../../hooks/api/get/useGetCommunityFarmQuestions";
 
 const CommunityApplyForm = () => {
   const [isDialogOpen, setDialogOpen] = useState<boolean>(false);
@@ -41,6 +42,8 @@ const CommunityApplyForm = () => {
   const [otherId, setOtherId] = useState<string>("");
   const { id } = useParams();
   const { data: farmDetails, isLoading } = useGetFarmViewQuery(id || "");
+  const { data: questionData } = useGetCommunityFarmQuestions(id || "");
+  console.log(questionData);
 
   // useEffect(() => {
   //   setDialogOpen(true);
@@ -131,7 +134,7 @@ const CommunityApplyForm = () => {
           className=" grid grid-cols-12 gap-4"
         >
           <div className=" md:col-span-8 col-span-12">
-            <Label className=" font-poppins-medium">Farm Name</Label>
+            <Label className=" font-poppins-medium">Name</Label>
             <Input
               type="text"
               className="h-10 bg-transparent"
@@ -143,57 +146,21 @@ const CommunityApplyForm = () => {
             </FormMessage>
           </div>
           <div className=" md:col-span-4 col-span-12">
-            <Label className=" font-poppins-medium">Farm Size (&#x33A1;)</Label>
-            {/* <Input
+            <Label className=" font-poppins-medium">Reason</Label>
+            <Input
               type="number"
               className="h-10 bg-transparent"
               placeholder="Enter farm size..."
               min={0}
               max={10000}
               {...form.register("farm_size")}
-            /> */}
-            <FormField
-              control={form.control}
-              name="farm_size"
-              render={() => (
-                <InputNumber
-                  className="h-10 bg-transparent rounded-md"
-                  suffix={" sqm"}
-                  placeholder="Enter farm size..."
-                  onChange={value => form.setValue("farm_size", Number(value))}
-                />
-              )}
             />
+
             <FormMessage>
               {form.formState.errors.farm_size?.message}
             </FormMessage>
           </div>
-          <div className=" md:col-span-3 col-span-12">
-            <Label className=" font-poppins-medium">District</Label>
-            <FormField
-              control={form.control}
-              name="district"
-              render={({ field, fieldState }) => (
-                <>
-                  <SelectDistrict field={field} setDistrict={setDistrict} />
-                  <FormMessage>{fieldState.error?.message}</FormMessage>
-                </>
-              )}
-            />
-          </div>
-          <div className=" md:col-span-3 col-span-12">
-            <Label className=" font-poppins-medium">Barangay</Label>
-            <FormField
-              control={form.control}
-              name="barangay"
-              render={({ field, fieldState }) => (
-                <>
-                  <SelectBarangay field={field} district={district} />
-                  <FormMessage>{fieldState.error?.message}</FormMessage>
-                </>
-              )}
-            />
-          </div>
+
           <div className=" md:col-span-3 col-span-12">
             <Label className=" font-poppins-medium">Street</Label>
             <Input
@@ -204,120 +171,6 @@ const CommunityApplyForm = () => {
             />
             <FormMessage>{form.formState.errors.street?.message}</FormMessage>
           </div>
-          <div className=" md:col-span-3 col-span-12">
-            <Label className=" font-poppins-medium">City & Country</Label>
-            <Input
-              type="text"
-              className="h-10 bg-transparent disabled:opacity-90"
-              value={"Quezon City, Phillipines"}
-              placeholder="Enter Location..."
-              disabled
-            />
-            <p className=" text-[.6rem] text-gray-400 ms-2">
-              Farm application only accept inside of Quezon City.
-            </p>
-          </div>
-          <div className="md:col-span-6 col-span-12">
-            <Label className=" font-poppins-medium">Farm Ownership</Label>
-            <FormField
-              control={form.control}
-              name="proof"
-              render={({ field, fieldState }) => (
-                <>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Select ownership type..." />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {ownership.map((id, i) => (
-                        <SelectItem key={i} value={id.title}>
-                          {id.title}
-                          <p className=" text-[.6rem] text-gray-500 overflow-hidden text-wrap">
-                            {id.description}
-                          </p>
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage>{fieldState.error?.message}</FormMessage>
-                </>
-              )}
-            />
-          </div>
-          <div className="md:col-span-6 col-span-12">
-            <Label className=" font-poppins-medium">Farm Type</Label>
-            <FormField
-              control={form.control}
-              name="type_of_farm"
-              render={({ field, fieldState }) => (
-                <>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Select farm type..." />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {farmType.map((id, i) => (
-                        <SelectItem key={i} value={id.title} className="">
-                          {id.title}
-                          <p className=" text-[.6rem] text-gray-500 overflow-hidden text-wrap">
-                            {id.description}
-                          </p>
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage>{fieldState.error?.message}</FormMessage>
-                </>
-              )}
-            />
-          </div>
-          <div className="md:col-span-6 col-span-12 flex flex-col gap-4">
-            <div className="">
-              <Label className=" font-poppins-medium">
-                Select valid ID type
-              </Label>
-              <FormField
-                control={form.control}
-                name="id_type"
-                render={({ field, fieldState }) => (
-                  <>
-                    <SelectId field={field} />
-                    <FormMessage>{fieldState.error?.message}</FormMessage>
-                  </>
-                )}
-              />
-            </div>
-            {isOther && (
-              <div className="">
-                <Label className=" font-poppins-medium">Other ID Type</Label>
-                <Input
-                  type="text"
-                  className="h-10 bg-transparent capitalize"
-                  placeholder="Enter ID Type..."
-                  value={otherId}
-                  onChange={e => setOtherId(e.target.value)}
-                />
-              </div>
-            )}
-            <div className="">
-              <Label className=" font-poppins-medium">Upload ID</Label>
-              <FormField
-                control={form.control}
-                name="valid_id"
-                render={() => (
-                  <Capture
-                    onChange={value => form.setValue("valid_id", value)}
-                  />
-                )}
-              />
-            </div>
-          </div>
 
           <div className="md:col-span-6 col-span-12">
             <Label className=" font-poppins-medium">Farm photo</Label>
@@ -325,7 +178,7 @@ const CommunityApplyForm = () => {
               control={form.control}
               name="farm_actual_images"
               render={() => (
-                <MultiImageUpload
+                <Capture
                   onChange={value => form.setValue("farm_actual_images", value)}
                 />
               )}

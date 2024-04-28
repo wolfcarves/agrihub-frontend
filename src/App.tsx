@@ -134,6 +134,7 @@ import VerifyPasswordOtp from "@pages/user/account/verify-password-otp";
 import ToolReqeust from "@pages/admin/farms/tool-reqeust";
 import UserGuides from "@pages/user/help/guides";
 import CommunityApply from "./pages/user/community/community-apply";
+import CommunityApplicationView from "./pages/user/community/community-application-view";
 
 const App = ReactRouter(
   <>
@@ -193,6 +194,10 @@ const App = ReactRouter(
         <Route
           path="my-community/:id/crops/:cropId"
           element={<CommunityCrop />}
+        />
+        <Route
+          path="my-community/:id/application/:user/:appId"
+          element={<CommunityApplicationView />}
         />
         {/* Reports */}
         <Route path="reports/:id" element={<CommunityReport />}>

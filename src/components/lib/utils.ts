@@ -170,6 +170,25 @@ export function formatRoles(role: string) {
   }
   return formatedRole;
 }
+export function formatDistrict(district: string) {
+  switch (district) {
+    case "1":
+      return "District 1";
+    case "2":
+      return "District 2";
+    case "3":
+      return "District 3";
+    case "4":
+      return "District 4";
+    case "5":
+      return "District 5";
+    case "6":
+      return "District 6";
+
+    default:
+      return undefined;
+  }
+}
 
 export const convertToEmbedLink = (link: string) => {
   const regex =

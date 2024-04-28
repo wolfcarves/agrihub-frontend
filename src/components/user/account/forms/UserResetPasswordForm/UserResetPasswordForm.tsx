@@ -13,7 +13,7 @@ const UserResetPasswordForm = () => {
   const navigate = useNavigate();
 
   const { register, formState, handleSubmit } = useForm<ResetPasswordType>({
-    mode: "onSubmit",
+    mode: "onChange",
     reValidateMode: "onChange",
     resolver: zodResolver(resetPasswordSchema)
   });
@@ -49,9 +49,9 @@ const UserResetPasswordForm = () => {
           <div className="w-full max-w-[33rem] mx-auto">
             <div className="space-y-3">
               <h4 className="font-poppins-semibold">Reset Password</h4>
-              <h5>
-                Please enter and confirm your new password. <br />
-                Minimum of 8 characters
+              <h5 className=" text-gray-500">
+                Password must be at least 8 characters including at least one
+                digits (0-9), one uppercase (A-Z), and one lowercase (a-z).
               </h5>
             </div>
 

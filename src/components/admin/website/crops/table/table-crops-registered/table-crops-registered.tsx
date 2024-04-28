@@ -68,7 +68,7 @@ const TableCropsRegistered = () => {
               </TableCell>
               <TableCell>{crops.name}</TableCell>
               <TableCell className="text-center">{crops.growth_span}</TableCell>
-              <TableCell>{crops.companion}</TableCell>
+              <TableCell>{crops?.companion?.join(", ")}</TableCell>
               <TableCell>
                 <AlertDialog>
                   <DropdownMenu>

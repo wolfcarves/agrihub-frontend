@@ -43,7 +43,7 @@ const UserFinalSetupForm = () => {
   const handleOnSubmitForm = async (rawData: UserFinalSetup) => {
     const data = {
       avatar: rawData.avatar[0],
-      username: rawData.username.toLowerCase()
+      username: rawData.username
     };
 
     try {

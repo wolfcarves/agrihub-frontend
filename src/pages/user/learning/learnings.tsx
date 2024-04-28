@@ -10,7 +10,6 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue
 } from "../../../components/ui/select";
@@ -31,14 +30,16 @@ const Learnings = () => {
           | "Tagalog and English"
           | "All") ?? "Tagalog",
       videoId: searchParams.get("videoId"),
-      preview: searchParams.get("preview")
+      preview: searchParams.get("preview"),
+      sortOrder: searchParams.get("sortOrder")
     };
   }, [searchParams]);
 
   const { data: learningsData, isLoading } = useGetLearningPublishedList({
     perpage: "10",
     page: String(params.currentPage) ?? "1",
-    filter: params.sortBy === "All" ? undefined : params.sortBy
+    filter: params.sortBy === "All" ? undefined : params.sortBy,
+    sortBy: params.sortOrder as "asc" | "desc"
   });
 
   const handleFilterChange = (value: string) => {
@@ -46,7 +47,10 @@ const Learnings = () => {
     setSearchParams(searchParams);
   };
 
-  const handleSortChange = (value: string) => {};
+  const handleSortChange = (value: string) => {
+    searchParams.set("sortOrder", value);
+    setSearchParams(searchParams);
+  };
 
   const totalPages =
     learningsData?.pagination?.total_pages ?? params.currentPage + 1;
@@ -184,7 +188,7 @@ const Learnings = () => {
           <div className="flex-nowrap sm:flex gap-2 items-center">
             <Select onValueChange={handleFilterChange}>
               <SelectTrigger className="w-[170px]">
-                <SelectValue placeholder="Filter Language" />
+                <SelectValue placeholder={params.sortBy ?? "Filter Language"} />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
@@ -200,12 +204,20 @@ const Learnings = () => {
 
             <Select onValueChange={handleSortChange}>
               <SelectTrigger className="w-[120px]">
-                <SelectValue placeholder="Sort By" />
+                <SelectValue
+                  placeholder={
+                    params.sortOrder === "asc"
+                      ? "Oldest"
+                      : !params.sortOrder
+                      ? "SortBy"
+                      : "Newest"
+                  }
+                />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  <SelectItem value="All">Newest</SelectItem>
-                  <SelectItem value="English">Oldest</SelectItem>
+                  <SelectItem value="desc">Newest</SelectItem>
+                  <SelectItem value="asc">Oldest</SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>

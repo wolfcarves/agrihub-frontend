@@ -69,10 +69,6 @@ const UserProfile = () => {
         }
       />
 
-      <div className="pt-5">
-        <BackButton />
-      </div>
-
       <div className="flex flex-wrap-reverse md:flex-nowrap justify-between min-h-[35rem]">
         {currentIndex === 0 ? (
           <ProfileQuestionList

@@ -133,6 +133,8 @@ import FarmActiveView from "@pages/admin/farms/view/farm-active-view";
 import VerifyPasswordOtp from "@pages/user/account/verify-password-otp";
 import ToolReqeust from "@pages/admin/farms/tool-reqeust";
 import UserGuides from "@pages/user/help/guides";
+import CommunityApply from "./pages/user/community/community-apply";
+import CommunityApplicationView from "./pages/user/community/community-application-view";
 
 const App = ReactRouter(
   <>
@@ -171,6 +173,7 @@ const App = ReactRouter(
         <Route path="" element={<Community />} />
         <Route path="explore" element={<Explore />} />
         <Route path="register" element={<CommunityRegister />} />
+        <Route path="apply/:id" element={<CommunityApply />} />
 
         {/* Public Community */}
         <Route path="explore/:id" element={<CommunityMain />}>
@@ -191,6 +194,10 @@ const App = ReactRouter(
         <Route
           path="my-community/:id/crops/:cropId"
           element={<CommunityCrop />}
+        />
+        <Route
+          path="my-community/:id/application/:user/:appId"
+          element={<CommunityApplicationView />}
         />
         {/* Reports */}
         <Route path="reports/:id" element={<CommunityReport />}>

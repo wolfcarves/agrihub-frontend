@@ -46,6 +46,9 @@ const CommunityDetails = () => {
   const handleEdit = () => {
     navigate(`/community/my-community/${UserData?.farm_id}/profile`);
   };
+  const handleApply = () => {
+    navigate(`/community/apply/${farmDetails?.id}`);
+  };
 
   return (
     <div className="flex justify-center p-5  ">
@@ -111,9 +114,14 @@ const CommunityDetails = () => {
                         </AlertDialogFooter>
                       </AlertDialogContent>
                     </AlertDialog>
-                  ) : null
-                ) : isAuthenticated ? (
-                  <Button className="md:text-sm text-xs">Join</Button>
+                  ) : (
+                    <Button
+                      className="md:text-sm text-xs"
+                      onClick={handleApply}
+                    >
+                      Apply
+                    </Button>
+                  )
                 ) : null}
               </div>
 

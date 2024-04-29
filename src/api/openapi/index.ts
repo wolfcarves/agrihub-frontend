@@ -251,6 +251,7 @@ export type { UpdateBlogRequest } from './models/UpdateBlogRequest';
 export type { UpdateBlogResponse } from './models/UpdateBlogResponse';
 export type { UpdateClientDetailsRequest } from './models/UpdateClientDetailsRequest';
 export type { UpdateClientDetailsResponse } from './models/UpdateClientDetailsResponse';
+export { UpdateCommunityEventFormData } from './models/UpdateCommunityEventFormData';
 export type { UpdateCommunityFarmRequest } from './models/UpdateCommunityFarmRequest';
 export type { UpdateCommunityFarmResponse } from './models/UpdateCommunityFarmResponse';
 export type { UpdateCropRequest } from './models/UpdateCropRequest';

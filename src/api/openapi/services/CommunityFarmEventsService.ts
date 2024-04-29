@@ -5,6 +5,7 @@
 import type { CommunityEventsResponse } from '../models/CommunityEventsResponse';
 import type { CreateCommunityEventFormData } from '../models/CreateCommunityEventFormData';
 import type { MessageResponse } from '../models/MessageResponse';
+import type { UpdateCommunityEventFormData } from '../models/UpdateCommunityEventFormData';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -25,6 +26,38 @@ formData: CreateCommunityEventFormData,
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/community-farm/event/create',
+            formData: formData,
+            mediaType: 'multipart/form-data',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Update a community event
+     * @returns MessageResponse Event updated successfully
+     * @throws ApiError
+     */
+    public static putApiCommunityFarmEventUpdate({
+id,
+formData,
+}: {
+/**
+ * ID of the event to update
+ */
+id: string,
+formData: UpdateCommunityEventFormData,
+}): CancelablePromise<MessageResponse> {
+        return __request(OpenAPI, {
+            method: 'PUT',
+            url: '/api/community-farm/event/update/{id}',
+            path: {
+                'id': id,
+            },
             formData: formData,
             mediaType: 'multipart/form-data',
             errors: {

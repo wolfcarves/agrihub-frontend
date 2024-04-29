@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import withAuthGuard from "../../../../../higher-order/account/withAuthGuard";
 import CommunityPlantCropReportForm from "../../../../../components/user/community/form/CommunityPlantCropReportForm/CommunityPlantCropReportForm";
+import CommunityHarvestCropReportForm from "../../../../../components/user/community/form/CommunityHarvestCropReportForm/CommunityHarvestCropReportForm";
 
 const CropsReportHarvested = () => {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ const CropsReportHarvested = () => {
       </div>
       <h3 className=" font-poppins-medium">Crop Harvest Form </h3>
       <hr className="mb-4 mt-1 border-primary border" />
-      <CommunityPlantCropReportForm />
+      <CommunityHarvestCropReportForm />
     </OutletContainer>
   );
 };

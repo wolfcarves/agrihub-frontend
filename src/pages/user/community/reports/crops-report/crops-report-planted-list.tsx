@@ -8,7 +8,10 @@ import {
 } from "../../../../../components/ui/avatar";
 import { format } from "date-fns";
 import { PiPlant } from "react-icons/pi";
-import { CommunityCropReportResponseItem } from "../../../../../api/openapi";
+import {
+  CommunityCropReportResponseItem,
+  PlantedCropsResponse
+} from "../../../../../api/openapi";
 import { useDispatch, useSelector } from "../../../../../redux/store";
 import {
   clearExistingCrop,
@@ -72,9 +75,9 @@ const CropsReportPlantedList = () => {
     });
   console.log(CropExisting, "asdasd");
 
-  const handleCropReport = (cropData: CommunityCropReportResponseItem) => {
+  const handleCropReport = (cropData: PlantedCropsResponse) => {
     // dispatch(setExistingCrop(cropData));
-    navigate(`harvested/${cropData.crop_id}`);
+    navigate(`harvest/${cropData.report_id}`);
   };
 
   const onPageChange = (newPage: number) => {

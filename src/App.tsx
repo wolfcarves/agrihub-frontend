@@ -135,7 +135,8 @@ import ToolReqeust from "@pages/admin/farms/tool-reqeust";
 import UserGuides from "@pages/user/help/guides";
 import CommunityApply from "./pages/user/community/community-apply";
 import CommunityApplicationView from "./pages/user/community/community-application-view";
-
+import CropReportHarvested from "./pages/user/community/reports/crops-report/crop-report-harvested";
+import CropsReportPlanted from "./pages/user/community/reports/crops-report/crop-report-planted";
 const App = ReactRouter(
   <>
     <Route path="/unauthorize" element={<Unauthorized />} />
@@ -205,6 +206,8 @@ const App = ReactRouter(
           <Route path="add" element={<CropsReportAdd />} />
           <Route path="add/:cropId" element={<CropsReportAdd />} />
           <Route path="view/:cropId" element={<CropsReportView />} />
+          <Route path="plant" element={<CropsReportPlanted />} />
+          <Route path="harvest/:cropId" element={<CropReportHarvested />} />
         </Route>
         {/* Request */}
         <Route path="request/:id" element={<CommunityRequest />} />

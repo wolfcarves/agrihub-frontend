@@ -8,24 +8,26 @@ import {
   TabsTrigger
 } from "../../../../../components/ui/tabs";
 import CropsReportExisting from "./crops-report-existing";
+import CropsReportActive from "./crops-report-planted-list";
+import CropsReportPlantedList from "./crops-report-planted-list";
 
 const CropsReport = () => {
-  const [tab, setTab] = useState<string>("existing");
+  const [tab, setTab] = useState<string>("planted");
   return (
     <div className="md:px-10 px-2 py-6 ">
       <div className="flex justify-between">
         <h3 className=" font-poppins-semibold">
-          {tab === "existing" ? "Existing Crops" : "Crop Reports"}
+          {tab === "planted" ? "Planted Crops" : "Crop Reports"}
         </h3>
       </div>
 
-      <Tabs defaultValue="existing" onValueChange={value => setTab(value)}>
+      <Tabs defaultValue="planted" onValueChange={value => setTab(value)}>
         <TabsList className="mt-3">
           <TabsTrigger
             className="data-[state=active]:bg-primary data-[state=active]:text-white font-poppins-semibold"
-            value="existing"
+            value="planted"
           >
-            Existing
+            Planted
           </TabsTrigger>
           <TabsTrigger
             className="data-[state=active]:bg-primary data-[state=active]:text-white font-poppins-semibold"
@@ -35,8 +37,8 @@ const CropsReport = () => {
           </TabsTrigger>
         </TabsList>
         <hr className="my-3 border-primary" />
-        <TabsContent value="existing">
-          <CropsReportExisting />
+        <TabsContent value="planted">
+          <CropsReportPlantedList />
         </TabsContent>
         <TabsContent value="report">
           <CropsReportTable />

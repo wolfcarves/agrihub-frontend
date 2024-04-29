@@ -3,7 +3,8 @@ import {
   CommunityFarmService,
   UpdateApplicationStatusRequest
 } from "@api/openapi";
-import { GET_COMMUNITY_FARM_APPLICATION_LIST } from "../get/useGetCommunityFarmApplicationList";
+
+import { GET_COMMUNITY_FARM_APPLICATION_VIEW } from "../get/useGetCommunityFarmApplicationView";
 
 const usePutCommunityFarmApplicationStatusUpdateKey = () =>
   "USE_COMMUNITY_FARM_APPLICATION_STATUS_UPDATE_KEY";
@@ -24,7 +25,7 @@ export default function usePutCommunityFarmApplicationStatusUpdate() {
       return response;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries([GET_COMMUNITY_FARM_APPLICATION_LIST()]);
+      queryClient.invalidateQueries([GET_COMMUNITY_FARM_APPLICATION_VIEW()]);
     }
   });
 }

@@ -1,19 +1,24 @@
 import React from "react";
 import OutletContainer from "../../../components/user/questions/container/OutletContainer";
-import CommunityRegisterForm from "../../../components/user/community/form/CommunityRegisterForm/CommunityRegisterForm";
-import useGetFarmCheckExistingApplication from "@hooks/api/get/useGetFarmCheckExistingApplication";
-import PendingPage from "../../../components/user/community/pending-page/pending-page";
 import withAuthGuard from "../../../higher-order/account/withAuthGuard";
 import Loader from "../../../icons/Loader";
 import CommunityApplyForm from "../../../components/user/community/form/CommunityApplyForm/CommunityApplyForm";
+import useGetCommunityFarmCheckExisting from "../../../hooks/api/get/useGetCommunityFarmCheckExisting";
+import PendingMemberPage from "../../../components/user/community/member/pending-page/pending-member-page";
 
 const CommunityApply = () => {
-  // const { error, isLoading } = useGetFarmCheckExistingApplication();
+  const { error, isLoading } = useGetCommunityFarmCheckExisting();
+
   return (
     <OutletContainer className="relative">
-      {/* <Loader isVisible={isLoading} />
-      {isLoading ? <></> : error ? <CommunityRegisterForm /> : <PendingPage />} */}
-      <CommunityApplyForm />
+      <Loader isVisible={isLoading} />
+      {isLoading ? (
+        <></>
+      ) : error ? (
+        <CommunityApplyForm />
+      ) : (
+        <PendingMemberPage />
+      )}
     </OutletContainer>
   );
 };

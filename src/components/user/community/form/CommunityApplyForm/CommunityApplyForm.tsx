@@ -1,92 +1,63 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Label } from "../../../../ui/label";
 import { Input } from "../../../../ui/input";
-import Dropzone from "../../dropzone/dropzone";
 import { Button } from "../../../../ui/button";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { RegisterCommunitySchema, registerCommunitySchema } from "./schema";
 import { Form, FormField, FormMessage } from "../../../../ui/form";
-import SelectId from "../../select-id/select-id";
 import { toast } from "sonner";
-import useFarmApplication from "../../../../../hooks/api/post/useFarmApplication";
-import { NewFarmApplication } from "../../../../../api/openapi";
-import MultiImageUpload from "../../multi-image-input/multi-image-input";
+import { FarmMemberApplication } from "../../../../../api/openapi";
 import { useNavigate, useParams } from "react-router-dom";
-import SelectDistrict from "../../select-district/select-district";
 import ActivityIndicator from "@icons/ActivityIndicator";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from "../../../../ui/select";
-import { farmType, ownership } from "../../../../../constants/data";
 import { Checkbox } from "../../../../ui/checkbox";
 import DataPrivacyDialog from "../../../../ui/custom/data-privacy-dialog/data-privacy-dialog";
-import SelectBarangay from "../../select-barangay/select-barangay";
-import ReviewDialog from "../../review-dialog/review-dialog";
 import { CheckedState } from "@radix-ui/react-checkbox";
 import Capture from "../../capture/capture";
-import InputNumber from "../../../../ui/custom/input/input-number";
 import useGetFarmViewQuery from "../../../../../hooks/api/get/useGetFarmViewQuery";
 import useGetCommunityFarmQuestions from "../../../../../hooks/api/get/useGetCommunityFarmQuestions";
-
+import useCommunityFarmApplyFarmer from "../../../../../hooks/api/post/useCommunityFarmApplyFarmer";
+import { applyCommunitySchema } from "./schema";
+import { Textarea } from "../../../../ui/textarea";
+import ReviewDialog from "./ReviewDialog";
+interface Answer {
+  questionid: string;
+  answer: string;
+}
 const CommunityApplyForm = () => {
+  const [answers, setAnswers] = useState<Answer[]>([]);
   const [isDialogOpen, setDialogOpen] = useState<boolean>(false);
   const [dialogReview, setDialogReview] = useState<boolean>();
-  const [district, setDistrict] = useState<string>("");
   const [check, setCheck] = useState<CheckedState>(false);
-  const [isOther, setIsOther] = useState<boolean>(false);
-  const [otherId, setOtherId] = useState<string>("");
   const { id } = useParams();
-  const { data: farmDetails, isLoading } = useGetFarmViewQuery(id || "");
+  const { data: farmDetails } = useGetFarmViewQuery(id || "");
   const { data: questionData } = useGetCommunityFarmQuestions(id || "");
-  console.log(questionData);
-
-  // useEffect(() => {
-  //   setDialogOpen(true);
-  // }, []);
 
   const navigate = useNavigate();
-  const form = useForm<RegisterCommunitySchema>({
-    resolver: zodResolver(registerCommunitySchema),
+  const form = useForm<FarmMemberApplication>({
+    resolver: zodResolver(applyCommunitySchema),
     mode: "onBlur"
   });
-
-  useEffect(() => {
-    if (form.watch("id_type") === "Others") {
-      setIsOther(true);
-    } else {
-      setIsOther(false);
-    }
-  }, [form.watch("id_type")]);
-  console.log(form.watch("id_type"));
 
   useEffect(() => {
     if (form.formState.errors.valid_id) {
       toast.error(form.formState.errors.valid_id.message?.toString());
     }
-    if (form.formState.errors.farm_actual_images) {
-      toast.error(form.formState.errors.farm_actual_images.message?.toString());
-    }
+
     if (form.formState.errors.root) {
       toast.error(form.formState.errors.root.message?.toString());
     }
   }, [form.formState.errors]);
 
   const { mutateAsync: farmApplyMutate, isLoading: isFarmApplyLoading } =
-    useFarmApplication();
+    useCommunityFarmApplyFarmer();
 
   const handleValidation = async () => {
-    // console.log("no open");
     const success = await form.trigger();
     if (success) {
       return setDialogReview(true);
     }
   };
-  const handleSubmitForm = async (data: RegisterCommunitySchema) => {
+  const handleSubmitForm = async (data: FarmMemberApplication) => {
     if (!check) {
       form.setError("root", {
         type: "manual",
@@ -95,21 +66,16 @@ const CommunityApplyForm = () => {
       });
       return null;
     }
-    // setDialogReview(true);
-    const compiledData: NewFarmApplication = {
-      farm_name: data.farm_name,
-      farm_size: String(data.farm_size),
-      location: `${data.street} ${data.barangay}`,
-      district: data.district,
-      id_type: isOther ? otherId : data.id_type,
-      valid_id: data.valid_id,
-      proof: data.proof,
-      type_of_farm: data.type_of_farm,
-      farm_actual_images: data.farm_actual_images
-    };
-
     try {
-      await farmApplyMutate(compiledData);
+      const compiledData: FarmMemberApplication = {
+        contact_person: data.contact_person,
+        reason: data.reason,
+        answer: JSON.stringify(answers),
+        proof_selfie: data.proof_selfie,
+        valid_id: data.valid_id
+      };
+
+      await farmApplyMutate({ id: id || "", formData: compiledData });
 
       toast.success("Applied Successfully!");
       navigate("/community");
@@ -117,6 +83,19 @@ const CommunityApplyForm = () => {
       toast.error(e.body.message);
     }
   };
+
+  const handleAnswerChange = (index: number, answer: string) => {
+    const updatedAnswers = [...answers];
+    if (questionData && questionData[index]) {
+      updatedAnswers[index] = {
+        questionid: questionData[index].id || "",
+        answer
+      };
+      setAnswers(updatedAnswers);
+    }
+  };
+
+  console.log(answers);
 
   return (
     <div className="w-full md:px-0 px-2 my-4">
@@ -133,54 +112,61 @@ const CommunityApplyForm = () => {
           encType="multipart/form-data"
           className=" grid grid-cols-12 gap-4"
         >
-          <div className=" md:col-span-8 col-span-12">
-            <Label className=" font-poppins-medium">Name</Label>
+          <div className=" md:col-span-6 col-span-12">
+            <Label className=" font-poppins-medium">Contact Person</Label>
             <Input
               type="text"
               className="h-10 bg-transparent"
-              placeholder="Enter farm name..."
-              {...form.register("farm_name")}
+              placeholder="Enter contact..."
+              {...form.register("contact_person")}
             />
             <FormMessage>
-              {form.formState.errors.farm_name?.message}
+              {form.formState.errors.contact_person?.message}
             </FormMessage>
           </div>
-          <div className=" md:col-span-4 col-span-12">
+          {questionData?.map((question, i) => (
+            <div key={i} className=" md:col-span-6 col-span-12">
+              <Label className=" font-poppins-medium">
+                {question.question}
+              </Label>
+              <Input
+                type="text"
+                className="h-10 bg-transparent"
+                placeholder="Enter answer..."
+                onChange={e => handleAnswerChange(i, e.target.value)}
+              />
+            </div>
+          ))}
+          <div className=" md:col-span-6 col-span-12">
             <Label className=" font-poppins-medium">Reason</Label>
-            <Input
-              type="number"
+            <Textarea
               className="h-10 bg-transparent"
-              placeholder="Enter farm size..."
-              min={0}
-              max={10000}
-              {...form.register("farm_size")}
+              placeholder="Enter reason..."
+              {...form.register("reason")}
             />
 
-            <FormMessage>
-              {form.formState.errors.farm_size?.message}
-            </FormMessage>
-          </div>
-
-          <div className=" md:col-span-3 col-span-12">
-            <Label className=" font-poppins-medium">Street</Label>
-            <Input
-              type="text"
-              className="h-10 bg-transparent"
-              placeholder="Enter Location..."
-              {...form.register("street")}
-            />
-            <FormMessage>{form.formState.errors.street?.message}</FormMessage>
+            <FormMessage>{form.formState.errors.reason?.message}</FormMessage>
           </div>
 
           <div className="md:col-span-6 col-span-12">
-            <Label className=" font-poppins-medium">Farm photo</Label>
+            <Label className=" font-poppins-medium">Proof Selfie</Label>
             <FormField
               control={form.control}
-              name="farm_actual_images"
+              name="proof_selfie"
               render={() => (
                 <Capture
-                  onChange={value => form.setValue("farm_actual_images", value)}
+                  onChange={value => form.setValue("proof_selfie", value)}
                 />
+              )}
+            />
+          </div>
+          <div className="md:col-span-6 col-span-12">
+            <Label className=" font-poppins-medium">Valid ID</Label>
+            <FormField
+              control={form.control}
+              name="valid_id"
+              render={() => (
+                <Capture onChange={value => form.setValue("valid_id", value)} />
               )}
             />
           </div>

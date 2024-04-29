@@ -8,42 +8,21 @@ const ALLOWED_IMAGE_FORMATS = [
   "image/webp"
 ];
 
-export const registerCommunitySchema = zod.object({
-  farm_name: zod
+export const applyCommunitySchema = zod.object({
+  contact_person: zod
     .string({
-      required_error: "Name is required."
+      required_error: "Contact is required."
     })
     .min(5, "Please enter at least 5 characters")
-    .max(200, "Name is too long"),
-
-  farm_size: zod.coerce
-    .number({
-      required_error: "Size is required"
-    })
-    .min(1, " Please enter farm size")
-    .max(10000, " Invalid farm size value"),
-  street: zod
+    .max(100, "Contact is too long"),
+  reason: zod
     .string({
-      required_error: "Street is required."
+      required_error: "Reason is required."
     })
-    .min(3, "Please enter at least 3 characters")
-    .max(200, "Street is too long"),
-  barangay: zod
-    .string({
-      required_error: "Barangay is required."
-    })
-    .min(3, "Please enter at least 3 characters")
-    .max(200, "Barangay is too long"),
+    .min(5, "Please enter at least 5 characters")
+    .max(300, "Reason is too long"),
 
-  district: zod.string({
-    required_error: "District is required."
-  }),
-
-  id_type: zod.string({
-    required_error: "ID type is required."
-  }),
-
-  valid_id: zod
+  proof_selfie: zod
     .any()
     .refine((file: Blob) => file !== undefined, "Please upload a valid ID")
     .refine(
@@ -52,17 +31,13 @@ export const registerCommunitySchema = zod.object({
       "Maximum image file size is 10MB"
     ),
 
-  proof: zod.string({
-    required_error: "Ownership is required."
-  }),
-  type_of_farm: zod.string({
-    required_error: "Farm Type is required."
-  }),
-  farm_actual_images: zod
+  valid_id: zod
     .any()
+    .refine((file: Blob) => file !== undefined, "Please upload a valid ID")
     .refine(
-      (file: Blob[]) => file !== undefined,
-      "Please upload atleast one image of your farm"
+      (file: Blob) =>
+        file?.size === undefined ? true : file.size <= MAX_IMAGE_FILE_SIZE,
+      "Maximum image file size is 10MB"
     )
 });
-export type RegisterCommunitySchema = zod.infer<typeof registerCommunitySchema>;
+export type ApplyCommunitySchema = zod.infer<typeof applyCommunitySchema>;

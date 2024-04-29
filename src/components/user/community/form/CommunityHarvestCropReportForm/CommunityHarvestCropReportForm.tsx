@@ -28,7 +28,7 @@ import useGetReportCropListView from "../../../../../hooks/api/get/useGetReportC
 const CommunityHarvestCropReportForm = () => {
   const [dialogReview, setDialogReview] = useState<boolean>();
   const navigate = useNavigate();
-  const { reportId } = useParams();
+  const { reportId, crop, task } = useParams();
   // const [check, setCheck] = useState<CheckedState>(false);
   const { data: CropReport, isLoading } = useGetReportCropListView(
     reportId || ""
@@ -67,7 +67,7 @@ const CommunityHarvestCropReportForm = () => {
         date_harvested: data.date_harvested,
         kilogram: data.kilogram,
         notes: data.notes,
-        task_id: undefined,
+        task_id: task ? task : undefined,
         images: data.images
       };
       await cropReportMutate({
@@ -100,7 +100,7 @@ const CommunityHarvestCropReportForm = () => {
           <Input
             className="h-9 rounded-md disabled:opacity-90"
             disabled
-            value={CropReport?.crop_name}
+            value={CropReport?.crop_name || crop}
           />
         </div>
         <div className="md:col-span-6 col-span-12">

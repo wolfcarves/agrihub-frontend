@@ -41,6 +41,7 @@ import {
 } from "../../../../ui/alert-dialog";
 import Input from "../../../../ui/custom/input/input";
 import useDeleteCommunityFarmTask from "../../../../../hooks/api/delete/useDeleteCommunityFarnTask";
+import useAuth from "../../../../../hooks/useAuth";
 
 export const columns: ColumnDef<CommunityTask>[] = [
   {
@@ -84,7 +85,8 @@ export const columns: ColumnDef<CommunityTask>[] = [
     id: "actions",
     cell: ({ row }) => {
       const item = row.original;
-      console.log(item);
+      const navigate = useNavigate();
+      const { data: userData } = useAuth();
 
       const [isOpen, setIsOpen] = useState<boolean>();
 
@@ -100,6 +102,20 @@ export const columns: ColumnDef<CommunityTask>[] = [
           setIsOpen(false);
         } catch (e: any) {
           toast.error(e.message);
+        }
+      };
+
+      const handleComply = () => {
+        if (item.task_type === "harvest") {
+          navigate(
+            `/community/reports/${item.farmid}/harvest/${item.report_id}/${item.crop_name}/${item.assigned_to}`
+          );
+        } else if (item.task_type === "plant") {
+          navigate(
+            `/community/reports/${item.farmid}/plant/${item.crop_id}/${item.assigned_to}`
+          );
+        } else {
+          null;
         }
       };
 
@@ -252,7 +268,9 @@ export const columns: ColumnDef<CommunityTask>[] = [
                     </AlertDialogContent>
                   </AlertDialog>
                 )}
-                <Button>Comply</Button>
+                {userData?.role === "farmer" && item.status === "pending" && (
+                  <Button onClick={handleComply}>Comply</Button>
+                )}
               </DialogFooter>
             </DialogContent>
           </Dialog>

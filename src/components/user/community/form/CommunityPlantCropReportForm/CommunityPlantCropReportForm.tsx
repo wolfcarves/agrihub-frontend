@@ -21,7 +21,7 @@ import { cropPlantReportSchema } from "./schema";
 const CommunityPlantCropReportForm = () => {
   const [dialogReview, setDialogReview] = useState<boolean>();
   const navigate = useNavigate();
-  const { id, cropId } = useParams();
+  const { id, cropId, task } = useParams();
   // const [check, setCheck] = useState<CheckedState>(false);
 
   const form = useForm<PlantedCropReportFormData>({
@@ -54,7 +54,7 @@ const CommunityPlantCropReportForm = () => {
         crop_id: data.crop_id,
         planted_qty: data.planted_qty,
         date_planted: data.date_planted,
-        task_id: undefined,
+        task_id: task ? task : undefined,
         images: data.images
       };
       await cropReportMutate({
@@ -84,7 +84,13 @@ const CommunityPlantCropReportForm = () => {
             control={form.control}
             name="crop_id"
             render={({ field }) => (
-              <SelectCrop other={false} field={field} form={form} />
+              <SelectCrop
+                other={false}
+                defaultValue={cropId || ""}
+                disabled={cropId ? true : false}
+                field={field}
+                form={form}
+              />
             )}
           />
         </div>

@@ -44,17 +44,19 @@ import Input from "../../../components/ui/custom/input/input";
 
 const CommunityApplicationView = () => {
   const { id, user, appId } = useParams();
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const navigate = useNavigate();
   const [remarks, setRemarks] = useState<string>("");
   const { data: appData, isLoading: appLoad } =
     useGetCommunityFarmApplicationView(appId || "");
-  const { data: quesData, isLoading: quesLoad } =
-    useGetCommunityFarmQuestionView(id || "");
+
   const { data: farmData, isLoading: farmLoad } = useGetFarmViewQuery(id || "");
+
   const { data: userData, isLoading: userLoad } = useGetUserProfileQuery(
     user || ""
   );
-  console.log(quesData);
+
+  console.log(appData);
 
   //reject member
   const { mutateAsync: rejectMutation, isLoading: rejectLoading } =
@@ -72,7 +74,7 @@ const CommunityApplicationView = () => {
         }
       });
       toast.success("User Application Rejected Successfully!");
-      //   setShowKick(false);
+      setIsOpen(false);
     } catch (error: any) {
       toast.error(error.message);
       toast.error(error.body.message);
@@ -97,7 +99,7 @@ const CommunityApplicationView = () => {
     }
   };
 
-  if (userLoad || appLoad || quesLoad || farmLoad) {
+  if (userLoad || appLoad || farmLoad) {
     return <Loader isVisible={true} />;
   }
 
@@ -110,7 +112,7 @@ const CommunityApplicationView = () => {
         <FaArrowLeftLong /> Back
       </div>
       <div className=" md:col-span-9 col-span-12 md:px-0 px-4">
-        <h2 className=" font-poppins-semibold  text-green-700 leading-tight ">
+        <h2 className=" font-poppins-semibold md:text-2xl text-lg text-green-700 leading-tight ">
           Farmer Application To {farmData?.farm_name}
         </h2>
         <div className="flex flex-col gap-4 border-t-4 border-primary pt-2">
@@ -138,6 +140,17 @@ const CommunityApplicationView = () => {
                   </p>
                 </div>
               </div>
+              <Badge
+                className={`text-white capitalize place-self-start ${
+                  appData?.status === "rejected"
+                    ? "bg-destructive"
+                    : appData?.status === "pendeng"
+                    ? " bg-orange-500"
+                    : ""
+                }`}
+              >
+                {appData?.status}
+              </Badge>
             </div>
             <div className="px-2 mt-4 grid grid-cols-10 gap-y-3">
               <div className=" md:col-span-5 col-span-10">
@@ -179,8 +192,8 @@ const CommunityApplicationView = () => {
                 Summitted in {format(new Date(appData?.createdat || ""), "PPP")}
               </p>
             </div>
-            <div className="px-2 mt-4 grid grid-cols-10 gap-y-3 gap-x-10">
-              <div className=" md:col-span-5 col-span-10">
+            <div className="px-2 mt-4 grid grid-cols-10 gap-y-3 md:gap-x-10 gap-x-0">
+              <div className=" md:col-span-5 col-span-5">
                 <Label className=" font-poppins-medium">Contact Person</Label>
                 <Input
                   value={appData?.contact_person}
@@ -188,14 +201,18 @@ const CommunityApplicationView = () => {
                   className=" opacity-90"
                 />
               </div>
-              <div className=" md:col-span-5 col-span-10">
-                <Label className=" font-poppins-medium">Contact Person</Label>
-                <Input
-                  value={appData?.contact_person}
-                  disabled
-                  className=" opacity-90"
-                />
-              </div>
+              {appData?.answers?.map((answer, i) => (
+                <div key={i} className=" md:col-span-5 col-span-10">
+                  <Label className=" font-poppins-medium">
+                    {answer.question}
+                  </Label>
+                  <Input
+                    value={answer.answer}
+                    disabled
+                    className=" opacity-90"
+                  />
+                </div>
+              ))}
               <div className=" md:col-span-5 col-span-10">
                 <Label className=" font-poppins-medium">Reason</Label>
                 <Textarea
@@ -211,7 +228,7 @@ const CommunityApplicationView = () => {
                   className=" h-20 hover:shadow rounded border border-border"
                 />
               </div>
-              <div className=" md:col-span-5 col-span-10">
+              <div className=" md:col-span-5 col-span-10 ">
                 <Label className=" font-poppins-medium">Valid ID</Label>
                 <img
                   src={appData?.valid_id}
@@ -221,67 +238,80 @@ const CommunityApplicationView = () => {
             </div>
           </Card>
         </div>
-        <div className="flex justify-end gap-1 my-5">
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button className=" bg-destructive">Reject</Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
-              <DialogHeader>
-                <DialogTitle>
-                  Do you want to reject this application?
-                </DialogTitle>
-                <DialogDescription>
-                  This action will reject the user application to this community
-                  farm.
-                </DialogDescription>
-              </DialogHeader>
-              <div className="grid gap-4 py-4">
-                <div className="">
-                  <Label className="text-right font-poppins-medium">
-                    Remarks
-                  </Label>
-                  <Textarea
-                    onChange={e => setRemarks(e.target.value)}
-                    className="col-span-3"
-                  />
-                </div>
-              </div>
-              <DialogFooter>
-                <DialogClose asChild>
-                  <Button type="button" variant="outline">
-                    Close
-                  </Button>
-                </DialogClose>
-                <Button className=" bg-destructive" onClick={handleReject}>
-                  Confirm
+        {appData?.status === "pending" && (
+          <div className="flex justify-end gap-2 my-5">
+            <Dialog open={isOpen}>
+              <DialogTrigger asChild>
+                <Button
+                  className=" bg-destructive"
+                  onClick={() => setIsOpen(true)}
+                >
+                  Reject
                 </Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <Button>Accept</Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>
-                  Do you want to accept this user?
-                </AlertDialogTitle>
-                <AlertDialogDescription>
-                  This action will add the user to the commnunity farm as one of
-                  the farmer.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction onClick={handleAccept}>
-                  Continue
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
-        </div>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle>
+                    Do you want to reject this application?
+                  </DialogTitle>
+                  <DialogDescription>
+                    This action will reject the user application to this
+                    community farm.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="grid gap-4 py-4">
+                  <div className="">
+                    <Label className="text-right font-poppins-medium">
+                      Remarks
+                    </Label>
+                    <Textarea
+                      onChange={e => setRemarks(e.target.value)}
+                      className="col-span-3"
+                    />
+                  </div>
+                </div>
+                <DialogFooter>
+                  <DialogClose asChild>
+                    <Button
+                      onClick={() => setIsOpen(false)}
+                      type="button"
+                      variant="outline"
+                    >
+                      Close
+                    </Button>
+                  </DialogClose>
+                  <Button className=" bg-destructive" onClick={handleReject}>
+                    Confirm
+                  </Button>
+                </DialogFooter>
+                <Loader isVisible={rejectLoading} />
+              </DialogContent>
+            </Dialog>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button>Accept</Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>
+                    Do you want to accept this user?
+                  </AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This action will add the user to the commnunity farm as one
+                    of the farmer.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction onClick={handleAccept}>
+                    Continue
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </div>
+        )}
+
         <Loader isVisible={rejectLoading || acceptLoading} />
       </div>
     </OutletContainer>

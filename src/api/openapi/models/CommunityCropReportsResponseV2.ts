@@ -6,7 +6,7 @@
 import type { PlantedCropsResponse } from './PlantedCropsResponse';
 
 export type CommunityCropReportsResponseV2 = {
-    reports?: Array<PlantedCropsResponse>;
+    data?: Array<PlantedCropsResponse>;
     pagination?: {
 page?: number;
 per_page?: number;

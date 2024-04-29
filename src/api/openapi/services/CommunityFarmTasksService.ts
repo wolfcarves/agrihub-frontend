@@ -123,6 +123,51 @@ type?: 'plant' | 'harvest',
     }
 
     /**
+     * Get list of community tasks
+     * @returns CommunityTasksResponse List of community tasks
+     * @throws ApiError
+     */
+    public static getApiCommunityFarmTaskListFarmer({
+id,
+search,
+page,
+perpage,
+filter,
+type,
+}: {
+id: string,
+search?: string,
+/**
+ * Page number
+ */
+page?: string,
+perpage?: string,
+filter?: 'completed' | 'pending',
+type?: 'plant' | 'harvest',
+}): CancelablePromise<CommunityTasksResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/community-farm/task/list/farmer/{id}',
+            path: {
+                'id': id,
+            },
+            query: {
+                'search': search,
+                'page': page,
+                'perpage': perpage,
+                'filter': filter,
+                'type': type,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
      * Delete a community task
      * @returns MessageResponse Task deleted successfully
      * @throws ApiError

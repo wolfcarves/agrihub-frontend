@@ -14,6 +14,7 @@ export type CommunityTask = {
     message?: string;
     action_message?: string;
     status?: string;
+    crop_name?: string;
     username?: string;
     firstname?: string;
     lastname?: string;

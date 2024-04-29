@@ -10,6 +10,7 @@ import {
 } from "react-icons/pi";
 import useCommunityAutorization from "../../../../hooks/utils/useCommunityAutorization";
 import { CiSquareQuestion } from "react-icons/ci";
+import { GoTasklist } from "react-icons/go";
 
 const CommunitySidebar = () => {
   const pathname = useLocation().pathname;
@@ -38,6 +39,13 @@ const CommunitySidebar = () => {
           to={`/community/request/${UserData.farm_id}`}
           title="Request"
           logo={<CiSquareQuestion size={20} />}
+        />
+      )}
+      {UserData?.farm_id && isAuthenticated && isAllowed && (
+        <UserSidebarNavLink
+          to={`/community/task/${UserData.farm_id}`}
+          title="Task"
+          logo={<GoTasklist size={20} />}
         />
       )}
       {UserData?.farm_id && isAuthenticated && isAllowed && (

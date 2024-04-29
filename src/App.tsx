@@ -137,6 +137,7 @@ import CommunityApply from "./pages/user/community/community-apply";
 import CommunityApplicationView from "./pages/user/community/community-application-view";
 import CropReportHarvested from "./pages/user/community/reports/crops-report/crop-report-harvested";
 import CropsReportPlanted from "./pages/user/community/reports/crops-report/crop-report-planted";
+import CommunityTask from "./pages/user/community/community-task";
 const App = ReactRouter(
   <>
     <Route path="/unauthorize" element={<Unauthorized />} />
@@ -214,6 +215,7 @@ const App = ReactRouter(
         {/* <Route path="" element={<SeedlingsRequest />} /> */}
 
         <Route path="problem/:id" element={<CommunityProblem />} />
+        <Route path="task/:id" element={<CommunityTask />} />
       </Route>
 
       {/* Blog Page */}

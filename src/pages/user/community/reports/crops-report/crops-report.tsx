@@ -7,8 +7,6 @@ import {
   TabsList,
   TabsTrigger
 } from "../../../../../components/ui/tabs";
-import CropsReportExisting from "./crops-report-existing";
-import CropsReportActive from "./crops-report-planted-list";
 import CropsReportPlantedList from "./crops-report-planted-list";
 
 const CropsReport = () => {

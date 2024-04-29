@@ -28,6 +28,7 @@ import {
 } from "../../../../ui/select";
 import { CSVLink } from "react-csv";
 import { PiFileCsvFill } from "react-icons/pi";
+import useGetCommunityFarmReportsCropReports from "../../../../../hooks/api/get/useGetCommunityFarmReportsCropReports";
 
 const CropsReportTable = () => {
   const [search, setSearch] = useState<string>("");
@@ -38,29 +39,28 @@ const CropsReportTable = () => {
   );
   const { id } = useParams();
 
-  const { data: CropReport, isLoading } = useGetReportCropListQuery({
+  const { data: CropHarvested, isLoading } =
+    useGetCommunityFarmReportsCropReports({
+      id: id || "",
+      search: search,
+      page: String(page),
+      perpage: "10",
+      filter: filter,
+      status: "harvested",
+      month: monthSelected
+    });
+  const { data: CropReportExport } = useGetCommunityFarmReportsCropReports({
     id: id || "",
-    search: search,
-    page: String(page),
-    perpage: "10",
-    filter: filter,
-    sort: undefined,
-    month: monthSelected
-  });
-
-  const { data: CropReportExport } = useGetReportCropListQuery({
-    id: id || "",
-
     page: "1",
     perpage: "100000",
     filter: filter,
-    sort: undefined,
+    status: "harvested",
     month: monthSelected
   });
 
   const reportData = useMemo(() => {
     return (
-      CropReportExport?.reports?.map(item => ({
+      CropReportExport?.data?.map(item => ({
         crop_name: item.crop_name || "", // Add default value to handle undefined
         date_planted: item.date_planted || "", // Add default value to handle undefined
         harvested_qty: item.harvested_qty || "", // Add default value to handle undefined
@@ -85,7 +85,7 @@ const CropsReportTable = () => {
 
   const handleAddReport = () => {
     dispatch(clearExistingCrop());
-    navigate("add");
+    navigate("plant");
   };
 
   const handleCheckboxChange = (cropName: string, isChecked: boolean) => {
@@ -128,7 +128,6 @@ const CropsReportTable = () => {
       <div className="my-2 flex md:flex-row flex-col gap-3 justify-between">
         <Input
           placeholder="Search crop..."
-          value={search}
           onChange={e => debouncedSearch(e.target.value)}
           className="max-w-sm focus-visible:ring-0"
         />
@@ -194,17 +193,17 @@ const CropsReportTable = () => {
           )}
 
           <Button onClick={handleAddReport} className="flex items-center gap-1">
-            <IoMdAdd size={15} /> Report
+            <IoMdAdd size={15} /> Plant
           </Button>
         </div>
       </div>
       <div className="min-h-[63vh] mb-2">
-        <DataTable columns={columns} data={CropReport?.reports || []} />
+        <DataTable columns={columns} data={CropHarvested?.data || []} />
       </div>
-      {!isLoading && Number(CropReport?.pagination?.total_records) !== 0 && (
+      {!isLoading && Number(CropHarvested?.pagination?.total_records) !== 0 && (
         <StatePagination
-          currentPage={Number(CropReport?.pagination?.page)}
-          totalPages={Number(CropReport?.pagination?.total_pages)}
+          currentPage={Number(CropHarvested?.pagination?.page)}
+          totalPages={Number(CropHarvested?.pagination?.total_pages)}
           onPageChange={onPageChange}
         />
       )}

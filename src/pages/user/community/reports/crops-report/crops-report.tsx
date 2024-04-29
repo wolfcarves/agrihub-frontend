@@ -17,7 +17,7 @@ const CropsReport = () => {
     <div className="md:px-10 px-2 py-6 ">
       <div className="flex justify-between">
         <h3 className=" font-poppins-semibold">
-          {tab === "planted" ? "Planted Crops" : "Crop Reports"}
+          {tab === "planted" ? "Planted Crops" : "Harvested Crops"}
         </h3>
       </div>
 
@@ -31,16 +31,16 @@ const CropsReport = () => {
           </TabsTrigger>
           <TabsTrigger
             className="data-[state=active]:bg-primary data-[state=active]:text-white font-poppins-semibold"
-            value="report"
+            value="harvest"
           >
-            Reports
+            Harvest
           </TabsTrigger>
         </TabsList>
         <hr className="my-3 border-primary" />
         <TabsContent value="planted">
           <CropsReportPlantedList />
         </TabsContent>
-        <TabsContent value="report">
+        <TabsContent value="harvest">
           <CropsReportTable />
         </TabsContent>
       </Tabs>

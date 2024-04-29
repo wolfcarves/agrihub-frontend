@@ -71,9 +71,8 @@ const CropsReportPlantedList = () => {
       page: String(page),
       perpage: "10",
       filter: filter,
-      status: undefined
+      status: "planted"
     });
-  console.log(CropExisting, "asdasd");
 
   const handleCropReport = (cropData: PlantedCropsResponse) => {
     // dispatch(setExistingCrop(cropData));
@@ -108,7 +107,6 @@ const CropsReportPlantedList = () => {
       <div className="my-2 flex md:flex-row flex-col gap-3 justify-between">
         <Input
           placeholder="Search crop..."
-          value={search}
           onChange={e => debouncedSearch(e.target.value)}
           className="max-w-sm focus-visible:ring-0"
         />

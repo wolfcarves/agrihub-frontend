@@ -24,6 +24,7 @@ import { UserRegisterSchema } from "@api/openapi";
 
 const CAPTCHA_CONTAINER_ID = import.meta.env.VITE_CAPTCHA_CONTAINER_ID;
 const CAPTCHA_ID = import.meta.env.VITE_CAPTCHA_ID;
+
 //FOR BACKEND
 // const CAPTCHA_PRIVATE_KEY = import.meta.env.VITE_CAPTCHA_PRIVATE_KEY;
 // const { answer, challenge_id } = getCaptcha().getCaptchaValue();

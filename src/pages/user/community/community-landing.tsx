@@ -29,6 +29,7 @@ import SolutionIllustration from "@icons/community/SolutionIllustration";
 import CommunityIllustration from "@icons/community/CommunityIllustration";
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 import ToolIllustration from "@icons/community/ToolIllustration";
+import { formatDistrict } from "../../../components/lib/utils";
 
 const ScrollToSectionButton: React.FC<{
   targetRef: React.RefObject<HTMLDivElement>;
@@ -112,11 +113,20 @@ const ScrollToTopButton: React.FC<{
 };
 
 const CommunityLanding = () => {
-  const { data: userData } = useAuth();
+  const { data: userData, isFetching } = useAuth();
   const { data } = useGetFarmListQuery({
     search: undefined,
     page: "1",
-    filter: undefined,
+    filter:
+      !isFetching && userData
+        ? (formatDistrict(userData?.district || "") as
+            | "District 1"
+            | "District 2"
+            | "District 3"
+            | "District 4"
+            | "District 5"
+            | "District 6")
+        : undefined,
     perpage: "3"
   });
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -207,7 +217,10 @@ const CommunityLanding = () => {
         </div>
       </div>
 
-      <p>Mga farms na kasali na sa AgriHub:</p>
+      <p>
+        Mga farms na{" "}
+        {userData ? "kasali na sa iyong distrito" : "kasali na sa AgriHub"}:
+      </p>
 
       <div className="grid grid-cols-6 gap-2  mt-10">
         {data?.farms

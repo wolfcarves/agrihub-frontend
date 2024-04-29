@@ -24,6 +24,7 @@ import {
 } from "../../../ui/alert-dialog";
 import { GiPlantSeed } from "react-icons/gi";
 import { TbBrandGoogleAnalytics, TbReportAnalytics } from "react-icons/tb";
+import useGetCommunityFarmCheckExisting from "../../../../hooks/api/get/useGetCommunityFarmCheckExisting";
 
 const CommunityDetails = () => {
   const navigate = useNavigate();
@@ -33,6 +34,11 @@ const CommunityDetails = () => {
   const { data: farmDetails, isLoading } = useGetFarmViewQuery(id || "");
   const { mutateAsync: leaveFarmMutation, isLoading: leaveLoading } =
     useFarmLeaveMutation();
+  const {
+    error: appError,
+    isLoading: checkLoad,
+    data: appData
+  } = useGetCommunityFarmCheckExisting();
   const handleLeave = async () => {
     try {
       await leaveFarmMutation();
@@ -45,6 +51,9 @@ const CommunityDetails = () => {
 
   const handleEdit = () => {
     navigate(`/community/my-community/${UserData?.farm_id}/profile`);
+  };
+  const handleApply = () => {
+    navigate(`/community/apply/${farmDetails?.id}`);
   };
 
   return (
@@ -111,9 +120,21 @@ const CommunityDetails = () => {
                         </AlertDialogFooter>
                       </AlertDialogContent>
                     </AlertDialog>
+                  ) : appError ? (
+                    <Button
+                      className={`md:text-sm text-xs`}
+                      onClick={handleApply}
+                    >
+                      Apply
+                    </Button>
+                  ) : appData?.farmid === id ? (
+                    <Button
+                      className={`md:text-sm text-xs bg-destructive`}
+                      onClick={handleApply}
+                    >
+                      Pending
+                    </Button>
                   ) : null
-                ) : isAuthenticated ? (
-                  <Button className="md:text-sm text-xs">Join</Button>
                 ) : null}
               </div>
 
@@ -126,7 +147,7 @@ const CommunityDetails = () => {
           </div>
         </div>
       </div>
-      <Loader isVisible={isLoading || leaveLoading} />
+      <Loader isVisible={isLoading || leaveLoading || checkLoad} />
     </div>
   );
 };

@@ -3,6 +3,7 @@ import { QuestionsResponse } from "@api/openapi";
 import { Link, useNavigate } from "react-router-dom";
 import ActivityIndicator from "@icons/ActivityIndicator";
 import QuestionCard from "@components/user/questions/card/QuestionCard";
+import BackButton from "@components/ui/custom/button/back-button";
 
 interface ProfileQuestionListProps {
   isOwn?: boolean;
@@ -20,7 +21,8 @@ const ProfileQuestionList = ({
   return (
     <div className="mt-10 pb-40 w-full sm:pe-10">
       <div className="flex flex-col gap-3">
-        <h5 className="font-poppins-semibold tracking-tight">
+        <h5 className="flex items-center gap-4 font-poppins-semibold tracking-tight">
+          <BackButton />
           {isOwn ? "Your Posts" : "Posts"}
         </h5>
       </div>

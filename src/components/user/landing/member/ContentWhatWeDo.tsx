@@ -1,5 +1,5 @@
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import useAuth from "@hooks/useAuth";
 import useGetFarmListQuery from "@hooks/api/get/useGetFarmListQuery";
 import FarmCard from "@components/user/community/farm-card/farm-card";
@@ -10,15 +10,21 @@ import useGetClientDetails from "@hooks/api/get/useGetClientDetails";
 import parse from "html-react-parser";
 import * as Icons from "react-icons/bi";
 import { renderIcon } from "@components/lib/RenderIcon";
-import { formatDate } from "../../../lib/utils";
+import {
+  formatDate,
+  convertToEmbedLink,
+  formatDistrict
+} from "../../../lib/utils";
 import useGetVisionStats from "@hooks/api/get/useGetVisionStats";
+import useGetEventPublishedListQuery from "@hooks/api/get/useGetEventPublishedListQuery";
+import EventsCard from "@components/user/events/card/EventsCard";
+import { Divider } from "@components/ui/custom";
+import LoadingSpinner from "@icons/LoadingSpinner";
+import extractYouTubeVideoId from "@pages/user/learning/util/extractYtUrl";
+import { FaPlay } from "react-icons/fa6";
+import { Badge } from "@components/ui/badge";
+import { MdArrowRight } from "react-icons/md";
 type IconType = keyof typeof Icons;
-
-interface Guide {
-  time: string;
-  title: string;
-  description: string;
-}
 
 const ContentWhatWeDo: React.FC = () => {
   const { data: cmsDataLanding } = useCmsLandingDetailsQuery();
@@ -29,11 +35,20 @@ const ContentWhatWeDo: React.FC = () => {
     ...cmsDataLanding
   };
 
-  const { data: userData } = useAuth();
+  const { data: userData, isFetching } = useAuth();
   const { data } = useGetFarmListQuery({
     search: undefined,
     page: "1",
-    filter: undefined,
+    filter:
+      !isFetching && userData
+        ? (formatDistrict(userData?.district || "") as
+            | "District 1"
+            | "District 2"
+            | "District 3"
+            | "District 4"
+            | "District 5"
+            | "District 6")
+        : undefined,
     perpage: "3"
   });
 
@@ -68,41 +83,53 @@ const ContentWhatWeDo: React.FC = () => {
       title: "Total Resources"
     }
   ];
-
-  const guides: Guide[] = [
-    {
-      time: "00:01",
-      title: "Ano ang AgriHub?",
-      description:
-        "Samahan natin si Kuya Wil upang alamin kung paano nga ba nagsimula ang Agrihub maging ang mga mahahalagang layunin at misyon na makatutulong sa mga urban farmers ng Lungsod Quezon."
-    },
-    {
-      time: "01:39",
-      title: "Ano ang mga nilalaman ng Agrihub",
-      description:
-        "Tuklasin ang mga mahahalagang nilalaman ng Agrihub na una ninyong makikita matapos bisitahin ang website. Sa parteng ito ay ipapaliwanag ni Kuya Wil kung ano ang nagagawa ng mga ito."
-    },
-    {
-      time: "03:32",
-      title: "Paano mag-register ng isang farm?",
-      description:
-        "Ang pagkakaroon ng isang urban farming community ay isa sa pinakamahalagang misyon ng Agrihub. Alamin kung ano ang mga kinakailangang impormasyon upang mairehistro sa Agrihub ang iyong komunidad."
-    }
-  ];
+  const [isPreviewing, setIsPreviewing] = useState<boolean>(false);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const guidelineVid = "https://youtu.be/58wsYvsfGJQ?si=pOJtaykgWuEGjzx7";
+  const [videoSrc, setVideoSrc] = useState<string>(guidelineVid);
+  // nakukuha na seconds pero yung link aralin pa
 
   const { data: blogData } = useGetBlogsPublishList();
-  const seeGuide = () => {
-    navigate("/helps/guides");
-  };
 
   const seeApproach = () => {
     navigate("/about/our-focus");
   };
 
+  const S3_BASE_URL = import.meta.env.VITE_S3_BUCKET_BASEURL;
+
+  const { data: eventsData, isLoading: isEventsLoading } =
+    useGetEventPublishedListQuery({
+      perpage: "3",
+      filter: "upcoming"
+    });
+  const seeEvents = () => {
+    navigate("/events");
+  };
+
   return (
     <div className="w-full mx-auto my-0 md:my-15 mb-8">
       {/* our mission part */}
+      {isPreviewing && (
+        <div
+          className="fixed inset-0 h-full w-full flex justify-center items-center z-50 bg-black/70"
+          onClick={() => setIsPreviewing(false)}
+        >
+          <div
+            className={`relative w-[90%] aspect-video xl:w-1/2 xl:h-1/2 object-contain animate-appear bg-black`}
+          >
+            <div className="absolute inset-0 m-auto h-max w-max -z-10">
+              <LoadingSpinner className="text-primary" />
+            </div>
 
+            <iframe
+              className={`w-full h-full object-contain aspect-auto`}
+              src={convertToEmbedLink(videoSrc || "")}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+            ></iframe>
+          </div>
+        </div>
+      )}
       <div className="container flex flex-col md:flex-row gap-10 justify-between md:items-center py-6 md:py-10 lg:py-14  mx-auto px-4 md:px-8 max-w-screen-xl">
         <div className="space-y-3 w-full max-w-[40rem]">
           <h3 className="text-4xl font-poppins-semibold tracking-tight">
@@ -254,54 +281,129 @@ const ContentWhatWeDo: React.FC = () => {
               Who's using AgriHub?
             </h3>
             <p className="text-gray-600 mt-3">
-              This are some of the registered farm within the community{" "}
+              This are some of the registered farm within{" "}
+              {userData ? "your District" : "the Community"}{" "}
               <Link to="/community/explore">explore</Link>
             </p>
           </div>
-          <div className="mt-12 flex justify-between">
-            <div className="grid grid-cols-6 gap-2">
-              {data?.farms
-                ?.filter(farm => farm.id !== userData?.farm_id)
-                .map((farm, i) => <FarmCard farm={farm} key={i} />)}
-            </div>
+          <div className="grid grid-cols-6 gap-2 mt-12">
+            {data?.farms
+              ?.filter(farm => farm.id !== userData?.farm_id)
+              .map((farm, i) => <FarmCard farm={farm} key={i} />)}
           </div>
         </div>
       </div>
 
-      <section className="dark:bg-gray-800 dark:text-gray-100">
-        <div className="container mx-auto flex flex-col p-6">
-          <h2 className="py-4 text-3xl font-bold text-center">User Guides</h2>
-          <div className="divide-y divide-gray-700">
-            {guides.map((guide, index) => (
-              <div
-                key={index}
-                className="grid justify-center grid-cols-4 p-8 mx-auto space-y-8 lg:space-y-0"
-                style={{ cursor: "pointer" }}
-              >
-                <div className="flex items-center justify-center lg:col-span-1 col-span-full"></div>
-                <div className="flex flex-col justify-center max-w-3xl text-center col-span-full lg:col-span-3 lg:text-left">
-                  <span className="text-xs tracki uppercase dark:text-violet-400">
-                    {guide.time}
-                  </span>
-                  <span className="text-xl font-bold md:text-2xl">
-                    {guide.title}
-                  </span>
-                  <span className="mt-4 dark:text-gray-300">
-                    {guide.description}
-                  </span>
-                </div>
-              </div>
-            ))}
-            <Button
-              variant="outline"
-              className="w-full my-4"
-              onClick={seeGuide}
-            >
+      <div className="max-w-screen-xl mx-auto px-4 md:px-8">
+        <div className="py-10 text-left  text-black/70">
+          <h3 className="text-gray-800 text-3xl font-semibold sm:text-4xl">
+            Upcoming Events
+          </h3>
+          <p className="text-gray-600 mt-3">
+            Meet experts who will show you how to farm in a way that's good for
+            the land and for wildlife. Through hands-on activities and friendly
+            discussions, you'll learn how to grow healthy crops, make soil
+            strong again, and help nature thrive.
+          </p>
+        </div>
+        {eventsData?.data?.map(data => {
+          return (
+            <div key={data?.id}>
+              <EventsCard {...data} />
+              <Divider className="py-2" />
+            </div>
+          );
+        })}
+        {eventsData?.data?.length === 3 ? (
+          <>
+            <Button variant="outline" className="w-full" onClick={seeEvents}>
               See More
             </Button>
-          </div>
+          </>
+        ) : (
+          <></>
+        )}
+      </div>
+
+      <section className="py-12 p-6 dark:bg-gray-100 dark:text-gray-800">
+        <div className="container mx-auto">
+          <span className="block mb-2 text-xs font-medium tracking-widest text-center uppercase text-primary">
+            How it works
+          </span>
+          <h2 className="text-5xl font-bold text-center dark:text-gray-900">
+            Working with AgriHub is simple
+          </h2>
+
+          {/* <div className="w-full flex justify-center">
+            <div className="w-full sm:w-1/2 py-4">
+              <Button variant="outline" className=" w-full" onClick={seeGuides}>
+                Know More
+              </Button>
+            </div>
+          </div> */}
         </div>
       </section>
+
+      <div className="mx-auto dark:bg-gray-100 dark:text-gray-900 max-w-screen-xl">
+        <div className="container grid grid-cols-12 mx-auto dark:bg-gray-50">
+          <div className="bg-no-repeat bg-cover dark:bg-gray-300 col-span-full lg:col-span-4">
+            <div className="w-full flex justify-center">
+              <div className="relative w-full  aspect-video rounded-md border">
+                <img
+                  src={`https://i.ytimg.com/vi/${extractYouTubeVideoId(
+                    videoSrc
+                  )}/hqdefault.jpg`}
+                  className="w-full h-full object-cover rounded-t-md"
+                />
+
+                <button
+                  className="absolute inset-0"
+                  onClick={e => {
+                    e.preventDefault();
+                    searchParams.set("preview", videoSrc);
+                    setSearchParams(searchParams);
+                    setIsPreviewing(true);
+                  }}
+                >
+                  <div className="m-auto rounded-full bg-secondary w-max h-max border p-5">
+                    <FaPlay className="text-primary translate-x-1" size={36} />
+                  </div>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-col p-6 col-span-full row-span-full lg:col-span-8 lg:p-10">
+            <div className="flex justify-start">
+              <Badge className="text-white">Guide</Badge>
+            </div>
+            <h1 className="text-3xl font-semibold">Ano ang AgriHub?</h1>
+            <p className="flex-1 pt-2">
+              Samahan natin si Kuya Wil upang alamin kung paano nga ba nagsimula
+              ang Agrihub maging ang mga mahahalagang layunin at misyon na
+              makatutulong sa mga urban farmers ng Lungsod Quezon.
+            </p>
+            <a
+              rel="noopener noreferrer"
+              href="/helps/guides"
+              className="inline-flex items-center pt-2 pb-6 space-x-2 text-sm text-primary"
+            >
+              <span>Read more</span> <MdArrowRight />
+            </a>
+            <div className="flex items-center justify-between pt-2">
+              <div className="flex space-x-2">
+                <img
+                  className="h-5 w-5"
+                  src={S3_BASE_URL + cmsClientDetail?.logo}
+                />
+                <span className="self-center text-sm">
+                  by Center for Urban Agriculture and Innovation
+                </span>
+              </div>
+              <span className="text-xs">39:49 minutes</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

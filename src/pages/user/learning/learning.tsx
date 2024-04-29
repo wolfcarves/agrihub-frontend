@@ -77,8 +77,9 @@ const Learning = () => {
           {learningDetail.language}
         </div>
         <div className="flex-wrap justify-between items-center">
-          <h2 className="flex gap-4 text-2xl lg:text-4xl font-bold mx-4 my-1">
-            <BackButton /> {learningDetail.title}
+          <h2 className="flex flex-wrap sm:flex-nowrap gap-0 sm:gap-4 text-2xl lg:text-4xl font-bold mx-4 my-1">
+            <BackButton title="back" className="text-sm" />{" "}
+            {learningDetail.title}
           </h2>
           <div className="flex justify-start sm:justify-end">
             <Card
@@ -111,12 +112,15 @@ const Learning = () => {
             loop: true
           }}
         >
+          <CarouselNext className="top-48 right-0 z-50 pl-2" />
+          <CarouselNext className="top-48 sm:block hidden z-50 pl-2" />
+          <CarouselPrevious className="top-48 sm:block hidden pl-2" />
           <CarouselContent>
             {learningDetail?.learning_resource?.map((resource, index) => (
               <CarouselItem className=" ">
                 <div
                   key={index}
-                  className="mb-2 flex flex-col md:flex-row bg-[#f5f5f5] justify-between m-3"
+                  className="mb-2 rounded-lg flex flex-col md:flex-row bg-[#f5f5f5] justify-between m-3"
                 >
                   <div className="lg:w-2/5 w-full">
                     <h2 className="text-xl font-bold ml-3 my-4">

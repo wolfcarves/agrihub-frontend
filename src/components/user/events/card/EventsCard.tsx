@@ -36,7 +36,7 @@ const EventsCard = ({
           <img
             alt="events-background-image"
             src={S3_BASE_URL + banner}
-            className="w-full h-[20rem] object-cover hover:opacity-85"
+            className="w-full h-[20rem] object-cover hover:opacity-85 rounded-lg"
           />
         </Link>
       </div>

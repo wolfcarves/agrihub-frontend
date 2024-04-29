@@ -8,6 +8,7 @@ interface ApplicationsParams {
   page?: string;
   perpage?: string;
   filter?: "Tagalog" | "English" | "Tagalog and English";
+  sortBy?: "asc" | "desc";
 }
 export default function useGetLearningPublishedList(data: ApplicationsParams) {
   return useQuery({

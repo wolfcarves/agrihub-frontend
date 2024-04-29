@@ -24,8 +24,11 @@ import { CSVLink } from "react-csv";
 import { PiFileCsvFill } from "react-icons/pi";
 import useGetCommunityFarmTaskList from "../../../../../hooks/api/get/useGetCommunityFarmTaskList";
 import DialogAssignTask from "../dialog-assign-task/dialog-assign-task";
+import useGetCommunityFarmTaskListFarmer from "../../../../../hooks/api/get/useGetCommunityFarmTaskListFarmer";
+import useAuth from "../../../../../hooks/useAuth";
 const CommunityTaskTable = () => {
   const { id } = useParams();
+  const { data: useData } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const params = useMemo(() => {
@@ -45,6 +48,16 @@ const CommunityTaskTable = () => {
     filter: params.sortBy,
     type: params.type
   });
+
+  const { data: farmAssignFarmer, isLoading: farmerLoad } =
+    useGetCommunityFarmTaskListFarmer({
+      id: id || "",
+      search: params.search,
+      page: String(params.currentPage),
+      perpage: "10",
+      filter: params.sortBy,
+      type: params.type
+    });
 
   console.log(farmProblems);
 
@@ -112,7 +125,7 @@ const CommunityTaskTable = () => {
             <SelectContent>
               <SelectGroup>
                 <SelectItem value="pending">Pending</SelectItem>
-                <SelectItem value="resolved">Resolved</SelectItem>
+                <SelectItem value="completed">Completed</SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>
@@ -136,12 +149,16 @@ const CommunityTaskTable = () => {
         </div>
       </div>
       <div className="min-h-[63vh] mb-2">
-        <DataTable columns={columns} data={farmProblems?.data || []} />
+        {useData?.role === "farmer" ? (
+          <DataTable columns={columns} data={farmAssignFarmer?.data || []} />
+        ) : (
+          <DataTable columns={columns} data={farmProblems?.data || []} />
+        )}
       </div>
       {farmProblems?.pagination?.total_pages !== 1 && (
         <Pagination
           totalPages={Number(farmProblems?.pagination?.total_pages)}
-          isLoading={isLoading}
+          isLoading={isLoading || farmerLoad}
         />
       )}
     </div>

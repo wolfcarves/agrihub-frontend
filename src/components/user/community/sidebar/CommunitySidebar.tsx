@@ -27,7 +27,7 @@ const CommunitySidebar = () => {
         />
       )}
 
-      {UserData?.farm_id && isAuthenticated && isAllowed && (
+      {UserData?.farm_id && isAuthenticated && (
         <UserSidebarNavLink
           to={`/community/reports/${UserData.farm_id}`}
           title="Reports"
@@ -41,7 +41,7 @@ const CommunitySidebar = () => {
           logo={<CiSquareQuestion size={20} />}
         />
       )}
-      {UserData?.farm_id && isAuthenticated && isAllowed && (
+      {UserData?.farm_id && isAuthenticated && (
         <UserSidebarNavLink
           to={`/community/task/${UserData.farm_id}`}
           title="Task"

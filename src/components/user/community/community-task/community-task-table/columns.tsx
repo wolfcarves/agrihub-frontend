@@ -39,6 +39,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger
 } from "../../../../ui/alert-dialog";
+import Input from "../../../../ui/custom/input/input";
+import useDeleteCommunityFarmTask from "../../../../../hooks/api/delete/useDeleteCommunityFarnTask";
 
 export const columns: ColumnDef<CommunityTask>[] = [
   {
@@ -82,28 +84,19 @@ export const columns: ColumnDef<CommunityTask>[] = [
     id: "actions",
     cell: ({ row }) => {
       const item = row.original;
-      // const navigate = useNavigate();
+      console.log(item);
 
       const [isOpen, setIsOpen] = useState<boolean>();
-      const [helpful, setHelpful] = useState<boolean>(false);
-      const [feedback, setFeedback] = useState<string>("");
 
-      const { mutateAsync: resolveMutate, isLoading: resolveLoading } =
-        useProblemsCommunityResolve();
+      const { mutateAsync: taskMutate, isLoading: taskLoading } =
+        useDeleteCommunityFarmTask();
 
-      const handleSubmitForm = async (e: React.FormEvent) => {
+      const handleDelete = async (e: React.FormEvent) => {
         e.preventDefault();
-        const compiledData: MarkProblemAsResolvedRequest = {
-          is_helpful: helpful,
-          feedback: feedback
-        };
 
         try {
-          if (feedback === "") {
-            throw new Error("Feedback is required.");
-          }
-          await resolveMutate({ id: item.id || "", requestBody: compiledData });
-          toast.success("Submitted Successfully!");
+          await taskMutate(item.id || "");
+          toast.success("Deleted Successfully!");
           setIsOpen(false);
         } catch (e: any) {
           toast.error(e.message);
@@ -112,26 +105,157 @@ export const columns: ColumnDef<CommunityTask>[] = [
 
       return (
         <>
-          {item.status === "pending" && (
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button className="h-6 text-xs bg-destructive">Delete</Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    This action cannot be undone. This will permanently delete
-                    your account and remove your data from our servers.
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction>Continue</AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-          )}
+          <Dialog open={isOpen}>
+            <DialogTrigger asChild>
+              <Button
+                onClick={() => setIsOpen(true)}
+                variant="outline"
+                className=" text-xs h-6 p-2"
+              >
+                View
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>View Task</DialogTitle>
+                <DialogDescription>
+                  These are the details about the task
+                </DialogDescription>
+              </DialogHeader>
+              <div className="grid grid-cols-4   gap-2 py-4 max-h-[70vh] overflow-y-auto custom-scroll px-2">
+                <div className=" col-span-4">
+                  <Label
+                    htmlFor="name"
+                    className="text-right font-poppins-medium"
+                  >
+                    Assigned To
+                  </Label>
+                  <Input
+                    value={`${item.firstname} ${item.lastname}`}
+                    disabled
+                    className="col-span-3 disabled:opacity-90"
+                  />
+                </div>
+                {item.crop_name && (
+                  <div className=" col-span-4">
+                    <Label
+                      htmlFor="name"
+                      className="text-right font-poppins-medium"
+                    >
+                      Crop
+                    </Label>
+                    <Input
+                      value={item.crop_name}
+                      disabled
+                      className="col-span-3 disabled:opacity-90"
+                    />
+                  </div>
+                )}
+                {item.action_message && (
+                  <div className=" col-span-4">
+                    <Label
+                      htmlFor="name"
+                      className="text-right font-poppins-medium"
+                    >
+                      Action Message
+                    </Label>
+                    <Input
+                      value={item.action_message}
+                      disabled
+                      className="col-span-3 disabled:opacity-90"
+                    />
+                  </div>
+                )}
+                <div className=" col-span-4">
+                  <Label
+                    htmlFor="name"
+                    className="text-right font-poppins-medium"
+                  >
+                    Role
+                  </Label>
+                  <Input
+                    value={item.role}
+                    disabled
+                    className="col-span-3 disabled:opacity-90 capitalize"
+                  />
+                </div>
+                <div className=" col-span-4">
+                  <Label
+                    htmlFor="name"
+                    className="text-right font-poppins-medium"
+                  >
+                    Task
+                  </Label>
+                  <Input
+                    value={item.task_type}
+                    disabled
+                    className="col-span-3 disabled:opacity-90 capitalize"
+                  />
+                </div>
+                <div className=" col-span-4">
+                  <Label
+                    htmlFor="name"
+                    className="text-right font-poppins-medium"
+                  >
+                    Message
+                  </Label>
+                  <Textarea
+                    value={item.message}
+                    disabled
+                    className="col-span-3 disabled:opacity-90 capitalize bg-transparent"
+                  />
+                </div>
+                <div className=" col-span-4">
+                  <Label
+                    htmlFor="name"
+                    className="text-right font-poppins-medium"
+                  >
+                    Due Date
+                  </Label>
+                  <Input
+                    value={
+                      item.due_date && format(new Date(item.due_date), "PPP")
+                    }
+                    disabled
+                    className="col-span-3 disabled:opacity-90 capitalize"
+                  />
+                </div>
+              </div>
+              <DialogFooter>
+                <Button variant={"outline"} onClick={() => setIsOpen(false)}>
+                  Close
+                </Button>
+
+                {item.status === "pending" && (
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button className=" bg-destructive">Delete</Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>
+                          Do you want to delete this task?
+                        </AlertDialogTitle>
+                        <AlertDialogDescription>
+                          This action cannot be undone. This will permanently
+                          delete the task and remove this data from our
+                          community.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction onClick={handleDelete}>
+                          Continue
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                      <Loader isVisible={taskLoading} />
+                    </AlertDialogContent>
+                  </AlertDialog>
+                )}
+                <Button>Comply</Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
         </>
       );
     }

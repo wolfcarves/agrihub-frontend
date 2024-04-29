@@ -2,8 +2,10 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { CommunityEvent } from '../models/CommunityEvent';
 import type { CommunityEventsResponse } from '../models/CommunityEventsResponse';
 import type { CreateCommunityEventFormData } from '../models/CreateCommunityEventFormData';
+import type { EventAction } from '../models/EventAction';
 import type { MessageResponse } from '../models/MessageResponse';
 import type { UpdateCommunityEventFormData } from '../models/UpdateCommunityEventFormData';
 
@@ -80,6 +82,7 @@ search,
 page,
 perpage,
 type,
+filter,
 }: {
 /**
  * ID of the community
@@ -97,10 +100,11 @@ page?: string,
  * Number of events per page (optional)
  */
 perpage?: string,
+type?: 'private' | 'public',
 /**
  * Filter by event type (optional)
  */
-type?: 'private' | 'public',
+filter?: 'upcoming' | 'previous',
 }): CancelablePromise<CommunityEventsResponse> {
         return __request(OpenAPI, {
             method: 'GET',
@@ -113,6 +117,92 @@ type?: 'private' | 'public',
                 'page': page,
                 'perpage': perpage,
                 'type': type,
+                'filter': filter,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Get list of public community events
+     * @returns CommunityEventsResponse List of community events
+     * @throws ApiError
+     */
+    public static getApiCommunityFarmEventList1({
+id,
+search,
+page,
+perpage,
+type,
+filter,
+}: {
+/**
+ * ID of the community
+ */
+id: string,
+/**
+ * Search term (optional)
+ */
+search?: string,
+/**
+ * Page number (optional)
+ */
+page?: string,
+/**
+ * Number of events per page (optional)
+ */
+perpage?: string,
+type?: 'private' | 'public',
+/**
+ * Filter by event type (optional)
+ */
+filter?: 'upcoming' | 'previous',
+}): CancelablePromise<CommunityEventsResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/community-farm/event/list',
+            path: {
+                'id': id,
+            },
+            query: {
+                'search': search,
+                'page': page,
+                'perpage': perpage,
+                'type': type,
+                'filter': filter,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Get list of community events
+     * @returns CommunityEvent List of community events
+     * @throws ApiError
+     */
+    public static getApiCommunityFarmEventView({
+id,
+}: {
+/**
+ * ID of the community
+ */
+id: string,
+}): CancelablePromise<CommunityEvent> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/community-farm/event/view/{id}',
+            path: {
+                'id': id,
             },
             errors: {
                 400: `Validation Error`,
@@ -142,6 +232,38 @@ id: string,
             path: {
                 'id': id,
             },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Perform an action on a community event
+     * @returns MessageResponse Action performed successfully
+     * @throws ApiError
+     */
+    public static postApiCommunityFarmEventAction({
+id,
+requestBody,
+}: {
+/**
+ * ID of the event to perform action on
+ */
+id: string,
+requestBody: EventAction,
+}): CancelablePromise<MessageResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/community-farm/event/action/{id}',
+            path: {
+                'id': id,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
             errors: {
                 400: `Validation Error`,
                 401: `Unauthorized`,

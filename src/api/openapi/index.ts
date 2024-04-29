@@ -78,6 +78,7 @@ export type { DistrictFarmData } from './models/DistrictFarmData';
 export type { DraftBlogListResponse } from './models/DraftBlogListResponse';
 export type { ErrorResponse } from './models/ErrorResponse';
 export type { Event } from './models/Event';
+export { EventAction } from './models/EventAction';
 export type { EventDetails } from './models/EventDetails';
 export type { EventDetailsResponse } from './models/EventDetailsResponse';
 export type { EventPartnership } from './models/EventPartnership';

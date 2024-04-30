@@ -16,27 +16,26 @@ import MemberInviteDialog from "../member-invite-dialog/member-invite-dialog";
 import useGetUsersMember from "../../../../../hooks/api/get/useGetUsersMember";
 import useCommunityAutorization from "../../../../../hooks/utils/useCommunityAutorization";
 import MemberApplicationDrawer from "../member-application-drawer/member-application-drawer";
+import useDebounce from "../../../../../hooks/utils/useDebounce";
+import { SetURLSearchParams } from "react-router-dom";
 interface HeaderProps {
-  search: string;
-  setSearch: React.Dispatch<React.SetStateAction<string>>;
-  filter: string;
-  setFilter: React.Dispatch<React.SetStateAction<string>>;
+  setSearchParams: SetURLSearchParams;
+  searchParams: URLSearchParams;
 }
-const Header: React.FC<HeaderProps> = ({
-  search,
-  setSearch,
-  filter,
-  setFilter
-}) => {
+const Header: React.FC<HeaderProps> = ({ setSearchParams, searchParams }) => {
   const [dialog, setDialog] = useState<boolean>(false);
   const { isAllowed, isMember } = useCommunityAutorization();
+
+  const debouncedSearch = useDebounce((value: string) => {
+    searchParams.set("search", value);
+    setSearchParams(searchParams);
+  }, 100);
 
   return (
     <div className="my-2 flex md:flex-row flex-col gap-3 justify-between">
       <Input
         placeholder="Search person..."
-        value={search}
-        onChange={e => setSearch(e.target.value)}
+        onChange={e => debouncedSearch(e.target.value)}
         className="max-w-sm focus-visible:ring-0"
       />
 

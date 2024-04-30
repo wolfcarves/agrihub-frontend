@@ -1,6 +1,16 @@
 import * as zod from "zod";
 const MAX_IMAGE_FILE_SIZE = 1024 * 1024 * 10;
-export const cropHarvestReportSchema = zod.object({
+export const communityEventSchema = zod.object({
+  title: zod
+    .string({ required_error: "Title is required" })
+    .min(3, { message: "Title must be 3 or more characters long" })
+    .max(200, { message: "Title must be 200 or fewer characters long" }),
+  harvested_qty: zod.coerce
+    .number({
+      required_error: "Please provide a planted quantity"
+    })
+    .min(0, "Planted quantity must be at least 1")
+    .max(10000, "Planted quantity cannot exceed 10,000"),
   withered_crops: zod.coerce
     .number({
       required_error: "Please provide a planted quantity"

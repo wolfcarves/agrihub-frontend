@@ -59,8 +59,6 @@ const CommunityTaskTable = () => {
       type: params.type
     });
 
-  console.log(farmProblems);
-
   const { data: ProblemExport } = useGetCommunityFarmTaskList({
     id: id || "",
     search: params.search,
@@ -99,7 +97,6 @@ const CommunityTaskTable = () => {
         <Input
           placeholder="Search task..."
           className="max-w-sm"
-          value={params.search}
           onChange={e => debouncedSearch(e.target.value)}
         />
         <div className="flex gap-3">
@@ -145,7 +142,7 @@ const CommunityTaskTable = () => {
               </SelectGroup>
             </SelectContent>
           </Select>
-          <DialogAssignTask />
+          {useData?.role === "farm_head" && <DialogAssignTask />}
         </div>
       </div>
       <div className="min-h-[63vh] mb-2">

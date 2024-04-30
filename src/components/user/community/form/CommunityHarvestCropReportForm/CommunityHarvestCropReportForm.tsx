@@ -24,11 +24,12 @@ import useCommunityFarmReportHarvest from "../../../../../hooks/api/post/useComm
 import { cropHarvestReportSchema } from "./schema";
 import { Textarea } from "../../../../ui/textarea";
 import useGetReportCropListView from "../../../../../hooks/api/get/useGetReportCropListView";
+import { removeTimeFromDate } from "../../../../lib/utils";
 
 const CommunityHarvestCropReportForm = () => {
   const [dialogReview, setDialogReview] = useState<boolean>();
   const navigate = useNavigate();
-  const { reportId, crop, task } = useParams();
+  const { reportId, task } = useParams();
   // const [check, setCheck] = useState<CheckedState>(false);
   const { data: CropReport, isLoading } = useGetReportCropListView(
     reportId || ""
@@ -62,7 +63,7 @@ const CommunityHarvestCropReportForm = () => {
   const handleSubmitForm = async (data: HarvestedCropReportFormData) => {
     try {
       const compiledData: HarvestedCropReportFormData = {
-        harvested_qty: data.harvested_qty,
+        harvested_qty: "0",
         withered_crops: data.withered_crops,
         date_harvested: data.date_harvested,
         kilogram: data.kilogram,
@@ -100,10 +101,10 @@ const CommunityHarvestCropReportForm = () => {
           <Input
             className="h-9 rounded-md disabled:opacity-90"
             disabled
-            value={CropReport?.crop_name || crop}
+            value={CropReport?.crop_name}
           />
         </div>
-        <div className="md:col-span-6 col-span-12">
+        {/* <div className="md:col-span-6 col-span-12">
           <Label>Harvest Quantity</Label>
           <FormField
             control={form.control}
@@ -118,6 +119,23 @@ const CommunityHarvestCropReportForm = () => {
           />
           <FormMessage>
             {form.formState.errors.harvested_qty?.message}
+          </FormMessage>
+        </div> */}
+        <div className="md:col-span-6 col-span-12">
+          <Label>Harvest Kilogram</Label>
+          <FormField
+            control={form.control}
+            name="kilogram"
+            render={() => (
+              <InputNumber
+                className="h-9 rounded-md"
+                suffix={" kilogram"}
+                onChange={value => form.setValue("kilogram", value)}
+              />
+            )}
+          />
+          <FormMessage>
+            {form.formState.errors.withered_crops?.message}
           </FormMessage>
         </div>
         <div className="md:col-span-6 col-span-12">
@@ -138,23 +156,16 @@ const CommunityHarvestCropReportForm = () => {
           </FormMessage>
         </div>
         <div className="md:col-span-6 col-span-12">
-          <Label>Harvest Kilogram</Label>
-          <FormField
-            control={form.control}
-            name="kilogram"
-            render={() => (
-              <InputNumber
-                className="h-9 rounded-md"
-                suffix={" kilogram"}
-                onChange={value => form.setValue("kilogram", value)}
-              />
-            )}
+          <Label>Planted Date</Label>
+          <Input
+            className="h-9 rounded-md disabled:opacity-90"
+            disabled
+            value={
+              CropReport?.date_planted &&
+              format(new Date(CropReport?.date_planted || ""), "dd/MM/yyyy")
+            }
           />
-          <FormMessage>
-            {form.formState.errors.withered_crops?.message}
-          </FormMessage>
         </div>
-
         <div className="md:col-span-6 col-span-12">
           <Label>Harvest Date</Label>
           <Input

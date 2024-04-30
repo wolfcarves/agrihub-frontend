@@ -122,6 +122,18 @@ const CommunityHarvestCropReportForm = () => {
           </FormMessage>
         </div> */}
         <div className="md:col-span-6 col-span-12">
+          <Label>Planted Quantity</Label>
+          <Input
+            className="h-9 disabled:opacity-90"
+            disabled
+            value={
+              CropReport?.planted_qty === "0"
+                ? CropReport.previous_planted_qty
+                : CropReport?.planted_qty
+            }
+          />
+        </div>
+        <div className="md:col-span-6 col-span-12">
           <Label>Harvest Kilogram</Label>
           <FormField
             control={form.control}
@@ -147,6 +159,7 @@ const CommunityHarvestCropReportForm = () => {
               <InputNumber
                 className="h-9 rounded-md"
                 suffix={" pieces"}
+                decimalScale={0}
                 onChange={value => form.setValue("withered_crops", value)}
               />
             )}

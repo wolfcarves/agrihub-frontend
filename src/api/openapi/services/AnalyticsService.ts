@@ -15,7 +15,7 @@ export class AnalyticsService {
      * @returns HarvestRateResponse Latest harvest rate calculated successfully
      * @throws ApiError
      */
-    public static postApiAnalyticsLatestHarvestRate({
+    public static getApiAnalyticsLatestHarvestRate({
 id,
 }: {
 /**
@@ -24,7 +24,7 @@ id,
 id: string,
 }): CancelablePromise<HarvestRateResponse> {
         return __request(OpenAPI, {
-            method: 'POST',
+            method: 'GET',
             url: '/api/analytics/latest/harvest-rate/{id}',
             path: {
                 'id': id,

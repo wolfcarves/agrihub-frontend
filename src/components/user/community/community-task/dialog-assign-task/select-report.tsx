@@ -44,7 +44,8 @@ const SelectReport: React.FC<SelectCropProps> = ({ field, form }) => {
     filter: undefined
   });
   const [open, setOpen] = useState(false);
-
+  const currentDate = new Date();
+  const formattedDate = currentDate.toISOString();
   return (
     <div>
       <Popover open={open} onOpenChange={setOpen}>
@@ -76,32 +77,38 @@ const SelectReport: React.FC<SelectCropProps> = ({ field, form }) => {
 
             <CommandEmpty className="py-1">
               <p className=" cursor-pointer hover:bg-[#F1F5F9] py-2 text-center text-sm ">
-                No crop available
+                No crop available for harvest
               </p>
             </CommandEmpty>
             <CommandGroup>
               <ScrollArea className="max-h-[40vh] overflow-y-auto custom-scroll touch-auto">
-                {cropData?.data?.map(crop => (
-                  <CommandItem
-                    value={crop.report_id}
-                    key={crop.report_id}
-                    onSelect={() => {
-                      form.setValue("report_id", crop?.report_id || "");
-                      setOpen(false);
-                    }}
-                  >
-                    <Check
-                      className={cn(
-                        "mr-2 h-4 w-4",
-                        crop.report_id === field.value
-                          ? "opacity-100"
-                          : "opacity-0"
-                      )}
-                    />
-                    {crop.crop_name}{" "}
-                    {`(${format(new Date(crop.date_planted || ""), "PPP")})`}
-                  </CommandItem>
-                ))}
+                {cropData?.data
+                  ?.filter(
+                    crop =>
+                      crop.expected_harvest_date &&
+                      crop?.expected_harvest_date <= formattedDate
+                  )
+                  .map(crop => (
+                    <CommandItem
+                      value={crop.report_id}
+                      key={crop.report_id}
+                      onSelect={() => {
+                        form.setValue("report_id", crop?.report_id || "");
+                        setOpen(false);
+                      }}
+                    >
+                      <Check
+                        className={cn(
+                          "mr-2 h-4 w-4",
+                          crop.report_id === field.value
+                            ? "opacity-100"
+                            : "opacity-0"
+                        )}
+                      />
+                      {crop.crop_name}{" "}
+                      {`(${format(new Date(crop.date_planted || ""), "PPP")})`}
+                    </CommandItem>
+                  ))}
               </ScrollArea>
             </CommandGroup>
           </Command>

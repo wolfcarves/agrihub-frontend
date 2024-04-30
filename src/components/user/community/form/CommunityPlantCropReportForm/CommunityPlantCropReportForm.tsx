@@ -103,6 +103,7 @@ const CommunityPlantCropReportForm = () => {
               <InputNumber
                 className="h-9 rounded-md"
                 suffix={" pieces"}
+                decimalScale={0}
                 onChange={value => form.setValue("planted_qty", value)}
               />
             )}

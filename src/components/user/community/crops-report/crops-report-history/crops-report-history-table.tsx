@@ -30,8 +30,9 @@ import { CSVLink } from "react-csv";
 import { PiFileCsvFill } from "react-icons/pi";
 import useGetCommunityFarmReportsCropReports from "../../../../../hooks/api/get/useGetCommunityFarmReportsCropReports";
 import useAuth from "../../../../../hooks/useAuth";
+import useGetCommunityFarmReportsHistory from "../../../../../hooks/api/get/useGetCommunityFarmReportsHistory";
 
-const CropsReportTable = () => {
+const CropsReportHistoryTable = ({ prevId }: { prevId: string }) => {
   const [search, setSearch] = useState<string>("");
   const [filter, setFilter] = React.useState<string[]>([]);
   const [page, setPage] = useState<number>(1);
@@ -44,25 +45,29 @@ const CropsReportTable = () => {
   const { id } = useParams();
   const { data: userData } = useAuth();
 
-  const { data: CropHarvested, isLoading } =
-    useGetCommunityFarmReportsCropReports({
-      id: id || "",
-      search: search,
-      page: String(page),
-      perpage: "10",
-      filter: filter,
-      status: "harvested",
-      month: monthSelected,
-      order: orderSelected
-    });
-  const { data: CropReportExport } = useGetCommunityFarmReportsCropReports({
+  console.log(prevId);
+
+  const { data: CropExisting, isLoading } = useGetCommunityFarmReportsHistory({
+    id: id || "",
+    search: search,
+    page: String(page),
+    perpage: "10",
+    filter: filter,
+    status: "harvested",
+    order: orderSelected,
+    month: monthSelected,
+    previousId: prevId
+  });
+
+  const { data: CropReportExport } = useGetCommunityFarmReportsHistory({
     id: id || "",
     page: "1",
     perpage: "100000",
     filter: filter,
     status: "harvested",
+    order: orderSelected,
     month: monthSelected,
-    order: orderSelected
+    previousId: prevId
   });
 
   const reportData = useMemo(() => {
@@ -80,20 +85,12 @@ const CropsReportTable = () => {
   const onPageChange = (newPage: number) => {
     setPage(newPage);
   };
-  const dispatch = useDispatch();
-
-  const navigate = useNavigate();
 
   const { data: farmCrops } = useGetFarmCropsQuery(id || "");
 
   const debouncedSearch = useDebounce((value: string) => {
     setSearch(value);
   }, 100);
-
-  const handleAddReport = () => {
-    dispatch(clearExistingCrop());
-    navigate("plant");
-  };
 
   const handleCheckboxChange = (cropName: string, isChecked: boolean) => {
     setFilter(prevFilter => {
@@ -167,7 +164,6 @@ const CropsReportTable = () => {
               ))}
             </SelectContent>
           </Select>
-
           <Select
             onValueChange={value => setOrderSelected(value as "asc" | "desc")}
             defaultValue="asc"
@@ -180,7 +176,8 @@ const CropsReportTable = () => {
               <SelectItem value="desc">Descending</SelectItem>
             </SelectContent>
           </Select>
-          <DropdownMenu>
+
+          {/* <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
                 variant="outline"
@@ -208,25 +205,16 @@ const CropsReportTable = () => {
                 );
               })}
             </DropdownMenuContent>
-          </DropdownMenu>
-
-          {userData?.role === "farm_head" && (
-            <Button
-              onClick={handleAddReport}
-              className="flex items-center gap-1"
-            >
-              <IoMdAdd size={15} /> Plant
-            </Button>
-          )}
+          </DropdownMenu> */}
         </div>
       </div>
       <div className="min-h-[63vh] mb-2">
-        <DataTable columns={columns} data={CropHarvested?.data || []} />
+        <DataTable columns={columns} data={CropExisting?.data || []} />
       </div>
-      {!isLoading && Number(CropHarvested?.pagination?.total_records) !== 0 && (
+      {!isLoading && Number(CropExisting?.pagination?.total_records) !== 0 && (
         <StatePagination
-          currentPage={Number(CropHarvested?.pagination?.page)}
-          totalPages={Number(CropHarvested?.pagination?.total_pages)}
+          currentPage={Number(CropExisting?.pagination?.page)}
+          totalPages={Number(CropExisting?.pagination?.total_pages)}
           onPageChange={onPageChange}
         />
       )}
@@ -234,4 +222,4 @@ const CropsReportTable = () => {
   );
 };
 
-export default CropsReportTable;
+export default CropsReportHistoryTable;

@@ -91,6 +91,7 @@ perpage,
 filter,
 status,
 order,
+previousId,
 }: {
 /**
  * ID of the farm
@@ -118,6 +119,10 @@ perpage?: string,
 filter?: Array<string>,
 status?: 'planted' | 'harvested',
 order?: 'asc' | 'desc',
+/**
+ * Page number
+ */
+previousId?: string,
 }): CancelablePromise<CommunityCropReportsResponseV2> {
         return __request(OpenAPI, {
             method: 'GET',
@@ -133,6 +138,7 @@ order?: 'asc' | 'desc',
                 'filter': filter,
                 'status': status,
                 'order': order,
+                'previous_id': previousId,
             },
             errors: {
                 400: `Validation Error`,

@@ -76,7 +76,7 @@ const CropsReportView = () => {
         </h4>
         <CropStats
           label="Harvested"
-          value={CropReport?.harvested_qty || "0"}
+          value={`${CropReport?.kilogram} KG` || "0"}
           icon={<TbReportAnalytics size={20} />}
         />
 

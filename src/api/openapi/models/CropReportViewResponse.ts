@@ -14,6 +14,7 @@ export type CropReportViewResponse = {
     isyield?: boolean;
     farmid?: string;
     planted_qty?: string;
+    kilogram?: string;
     image?: string;
     images?: Array<{
 image?: string;

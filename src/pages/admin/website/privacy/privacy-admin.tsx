@@ -105,7 +105,7 @@ const PrivacyAdmin = () => {
               />
             </div>
           </div>
-          <div className="flex justify-end">
+          <div className="fixed bottom-8 right-8">
             {!disabled ? (
               <Button type="submit" disabled={privacyLoading}>
                 Save

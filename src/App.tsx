@@ -135,7 +135,10 @@ import ToolReqeust from "@pages/admin/farms/tool-reqeust";
 import UserGuides from "@pages/user/help/guides";
 import CommunityApply from "./pages/user/community/community-apply";
 import CommunityApplicationView from "./pages/user/community/community-application-view";
-
+import CropReportHarvested from "./pages/user/community/reports/crops-report/crop-report-harvested";
+import CropsReportPlanted from "./pages/user/community/reports/crops-report/crop-report-planted";
+import CommunityTask from "./pages/user/community/community-task";
+import CommunityEvents from "./pages/user/community/tabs/events";
 const App = ReactRouter(
   <>
     <Route path="/unauthorize" element={<Unauthorized />} />
@@ -189,6 +192,7 @@ const App = ReactRouter(
           <Route path="crops" element={<Crops />} />
           <Route path="members" element={<Members />} />
           <Route path="gallery" element={<Gallery />} />
+          <Route path="events" element={<CommunityEvents />} />
         </Route>
         <Route path="my-community/:id/profile" element={<CommunityProfile />} />
         <Route
@@ -205,12 +209,20 @@ const App = ReactRouter(
           <Route path="add" element={<CropsReportAdd />} />
           <Route path="add/:cropId" element={<CropsReportAdd />} />
           <Route path="view/:cropId" element={<CropsReportView />} />
+          <Route path="plant" element={<CropsReportPlanted />} />
+          <Route path="harvest/:reportId" element={<CropReportHarvested />} />
+          <Route path="plant/:cropId/:task" element={<CropsReportPlanted />} />
+          <Route
+            path="harvest/:reportId/:task"
+            element={<CropReportHarvested />}
+          />
         </Route>
         {/* Request */}
         <Route path="request/:id" element={<CommunityRequest />} />
         {/* <Route path="" element={<SeedlingsRequest />} /> */}
 
         <Route path="problem/:id" element={<CommunityProblem />} />
+        <Route path="task/:id" element={<CommunityTask />} />
       </Route>
 
       {/* Blog Page */}

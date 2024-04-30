@@ -3,6 +3,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import type { EventTag } from './EventTag';
+
 export type CommunityEvent = {
     id?: string;
     farmid?: string;
@@ -14,6 +16,12 @@ export type CommunityEvent = {
     type?: CommunityEvent.type;
     createdat?: string;
     updatedat?: string;
+    farm_name?: string;
+    tags?: Array<EventTag>;
+    action?: {
+id?: string;
+type?: string;
+};
 };
 
 export namespace CommunityEvent {

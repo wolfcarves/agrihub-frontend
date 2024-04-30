@@ -22,13 +22,13 @@ export const columns: ColumnDef<Blog>[] = [
     accessorKey: "createdat",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
+        <div
+          className="flex cursor-pointer"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           CREATED AT
           <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        </div>
       );
     },
     cell: ({ row }) => format(new Date(row.original.createdat || ""), "PPP")
@@ -37,13 +37,13 @@ export const columns: ColumnDef<Blog>[] = [
     accessorKey: "updatedat",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
+        <div
+          className="flex cursor-pointer"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           UPDATED AT
           <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        </div>
       );
     },
     cell: ({ row }) => format(new Date(row.original.updatedat || ""), "PPP")
@@ -52,27 +52,30 @@ export const columns: ColumnDef<Blog>[] = [
     accessorKey: "title",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
+        <div
+          className="flex cursor-pointer"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           TITLE
           <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        </div>
       );
-    }
+    },
+    cell: ({ row }) => (
+      <div className="line-clamp-2">{row.getValue("title")}</div>
+    )
   },
   {
     accessorKey: "author",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
+        <div
+          className="flex cursor-pointer"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           AUTHOR
           <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        </div>
       );
     }
   },
@@ -80,27 +83,31 @@ export const columns: ColumnDef<Blog>[] = [
     accessorKey: "status",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
+        <div
+          className="flex cursor-pointer justify-center"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           STATUS
           <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        </div>
       );
     },
-    cell: ({ row }) => <div>{row.getValue("status")}</div>
+    cell: ({ row }) => (
+      <div className="text-center">{row.getValue("status")}</div>
+    )
   },
   {
     id: "actions",
     enableHiding: false,
-    header: "Actions",
+    header: () => {
+      return <div className="text-center">ACTIONS</div>;
+    },
     cell: ({ row }) => {
       const payment = row.original;
 
       return (
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
+          <DropdownMenuTrigger className="w-full">
             <Button variant="ghost" className="h-8 w-8 p-0">
               <span className="sr-only">Open menu</span>
               <MoreHorizontal className="h-4 w-4" />

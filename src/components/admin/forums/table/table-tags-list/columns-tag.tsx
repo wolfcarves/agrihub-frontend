@@ -72,13 +72,13 @@ export const columns: ColumnDef<Tag>[] = [
     accessorKey: "createdat",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
+        <div
+          className="flex cursor-pointer  "
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           CREATED AT
           <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        </div>
       );
     },
     cell: ({ row }) =>
@@ -88,13 +88,13 @@ export const columns: ColumnDef<Tag>[] = [
     accessorKey: "tag_name",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
+        <div
+          className="flex cursor-pointer  "
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           NAME
           <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        </div>
       );
     },
     cell: ({ row }) => <div>{row.getValue("tag_name")}</div>
@@ -103,21 +103,25 @@ export const columns: ColumnDef<Tag>[] = [
     accessorKey: "details",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
+        <div
+          className="flex cursor-pointer  "
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           DETAIL
           <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        </div>
       );
     },
-    cell: ({ row }) => <div>{row.getValue("details")}</div>
+    cell: ({ row }) => (
+      <div className="text-wrap line-clamp-2">{row.getValue("details")}</div>
+    )
   },
   {
     id: "actions",
     enableHiding: false,
-    header: "Actions",
+    header: () => {
+      return <div className="text-center">ACTIONS</div>;
+    },
     cell: ({ row }) => {
       const tag = row.original;
       const [isOpen, setIsOpen] = React.useState<boolean>();
@@ -168,7 +172,7 @@ export const columns: ColumnDef<Tag>[] = [
       return (
         <Dialog open={isOpen}>
           <DropdownMenu>
-            <DropdownMenuTrigger asChild>
+            <DropdownMenuTrigger className="w-full">
               <Button variant="ghost" className="h-8 w-8 p-0">
                 <span className="sr-only">Open menu</span>
                 <MoreHorizontal className="h-4 w-4" />

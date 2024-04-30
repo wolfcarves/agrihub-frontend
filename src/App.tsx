@@ -211,7 +211,7 @@ const App = ReactRouter(
           <Route path="harvest/:reportId" element={<CropReportHarvested />} />
           <Route path="plant/:cropId/:task" element={<CropsReportPlanted />} />
           <Route
-            path="harvest/:reportId/:crop/:task"
+            path="harvest/:reportId/:task"
             element={<CropReportHarvested />}
           />
         </Route>

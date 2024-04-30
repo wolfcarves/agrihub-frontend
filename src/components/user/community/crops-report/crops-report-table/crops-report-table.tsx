@@ -29,6 +29,7 @@ import {
 import { CSVLink } from "react-csv";
 import { PiFileCsvFill } from "react-icons/pi";
 import useGetCommunityFarmReportsCropReports from "../../../../../hooks/api/get/useGetCommunityFarmReportsCropReports";
+import useAuth from "../../../../../hooks/useAuth";
 
 const CropsReportTable = () => {
   const [search, setSearch] = useState<string>("");
@@ -38,6 +39,7 @@ const CropsReportTable = () => {
     undefined
   );
   const { id } = useParams();
+  const { data: userData } = useAuth();
 
   const { data: CropHarvested, isLoading } =
     useGetCommunityFarmReportsCropReports({
@@ -191,10 +193,14 @@ const CropsReportTable = () => {
               </DropdownMenuContent>
             </DropdownMenu>
           )}
-
-          <Button onClick={handleAddReport} className="flex items-center gap-1">
-            <IoMdAdd size={15} /> Plant
-          </Button>
+          {userData?.role === "farm_head" && (
+            <Button
+              onClick={handleAddReport}
+              className="flex items-center gap-1"
+            >
+              <IoMdAdd size={15} /> Plant
+            </Button>
+          )}
         </div>
       </div>
       <div className="min-h-[63vh] mb-2">

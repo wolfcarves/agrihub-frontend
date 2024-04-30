@@ -59,8 +59,6 @@ const CommunityTaskTable = () => {
       type: params.type
     });
 
-  console.log(farmProblems);
-
   const { data: ProblemExport } = useGetCommunityFarmTaskList({
     id: id || "",
     search: params.search,

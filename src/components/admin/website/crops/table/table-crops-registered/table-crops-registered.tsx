@@ -57,7 +57,7 @@ const TableCropsRegistered = () => {
             <TableHead>Name</TableHead>
             <TableHead className="text-center">Growth Span</TableHead>
             <TableHead>Companion Crops</TableHead>
-            <TableHead>Actions</TableHead>
+            <TableHead className="text-center">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -72,7 +72,7 @@ const TableCropsRegistered = () => {
               <TableCell>
                 <AlertDialog>
                   <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
+                    <DropdownMenuTrigger className="w-full">
                       <Button variant="ghost" className="h-8 w-8 p-0">
                         <span className="sr-only">Open menu</span>
                         <MoreHorizontal className="h-4 w-4" />

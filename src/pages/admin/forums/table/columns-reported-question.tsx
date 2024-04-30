@@ -63,13 +63,13 @@ export const columns: ColumnDef<ReportedQuestion>[] = [
     accessorKey: "createdat",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
+        <div
+          className="flex cursor-pointer"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           ACTOR
           <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        </div>
       );
     },
     cell: ({ row }) =>
@@ -80,13 +80,13 @@ export const columns: ColumnDef<ReportedQuestion>[] = [
     accessorKey: "reason",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
+        <div
+          className="flex text-wrap line-clamp-2 cursor-pointer"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           REASON
           <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        </div>
       );
     },
     cell: ({ row }) => <div>{row.getValue("reason")}</div>
@@ -96,13 +96,13 @@ export const columns: ColumnDef<ReportedQuestion>[] = [
     accessorKey: "firstname",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
+        <div
+          className="flex cursor-pointer"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           REPORTED BY
           <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        </div>
       );
     },
     cell: ({ row }) => (
@@ -112,7 +112,9 @@ export const columns: ColumnDef<ReportedQuestion>[] = [
   {
     id: "actions",
     enableHiding: false,
-    header: "Actions",
+    header: () => {
+      return <div className="text-center">ACTIONS</div>;
+    },
     cell: ({ row }) => {
       const question = row.original;
 
@@ -150,7 +152,7 @@ export const columns: ColumnDef<ReportedQuestion>[] = [
       return (
         <Drawer>
           <DropdownMenu>
-            <DropdownMenuTrigger asChild>
+            <DropdownMenuTrigger className="w-full">
               <Button variant="ghost" className="h-8 w-8 p-0">
                 <span className="sr-only">Open menu</span>
                 <MoreHorizontal className="h-4 w-4" />

@@ -27,13 +27,13 @@ export const columns: ColumnDef<EventDetails>[] = [
     accessorKey: "createdat",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
+        <div
+          className="flex cursor-pointer"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           CREATED AT
           <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        </div>
       );
     },
     cell: ({ row }) => format(new Date(row.original.createdat || ""), "PPP")
@@ -42,13 +42,13 @@ export const columns: ColumnDef<EventDetails>[] = [
     accessorKey: "event_start",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
+        <div
+          className="flex cursor-pointer"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           EVENT START
           <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        </div>
       );
     },
     cell: ({ row }) =>
@@ -58,13 +58,13 @@ export const columns: ColumnDef<EventDetails>[] = [
     accessorKey: "event_end",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
+        <div
+          className="flex cursor-pointer"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           EVENT END
           <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        </div>
       );
     },
     cell: ({ row }) =>
@@ -74,13 +74,13 @@ export const columns: ColumnDef<EventDetails>[] = [
     accessorKey: "title",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
+        <div
+          className="flex cursor-pointer"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           TITLE
           <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        </div>
       );
     },
     cell: ({ row }) => <div>{row.getValue("title")}</div>
@@ -89,35 +89,39 @@ export const columns: ColumnDef<EventDetails>[] = [
     accessorKey: "type",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
+        <div
+          className="flex cursor-pointer"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           TYPE
           <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        </div>
       );
     },
-    cell: ({ row }) => <div>{row.getValue("type")}</div>
+    cell: ({ row }) => <div className="text-center">{row.getValue("type")}</div>
   },
   {
     accessorKey: "status",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
+        <div
+          className="flex cursor-pointer"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           STATUS
           <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        </div>
       );
     },
-    cell: ({ row }) => <div>{row.getValue("status")}</div>
+    cell: ({ row }) => (
+      <div className="text-center">{row.getValue("status")}</div>
+    )
   },
   {
     id: "actions",
-    header: "Actions",
+    header: () => {
+      return <div className="text-center">ACTIONS</div>;
+    },
     enableHiding: false,
     cell: ({ row }) => {
       const material = row.original;

@@ -155,7 +155,6 @@ const CommunityHarvestCropReportForm = () => {
             {form.formState.errors.withered_crops?.message}
           </FormMessage>
         </div>
-
         <div className="md:col-span-6 col-span-12">
           <Label>Planted Date</Label>
           <Input

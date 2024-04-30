@@ -86,7 +86,7 @@ const ContentWhatWeDo: React.FC = () => {
   const [isPreviewing, setIsPreviewing] = useState<boolean>(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const guidelineVid = "https://youtu.be/58wsYvsfGJQ?si=pOJtaykgWuEGjzx7";
-  const [videoSrc, setVideoSrc] = useState<string>(guidelineVid);
+  const [videoSrc] = useState<string>(guidelineVid);
   // nakukuha na seconds pero yung link aralin pa
 
   const { data: blogData } = useGetBlogsPublishList();
@@ -97,11 +97,10 @@ const ContentWhatWeDo: React.FC = () => {
 
   const S3_BASE_URL = import.meta.env.VITE_S3_BUCKET_BASEURL;
 
-  const { data: eventsData, isLoading: isEventsLoading } =
-    useGetEventPublishedListQuery({
-      perpage: "3",
-      filter: "upcoming"
-    });
+  const { data: eventsData } = useGetEventPublishedListQuery({
+    perpage: "3",
+    filter: "upcoming"
+  });
   const seeEvents = () => {
     navigate("/events");
   };

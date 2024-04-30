@@ -49,13 +49,13 @@ export const columns: ColumnDef<ReportedUser>[] = [
     accessorKey: "createdat",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
+        <div
+          className="flex cursor-pointer"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           CREATED AT
           <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        </div>
       );
     },
     cell: ({ row }) => format(new Date(row.original.createdat || ""), "PPP")
@@ -64,13 +64,13 @@ export const columns: ColumnDef<ReportedUser>[] = [
     accessorKey: "reported",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
+        <div
+          className="flex cursor-pointer"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           REPORTED
           <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        </div>
       );
     },
     cell: ({ row }) => (
@@ -81,13 +81,13 @@ export const columns: ColumnDef<ReportedUser>[] = [
     accessorKey: "reporter",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
+        <div
+          className="flex cursor-pointer"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           REPORTER
           <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        </div>
       );
     },
     cell: ({ row }) => (
@@ -98,13 +98,13 @@ export const columns: ColumnDef<ReportedUser>[] = [
     accessorKey: "reason",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
+        <div
+          className="flex cursor-pointer"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           REASON
           <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        </div>
       );
     },
     cell: ({ row }) => <div>{row.getValue("reason")}</div>
@@ -113,24 +113,26 @@ export const columns: ColumnDef<ReportedUser>[] = [
     accessorKey: "status",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
+        <div
+          className="flex justify-center cursor-pointer"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           STATUS
           <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        </div>
       );
     },
     cell: ({ row }) => (
-      <div className=" capitalize">{row.getValue("status")}</div>
+      <div className=" capitalize text-center">{row.getValue("status")}</div>
     )
   },
 
   {
     id: "actions",
     enableHiding: false,
-    header: "Actions",
+    header: () => {
+      return <div className="capitalize text-center">ACTION</div>;
+    },
     cell: ({ row }) => {
       const report = row.original;
       const navigate = useNavigate();
@@ -164,7 +166,7 @@ export const columns: ColumnDef<ReportedUser>[] = [
       return (
         <Dialog>
           <DropdownMenu>
-            <DropdownMenuTrigger asChild>
+            <DropdownMenuTrigger className="w-full">
               <Button variant="ghost" className="h-8 w-8 p-0">
                 <span className="sr-only">Open menu</span>
                 <MoreHorizontal className="h-4 w-4" />

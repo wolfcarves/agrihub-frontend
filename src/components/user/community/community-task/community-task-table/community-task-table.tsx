@@ -97,7 +97,6 @@ const CommunityTaskTable = () => {
         <Input
           placeholder="Search task..."
           className="max-w-sm"
-          value={params.search}
           onChange={e => debouncedSearch(e.target.value)}
         />
         <div className="flex gap-3">

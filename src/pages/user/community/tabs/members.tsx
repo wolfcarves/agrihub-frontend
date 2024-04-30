@@ -2,9 +2,12 @@ import React, { useState } from "react";
 import CropsReportTable from "../../../../components/user/community/crops-report/crops-report-table/crops-report-table";
 import MemberTable from "../../../../components/user/community/member/member-table/member-table";
 import MemberApplicationTable from "../../../../components/user/community/member/member-application-table/member-application-table";
+import { useParams } from "react-router-dom";
+import useGetCommunityFarmApplicationList from "../../../../hooks/api/get/useGetCommunityFarmApplicationList";
 
 const Members = () => {
   const [tab, setTab] = useState<"member" | "application">("member");
+
   return (
     <div className="md:px-10 px-2 py-6 ">
       <div className="flex items-center mb-4">

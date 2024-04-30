@@ -55,8 +55,11 @@ export const columns: ColumnDef<PlantedCropsResponse>[] = [
     }
   },
   {
-    accessorKey: "harvested_qty",
-    header: "Quantity"
+    accessorKey: "kilogram",
+    header: "Harvest Kilogram",
+    cell: ({ row }) => {
+      return <div>{row.original.kilogram} KG</div>;
+    }
   },
 
   {

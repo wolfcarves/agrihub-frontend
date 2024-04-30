@@ -72,7 +72,7 @@ const SelectReport: React.FC<SelectCropProps> = ({ field, form }) => {
         </PopoverTrigger>
         <PopoverContent className="w-[21rem] p-0" side="bottom" align="start">
           <Command>
-            <CommandInput placeholder="Search Member..." />
+            <CommandInput placeholder="Search crop..." />
 
             <CommandEmpty className="py-1">
               <p className=" cursor-pointer hover:bg-[#F1F5F9] py-2 text-center text-sm ">

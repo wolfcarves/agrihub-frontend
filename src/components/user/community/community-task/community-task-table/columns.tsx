@@ -112,7 +112,7 @@ export const columns: ColumnDef<CommunityTask>[] = [
           );
         } else if (item.task_type === "plant") {
           navigate(
-            `/community/reports/${item.farmid}/plant/${item.crop_id}/${item.assigned_to}`
+            `/community/reports/${item.farmid}/plant/${item.crop_id}/${item.id}`
           );
         } else {
           null;

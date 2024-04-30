@@ -54,6 +54,7 @@ import { IoMdAdd } from "react-icons/io";
 import useGetFarmCropsQuery from "../../../../../hooks/api/get/useGetFarmCropsQuery";
 import useGetCommunityFarmReportsCropReports from "../../../../../hooks/api/get/useGetCommunityFarmReportsCropReports";
 import useAuth from "../../../../../hooks/useAuth";
+import { GiFruitTree } from "react-icons/gi";
 
 const CropsReportPlantedList = () => {
   const dispatch = useDispatch();
@@ -75,6 +76,8 @@ const CropsReportPlantedList = () => {
       filter: filter,
       status: "planted"
     });
+
+  console.log(CropExisting);
 
   const handleCropReport = (cropData: PlantedCropsResponse) => {
     // dispatch(setExistingCrop(cropData));
@@ -102,6 +105,24 @@ const CropsReportPlantedList = () => {
         return prevFilter.filter(name => name !== cropName);
       }
     });
+  };
+
+  const currentDate = new Date();
+  const formattedDate = currentDate.toISOString();
+
+  const add7Day = (date: string) => {
+    const inputedData = new Date(date);
+
+    const updatedDate = new Date(
+      inputedData.setDate(inputedData.getDate() + 7)
+    );
+
+    return updatedDate.toISOString();
+  };
+
+  const checkGreater = (date: string) => {
+    const check = date <= formattedDate;
+    return check;
   };
 
   return (
@@ -166,11 +187,17 @@ const CropsReportPlantedList = () => {
             <DropdownMenuTrigger
               className=" "
               disabled={userData?.role === "farm_head" ? false : true}
+              // disabled={
+              //   checkGreater(crop.expected_harvest_date || "") &&
+              //   userData?.role === "farm_head"
+              //     ? false
+              //     : true
+              // }
               asChild
             >
               <div
                 key={i}
-                className="md:col-span-6 lg:col-span-4 col-span-12 hover:shadow-md grid grid-cols-12 rounded-lg border bg-main select-none"
+                className="md:col-span-6 lg:col-span-6 col-span-12 hover:shadow-md grid grid-cols-12 rounded-lg border bg-main select-none"
               >
                 <div
                   // disabled={!isMember}
@@ -192,9 +219,41 @@ const CropsReportPlantedList = () => {
                   Withered Quantity : {crop.withered_crops}
                 </p> */}
 
-                    <p className="flex items-center gap-2 my-2 text-xs font-poppins-semibold text-primary capitalize line-clamp-1">
+                    <p className="flex items-center gap-2 my-2 text-xs font-poppins-semibold text-gray-400 capitalize line-clamp-1">
                       <PiPlant size={18} /> Date Planted :{" "}
                       {formatDate(crop.date_planted || "")}
+                    </p>
+                    <p
+                      className={`flex items-center gap-2 my-2 text-xs font-poppins-semibold ${
+                        crop.expected_harvest_date &&
+                        crop?.expected_harvest_date <= formattedDate
+                          ? "text-primary"
+                          : " text-destructive"
+                      } capitalize line-clamp-1`}
+                    >
+                      <GiFruitTree size={18} /> Expected Harvest :{" "}
+                      {formatDate(crop.expected_harvest_date || "")}
+                    </p>
+
+                    <p
+                      className={`flex items-center gap-2 my-2 text-xs font-poppins-semibold ${
+                        crop.expected_harvest_date &&
+                        crop?.expected_harvest_date <= formattedDate
+                          ? "text-primary"
+                          : add7Day(crop.expected_harvest_date || "") <=
+                            formattedDate
+                          ? "text-orange-500"
+                          : " text-destructive"
+                      } capitalize line-clamp-1`}
+                    >
+                      Status :{" "}
+                      {crop.expected_harvest_date &&
+                      crop?.expected_harvest_date <= formattedDate
+                        ? "Ready For Harvest"
+                        : add7Day(crop.expected_harvest_date || "") <=
+                          formattedDate
+                        ? "! Already a week or greater has passed in expected harvest date"
+                        : "Not Ready For Harvest"}
                     </p>
                     {userData?.role === "farm_head" && (
                       <Button variant="outline">Options</Button>

@@ -13,6 +13,7 @@ export type PlantedCropsResponse = {
     withered_crops?: string;
     planted_qty?: string;
     harvested_by?: string;
+    kilogram?: string;
     firstname?: string;
     lastname?: string;
     growth_span?: string;

@@ -186,7 +186,7 @@ const CommunityHarvestCropReportForm = () => {
 
         <div className="md:col-span-6 col-span-12">
           <div className="md:w-[100%] w-full">
-            <Label className=" font-poppins-medium">Planting Images</Label>
+            <Label className=" font-poppins-medium">Proof of Harvest</Label>
             <FormField
               control={form.control}
               name="images"

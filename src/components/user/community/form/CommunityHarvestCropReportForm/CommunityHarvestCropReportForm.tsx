@@ -63,7 +63,7 @@ const CommunityHarvestCropReportForm = () => {
   const handleSubmitForm = async (data: HarvestedCropReportFormData) => {
     try {
       const compiledData: HarvestedCropReportFormData = {
-        harvested_qty: data.harvested_qty,
+        harvested_qty: "0",
         withered_crops: data.withered_crops,
         date_harvested: data.date_harvested,
         kilogram: data.kilogram,
@@ -104,7 +104,7 @@ const CommunityHarvestCropReportForm = () => {
             value={CropReport?.crop_name}
           />
         </div>
-        <div className="md:col-span-6 col-span-12">
+        {/* <div className="md:col-span-6 col-span-12">
           <Label>Harvest Quantity</Label>
           <FormField
             control={form.control}
@@ -120,6 +120,23 @@ const CommunityHarvestCropReportForm = () => {
           <FormMessage>
             {form.formState.errors.harvested_qty?.message}
           </FormMessage>
+        </div> */}
+        <div className="md:col-span-6 col-span-12">
+          <Label>Harvest Kilogram</Label>
+          <FormField
+            control={form.control}
+            name="kilogram"
+            render={() => (
+              <InputNumber
+                className="h-9 rounded-md"
+                suffix={" kilogram"}
+                onChange={value => form.setValue("kilogram", value)}
+              />
+            )}
+          />
+          <FormMessage>
+            {form.formState.errors.withered_crops?.message}
+          </FormMessage>
         </div>
         <div className="md:col-span-6 col-span-12">
           <Label>Withered Plants</Label>
@@ -131,23 +148,6 @@ const CommunityHarvestCropReportForm = () => {
                 className="h-9 rounded-md"
                 suffix={" pieces"}
                 onChange={value => form.setValue("withered_crops", value)}
-              />
-            )}
-          />
-          <FormMessage>
-            {form.formState.errors.withered_crops?.message}
-          </FormMessage>
-        </div>
-        <div className="md:col-span-6 col-span-12">
-          <Label>Harvest Kilogram</Label>
-          <FormField
-            control={form.control}
-            name="kilogram"
-            render={() => (
-              <InputNumber
-                className="h-9 rounded-md"
-                suffix={" kilogram"}
-                onChange={value => form.setValue("kilogram", value)}
               />
             )}
           />

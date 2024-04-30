@@ -142,7 +142,7 @@ const CommunityTaskTable = () => {
               </SelectGroup>
             </SelectContent>
           </Select>
-          <DialogAssignTask />
+          {useData?.role === "farm_head" && <DialogAssignTask />}
         </div>
       </div>
       <div className="min-h-[63vh] mb-2">

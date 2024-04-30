@@ -52,7 +52,7 @@ const CommunityPlantCropReportForm = () => {
     try {
       const compiledData: PlantedCropReportFormData = {
         crop_id: data.crop_id,
-        planted_qty: data.planted_qty,
+        planted_qty: "0",
         date_planted: data.date_planted,
         task_id: task ? task : undefined,
         images: data.images
@@ -94,7 +94,7 @@ const CommunityPlantCropReportForm = () => {
             )}
           />
         </div>
-        <div className="md:col-span-6 col-span-12">
+        {/* <div className="md:col-span-6 col-span-12">
           <Label>Planted Quantity</Label>
           <FormField
             control={form.control}
@@ -110,7 +110,7 @@ const CommunityPlantCropReportForm = () => {
           <FormMessage>
             {form.formState.errors.planted_qty?.message}
           </FormMessage>
-        </div>
+        </div> */}
 
         <div className="md:col-span-6 col-span-12">
           <Label>Planted Date</Label>

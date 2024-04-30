@@ -51,16 +51,23 @@ const CropsReportView = () => {
             {CropReport?.crop_name}
           </h2>
           <div className="flex flex-col gap-4 border-t-4 border-primary pt-2">
-            <CropDetails
-              label="Date Planted :"
-              value={format(new Date(CropReport?.date_planted || ""), "PPP")}
-              icon={<GiTreeGrowth size={18} />}
-            />
-            <CropDetails
-              label="Date Harvested :"
-              value={format(new Date(CropReport?.date_harvested || ""), "PPP")}
-              icon={<GiPlantSeed size={18} />}
-            />
+            {CropReport?.date_planted && (
+              <CropDetails
+                label="Date Planted :"
+                value={format(new Date(CropReport?.date_planted || ""), "PPP")}
+                icon={<GiTreeGrowth size={18} />}
+              />
+            )}
+            {CropReport?.date_harvested && (
+              <CropDetails
+                label="Date Harvested :"
+                value={format(
+                  new Date(CropReport?.date_harvested || ""),
+                  "PPP"
+                )}
+                icon={<GiPlantSeed size={18} />}
+              />
+            )}
           </div>
         </div>
 

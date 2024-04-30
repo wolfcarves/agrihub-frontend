@@ -53,6 +53,7 @@ import Input from "../../../../../components/ui/custom/input/input";
 import { IoMdAdd } from "react-icons/io";
 import useGetFarmCropsQuery from "../../../../../hooks/api/get/useGetFarmCropsQuery";
 import useGetCommunityFarmReportsCropReports from "../../../../../hooks/api/get/useGetCommunityFarmReportsCropReports";
+import useAuth from "../../../../../hooks/useAuth";
 
 const CropsReportPlantedList = () => {
   const dispatch = useDispatch();
@@ -63,6 +64,7 @@ const CropsReportPlantedList = () => {
   const [page, setPage] = useState<number>(1);
   const { id } = useParams();
   const { data: farmCrops } = useGetFarmCropsQuery(id || "");
+  const { data: userData } = useAuth();
 
   const { data: CropExisting, isLoading } =
     useGetCommunityFarmReportsCropReports({
@@ -71,9 +73,8 @@ const CropsReportPlantedList = () => {
       page: String(page),
       perpage: "10",
       filter: filter,
-      status: undefined
+      status: "planted"
     });
-  console.log(CropExisting, "asdasd");
 
   const handleCropReport = (cropData: PlantedCropsResponse) => {
     // dispatch(setExistingCrop(cropData));
@@ -108,7 +109,6 @@ const CropsReportPlantedList = () => {
       <div className="my-2 flex md:flex-row flex-col gap-3 justify-between">
         <Input
           placeholder="Search crop..."
-          value={search}
           onChange={e => debouncedSearch(e.target.value)}
           className="max-w-sm focus-visible:ring-0"
         />
@@ -144,10 +144,14 @@ const CropsReportPlantedList = () => {
               </DropdownMenuContent>
             </DropdownMenu>
           )}
-
-          <Button onClick={handleAddReport} className="flex items-center gap-1">
-            <IoMdAdd size={15} /> Plant
-          </Button>
+          {userData?.role === "farm_head" && (
+            <Button
+              onClick={handleAddReport}
+              className="flex items-center gap-1"
+            >
+              <IoMdAdd size={15} /> Plant
+            </Button>
+          )}
         </div>
       </div>
       {CropExisting?.data?.length == 0 && (
@@ -159,7 +163,11 @@ const CropsReportPlantedList = () => {
       <div className="grid grid-cols-12 gap-3">
         {CropExisting?.data?.map((crop, i) => (
           <DropdownMenu>
-            <DropdownMenuTrigger className=" " asChild>
+            <DropdownMenuTrigger
+              className=" "
+              disabled={userData?.role === "farm_head" ? false : true}
+              asChild
+            >
               <div
                 key={i}
                 className="md:col-span-6 lg:col-span-4 col-span-12 hover:shadow-md grid grid-cols-12 rounded-lg border bg-main select-none"
@@ -188,7 +196,9 @@ const CropsReportPlantedList = () => {
                       <PiPlant size={18} /> Date Planted :{" "}
                       {formatDate(crop.date_planted || "")}
                     </p>
-                    <Button variant="outline">Options</Button>
+                    {userData?.role === "farm_head" && (
+                      <Button variant="outline">Options</Button>
+                    )}
                   </div>
                 </div>
               </div>

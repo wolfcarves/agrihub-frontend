@@ -299,6 +299,7 @@ export type { ZodValidationError } from './models/ZodValidationError';
 
 export { AccessService } from './services/AccessService';
 export { AccountService } from './services/AccountService';
+export { AnalyticsService } from './services/AnalyticsService';
 export { AuditLogsService } from './services/AuditLogsService';
 export { AuthService } from './services/AuthService';
 export { BlogsService } from './services/BlogsService';

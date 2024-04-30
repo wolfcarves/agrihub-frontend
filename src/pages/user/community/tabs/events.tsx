@@ -30,6 +30,17 @@ import UpdateEventsModal from "../../../../components/user/community/events-comm
 import useCommunityAutorization from "../../../../hooks/utils/useCommunityAutorization";
 import { MdOutlineLocationOn } from "react-icons/md";
 import { PiBookBookmark } from "react-icons/pi";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger
+} from "../../../../components/ui/alert-dialog";
 
 const CommunityEvents = () => {
   const { id } = useParams();
@@ -219,16 +230,46 @@ const CommunityEvents = () => {
                   Interested <PiBookBookmark size={15} />
                 </Button>
               </div>
+              <div className="mt-2 flex gap-2 justify-end">
+                <span className="flex items-center text-gray-500 font-poppins-regular">
+                  <MdOutlineLocationOn size={15} />
+                  Going: {task.going}
+                </span>
+                <span className="flex items-center text-gray-500 font-poppins-regular">
+                  <PiBookBookmark size={15} />
+                  Interested: {task.interested}
+                </span>
+              </div>
             </div>
             {isMember && isAllowed && (
               <div className="absolute right-0 flex items-center gap-2 pt-2 pr-2">
                 <UpdateEventsModal eventId={task.id || ""} />
-                <Button
-                  className=" bg-destructive"
-                  onClick={() => handleDelete(task.id || "")}
-                >
-                  Delete
-                </Button>
+
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button className=" bg-destructive">Delete</Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>
+                        Do you want to delete this event?
+                      </AlertDialogTitle>
+                      <AlertDialogDescription>
+                        This action cannot be undone. This will permanently
+                        delete this event and remove the data from our servers.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction
+                        onClick={() => handleDelete(task.id || "")}
+                        className=" bg-destructive"
+                      >
+                        Continue
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               </div>
             )}
           </div>

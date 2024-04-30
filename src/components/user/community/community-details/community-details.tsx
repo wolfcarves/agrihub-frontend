@@ -121,12 +121,14 @@ const CommunityDetails = () => {
                       </AlertDialogContent>
                     </AlertDialog>
                   ) : appError ? (
-                    <Button
-                      className={`md:text-sm text-xs`}
-                      onClick={handleApply}
-                    >
-                      Apply
-                    </Button>
+                    UserData?.role === "member" && (
+                      <Button
+                        className={`md:text-sm text-xs`}
+                        onClick={handleApply}
+                      >
+                        Apply
+                      </Button>
+                    )
                   ) : appData?.farmid === id ? (
                     <Button
                       className={`md:text-sm text-xs bg-destructive`}

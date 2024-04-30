@@ -9,7 +9,10 @@ export type PlantedCropsResponse = {
     crop_name?: string;
     date_planted?: string;
     date_harvested?: string;
+    batch?: string | null;
+    previous_planted_qty?: string | null;
     harvested_qty?: string;
+    last_harvest_id?: string;
     withered_crops?: string;
     planted_qty?: string;
     harvested_by?: string;

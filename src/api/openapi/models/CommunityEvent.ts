@@ -17,6 +17,8 @@ export type CommunityEvent = {
     createdat?: string;
     updatedat?: string;
     farm_name?: string;
+    going?: string;
+    interested?: string;
     tags?: Array<EventTag>;
     action?: {
 id?: string;

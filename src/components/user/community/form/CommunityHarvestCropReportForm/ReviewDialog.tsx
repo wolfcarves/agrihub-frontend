@@ -61,7 +61,7 @@ const ReviewDialog: React.FC<ReviewDialogProps> = ({
         </p>
         <hr className="border-primary" />
         <div className=" overflow-y-auto max-h-[60vh] grid grid-cols-12 gap-2">
-          <div className=" md:col-span-4 col-span-12">
+          {/* <div className=" md:col-span-4 col-span-12">
             <Label className=" font-poppins-medium">Harvest Quantity</Label>
             <Input
               type="text"
@@ -69,8 +69,8 @@ const ReviewDialog: React.FC<ReviewDialogProps> = ({
               disabled
               value={details.harvested_qty}
             />
-          </div>
-          <div className=" md:col-span-4 col-span-12">
+          </div> */}
+          <div className=" md:col-span-6 col-span-12">
             <Label className=" font-poppins-medium">Withered Quantity</Label>
             <Input
               type="text"
@@ -79,7 +79,7 @@ const ReviewDialog: React.FC<ReviewDialogProps> = ({
               value={details.withered_crops}
             />
           </div>
-          <div className="md:col-span-4 col-span-12">
+          <div className="md:col-span-6 col-span-12">
             <Label className=" font-poppins-medium">Harvested Date</Label>
             <Input
               type="text"

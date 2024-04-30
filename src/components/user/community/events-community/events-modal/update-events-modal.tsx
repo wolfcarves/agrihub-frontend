@@ -11,31 +11,28 @@ import {
 import { Button } from "../../../../ui/button";
 import { IoMdAddCircle } from "react-icons/io";
 import EventsForm from "../events-form/events-form";
-
-const CreateEventsModal = () => {
+interface modalProp {
+  eventId: string;
+}
+const UpdateEventsModal: React.FC<modalProp> = ({ eventId }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   return (
     <Dialog open={isOpen}>
       <DialogTrigger asChild>
-        <Button
-          variant={"outline"}
-          className=" gap-2 "
-          onClick={() => setIsOpen(true)}
-        >
-          <IoMdAddCircle size={17} className=" text-primary" /> Create Event
-        </Button>
+        <Button onClick={() => setIsOpen(true)}>Update</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[550px]">
         <DialogHeader>
-          <DialogTitle>Create Event</DialogTitle>
+          <DialogTitle>Update Event</DialogTitle>
           <DialogDescription>
-            Fill this form to create event. Click submit when you're done.
+            Modify the field of the data you want to change. Click submit when
+            you're done.
           </DialogDescription>
         </DialogHeader>
-        <EventsForm setIsOpen={setIsOpen} />
+        <EventsForm eventId={eventId} setIsOpen={setIsOpen} />
       </DialogContent>
     </Dialog>
   );
 };
 
-export default CreateEventsModal;
+export default UpdateEventsModal;

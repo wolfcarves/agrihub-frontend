@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Button } from "@components/ui/button";
 import { ProfileSchema, profileSchema } from "./schema";
 import useAuth from "@hooks/useAuth";
@@ -31,8 +31,38 @@ import {
   SelectValue
 } from "@components/ui/select";
 import { district } from "@constants/data";
+import UserTagInputDropdown from "@components/user/account/input/UserTagInput";
+import _UserTagInput from "@components/user/account/input/_UserTagInput";
+import useUserGetTags from "@hooks/api/get/useUserGetTags";
+import axios from "axios";
+import { UserTag } from "@api/openapi";
+import useUserUpdateTags from "@hooks/api/put/useUserUpdateTags";
+import LoadingSpinner from "@icons/LoadingSpinner";
 
 const UserSettingsProfileForm = () => {
+  //user previous tags
+  const { data: userTagsData, isLoading: isUserTagsLoading } = useUserGetTags();
+  const previousIdTags = userTagsData?.map(t => t.tagid) as string[];
+  const previousValueTags = userTagsData?.map(t => t.tag_name) as string[];
+
+  const [previousId, setPreviousId] = useState<string[]>(previousIdTags ?? []);
+  const [previousTag, setPreviousTag] = useState<string[]>(
+    previousValueTags ?? []
+  );
+
+  useEffect(() => {
+    setPreviousId(previousIdTags);
+    setPreviousTag(previousValueTags);
+  }, [userTagsData]);
+
+  const [searchTagKeyword, setSearchTagKeyword] = useState<string>("");
+
+  // const [idTags, setIdTags] = useState<string[]>(previousIdTags);
+
+  // const handleTagsOnChange = (tagId: string[]) => {
+  //   setIdTags(tagId);
+  // };
+
   const queryClient = useQueryClient();
   const user = useAuth();
 
@@ -52,6 +82,8 @@ const UserSettingsProfileForm = () => {
 
   const { mutateAsync: updateUser, isLoading: isUpdateUserLoading } =
     useUpdateUserProfileMutation();
+  const { mutateAsync: updateUserTags, isLoading: isUpdateUserTagsLoading } =
+    useUserUpdateTags();
 
   const handleSubmitForm = async (data: ProfileSchema) => {
     try {
@@ -68,6 +100,10 @@ const UserSettingsProfileForm = () => {
             })
           }
         });
+
+        await updateUserTags(data.tags);
+      } else {
+        toast.error("No session found");
       }
 
       queryClient.invalidateQueries({ queryKey: [GET_MY_PROFILE_KEY()] });
@@ -86,6 +122,24 @@ const UserSettingsProfileForm = () => {
       toast.error(error.body.message);
     }
   };
+
+  const FormFieldTag = useCallback(() => {
+    return (
+      <FormField
+        name="tags"
+        control={form.control}
+        render={({ field }) => (
+          <UserTagInputDropdown
+            defaultIdTagValue={previousId}
+            defaultTagValue={previousTag}
+            keyword={searchTagKeyword}
+            onTagsValueChange={field.onChange}
+            onChange={e => setSearchTagKeyword(e.target.value)}
+          />
+        )}
+      />
+    );
+  }, [previousIdTags]);
 
   return (
     <Form {...form}>
@@ -239,6 +293,10 @@ const UserSettingsProfileForm = () => {
           }}
         />
 
+        <hr />
+
+        <h5 className="font-poppins-medium">District</h5>
+
         <FormField
           name="district"
           control={form.control}
@@ -276,18 +334,28 @@ const UserSettingsProfileForm = () => {
           }}
         />
 
+        <hr />
+
+        <h5 className="font-poppins-medium">Tags</h5>
+
+        {isUpdateUserTagsLoading ? (
+          <LoadingSpinner className="text-primary text-xl" />
+        ) : (
+          <FormFieldTag />
+        )}
+
         <div className="flex gap-3">
           <Button
             variant="default"
             size="lg"
             type="submit"
             disabled={!form.formState.isDirty}
-            isLoading={isUpdateUserLoading}
+            isLoading={isUpdateUserLoading || isUpdateUserTagsLoading}
           >
             Save changes
           </Button>
 
-          <Button
+          {/* <Button
             variant="outline"
             size="lg"
             disabled={!form.formState.isDirty}
@@ -304,7 +372,7 @@ const UserSettingsProfileForm = () => {
             }}
           >
             Reset
-          </Button>
+          </Button> */}
         </div>
       </form>
     </Form>

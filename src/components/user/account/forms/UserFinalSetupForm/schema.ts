@@ -27,7 +27,7 @@ export const userFinalSetup = zod.object({
     .optional(),
   username: zod
     .string()
-    .min(4, "Please enter atleast 3 characters")
+    .min(3, "Please enter atleast 3 characters")
     .max(30, "Username is way too fucking long")
     .refine(u => !u.includes(" "), {
       message: "Username cannot have space"

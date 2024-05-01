@@ -115,6 +115,8 @@ export type { FarmQuestion } from './models/FarmQuestion';
 export type { FarmQuestionItem } from './models/FarmQuestionItem';
 export type { FarmWithGrowthRate } from './models/FarmWithGrowthRate';
 export type { FavouriteCropData } from './models/FavouriteCropData';
+export type { ForgottenAccountJSON } from './models/ForgottenAccountJSON';
+export type { ForgottenAccountResponse } from './models/ForgottenAccountResponse';
 export type { ForumCount } from './models/ForumCount';
 export type { ForumOverview } from './models/ForumOverview';
 export type { GrowthRateDistribution } from './models/GrowthRateDistribution';

@@ -27,6 +27,7 @@ import {
 } from "../../../components/ui/avatar";
 import BarDistrictOverviewAnalytics from "../charts/bar-district-overview-analytics";
 import { Skeleton } from "../../../components/ui/skeleton";
+import BarCropHarvest from "../charts/bar-crop-harvest";
 const AnalyticsAdmin = () => {
   const [sort, setSort] = useState<"asc" | "desc" | undefined>("asc");
   const { data: lowestGrowth, isLoading: TopFarmLoad } =
@@ -159,6 +160,9 @@ const AnalyticsAdmin = () => {
           </div>
           <div>
             <DougnutLandsizeAnalytics />
+          </div>
+          <div>
+            <BarCropHarvest />
           </div>
         </div>
       </div>

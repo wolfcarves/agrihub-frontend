@@ -123,10 +123,20 @@ year?: string,
      * @returns FarmerGraphTotalHarvestResponse Successful response
      * @throws ApiError
      */
-    public static getApiReportsFarmerGraphTotalHarvest(): CancelablePromise<FarmerGraphTotalHarvestResponse> {
+    public static getApiReportsFarmerGraphTotalHarvest({
+id,
+}: {
+/**
+ * ID of the farm
+ */
+id: string,
+}): CancelablePromise<FarmerGraphTotalHarvestResponse> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/api/reports/farmer/graph/total-harvest',
+            url: '/api/reports/farmer/graph/total-harvest/{id}',
+            path: {
+                'id': id,
+            },
             errors: {
                 400: `Validation Error`,
                 401: `Unauthorized`,
@@ -824,9 +834,14 @@ limit?: string,
      * @throws ApiError
      */
     public static getApiReportsAnalyticsCropDistributionCommunity({
+id,
 month,
 limit,
 }: {
+/**
+ * ID of the crop report
+ */
+id: string,
 /**
  * Month for which to retrieve crop distribution
  */
@@ -838,7 +853,10 @@ limit?: string,
 }): CancelablePromise<Array<CropDistribution>> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/api/reports/analytics/crop/distribution/community',
+            url: '/api/reports/analytics/crop/distribution/community/{id}',
+            path: {
+                'id': id,
+            },
             query: {
                 'month': month,
                 'limit': limit,

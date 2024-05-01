@@ -134,13 +134,13 @@ const CommunityEvents = () => {
         <h3 className=" font-poppins-medium">Events</h3>
       </div>
       <hr className="my-4" />
-      <div className="flex justify-between flex-col lg:flex-row gap-3 mb-4">
+      <div className="flex justify-between  flex-col lg:flex-row gap-3 mb-4">
         <Input
           placeholder="Search event..."
           className="max-w-sm"
           onChange={e => debouncedSearch(e.target.value)}
         />
-        <div className="flex gap-3">
+        <div className="flex flex-wrap gap-3">
           <Select
             onValueChange={val => {
               searchParams.set("filter", val);
@@ -158,22 +158,25 @@ const CommunityEvents = () => {
               </SelectGroup>
             </SelectContent>
           </Select>
-          <Select
-            onValueChange={val => {
-              searchParams.set("type", val);
-              setSearchParams(searchParams);
-            }}
-          >
-            <SelectTrigger className="w-[120px] focus-visible:ring-0 focus:ring-0">
-              <SelectValue placeholder="Type..." />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectItem value="public">Public</SelectItem>
-                <SelectItem value="private">Private</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+          {isMember && (
+            <Select
+              onValueChange={val => {
+                searchParams.set("type", val);
+                setSearchParams(searchParams);
+              }}
+            >
+              <SelectTrigger className="w-[120px] focus-visible:ring-0 focus:ring-0">
+                <SelectValue placeholder="Type..." />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectItem value="public">Public</SelectItem>
+                  <SelectItem value="private">Private</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          )}
+
           {isAllowed && isMember && <CreateEventsModal />}
         </div>
       </div>
@@ -192,7 +195,7 @@ const CommunityEvents = () => {
             <div className=" col-span-4">
               <img
                 src={task.banner}
-                className=" h-[15rem] w-full rounded-2xl object-cover object-center border-[4px] border-primary"
+                className=" h-[100%] w-full rounded-2xl object-cover object-center border-[4px] border-primary"
               />
             </div>
             <div className=" col-span-6 pl-3">
@@ -204,12 +207,12 @@ const CommunityEvents = () => {
                 onClick={() => handleView(task.farmid || "", task.id || "")}
                 className=" cursor-pointer"
               >
-                <h6 className=" mt-10 text-lg font-poppins-medium hover:underline hover:underline-offset-3">
+                <h6 className=" md:mt-10 mt-2 md:text-lg text-base font-poppins-medium hover:underline hover:underline-offset-3">
                   {task.title}
                 </h6>
                 <div>
                   <div>
-                    <span className="w-auto text-xs bg-primary text-white rounded-2xl p-1 px-3">
+                    <span className="w-auto md:text-xs text-[.4rem] bg-primary text-white rounded-2xl p-1 px-3">
                       <span>
                         {format(
                           new Date(task.start_date?.slice(0, -5) || ""),
@@ -227,32 +230,32 @@ const CommunityEvents = () => {
                       </span>
                     </span>
                   </div>
-                  <div className=" line-clamp-3 font-poppins-regular">
+                  <div className=" md:line-clamp-3 line-clamp-2 md:text-sm text-xs font-poppins-regular">
                     {parse(task.about || "")}
                   </div>
                 </div>
               </div>
               <div className="flex gap-2 mt-4">
                 <Button
-                  className={`border border-slate-200 bg-white text-slate-900 hover:bg-slate-100 gap-1 ${
+                  className={`border md:text-sm text-[.6rem] md:p-4 p-2 md:h-10 h-8  border-slate-200 bg-white text-slate-900 hover:bg-slate-100 gap-1 ${
                     task.action?.type === "going" &&
                     "bg-primary text-white hover:bg-primary/70"
                   }`}
                   onClick={() => handleGoing(task.id || "")}
                 >
-                  Going <MdOutlineLocationOn size={14} />
+                  Going <MdOutlineLocationOn className="md:text-base text-xs" />
                 </Button>
                 <Button
-                  className={`bg-slate-100 text-slate-900 hover:bg-slate-100/80 gap-1 ${
+                  className={`bg-slate-100 md:text-sm text-[.6rem] md:p-4 p-2 md:h-10 h-8 text-slate-900 hover:bg-slate-100/80 gap-1 ${
                     task.action?.type === "interested" &&
                     "bg-primary text-white hover:bg-primary/70"
                   }`}
                   onClick={() => handleInterest(task.id || "")}
                 >
-                  Interested <PiBookBookmark size={15} />
+                  Interested <PiBookBookmark className="md:text-base text-xs" />
                 </Button>
               </div>
-              <div className="mt-2 flex gap-2 justify-end">
+              <div className="mt-2 flex gap-2 justify-end md:text-sm text-xs">
                 <span className="flex items-center text-gray-500 font-poppins-regular">
                   <MdOutlineLocationOn size={15} />
                   Going: {task.going}
@@ -269,7 +272,9 @@ const CommunityEvents = () => {
 
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
-                    <Button className=" bg-destructive">Delete</Button>
+                    <Button className=" bg-destructive  md:text-sm text-[.6rem] md:p-4 p-2 md:h-10 h-8">
+                      Delete
+                    </Button>
                   </AlertDialogTrigger>
                   <AlertDialogContent>
                     <AlertDialogHeader>

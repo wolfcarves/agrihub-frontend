@@ -45,7 +45,7 @@ const BarchartHarvest = () => {
     plugins: {
       datalabels: {
         display: true,
-        color: "rgba(1, 50, 67, 1)",
+        color: "#ffffff",
         font: {
           weight: "bold" as "bold"
         },
@@ -95,7 +95,7 @@ const BarchartHarvest = () => {
       {
         label: "Harvest",
         data: Object.values(harvestChart || {}),
-        backgroundColor: ["#7FFF00"]
+        backgroundColor: ["#21c45d"]
       }
     ]
   };
@@ -133,7 +133,7 @@ const BarchartHarvest = () => {
       <div className="border border-border p-4 rounded-lg lg:col-span-8 col-span-12">
         <div className="flex justify-between ">
           <div>
-            <h5 className="font-poppins-medium">Monthly Harvest</h5>
+            <h5 className="font-poppins-medium">Monthly Harvest Kilogram</h5>
             <p className="text-xs text-gray-400">
               Click the bar to view the harvest summary of that month
             </p>

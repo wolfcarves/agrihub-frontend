@@ -149,4 +149,32 @@ previousId?: string,
         });
     }
 
+    /**
+     * Remove existing report
+     * @returns MessageResponse Report removed successfully
+     * @throws ApiError
+     */
+    public static deleteApiCommunityFarmRemoveExistingReport({
+id,
+}: {
+/**
+ * ID of the report to remove
+ */
+id: string,
+}): CancelablePromise<MessageResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/community-farm/remove/existing/report/{id}',
+            path: {
+                'id': id,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
 }

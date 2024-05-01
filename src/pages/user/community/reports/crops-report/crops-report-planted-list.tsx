@@ -63,6 +63,20 @@ import {
 } from "../../../../../components/ui/drawer";
 import useGetCommunityFarmReportsHistory from "../../../../../hooks/api/get/useGetCommunityFarmReportsHistory";
 import CropsReportHistoryTable from "../../../../../components/user/community/crops-report/crops-report-history/crops-report-history-table";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger
+} from "../../../../../components/ui/alert-dialog";
+import useDeleteCommunityFarmReportExisting from "../../../../../hooks/api/delete/useDeleteCommunityFarmReportExisting";
+import { toast } from "sonner";
+import Loader from "../../../../../icons/Loader";
 
 const CropsReportPlantedList = () => {
   const dispatch = useDispatch();
@@ -134,6 +148,18 @@ const CropsReportPlantedList = () => {
         return prevFilter.filter(name => name !== cropName);
       }
     });
+  };
+
+  const { mutateAsync: deleteMutate, isLoading: deleteLoading } =
+    useDeleteCommunityFarmReportExisting();
+
+  const handleDelete = async (id: string) => {
+    try {
+      await deleteMutate(id);
+      toast.success("Crop Removed In Planted List Successfully!");
+    } catch (e: any) {
+      toast.error(e.message);
+    }
   };
 
   const currentDate = new Date();
@@ -243,17 +269,20 @@ const CropsReportPlantedList = () => {
         {CropExisting?.data?.map((crop, i) => (
           <div
             key={i}
-            className={`  md:col-span-6 lg:col-span-6 col-span-12 hover:shadow-md grid grid-cols-12 rounded-lg border bg-main select-none ${
+            className={` relative   lg:col-span-6 col-span-12 hover:shadow-md grid grid-cols-12 rounded-lg border bg-main select-none ${
               checkGreater(crop.expected_harvest_date || "") &&
               "border-4 border-primary"
             }`}
           >
             <div
               // disabled={!isMember}
-              className=" col-span-11 grid grid-cols-11 "
+              className=" col-span-12 grid grid-cols-11 "
             >
               <Avatar className="col-span-4 h-full w-full border-r rounded-l-lg object-center">
-                <AvatarImage className="rounded-l-lg" src={crop.image} />
+                <AvatarImage
+                  className="rounded-l-lg object-cover"
+                  src={crop.image}
+                />
                 <AvatarFallback className="rounded-l-lg text-xl">
                   {crop?.crop_name?.charAt(0)}
                 </AvatarFallback>
@@ -310,24 +339,51 @@ const CropsReportPlantedList = () => {
                     : "Not Ready For Harvest"}
                 </p>
                 {userData?.role === "farm_head" && (
-                  <Button
-                    disabled={userData?.role === "farm_head" ? false : true}
-                    // disabled={
-                    //   checkGreater(crop.expected_harvest_date || "") &&
-                    //   userData?.role === "farm_head"
-                    //     ? false
-                    //     : true
-                    // }
-                    variant="outline"
-                    onClick={() => handleCropReport(crop)}
-                  >
-                    {" "}
-                    Harvest
-                  </Button>
+                  <div className=" flex gap-2">
+                    <Button
+                      disabled={userData?.role === "farm_head" ? false : true}
+                      // disabled={
+                      //   checkGreater(crop.expected_harvest_date || "") &&
+                      //   userData?.role === "farm_head"
+                      //     ? false
+                      //     : true
+                      // }
+                      variant="outline"
+                      onClick={() => handleCropReport(crop)}
+                    >
+                      {" "}
+                      Harvest
+                    </Button>
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button variant="destructive">Remove</Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>
+                            Do you want to remove this crop in the plant list?
+                          </AlertDialogTitle>
+                          <AlertDialogDescription>
+                            This action will remove the crop in the current list
+                            of planted crop in your community
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogAction
+                            onClick={() => handleDelete(crop.report_id || "")}
+                            className=" bg-destructive"
+                          >
+                            Continue
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                  </div>
                 )}
               </div>
             </div>
-            <div className=" col-span-1">
+            <div className=" absolute right-0">
               {crop.last_harvest_id && (
                 <Drawer>
                   <DrawerTrigger asChild>
@@ -359,6 +415,7 @@ const CropsReportPlantedList = () => {
           onPageChange={onPageChange}
         />
       )}
+      <Loader isVisible={deleteLoading} />
     </div>
   );
 };

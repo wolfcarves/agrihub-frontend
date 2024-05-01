@@ -9,7 +9,7 @@ import {
   GiPlantSeed,
   GiTreeGrowth
 } from "react-icons/gi";
-import { PiPlant, PiPottedPlantLight } from "react-icons/pi";
+import { PiBookBookmark, PiPlant, PiPottedPlantLight } from "react-icons/pi";
 import CropDetails from "../../../components/user/community/crop/crop-details/crop-details";
 import { TbReportAnalytics } from "react-icons/tb";
 import CropStats from "../../../components/user/community/crop/crop-stats/crop-stats";
@@ -21,10 +21,19 @@ import {
   AvatarImage
 } from "../../../components/ui/avatar";
 import parse from "html-react-parser";
+import useGetCommunityFarmEventView from "../../../hooks/api/get/useGetCommunityFarmEventView";
+import { format } from "date-fns";
+import Loader from "../../../icons/Loader";
+import { TfiWorld } from "react-icons/tfi";
+import { MdOutlineLocationOn } from "react-icons/md";
 const CommunityEventView = () => {
   const navigate = useNavigate();
-  const { cropId } = useParams();
-  const { data: CropData } = useGetReportCropStatsQuery(cropId || "");
+  const { eventId } = useParams();
+  const { data: eventData, isLoading } = useGetCommunityFarmEventView(
+    eventId || ""
+  );
+
+  console.log(eventData);
 
   return (
     <OutletContainer className="px-4">
@@ -34,85 +43,56 @@ const CommunityEventView = () => {
       >
         <FaArrowLeftLong /> Back
       </div>
-      <div className="grid grid-cols-12 gap-4">
-        {/* <img
-          src={CropData?.image}
-          className=" md:col-span-3 col-span-12 h-[15rem] object-fill object-center rounded-md hover:shadow-md border place-self-center"
-        /> */}
-        <Avatar className="md:col-span-3 col-span-12 h-[15rem] w-full rounded object-fill object-center hover:shadow-md border place-self-center">
-          <AvatarImage className="rounded" src={CropData?.image} />
-          <AvatarFallback className="rounded text-2xl">
-            {CropData?.crop_name?.charAt(0)}
-          </AvatarFallback>
-        </Avatar>
-        <div className=" md:col-span-9 col-span-12 md:px-0 px-4">
-          <h2 className=" font-poppins-semibold  text-green-700 leading-tight ">
-            {CropData?.crop_name}
-          </h2>
-          <div className="flex flex-col gap-4 border-t-4 border-primary pt-2">
-            <CropDetails
-              label="Growth Span :"
-              value={CropData?.growth_span || ""}
-              icon={<GiTreeGrowth size={18} />}
-            />
-            <CropDetails
-              label="Seedling Season :"
-              value={CropData?.seedling_season || ""}
-              icon={<GiPlantSeed size={18} />}
-            />
-            <CropDetails
-              label="Planting Season :"
-              value={CropData?.planting_season || ""}
-              icon={<PiPlant size={18} />}
-            />
-            <CropDetails
-              label="Harvest Season :"
-              value={CropData?.harvest_season || ""}
-              icon={<GiFruitBowl size={18} />}
-            />
+      <div className=" md:col-span-9 col-span-12 md:px-0 px-4">
+        <h2 className=" font-poppins-semibold md:text-xl text-lg text-green-700 leading-tight ">
+          {eventData?.title}
+        </h2>
+        <div className="flex flex-col gap-4 border-t-4 border-primary pt-2">
+          <img
+            src={eventData?.banner}
+            className="h-[15rem] object-cover object-center"
+          />
+          <div className=" text-center">
+            <span className="w-auto md:text-base text-xs bg-primary text-white rounded-2xl p-1 px-3">
+              {eventData?.start_date && (
+                <span>
+                  {format(
+                    new Date(eventData?.start_date?.slice(0, -5) || ""),
+                    "MMMM do yyyy, h:mm a"
+                  )}
+                </span>
+              )}{" "}
+              -{" "}
+              {eventData?.end_date && (
+                <span>
+                  {format(
+                    new Date(eventData?.end_date?.slice(0, -5) || ""),
+                    "MMMM do yyyy, h:mm a"
+                  )}
+                </span>
+              )}
+            </span>
+          </div>
+          <div className=" flex gap-2 capitalize items-center font-poppins-regular mt-2">
+            <TfiWorld size={17} className="text-primary" /> {eventData?.type}
+          </div>
+          <div className=" md:text-base text-sm font-poppins-regular">
+            {parse(eventData?.about || "")}
+          </div>
+          <div className="mt-5 flex gap-2 justify-end md:text-base text-sm">
+            <span className="flex items-center text-gray-500 font-poppins-regular">
+              <MdOutlineLocationOn size={15} />
+              Going: {eventData?.going}
+            </span>
+            <span className="flex items-center text-gray-500 font-poppins-regular">
+              <PiBookBookmark size={15} />
+              Interested: {eventData?.interested}
+            </span>
           </div>
         </div>
-        <div className="pl-2 col-span-12">
-          <h4 className="font-poppins-semibold  text-green-700">About</h4>
-          <div>{parse(CropData?.description || "")}</div>
-        </div>
+      </div>
 
-        <h4 className="font-poppins-semibold  text-green-700 pl-2 col-span-12 mt-5">
-          Your {CropData?.crop_name} Statistics
-        </h4>
-        <CropStats
-          label="Report"
-          value={CropData?.report_count || "0"}
-          icon={<TbReportAnalytics size={20} />}
-        />
-        <CropStats
-          label="Planted"
-          value={CropData?.planted_quantity || "0"}
-          icon={<PiPottedPlantLight size={20} />}
-        />
-        <CropStats
-          label="Yield"
-          value={CropData?.net_yield || "0"}
-          icon={<GiFruitTree size={20} />}
-        />
-        <CropStats
-          label="Withered"
-          value={CropData?.total_withered || "0"}
-          icon={<GiPlantRoots size={20} />}
-        />
-      </div>
-      <div className="py-3">
-        <h4 className="font-poppins-semibold  text-green-700 mb-2">Images</h4>
-        <div className="flex flex-wrap gap-2">
-          {CropData?.images?.map((image, i) => (
-            <img
-              key={i}
-              className="md:h-[10rem] h-[5rem] rounded hover:shadow-lg"
-              src={image.image}
-            />
-          ))}
-        </div>
-      </div>
+      <Loader isVisible={isLoading} />
     </OutletContainer>
   );
 };

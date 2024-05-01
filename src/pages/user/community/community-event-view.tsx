@@ -158,7 +158,6 @@ const CommunityEventView = () => {
           </div>
         </div>
       </div>
-
       <Loader isVisible={isLoading} />
     </OutletContainer>
   );

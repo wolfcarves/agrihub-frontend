@@ -19,7 +19,12 @@ const UpdateEventsModal: React.FC<modalProp> = ({ eventId }) => {
   return (
     <Dialog open={isOpen}>
       <DialogTrigger asChild>
-        <Button onClick={() => setIsOpen(true)}>Update</Button>
+        <Button
+          onClick={() => setIsOpen(true)}
+          className="md:text-sm text-[.6rem] md:p-4 p-2 md:h-10 h-8"
+        >
+          Update
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[550px]">
         <DialogHeader>

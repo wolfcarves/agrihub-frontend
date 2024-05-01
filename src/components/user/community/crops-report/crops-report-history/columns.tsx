@@ -33,6 +33,28 @@ export const columns: ColumnDef<PlantedCropsResponse>[] = [
     }
   },
   {
+    accessorKey: "date_planted",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Date Planted
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      return (
+        <div>
+          {row.original.date_planted &&
+            format(new Date(row.original.date_planted || ""), "PPP")}
+        </div>
+      );
+    }
+  },
+  {
     accessorKey: "date_harvested",
     header: ({ column }) => {
       return (
@@ -86,8 +108,6 @@ export const columns: ColumnDef<PlantedCropsResponse>[] = [
             >
               View
             </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Archive</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

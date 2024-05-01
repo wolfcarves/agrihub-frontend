@@ -92,7 +92,7 @@ const UserTagInputDropdown = ({
         </button>
       );
     },
-    [tags]
+    [tags, idTags]
   );
 
   function renderTagCards<T extends TagOptionProps>(
@@ -133,7 +133,7 @@ const UserTagInputDropdown = ({
   const renderLayout: RenderLayout = renderedTag => {
     return (
       <div
-        className="relative flex flex-wrap min-h-11 rounded-lg w-full
+        className="flex flex-wrap min-h-11 rounded-lg w-full
         border border-input bg-background text-sm ring-offset-background
         file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground
         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2
@@ -151,7 +151,7 @@ const UserTagInputDropdown = ({
         <div
           className={`${
             option && isInputTagFocused ? "grid" : "hidden"
-          } grid-cols-2 sm:grid-cols-3 gap-x-1 gap-y-5 justify-evenly absolute top-[100%] left-0 z-20 w-full overflow-y-scroll
+          } grid-cols-2 sm:grid-cols-3 gap-x-1 gap-y-5 justify-evenly absolute top-[100%] left-0 z-50 w-full overflow-y-scroll
           rounded-lg bg-gray-50 border p-1 min-h-[50px] max-h-[400px]`}
         >
           {option && option.map(renderTagCards)}
@@ -178,14 +178,16 @@ const UserTagInputDropdown = ({
   };
 
   return (
-    <TagsInput
-      onChange={() => {}}
-      value={tags}
-      onlyUnique
-      preventSubmit
-      renderTag={renderTag}
-      renderLayout={renderLayout}
-    />
+    <div className="relative">
+      <TagsInput
+        onChange={() => {}}
+        value={tags}
+        onlyUnique
+        preventSubmit
+        renderTag={renderTag}
+        renderLayout={renderLayout}
+      />
+    </div>
   );
 };
 

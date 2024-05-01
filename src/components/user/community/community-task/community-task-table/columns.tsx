@@ -175,7 +175,7 @@ export const columns: ColumnDef<CommunityTask>[] = [
                     >
                       Action Message
                     </Label>
-                    <Input
+                    <Textarea
                       value={item.action_message}
                       disabled
                       className="col-span-3 disabled:opacity-90"

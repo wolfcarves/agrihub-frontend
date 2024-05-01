@@ -3,9 +3,6 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type UserTag = {
-    id?: string;
-    userid?: string;
-    tagid?: string;
-    tag_name?: string;
+export type ForgottenAccountJSON = {
+    account?: string;
 };

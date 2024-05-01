@@ -22,7 +22,7 @@ export const profileSchema = z.object({
       path: ["lastname"]
     }),
   bio: z.string().max(50, "50 characters only").optional().nullish(),
-  present_address: z.string().min(8, "Please enter valid address").trim(),
+  present_address: z.string().trim().optional(),
   dob: z
     .date({
       required_error: "Birth day is required",
@@ -32,7 +32,8 @@ export const profileSchema = z.object({
     .max(new Date(), "That's not a valid date!"),
   district: z.string().regex(/^(1|2|3|4|5|6)$/, {
     message: "Invalid district"
-  })
+  }),
+  tags: z.array(z.string()).optional()
 });
 
 export type ProfileSchema = z.infer<typeof profileSchema>;

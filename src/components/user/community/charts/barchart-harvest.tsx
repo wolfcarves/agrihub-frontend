@@ -14,12 +14,19 @@ import { chartColor } from "../../../../constants/data";
 import { Button } from "../../../ui/button";
 import { FaFilePdf } from "react-icons/fa6";
 import { useReactToPrint } from "react-to-print";
+import { formatMonth } from "../../../lib/utils";
+import { useParams } from "react-router-dom";
+import useAuth from "../../../../hooks/useAuth";
 const BarchartHarvest = () => {
   const [activeIndex, setActiveIndex] = useState<string>("");
   const chartRef = useRef();
-  const { data: harvestChart } = useGetReportTotalHarvestChart();
+
+  const { id } = useParams();
+
+  const { data: harvestChart } = useGetReportTotalHarvestChart(id || "");
   const { data } = useGetFarmAllCropsQuery();
   const { data: cropDistribution } = useGetReportCropDistributionCommunity({
+    id: id || "",
     month: activeIndex
   });
 
@@ -44,7 +51,7 @@ const BarchartHarvest = () => {
     plugins: {
       datalabels: {
         display: true,
-        color: "rgba(1, 50, 67, 1)",
+        color: "#ffffff",
         font: {
           weight: "bold" as "bold"
         },
@@ -53,7 +60,7 @@ const BarchartHarvest = () => {
           if (value === "0") {
             return "";
           } else {
-            return value;
+            return `${value}KG`;
           }
         }
       }
@@ -80,6 +87,9 @@ const BarchartHarvest = () => {
         offset: 8,
         font: {
           weight: "bold" as "bold"
+        },
+        formatter: function (value: any) {
+          return `${value}KG`;
         }
       }
     }
@@ -91,7 +101,7 @@ const BarchartHarvest = () => {
       {
         label: "Harvest",
         data: Object.values(harvestChart || {}),
-        backgroundColor: ["#7FFF00"]
+        backgroundColor: ["#21c45d"]
       }
     ]
   };
@@ -129,7 +139,7 @@ const BarchartHarvest = () => {
       <div className="border border-border p-4 rounded-lg lg:col-span-8 col-span-12">
         <div className="flex justify-between ">
           <div>
-            <h5 className="font-poppins-medium">Monthly Harvest</h5>
+            <h5 className="font-poppins-medium">Monthly Harvest Kilogram</h5>
             <p className="text-xs text-gray-400">
               Click the bar to view the harvest summary of that month
             </p>
@@ -170,7 +180,9 @@ const BarchartHarvest = () => {
               Number(cropDistribution?.length || 0) > 0 ? "h-full" : "h-0"
             }`}
           >
-            <h5 className="font-poppins-medium">Crops Harvest</h5>
+            <h5 className="font-poppins-medium">
+              Crops Harvest : {formatMonth(activeIndex)}
+            </h5>
             <div className="h-[350px]  ">
               <Doughnut data={radarData} options={optionsRadar} />
             </div>

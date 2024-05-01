@@ -1,5 +1,4 @@
 import React from "react";
-import { EventSpeaker } from "@api/openapi";
 import { Divider } from "@components/ui/custom";
 import { Label } from "@components/ui/label";
 

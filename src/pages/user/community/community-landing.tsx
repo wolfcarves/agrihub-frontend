@@ -10,11 +10,12 @@ import ReportIllustration from "@icons/community/ReportIllustration";
 import GalleryIllustration from "@icons/community/GalleryIllustration";
 import RequestIllustration from "@icons/community/RequestIllustration";
 import AnalyticsIllustration from "@icons/community/AnalyticsIllustration";
-import logo from "../../../icons/main-logo.svg";
 import { FaWpforms } from "react-icons/fa6";
 import {
   MdOutlineForum,
+  MdOutlineGroup,
   MdOutlineReport,
+  MdOutlineTask,
   MdOutlineUpload
 } from "react-icons/md";
 import { RiDropboxLine, RiSeedlingLine } from "react-icons/ri";
@@ -30,6 +31,9 @@ import CommunityIllustration from "@icons/community/CommunityIllustration";
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 import ToolIllustration from "@icons/community/ToolIllustration";
 import { formatDistrict } from "../../../components/lib/utils";
+import JoinIllustration from "@icons/community/JoinIllustration";
+import TaskIllustration from "@icons/community/TaskIllustration";
+import useGetCmsAboutDetails from "@hooks/api/get/useGetCmsAboutDetails";
 
 const ScrollToSectionButton: React.FC<{
   targetRef: React.RefObject<HTMLDivElement>;
@@ -179,67 +183,76 @@ const CommunityLanding = () => {
     navigate("/community/explore");
   };
 
+  const { data: aboutDeatils } = useGetCmsAboutDetails();
+  const S3_BASE_URL = import.meta.env.VITE_S3_BUCKET_BASEURL;
+
   return (
-    <OutletContainer className="min-h-screen">
-      <div className="py-10">
-        {/* Header */}
-        <div className="flex flex-wrap sm:ml-10 gap-x-3 justify-between">
-          <h6 className="font-poppins-medium tracking-tight">
-            Mga farm sa AgriHub
-          </h6>
-        </div>
+    <OutletContainer>
+      <div className="mx-4">
+        <div className="py-10">
+          {/* Header */}
+          <div className="flex flex-wrap sm:ml-10 gap-x-3 justify-between">
+            <h6 className="font-poppins-medium tracking-tight">
+              Mga farm sa AgriHub
+            </h6>
+          </div>
 
-        {/* Content */}
-        <div className="flex">
-          <div className="w-full max-w-[25rem] sm:ml-10 mt-20">
-            <h2 className="font-poppins-semibold tracking-tight leading-[2.3rem]">
-              Sumali na sa farm na iyong kinabibilangan
-            </h2>
+          {/* Content */}
+          <div className="flex">
+            <div className="w-full max-w-[25rem] sm:ml-10 mt-20">
+              <h2 className="font-poppins-semibold tracking-tight leading-[2.3rem]">
+                Sumali na sa farm na iyong kinabibilangan
+              </h2>
 
-            <p className="mt-5">
-              Ang pagrehistro ng iyong farm ay makakatulong upang mas maging mas
-              madali ang pag-submit ng iyong farm report. Ikaw rin ay
-              makakahanap ng solusyon sa mga problema ng iyong farm, tumanggap
-              ng mga resource materials na makakapagbigay sa pangangalaga ng
-              iyong mga tanim gamit ang aming prescriptive analytics
-            </p>
+              <p className="mt-5">
+                Ang pagrehistro ng iyong farm ay makakatulong upang mas maging
+                mas madali ang pag-submit ng iyong farm report. Ikaw rin ay
+                makakahanap ng solusyon sa mga problema ng iyong farm, tumanggap
+                ng mga resource materials na makakapagbigay sa pangangalaga ng
+                iyong mga tanim gamit ang aming prescriptive analytics
+              </p>
 
-            <div className="mt-10">
-              <Link to="explore">
-                <Button>Sumali sa farm</Button>
-              </Link>
+              <div className="mt-10">
+                <Link to="explore">
+                  <Button>Sumali sa farm</Button>
+                </Link>
+              </div>
+            </div>
+
+            <div className="hidden md:block mx-auto">
+              <CommunityIllustration />
             </div>
           </div>
-
-          <div className="hidden md:block mx-auto">
-            <CommunityIllustration />
-          </div>
         </div>
-      </div>
 
-      <p>
-        Mga farms na{" "}
-        {userData ? "kasali na sa iyong distrito" : "kasali na sa AgriHub"}:
-      </p>
+        <p>
+          Mga farms na{" "}
+          {userData ? "kasali na sa iyong distrito" : "kasali na sa AgriHub"}:
+        </p>
 
-      <div className="grid grid-cols-6 gap-2  mt-10">
-        {data?.farms
-          ?.filter(farm => farm.id !== userData?.farm_id)
-          .map((farm, i) => <FarmCard farm={farm} key={i} />)}
+        <div className="grid grid-cols-6 gap-2  mt-10">
+          {data?.farms
+            ?.filter(farm => farm.id !== userData?.farm_id)
+            .map((farm, i) => <FarmCard farm={farm} key={i} />)}
+        </div>
+        <Button
+          className="w-full mb-16 mt-4"
+          variant="outline"
+          onClick={navigateExplore}
+        >
+          See more
+        </Button>
       </div>
-      <Button
-        className="w-full mb-16 mt-4"
-        variant="outline"
-        onClick={navigateExplore}
-      >
-        See more
-      </Button>
       <div className="bottom-8 sm:left-auto left-[46%] right-auto sm:right-8 fixed">
         <ScrollToSectionButton targetRef={sectionRef} />
       </div>
       {/* header */}
       <div className="max-w-xl mx-auto my-8 text-center">
-        <img src={logo as unknown as string} width={60} className="mx-auto" />
+        <img
+          src={S3_BASE_URL + aboutDeatils?.agrihub_user_logo}
+          width={60}
+          className="mx-auto"
+        />
         <h3 className="text-gray-800 text-3xl font-semibold sm:text-4xl">
           Ang mga benepisyo sa pagsali sa AgriHub
         </h3>
@@ -440,6 +453,71 @@ const CommunityLanding = () => {
 
               <div className="flex justify-center mt-5 sm:w-1/2 mx-auto lg:mt-0">
                 <ToolIllustration />
+              </div>
+            </div>
+          </section>
+          {/* Assigning of Task  */}
+          <section className="relative max-w-screen-xl mx-auto py-4 px-4 md:px-8 my-16">
+            <div className="relative z-10 gap-5 items-center sm:flex justify-between">
+              <div className="flex-1 sm:mx-auto sm:text-center lg:max-w-max lg:text-left">
+                {/* Icons */}
+                <MdOutlineTask className="h-16 w-16 p-1 text-green-600" />
+                {/* Header */}
+                <h3 className="text-3xl text-gray-800 font-semibold md:text-4xl">
+                  Magtalaga{" "}
+                  <span className="text-green-600">ng mga gawain</span>
+                </h3>
+                {/* Subheader */}
+                <p className="text-gray-500 leading-relaxed mt-3">
+                  Ang isang farm ay kinabibilangan o binubuo ng mga farmer na
+                  may kanya-kanyang gawain na nakabase sa pangangailangan ng
+                  isang urban farm.
+                </p>
+                <hr className="my-4" />
+                {/* Description */}
+                <p className="text-gray-500 leading-relaxed mt-3">
+                  Magtalaga ng mga gawain sa mga farmer sa iyong urban farm
+                  upang mapanatili ang organisadong paraan sa paglista ng mga
+                  dapat isaalang-alang na mahahalagang tungkulin ng bawat
+                  miyembro.
+                </p>
+              </div>
+
+              <div className="flex justify-center mt-5 sm:w-1/2 mx-auto lg:mt-0">
+                <TaskIllustration />
+              </div>
+            </div>
+          </section>
+          {/* Joining of farm */}
+          <section className="relative max-w-screen-xl mx-auto py-4 px-4 md:px-8 my-16">
+            <div className="relative z-10 gap-5 items-center sm:flex justify-between">
+              <div className="flex-1 sm:mx-auto sm:text-center lg:max-w-max lg:text-left">
+                {/* Icons */}
+                <MdOutlineGroup className="h-16 w-16 p-1 text-green-600" />
+                {/* Header */}
+                <h3 className="text-3xl text-gray-800 font-semibold md:text-4xl">
+                  Palawakin{" "}
+                  <span className="text-green-600">ang iyong komunidad</span>
+                </h3>
+                {/* Subheader */}
+                <p className="text-gray-500 leading-relaxed mt-3">
+                  Para sa patuloy na pagpapalawig ng iba't ibang Urban Farm sa
+                  Lungsod Quezon. Ang Agrihub ay makakatulong upang makatanggap
+                  ng iba't ibang miyembro ang iyong Urban Farm na may interes na
+                  makilahok.
+                </p>
+                <hr className="my-4" />
+                {/* Description */}
+                <p className="text-gray-500 leading-relaxed mt-3">
+                  Makatanggap ng mga request mula sa mga nais sumali sa iyong
+                  Urban Farm o mag-imbita ng mga Urban Farmers na maaring
+                  makatulong mapalawig at mapabuti ang pag-aalaga sa mga pananim
+                  ng iyong Urban Farm.
+                </p>
+              </div>
+
+              <div className="flex justify-center mt-5 sm:w-1/2 mx-auto lg:mt-0">
+                <JoinIllustration />
               </div>
             </div>
           </section>

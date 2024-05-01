@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CommunityFarmEventsService, EventAction } from "@api/openapi";
 import { GET_COMMUNITY_FARM_EVENT_LIST } from "../get/useGetCommunityFarmEventList";
+import { GET_COMMUNITY_FARM_EVENT_VIEW } from "../get/useGetCommunityFarmEventView";
 
 const useCommunityFarmEventsActionKey = () =>
   "USE_COMMUNITY_FARM_EVENT_ACTION_KEY";
@@ -19,6 +20,7 @@ export default function useCommunityFarmEventsAction() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries([GET_COMMUNITY_FARM_EVENT_LIST()]);
+      queryClient.invalidateQueries([GET_COMMUNITY_FARM_EVENT_VIEW()]);
     }
   });
 }

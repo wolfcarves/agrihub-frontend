@@ -32,15 +32,15 @@ const LinechartGrowthHarvest = () => {
         borderColor: "#66CDAA",
         borderWidth: 2,
         tension: 0.4
-      },
-      {
-        label: "Harvest Quantity",
-        data: growthChart?.map(crop => crop.avg_harvest_qty),
-        backgroundColor: "rgba(37, 116, 169)",
-        borderColor: "rgba(37, 116, 169)",
-        borderWidth: 2,
-        tension: 0.4
       }
+      // {
+      //   label: "Harvest Quantity",
+      //   data: growthChart?.map(crop => crop.avg_harvest_qty),
+      //   backgroundColor: "rgba(37, 116, 169)",
+      //   borderColor: "rgba(37, 116, 169)",
+      //   borderWidth: 2,
+      //   tension: 0.4
+      // }
     ]
   };
   const chartOptions = {
@@ -56,7 +56,10 @@ const LinechartGrowthHarvest = () => {
         display: "auto",
         color: "#1F51FF",
         anchor: "end" as "end",
-        align: "top" as "top"
+        align: "top" as "top",
+        formatter: function (value: any) {
+          return `${value} Days`;
+        }
       }
     }
   };
@@ -81,7 +84,7 @@ const LinechartGrowthHarvest = () => {
   return (
     <div ref={componentRef} className="print:p-2">
       <div className="flex justify-between items-center gap-4">
-        <h5 className="font-poppins-medium">Growth Span & Harvest Quantity</h5>
+        <h5 className="font-poppins-medium">Average Growth Span In Days</h5>
         <div className="flex gap-2">
           <Select
             onValueChange={value => setYearSelected(value)}

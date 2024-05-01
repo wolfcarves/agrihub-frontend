@@ -23,7 +23,10 @@ import { chartColor } from "../../../constants/data";
 import { Card } from "../../../components/ui/card";
 import useGetReportHarvestDistribution from "../../../hooks/api/get/useGetReportHarvestDistribution";
 import PieSeed from "./pie-seed";
-import { formatNumberWithCommas } from "../../../components/lib/utils";
+import {
+  formatMonth,
+  formatNumberWithCommas
+} from "../../../components/lib/utils";
 
 const BarHarvestWithered = () => {
   const currentDate = new Date();
@@ -46,6 +49,26 @@ const BarHarvestWithered = () => {
     month: activeLabel
   });
 
+  const { prevMonth, activeMonth, percentageHigher } = useMemo(() => {
+    const barData = barChartData?.slice(-2);
+    if (barData) {
+      const prevMonth = barData[0]?.harvested || 0;
+      const curMonth = barData[1]?.harvested || 0;
+      const finalValue = ((curMonth - prevMonth) / prevMonth) * 100;
+      return {
+        prevMonth: barData[0]?.month,
+        activeMonth: barData[1]?.month,
+        percentageHigher: finalValue.toFixed(2)
+      };
+    } else {
+      return {
+        prevMonth: undefined,
+        activeMonth: undefined,
+        percentageHigher: "0.00" // Or any default value you prefer
+      };
+    }
+  }, [barChartData]);
+
   const chartRef = useRef();
 
   const handleChangeYear = (year: string) => {
@@ -60,59 +83,17 @@ const BarHarvestWithered = () => {
     setEndMonth(month);
   };
 
-  const {
-    highestMonth,
-    highestValue,
-    lowestMonth,
-    lowestValue,
-    highestMonthWithered,
-    highestValueWithered
-  } = useMemo(() => {
-    let highestWithered = Number.MIN_SAFE_INTEGER;
-    let highestMonthWithered = "";
-    let highestHarvested = Number.MIN_SAFE_INTEGER;
-    let highestMonth = "";
-    let lowestHarvested = Number.MAX_SAFE_INTEGER;
-    let lowestMonth = "";
-
-    barChartData?.forEach(item => {
-      if (item.harvested && item.month && item.withered) {
-        if (item?.harvested > highestHarvested) {
-          highestHarvested = item.harvested;
-          highestMonth = item.month;
-        }
-        if (item?.withered > highestWithered) {
-          highestWithered = item.withered;
-          highestMonthWithered = item.month;
-        }
-        if (item?.harvested < lowestHarvested) {
-          lowestHarvested = item.harvested;
-          lowestMonth = item.month;
-        }
-      }
-    });
-
-    return {
-      highestMonth,
-      highestValue: highestHarvested,
-      highestMonthWithered,
-      highestValueWithered: highestWithered,
-      lowestMonth,
-      lowestValue: lowestHarvested
-    };
-  }, [barChartData]);
-
   const labels = barChartData?.map(item => item.month);
   const data = {
     labels,
     datasets: [
-      {
-        label: "Withered",
-        data: barChartData?.map(item => item.withered),
-        backgroundColor: "rgba(255, 182, 193, 0.5)",
-        borderColor: "rgba(217, 83, 79, 1)",
-        borderWidth: 1
-      },
+      // {
+      //   label: "Withered",
+      //   data: barChartData?.map(item => item.withered),
+      //   backgroundColor: "rgba(255, 182, 193, 0.5)",
+      //   borderColor: "rgba(217, 83, 79, 1)",
+      //   borderWidth: 1
+      // },
       {
         label: "Harvested",
         data: barChartData?.map(item => item.harvested),
@@ -150,7 +131,10 @@ const BarHarvestWithered = () => {
         anchor: "end" as "end",
         align: "start" as "start",
         offset: 0,
-        color: "rgba(4, 147, 114, 1)" // Customize datalabels color
+        color: "rgba(4, 147, 114, 1)",
+        formatter: function (value: any) {
+          return `${value}KG`;
+        }
       }
     }
   };
@@ -193,7 +177,10 @@ const BarHarvestWithered = () => {
         display: "auto",
         color: "rgba(27, 163, 156)",
         anchor: "end" as "end",
-        align: "top" as "top"
+        align: "top" as "top",
+        formatter: function (value: any) {
+          return `${value} KG`;
+        }
       }
     }
   };
@@ -219,7 +206,7 @@ const BarHarvestWithered = () => {
           if (context.chart.data.labels) {
             return `${context?.chart?.data?.labels[
               context.dataIndex
-            ]} - ${value}`;
+            ]} - ${value} KG`;
           }
         }
       }
@@ -256,7 +243,7 @@ const BarHarvestWithered = () => {
           <div className="flex justify-between flex-wrap sm:flex-nowrap ">
             <div>
               <h2 className="text-lg font-bold tracking-tight ">
-                Farm harvest and withered each month
+                Farm harvest kilogram each month
               </h2>
               <p className="text-xs text-gray-400">
                 Click the bar to view the harvest summary of that month
@@ -292,7 +279,11 @@ const BarHarvestWithered = () => {
                         : 12
                     )
                     .map(month => (
-                      <SelectItem key={month.value} value={month.value}>
+                      <SelectItem
+                        key={month.value}
+                        value={month.value}
+                        disabled={month.value === String(currentMonth)}
+                      >
                         {month.label}
                       </SelectItem>
                     ))}
@@ -320,7 +311,7 @@ const BarHarvestWithered = () => {
                           key={month.value}
                           value={month.value}
                           onClick={() => handleChangeEndMonth(month.value)}
-                          disabled={startMonth > month.value}
+                          disabled={startMonth + "1" > month.value}
                         >
                           {month.label}
                         </SelectItem>
@@ -341,7 +332,7 @@ const BarHarvestWithered = () => {
           </div>
           {!barLoading && (
             <p className="text-xs text-gray-400 mt-1">
-              Based on the graph, the highest harvest among the selected months
+              {/* Based on the graph, the highest harvest among the selected months
               is in <span className=" text-primary">{highestMonth}</span> with a
               harvest value of{" "}
               <span className=" text-primary">
@@ -352,13 +343,23 @@ const BarHarvestWithered = () => {
               <span className="  text-destructive">
                 {formatNumberWithCommas(lowestValue)}
               </span>
-              . The highest withered count is in{" "}
-              <span className="  text-destructive">{highestMonthWithered}</span>{" "}
-              at{" "}
-              <span className="  text-destructive">
-                {formatNumberWithCommas(highestValueWithered)}
-              </span>
-              .
+              . */}
+              This graph compares the amount of harvest you have collected as of
+              <span className="text-primary"> [{prevMonth}]</span>–
+              <span className=" text-primary">[{activeMonth}] </span> of{" "}
+              <span className=" text-primary">[{selectedYear}]</span>. Based on
+              system calculations, it seems that your harvest for this present
+              month has changed by{" "}
+              <span
+                className={
+                  Number(percentageHigher) > 0
+                    ? "text-primary"
+                    : "text-destructive"
+                }
+              >
+                [ {percentageHigher}% ]
+              </span>{" "}
+              compared to the previous month.
             </p>
           )}
         </Card>
@@ -377,14 +378,18 @@ const BarHarvestWithered = () => {
                 <Line data={lineData} options={optionsLine} />
               </div>
               <p className="text-xs text-gray-400 mt-1">
-                The{" "}
                 <span className=" text-primary">
                   {cropDistribution && cropDistribution[0]?.crop_name}
                 </span>{" "}
-                has the highest harvest of this month with a harvest value of{" "}
+                is higher by{" "}
                 <span className=" text-primary">
-                  {cropDistribution && cropDistribution[0]?.total_harvested_qty}
-                </span>
+                  {cropDistribution &&
+                    Number(
+                      cropDistribution[0]?.percentage_distribution
+                    ).toFixed(2)}
+                  %
+                </span>{" "}
+                from other crops in this month
               </p>
             </Card>
             <Card className={` p-5 duration-300 lg:col-span-5 col-span-12`}>
@@ -399,11 +404,13 @@ const BarHarvestWithered = () => {
                 <span className=" text-primary">
                   {harvestDistribution && harvestDistribution[0]?.farm_name}
                 </span>{" "}
-                has the highest harvest of this month with a harvest value of{" "}
+                has a harvest value percentage of{" "}
                 <span className=" text-primary">
                   {harvestDistribution &&
-                    harvestDistribution[0]?.farm_harvest_qty}
-                </span>
+                    harvestDistribution[0]?.percentage_distribution}
+                  %
+                </span>{" "}
+                compared to the other farms in this month
               </p>
             </Card>
           </>

@@ -1,13 +1,34 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { ScrollRestoration } from "react-router-dom";
 import LoadingBar, { LoadingBarRef } from "react-top-loading-bar";
 import { UserFooter, UserHeader } from "@components/ui/custom";
 import { MdOutlineQuestionMark } from "react-icons/md";
+import { Helmet } from "react-helmet-async";
+import useGetCmsAboutDetails from "@hooks/api/get/useGetCmsAboutDetails";
+import useAuth from "@hooks/useAuth";
+import TwoWayAuthentication from "@components/user/users/dialog/TwoWayAuthentication";
+import { CheckedState } from "@radix-ui/react-checkbox";
 
 const MainLayout = () => {
   const loader = useRef<LoadingBarRef>(null);
   const location = useLocation();
+  const { data: UserData } = useAuth();
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const { data: userData } = useAuth();
+  const isRemembered = localStorage.getItem("remembered");
+  const twoFactored = !userData?.email || !userData?.contact_number;
+
+  useEffect(() => {
+    if (
+      userData &&
+      twoFactored &&
+      (isRemembered === "false" || !isRemembered)
+    ) {
+      setIsOpen(true);
+    }
+  }, [userData, twoFactored, isRemembered]);
 
   useEffect(() => {
     loader?.current?.continuousStart(30, 0);
@@ -18,9 +39,18 @@ const MainLayout = () => {
 
     return () => clearTimeout(timeout);
   }, [location]);
-
+  const { data: aboutDetails } = useGetCmsAboutDetails();
+  const S3_BASE_URL = import.meta.env.VITE_S3_BUCKET_BASEURL;
   return (
     <>
+      <Helmet>
+        <link
+          rel="icon"
+          type="image/png"
+          href={S3_BASE_URL + aboutDetails?.agrihub_user_logo}
+          sizes="16x16"
+        />
+      </Helmet>
       <div className="flex flex-col min-h-[100dvh]">
         <LoadingBar
           ref={loader}
@@ -50,6 +80,7 @@ const MainLayout = () => {
           </span>
         </Link>
       </div>
+      <TwoWayAuthentication isOpen={isOpen} setIsOpen={setIsOpen} />
     </>
   );
 };

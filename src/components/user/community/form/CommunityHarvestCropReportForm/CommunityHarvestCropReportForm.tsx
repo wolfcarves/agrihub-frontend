@@ -89,6 +89,15 @@ const CommunityHarvestCropReportForm = () => {
 
   const todayDate = format(new Date(), "yyyy-MM-dd");
 
+  const addMonth = (date: string, month: string) => {
+    const dateConvert = new Date(date);
+    const dateAdded = new Date(
+      dateConvert.setMonth(dateConvert.getMonth() + Number(month))
+    );
+    const finalDate = format(new Date(dateAdded || ""), "yyyy-MM-dd");
+    return finalDate;
+  };
+
   return (
     <Form {...form}>
       <form
@@ -179,6 +188,17 @@ const CommunityHarvestCropReportForm = () => {
             }
           />
         </div>
+        {CropReport?.batch && (
+          <div className="md:col-span-6 col-span-12">
+            <Label>Last Harvest Date</Label>
+            <Input
+              className="h-9 rounded-md disabled:opacity-90"
+              disabled
+              value={format(new Date(CropReport?.batch || ""), "dd/MM/yyyy")}
+            />
+          </div>
+        )}
+
         <div className="md:col-span-6 col-span-12">
           <Label>Harvest Date</Label>
           <Input
@@ -186,6 +206,10 @@ const CommunityHarvestCropReportForm = () => {
             type="date"
             className="h-9 rounded-md "
             max={todayDate}
+            min={addMonth(
+              CropReport?.batch || CropReport?.date_planted || "",
+              CropReport?.growth_span || ""
+            )}
           />
           <FormMessage>
             {form.formState.errors.date_harvested?.message}

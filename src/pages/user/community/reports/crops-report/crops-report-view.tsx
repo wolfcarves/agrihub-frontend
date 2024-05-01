@@ -68,6 +68,13 @@ const CropsReportView = () => {
                 icon={<GiPlantSeed size={18} />}
               />
             )}
+            {CropReport?.batch && (
+              <CropDetails
+                label="Date Last Harvested :"
+                value={format(new Date(CropReport?.batch || ""), "PPP")}
+                icon={<GiFruitBowl size={18} />}
+              />
+            )}
           </div>
         </div>
 
@@ -84,6 +91,11 @@ const CropsReportView = () => {
           label="Withered"
           value={CropReport?.withered_crops || "0"}
           icon={<GiPlantRoots size={20} />}
+        />
+        <CropStats
+          label="Growth Span"
+          value={`${CropReport?.growth_span} Months` || "0"}
+          icon={<TbReportAnalytics size={20} />}
         />
       </div>
       <div className="py-3">

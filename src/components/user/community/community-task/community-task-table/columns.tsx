@@ -108,7 +108,7 @@ export const columns: ColumnDef<CommunityTask>[] = [
       const handleComply = () => {
         if (item.task_type === "harvest") {
           navigate(
-            `/community/reports/${item.farmid}/harvest/${item.report_id}/${item.assigned_to}`
+            `/community/reports/${item.farmid}/harvest/${item.report_id}/${item.id}`
           );
         } else if (item.task_type === "plant") {
           navigate(
@@ -175,7 +175,7 @@ export const columns: ColumnDef<CommunityTask>[] = [
                     >
                       Action Message
                     </Label>
-                    <Input
+                    <Textarea
                       value={item.action_message}
                       disabled
                       className="col-span-3 disabled:opacity-90"

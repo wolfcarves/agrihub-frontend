@@ -139,6 +139,9 @@ import CropReportHarvested from "./pages/user/community/reports/crops-report/cro
 import CropsReportPlanted from "./pages/user/community/reports/crops-report/crop-report-planted";
 import CommunityTask from "./pages/user/community/community-task";
 import CommunityEvents from "./pages/user/community/tabs/events";
+import CommunityEventView from "./pages/user/community/community-event-view";
+import CommunityChat from "@pages/user/community/community-chat";
+import CommunityEvent from "@pages/user/events/community-event";
 const App = ReactRouter(
   <>
     <Route path="/unauthorize" element={<Unauthorized />} />
@@ -196,9 +199,15 @@ const App = ReactRouter(
           <Route path="events" element={<CommunityEvents />} />
         </Route>
         <Route path="my-community/:id/profile" element={<CommunityProfile />} />
+        <Route path="chat/:uid" element={<CommunityChat />} />
+
         <Route
           path="my-community/:id/crops/:cropId"
           element={<CommunityCrop />}
+        />
+        <Route
+          path="my-community/:id/event/:eventId"
+          element={<CommunityEventView />}
         />
         <Route
           path="my-community/:id/application/:user/:appId"
@@ -234,8 +243,11 @@ const App = ReactRouter(
 
       {/* Events Page */}
       <Route path="/events" element={<EventsLayout />}>
-        <Route path="" element={<Events />} />
+        <Route index element={<Events />} />
         <Route path=":eventId" element={<Event />} />
+        <Route path="community">
+          <Route path=":eventId" element={<CommunityEvent />} />
+        </Route>
       </Route>
 
       {/* Learning Page */}

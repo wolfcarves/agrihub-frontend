@@ -4,6 +4,8 @@
 /* eslint-disable */
 
 export type HarvestRateResponse = {
+    difference?: string;
+    prescriptionMessages?: Array<string>;
     plant: string;
     message: string;
     latestHarvestRate: string;

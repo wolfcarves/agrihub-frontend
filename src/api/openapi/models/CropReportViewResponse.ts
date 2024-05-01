@@ -15,6 +15,8 @@ export type CropReportViewResponse = {
     farmid?: string;
     planted_qty?: string;
     kilogram?: string;
+    batch?: string;
+    growth_span?: string;
     previous_planted_qty?: string;
     image?: string;
     images?: Array<{

@@ -36,6 +36,17 @@ const GrowthRateLineChartAnalytics = () => {
     month: activeLabel
   });
 
+  const compareDistribution = useMemo(() => {
+    if (growthDistribution) {
+      const first = Number(growthDistribution[0]?.percentage_distribution);
+      const last = Number(
+        growthDistribution?.slice(-1)[0]?.percentage_distribution
+      );
+      const final = first - last;
+      return final.toFixed(2);
+    }
+  }, [growthDistribution]);
+
   const extremumData = useMemo(() => {
     if (!growthMonthly) return null;
 
@@ -96,7 +107,7 @@ const GrowthRateLineChartAnalytics = () => {
     labels: Object.keys(growthMonthly || {}),
     datasets: [
       {
-        label: "Growth Rate",
+        label: "Harvest Rate",
         data: Object.values(growthMonthly || {}).map(value =>
           Number(value).toFixed(2)
         ),
@@ -196,10 +207,10 @@ const GrowthRateLineChartAnalytics = () => {
           <div className="flex justify-between flex-wrap sm:flex-nowrap">
             <div>
               <h2 className="text-xl font-bold tracking-tight ">
-                Farms Growth Rate
+                Farms Harvest Rate
               </h2>
               <p className="text-xs text-gray-400">
-                Click the dots to view the growth rate summary of that month
+                Click the dots to view the Harvest rate summary of that month
               </p>
             </div>
             <div className="flex gap-4 justify-end">
@@ -258,7 +269,7 @@ const GrowthRateLineChartAnalytics = () => {
                       <SelectItem
                         key={month.value}
                         value={month.value}
-                        disabled={startMonth > month.value}
+                        disabled={startMonth + "1" > month.value}
                         onClick={() => handleChangeEndMonth(month.value)}
                       >
                         {month.label}
@@ -278,14 +289,20 @@ const GrowthRateLineChartAnalytics = () => {
           </div>
           {!isLoadingLine && (
             <p className="text-xs text-gray-400 mt-1">
-              Based on the graph, the highest growth rate among the selected
-              timeframe is in{" "}
+              Based on the graph,{" "}
+              <span className=" text-blue-600">
+                {Number(extremumData?.highvalue.toFixed(2)) -
+                  Number(extremumData?.lowvalue.toFixed(2))}
+                %
+              </span>{" "}
+              is the difference value between the highest harvest rate among the
+              selected timeframe,{" "}
               <span className=" text-primary">{extremumData?.highkey}</span>{" "}
-              with a growth rate value of{" "}
+              with a harvest rate value of{" "}
               <span className=" text-primary">
                 {extremumData?.highvalue.toFixed(2)}%
-              </span>
-              . The lowest growth rate is in{" "}
+              </span>{" "}
+              and the lowest harvest rate is in{" "}
               <span className="  text-destructive">{extremumData?.lowkey}</span>{" "}
               at{" "}
               <span className="  text-destructive">
@@ -308,12 +325,9 @@ const GrowthRateLineChartAnalytics = () => {
               <span className=" text-primary">
                 {growthDistribution && growthDistribution[0]?.crop_name}
               </span>{" "}
-              has the highest contribution of this month farms growth rate with
-              a value of{" "}
-              <span className=" text-primary">
-                {growthDistribution &&
-                  growthDistribution[0]?.percentage_distribution}
-              </span>
+              has the highest contribution this month, with a{" "}
+              <span className=" text-primary">{compareDistribution}% </span> gap
+              compared to the crop with the lowest contribution.
             </p>
             <div className="h-[350px]">
               <Bar data={dataGrowth} options={optionsBar} />

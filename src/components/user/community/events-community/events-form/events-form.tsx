@@ -36,6 +36,7 @@ import {
 } from "../../../../lib/utils";
 import { communityEventUpdateSchema } from "./schemas";
 import usePutCommunityFarmEventsUpdate from "../../../../../hooks/api/put/usePutCommunityFarmEventsUpdate";
+import UserTagInputDropdown from "../../../account/input/UserTagInput";
 
 type formProps = {
   eventId?: string;
@@ -216,7 +217,7 @@ const EventsForm: React.FC<formProps> = ({ eventId, setIsOpen }) => {
 
             <FormMessage>{form.formState.errors.end_date?.message}</FormMessage>
           </div>
-          {form.watch("type") === "public" ||
+          {/* {form.watch("type") === "public" ||
             (eventData?.type === "public" && (
               <div className="md:col-span-12 col-span-12">
                 <Label className=" font-poppins-medium">Tags</Label>
@@ -253,7 +254,41 @@ const EventsForm: React.FC<formProps> = ({ eventId, setIsOpen }) => {
                 />
                 <FormMessage>{form.formState.errors.tags?.message}</FormMessage>
               </div>
+            ))} */}
+          {form.watch("type") === "public" && (
+            <div className="md:col-span-12 col-span-12">
+              <Label className=" font-poppins-medium">Tags</Label>
+
+              <FormField
+                name="tags"
+                control={form.control}
+                render={({ field: { onChange } }) => {
+                  return (
+                    <UserTagInputDropdown
+                      keyword={searchInputTagValue}
+                      onChange={e => {
+                        setSearchInputTagValue(e.target.value);
+                      }}
+                      onTagsValueChange={e => {
+                        onChange(e);
+                      }}
+                    />
+                  );
+                }}
+              />
+              <FormMessage>{form.formState.errors.tags?.message}</FormMessage>
+            </div>
+          )}
+          <div className="py-3 flex flex-wrap gap-2">
+            {eventData?.tags?.map((tag, i) => (
+              <div
+                key={i}
+                className="text-primary border border-primary p-1 px-2 text-sm rounded-full"
+              >
+                {tag.tag}
+              </div>
             ))}
+          </div>
         </div>
 
         <div className="col-span-12 flex gap-2 justify-end items-center pb-[1rem]">

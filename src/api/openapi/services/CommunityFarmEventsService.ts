@@ -273,4 +273,32 @@ requestBody: EventAction,
         });
     }
 
+    /**
+     * Remove existing engagement
+     * @returns MessageResponse Report removed successfully
+     * @throws ApiError
+     */
+    public static deleteApiCommunityFarmRemoveEngagement({
+id,
+}: {
+/**
+ * ID of the engagement to remove
+ */
+id: string,
+}): CancelablePromise<MessageResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/community-farm/remove/engagement/{id}',
+            path: {
+                'id': id,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
 }

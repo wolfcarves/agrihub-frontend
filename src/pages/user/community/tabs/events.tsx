@@ -41,6 +41,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger
 } from "../../../../components/ui/alert-dialog";
+import useDeleteCommunityFarmEventsEngagement from "../../../../hooks/api/delete/useDeleteCommunityFarmEventsEngagement";
 
 const CommunityEvents = () => {
   const { id } = useParams();
@@ -66,33 +67,46 @@ const CommunityEvents = () => {
     type: params.type,
     filter: params.filter
   });
-  console.log(taskData);
+
+  const {
+    mutateAsync: deleteEngagementMutate,
+    isLoading: deleteEngagementLoading
+  } = useDeleteCommunityFarmEventsEngagement();
+
   const { mutateAsync: actionMutate, isLoading: actionLoading } =
     useCommunityFarmEventsAction();
 
-  const handleGoing = async (id: string) => {
+  const handleGoing = async (id: string, type: string, actionId: string) => {
     try {
-      await actionMutate({
-        id: id,
-        requestBody: {
-          action: EventAction.action.GOING
-        }
-      });
-      toast.success("Marked As Going!");
+      if (type === "going") {
+        deleteEngagementMutate(actionId);
+      } else {
+        await actionMutate({
+          id: id,
+          requestBody: {
+            action: EventAction.action.GOING
+          }
+        });
+        toast.success("Marked As Going!");
+      }
     } catch (e: any) {
       toast.error(e.message);
     }
   };
 
-  const handleInterest = async (id: string) => {
+  const handleInterest = async (id: string, type: string, actionId: string) => {
     try {
-      await actionMutate({
-        id: id,
-        requestBody: {
-          action: EventAction.action.INTERESTED
-        }
-      });
-      toast.success("Marked As Interested!");
+      if (type === "interested") {
+        deleteEngagementMutate(actionId);
+      } else {
+        await actionMutate({
+          id: id,
+          requestBody: {
+            action: EventAction.action.INTERESTED
+          }
+        });
+        toast.success("Marked As Interested!");
+      }
     } catch (e: any) {
       toast.error(e.message);
     }
@@ -241,7 +255,13 @@ const CommunityEvents = () => {
                     task.action?.type === "going" &&
                     "bg-primary text-white hover:bg-primary/70"
                   }`}
-                  onClick={() => handleGoing(task.id || "")}
+                  onClick={() =>
+                    handleGoing(
+                      task.id || "",
+                      task.action?.type || "",
+                      task.action?.id || ""
+                    )
+                  }
                 >
                   Going <MdOutlineLocationOn className="md:text-base text-xs" />
                 </Button>
@@ -250,7 +270,13 @@ const CommunityEvents = () => {
                     task.action?.type === "interested" &&
                     "bg-primary text-white hover:bg-primary/70"
                   }`}
-                  onClick={() => handleInterest(task.id || "")}
+                  onClick={() =>
+                    handleInterest(
+                      task.id || "",
+                      task.action?.type || "",
+                      task.action?.id || ""
+                    )
+                  }
                 >
                   Interested <PiBookBookmark className="md:text-base text-xs" />
                 </Button>

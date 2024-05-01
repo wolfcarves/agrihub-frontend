@@ -7,4 +7,5 @@ export type UserTag = {
     id?: string;
     userid?: string;
     tagid?: string;
+    tag_name?: string;
 };

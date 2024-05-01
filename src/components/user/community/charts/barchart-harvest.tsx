@@ -14,6 +14,7 @@ import { chartColor } from "../../../../constants/data";
 import { Button } from "../../../ui/button";
 import { FaFilePdf } from "react-icons/fa6";
 import { useReactToPrint } from "react-to-print";
+import { formatMonth } from "../../../lib/utils";
 const BarchartHarvest = () => {
   const [activeIndex, setActiveIndex] = useState<string>("");
   const chartRef = useRef();
@@ -53,7 +54,7 @@ const BarchartHarvest = () => {
           if (value === "0") {
             return "";
           } else {
-            return value;
+            return `${value}KG`;
           }
         }
       }
@@ -80,6 +81,9 @@ const BarchartHarvest = () => {
         offset: 8,
         font: {
           weight: "bold" as "bold"
+        },
+        formatter: function (value: any) {
+          return `${value}KG`;
         }
       }
     }
@@ -170,7 +174,9 @@ const BarchartHarvest = () => {
               Number(cropDistribution?.length || 0) > 0 ? "h-full" : "h-0"
             }`}
           >
-            <h5 className="font-poppins-medium">Crops Harvest</h5>
+            <h5 className="font-poppins-medium">
+              Crops Harvest : {formatMonth(activeIndex)}
+            </h5>
             <div className="h-[350px]  ">
               <Doughnut data={radarData} options={optionsRadar} />
             </div>

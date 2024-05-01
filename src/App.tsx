@@ -139,6 +139,7 @@ import CropReportHarvested from "./pages/user/community/reports/crops-report/cro
 import CropsReportPlanted from "./pages/user/community/reports/crops-report/crop-report-planted";
 import CommunityTask from "./pages/user/community/community-task";
 import CommunityEvents from "./pages/user/community/tabs/events";
+import CommunityEventView from "./pages/user/community/community-event-view";
 const App = ReactRouter(
   <>
     <Route path="/unauthorize" element={<Unauthorized />} />
@@ -199,6 +200,10 @@ const App = ReactRouter(
         <Route
           path="my-community/:id/crops/:cropId"
           element={<CommunityCrop />}
+        />
+        <Route
+          path="my-community/:id/event/:eventId"
+          element={<CommunityEventView />}
         />
         <Route
           path="my-community/:id/application/:user/:appId"

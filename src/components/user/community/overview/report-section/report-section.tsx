@@ -34,7 +34,7 @@ const ReportSection = () => {
                 {harvest.crop_name}
               </h5>
               <p className=" text-primary font-poppins-medium">
-                Total Harvest : {harvest.total_harvested}
+                Total Harvest : {harvest.total_kg} KG
               </p>
             </div>
           ))}

@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import EventsHead from "../../../../components/user/community/events-community/events-head/events-head";
 import useGetCommunityFarmEventList from "../../../../hooks/api/get/useGetCommunityFarmEventList";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { Pagination } from "../../../../components/ui/custom";
 import useDebounce from "../../../../hooks/utils/useDebounce";
 import Input from "../../../../components/ui/custom/input/input";
@@ -44,6 +44,7 @@ import {
 
 const CommunityEvents = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const { isMember, isAllowed } = useCommunityAutorization();
   const { data: useData } = useAuth();
@@ -113,6 +114,20 @@ const CommunityEvents = () => {
     searchParams.set("search", value);
     setSearchParams(searchParams);
   }, 100);
+
+  // const convertLocalToUTC = (localDateString: string) => {
+  //   const localDate = new Date(localDateString);
+  //   const timezoneOffsetMinutes = localDate.getTimezoneOffset();
+  //   const utcDate = new Date(
+  //     localDate.getTime() - timezoneOffsetMinutes * 60 * 1000
+  //   );
+  //   return utcDate.toISOString();
+  // };
+
+  const handleView = (farm: string, event: string) => {
+    navigate(`/community/my-community/${farm}/event/${event}`);
+  };
+
   return (
     <div className=" px-4 py-5">
       <div className="flex md:flex-row flex-col items-center justify-between">
@@ -185,29 +200,36 @@ const CommunityEvents = () => {
                 <TfiWorld size={17} className="text-primary" /> {task.type}
               </div>
 
-              <h6 className=" mt-10 text-lg font-poppins-medium">
-                {task.title}
-              </h6>
-              <div>
+              <div
+                onClick={() => handleView(task.farmid || "", task.id || "")}
+                className=" cursor-pointer"
+              >
+                <h6 className=" mt-10 text-lg font-poppins-medium hover:underline hover:underline-offset-3">
+                  {task.title}
+                </h6>
                 <div>
-                  <span className="w-auto text-xs bg-primary text-white rounded-2xl p-1 px-3">
-                    <span>
-                      {format(
-                        new Date(task.start_date || ""),
-                        "MMMM do yyyy, h:mm a"
-                      )}
-                    </span>{" "}
-                    -{" "}
-                    <span>
-                      {format(
-                        new Date(task.end_date || ""),
-                        "MMMM do yyyy, h:mm a"
-                      )}
+                  <div>
+                    <span className="w-auto text-xs bg-primary text-white rounded-2xl p-1 px-3">
+                      <span>
+                        {format(
+                          new Date(task.start_date?.slice(0, -5) || ""),
+                          "MMMM do yyyy, h:mm a"
+                        )}
+                      </span>{" "}
+                      -{" "}
+                      <span>
+                        {format(
+                          new Date(task.end_date?.slice(0, -5) || ""),
+                          "MMMM do yyyy, h:mm a"
+                        )}
+                        {/* {"   s"}
+                      {task.end_date?.slice(0, -4)} TTTT */}
+                      </span>
                     </span>
-                  </span>
-                </div>
-                <div className=" line-clamp-3 font-poppins-regular">
-                  {parse(task.about || "")}
+                  </div>
+                  <div className=" line-clamp-3 font-poppins-regular">
+                    {parse(task.about || "")}
+                  </div>
                 </div>
               </div>
               <div className="flex gap-2 mt-4">

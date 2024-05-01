@@ -63,7 +63,9 @@ export const columns: ColumnDef<EventDetails>[] = [
       );
     },
     cell: ({ row }) =>
-      format(new Date(row.original.event_end || ""), "PPP' 'HH:mm aaaa")
+      row.original.event_end
+        ? format(new Date(row.original.event_end || ""), "PPP' 'HH:mm aaaa")
+        : "---"
   },
   {
     accessorKey: "title",

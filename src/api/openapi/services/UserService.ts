@@ -10,6 +10,8 @@ import type { NewReportedUser } from '../models/NewReportedUser';
 import type { PaginationData } from '../models/PaginationData';
 import type { ReportedUser } from '../models/ReportedUser';
 import type { UserSchema } from '../models/UserSchema';
+import type { UserTag } from '../models/UserTag';
+import type { UserTagsUpdate } from '../models/UserTagsUpdate';
 import type { UserUpdateProfile } from '../models/UserUpdateProfile';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -338,6 +340,48 @@ message?: string;
         return __request(OpenAPI, {
             method: 'DELETE',
             url: '/api/user/delete/avatar',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Update user tags
+     * @returns MessageResponse Tags updated successfully
+     * @throws ApiError
+     */
+    public static putApiUserUpdateTags({
+requestBody,
+}: {
+requestBody: UserTagsUpdate,
+}): CancelablePromise<MessageResponse> {
+        return __request(OpenAPI, {
+            method: 'PUT',
+            url: '/api/user/update/tags',
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Get user tags
+     * @returns UserTag List of user tags
+     * @throws ApiError
+     */
+    public static getApiUserTags(): CancelablePromise<Array<UserTag>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/user/tags',
             errors: {
                 400: `Validation Error`,
                 401: `Unauthorized`,

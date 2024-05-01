@@ -6,11 +6,19 @@ interface InputNumberProps {
   onChange?: (value: string) => void;
   suffix?: string;
   placeholder?: string;
+  decimalScale?: number;
 }
 
 const InputNumber = forwardRef(
   (
-    { className, onChange, suffix, placeholder, ...rest }: InputNumberProps,
+    {
+      className,
+      onChange,
+      suffix,
+      placeholder,
+      decimalScale,
+      ...rest
+    }: InputNumberProps,
     ref
   ) => {
     return (
@@ -19,6 +27,7 @@ const InputNumber = forwardRef(
         getInputRef={ref}
         allowLeadingZeros={false}
         suffix={suffix}
+        decimalScale={decimalScale}
         placeholder={placeholder}
         thousandSeparator=","
         className={cn(

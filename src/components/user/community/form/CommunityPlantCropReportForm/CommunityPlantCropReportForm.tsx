@@ -103,6 +103,7 @@ const CommunityPlantCropReportForm = () => {
               <InputNumber
                 className="h-9 rounded-md"
                 suffix={" pieces"}
+                decimalScale={0}
                 onChange={value => form.setValue("planted_qty", value)}
               />
             )}
@@ -127,7 +128,7 @@ const CommunityPlantCropReportForm = () => {
 
         <div className="md:col-span-6 col-span-12">
           <div className="md:w-[80%] w-full">
-            <Label className=" font-poppins-medium">Planting Images</Label>
+            <Label className=" font-poppins-medium">Proof of Planting</Label>
             <FormField
               control={form.control}
               name="images"

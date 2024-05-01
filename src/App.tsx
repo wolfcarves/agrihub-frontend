@@ -183,6 +183,7 @@ const App = ReactRouter(
           <Route path="" element={<Overview />} />
           <Route path="crops" element={<Crops />} />
           <Route path="gallery" element={<Gallery />} />
+          <Route path="events" element={<CommunityEvents />} />
         </Route>
 
         {/* My Community */}

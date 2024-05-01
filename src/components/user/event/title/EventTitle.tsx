@@ -13,7 +13,7 @@ const EventTitle = () => {
     String(params.eventId)
   );
 
-  const backupDateString = "date undefined";
+  const backupDateString = "2024-01-01";
 
   const s = new Date(eventData?.event_start ?? backupDateString);
   const e = new Date(eventData?.event_end ?? backupDateString);

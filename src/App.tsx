@@ -243,9 +243,11 @@ const App = ReactRouter(
 
       {/* Events Page */}
       <Route path="/events" element={<EventsLayout />}>
-        <Route path="" element={<Events />} />
+        <Route index element={<Events />} />
         <Route path=":eventId" element={<Event />} />
-        <Route path="/community/:eventId" element={<CommunityEvent />} />
+        <Route path="community">
+          <Route path=":eventId" element={<CommunityEvent />} />
+        </Route>
       </Route>
 
       {/* Learning Page */}

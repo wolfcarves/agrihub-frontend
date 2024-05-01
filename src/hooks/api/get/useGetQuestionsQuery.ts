@@ -8,6 +8,7 @@ export type SearchParams = {
   filter?: "newest" | "active" | "trending";
   profile?: string;
   tag?: string;
+  privateForum?: boolean;
 };
 
 export const GET_QUESTION_KEY = () => "GET_QUESTION_KEY";

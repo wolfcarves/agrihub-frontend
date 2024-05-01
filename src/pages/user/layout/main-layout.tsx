@@ -15,6 +15,7 @@ const MainLayout = () => {
   const location = useLocation();
   const { data: UserData } = useAuth();
   const [isOpen, setIsOpen] = useState<boolean>(false);
+
   const { data: userData } = useAuth();
   const isRemembered = localStorage.getItem("remembered");
   const twoFactored = !userData?.email || !userData?.contact_number;

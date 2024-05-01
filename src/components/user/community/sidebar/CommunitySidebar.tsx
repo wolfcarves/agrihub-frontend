@@ -9,7 +9,7 @@ import {
   PiUsers
 } from "react-icons/pi";
 import useCommunityAutorization from "../../../../hooks/utils/useCommunityAutorization";
-import { CiSquareQuestion } from "react-icons/ci";
+import { CiChat1, CiSquareQuestion } from "react-icons/ci";
 import { GoTasklist } from "react-icons/go";
 
 const CommunitySidebar = () => {
@@ -26,19 +26,11 @@ const CommunitySidebar = () => {
           logo={<PiUsers size={21} />}
         />
       )}
-
-      {UserData?.farm_id && isAuthenticated && (
-        <UserSidebarNavLink
-          to={`/community/reports/${UserData.farm_id}`}
-          title="Reports"
-          logo={<PiNewspaper size={20} />}
-        />
-      )}
       {UserData?.farm_id && isAuthenticated && isAllowed && (
         <UserSidebarNavLink
-          to={`/community/request/${UserData.farm_id}`}
-          title="Request"
-          logo={<CiSquareQuestion size={20} />}
+          to={`/community/chat/${UserData.farm_id}`}
+          title="Chat"
+          logo={<CiChat1 size={20} />}
         />
       )}
       {UserData?.farm_id && isAuthenticated && (
@@ -48,6 +40,13 @@ const CommunitySidebar = () => {
           logo={<GoTasklist size={20} />}
         />
       )}
+      {UserData?.farm_id && isAuthenticated && (
+        <UserSidebarNavLink
+          to={`/community/reports/${UserData.farm_id}`}
+          title="Reports"
+          logo={<PiNewspaper size={20} />}
+        />
+      )}
       {UserData?.farm_id && isAuthenticated && isAllowed && (
         <UserSidebarNavLink
           to={`/community/problem/${UserData.farm_id}`}
@@ -55,6 +54,14 @@ const CommunitySidebar = () => {
           logo={<PiShieldWarning size={20} />}
         />
       )}
+      {UserData?.farm_id && isAuthenticated && isAllowed && (
+        <UserSidebarNavLink
+          to={`/community/request/${UserData.farm_id}`}
+          title="Request"
+          logo={<CiSquareQuestion size={20} />}
+        />
+      )}
+
       <UserSidebarNavLink
         to="/community/explore"
         title="Explore"

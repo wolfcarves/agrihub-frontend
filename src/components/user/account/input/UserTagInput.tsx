@@ -57,10 +57,6 @@ const UserTagInputDropdown = ({
     if (onTagsValueChange) onTagsValueChange(idTags);
   }, [idTags, tags]);
 
-  useEffect(() => {
-    console.log(defaultIdTagValue, defaultTagValue);
-  }, [defaultIdTagValue, defaultTagValue]);
-
   const renderTag = useCallback(
     ({
       tag,

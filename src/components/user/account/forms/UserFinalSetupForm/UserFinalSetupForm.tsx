@@ -9,11 +9,14 @@ import { Button } from "@components/ui/button";
 import { toast } from "sonner";
 import useDeleteAuthMutate from "@hooks/api/delete/useDeleteAuthMutate";
 import useAuth from "@hooks/useAuth";
+import UserTagInputDropdown from "../../input/UserTagInput";
 
 const UserFinalSetupForm = () => {
   const user = useAuth();
   const inputFileRef = useRef<HTMLInputElement | null>(null);
   const [imgFile, setImgFile] = useState<File | undefined>();
+
+  const [searchTagKeyword, setSearchTagKeyword] = useState<string>("");
 
   const { mutateAsync: deleteAuth, isLoading: isDeleteAuthLoading } =
     useDeleteAuthMutate();
@@ -43,7 +46,8 @@ const UserFinalSetupForm = () => {
   const handleOnSubmitForm = async (rawData: UserFinalSetup) => {
     const data = {
       avatar: rawData.avatar[0],
-      username: rawData.username
+      username: rawData.username,
+      tags: rawData?.tags
     };
 
     try {
@@ -88,6 +92,7 @@ const UserFinalSetupForm = () => {
                 )}
               />
             </div>
+
             <input
               {...form.register("avatar")}
               type="file"
@@ -123,7 +128,30 @@ const UserFinalSetupForm = () => {
           </div>
         </div>
 
-        <div className="mt-5 -z-10">
+        <div className=" flex flex-col mt-5">
+          <div className="pb-5">
+            <h4>Agricultural tags that interest you</h4>
+
+            <h6 className="text-foreground/70">
+              Picking tags will help us show you much more relevant questions
+              and answers.
+            </h6>
+          </div>
+
+          <FormField
+            name="tags"
+            control={form.control}
+            render={({ field }) => (
+              <UserTagInputDropdown
+                keyword={searchTagKeyword}
+                onTagsValueChange={field.onChange}
+                onChange={e => setSearchTagKeyword(e.target.value)}
+              />
+            )}
+          />
+        </div>
+
+        <div className="-z-10">
           <Button
             className="relative w-full mt-10"
             isLoading={isUserFinalSetupLoading || isUserFinalSetupSuccess}

@@ -29,29 +29,9 @@ import {
   SelectTrigger,
   SelectValue
 } from "@components/ui/select";
-import { useState } from "react";
-import {
-  district,
-  district1,
-  district2,
-  district3,
-  district4,
-  district5,
-  district6
-} from "@constants/data";
-
-const barangays = [
-  district1,
-  district2,
-  district3,
-  district4,
-  district5,
-  district6
-];
+import { district } from "@constants/data";
 
 export default function UserSetupAccountForm() {
-  const [selectedDistrict, setSelectedDistrict] = useState<string>("1");
-
   const form = useForm<UserSetupAccount>({
     resolver: zodResolver(userSetupAcountSchema),
     mode: "onChange",
@@ -114,6 +94,26 @@ export default function UserSetupAccountForm() {
 
         <div>
           <FormField
+            name="middlename"
+            control={form.control}
+            defaultValue=""
+            render={({ field, fieldState }) => (
+              <FormItem>
+                <FormControl>
+                  <Input
+                    {...field}
+                    placeholder="Middlename"
+                    value={field.value ?? ""}
+                  />
+                </FormControl>
+                <FormMessage>{fieldState.error?.message}</FormMessage>
+              </FormItem>
+            )}
+          />
+        </div>
+
+        <div>
+          <FormField
             name="lastname"
             control={form.control}
             defaultValue=""
@@ -121,21 +121,6 @@ export default function UserSetupAccountForm() {
               <FormItem>
                 <FormControl>
                   <Input {...field} placeholder="Lastname" />
-                </FormControl>
-                <FormMessage>{fieldState.error?.message}</FormMessage>
-              </FormItem>
-            )}
-          />
-        </div>
-        <div>
-          <FormField
-            name="middlename"
-            control={form.control}
-            defaultValue=""
-            render={({ field, fieldState }) => (
-              <FormItem>
-                <FormControl>
-                  <Input {...field} placeholder="Middlename" />
                 </FormControl>
                 <FormMessage>{fieldState.error?.message}</FormMessage>
               </FormItem>
@@ -212,7 +197,6 @@ export default function UserSetupAccountForm() {
                         value={String(field.value)}
                         onValueChange={value => {
                           field.onChange(value);
-                          setSelectedDistrict(value);
                           // form.setValue("municipality", "");
                         }}
                       >

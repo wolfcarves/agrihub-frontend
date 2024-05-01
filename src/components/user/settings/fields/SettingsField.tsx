@@ -1,5 +1,4 @@
-import React, { ComponentProps, useEffect, useRef, useState } from "react";
-import { useFormContext } from "react-hook-form";
+import React, { ComponentProps, useRef } from "react";
 
 interface SettingsFieldProps extends ComponentProps<"input"> {
   label?: string;

@@ -207,7 +207,7 @@ const CommunityHarvestCropReportForm = () => {
             className="h-9 rounded-md "
             max={todayDate}
             min={addMonth(
-              CropReport?.date_planted || "",
+              CropReport?.batch || CropReport?.date_planted || "",
               CropReport?.growth_span || ""
             )}
           />

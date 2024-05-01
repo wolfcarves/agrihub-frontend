@@ -41,7 +41,10 @@ const StackbarWitheredHarvest = () => {
     plugins: {
       datalabels: {
         display: "auto",
-        color: "rgba(4, 147, 114, 1)" // Customize datalabels color
+        color: "rgba(4, 147, 114, 1)",
+        formatter: function (value: any) {
+          return `${value} KG`;
+        }
       }
     }
   };
@@ -49,16 +52,16 @@ const StackbarWitheredHarvest = () => {
   const stackBarData = {
     labels: stackBar?.map(item => item.crop_name),
     datasets: [
-      {
-        label: "Total Withered",
-        backgroundColor: "rgba(50,205,50,0.2)",
-        borderColor: "rgba(50,205,50,1)",
-        borderWidth: 1,
-        hoverBackgroundColor: "rgba(50,205,50,0.4)",
-        hoverBorderColor: "rgba(50,205,50,1)",
-        data: stackBar?.map(item => item.total_withered)
-        // 25, 20
-      },
+      // {
+      //   label: "Total Withered",
+      //   backgroundColor: "rgba(50,205,50,0.2)",
+      //   borderColor: "rgba(50,205,50,1)",
+      //   borderWidth: 1,
+      //   hoverBackgroundColor: "rgba(50,205,50,0.4)",
+      //   hoverBorderColor: "rgba(50,205,50,1)",
+      //   data: stackBar?.map(item => item.total_withered)
+      //   // 25, 20
+      // },
       {
         label: "Total Harvest",
         backgroundColor: "rgba(75,192,192,0.2)",
@@ -94,7 +97,10 @@ const StackbarWitheredHarvest = () => {
   return (
     <div ref={componentRef} className="print:p-2">
       <div className="flex justify-between items-center gap-4">
-        <h5 className="font-poppins-medium">Total Withered & Total Harvest</h5>
+        <h5 className="font-poppins-medium">
+          {" "}
+          Total Harvest Kilogram Per Crop
+        </h5>
         <div className="flex gap-2">
           <Select
             onValueChange={value => setYearSelected(value)}

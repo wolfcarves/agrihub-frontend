@@ -86,8 +86,6 @@ export const columns: ColumnDef<PlantedCropsResponse>[] = [
             >
               View
             </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Archive</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

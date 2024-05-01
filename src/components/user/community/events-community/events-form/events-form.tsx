@@ -29,7 +29,11 @@ import SelectTags from "./select-tags";
 import useGetTagByKeyWord from "../../../../../hooks/api/get/useGetTagByKeyword";
 import useGetCommunityFarmApplicationView from "../../../../../hooks/api/get/useGetCommunityFarmApplicationView";
 import useGetCommunityFarmEventView from "../../../../../hooks/api/get/useGetCommunityFarmEventView";
-import { formatDate, formatDateTimeMain } from "../../../../lib/utils";
+import {
+  formatDate,
+  formatDateTimeMain,
+  sliceDate
+} from "../../../../lib/utils";
 import { communityEventUpdateSchema } from "./schemas";
 import usePutCommunityFarmEventsUpdate from "../../../../../hooks/api/put/usePutCommunityFarmEventsUpdate";
 
@@ -167,7 +171,9 @@ const EventsForm: React.FC<formProps> = ({ eventId, setIsOpen }) => {
               {...form.register("start_date")}
               type="datetime-local"
               className="h-9 rounded-md "
-              defaultValue={formatDateTimeMain(eventData?.start_date || "")}
+              defaultValue={formatDateTimeMain(
+                sliceDate(eventData?.start_date || "")
+              )}
             />
             <FormMessage>
               {form.formState.errors.start_date?.message}
@@ -179,7 +185,9 @@ const EventsForm: React.FC<formProps> = ({ eventId, setIsOpen }) => {
               {...form.register("end_date")}
               type="datetime-local"
               className="h-9 rounded-md "
-              defaultValue={formatDateTimeMain(eventData?.end_date || "")}
+              defaultValue={formatDateTimeMain(
+                sliceDate(eventData?.end_date || "")
+              )}
             />
             <FormMessage>{form.formState.errors.end_date?.message}</FormMessage>
           </div>

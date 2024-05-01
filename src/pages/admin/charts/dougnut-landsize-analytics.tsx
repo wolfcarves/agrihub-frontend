@@ -24,7 +24,7 @@ const DougnutLandsizeAnalytics = () => {
     district: district
   });
   const { data: districtLand } = useGetReportLandSizeAnalyticsQuery();
-
+  console.log(districtLand);
   const extremumData = useMemo(() => {
     if (!districtLand) return null;
 

@@ -5,6 +5,7 @@ import { formatNumberWithCommas } from "../../../components/lib/utils";
 
 const BarDistrictOverviewAnalytics = () => {
   const { data: districtFarm } = useGetReportDistrictFarm();
+
   const { highestDistrict, highestHarvest } = useMemo(() => {
     let highestHarvest = Number.MIN_SAFE_INTEGER;
     let highestDistrict = "";
@@ -64,7 +65,7 @@ const BarDistrictOverviewAnalytics = () => {
           if (value === "0") {
             return "";
           } else {
-            return value;
+            return `${value} KG`;
           }
         }
       }
@@ -74,7 +75,7 @@ const BarDistrictOverviewAnalytics = () => {
   return (
     <>
       <h2 className="text-xl font-bold tracking-tight ">
-        Harvest each district
+        Harvest Kilogram Each District
       </h2>
 
       <div className="h-[350px] mt-4">
@@ -84,7 +85,7 @@ const BarDistrictOverviewAnalytics = () => {
         The <span className=" text-primary">{highestDistrict}</span> has the
         highest harvest in all districts in Quezon City, with a value of{" "}
         <span className=" text-primary">
-          {formatNumberWithCommas(highestHarvest)}
+          {formatNumberWithCommas(highestHarvest)} KG
         </span>
       </p>
     </>

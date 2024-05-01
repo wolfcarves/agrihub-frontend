@@ -35,7 +35,7 @@ export const userSetupAcountSchema = zod.object({
     })
     .min(new Date("1900-01-01"), "That's not a valid date!")
     .max(new Date(), "That's not a valid date!"),
-  presentAddress: zod.string().min(8, "Please enter valid address"),
+  presentAddress: zod.string().max(50, "Input is too long").optional(),
   district: zod.string().regex(/^(1|2|3|4|5|6)$/, {
     message: "Invalid district"
   })

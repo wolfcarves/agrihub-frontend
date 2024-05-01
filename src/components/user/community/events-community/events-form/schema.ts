@@ -7,8 +7,7 @@ export const communityEventSchema = zod.object({
     .max(200, { message: "Title must be 200 or fewer characters long" }),
   about: zod
     .string({ required_error: "About is required" })
-    .min(3, { message: "About must be 3 or more characters long" })
-    .max(400, { message: "About must be 400 or fewer characters long" }),
+    .min(3, { message: "About must be 3 or more characters long" }),
   start_date: zod.string().min(1, { message: "Start date is Required" }),
   end_date: zod.string().min(1, { message: "End date is Required" }),
   tags: zod.array(zod.string()).optional(),

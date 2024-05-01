@@ -24,6 +24,7 @@ import {
 } from "../../../ui/alert-dialog";
 import { GiPlantSeed } from "react-icons/gi";
 import { TbBrandGoogleAnalytics, TbReportAnalytics } from "react-icons/tb";
+import useGetCommunityFarmCheckExisting from "../../../../hooks/api/get/useGetCommunityFarmCheckExisting";
 
 const CommunityDetails = () => {
   const navigate = useNavigate();
@@ -33,6 +34,11 @@ const CommunityDetails = () => {
   const { data: farmDetails, isLoading } = useGetFarmViewQuery(id || "");
   const { mutateAsync: leaveFarmMutation, isLoading: leaveLoading } =
     useFarmLeaveMutation();
+  const {
+    error: appError,
+    isLoading: checkLoad,
+    data: appData
+  } = useGetCommunityFarmCheckExisting();
   const handleLeave = async () => {
     try {
       await leaveFarmMutation();
@@ -114,14 +120,23 @@ const CommunityDetails = () => {
                         </AlertDialogFooter>
                       </AlertDialogContent>
                     </AlertDialog>
-                  ) : (
+                  ) : appError ? (
+                    UserData?.role === "member" && (
+                      <Button
+                        className={`md:text-sm text-xs`}
+                        onClick={handleApply}
+                      >
+                        Apply
+                      </Button>
+                    )
+                  ) : appData?.farmid === id ? (
                     <Button
-                      className="md:text-sm text-xs"
+                      className={`md:text-sm text-xs bg-destructive`}
                       onClick={handleApply}
                     >
-                      Apply
+                      Pending
                     </Button>
-                  )
+                  ) : null
                 ) : null}
               </div>
 
@@ -134,7 +149,7 @@ const CommunityDetails = () => {
           </div>
         </div>
       </div>
-      <Loader isVisible={isLoading || leaveLoading} />
+      <Loader isVisible={isLoading || leaveLoading || checkLoad} />
     </div>
   );
 };

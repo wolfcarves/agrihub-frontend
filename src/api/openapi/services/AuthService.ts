@@ -6,6 +6,8 @@ import type { ChangeEmailRequest } from '../models/ChangeEmailRequest';
 import type { ChangeNumberRequest } from '../models/ChangeNumberRequest';
 import type { ConfirmNumberRequest } from '../models/ConfirmNumberRequest';
 import type { ConfirmPasswordRequest } from '../models/ConfirmPasswordRequest';
+import type { ForgottenAccountJSON } from '../models/ForgottenAccountJSON';
+import type { ForgottenAccountResponse } from '../models/ForgottenAccountResponse';
 import type { MessageResponse } from '../models/MessageResponse';
 import type { ResetPasswordRequestBody } from '../models/ResetPasswordRequestBody';
 import type { SendOTPByNumber } from '../models/SendOTPByNumber';
@@ -223,6 +225,30 @@ requestBody: UpdatePasswordRequestBody,
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/auth/update/password',
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Find forgotten account
+     * @returns ForgottenAccountResponse Account found successfully
+     * @throws ApiError
+     */
+    public static postApiAuthFindForgottenAccount({
+requestBody,
+}: {
+requestBody: ForgottenAccountJSON,
+}): CancelablePromise<ForgottenAccountResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/auth/find/forgotten/account',
             body: requestBody,
             mediaType: 'application/json',
             errors: {

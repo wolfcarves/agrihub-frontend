@@ -105,8 +105,8 @@ const Blog = () => {
               })
             ]}
           >
-            <CarouselPrevious />
-            <CarouselNext />
+            <CarouselPrevious className="top-14 sm:block hidden pl-2" />
+            <CarouselNext className="top-14 sm:block hidden pl-2" />
             <CarouselContent className="-ml-1">
               {data?.images.map((image, index) => (
                 <CarouselItem
@@ -144,7 +144,7 @@ const Blog = () => {
             <h1 className="text-gray-800 text-xl sm:text-2xl duration-150 font-semibold text-center">
               {data?.title}
             </h1>
-            <div>
+            <div className="flex items-center">
               <Card
                 className="mx-auto flex max-w-24 font-poppins-medium px-4 py-1 items-center justify-center cursor-pointer"
                 onClick={e => {
@@ -187,8 +187,8 @@ const Blog = () => {
             loop: true
           }}
         >
-          <CarouselPrevious className="" />
-          <CarouselNext />
+          <CarouselPrevious className="top-32 sm:block hidden pl-2" />
+          <CarouselNext className="top-32 sm:block hidden pl-2" />
           <CarouselContent className="-ml-2 md:-ml-4">
             {blogData?.data?.map((item, index) => {
               return (

@@ -12,7 +12,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import useGetCmsTermsConditions from "../../../../hooks/api/get/useGetCmsTermsConditions";
 import Loader from "../../../../icons/Loader";
 import { toast } from "sonner";
-import usePutCmsLandingUpdate from "../../../../hooks/api/put/usePutCmsLandingUpdate";
 import { Form, FormField } from "../../../../components/ui/form";
 import usePutCmsTermsConditionsUpdate from "../../../../hooks/api/put/usePutCmsTermsConditionsUpdate";
 const breadcrumbItems = [
@@ -108,7 +107,7 @@ const TermsAdmin = () => {
               />
             </div>
           </div>
-          <div className="flex justify-end">
+          <div className="fixed bottom-8 right-8">
             {!disabled ? (
               <Button type="submit" disabled={termsLoading}>
                 Save

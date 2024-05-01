@@ -404,3 +404,46 @@ code {
     width: auto !important;
   }
 }
+
+.react-tagsinput {
+  background-color: #fff;
+  overflow: hidden;
+  flex:1;
+  min-height: 45px;
+  cursor: text;
+  font-family: poppins-regular;
+}
+
+.react-tagsinput-tag {
+  color: #638421;
+  display: inline-block;
+  font-family: sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  margin-bottom: 5px;
+  margin-right: 5px;
+  padding: 5px;
+}
+
+.react-tagsinput-remove {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.react-tagsinput-tag a::before {
+  content: "×";
+}
+
+.react-tagsinput-input {
+  background: transparent;
+  border: 0;
+  color: #777;
+  font-family: sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  margin-bottom: 6px;
+  outline: none;
+  padding: 5px;
+  font-family: poppins-regular;
+margin-top: 8px;
+}

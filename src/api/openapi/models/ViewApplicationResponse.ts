@@ -3,6 +3,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import type { FarmerAnswer } from './FarmerAnswer';
+
 export type ViewApplicationResponse = {
     /**
      * ID of the membership application
@@ -48,4 +50,8 @@ export type ViewApplicationResponse = {
      * Additional remarks or notes
      */
     remarks?: string | null;
+    /**
+     * List of answers provided by the user
+     */
+    answers?: Array<FarmerAnswer>;
 };

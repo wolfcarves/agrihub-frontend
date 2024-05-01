@@ -89,6 +89,9 @@ month,
 page,
 perpage,
 filter,
+status,
+order,
+previousId,
 }: {
 /**
  * ID of the farm
@@ -114,6 +117,12 @@ perpage?: string,
  * Array of filters
  */
 filter?: Array<string>,
+status?: 'planted' | 'harvested',
+order?: 'asc' | 'desc',
+/**
+ * Page number
+ */
+previousId?: string,
 }): CancelablePromise<CommunityCropReportsResponseV2> {
         return __request(OpenAPI, {
             method: 'GET',
@@ -127,6 +136,37 @@ filter?: Array<string>,
                 'page': page,
                 'perpage': perpage,
                 'filter': filter,
+                'status': status,
+                'order': order,
+                'previous_id': previousId,
+            },
+            errors: {
+                400: `Validation Error`,
+                401: `Unauthorized`,
+                404: `Not Found Error`,
+                500: `Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Remove existing report
+     * @returns MessageResponse Report removed successfully
+     * @throws ApiError
+     */
+    public static deleteApiCommunityFarmRemoveExistingReport({
+id,
+}: {
+/**
+ * ID of the report to remove
+ */
+id: string,
+}): CancelablePromise<MessageResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/community-farm/remove/existing/report/{id}',
+            path: {
+                'id': id,
             },
             errors: {
                 400: `Validation Error`,

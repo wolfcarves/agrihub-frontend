@@ -167,8 +167,11 @@ const UserGuides = () => {
                 setIsPreviewing(true);
               }}
             >
-              <div className="m-auto rounded-full w-max h-max border p-5">
-                <FaPlay className="text-background translate-x-1" size={36} />
+              <div className="m-auto rounded-full w-max bg-secondary h-max border p-5">
+                <FaPlay
+                  className="text-background translate-x-1 text-primary"
+                  size={36}
+                />
               </div>
             </button>
           </div>

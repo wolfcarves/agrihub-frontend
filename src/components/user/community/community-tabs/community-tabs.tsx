@@ -13,6 +13,7 @@ const CommunityTabs = () => {
       {isMember && <TabNavlink title="Analytics" to={`analytics`} />}
       <TabNavlink title="Crops" to={`crops`} />
       {isMember && <TabNavlink title="Members" to={`members`} />}
+      {UserData && <TabNavlink title="Events" to={`events`} />}
       <TabNavlink title="Gallery" to={`gallery`} />
     </div>
   );

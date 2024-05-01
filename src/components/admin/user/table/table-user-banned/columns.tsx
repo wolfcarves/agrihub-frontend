@@ -34,13 +34,13 @@ export const columns: ColumnDef<AdminUser>[] = [
     accessorKey: "createdat",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
+        <div
+          className="flex cursor-pointer"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           CREATED AT
           <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        </div>
       );
     },
     cell: ({ row }) => format(new Date(row.original.createdat || ""), "PPP")
@@ -49,13 +49,13 @@ export const columns: ColumnDef<AdminUser>[] = [
     accessorKey: "username",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
+        <div
+          className="flex cursor-pointer"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           USERNAME
           <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        </div>
       );
     },
     cell: ({ row }) => <div>{row.getValue("username")}</div>
@@ -64,13 +64,13 @@ export const columns: ColumnDef<AdminUser>[] = [
     accessorKey: "fullName",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
+        <div
+          className="flex cursor-pointer"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           FULL NAME
           <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        </div>
       );
     },
     cell: ({ row }) => (
@@ -82,23 +82,27 @@ export const columns: ColumnDef<AdminUser>[] = [
     accessorKey: "role",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
+        <div
+          className="flex justify-center cursor-pointer"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           ROLE
           <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        </div>
       );
     },
     cell: ({ row }) => (
-      <div className=" capitalize">{formatRoles(row.getValue("role"))}</div>
+      <div className="text-center capitalize">
+        {formatRoles(row.getValue("role"))}
+      </div>
     )
   },
   {
     id: "actions",
     enableHiding: false,
-    header: "Actions",
+    header: () => {
+      return <div className="w-full text-center">ACTIONS</div>;
+    },
     cell: ({ row }) => {
       const user = row.original;
       const navigate = useNavigate();
@@ -116,7 +120,7 @@ export const columns: ColumnDef<AdminUser>[] = [
       return (
         <AlertDialog>
           <DropdownMenu>
-            <DropdownMenuTrigger asChild>
+            <DropdownMenuTrigger className="w-full">
               <Button variant="ghost" className="h-8 w-8 p-0">
                 <span className="sr-only">Open menu</span>
                 <MoreHorizontal className="h-4 w-4" />

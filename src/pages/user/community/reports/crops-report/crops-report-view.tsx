@@ -51,16 +51,30 @@ const CropsReportView = () => {
             {CropReport?.crop_name}
           </h2>
           <div className="flex flex-col gap-4 border-t-4 border-primary pt-2">
-            <CropDetails
-              label="Date Planted :"
-              value={format(new Date(CropReport?.date_planted || ""), "PPP")}
-              icon={<GiTreeGrowth size={18} />}
-            />
-            <CropDetails
-              label="Date Harvested :"
-              value={format(new Date(CropReport?.date_harvested || ""), "PPP")}
-              icon={<GiPlantSeed size={18} />}
-            />
+            {CropReport?.date_planted && (
+              <CropDetails
+                label="Date Planted :"
+                value={format(new Date(CropReport?.date_planted || ""), "PPP")}
+                icon={<GiTreeGrowth size={18} />}
+              />
+            )}
+            {CropReport?.date_harvested && (
+              <CropDetails
+                label="Date Harvested :"
+                value={format(
+                  new Date(CropReport?.date_harvested || ""),
+                  "PPP"
+                )}
+                icon={<GiPlantSeed size={18} />}
+              />
+            )}
+            {CropReport?.batch && (
+              <CropDetails
+                label="Date Last Harvested :"
+                value={format(new Date(CropReport?.batch || ""), "PPP")}
+                icon={<GiFruitBowl size={18} />}
+              />
+            )}
           </div>
         </div>
 
@@ -69,7 +83,7 @@ const CropsReportView = () => {
         </h4>
         <CropStats
           label="Harvested"
-          value={CropReport?.harvested_qty || "0"}
+          value={`${CropReport?.kilogram} KG` || "0"}
           icon={<TbReportAnalytics size={20} />}
         />
 
@@ -77,6 +91,11 @@ const CropsReportView = () => {
           label="Withered"
           value={CropReport?.withered_crops || "0"}
           icon={<GiPlantRoots size={20} />}
+        />
+        <CropStats
+          label="Growth Span"
+          value={`${CropReport?.growth_span} Months` || "0"}
+          icon={<TbReportAnalytics size={20} />}
         />
       </div>
       <div className="py-3">

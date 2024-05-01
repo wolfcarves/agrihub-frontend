@@ -26,13 +26,13 @@ export const columns: ColumnDef<LearningMaterial>[] = [
     accessorKey: "createdat",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
+        <div
+          className="flex cursor-pointer"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           CREATED AT
           <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        </div>
       );
     },
     cell: ({ row }) => format(new Date(row.original.createdat || ""), "PPP")
@@ -41,13 +41,13 @@ export const columns: ColumnDef<LearningMaterial>[] = [
     accessorKey: "title",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
+        <div
+          className="flex cursor-pointer"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           TITLE
           <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        </div>
       );
     }
   },
@@ -56,33 +56,43 @@ export const columns: ColumnDef<LearningMaterial>[] = [
     accessorKey: "status",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
+        <div
+          className="flex cursor-pointer justify-center"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           STATUS
           <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        </div>
       );
-    }
+    },
+    cell: ({ row }) => (
+      <div className="text-center">{row.getValue("status")}</div>
+    )
   },
   {
     accessorKey: "language",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
+        <div
+          className="flex cursor-pointer justify-center"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           LANGUAGE
           <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        </div>
       );
-    }
+    },
+    cell: ({ row }) => (
+      <div className="text-center">
+        {row.getValue("language") ? row.getValue("language") : "no language"}
+      </div>
+    )
   },
   {
     id: "actions",
-    header: "Actions",
+    header: () => {
+      return <div className="text-center">ACTIONS</div>;
+    },
     cell: ({ row }) => {
       const material = row.original;
       const navigate = useNavigate();
@@ -99,7 +109,7 @@ export const columns: ColumnDef<LearningMaterial>[] = [
 
       return (
         <AlertDialog>
-          <AlertDialogTrigger asChild>
+          <AlertDialogTrigger className="w-full">
             <Button className=" bg-black hover:bg-black/80">Unarchive</Button>
           </AlertDialogTrigger>
           <AlertDialogContent>

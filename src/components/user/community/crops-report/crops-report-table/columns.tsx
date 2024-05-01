@@ -1,7 +1,10 @@
 import { ColumnDef } from "@tanstack/react-table";
 
 import { useNavigate } from "react-router-dom";
-import { CommunityCropReportResponseItem } from "../../../../../api/openapi";
+import {
+  CommunityCropReportResponseItem,
+  PlantedCropsResponse
+} from "../../../../../api/openapi";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,7 +17,7 @@ import { Button } from "../../../../ui/button";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { format } from "date-fns";
 
-export const columns: ColumnDef<CommunityCropReportResponseItem>[] = [
+export const columns: ColumnDef<PlantedCropsResponse>[] = [
   {
     accessorKey: "crop_name",
     header: ({ column }) => {
@@ -42,12 +45,21 @@ export const columns: ColumnDef<CommunityCropReportResponseItem>[] = [
         </Button>
       );
     },
-    cell: ({ row }) =>
-      format(new Date(row.original.date_harvested || ""), "PPP")
+    cell: ({ row }) => {
+      return (
+        <div>
+          {row.original.date_harvested &&
+            format(new Date(row.original.date_harvested || ""), "PPP")}
+        </div>
+      );
+    }
   },
   {
-    accessorKey: "harvested_qty",
-    header: "Quantity"
+    accessorKey: "kilogram",
+    header: "Harvest Kilogram",
+    cell: ({ row }) => {
+      return <div>{row.original.kilogram} KG</div>;
+    }
   },
 
   {
@@ -69,11 +81,11 @@ export const columns: ColumnDef<CommunityCropReportResponseItem>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem onClick={() => navigate(`view/${crop.crop_id}`)}>
+            <DropdownMenuItem
+              onClick={() => navigate(`view/${crop.report_id}`)}
+            >
               View
             </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Archive</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

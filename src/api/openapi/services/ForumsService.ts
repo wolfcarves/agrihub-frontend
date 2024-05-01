@@ -38,6 +38,7 @@ perpage,
 filter,
 profile,
 tag,
+privateForum,
 }: {
 /**
  * Search term for forums (optional)
@@ -63,6 +64,10 @@ profile?: string,
  * tag query
  */
 tag?: string,
+/**
+ * tag query
+ */
+privateForum?: boolean,
 }): CancelablePromise<QuestionsResponse> {
         return __request(OpenAPI, {
             method: 'GET',
@@ -74,6 +79,7 @@ tag?: string,
                 'filter': filter,
                 'profile': profile,
                 'tag': tag,
+                'privateForum': privateForum,
             },
             errors: {
                 400: `Validation Error`,

@@ -5,7 +5,7 @@ import parse from "html-react-parser";
 import { toast } from "sonner";
 import { Card } from "@components/ui/card";
 import { TiArrowForwardOutline } from "react-icons/ti";
-import { format } from "date-fns";
+import { format, isSameDay } from "date-fns"; // Import isSameDay function
 
 const EventTitle = () => {
   const params = useParams();
@@ -13,13 +13,22 @@ const EventTitle = () => {
     String(params.eventId)
   );
 
-  const backupDateString = "2024-01-01"; // Don't make this empty string fuck date-fns!
+  const backupDateString = "2024-01-01";
 
   const s = new Date(eventData?.event_start ?? backupDateString);
   const e = new Date(eventData?.event_end ?? backupDateString);
 
-  const startEvent = format(s, "MMMM d, yyyy hh:mm:a");
-  const endEvent = format(e, "MMMM d, yyyy hh:mm:a");
+  const startEvent = format(s, "MMMM d, yyyy");
+  const endEvent = format(e, "MMMM d, yyyy");
+
+  const isSameDate = isSameDay(s, e);
+
+  const startTime = format(s, "hh:mm:a");
+  const endTime = format(e, "hh:mm:a");
+
+  const dateAndTime = isSameDate
+    ? `${startEvent} ${startTime} - ${endTime}`
+    : `${startEvent} - ${endEvent}`;
 
   const handleShare = async (
     title: string | undefined,
@@ -45,14 +54,12 @@ const EventTitle = () => {
       });
     }
   };
+
   return (
     <div className="flex flex-col lg:flex-row">
       <div className="flex flex-col gap-3 flex-1 p-0 sm:p-10">
         <div>
-          <span>
-            {startEvent} - {endEvent}
-          </span>
-
+          <span>{dateAndTime}</span> {/* Display date and time */}
           <h1 className="font-poppins-semibold text-black/90 py-3">
             {eventData?.title}
           </h1>
@@ -60,13 +67,11 @@ const EventTitle = () => {
 
         <div className=" pb-3">
           <h5 className="font-poppins-semibold">About this event</h5>
-
           <p className="pt-5">{parse(eventData?.about || "")}</p>
         </div>
 
         <div className="pt-5">
           <h5 className="font-poppins-semibold">Event Type</h5>
-
           <p className="pt-5">{eventData?.type}</p>
         </div>
 
@@ -81,8 +86,7 @@ const EventTitle = () => {
             );
           }}
         >
-          Share
-          <TiArrowForwardOutline size="24" />
+          Share <TiArrowForwardOutline size="24" />
         </Card>
       </div>
 

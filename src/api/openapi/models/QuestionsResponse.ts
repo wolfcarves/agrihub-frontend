@@ -11,6 +11,8 @@ avatar?: string;
 id?: string;
 username?: string;
 role?: string;
+district?: string;
+farm_name?: string;
 };
 tags?: Array<{
 tag?: string;

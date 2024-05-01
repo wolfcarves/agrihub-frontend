@@ -38,7 +38,10 @@ const SocketProvider = (props: { children: React.ReactNode }) => {
   const showNotification = (payload: string) => {
     console.log(payload, "WEB SOCKET");
     queryClient.invalidateQueries({ queryKey: ["GET_USER_NOTIFICATIONS"] });
-    if (Notification.permission === "granted") {
+    if (
+      Notification.permission === "granted" &&
+      payload !== "CHAT_EVENT_TRIGGER"
+    ) {
       new Notification("Hello!", {
         body: payload
       });
@@ -49,10 +52,24 @@ const SocketProvider = (props: { children: React.ReactNode }) => {
     }
   };
 
+  const triggerMessageNotif = (payload: string) => {
+    queryClient.invalidateQueries({ queryKey: ["PRIVATE_CHAT"] });
+    console.log(payload, "EVENT TRIGGERED");
+    if (Notification.permission === "granted") {
+      new Notification("Hello!", {
+        body: "New Message Received"
+      });
+    } else {
+      console.log("Permission not granted to show notifications.");
+    }
+  };
+
   useEffect(() => {
     requestNotificationPermission();
 
     socket.on(data?.id ?? "", payload => showNotification(payload));
+
+    socket.on("farm_head", (payload: string) => triggerMessageNotif(payload));
 
     if ("serviceWorker" in navigator) {
       const handleServiceWorker = async () => {
@@ -84,7 +101,7 @@ const SocketProvider = (props: { children: React.ReactNode }) => {
 
     return () => {
       socket.off("data?.id" ?? "", () => console.log("unlisten"));
-      socket.off("admin", () => console.log("unlisten"));
+      socket.off("farm_head", () => console.log("unlisten"));
     };
   }, [data]);
   return <>{props.children}</>;

@@ -12,7 +12,11 @@ export type QuestionSchema = {
      * The question in the forum entry
      */
     question: string;
-    imagesrc: Array<Blob>;
+    /**
+     * The question in the forum entry
+     */
+    privateForum?: boolean;
+    imagesrc?: Array<Blob>;
     /**
      * One or more tags associated with the forum
      */

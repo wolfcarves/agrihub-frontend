@@ -28,7 +28,7 @@ const CommunitySidebar = () => {
       )}
       {UserData?.farm_id && isAuthenticated && isAllowed && (
         <UserSidebarNavLink
-          to={`/community/chat/${UserData.farm_id}`}
+          to={`/community/chat/${UserData.id}`}
           title="Chat"
           logo={<CiChat1 size={20} />}
         />

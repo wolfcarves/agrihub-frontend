@@ -16,15 +16,19 @@ const MainLayout = () => {
   const { data: UserData } = useAuth();
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
+  const { data: userData } = useAuth();
   const isRemembered = localStorage.getItem("remembered");
-
-  const twoFactored = !UserData?.email || !UserData?.contact_number;
+  const twoFactored = !userData?.email || !userData?.contact_number;
 
   useEffect(() => {
-    if (twoFactored && (isRemembered === "false" || !isRemembered)) {
+    if (
+      userData &&
+      twoFactored &&
+      (isRemembered === "false" || !isRemembered)
+    ) {
       setIsOpen(true);
     }
-  }, [twoFactored]);
+  }, [userData, twoFactored, isRemembered]);
 
   useEffect(() => {
     loader?.current?.continuousStart(30, 0);

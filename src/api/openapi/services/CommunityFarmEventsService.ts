@@ -144,7 +144,7 @@ filter,
 /**
  * ID of the community
  */
-id: string,
+id?: string,
 /**
  * Search term (optional)
  */

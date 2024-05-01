@@ -33,13 +33,13 @@ export const columns: ColumnDef<CommunityFarmData>[] = [
     accessorKey: "createdat",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
+        <div
+          className="flex cursor-pointer"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           CREATED AT
           <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        </div>
       );
     },
     cell: ({ row }) => format(new Date(row.original.createdat || ""), "PPP")
@@ -48,13 +48,13 @@ export const columns: ColumnDef<CommunityFarmData>[] = [
     accessorKey: "farm_name",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
+        <div
+          className="flex cursor-pointer"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           FARM
           <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        </div>
       );
     }
   },

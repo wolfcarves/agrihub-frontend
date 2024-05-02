@@ -168,12 +168,11 @@ const CommunityChat = () => {
                     <div className="flex gap-3">
                       <div className="grow text-end space-y-3">
                         <div className="inline-block bg-green-600 rounded-2xl p-4 shadow-sm">
-                          <span className="flex flex-row-reverse gap-3 font-poppins-medium text-background">
+                          <span className="flex flex-row-reverse gap-2 font-poppins-medium text-background">
                             {chat?.user?.username}
-
                             <Badge variant="secondary" className="ms-1.5">
                               <span className="font-poppins-regular">
-                                {useParseUserRole(chat?.user?.role)}
+                                {chat?.user?.farm_name}
                               </span>
                             </Badge>
                           </span>
@@ -230,7 +229,7 @@ const CommunityChat = () => {
 
                               <Badge variant="outline" className="ms-1.5">
                                 <span className="font-poppins-regular">
-                                  {useParseUserRole(chat?.user?.role)}
+                                  {chat?.user?.farm_name}
                                 </span>
                               </Badge>
                             </span>

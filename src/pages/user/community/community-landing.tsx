@@ -34,6 +34,8 @@ import { formatDistrict } from "../../../components/lib/utils";
 import JoinIllustration from "@icons/community/JoinIllustration";
 import TaskIllustration from "@icons/community/TaskIllustration";
 import useGetCmsAboutDetails from "@hooks/api/get/useGetCmsAboutDetails";
+import ChatIllustration from "@icons/community/ChatIllustration";
+import { IoChatboxOutline } from "react-icons/io5";
 
 const ScrollToSectionButton: React.FC<{
   targetRef: React.RefObject<HTMLDivElement>;
@@ -518,6 +520,39 @@ const CommunityLanding = () => {
 
               <div className="flex justify-center mt-5 sm:w-1/2 mx-auto lg:mt-0">
                 <JoinIllustration />
+              </div>
+            </div>
+          </section>
+          {/* Chat */}
+          <section className="relative max-w-screen-xl mx-auto py-4 px-4 md:px-8 my-16">
+            <div className="relative z-10 gap-5 items-center sm:flex justify-between">
+              <div className="flex-1 sm:mx-auto sm:text-center lg:max-w-max lg:text-left">
+                {/* Icons */}
+                <IoChatboxOutline className="h-16 w-16 p-1 text-green-600" />
+                {/* Header */}
+                <h3 className="text-3xl text-gray-800 font-semibold md:text-4xl">
+                  Magsimula ng{" "}
+                  <span className="text-green-600">Komunikasyon</span>
+                </h3>
+                {/* Subheader */}
+                <p className="text-gray-500 leading-relaxed mt-3">
+                  Para sa patuloy na pagpapalawig ng iba't ibang Urban Farm sa
+                  Lungsod Quezon. Ang Agrihub ay makakatulong upang makatanggap
+                  ng iba't ibang miyembro ang iyong Urban Farm na may interes na
+                  makilahok.
+                </p>
+                <hr className="my-4" />
+                {/* Description */}
+                <p className="text-gray-500 leading-relaxed mt-3">
+                  Makatanggap ng mga request mula sa mga nais sumali sa iyong
+                  Urban Farm o mag-imbita ng mga Urban Farmers na maaring
+                  makatulong mapalawig at mapabuti ang pag-aalaga sa mga pananim
+                  ng iyong Urban Farm.
+                </p>
+              </div>
+
+              <div className="flex justify-center mt-5 sm:w-1/2 mx-auto lg:mt-0">
+                <ChatIllustration />
               </div>
             </div>
           </section>

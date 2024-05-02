@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 // import { chatData } from "@constants/data";
 import { timeAgo } from "@components/lib/utils";
 import { useNavigate, useParams } from "react-router-dom";
@@ -11,12 +11,20 @@ import { ForumsService, QuestionSchema } from "@api/openapi";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { socket } from "../../../socket/socket";
 import { toast } from "sonner";
+import { FiImage } from "react-icons/fi";
+import { IoMdClose } from "react-icons/io";
+import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/avatar";
+import LoadingSpinner from "@icons/LoadingSpinner";
 
 const CommunityChat = () => {
   const { uid } = useParams();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [message, setMessage] = useState("");
+  const [fullScreenImg, setFullScreenImg] = useState<string>("");
+  const [imgFile, setImgFile] = useState<File | null>(null);
+  const chatRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   function useQuestionAskMutation() {
     return useMutation({
@@ -60,23 +68,41 @@ const CommunityChat = () => {
     filter: "active"
   });
 
-  const { mutateAsync: chatMutation } = useQuestionAskMutation();
+  const { mutateAsync: chatMutation, isLoading: isChatLoading } =
+    useQuestionAskMutation();
+
+  const scrollToBottom = () => {
+    const container = chatRef.current;
+    if (container) {
+      container.scrollTop = container.scrollHeight - container.clientHeight;
+    }
+  };
 
   // TODO: OPTION MAGADD NG image
   async function sendMessage() {
     try {
-      if (!message.length) {
+      if (!message.length && !imgFile) {
         return;
       }
-      await chatMutation({
-        question: message,
-        title: "private",
-        privateForum: true
-      });
+      if (imgFile) {
+        await chatMutation({
+          question: message,
+          title: "private",
+          privateForum: true,
+          imagesrc: [imgFile] as any
+        });
+      } else {
+        await chatMutation({
+          question: message,
+          title: "private",
+          privateForum: true
+        });
+      }
 
       setMessage("");
+      setImgFile(null);
     } catch (error) {
-      toast.error("Can't send message. Network Error");
+      toast.error("Please add a message");
     }
   }
 
@@ -86,80 +112,197 @@ const CommunityChat = () => {
       console.log(payload, "EVENT TRIGGERED");
     });
 
+    scrollToBottom();
+
     return () => {
       socket.off("farm_head", () => console.log("unlisten"));
     };
   }, [chatData]);
 
   return (
-    <div className="w-full mx-4">
-      <div className=" max-h-screen min-h-screen  overflow-y-auto w-full no-scrollbar">
-        <div className="space-y-5">
-          {chatData?.questions?.map((chat, index) => (
-            <React.Fragment key={index}>
-              {/* user chat */}
-              {chat.user?.id === uid ? (
-                <li className="flex ms-auto gap-x-2 sm:gap-x-4 my-2">
-                  <div className="grow text-end space-y-3">
-                    <div className="inline-block bg-green-600 rounded-2xl p-4 shadow-sm">
-                      <p className="text-sm text-white ">
-                        {parse(chat?.question ?? "")}
-                      </p>
-                      <span className="text-xs italic text-white">
-                        {timeAgo(chat?.createdat ?? "")}
-                      </span>
-                    </div>
-                  </div>
+    <>
+      {fullScreenImg && (
+        <div
+          className="fixed inset-0 h-full w-full flex justify-center items-center z-50 bg-black/70"
+          onClick={() => setFullScreenImg("")}
+        >
+          <div
+            className={`relative w-[90%] aspect-video xl:w-1/2 xl:h-1/2 object-contain animate-appear bg-black`}
+          >
+            <div className="absolute inset-0 m-auto h-max w-max -z-10">
+              <LoadingSpinner className="text-primary" />
+            </div>
 
-                  <img
-                    className="inline-block size-9 rounded-full"
-                    src={chat?.user?.avatar}
-                    alt="Image Description"
-                  />
-                </li>
-              ) : (
-                <div className="me-11 my-2">
-                  <div className="text-sm">{chat?.user?.username}</div>
-                  <li className="max-w-lg flex gap-x-2 sm:gap-x-4 ">
-                    <img
-                      className="inline-block size-9 rounded-full"
-                      src={chat?.user?.avatar}
-                      alt="Image Description"
-                    />
+            <img
+              src={fullScreenImg}
+              className={`w-full h-full object-contain aspect-auto`}
+            />
+          </div>
 
-                    <div className="bg-secondary border border-gray-200 rounded-2xl p-4 space-y-3 dark:bg-neutral-900 dark:border-neutral-700">
-                      <div className="space-y-1.5">
-                        <p className="mb-1.5 text-sm text-gray-800 dark:text-white text-wrap">
-                          {parse(chat?.question ?? "")}
-                          <span className="text-xs italic">
+          {/*  */}
+        </div>
+      )}
+
+      <div
+        className="h-[calc(100vh-3.5rem)] lg:h-[calc(100vh-5rem)] w-full overflow-y-auto"
+        ref={chatRef}
+      >
+        <div className="h-max w-full p-5">
+          <div className="space-y-5">
+            {chatData?.questions?.map((chat, index) => (
+              <div key={index}>
+                {/* user chat */}
+                {chat.user?.id === uid ? (
+                  <li className="flex flex-col ms-auto gap-x-2 sm:gap-x-4 my-2 space-y-2">
+                    <div className="flex gap-3">
+                      <div className="grow text-end space-y-3">
+                        <div className="inline-block bg-green-600 rounded-2xl p-4 shadow-sm">
+                          <p className="text-base text-white ">
+                            {parse(chat?.question ?? "")}
+                          </p>
+                          <span className="text-xs italic text-white">
                             {timeAgo(chat?.createdat ?? "")}
                           </span>
-                        </p>
+                        </div>
                       </div>
+
+                      <Avatar>
+                        <AvatarImage src={chat?.user?.avatar} alt="avatar" />
+                        <AvatarFallback>
+                          {chat?.user?.avatar?.[0]}
+                        </AvatarFallback>
+                      </Avatar>
                     </div>
+
+                    {chat?.imagesrc?.[0] && (
+                      <div className="flex gap-3">
+                        <div className="grow text-end">
+                          <div className="inline-block bg-green-600 rounded-2xl shadow-sm">
+                            <img
+                              src={chat?.imagesrc?.[0]}
+                              className="max-w-52 w-40 rounded-xl cursor-pointer"
+                              onClick={() =>
+                                setFullScreenImg(chat?.imagesrc?.[0] as string)
+                              }
+                            />
+                          </div>
+                        </div>
+
+                        <div className="w-10"></div>
+                      </div>
+                    )}
                   </li>
-                </div>
-              )}
-            </React.Fragment>
-          ))}
+                ) : (
+                  <div className="my-2">
+                    <li className="list-none space-y-2">
+                      <div className="max-w-lg flex gap-x-2 sm:gap-x-4 ">
+                        <img
+                          className="inline-block size-9 rounded-full"
+                          src={chat?.user?.avatar}
+                          alt="avatar"
+                        />
+
+                        <div className="border border-border rounded-2xl p-4 space-y-3 dark:bg-neutral-900 dark:border-neutral-700">
+                          <div className="space-y-1.5">
+                            <span className="font-poppins-medium">
+                              {chat?.user?.username}
+                            </span>
+                            <p className="mb-1.5 text-sm text-gray-800 dark:text-white text-wrap">
+                              {parse(chat?.question ?? "")}
+                            </p>
+
+                            <span className="text-xs italic">
+                              {timeAgo(chat?.createdat ?? "")}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="max-w-lg flex gap-x-2 sm:gap-x-4 ">
+                        <div className="w-9"></div>
+
+                        {chat?.imagesrc?.[0] && (
+                          <div className="flex gap-3">
+                            <div className="grow text-end">
+                              <div className="inline-block bg-green-600 rounded-2xl shadow-sm">
+                                <img
+                                  src={chat?.imagesrc?.[0]}
+                                  className="max-w-52 w-40 rounded-xl cursor-pointer"
+                                  onClick={() =>
+                                    setFullScreenImg(
+                                      chat?.imagesrc?.[0] as string
+                                    )
+                                  }
+                                />
+                              </div>
+                            </div>
+
+                            <div className="w-10"></div>
+                          </div>
+                        )}
+                      </div>
+                    </li>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
-      {/* chatbox */}
-      <Divider className="pt-2" />
-      <div className="flex items-center gap-4 w-full p-2">
-        <div className="w-full">
-          <Input
-            type="text"
-            placeholder="Aa"
-            value={message}
-            onChange={e => setMessage(e.target.value)}
+        {/* chatbox */}
+        <div className="flex flex-col items-center w-full sticky bottom-0 bg-background">
+          {/* attachment */}
+          {imgFile && (
+            <div
+              className="flex items-center justify-between w-full gap-4 border-t border-border px-10 py-3 hover:bg-foreground/5 cursor-pointer"
+              onClick={() => setImgFile(null)}
+            >
+              <h6>{imgFile.name}</h6>
+              <IoMdClose />
+            </div>
+          )}
+
+          <input
+            ref={inputRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={e => {
+              if (e.target?.files) setImgFile(e.target?.files[0]);
+            }}
           />
+
+          <div className="flex w-full gap-4 border-t border-border p-2">
+            <div className="flex items-center relative w-20">
+              <Button
+                variant="outline"
+                type="button"
+                className="px-7 cursor-pointer"
+                onClick={() => inputRef?.current?.click()}
+              >
+                <FiImage className="text-lg" />
+              </Button>
+            </div>
+            <div className="w-full">
+              <Input
+                type="text"
+                placeholder="Aa"
+                value={message}
+                onChange={e => setMessage(e.target.value)}
+              />
+            </div>
+            <Button
+              type="button"
+              onClick={sendMessage}
+              isLoading={isChatLoading}
+              className="px-7"
+              disabled={!message.length && !imgFile}
+            >
+              Send
+            </Button>
+          </div>
         </div>
-        <Button type="button" onClick={sendMessage}>
-          Send
-        </Button>
       </div>
-    </div>
+    </>
   );
 };
 

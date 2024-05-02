@@ -1,4 +1,4 @@
-import React, { MouseEvent, useRef, useState } from "react";
+import React, { MouseEvent, useMemo, useRef, useState } from "react";
 import { Bar, Doughnut, getElementAtEvent, Radar } from "react-chartjs-2";
 import { useParams } from "react-router-dom";
 import useGetReportTotalHarvestChart from "../../../hooks/api/get/useGetReportTotalHarvestChart";
@@ -16,12 +16,45 @@ import {
 } from "../../../components/ui/select";
 
 const BarCropHarvest = () => {
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
+  const currentMonth = currentDate.getMonth() + 1;
+  const [selectedYear, setSelectedYear] = useState<string>(
+    String(currentYear) || "2"
+  );
+  const [startMonth, setStartMonth] = useState<string>("1");
+  const [endMonth, setEndMonth] = useState<string>(String(currentMonth));
   const [activeIndex, setActiveIndex] = useState<string>("");
   const chartRef = useRef();
 
-  const [farmId, setFarmId] = useState<string>("");
+  const [farmId, setFarmId] = useState<string>("936975470650327041");
 
-  const { data: harvestChart } = useGetReportTotalHarvestChart(farmId || "");
+  const { data: harvestChart, isLoading: loadHarvest } =
+    useGetReportTotalHarvestChart({
+      id: farmId || "",
+      start: startMonth,
+      end: endMonth,
+      year: selectedYear
+    });
+
+  const lastTwoItem = useMemo(() => {
+    const values = Object.values(harvestChart ?? {});
+    const slicedValues = values.slice(-2);
+    const pm = Number(slicedValues[0]);
+    const cm = Number(slicedValues[1]);
+    if (cm === 0) {
+      return "N/A"; // or any other default value you prefer
+    }
+    const final = ((cm - pm) / cm) * 100;
+    return final.toFixed(2);
+  }, [harvestChart]);
+  console.log(lastTwoItem);
+
+  const lastTwoMonths = useMemo(() => {
+    const values = Object.keys(harvestChart ?? {});
+    const slicedValues = values.slice(-2);
+    return slicedValues;
+  }, [harvestChart]);
 
   const { data: cropDistribution } = useGetReportCropDistributionCommunity({
     id: farmId || "",
@@ -122,6 +155,33 @@ const BarCropHarvest = () => {
     ]
   };
 
+  const months = [
+    { value: "1", label: "January" },
+    { value: "2", label: "February" },
+    { value: "3", label: "March" },
+    { value: "4", label: "April" },
+    { value: "5", label: "May" },
+    { value: "6", label: "June" },
+    { value: "7", label: "July" },
+    { value: "8", label: "August" },
+    { value: "9", label: "September" },
+    { value: "10", label: "October" },
+    { value: "11", label: "November" },
+    { value: "12", label: "December" }
+  ];
+
+  const handleChangeYear = (year: string) => {
+    setSelectedYear(year);
+  };
+
+  const handleChangeStartMonth = (month: string) => {
+    setStartMonth(month);
+  };
+
+  const handleChangeEndMonth = (month: string) => {
+    setEndMonth(month);
+  };
+
   const onClick = (event: MouseEvent<HTMLCanvasElement>) => {
     if (chartRef.current) {
       const index = getElementAtEvent(chartRef.current, event)[0].index;
@@ -133,28 +193,101 @@ const BarCropHarvest = () => {
   return (
     <div className="grid grid-cols-12 gap-x-4 gap-y-[2.5rem]">
       <div className="border border-border p-4 rounded-lg lg:col-span-8 col-span-12">
-        <div className="flex justify-between ">
+        <div className="flex md:flex-row flex-col justify-between ">
           <div>
-            <h5 className="font-poppins-medium">Monthly Harvest Kilogram</h5>
+            <h5 className="font-poppins-medium">Monthly Harvest Per Farm</h5>
             <p className="text-xs text-gray-400">
               Click the bar to view the harvest summary of that month
             </p>
           </div>
-
-          {!isLoading && (
-            <Select onValueChange={value => setFarmId(value)}>
-              <SelectTrigger className="w-auto focus-visible:ring-0">
-                <SelectValue placeholder="Select Farm" />
+          <div className="flex flex-wrap gap-2">
+            {!isLoading && (
+              <Select
+                onValueChange={value => setFarmId(value)}
+                defaultValue="936975470650327041"
+              >
+                <SelectTrigger className="w-auto focus-visible:ring-0">
+                  <SelectValue placeholder="Select Farm" />
+                </SelectTrigger>
+                <SelectContent className=" max-h-[40vh]">
+                  {farmData?.farms?.map((farm, i) => (
+                    <SelectItem key={i} value={farm?.id || ""}>
+                      {farm.farm_name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            )}
+            <Select
+              onValueChange={e => handleChangeYear(e)}
+              defaultValue={selectedYear}
+            >
+              <SelectTrigger className="w-auto">
+                <SelectValue placeholder="Year" />
               </SelectTrigger>
-              <SelectContent className=" max-h-[40vh]">
-                {farmData?.farms?.map((farm, i) => (
-                  <SelectItem key={i} value={farm?.id || ""}>
-                    {farm.farm_name}
-                  </SelectItem>
-                ))}
+              <SelectContent>
+                <SelectItem value="2024">2024</SelectItem>
+                <SelectItem value="2023">2023</SelectItem>
               </SelectContent>
             </Select>
-          )}
+
+            <Select
+              onValueChange={e => handleChangeStartMonth(e)}
+              defaultValue={startMonth}
+            >
+              <SelectTrigger className="w-auto">
+                <SelectValue placeholder="Month From" />
+              </SelectTrigger>
+              <SelectContent>
+                {months
+                  .slice(
+                    0,
+                    String(currentYear) === selectedYear
+                      ? Number(currentMonth)
+                      : 12
+                  )
+                  .map(month => (
+                    <SelectItem
+                      key={month.value}
+                      value={month.value}
+                      disabled={month.value === String(currentMonth)}
+                    >
+                      {month.label}
+                    </SelectItem>
+                  ))}
+              </SelectContent>
+            </Select>
+
+            <Select
+              onValueChange={e => handleChangeEndMonth(e)}
+              defaultValue={endMonth}
+            >
+              <SelectTrigger className="w-auto">
+                <SelectValue placeholder="Month To" />
+              </SelectTrigger>
+              <SelectContent>
+                {months
+                  .slice(
+                    0,
+                    String(currentYear) === selectedYear
+                      ? Number(currentMonth)
+                      : 12
+                  )
+                  .map(month => {
+                    return (
+                      <SelectItem
+                        key={month.value}
+                        value={month.value}
+                        onClick={() => handleChangeEndMonth(month.value)}
+                        disabled={startMonth + "1" > month.value}
+                      >
+                        {month.label}
+                      </SelectItem>
+                    );
+                  })}
+              </SelectContent>
+            </Select>
+          </div>
         </div>
         <div className="h-[350px]  ">
           <Bar
@@ -165,6 +298,31 @@ const BarCropHarvest = () => {
             options={chartOptions}
           />
         </div>
+        {!loadHarvest &&
+          (lastTwoItem === "N/A" ? (
+            <p className="text-xs text-gray-400 mt-1">
+              Not enough date to current month to compare
+            </p>
+          ) : (
+            <p className="text-xs text-gray-400 mt-1">
+              This graph compares the amount of harvest farms collected with the
+              crops as of{" "}
+              <span className=" text-primary">{lastTwoMonths[0]}</span>–
+              <span className=" text-primary">{lastTwoMonths[1]}</span>{" "}
+              <span className=" text-primary">{selectedYear}</span>. Based on
+              system calculations, it seems that your harvest for{" "}
+              <span className=" text-primary">{lastTwoMonths[1]}</span> has
+              changed by{" "}
+              <span
+                className={
+                  Number(lastTwoItem) > 0 ? " text-primary" : "text-destructive"
+                }
+              >
+                {lastTwoItem}%
+              </span>{" "}
+              compared to the previous month.
+            </p>
+          ))}
       </div>
       <div className=" lg:col-span-4 col-span-12 ">
         {Number(cropDistribution?.length || 0) > 0 && (

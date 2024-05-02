@@ -70,7 +70,7 @@ const CommunityApplyForm = () => {
       const compiledData: FarmMemberApplication = {
         contact_person: data.contact_person,
         reason: data.reason,
-        answer: JSON.stringify(answers),
+        answer: answers.length ? JSON.stringify(answers) : undefined,
         proof_selfie: data.proof_selfie,
         valid_id: data.valid_id
       };

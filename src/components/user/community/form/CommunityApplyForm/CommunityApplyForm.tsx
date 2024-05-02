@@ -202,6 +202,7 @@ const CommunityApplyForm = () => {
               Apply
             </Button>
             <ReviewDialog
+              answers={answers}
               dialogReview={dialogReview}
               setDialogReview={setDialogReview}
               form={form}

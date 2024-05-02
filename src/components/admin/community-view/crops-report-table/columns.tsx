@@ -1,10 +1,13 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { Button } from "@components/ui/button";
-import { ArrowUpDown } from "lucide-react";
-import { format } from "date-fns";
-import { CommunityCropReportResponseItem } from "../../../../api/openapi";
 
-export const columns: ColumnDef<CommunityCropReportResponseItem>[] = [
+import { useNavigate } from "react-router-dom";
+
+import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { format } from "date-fns";
+import { PlantedCropsResponse } from "../../../../api/openapi";
+import { Button } from "../../../ui/button";
+
+export const columns: ColumnDef<PlantedCropsResponse>[] = [
   {
     accessorKey: "crop_name",
     header: ({ column }) => {
@@ -32,15 +35,50 @@ export const columns: ColumnDef<CommunityCropReportResponseItem>[] = [
         </Button>
       );
     },
-    cell: ({ row }) =>
-      format(new Date(row.original.date_harvested || ""), "PPP")
+    cell: ({ row }) => {
+      return (
+        <div>
+          {row.original.date_harvested &&
+            format(new Date(row.original.date_harvested || ""), "PPP")}
+        </div>
+      );
+    }
   },
   {
-    accessorKey: "harvested_qty",
-    header: "Harvested Quantity"
-  },
-  {
-    accessorKey: "withered_crops",
-    header: "Withered Quantity"
+    accessorKey: "kilogram",
+    header: "Harvest Kilogram",
+    cell: ({ row }) => {
+      return <div>{row.original.kilogram} KG</div>;
+    }
   }
+
+  // {
+  //   header: "Actions",
+  //   id: "actions",
+  //   cell: ({ row }) => {
+  //     const crop = row.original;
+  //     const navigate = useNavigate();
+
+  //     return (
+  //       <DropdownMenu>
+  //         <DropdownMenuTrigger asChild>
+  //           <Button
+  //             variant="ghost"
+  //             className="h-1 w-8 p-0 focus-visible:ring-0 "
+  //           >
+  //             <MoreHorizontal className="h-4 w-4" />
+  //           </Button>
+  //         </DropdownMenuTrigger>
+  //         <DropdownMenuContent align="end">
+  //           <DropdownMenuLabel>Actions</DropdownMenuLabel>
+  //           <DropdownMenuItem
+  //             onClick={() => navigate(`view/${crop.report_id}`)}
+  //           >
+  //             View
+  //           </DropdownMenuItem>
+  //         </DropdownMenuContent>
+  //       </DropdownMenu>
+  //     );
+  //   }
+  // }
 ];

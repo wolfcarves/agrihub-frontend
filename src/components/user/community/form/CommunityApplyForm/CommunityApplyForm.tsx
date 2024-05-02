@@ -170,6 +170,11 @@ const CommunityApplyForm = () => {
                 <Capture onChange={value => form.setValue("valid_id", value)} />
               )}
             />
+            <p className=" text-xs text-gray-500">
+              This form exclusively accepts valid identification documents
+              issued in the Philippines.(ex. Philippine driver's license, Brgy.
+              ID, passport, or any government-issued ID card)
+            </p>
           </div>
           <div className="flex items-center space-x-2 col-span-12">
             <Checkbox

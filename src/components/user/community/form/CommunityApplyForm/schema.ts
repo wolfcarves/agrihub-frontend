@@ -13,8 +13,7 @@ export const applyCommunitySchema = zod.object({
     .string({
       required_error: "Contact is required."
     })
-    .min(5, "Please enter at least 5 characters")
-    .max(100, "Contact is too long"),
+    .optional(),
   reason: zod
     .string({
       required_error: "Reason is required."

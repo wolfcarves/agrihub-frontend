@@ -66,7 +66,10 @@ const SocketProvider = (props: { children: React.ReactNode }) => {
 
     if (
       Notification.permission === "granted" &&
-      parsedPayload.userid !== data?.id
+      parsedPayload.userid !== data?.id &&
+      (data?.role === "farm_head" ||
+        data?.role === "asst_admin" ||
+        data?.role === "admin")
     ) {
       new Notification("Hello!", {
         body: "New Message Received"

@@ -14,6 +14,9 @@ import {
   SelectValue
 } from "../../../ui/select";
 import { district } from "../../../../constants/data";
+import { Button } from "@components/ui/button";
+import { CSVLink } from "react-csv";
+import { PiFileCsvFill } from "react-icons/pi";
 type SortValues =
   | "All"
   | "District 1"
@@ -40,6 +43,36 @@ const TableCommunityFarmActive = () => {
     filter: params.sortBy === "All" ? undefined : params.sortBy
   });
 
+  const communityHeaders = [
+    {
+      label: "Date Created",
+      key: "created"
+    },
+    {
+      label: "Farm",
+      key: "farm"
+    },
+    {
+      label: "District",
+      key: "district"
+    },
+    {
+      label: "Location",
+      key: "location"
+    }
+  ];
+
+  const communityData = useMemo(() => {
+    return (
+      farmData?.farms?.map(item => ({
+        created: item.createdat || "",
+        farm: item.farm_name || "",
+        district: item.district || "",
+        location: item.location || ""
+      })) || []
+    );
+  }, [farmData]);
+
   const debouncedSearch = useDebounce((value: string) => {
     searchParams.set("search", value);
     searchParams.delete("page");
@@ -60,19 +93,31 @@ const TableCommunityFarmActive = () => {
           className="max-w-sm"
           onChange={e => debouncedSearch(e.target.value)}
         />
-        <Select onValueChange={handleFilterChange}>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Filter District..." />
-          </SelectTrigger>
-          <SelectContent side="top">
-            <SelectItem value="All">All</SelectItem>
-            {district.map((id, i) => (
-              <SelectItem key={i} value={id}>
-                {id}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <div className="flex gap-4 items-center">
+          <Button>
+            <CSVLink
+              className="flex items-center gap-1"
+              data={communityData}
+              headers={communityHeaders}
+              filename={`fams-in-agrihub.csv`}
+            >
+              <PiFileCsvFill size={18} /> Export
+            </CSVLink>
+          </Button>
+          <Select onValueChange={handleFilterChange}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Filter District..." />
+            </SelectTrigger>
+            <SelectContent side="top">
+              <SelectItem value="All">All</SelectItem>
+              {district.map((id, i) => (
+                <SelectItem key={i} value={id}>
+                  {id}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
       </div>
       <DataTable columns={columns} data={farmData?.farms || []} />
       {farmData?.pagination?.total_pages !== 1 && (

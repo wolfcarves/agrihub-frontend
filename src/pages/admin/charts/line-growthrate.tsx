@@ -17,7 +17,7 @@ const GrowthRateLineChart = () => {
   const [selectedYear, setSelectedYear] = useState<string>(String(currentYear));
   const [startMonth, setStartMonth] = useState<string>("1");
   const [endMonth, setEndMonth] = useState<string>(String(currentMonth));
-  const { data: growthMonthly, isLoading } = useGetReportGrowthRateMonthly({
+  const { data: growthMonthly } = useGetReportGrowthRateMonthly({
     year: selectedYear,
     start: startMonth,
     end: endMonth
@@ -90,7 +90,9 @@ const GrowthRateLineChart = () => {
   return (
     <>
       <div className="flex justify-between flex-wrap sm:flex-nowrap">
-        <h2 className="text-xl font-bold tracking-tight ">Farms Growth Rate</h2>
+        <h2 className="text-xl font-bold tracking-tight ">
+          Farms Harvest Rate
+        </h2>
         <div className="flex gap-4 justify-end">
           <Select
             onValueChange={e => handleChangeYear(e)}

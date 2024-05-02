@@ -26,6 +26,9 @@ import { ChevronDown } from "lucide-react";
 import { IoMdAdd } from "react-icons/io";
 import { DataTable } from "../../../ui/custom/data-table/data-table";
 import StatePagination from "../../../user/community/state-pagination/state-pagination";
+import { CSVLink } from "react-csv";
+import { PiFileCsvFill } from "react-icons/pi";
+import { formatDate } from "@components/lib/utils";
 
 const CropsReportTable = () => {
   const [search, setSearch] = useState<string>("");
@@ -63,15 +66,15 @@ const CropsReportTable = () => {
 
   const reportData = useMemo(() => {
     return (
-      CropReportExport?.data?.map(item => ({
-        crop_name: item.crop_name || "", // Add default value to handle undefined
-        date_planted: item.date_planted || "", // Add default value to handle undefined
-        harvested_qty: item.harvested_qty || "", // Add default value to handle undefined
-        planted_qty: item.planted_qty || "", // Add default value to handle undefined
-        withered_crops: item.withered_crops || "" // Add default value to handle undefined
+      CropHarvested?.data?.map(item => ({
+        cropname: item?.crop_name || "",
+        dateplanted: formatDate(item?.date_planted || ""),
+        dateharvest: formatDate(item?.date_harvested || ""),
+        harvestkilo: item?.kilogram + "kg" || "",
+        harvester: item?.firstname || "" + item?.lastname || ""
       })) || []
     );
-  }, [CropReportExport]);
+  }, [CropHarvested]);
 
   const onPageChange = (newPage: number) => {
     setPage(newPage);
@@ -116,15 +119,12 @@ const CropsReportTable = () => {
     { value: "12", label: "December" }
   ];
   const headers = [
-    { label: "Crop Name", key: "crop_name" },
-    { label: "Date Planted", key: "date_planted" },
-    { label: "Harvested Quantity", key: "harvested_qty" },
-    { label: "Planted Quantity", key: "planted_qty" },
-    { label: "Withered Quantity", key: "withered_crops" }
+    { label: "Crop Name", key: "cropname" },
+    { label: "Date Planted", key: "dateplanted" },
+    { label: "Harvest Date", key: "dateharvest" },
+    { label: "Harvest per Kilo", key: "harvestkilo" },
+    { label: "Harvested by", key: "harvester" }
   ];
-
-  const currentDate = new Date();
-  const currentDateTime = currentDate.toISOString();
 
   return (
     <div>
@@ -135,6 +135,16 @@ const CropsReportTable = () => {
           className="max-w-sm focus-visible:ring-0"
         />
         <div className="flex items-center gap-2">
+          <Button>
+            <CSVLink
+              className="flex items-center gap-1"
+              data={reportData}
+              headers={headers}
+              filename={`harvest of this farm.csv`}
+            >
+              <PiFileCsvFill size={18} /> Export
+            </CSVLink>
+          </Button>
           <Select
             onValueChange={value =>
               setMonthSelected(value === "all" ? undefined : value)

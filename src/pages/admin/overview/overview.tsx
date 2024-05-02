@@ -1,16 +1,7 @@
-import React, { useRef } from "react";
+import React from "react";
 import Autoplay from "embla-carousel-autoplay";
-import BarDistrictOverview from "../charts/bar-district-overview";
-import DoughnutResource from "../charts/dougnut-resource-overview";
-import LineForumOverview from "../charts/line-forum-overview";
 import AdminOutletContainer from "@components/admin/layout/container/AdminOutletContainer";
-import BreadCrumb from "@components/ui/custom/breadcrumb/breadcrumb";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription
-} from "@components/ui/card";
+import { Card } from "@components/ui/card";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
 import { GiPlantSeed } from "react-icons/gi";
 import { Link } from "react-router-dom";
@@ -36,18 +27,12 @@ import useGetReportResourceCountDetailed from "../../../hooks/api/get/useGetRepo
 import useGetReportsCommonOverview from "../../../hooks/api/get/useGetReportsCommonOverview";
 import useGetAuditLogsListQuery from "../../../hooks/api/get/useGetAuditLogsListQuery";
 
-const breadcrumbItems = [{ title: "", link: "" }];
-
 const OverviewAdmin = () => {
   const { data: favouriteCrop } = useGetReportFavouriteCrops();
   const { data: resourceDetailed } = useGetReportResourceCountDetailed();
   const { data: overviewCards } = useGetReportsCommonOverview();
 
-  const { data: logsData, isLoading } = useGetAuditLogsListQuery(
-    undefined,
-    "1",
-    "10"
-  );
+  const { data: logsData } = useGetAuditLogsListQuery(undefined, "1", "10");
 
   return (
     <AdminOutletContainer>

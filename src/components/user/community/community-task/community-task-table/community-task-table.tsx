@@ -93,13 +93,16 @@ const CommunityTaskTable = () => {
   }, 100);
   return (
     <div>
-      <div className="flex md:flex-row flex-col justify-between gap-3 mb-4">
-        <Input
-          placeholder="Search task..."
-          className="max-w-sm"
-          onChange={e => debouncedSearch(e.target.value)}
-        />
-        <div className="flex flex-wrap gap-3">
+      <div className="flex justify-between gap-3 mb-4">
+        <div>
+          <Input
+            placeholder="Search task..."
+            className="max-w-sm"
+            onChange={e => debouncedSearch(e.target.value)}
+          />
+        </div>
+        <div className="flex gap-3">
+
           {/* <Button>
             <CSVLink
               className="flex items-center gap-1"

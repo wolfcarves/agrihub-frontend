@@ -84,18 +84,25 @@ const CommunityChat = () => {
       if (!message.length && !imgFile) {
         return;
       }
-
-      await chatMutation({
-        question: message,
-        title: "private",
-        privateForum: true,
-        imagesrc: [imgFile] as any
-      });
+      if (imgFile) {
+        await chatMutation({
+          question: message,
+          title: "private",
+          privateForum: true,
+          imagesrc: [imgFile] as any
+        });
+      } else {
+        await chatMutation({
+          question: message,
+          title: "private",
+          privateForum: true
+        });
+      }
 
       setMessage("");
       setImgFile(null);
     } catch (error) {
-      toast.error("Can't send message. Network Error");
+      toast.error("Please add a message");
     }
   }
 

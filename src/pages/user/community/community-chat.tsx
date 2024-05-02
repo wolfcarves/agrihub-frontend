@@ -5,7 +5,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import parse from "html-react-parser";
 import Input from "@components/ui/custom/input/input";
 import { Button } from "@components/ui/button";
-import { Divider } from "@components/ui/custom";
 import { SearchParams } from "@hooks/api/get/useGetQuestionsQuery";
 import { ForumsService, QuestionSchema } from "@api/openapi";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -15,6 +14,9 @@ import { FiImage } from "react-icons/fi";
 import { IoMdClose } from "react-icons/io";
 import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/avatar";
 import LoadingSpinner from "@icons/LoadingSpinner";
+import withAuthGuard from "@higher-order/account/withAuthGuard";
+import { Badge } from "@components/ui/badge";
+import useParseUserRole from "@hooks/utils/useParseUserRole";
 
 const CommunityChat = () => {
   const { uid } = useParams();
@@ -74,7 +76,8 @@ const CommunityChat = () => {
   const scrollToBottom = () => {
     const container = chatRef.current;
     if (container) {
-      container.scrollTop = container.scrollHeight - container.clientHeight;
+      container.scrollTop =
+        container.scrollHeight - container.clientHeight + 20; // di ko sure to
     }
   };
 
@@ -105,6 +108,16 @@ const CommunityChat = () => {
       toast.error("Please add a message");
     }
   }
+
+  const submitBtnRef = useRef<HTMLButtonElement>(null);
+
+  const handleOnKeyDown = (
+    event: React.KeyboardEvent<HTMLDivElement>
+  ): void => {
+    if (event.key === "Enter") {
+      submitBtnRef.current?.click();
+    }
+  };
 
   useEffect(() => {
     socket.on("farm_head", (payload: string) => {
@@ -138,8 +151,6 @@ const CommunityChat = () => {
               className={`w-full h-full object-contain aspect-auto`}
             />
           </div>
-
-          {/*  */}
         </div>
       )}
 
@@ -157,7 +168,17 @@ const CommunityChat = () => {
                     <div className="flex gap-3">
                       <div className="grow text-end space-y-3">
                         <div className="inline-block bg-green-600 rounded-2xl p-4 shadow-sm">
-                          <p className="text-base text-white ">
+                          <span className="flex flex-row-reverse gap-3 font-poppins-medium text-background">
+                            {chat?.user?.username}
+
+                            <Badge variant="secondary" className="ms-1.5">
+                              <span className="font-poppins-regular">
+                                {useParseUserRole(chat?.user?.role)}
+                              </span>
+                            </Badge>
+                          </span>
+
+                          <p className="text-base text-white mt-3">
                             {parse(chat?.question ?? "")}
                           </p>
                           <span className="text-xs italic text-white">
@@ -195,7 +216,7 @@ const CommunityChat = () => {
                 ) : (
                   <div className="my-2">
                     <li className="list-none space-y-2">
-                      <div className="max-w-lg flex gap-x-2 sm:gap-x-4 ">
+                      <div className="max-w-lg flex gap-x-2 sm:gap-x-4">
                         <img
                           className="inline-block size-9 rounded-full"
                           src={chat?.user?.avatar}
@@ -206,8 +227,14 @@ const CommunityChat = () => {
                           <div className="space-y-1.5">
                             <span className="font-poppins-medium">
                               {chat?.user?.username}
+
+                              <Badge variant="outline" className="ms-1.5">
+                                <span className="font-poppins-regular">
+                                  {useParseUserRole(chat?.user?.role)}
+                                </span>
+                              </Badge>
                             </span>
-                            <p className="mb-1.5 text-sm text-gray-800 dark:text-white text-wrap">
+                            <p className="mb-1.5 text-gray-800 dark:text-white text-wrap">
                               {parse(chat?.question ?? "")}
                             </p>
 
@@ -284,13 +311,16 @@ const CommunityChat = () => {
             </div>
             <div className="w-full">
               <Input
+                autoComplete="off"
                 type="text"
                 placeholder="Aa"
                 value={message}
+                onKeyDown={handleOnKeyDown}
                 onChange={e => setMessage(e.target.value)}
               />
             </div>
             <Button
+              ref={submitBtnRef}
               type="button"
               onClick={sendMessage}
               isLoading={isChatLoading}
@@ -306,4 +336,8 @@ const CommunityChat = () => {
   );
 };
 
-export default CommunityChat;
+export default withAuthGuard(CommunityChat, [
+  "admin",
+  "asst_admin",
+  "farm_head"
+]);

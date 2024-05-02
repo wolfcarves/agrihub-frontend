@@ -248,7 +248,7 @@ const UserForgotPasswordForm = () => {
                     </Avatar>
 
                     <div className="h-full">
-                      <h3>{account?.firstname + " " + account?.firstname}</h3>
+                      <h3>{account?.firstname + " " + account?.lastname}</h3>
                       <h5 className="text-foreground/80">
                         Is this your account?
                       </h5>

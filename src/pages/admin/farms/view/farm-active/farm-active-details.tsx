@@ -8,7 +8,6 @@ import Loader from "../../../../../icons/Loader";
 const FarmActiveDetails = () => {
   const { id } = useParams();
   const { data: farmDetails, isLoading } = useGetFarmViewQuery(id || "");
-  console.log(farmDetails);
   return (
     <div>
       {/* line 1 */}

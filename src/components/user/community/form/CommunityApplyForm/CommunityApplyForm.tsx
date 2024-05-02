@@ -113,7 +113,9 @@ const CommunityApplyForm = () => {
           className=" grid grid-cols-12 gap-4"
         >
           <div className=" md:col-span-6 col-span-12">
-            <Label className=" font-poppins-medium">Contact Person</Label>
+            <Label className=" font-poppins-medium">
+              Contact Person (Optional)
+            </Label>
             <Input
               type="text"
               className="h-10 bg-transparent"

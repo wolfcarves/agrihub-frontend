@@ -209,11 +209,11 @@ const CommunityEvents = () => {
             <div className=" col-span-4">
               <img
                 src={task.banner}
-                className=" h-[100%] w-full rounded-2xl object-cover object-center border-[4px] border-primary"
+                className="md:h-[15rem] h-[12rem] w-full rounded-2xl object-cover object-center border-[4px] border-primary"
               />
             </div>
             <div className=" col-span-6 pl-3">
-              <div className=" flex gap-2 capitalize items-center font-poppins-regular mt-2">
+              <div className=" flex gap-2 capitalize items-center md:text-sm text-xs font-poppins-regular mt-2">
                 <TfiWorld size={17} className="text-primary" /> {task.type}
               </div>
 
@@ -298,7 +298,7 @@ const CommunityEvents = () => {
 
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
-                    <Button className=" bg-destructive  md:text-sm text-[.6rem] md:p-4 p-2 md:h-10 h-8">
+                    <Button className=" bg-destructive  md:text-sm text-[.5rem] md:p-4 p-2 md:h-10 h-8">
                       Delete
                     </Button>
                   </AlertDialogTrigger>

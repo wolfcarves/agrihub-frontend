@@ -70,7 +70,7 @@ const CommunityApplyForm = () => {
       const compiledData: FarmMemberApplication = {
         contact_person: data.contact_person,
         reason: data.reason,
-        answer: JSON.stringify(answers),
+        answer: answers.length ? JSON.stringify(answers) : undefined,
         proof_selfie: data.proof_selfie,
         valid_id: data.valid_id
       };
@@ -113,13 +113,16 @@ const CommunityApplyForm = () => {
           className=" grid grid-cols-12 gap-4"
         >
           <div className=" md:col-span-6 col-span-12">
-            <Label className=" font-poppins-medium">Contact Person</Label>
+            <Label className=" font-poppins-medium">
+              Contact Person (Optional)
+            </Label>
             <Input
               type="text"
               className="h-10 bg-transparent"
               placeholder="Enter contact..."
               {...form.register("contact_person")}
             />
+
             <FormMessage>
               {form.formState.errors.contact_person?.message}
             </FormMessage>
@@ -169,6 +172,11 @@ const CommunityApplyForm = () => {
                 <Capture onChange={value => form.setValue("valid_id", value)} />
               )}
             />
+            <p className=" text-xs text-gray-500">
+              This form exclusively accepts valid identification documents
+              issued in the Philippines.(ex. Philippine driver's license, Brgy.
+              ID, passport, or any government-issued ID card)
+            </p>
           </div>
           <div className="flex items-center space-x-2 col-span-12">
             <Checkbox

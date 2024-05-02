@@ -35,6 +35,13 @@ const SocketProvider = (props: { children: React.ReactNode }) => {
     }
   };
 
+  type Payload = {
+    userid: string;
+    event: string;
+  };
+
+  const parsePayload = (payload: string): Payload => JSON.parse(payload);
+
   const showNotification = (payload: string) => {
     console.log(payload, "WEB SOCKET");
     queryClient.invalidateQueries({ queryKey: ["GET_USER_NOTIFICATIONS"] });
@@ -55,7 +62,12 @@ const SocketProvider = (props: { children: React.ReactNode }) => {
   const triggerMessageNotif = (payload: string) => {
     queryClient.invalidateQueries({ queryKey: ["PRIVATE_CHAT"] });
     console.log(payload, "EVENT TRIGGERED");
-    if (Notification.permission === "granted") {
+    const parsedPayload = parsePayload(payload);
+
+    if (
+      Notification.permission === "granted" &&
+      parsedPayload.userid !== data?.id
+    ) {
       new Notification("Hello!", {
         body: "New Message Received"
       });

@@ -341,13 +341,13 @@ const CropsReportPlantedList = () => {
                 {userData?.role === "farm_head" && (
                   <div className=" flex gap-2">
                     <Button
-                      disabled={userData?.role === "farm_head" ? false : true}
-                      // disabled={
-                      //   checkGreater(crop.expected_harvest_date || "") &&
-                      //   userData?.role === "farm_head"
-                      //     ? false
-                      //     : true
-                      // }
+                      // disabled={userData?.role === "farm_head" ? false : true}
+                      disabled={
+                        checkGreater(crop.expected_harvest_date || "") &&
+                        userData?.role === "farm_head"
+                          ? false
+                          : true
+                      }
                       variant="outline"
                       onClick={() => handleCropReport(crop)}
                     >

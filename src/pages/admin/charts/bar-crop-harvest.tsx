@@ -39,7 +39,7 @@ const BarCropHarvest = () => {
     const slicedValues = values.slice(-2);
     const pm = Number(slicedValues[0]);
     const cm = Number(slicedValues[1]);
-    return (((cm - pm) / pm) * 100).toFixed(2);
+    return (((cm - pm) / cm) * 100).toFixed(2);
   }, [harvestChart]);
 
   const lastTwoMonths = useMemo(() => {

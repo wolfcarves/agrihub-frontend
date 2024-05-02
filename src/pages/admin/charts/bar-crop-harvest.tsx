@@ -54,7 +54,6 @@ const BarCropHarvest = () => {
     id: farmId || "",
     month: activeIndex
   });
-
   const { data: farmData, isLoading } = useGetFarmListQuery({
     search: undefined,
     page: "1",

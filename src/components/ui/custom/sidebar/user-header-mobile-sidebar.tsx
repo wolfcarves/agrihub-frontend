@@ -16,10 +16,10 @@ import {
 } from "react-icons/pi";
 import { HiMenuAlt2 } from "react-icons/hi";
 import { IoMdClose } from "react-icons/io";
-import { CiSquareQuestion } from "react-icons/ci";
+import { CiChat1, CiSquareQuestion } from "react-icons/ci";
 import { BiHomeAlt } from "react-icons/bi";
 import { RxQuestionMarkCircled } from "react-icons/rx";
-import { GoBook } from "react-icons/go";
+import { GoBook, GoTasklist } from "react-icons/go";
 import { Sheet, SheetContent, SheetTrigger } from "@components/ui/sheet";
 import useGetFarmViewQuery from "@hooks/api/get/useGetFarmViewQuery";
 import useGetCmsAboutDetails from "@hooks/api/get/useGetCmsAboutDetails";
@@ -96,22 +96,16 @@ const UserHeaderMobileSidebar = ({
               pathname === `/community/reports/${userData?.farm_id}` ||
               pathname === `/community/request/${userData?.farm_id}` ||
               pathname === `/community/problem/${userData?.farm_id}` ||
-              pathname === `/community/request/${userData?.farm_id}`
+              pathname === `/community/request/${userData?.farm_id}` ||
+              pathname === `/community/chat/${userData?.farm_id}` ||
+              pathname === `/community/task/${userData?.farm_id}`
             }
-          />
-
-          <UserSidebarNavLink
-            to="/community/explore"
-            title="Explore"
-            logo={<PiListMagnifyingGlass size={21} />}
-            onClick={handleEventClick}
-            end
           />
 
           {userData?.farm_id && userData.role === "farm_head" && (
             <UserSidebarNavLink
-              to={`/community/reports/${userData?.farm_id}`}
-              title="Reports"
+              to={`/community/chats/${userData?.farm_id}`}
+              title="Chats"
               logo={<PiNewspaper size={20} />}
               end
               onClick={handleEventClick}
@@ -119,9 +113,18 @@ const UserHeaderMobileSidebar = ({
           )}
           {userData?.farm_id && userData.role === "farm_head" && (
             <UserSidebarNavLink
-              to={`/community/request/${userData?.farm_id}`}
-              title="Request"
-              logo={<CiSquareQuestion size={20} />}
+              to={`/community/chat/${userData?.farm_id}`}
+              title="Task"
+              logo={<CiChat1 size={20} />}
+              end
+              onClick={handleEventClick}
+            />
+          )}
+          {userData?.farm_id && userData.role === "farm_head" && (
+            <UserSidebarNavLink
+              to={`/community/reports/${userData?.farm_id}`}
+              title="Reports"
+              logo={<GoTasklist size={20} />}
               end
               onClick={handleEventClick}
             />
@@ -135,6 +138,22 @@ const UserHeaderMobileSidebar = ({
               onClick={handleEventClick}
             />
           )}
+          {userData?.farm_id && userData.role === "farm_head" && (
+            <UserSidebarNavLink
+              to={`/community/request/${userData?.farm_id}`}
+              title="Request"
+              logo={<CiSquareQuestion size={20} />}
+              end
+              onClick={handleEventClick}
+            />
+          )}
+          <UserSidebarNavLink
+            to="/community/explore"
+            title="Explore"
+            logo={<PiListMagnifyingGlass size={21} />}
+            onClick={handleEventClick}
+            end
+          />
         </div>
 
         <div className="mt-10">

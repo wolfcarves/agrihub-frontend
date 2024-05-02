@@ -1,10 +1,9 @@
 import AdminOutletContainer from "@components/admin/layout/container/AdminOutletContainer";
 import BreadCrumb from "@components/ui/custom/breadcrumb/breadcrumb";
-import React, { useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import FarmActiveDetails from "./farm-active/farm-active-details";
 import { Card } from "@components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/ui/tabs";
-import FarmActiveCrops from "./farm-active/farm-active-crops";
 import RequestSeedlingsTable from "../../../../components/admin/community-view/request-seedlings-table/request-seedlings-table";
 import { useParams } from "react-router-dom";
 import CropsReportTable from "../../../../components/admin/community-view/crops-report-table/crops-report-table";
@@ -22,6 +21,11 @@ import useGetFarmCropsQuery from "../../../../hooks/api/get/useGetFarmCropsQuery
 import CropCard from "../../../../components/user/community/crop/crop-card/crop-card";
 import RequestToolsTable from "../../../../components/admin/community-view/request-tools-table/request-tools-table";
 import MemberTable from "../../../../components/admin/community-view/member-table/member-table";
+import { CSVLink } from "react-csv";
+import useGetFarmViewQuery from "@hooks/api/get/useGetFarmViewQuery";
+import { Button } from "@components/ui/button";
+import { PiFileCsvFill } from "react-icons/pi";
+import { useReactToPrint } from "react-to-print";
 
 const breadcrumbItems = [
   {
@@ -37,10 +41,52 @@ const FarmActiveView = () => {
   const { id } = useParams();
   const { data: farmGallery } = useGetFarmGalleryQuery(id || "");
   const { data: farmCrops } = useGetFarmCropsQuery(id || "");
-
+  const { data: farmDetails } = useGetFarmViewQuery(id || "");
   const [selectedImage, setSelectedImage] = useState<CropGalleryItem | null>(
     null
   );
+
+  const galleryPrint = useRef(null);
+  const handlePrint = useReactToPrint({
+    documentTitle: "Farm images",
+    onBeforePrint: () => console.log("before printing..."),
+    onAfterPrint: () => console.log("after printing..."),
+    removeAfterPrint: true
+  });
+  const communityCropsHeaders = [
+    {
+      label: "Crop Name",
+      key: "cropname"
+    },
+    {
+      label: "Growth Span",
+      key: "growthspan"
+    },
+    {
+      label: "Seedling Season",
+      key: "seedling"
+    },
+    {
+      label: "Planting Season",
+      key: "planting"
+    },
+    {
+      label: "Harvest Season",
+      key: "harvest"
+    }
+  ];
+
+  const communityCropsData = useMemo(() => {
+    return (
+      farmCrops?.map(item => ({
+        cropname: item.name || "",
+        growthspan: item.growth_span || "",
+        seedling: item.seedling_season || "",
+        planting: item.planting_season || "",
+        harvest: item.harvest_season || ""
+      })) || []
+    );
+  }, [farmCrops]);
 
   const handleImageClick = (image: CropGalleryItem) => {
     setSelectedImage(image);
@@ -49,6 +95,7 @@ const FarmActiveView = () => {
   const closeModal = () => {
     setSelectedImage(null);
   };
+
   return (
     <AdminOutletContainer>
       <BreadCrumb items={breadcrumbItems} />
@@ -81,17 +128,38 @@ const FarmActiveView = () => {
             <FarmActiveDetails />
             {/* <FarmActiveCrops /> */}
             <div>
-              <h2 className="text-xl font-bold tracking-tight">
-                Community Crops:
-              </h2>
+              <div className="flex justify-between items-center my-2">
+                <h2 className="text-xl font-bold tracking-tight">
+                  Community Crops:
+                </h2>
+                <Button>
+                  <CSVLink
+                    className="flex items-center gap-1"
+                    data={communityCropsData}
+                    headers={communityCropsHeaders}
+                    filename={`available-crops-in-${farmDetails?.farm_name}.csv`}
+                  >
+                    <PiFileCsvFill size={18} /> Export
+                  </CSVLink>
+                </Button>
+              </div>
               <div className="grid grid-cols-12 gap-3">
                 {farmCrops?.map((crop, i) => <CropCard crop={crop} key={i} />)}
               </div>
             </div>
             <hr className="my-4" />
-            <h2 className="text-xl font-bold tracking-tight">Gallery:</h2>
+            <div className="flex justify-between items-center my-2">
+              <h2 className="text-xl font-bold tracking-tight">Gallery:</h2>
+              <Button
+                onClick={() => {
+                  handlePrint(null, () => galleryPrint.current);
+                }}
+              >
+                print
+              </Button>
+            </div>
             <TooltipProvider>
-              <div className="flex gap-3 flex-wrap">
+              <div className="flex gap-3 flex-wrap" ref={galleryPrint}>
                 {farmGallery?.map((gallery, i) => (
                   <Tooltip key={i}>
                     <TooltipTrigger className="relative">

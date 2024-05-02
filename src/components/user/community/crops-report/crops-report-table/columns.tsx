@@ -61,6 +61,16 @@ export const columns: ColumnDef<PlantedCropsResponse>[] = [
       return <div>{row.original.kilogram} KG</div>;
     }
   },
+  {
+    header: "Harvest By",
+    cell: ({ row }) => {
+      return (
+        <div>
+          {row.original.firstname} {row.original.lastname}
+        </div>
+      );
+    }
+  },
 
   {
     header: "Actions",

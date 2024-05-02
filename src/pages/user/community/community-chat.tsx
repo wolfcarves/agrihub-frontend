@@ -15,6 +15,7 @@ import { FiImage } from "react-icons/fi";
 import { IoMdClose } from "react-icons/io";
 import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/avatar";
 import LoadingSpinner from "@icons/LoadingSpinner";
+import withAuthGuard from "@higher-order/account/withAuthGuard";
 
 const CommunityChat = () => {
   const { uid } = useParams();
@@ -306,4 +307,8 @@ const CommunityChat = () => {
   );
 };
 
-export default CommunityChat;
+export default withAuthGuard(CommunityChat, [
+  "admin",
+  "asst_admin",
+  "farm_head"
+]);

@@ -93,7 +93,7 @@ const CommunityTaskTable = () => {
   }, 100);
   return (
     <div>
-      <div className="flex justify-between gap-3 mb-4">
+      <div className="flex md:flex-row flex-col justify-between gap-3 mb-4">
         <Input
           placeholder="Search task..."
           className="max-w-sm"

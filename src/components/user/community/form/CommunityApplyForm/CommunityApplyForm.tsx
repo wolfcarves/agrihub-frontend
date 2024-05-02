@@ -120,6 +120,7 @@ const CommunityApplyForm = () => {
               placeholder="Enter contact..."
               {...form.register("contact_person")}
             />
+
             <FormMessage>
               {form.formState.errors.contact_person?.message}
             </FormMessage>

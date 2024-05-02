@@ -18,13 +18,24 @@ import { formatMonth } from "../../../lib/utils";
 import { useParams } from "react-router-dom";
 import useAuth from "../../../../hooks/useAuth";
 const BarchartHarvest = () => {
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
+  const currentMonth = currentDate.getMonth() + 1;
+  const [selectedYear, setSelectedYear] = useState<string>(String(currentYear));
+  const [startMonth, setStartMonth] = useState<string>("1");
+  const [endMonth, setEndMonth] = useState<string>(String(currentMonth));
   const [activeIndex, setActiveIndex] = useState<string>("");
   const chartRef = useRef();
 
   const { id } = useParams();
 
-  const { data: harvestChart } = useGetReportTotalHarvestChart(id || "");
-  const { data } = useGetFarmAllCropsQuery();
+  const { data: harvestChart } = useGetReportTotalHarvestChart({
+    id: id || "",
+    start: startMonth,
+    end: endMonth,
+    year: selectedYear
+  });
+
   const { data: cropDistribution } = useGetReportCropDistributionCommunity({
     id: id || "",
     month: activeIndex
@@ -126,6 +137,33 @@ const BarchartHarvest = () => {
     }
   };
 
+  const months = [
+    { value: "1", label: "January" },
+    { value: "2", label: "February" },
+    { value: "3", label: "March" },
+    { value: "4", label: "April" },
+    { value: "5", label: "May" },
+    { value: "6", label: "June" },
+    { value: "7", label: "July" },
+    { value: "8", label: "August" },
+    { value: "9", label: "September" },
+    { value: "10", label: "October" },
+    { value: "11", label: "November" },
+    { value: "12", label: "December" }
+  ];
+
+  const handleChangeYear = (year: string) => {
+    setSelectedYear(year);
+  };
+
+  const handleChangeStartMonth = (month: string) => {
+    setStartMonth(month);
+  };
+
+  const handleChangeEndMonth = (month: string) => {
+    setEndMonth(month);
+  };
+
   const componentRef = useRef<HTMLDivElement>(null);
   const handlePrint = useReactToPrint({
     content: () => componentRef?.current
@@ -137,31 +175,91 @@ const BarchartHarvest = () => {
       className="grid grid-cols-12 gap-x-4 gap-y-[2.5rem]"
     >
       <div className="border border-border p-4 rounded-lg lg:col-span-8 col-span-12">
-        <div className="flex justify-between ">
+        <div className="flex justify-between mb-2 ">
           <div>
             <h5 className="font-poppins-medium">Monthly Harvest Kilogram</h5>
             <p className="text-xs text-gray-400">
               Click the bar to view the harvest summary of that month
             </p>
           </div>
-          <Button
-            className="print:hidden p-4 bg-[#DE2429]"
-            onClick={handlePrint}
-          >
-            <FaFilePdf size={16} />
-          </Button>
-          {/* <Select>
-            <SelectTrigger className="w-auto focus-visible:ring-0">
-              <SelectValue placeholder="Select Month" />
-            </SelectTrigger>
-            <SelectContent className=" max-h-[40vh]">
-              {data?.map((crop, i) => (
-                <SelectItem key={i} value={crop?.id || ""}>
-                  {crop.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select> */}
+
+          <div className="flex flex-wrap gap-4 justify-end">
+            <Button
+              className="print:hidden p-4 bg-[#DE2429]"
+              onClick={handlePrint}
+            >
+              <FaFilePdf size={16} />
+            </Button>
+            <Select
+              onValueChange={e => handleChangeYear(e)}
+              defaultValue={selectedYear}
+            >
+              <SelectTrigger className="w-auto">
+                <SelectValue placeholder="Year" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="2024">2024</SelectItem>
+                <SelectItem value="2023">2023</SelectItem>
+              </SelectContent>
+            </Select>
+
+            <Select
+              onValueChange={e => handleChangeStartMonth(e)}
+              defaultValue={startMonth}
+            >
+              <SelectTrigger className="w-auto">
+                <SelectValue placeholder="Month From" />
+              </SelectTrigger>
+              <SelectContent>
+                {months
+                  .slice(
+                    0,
+                    String(currentYear) === selectedYear
+                      ? Number(currentMonth)
+                      : 12
+                  )
+                  .map(month => (
+                    <SelectItem
+                      key={month.value}
+                      value={month.value}
+                      disabled={month.value === String(currentMonth)}
+                    >
+                      {month.label}
+                    </SelectItem>
+                  ))}
+              </SelectContent>
+            </Select>
+
+            <Select
+              onValueChange={e => handleChangeEndMonth(e)}
+              defaultValue={endMonth}
+            >
+              <SelectTrigger className="w-auto">
+                <SelectValue placeholder="Month To" />
+              </SelectTrigger>
+              <SelectContent>
+                {months
+                  .slice(
+                    0,
+                    String(currentYear) === selectedYear
+                      ? Number(currentMonth)
+                      : 12
+                  )
+                  .map(month => {
+                    return (
+                      <SelectItem
+                        key={month.value}
+                        value={month.value}
+                        onClick={() => handleChangeEndMonth(month.value)}
+                        disabled={startMonth + "1" > month.value}
+                      >
+                        {month.label}
+                      </SelectItem>
+                    );
+                  })}
+              </SelectContent>
+            </Select>
+          </div>
         </div>
         <div className="h-[350px]  ">
           <Bar

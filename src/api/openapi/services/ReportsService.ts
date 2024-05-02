@@ -125,17 +125,37 @@ year?: string,
      */
     public static getApiReportsFarmerGraphTotalHarvest({
 id,
+start,
+end,
+year,
 }: {
 /**
  * ID of the farm
  */
 id: string,
+/**
+ * start month of the query
+ */
+start: string,
+/**
+ * end month of the query
+ */
+end: string,
+/**
+ * start year of the query
+ */
+year: string,
 }): CancelablePromise<FarmerGraphTotalHarvestResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/reports/farmer/graph/total-harvest/{id}',
             path: {
                 'id': id,
+            },
+            query: {
+                'start': start,
+                'end': end,
+                'year': year,
             },
             errors: {
                 400: `Validation Error`,

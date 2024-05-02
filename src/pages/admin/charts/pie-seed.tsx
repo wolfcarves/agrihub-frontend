@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Doughnut, Pie } from "react-chartjs-2";
 import useGetRequestCountGraph from "../../../hooks/api/get/useGetRequestCountGraph";
 import useGetReportAnalyticsPiechart from "../../../hooks/api/get/useGetReportAnalyticsPiechart";
@@ -6,6 +6,20 @@ import { chartColor } from "../../../constants/data";
 
 const PieSeed = () => {
   const { data: requestCount } = useGetReportAnalyticsPiechart();
+
+  const compareRequest = useMemo(() => {
+    const request = Number(requestCount?.pending_seedling_requests);
+    const given = Number(requestCount?.seedling_requests);
+    const compareResult = ((given - request) / given) * 100;
+    return compareResult.toFixed(2);
+  }, [requestCount]);
+
+  const compareRequest1 = useMemo(() => {
+    const request = Number(requestCount?.pending_seedling_requests);
+    const given = Number(requestCount?.seedling_requests);
+    const compareResult = ((request - given) / request) * 100;
+    return compareResult.toFixed(2);
+  }, [requestCount]);
 
   const data = {
     labels: ["Given", "Request"],
@@ -56,14 +70,22 @@ const PieSeed = () => {
       <div className=" h-[350px]">
         <Doughnut data={data} options={options} />
       </div>
-      <p className="text-xs text-gray-400 mt-4">
-        {requestCount?.seedling_requests &&
-        requestCount.pending_seedling_requests &&
-        requestCount?.pending_seedling_requests <
-          requestCount?.seedling_requests
-          ? `There are more seedlings requested (${requestCount?.pending_seedling_requests}) than given (${requestCount?.seedling_requests}).`
-          : `There are more seedlings given (${requestCount?.seedling_requests}) than requested (${requestCount?.pending_seedling_requests}).`}
-      </p>
+      {requestCount?.seedling_requests &&
+      requestCount?.pending_seedling_requests &&
+      requestCount?.seedling_requests <
+        requestCount?.pending_seedling_requests ? (
+        <p className="text-xs text-gray-400 mt-4">
+          The number of seedlings we provide exceeds the current seedling
+          request with a percentage value of{" "}
+          <span className="text-primary">{compareRequest}%</span>.
+        </p>
+      ) : (
+        <p className="text-xs text-gray-400 mt-4">
+          The number of seedlings we provide exceeds the current seedling
+          request with a percentage value of{" "}
+          <span className="text-primary">{compareRequest}%</span>.
+        </p>
+      )}
     </>
   );
 };

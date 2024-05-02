@@ -1,33 +1,37 @@
 import React, { MouseEvent, useRef, useState } from "react";
 import { Bar, Doughnut, getElementAtEvent, Radar } from "react-chartjs-2";
-import useGetReportTotalHarvestChart from "../../../../hooks/api/get/useGetReportTotalHarvestChart";
+import { useParams } from "react-router-dom";
+import useGetReportTotalHarvestChart from "../../../hooks/api/get/useGetReportTotalHarvestChart";
+import useGetFarmAllCropsQuery from "../../../hooks/api/get/useGetFarmAllCropsQuery";
+import useGetReportCropDistributionCommunity from "../../../hooks/api/get/useGetReportCropDistributionCommunity";
+import { formatMonth } from "../../../components/lib/utils";
+import { chartColor } from "../../../constants/data";
+import useGetFarmListQuery from "../../../hooks/api/get/useGetFarmListQuery";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue
-} from "../../../ui/select";
-import useGetFarmAllCropsQuery from "../../../../hooks/api/get/useGetFarmAllCropsQuery";
-import useGetReportCropDistributionCommunity from "../../../../hooks/api/get/useGetReportCropDistributionCommunity";
-import { chartColor } from "../../../../constants/data";
-import { Button } from "../../../ui/button";
-import { FaFilePdf } from "react-icons/fa6";
-import { useReactToPrint } from "react-to-print";
-import { formatMonth } from "../../../lib/utils";
-import { useParams } from "react-router-dom";
-import useAuth from "../../../../hooks/useAuth";
-const BarchartHarvest = () => {
+} from "../../../components/ui/select";
+
+const BarCropHarvest = () => {
   const [activeIndex, setActiveIndex] = useState<string>("");
   const chartRef = useRef();
 
-  const { id } = useParams();
+  const [farmId, setFarmId] = useState<string>("");
 
-  const { data: harvestChart } = useGetReportTotalHarvestChart(id || "");
-  const { data } = useGetFarmAllCropsQuery();
+  const { data: harvestChart } = useGetReportTotalHarvestChart(farmId || "");
+
   const { data: cropDistribution } = useGetReportCropDistributionCommunity({
-    id: id || "",
+    id: farmId || "",
     month: activeIndex
+  });
+  const { data: farmData, isLoading } = useGetFarmListQuery({
+    search: undefined,
+    page: "1",
+    filter: undefined,
+    perpage: "10000"
   });
 
   const chartOptions = {
@@ -126,16 +130,8 @@ const BarchartHarvest = () => {
     }
   };
 
-  const componentRef = useRef<HTMLDivElement>(null);
-  const handlePrint = useReactToPrint({
-    content: () => componentRef?.current
-  });
-
   return (
-    <div
-      ref={componentRef}
-      className="grid grid-cols-12 gap-x-4 gap-y-[2.5rem]"
-    >
+    <div className="grid grid-cols-12 gap-x-4 gap-y-[2.5rem]">
       <div className="border border-border p-4 rounded-lg lg:col-span-8 col-span-12">
         <div className="flex justify-between ">
           <div>
@@ -144,24 +140,21 @@ const BarchartHarvest = () => {
               Click the bar to view the harvest summary of that month
             </p>
           </div>
-          <Button
-            className="print:hidden p-4 bg-[#DE2429]"
-            onClick={handlePrint}
-          >
-            <FaFilePdf size={16} />
-          </Button>
-          {/* <Select>
-            <SelectTrigger className="w-auto focus-visible:ring-0">
-              <SelectValue placeholder="Select Month" />
-            </SelectTrigger>
-            <SelectContent className=" max-h-[40vh]">
-              {data?.map((crop, i) => (
-                <SelectItem key={i} value={crop?.id || ""}>
-                  {crop.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select> */}
+
+          {!isLoading && (
+            <Select onValueChange={value => setFarmId(value)}>
+              <SelectTrigger className="w-auto focus-visible:ring-0">
+                <SelectValue placeholder="Select Farm" />
+              </SelectTrigger>
+              <SelectContent className=" max-h-[40vh]">
+                {farmData?.farms?.map((farm, i) => (
+                  <SelectItem key={i} value={farm?.id || ""}>
+                    {farm.farm_name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          )}
         </div>
         <div className="h-[350px]  ">
           <Bar
@@ -193,4 +186,4 @@ const BarchartHarvest = () => {
   );
 };
 
-export default BarchartHarvest;
+export default BarCropHarvest;

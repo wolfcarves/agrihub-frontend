@@ -18,7 +18,7 @@ import RatesFeedback from "../charts/rates-feedback";
 import GrowthRateLineChartAnalytics from "../charts/line-growthrate-analytics";
 import TableFarmGrowthrate from "../charts/table-farm-growthrate";
 import DougnutLandsizeAnalytics from "../charts/dougnut-landsize-analytics";
-import banner from "@assets/images/ForAnalytics-2.webp";
+import banner from "@assets/analytics-top.png";
 import Autoplay from "embla-carousel-autoplay";
 import {
   Avatar,
@@ -27,6 +27,7 @@ import {
 } from "../../../components/ui/avatar";
 import BarDistrictOverviewAnalytics from "../charts/bar-district-overview-analytics";
 import { Skeleton } from "../../../components/ui/skeleton";
+import BarCropHarvest from "../charts/bar-crop-harvest";
 const AnalyticsAdmin = () => {
   const [sort, setSort] = useState<"asc" | "desc" | undefined>("asc");
   const { data: lowestGrowth, isLoading: TopFarmLoad } =
@@ -57,10 +58,10 @@ const AnalyticsAdmin = () => {
                     {lowestGrowth && lowestGrowth[0]?.farm_name?.charAt(1)}
                   </AvatarFallback>
                 </Avatar>
-                <div className="absolute md:top-[10.4rem] top-[6.5rem] right-[10%] uppercase md:text-3xl text-xl font-poppins-bold text-white">
+                <div className="absolute md:top-[10.4rem] top-[6.5rem] right-[10%] uppercase md:text-lg w-[55%] text-end text-md font-poppins-bold text-white">
                   {lowestGrowth && lowestGrowth[0]?.farm_name}
                 </div>
-                <div className="absolute bottom-[5.5rem] right-[10%] uppercase md:text-3xl text-xl font-poppins-bold text-white">
+                <div className="absolute md:bottom-[2.5rem] bottom-[2.5rem] right-[10%] uppercase md:text-3xl text-xl font-poppins-bold text-white">
                   {lowestGrowth &&
                     Number(lowestGrowth[0].avg_growth_rate).toFixed(2)}
                   %
@@ -159,6 +160,9 @@ const AnalyticsAdmin = () => {
           </div>
           <div>
             <DougnutLandsizeAnalytics />
+          </div>
+          <div>
+            <BarCropHarvest />
           </div>
         </div>
       </div>

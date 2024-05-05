@@ -14,6 +14,7 @@ import {
   SelectTrigger,
   SelectValue
 } from "../../../components/ui/select";
+import PerFarmHarvestReport from "./reports/per-farm-harvest-report";
 
 const BarCropHarvest = () => {
   const currentDate = new Date();
@@ -46,6 +47,7 @@ const BarCropHarvest = () => {
       return "N/A"; // or any other default value you prefer
     }
     const final = ((cm - pm) / cm) * 100;
+
     return final.toFixed(2);
   }, [harvestChart]);
   console.log(lastTwoItem);
@@ -193,14 +195,14 @@ const BarCropHarvest = () => {
   return (
     <div className="grid grid-cols-12 gap-x-4 gap-y-[2.5rem]">
       <div className="border border-border p-4 rounded-lg lg:col-span-8 col-span-12">
-        <div className="flex md:flex-row flex-col justify-between ">
+        <div className="flex md:flex-row flex-col gap-4 justify-between ">
           <div>
             <h5 className="font-poppins-medium">Monthly Harvest Per Farm</h5>
             <p className="text-xs text-gray-400">
               Click the bar to view the harvest summary of that month
             </p>
           </div>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2 justify-end">
             {!isLoading && (
               <Select
                 onValueChange={value => setFarmId(value)}
@@ -287,6 +289,7 @@ const BarCropHarvest = () => {
                   })}
               </SelectContent>
             </Select>
+            <PerFarmHarvestReport />
           </div>
         </div>
         <div className="h-[350px]  ">

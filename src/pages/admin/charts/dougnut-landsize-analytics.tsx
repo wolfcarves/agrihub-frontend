@@ -6,6 +6,7 @@ import { Bar, Doughnut, getElementAtEvent } from "react-chartjs-2";
 import { chartColor } from "../../../constants/data";
 import { ChartOptions } from "chart.js";
 import { formatNumberWithCommas } from "../../../components/lib/utils";
+import LandsizeReport from "./reports/landsize-report";
 
 const DougnutLandsizeAnalytics = () => {
   const [district, setDistrict] = useState<
@@ -164,13 +165,16 @@ const DougnutLandsizeAnalytics = () => {
   return (
     <div className=" grid grid-cols-12 gap-4">
       <Card className={`p-5 col-span-12 lg:col-span-4`}>
-        <div>
-          <h2 className="text-lg font-bold tracking-tight ">
-            Total Land Size Per District
-          </h2>
-          <p className="text-xs text-gray-400">
-            Click a part to view the land size per farm
-          </p>
+        <div className="flex justify-between">
+          <div>
+            <h2 className="text-lg font-bold tracking-tight ">
+              Total Land Size Per District
+            </h2>
+            <p className="text-xs text-gray-400">
+              Click a part to view the land size per farm
+            </p>
+          </div>
+          <LandsizeReport />
         </div>
         <div className="h-[350px]">
           <Doughnut
@@ -197,7 +201,7 @@ const DougnutLandsizeAnalytics = () => {
       {district && (
         <Card className={`p-5 col-span-12 lg:col-span-8`}>
           <h2 className="text-lg font-bold tracking-tight ">
-            Land Size Per Farm
+            Land Size Per Farm : {district}
           </h2>
           <p className="text-xs text-gray-400 mt-1">
             The{" "}

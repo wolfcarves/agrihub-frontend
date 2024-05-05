@@ -1,39 +1,34 @@
-import useGetMonthlyWithered from "@hooks/api/get/useGetMonthlyWithered";
-import React, { useRef, useState, MouseEvent, useMemo } from "react";
+import React, { useMemo, useRef, useState, MouseEvent } from "react";
 import {
-  Bar,
-  Doughnut,
-  getDatasetAtEvent,
-  getElementAtEvent,
-  getElementsAtEvent,
-  Line,
-  Radar
-} from "react-chartjs-2";
-import logo from "@assets/icons/agrihub-topleaf.svg";
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
+} from "../../../../components/ui/dialog";
+import { Button } from "../../../../components/ui/button";
+import { FaRegFilePdf } from "react-icons/fa6";
+import { Card } from "../../../../components/ui/card";
+import useGetMonthlyWithered from "../../../../hooks/api/get/useGetMonthlyWithered";
+import useGetReportCropDistribution from "../../../../hooks/api/get/useGetReportCropDistribution";
+import useGetReportHarvestDistribution from "../../../../hooks/api/get/useGetReportHarvestDistribution";
+import { ChartOptions } from "chart.js";
+import { Bar, getElementAtEvent, Line } from "react-chartjs-2";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue
-} from "@components/ui/select";
-import { Chart, ChartOptions, Plugin, plugins } from "chart.js";
-import useGetReportCropDistribution from "../../../hooks/api/get/useGetReportCropDistribution";
-import useGetReportGrowthRateDistribution from "../../../hooks/api/get/useGetReportGrowthRateDistribution";
-import { chartColor } from "../../../constants/data";
-import { Card } from "../../../components/ui/card";
-import useGetReportHarvestDistribution from "../../../hooks/api/get/useGetReportHarvestDistribution";
-import PieSeed from "./pie-seed";
-import {
-  formatMonth,
-  formatNumberWithCommas
-} from "../../../components/lib/utils";
-import { Button } from "../../../components/ui/button";
-import { FaRegFilePdf } from "react-icons/fa6";
+} from "../../../../components/ui/select";
 import { useReactToPrint } from "react-to-print";
-import HarvestKilogramReport from "./reports/harvest-kilogram-report";
+import logo from "@assets/icons/agrihub-topleaf.svg";
+import { formatMonth } from "../../../../components/lib/utils";
 
-const BarHarvestWithered = () => {
+const HarvestKilogramReport = () => {
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
   const currentMonth = currentDate.getMonth() + 1;
@@ -41,7 +36,9 @@ const BarHarvestWithered = () => {
   const [selectedYear, setSelectedYear] = useState<string>(String(currentYear));
   const [startMonth, setStartMonth] = useState<string>("1");
   const [endMonth, setEndMonth] = useState<string>(String(currentMonth));
-  const [activeLabel, setActiveLabel] = useState<string>("");
+  const [activeLabel, setActiveLabel] = useState<string>(
+    "" || String(currentMonth)
+  );
   const { data: barChartData, isLoading: barLoading } = useGetMonthlyWithered({
     year: selectedYear,
     start: startMonth,
@@ -245,105 +242,120 @@ const BarHarvestWithered = () => {
   const handlePrint = useReactToPrint({
     content: () => componentRef?.current
   });
-
   return (
-    <>
-      <div className=" grid grid-cols-12 gap-4">
-        <Card className={`p-5 col-span-12 lg:col-span-8`}>
-          <div className="flex justify-between flex-wrap sm:flex-nowrap ">
-            <div>
-              <h2 className="text-lg font-bold tracking-tight ">
-                Farm harvest kilogram each month
-              </h2>
-              <p className="text-xs text-gray-400">
-                Click the bar to view the harvest summary of that month
-              </p>
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button>
+          <FaRegFilePdf size={16} />
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[60rem]">
+        <DialogHeader>
+          <DialogTitle>Export Harvest Kilogram </DialogTitle>
+          <DialogDescription>
+            Select the month you want to export data. Click export when you're
+            done.
+          </DialogDescription>
+        </DialogHeader>
+        <div className=" max-h-[70vh] overflow-auto custom-scroll border border-border p-5">
+          <div ref={componentRef} className=" p-5 ">
+            <div className=" flex justify-center my-4">
+              <img className="h-[4rem]" src={logo as unknown as string} />
             </div>
-            <div className="flex gap-4 justify-end">
-              <Select
-                onValueChange={e => handleChangeYear(e)}
-                defaultValue={selectedYear}
-              >
-                <SelectTrigger className="w-auto">
-                  <SelectValue placeholder="Year" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="2024">2024</SelectItem>
-                  <SelectItem value="2023">2023</SelectItem>
-                </SelectContent>
-              </Select>
+            <div className={`p-5 `}>
+              <div className="flex justify-between flex-wrap sm:flex-nowrap ">
+                <div>
+                  <h2 className="text-lg font-bold tracking-tight ">
+                    Farm harvest kilogram each month
+                  </h2>
+                  <p className="text-xs text-gray-400 print:hidden">
+                    Click the bar to view the harvest summary of that month
+                  </p>
+                </div>
+                <div className="flex gap-4 justify-end">
+                  <Select
+                    onValueChange={e => handleChangeYear(e)}
+                    defaultValue={selectedYear}
+                  >
+                    <SelectTrigger className="w-auto">
+                      <SelectValue placeholder="Year" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="2024">2024</SelectItem>
+                      <SelectItem value="2023">2023</SelectItem>
+                    </SelectContent>
+                  </Select>
 
-              <Select
-                onValueChange={e => handleChangeStartMonth(e)}
-                defaultValue={startMonth}
-              >
-                <SelectTrigger className="w-auto">
-                  <SelectValue placeholder="Month From" />
-                </SelectTrigger>
-                <SelectContent>
-                  {months
-                    .slice(
-                      0,
-                      String(currentYear) === selectedYear
-                        ? Number(currentMonth)
-                        : 12
-                    )
-                    .map(month => (
-                      <SelectItem
-                        key={month.value}
-                        value={month.value}
-                        disabled={month.value === String(currentMonth)}
-                      >
-                        {month.label}
-                      </SelectItem>
-                    ))}
-                </SelectContent>
-              </Select>
+                  <Select
+                    onValueChange={e => handleChangeStartMonth(e)}
+                    defaultValue={startMonth}
+                  >
+                    <SelectTrigger className="w-auto">
+                      <SelectValue placeholder="Month From" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {months
+                        .slice(
+                          0,
+                          String(currentYear) === selectedYear
+                            ? Number(currentMonth)
+                            : 12
+                        )
+                        .map(month => (
+                          <SelectItem
+                            key={month.value}
+                            value={month.value}
+                            disabled={month.value === String(currentMonth)}
+                          >
+                            {month.label}
+                          </SelectItem>
+                        ))}
+                    </SelectContent>
+                  </Select>
 
-              <Select
-                onValueChange={e => handleChangeEndMonth(e)}
-                defaultValue={endMonth}
-              >
-                <SelectTrigger className="w-auto">
-                  <SelectValue placeholder="Month To" />
-                </SelectTrigger>
-                <SelectContent>
-                  {months
-                    .slice(
-                      0,
-                      String(currentYear) === selectedYear
-                        ? Number(currentMonth)
-                        : 12
-                    )
-                    .map(month => {
-                      return (
-                        <SelectItem
-                          key={month.value}
-                          value={month.value}
-                          onClick={() => handleChangeEndMonth(month.value)}
-                          disabled={startMonth + "1" > month.value}
-                        >
-                          {month.label}
-                        </SelectItem>
-                      );
-                    })}
-                </SelectContent>
-              </Select>
-              <HarvestKilogramReport />
-            </div>
-          </div>
+                  <Select
+                    onValueChange={e => handleChangeEndMonth(e)}
+                    defaultValue={endMonth}
+                  >
+                    <SelectTrigger className="w-auto">
+                      <SelectValue placeholder="Month To" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {months
+                        .slice(
+                          0,
+                          String(currentYear) === selectedYear
+                            ? Number(currentMonth)
+                            : 12
+                        )
+                        .map(month => {
+                          return (
+                            <SelectItem
+                              key={month.value}
+                              value={month.value}
+                              onClick={() => handleChangeEndMonth(month.value)}
+                              disabled={startMonth + "1" > month.value}
+                            >
+                              {month.label}
+                            </SelectItem>
+                          );
+                        })}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
 
-          <div className="h-[350px] mt-4">
-            <Bar
-              ref={chartRef}
-              onClick={onClick}
-              data={data}
-              options={options}
-            />
-          </div>
-          {!barLoading && (
-            <p className="text-xs text-gray-400 mt-1">
-              {/* Based on the graph, the highest harvest among the selected months
+              <div className="h-[350px] mt-4">
+                <Bar
+                  ref={chartRef}
+                  onClick={onClick}
+                  data={data}
+                  options={options}
+                />
+              </div>
+              {!barLoading && (
+                <p className="text-xs text-gray-400 mt-1">
+                  {/* Based on the graph, the highest harvest among the selected months
               is in <span className=" text-primary">{highestMonth}</span> with a
               harvest value of{" "}
               <span className=" text-primary">
@@ -355,31 +367,27 @@ const BarHarvestWithered = () => {
                 {formatNumberWithCommas(lowestValue)}
               </span>
               . */}
-              This graph compares the amount of harvest you have collected as of
-              <span className="text-primary"> [{prevMonth}]</span>–
-              <span className=" text-primary">[{activeMonth}] </span> of{" "}
-              <span className=" text-primary">[{selectedYear}]</span>. Based on
-              system calculations, it seems that your harvest for this present
-              month has changed by{" "}
-              <span
-                className={
-                  Number(percentageHigher) > 0
-                    ? "text-primary"
-                    : "text-destructive"
-                }
-              >
-                [ {percentageHigher}% ]
-              </span>{" "}
-              compared to the previous month.
-            </p>
-          )}
-        </Card>
-        <Card className="col-span-12 lg:col-span-4 lg:block hidden p-5">
-          <PieSeed />
-        </Card>
-        {Number(cropDistribution?.length || 0) > 0 && (
-          <>
-            <Card className="p-5 lg:col-span-7 col-span-12">
+                  This graph compares the amount of harvest you have collected
+                  as of
+                  <span className="text-primary"> [{prevMonth}]</span>–
+                  <span className=" text-primary">[{activeMonth}] </span> of{" "}
+                  <span className=" text-primary">[{selectedYear}]</span>. Based
+                  on system calculations, it seems that your harvest for this
+                  present month has changed by{" "}
+                  <span
+                    className={
+                      Number(percentageHigher) > 0
+                        ? "text-primary"
+                        : "text-destructive"
+                    }
+                  >
+                    [ {percentageHigher}% ]
+                  </span>{" "}
+                  compared to the previous month.
+                </p>
+              )}
+            </div>
+            <div className="p-5 lg:col-span-7 col-span-12 my-4">
               <h2 className="text-lg font-bold tracking-tight ">
                 Crops Distribution : {formatMonth(activeLabel)}
               </h2>
@@ -402,8 +410,8 @@ const BarHarvestWithered = () => {
                 </span>{" "}
                 from other crops in this month
               </p>
-            </Card>
-            <Card className={` p-5 duration-300 lg:col-span-5 col-span-12`}>
+            </div>
+            <div className={` p-5 duration-300 lg:col-span-5 col-span-12`}>
               <h2 className="text-lg font-bold tracking-tight ">
                 Farm Harvest Distribution : {formatMonth(activeLabel)}
               </h2>
@@ -423,15 +431,21 @@ const BarHarvestWithered = () => {
                 </span>{" "}
                 compared to the other farms in this month
               </p>
-            </Card>
-          </>
-        )}
-        <Card className="col-span-12 lg:col-span-4 block lg:hidden p-5">
-          <PieSeed />
-        </Card>
-      </div>
-    </>
+            </div>
+          </div>
+        </div>
+
+        <div className=" flex justify-end gap-2">
+          <DialogClose asChild>
+            <Button type="button" variant="secondary">
+              Close
+            </Button>
+          </DialogClose>
+          <Button onClick={() => handlePrint()}>Export</Button>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 };
 
-export default BarHarvestWithered;
+export default HarvestKilogramReport;

@@ -16,12 +16,10 @@ import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/avatar";
 import LoadingSpinner from "@icons/LoadingSpinner";
 import withAuthGuard from "@higher-order/account/withAuthGuard";
 import { Badge } from "@components/ui/badge";
-import useParseUserRole from "@hooks/utils/useParseUserRole";
 
 const CommunityChat = () => {
   const { uid } = useParams();
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
   const [message, setMessage] = useState("");
   const [fullScreenImg, setFullScreenImg] = useState<string>("");
   const [imgFile, setImgFile] = useState<File | null>(null);
@@ -154,125 +152,117 @@ const CommunityChat = () => {
         </div>
       )}
 
-      <div
-        className="h-[calc(100vh-3.5rem)] lg:h-[calc(100vh-5rem)] w-full overflow-y-auto"
-        ref={chatRef}
-      >
-        <div className="h-max w-full p-5">
-          <div className="space-y-5">
-            {chatData?.questions?.map((chat, index) => (
-              <div key={index}>
-                {/* user chat */}
-                {chat.user?.id === uid ? (
-                  <li className="flex flex-col ms-auto gap-x-2 sm:gap-x-4 my-2 space-y-2">
+      <div className="w-full h-[calc(100vh-5rem)] lg:h-[calc(100vh-8rem)]">
+        <div className="h-full w-full p-5 overflow-y-auto" ref={chatRef}>
+          {chatData?.questions?.map((chat, index) => (
+            <div key={index}>
+              {chat.user?.id === uid ? (
+                <li className="flex flex-col ms-auto gap-x-2 sm:gap-x-4 my-2 space-y-2">
+                  <div className="flex gap-3">
+                    <div className="grow text-end space-y-3">
+                      <div className="inline-block bg-green-600 rounded-2xl p-4 shadow-sm">
+                        <span className="flex flex-col-reverse gap-2 font-poppins-medium text-background">
+                          {chat?.user?.username}
+                          <Badge variant="secondary" className="ms-1.5">
+                            <span className="font-poppins-regular">
+                              {chat?.user?.farm_name}
+                            </span>
+                          </Badge>
+                        </span>
+
+                        <p className="text-base text-white mt-3">
+                          {parse(chat?.question ?? "")}
+                        </p>
+                        <span className="text-xs italic text-white">
+                          {timeAgo(chat?.createdat ?? "")}
+                        </span>
+                      </div>
+                    </div>
+
+                    <Avatar>
+                      <AvatarImage src={chat?.user?.avatar} alt="avatar" />
+                      <AvatarFallback>{chat?.user?.avatar?.[0]}</AvatarFallback>
+                    </Avatar>
+                  </div>
+
+                  {chat?.imagesrc?.[0] && (
                     <div className="flex gap-3">
-                      <div className="grow text-end space-y-3">
-                        <div className="inline-block bg-green-600 rounded-2xl p-4 shadow-sm">
-                          <span className="flex flex-col-reverse gap-2 font-poppins-medium text-background">
+                      <div className="grow text-end">
+                        <div className="inline-block bg-green-600 rounded-2xl shadow-sm">
+                          <img
+                            src={chat?.imagesrc?.[0]}
+                            className="max-w-52 w-40 rounded-xl cursor-pointer"
+                            onClick={() =>
+                              setFullScreenImg(chat?.imagesrc?.[0] as string)
+                            }
+                          />
+                        </div>
+                      </div>
+
+                      <div className="w-10"></div>
+                    </div>
+                  )}
+                </li>
+              ) : (
+                <div className="my-2">
+                  <li className="list-none space-y-2">
+                    <div className="max-w-lg flex gap-x-2 sm:gap-x-4">
+                      <img
+                        className="inline-block size-9 rounded-full"
+                        src={chat?.user?.avatar}
+                        alt="avatar"
+                      />
+
+                      <div className="border border-border rounded-2xl p-4 space-y-3 dark:bg-neutral-900 dark:border-neutral-700">
+                        <div className="space-y-1.5">
+                          <span className="flex flex-col-reverse gap-2 font-poppins-medium">
                             {chat?.user?.username}
-                            <Badge variant="secondary" className="ms-1.5">
+
+                            <Badge variant="outline">
                               <span className="font-poppins-regular">
                                 {chat?.user?.farm_name}
                               </span>
                             </Badge>
                           </span>
-
-                          <p className="text-base text-white mt-3">
+                          <p className="mb-1.5 text-gray-800 dark:text-white text-wrap">
                             {parse(chat?.question ?? "")}
                           </p>
-                          <span className="text-xs italic text-white">
+
+                          <span className="text-xs italic">
                             {timeAgo(chat?.createdat ?? "")}
                           </span>
                         </div>
                       </div>
-
-                      <Avatar>
-                        <AvatarImage src={chat?.user?.avatar} alt="avatar" />
-                        <AvatarFallback>
-                          {chat?.user?.avatar?.[0]}
-                        </AvatarFallback>
-                      </Avatar>
                     </div>
 
-                    {chat?.imagesrc?.[0] && (
-                      <div className="flex gap-3">
-                        <div className="grow text-end">
-                          <div className="inline-block bg-green-600 rounded-2xl shadow-sm">
-                            <img
-                              src={chat?.imagesrc?.[0]}
-                              className="max-w-52 w-40 rounded-xl cursor-pointer"
-                              onClick={() =>
-                                setFullScreenImg(chat?.imagesrc?.[0] as string)
-                              }
-                            />
-                          </div>
-                        </div>
+                    <div className="max-w-lg flex gap-x-2 sm:gap-x-4 ">
+                      <div className="w-9"></div>
 
-                        <div className="w-10"></div>
-                      </div>
-                    )}
-                  </li>
-                ) : (
-                  <div className="my-2">
-                    <li className="list-none space-y-2">
-                      <div className="max-w-lg flex gap-x-2 sm:gap-x-4">
-                        <img
-                          className="inline-block size-9 rounded-full"
-                          src={chat?.user?.avatar}
-                          alt="avatar"
-                        />
-
-                        <div className="border border-border rounded-2xl p-4 space-y-3 dark:bg-neutral-900 dark:border-neutral-700">
-                          <div className="space-y-1.5">
-                            <span className="flex flex-col-reverse gap-2 font-poppins-medium">
-                              {chat?.user?.username}
-
-                              <Badge variant="outline">
-                                <span className="font-poppins-regular">
-                                  {chat?.user?.farm_name}
-                                </span>
-                              </Badge>
-                            </span>
-                            <p className="mb-1.5 text-gray-800 dark:text-white text-wrap">
-                              {parse(chat?.question ?? "")}
-                            </p>
-
-                            <span className="text-xs italic">
-                              {timeAgo(chat?.createdat ?? "")}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="max-w-lg flex gap-x-2 sm:gap-x-4 ">
-                        <div className="w-9"></div>
-
-                        {chat?.imagesrc?.[0] && (
-                          <div className="flex gap-3">
-                            <div className="grow text-end">
-                              <div className="inline-block bg-green-600 rounded-2xl shadow-sm">
-                                <img
-                                  src={chat?.imagesrc?.[0]}
-                                  className="max-w-52 w-40 rounded-xl cursor-pointer"
-                                  onClick={() =>
-                                    setFullScreenImg(
-                                      chat?.imagesrc?.[0] as string
-                                    )
-                                  }
-                                />
-                              </div>
+                      {chat?.imagesrc?.[0] && (
+                        <div className="flex gap-3">
+                          <div className="grow text-end">
+                            <div className="inline-block bg-green-600 rounded-2xl shadow-sm">
+                              <img
+                                src={chat?.imagesrc?.[0]}
+                                className="max-w-52 w-40 rounded-xl cursor-pointer"
+                                onClick={() =>
+                                  setFullScreenImg(
+                                    chat?.imagesrc?.[0] as string
+                                  )
+                                }
+                              />
                             </div>
-
-                            <div className="w-10"></div>
                           </div>
-                        )}
-                      </div>
-                    </li>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
+
+                          <div className="w-10"></div>
+                        </div>
+                      )}
+                    </div>
+                  </li>
+                </div>
+              )}
+            </div>
+          ))}
         </div>
         {/* chatbox */}
         <div className="flex flex-col items-center w-full sticky bottom-0 bg-background">

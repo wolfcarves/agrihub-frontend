@@ -15,9 +15,15 @@ import { FarmMemberApplication } from "../../../../../api/openapi";
 import { Label } from "../../../../ui/label";
 import { Input } from "../../../../ui/input";
 import { Textarea } from "../../../../ui/textarea";
-
+import useGetCommunityFarmQuestions from "../../../../../hooks/api/get/useGetCommunityFarmQuestions";
+import { useParams } from "react-router-dom";
+interface Answer {
+  questionid: string;
+  answer: string;
+}
 interface ReviewDialogProps {
   dialogReview: boolean | undefined;
+  answers: Answer[];
   setDialogReview: Dispatch<SetStateAction<boolean | undefined>>;
   form: UseFormReturn<any>;
   handleSubmitForm: (data: FarmMemberApplication) => Promise<null | undefined>;
@@ -27,17 +33,34 @@ const ReviewDialog: React.FC<ReviewDialogProps> = ({
   dialogReview,
   setDialogReview,
   form,
-  handleSubmitForm
+  handleSubmitForm,
+  answers
 }) => {
   const handleSubmit = () => {
     form.handleSubmit(handleSubmitForm)();
     setDialogReview(false);
   };
 
+  const { id } = useParams();
+
+  const { data: questionData } = useGetCommunityFarmQuestions(id || "");
+
   const details = form.getValues();
-  console.log(details);
+
+  const combinedData = questionData?.map(question => {
+    const answer = answers.find(ans => ans?.questionid === question?.id);
+    return {
+      id: question?.id,
+      farmid: question?.farmid,
+      question: question?.question,
+      answer: answer?.answer || "No answer provided"
+    };
+  });
+
+  console.log(combinedData);
+
   const selfie = usePreviewImage(details.proof_selfie);
-  const id = usePreviewImage(details.valid_id);
+  const ids = usePreviewImage(details.valid_id);
 
   return (
     <Dialog open={dialogReview} onOpenChange={setDialogReview}>
@@ -49,7 +72,7 @@ const ReviewDialog: React.FC<ReviewDialogProps> = ({
           Data can't be modified when the application is on proccess
         </p>
         <hr className="border-primary" />
-        <div className=" overflow-y-auto max-h-[60vh] grid grid-cols-12 gap-2">
+        <div className=" overflow-y-auto max-h-[60vh] grid grid-cols-12 gap-2 px-2 custom-scroll">
           <div className=" md:col-span-8 col-span-12">
             <Label className=" font-poppins-medium">Contact Person</Label>
             <Input
@@ -59,6 +82,20 @@ const ReviewDialog: React.FC<ReviewDialogProps> = ({
               value={details.contact_person}
             />
           </div>
+          {combinedData?.map((question, i) => (
+            <div key={i} className=" md:col-span-12 col-span-12">
+              <Label className=" font-poppins-medium">
+                {question.question}
+              </Label>
+              <Input
+                type="text"
+                className="h-10 "
+                value={question.answer}
+                disabled
+                placeholder="Enter answer..."
+              />
+            </div>
+          ))}
 
           <div className=" md:col-span-8 col-span-12">
             <Label className=" font-poppins-medium">Reason</Label>
@@ -73,7 +110,7 @@ const ReviewDialog: React.FC<ReviewDialogProps> = ({
           <div className="md:col-span-6 col-span-12">
             <Label className=" font-poppins-medium">Valid ID</Label>
 
-            <img className="h-20 " src={id} />
+            <img className="h-20 " src={ids} />
           </div>
         </div>
         <DialogFooter className="flex flex-row gap-2 justify-end">

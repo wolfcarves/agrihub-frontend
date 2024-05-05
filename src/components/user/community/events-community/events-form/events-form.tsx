@@ -118,7 +118,7 @@ const EventsForm: React.FC<formProps> = ({ eventId, setIsOpen }) => {
         encType="multipart/form-data"
         className=""
       >
-        <div className="grid grid-cols-12 gap-4 mb-4 h-[70vh] overflow-y-auto px-2 custom-scroll py-2">
+        <div className="grid grid-cols-12 gap-4 mb-4 h-[60vh] overflow-y-auto px-2 custom-scroll py-2">
           <div className="md:col-span-12 col-span-12">
             <div className="md:w-[100%] w-full">
               <FormField
@@ -215,7 +215,7 @@ const EventsForm: React.FC<formProps> = ({ eventId, setIsOpen }) => {
               )}
             />
 
-            <FormMessage>{form.formState.errors.end_date?.message}</FormMessage>
+            <FormMessage>{form.formState.errors.type?.message}</FormMessage>
           </div>
           {/* {form.watch("type") === "public" ||
             (eventData?.type === "public" && (

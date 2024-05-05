@@ -111,7 +111,7 @@ const UserHeaderMobileSidebar = ({
               onClick={handleEventClick}
             />
           )}
-          {userData?.farm_id && userData.role === "farm_head" && (
+          {userData?.farm_id && (
             <UserSidebarNavLink
               to={`/community/task/${userData?.farm_id}`}
               title="Task"
@@ -120,7 +120,7 @@ const UserHeaderMobileSidebar = ({
               onClick={handleEventClick}
             />
           )}
-          {userData?.farm_id && userData.role === "farm_head" && (
+          {userData?.farm_id && (
             <UserSidebarNavLink
               to={`/community/reports/${userData?.farm_id}`}
               title="Reports"

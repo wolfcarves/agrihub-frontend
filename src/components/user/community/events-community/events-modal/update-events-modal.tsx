@@ -21,7 +21,7 @@ const UpdateEventsModal: React.FC<modalProp> = ({ eventId }) => {
       <DialogTrigger asChild>
         <Button
           onClick={() => setIsOpen(true)}
-          className="md:text-sm text-[.6rem] md:p-4 p-2 md:h-10 h-8"
+          className="md:text-sm text-[.5rem] md:p-4 p-2 md:h-10 h-8"
         >
           Update
         </Button>

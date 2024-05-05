@@ -40,7 +40,7 @@ const CropsReportTable = () => {
   );
   const [orderSelected, setOrderSelected] = useState<
     "asc" | "desc" | undefined
-  >(undefined);
+  >("desc");
   const { id } = useParams();
   const { data: userData } = useAuth();
 
@@ -138,7 +138,7 @@ const CropsReportTable = () => {
           onChange={e => debouncedSearch(e.target.value)}
           className="max-w-sm focus-visible:ring-0"
         />
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <Button>
             <CSVLink
               className="flex items-center gap-1"

@@ -50,11 +50,11 @@ const AnalyticsAdmin = () => {
   return (
     <AdminOutletContainer>
       <div className="grid grid-cols-12  gap-4 w-full print:w-[50rem]">
-        <div className=" col-span-12 flex justify-end">
+        {/* <div className=" col-span-12 flex justify-end">
           <Button className="gap-1" onClick={() => toPDF()}>
             <FaFilePdf size={16} /> Export PDF
           </Button>
-        </div>
+        </div> */}
         <div
           ref={targetRef}
           className=" col-span-12 lg:col-span-12 flex flex-col gap-y-4"

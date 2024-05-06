@@ -15,8 +15,8 @@ const CommunityEventTitle = () => {
 
   const backupDateString = "2024-01-01";
 
-  const s = new Date(eventData?.start_date ?? backupDateString);
-  const e = new Date(eventData?.end_date ?? backupDateString);
+  const s = new Date(eventData?.start_date?.slice(0, -5) ?? backupDateString);
+  const e = new Date(eventData?.end_date?.slice(0, -5) ?? backupDateString);
 
   const startEvent = format(s, "MMMM d, yyyy");
   const endEvent = format(e, "MMMM d, yyyy");

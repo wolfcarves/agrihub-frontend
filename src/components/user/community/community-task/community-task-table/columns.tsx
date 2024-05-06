@@ -237,7 +237,7 @@ export const columns: ColumnDef<CommunityTask>[] = [
                   />
                 </div>
               </div>
-              <DialogFooter>
+              <div className=" flex justify-end gap-2">
                 <Button variant={"outline"} onClick={() => setIsOpen(false)}>
                   Close
                 </Button>
@@ -271,7 +271,7 @@ export const columns: ColumnDef<CommunityTask>[] = [
                 {userData?.role === "farmer" && item.status === "pending" && (
                   <Button onClick={handleComply}>Comply</Button>
                 )}
-              </DialogFooter>
+              </div>
             </DialogContent>
           </Dialog>
         </>

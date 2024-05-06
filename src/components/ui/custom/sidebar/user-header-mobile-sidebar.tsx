@@ -104,23 +104,23 @@ const UserHeaderMobileSidebar = ({
 
           {userData?.farm_id && userData.role === "farm_head" && (
             <UserSidebarNavLink
-              to={`/community/chats/${userData?.farm_id}`}
+              to={`/community/chat/${userData?.farm_id}`}
               title="Chats"
               logo={<PiNewspaper size={20} />}
               end
               onClick={handleEventClick}
             />
           )}
-          {userData?.farm_id && userData.role === "farm_head" && (
+          {userData?.farm_id && (
             <UserSidebarNavLink
-              to={`/community/chat/${userData?.farm_id}`}
+              to={`/community/task/${userData?.farm_id}`}
               title="Task"
               logo={<CiChat1 size={20} />}
               end
               onClick={handleEventClick}
             />
           )}
-          {userData?.farm_id && userData.role === "farm_head" && (
+          {userData?.farm_id && (
             <UserSidebarNavLink
               to={`/community/reports/${userData?.farm_id}`}
               title="Reports"

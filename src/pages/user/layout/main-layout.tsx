@@ -41,6 +41,10 @@ const MainLayout = () => {
   }, [location]);
   const { data: aboutDetails } = useGetCmsAboutDetails();
   const S3_BASE_URL = import.meta.env.VITE_S3_BUCKET_BASEURL;
+
+  //to remove footer in chat (temporary)
+  const chatPathPattern = /community\/chat/;
+
   return (
     <>
       <Helmet>
@@ -51,7 +55,13 @@ const MainLayout = () => {
           sizes="16x16"
         />
       </Helmet>
-      <div className="flex flex-col min-h-[100dvh]">
+
+      <div
+        className={`flex flex-col min-h-[100dvh] ${
+          chatPathPattern.test(location.pathname) &&
+          "overflow-hidden max-h-screen"
+        }`}
+      >
         <LoadingBar
           ref={loader}
           color="rgb(59 130 246)"
@@ -67,18 +77,20 @@ const MainLayout = () => {
 
         <UserHeader />
         <Outlet />
-        <UserFooter />
+        {!chatPathPattern.test(location.pathname) && <UserFooter />}
 
-        <Link
-          to="/helps/guides"
-          className="fixed bottom-5 end-5 p-2 bg-primary/70 hover:bg-primary rounded-full cursor-pointer group duration-200"
-        >
-          <MdOutlineQuestionMark className="text-background text-xl lg:text-2xl" />
+        {!chatPathPattern.test(location.pathname) && (
+          <Link
+            to="/helps/guides"
+            className="fixed bottom-5 end-5 p-2 bg-primary/70 hover:bg-primary rounded-full cursor-pointer group duration-200"
+          >
+            <MdOutlineQuestionMark className="text-background text-xl lg:text-2xl" />
 
-          <span className="absolute -left-[4.5rem] top-1.5 text-foreground font-poppins-medium text-sm bg-background py-1.5 px-4 my-auto rounded-2xl group-hover:visible group-hover:opacity-100 opacity-0 invisible duration-200 border">
-            Help
-          </span>
-        </Link>
+            <span className="absolute -left-[4.5rem] top-1.5 text-foreground font-poppins-medium text-sm bg-background py-1.5 px-4 my-auto rounded-2xl group-hover:visible group-hover:opacity-100 opacity-0 invisible duration-200 border">
+              Help
+            </span>
+          </Link>
+        )}
       </div>
       <TwoWayAuthentication isOpen={isOpen} setIsOpen={setIsOpen} />
     </>

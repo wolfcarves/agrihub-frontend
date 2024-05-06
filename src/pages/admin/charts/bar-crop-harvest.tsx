@@ -14,12 +14,15 @@ import {
   SelectTrigger,
   SelectValue
 } from "../../../components/ui/select";
+import PerFarmHarvestReport from "./reports/per-farm-harvest-report";
 
 const BarCropHarvest = () => {
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
   const currentMonth = currentDate.getMonth() + 1;
-  const [selectedYear, setSelectedYear] = useState<string>(String(currentYear));
+  const [selectedYear, setSelectedYear] = useState<string>(
+    String(currentYear) || "2"
+  );
   const [startMonth, setStartMonth] = useState<string>("1");
   const [endMonth, setEndMonth] = useState<string>(String(currentMonth));
   const [activeIndex, setActiveIndex] = useState<string>("");
@@ -27,28 +30,33 @@ const BarCropHarvest = () => {
 
   const [farmId, setFarmId] = useState<string>("936975470650327041");
 
-  const { data: harvestChart } = useGetReportTotalHarvestChart({
-    id: farmId || "",
-    start: startMonth,
-    end: endMonth,
-    year: selectedYear
-  });
+  const { data: harvestChart, isLoading: loadHarvest } =
+    useGetReportTotalHarvestChart({
+      id: farmId || "",
+      start: startMonth,
+      end: endMonth,
+      year: selectedYear
+    });
 
   const lastTwoItem = useMemo(() => {
     const values = Object.values(harvestChart ?? {});
     const slicedValues = values.slice(-2);
     const pm = Number(slicedValues[0]);
     const cm = Number(slicedValues[1]);
-    return (((cm - pm) / cm) * 100).toFixed(2);
+    if (cm === 0) {
+      return "N/A"; // or any other default value you prefer
+    }
+    const final = ((cm - pm) / cm) * 100;
+
+    return final.toFixed(2);
   }, [harvestChart]);
+  console.log(lastTwoItem);
 
   const lastTwoMonths = useMemo(() => {
     const values = Object.keys(harvestChart ?? {});
     const slicedValues = values.slice(-2);
     return slicedValues;
   }, [harvestChart]);
-
-  console.log(lastTwoMonths, "GET LAST TWO");
 
   const { data: cropDistribution } = useGetReportCropDistributionCommunity({
     id: farmId || "",
@@ -187,14 +195,14 @@ const BarCropHarvest = () => {
   return (
     <div className="grid grid-cols-12 gap-x-4 gap-y-[2.5rem]">
       <div className="border border-border p-4 rounded-lg lg:col-span-8 col-span-12">
-        <div className="flex md:flex-row flex-col justify-between ">
+        <div className="flex md:flex-row flex-col gap-4 justify-between ">
           <div>
             <h5 className="font-poppins-medium">Monthly Harvest Per Farm</h5>
             <p className="text-xs text-gray-400">
               Click the bar to view the harvest summary of that month
             </p>
           </div>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2 justify-end">
             {!isLoading && (
               <Select
                 onValueChange={value => setFarmId(value)}
@@ -281,6 +289,7 @@ const BarCropHarvest = () => {
                   })}
               </SelectContent>
             </Select>
+            <PerFarmHarvestReport />
           </div>
         </div>
         <div className="h-[350px]  ">
@@ -292,23 +301,31 @@ const BarCropHarvest = () => {
             options={chartOptions}
           />
         </div>
-        <p className="text-xs text-gray-400 mt-1">
-          This graph compares the amount of harvest farms collected with the
-          crops as of <span className=" text-primary">{lastTwoMonths[0]}</span>–
-          <span className=" text-primary">{lastTwoMonths[1]}</span>{" "}
-          <span className=" text-primary">{selectedYear}</span>. Based on system
-          calculations, it seems that your harvest for{" "}
-          <span className=" text-primary">{lastTwoMonths[1]}</span> has changed
-          by{" "}
-          <span
-            className={
-              Number(lastTwoItem) > 0 ? " text-primary" : "text-destructive"
-            }
-          >
-            {lastTwoItem}%
-          </span>{" "}
-          compared to the previous month.
-        </p>
+        {!loadHarvest &&
+          (lastTwoItem === "N/A" ? (
+            <p className="text-xs text-gray-400 mt-1">
+              Not enough date to current month to compare
+            </p>
+          ) : (
+            <p className="text-xs text-gray-400 mt-1">
+              This graph compares the amount of harvest farms collected with the
+              crops as of{" "}
+              <span className=" text-primary">{lastTwoMonths[0]}</span>–
+              <span className=" text-primary">{lastTwoMonths[1]}</span>{" "}
+              <span className=" text-primary">{selectedYear}</span>. Based on
+              system calculations, it seems that your harvest for{" "}
+              <span className=" text-primary">{lastTwoMonths[1]}</span> has
+              changed by{" "}
+              <span
+                className={
+                  Number(lastTwoItem) > 0 ? " text-primary" : "text-destructive"
+                }
+              >
+                {lastTwoItem}%
+              </span>{" "}
+              compared to the previous month.
+            </p>
+          ))}
       </div>
       <div className=" lg:col-span-4 col-span-12 ">
         {Number(cropDistribution?.length || 0) > 0 && (

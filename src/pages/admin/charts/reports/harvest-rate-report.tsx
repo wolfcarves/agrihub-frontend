@@ -25,12 +25,13 @@ import {
   SelectValue
 } from "../../../../components/ui/select";
 import { formatMonth } from "../../../../components/lib/utils";
+import useAuth from "../../../../hooks/useAuth";
 const HarvestRateReport = () => {
   const chartRef = useRef();
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
   const currentMonth = currentDate.getMonth() + 1;
-
+  const { data: userData } = useAuth();
   const [selectedYear, setSelectedYear] = useState<string>(String(currentYear));
   const [startMonth, setStartMonth] = useState<string>("1");
   const [endMonth, setEndMonth] = useState<string>(String(currentMonth));
@@ -362,6 +363,16 @@ const HarvestRateReport = () => {
               </p>
               <div className="h-[350px]">
                 <Bar data={dataGrowth} options={optionsBar} />
+              </div>
+            </div>
+            <div className="flex justify-end mt-2">
+              <div>
+                <p className=" text-base font-poppins-medium text-gray-500">
+                  Exported by : {userData?.firstname + " " + userData?.lastname}
+                </p>
+                <p className="text-sm font-poppins-medium text-gray-500 text-end">
+                  {currentDate.toDateString()}
+                </p>
               </div>
             </div>
           </div>

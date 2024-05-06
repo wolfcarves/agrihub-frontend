@@ -19,7 +19,10 @@ import useGetReportLandSizeAnalyticsQuery from "../../../../hooks/api/get/useGet
 import { chartColor } from "../../../../constants/data";
 import { ChartOptions } from "chart.js";
 import { formatNumberWithCommas } from "../../../../components/lib/utils";
+import useAuth from "../../../../hooks/useAuth";
 const LandsizeReport = () => {
+  const { data: userData } = useAuth();
+  const currentDate = new Date();
   const [district, setDistrict] = useState<
     | "District 1"
     | "District 2"
@@ -251,6 +254,16 @@ const LandsizeReport = () => {
               </p>
               <div className="h-[350px]">
                 <Bar data={dataSize} options={optionsBar} />
+              </div>
+            </div>
+            <div className="flex justify-end mt-2">
+              <div>
+                <p className=" text-base font-poppins-medium text-gray-500">
+                  Exported by : {userData?.firstname + " " + userData?.lastname}
+                </p>
+                <p className="text-sm font-poppins-medium text-gray-500 text-end">
+                  {currentDate.toDateString()}
+                </p>
               </div>
             </div>
           </div>

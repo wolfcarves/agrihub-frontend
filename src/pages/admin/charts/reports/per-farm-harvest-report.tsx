@@ -27,6 +27,7 @@ import {
 } from "../../../../components/ui/select";
 import { formatMonth } from "../../../../components/lib/utils";
 import { usePDF } from "react-to-pdf";
+import useGetFarmViewQuery from "../../../../hooks/api/get/useGetFarmViewQuery";
 const PerFarmHarvestReport = () => {
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
@@ -43,6 +44,11 @@ const PerFarmHarvestReport = () => {
 
   const [farmId, setFarmId] = useState<string>("936975470650327041");
 
+  // const {data: farmDetails} = useGetFarm
+  const { data: farmDetails, isLoading: detailLoading } = useGetFarmViewQuery(
+    farmId || ""
+  );
+
   const { data: harvestChart, isLoading: loadHarvest } =
     useGetReportTotalHarvestChart({
       id: farmId || "",
@@ -50,6 +56,58 @@ const PerFarmHarvestReport = () => {
       end: endMonth,
       year: selectedYear
     });
+
+  // const result = useMemo(() => {
+  //   // Convert values to numbers
+  //   const numericValues = Object.entries(harvestChart || []).map(
+  //     ([month, value]) => ({
+  //       month,
+  //       value: parseFloat(value)
+  //     })
+  //   );
+
+  //   // Find the month of the highest and lowest values
+  //   const highestValueObj = numericValues?.reduce((prev, current) =>
+  //     prev.value > current.value ? prev : current
+  //   );
+  //   const lowestValueObj = numericValues?.reduce((prev, current) =>
+  //     prev.value < current.value ? prev : current
+  //   );
+
+  //   return {
+  //     highest: highestValueObj,
+  //     lowest: lowestValueObj
+  //   };
+  // }, [harvestChart]);
+
+  const extremumData = useMemo(() => {
+    if (!harvestChart) return null;
+
+    let highestValue = -Infinity;
+    let highestKey = "";
+    let lowestValue = Infinity;
+    let lowestKey = "";
+
+    // Iterate through data object to find the highest and lowest values and their keys
+    for (const [key, value] of Object.entries(harvestChart)) {
+      const numericValue = parseFloat(value);
+      if (numericValue > highestValue) {
+        highestValue = numericValue;
+        highestKey = key;
+      }
+      if (numericValue < lowestValue) {
+        lowestValue = numericValue;
+        lowestKey = key;
+      }
+    }
+
+    return {
+      highkey: highestKey,
+      highvalue: highestValue,
+      lowkey: lowestKey,
+      lowvalue: lowestValue
+    };
+  }, [harvestChart]);
 
   const lastTwoItem = useMemo(() => {
     const values = Object.values(harvestChart ?? {});
@@ -74,6 +132,43 @@ const PerFarmHarvestReport = () => {
     id: farmId || "",
     month: activeIndex
   });
+
+  const lastCrop = useMemo(() => {
+    const getLast = cropDistribution?.slice(-1);
+    if (getLast) {
+      return getLast[0];
+    }
+  }, [cropDistribution]);
+
+  // const extremumCrops = useMemo(() => {
+  //   if (!cropDistribution) return null;
+
+  //   let highestValue = -Infinity;
+  //   let highestKey = 0;
+  //   let lowestValue = Infinity;
+  //   let lowestKey = 0;
+
+  //   // Iterate through data object to find the highest and lowest values and their keys
+  //   for (const [key, value] of Object.entries(cropDistribution || {})) {
+  //     const numericValue = parseFloat(value);
+  //     if (numericValue > highestValue) {
+  //       highestValue = numericValue;
+  //       highestKey = key;
+  //     }
+  //     if (numericValue < lowestValue) {
+  //       lowestValue = numericValue;
+  //       lowestKey = key;
+  //     }
+  //   }
+
+  //   return {
+  //     highkey: highestKey,
+  //     highvalue: highestValue,
+  //     lowkey: lowestKey,
+  //     lowvalue: lowestValue
+  //   };
+  // }, [cropDistribution]);
+
   const { data: farmData, isLoading } = useGetFarmListQuery({
     search: undefined,
     page: "1",
@@ -131,7 +226,7 @@ const PerFarmHarvestReport = () => {
     },
     plugins: {
       datalabels: {
-        display: true,
+        display: "auto",
         color: "rgba(228, 241, 254, 1)",
         anchor: "end" as "end",
         align: "start" as "start",
@@ -381,6 +476,60 @@ const PerFarmHarvestReport = () => {
               <div className="h-[350px]  ">
                 <Doughnut data={radarData} options={optionsRadar} />
               </div>
+            </div>
+            <div className="mt-6">
+              <div className=" font-poppins-medium">Summary Report :</div>
+              <ul className=" px-8">
+                {!detailLoading && (
+                  <li>
+                    The highest harvest this year for the{" "}
+                    <span className=" text-primary">
+                      {farmDetails?.farm_name}
+                    </span>{" "}
+                    was in{" "}
+                    <span className="text-primary">
+                      {extremumData?.highkey}
+                    </span>{" "}
+                    at{" "}
+                    <span className="text-primary">
+                      {extremumData?.highvalue} KG
+                    </span>
+                    .{" "}
+                    <span className=" text-destructive">
+                      {extremumData?.lowkey}
+                    </span>{" "}
+                    had the lowest harvest at{" "}
+                    <span className="text-destructive">
+                      {extremumData?.lowvalue} KG
+                    </span>
+                    .
+                  </li>
+                )}
+
+                <li>
+                  The highest crop harvested in May is{" "}
+                  <span className=" text-primary">
+                    {cropDistribution && cropDistribution[0].crop_name}
+                  </span>{" "}
+                  at{" "}
+                  <span className=" text-primary">
+                    {cropDistribution &&
+                      Number(
+                        cropDistribution[0].percentage_distribution
+                      ).toFixed(2)}{" "}
+                    KG
+                  </span>
+                  .{" "}
+                  <span className=" text-destructive">
+                    {lastCrop?.crop_name}
+                  </span>{" "}
+                  had the lowest harvest at{" "}
+                  <span className=" text-destructive">
+                    {Number(lastCrop?.percentage_distribution).toFixed(2)} KG
+                  </span>
+                  .
+                </li>
+              </ul>
             </div>
           </div>
         </div>

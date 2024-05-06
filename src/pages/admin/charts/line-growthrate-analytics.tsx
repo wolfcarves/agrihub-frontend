@@ -13,7 +13,11 @@ import { Card } from "../../../components/ui/card";
 import { ChartOptions } from "chart.js";
 import PieProblems from "./pie-problem";
 import { object } from "zod";
-import { formatNumberWithCommas } from "../../../components/lib/utils";
+import {
+  formatMonth,
+  formatNumberWithCommas
+} from "../../../components/lib/utils";
+import HarvestRateReport from "./reports/harvest-rate-report";
 
 const GrowthRateLineChartAnalytics = () => {
   const chartRef = useRef();
@@ -277,6 +281,7 @@ const GrowthRateLineChartAnalytics = () => {
                     ))}
                 </SelectContent>
               </Select>
+              <HarvestRateReport />
             </div>
           </div>
           <div className=" h-[350px] mt-4 ">
@@ -318,7 +323,7 @@ const GrowthRateLineChartAnalytics = () => {
         {Number(growthDistribution?.length || 0) > 0 && (
           <Card className={` col-span-12 mt-4 p-5 duration-300`}>
             <h2 className="text-lg font-bold tracking-tight ">
-              Crops Growth Rate Distribution
+              Crops Growth Rate Distribution : {formatMonth(activeLabel)}
             </h2>
             <p className="text-xs text-gray-400 mt-1">
               The{" "}

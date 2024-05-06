@@ -27,11 +27,13 @@ import {
 import { useReactToPrint } from "react-to-print";
 import logo from "@assets/icons/agrihub-topleaf.svg";
 import { formatMonth } from "../../../../components/lib/utils";
+import useAuth from "../../../../hooks/useAuth";
 
 const HarvestKilogramReport = () => {
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
   const currentMonth = currentDate.getMonth() + 1;
+  const { data: userData } = useAuth();
 
   const [selectedYear, setSelectedYear] = useState<string>(String(currentYear));
   const [startMonth, setStartMonth] = useState<string>("1");
@@ -387,7 +389,7 @@ const HarvestKilogramReport = () => {
                 </p>
               )}
             </div>
-            <div className="p-5 lg:col-span-7 col-span-12 my-4">
+            <div className="p-5 lg:col-span-7 col-span-12 my-2">
               <h2 className="text-lg font-bold tracking-tight ">
                 Crops Distribution : {formatMonth(activeLabel)}
               </h2>
@@ -431,6 +433,16 @@ const HarvestKilogramReport = () => {
                 </span>{" "}
                 compared to the other farms in this month
               </p>
+            </div>
+            <div className="flex justify-end mt-2">
+              <div>
+                <p className=" text-base font-poppins-medium text-gray-500">
+                  Exported by : {userData?.firstname + " " + userData?.lastname}
+                </p>
+                <p className="text-sm font-poppins-medium text-gray-500 text-end">
+                  {currentDate.toDateString()}
+                </p>
+              </div>
             </div>
           </div>
         </div>

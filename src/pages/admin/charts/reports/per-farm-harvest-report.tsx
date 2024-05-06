@@ -28,6 +28,7 @@ import {
 import { formatMonth } from "../../../../components/lib/utils";
 import { usePDF } from "react-to-pdf";
 import useGetFarmViewQuery from "../../../../hooks/api/get/useGetFarmViewQuery";
+import useAuth from "../../../../hooks/useAuth";
 const PerFarmHarvestReport = () => {
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
@@ -35,6 +36,7 @@ const PerFarmHarvestReport = () => {
   const [selectedYear, setSelectedYear] = useState<string>(
     String(currentYear) || "2"
   );
+  const { data: userData } = useAuth();
   const [startMonth, setStartMonth] = useState<string>("1");
   const [endMonth, setEndMonth] = useState<string>(String(currentMonth));
   const [activeIndex, setActiveIndex] = useState<string>(
@@ -300,7 +302,8 @@ const PerFarmHarvestReport = () => {
   };
   const componentRef = useRef<HTMLDivElement>(null);
   const handlePrint = useReactToPrint({
-    content: () => componentRef?.current
+    content: () => componentRef?.current,
+    documentTitle: "Farm Harvest Report"
   });
 
   //   const { toPDF, targetRef } = usePDF({
@@ -477,7 +480,7 @@ const PerFarmHarvestReport = () => {
                 <Doughnut data={radarData} options={optionsRadar} />
               </div>
             </div>
-            <div className="mt-6">
+            <div className="mt-6 print:py-[5rem]">
               <div className=" font-poppins-medium">Summary Report :</div>
               <ul className=" px-8">
                 {!detailLoading && (
@@ -507,7 +510,7 @@ const PerFarmHarvestReport = () => {
                 )}
 
                 <li>
-                  The highest crop harvested in May is{" "}
+                  The highest crop harvested in {formatMonth(activeIndex)} is{" "}
                   <span className=" text-primary">
                     {cropDistribution && cropDistribution[0].crop_name}
                   </span>{" "}
@@ -517,7 +520,7 @@ const PerFarmHarvestReport = () => {
                       Number(
                         cropDistribution[0].percentage_distribution
                       ).toFixed(2)}{" "}
-                    KG
+                    %
                   </span>
                   .{" "}
                   <span className=" text-destructive">
@@ -525,11 +528,21 @@ const PerFarmHarvestReport = () => {
                   </span>{" "}
                   had the lowest harvest at{" "}
                   <span className=" text-destructive">
-                    {Number(lastCrop?.percentage_distribution).toFixed(2)} KG
+                    {Number(lastCrop?.percentage_distribution).toFixed(2)} %
                   </span>
                   .
                 </li>
               </ul>
+            </div>
+            <div className="flex justify-end mt-2">
+              <div>
+                <p className=" text-base font-poppins-medium text-gray-500">
+                  Exported by : {userData?.firstname + " " + userData?.lastname}
+                </p>
+                <p className="text-sm font-poppins-medium text-gray-500 text-end">
+                  {currentDate.toDateString()}
+                </p>
+              </div>
             </div>
           </div>
         </div>

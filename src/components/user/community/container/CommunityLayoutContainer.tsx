@@ -1,15 +1,8 @@
-import {
-  UserFooter,
-  UserHeader,
-  UserResponsiveContainer
-} from "@components/ui/custom";
 import type { ReactNode } from "react";
 
 const CommunityLayoutContainer = ({ children }: { children: ReactNode }) => {
   return (
-    <>
-      <div className="sm:container w-full flex justify-between">{children}</div>
-    </>
+    <div className="sm:container w-full flex justify-between">{children}</div>
   );
 };
 

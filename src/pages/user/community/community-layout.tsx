@@ -28,7 +28,7 @@ const CommunityLayout = () => {
   return (
     <CommunityLayoutContainer>
       {!sidebarRender && <CommunitySidebar />}
-      <div className="h-max w-full">
+      <div className="w-full">
         <Outlet />
       </div>
       <DialogBannedCommunity isOpen={isOpen} setIsOpen={setIsOpen} />

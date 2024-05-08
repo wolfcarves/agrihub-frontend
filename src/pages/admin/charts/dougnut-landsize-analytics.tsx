@@ -25,7 +25,7 @@ const DougnutLandsizeAnalytics = () => {
     district: district
   });
   const { data: districtLand } = useGetReportLandSizeAnalyticsQuery();
-  console.log(districtLand);
+
   const extremumData = useMemo(() => {
     if (!districtLand) return null;
 
@@ -54,6 +54,26 @@ const DougnutLandsizeAnalytics = () => {
       lowvalue: lowestValue
     };
   }, [districtLand]);
+  const highestPercentage = useMemo(() => {
+    const values = Object.values(districtLand ?? {});
+    const sumArray = values.reduce((curr, acc) => {
+      return Number(curr) + Number(acc);
+    }, 0);
+    if (extremumData?.highvalue) {
+      const percentage = (extremumData?.highvalue / sumArray) * 100;
+      return percentage.toFixed(2);
+    }
+  }, [extremumData?.highvalue]);
+
+  const highestPercentageFarm = useMemo(() => {
+    const values = Object.values(farmLand ?? {});
+    const sumArray = values.reduce((curr, acc) => {
+      return Number(curr) + Number(acc.size);
+    }, 0);
+
+    const percentage = (Number(farmLand && farmLand[0].size) / sumArray) * 100;
+    return percentage.toFixed(2);
+  }, [farmLand]);
 
   const data = {
     labels: Object.keys(districtLand || {}),
@@ -185,17 +205,10 @@ const DougnutLandsizeAnalytics = () => {
           />
         </div>
         <p className="text-xs text-gray-400 mt-4">
-          <span className=" text-primary">{extremumData?.highkey}</span> has the
-          largest total land size at{" "}
-          <span className=" text-primary">
-            {formatNumberWithCommas(extremumData?.highvalue || 0)}
-          </span>{" "}
-          sqm. The smallest total land size is{" "}
-          <span className=" text-destructive">{extremumData?.lowkey}</span> at{" "}
-          <span className=" text-destructive">
-            {formatNumberWithCommas(extremumData?.lowvalue || 0)}
-          </span>{" "}
-          sqm
+          Compared to other districts,{" "}
+          <span className="text-primary">{extremumData?.highkey}</span> holds a
+          dominant position, accounting for a substantial{" "}
+          <span className="text-primary">{highestPercentage}%</span>.
         </p>
       </Card>
       {district && (
@@ -204,16 +217,13 @@ const DougnutLandsizeAnalytics = () => {
             Land Size Per Farm : {district}
           </h2>
           <p className="text-xs text-gray-400 mt-1">
-            The{" "}
+            Among the farms,{" "}
             <span className=" text-primary">
               {farmLand && farmLand[0]?.farm_name}
             </span>{" "}
-            has the largest land size in this district with a value of{" "}
-            <span className=" text-primary">
-              {farmLand &&
-                formatNumberWithCommas(Number(farmLand[0]?.size) || 0)}
-            </span>{" "}
-            sqm
+            claims the top spot with{" "}
+            <span className="text-primary">{highestPercentageFarm}%</span>{" "}
+            percentage value.
           </p>
           <div className="h-[350px]">
             <Bar data={dataSize} options={optionsBar} />

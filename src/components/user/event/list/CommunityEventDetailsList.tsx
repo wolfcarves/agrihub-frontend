@@ -15,8 +15,8 @@ const CommunityEventDetailsList = () => {
     year: "numeric"
   } as any;
 
-  const s = new Date(eventData?.start_date ?? "");
-  const e = new Date(eventData?.end_date ?? "");
+  const s = new Date(eventData?.start_date?.slice(0, -5) ?? "");
+  const e = new Date(eventData?.end_date?.slice(0, -5) ?? "");
 
   const startEvent =
     s?.toLocaleDateString("en-US", dateOptions) + " " + s?.toLocaleTimeString();

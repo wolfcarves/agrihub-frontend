@@ -27,13 +27,18 @@ import {
 } from "../../../../components/ui/select";
 import { formatMonth } from "../../../../components/lib/utils";
 import { usePDF } from "react-to-pdf";
+import useGetFarmViewQuery from "../../../../hooks/api/get/useGetFarmViewQuery";
+import useAuth from "../../../../hooks/useAuth";
+import useYearList from "../../../../hooks/utils/useYearList";
 const PerFarmHarvestReport = () => {
+  const years = useYearList();
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
   const currentMonth = currentDate.getMonth() + 1;
   const [selectedYear, setSelectedYear] = useState<string>(
     String(currentYear) || "2"
   );
+  const { data: userData } = useAuth();
   const [startMonth, setStartMonth] = useState<string>("1");
   const [endMonth, setEndMonth] = useState<string>(String(currentMonth));
   const [activeIndex, setActiveIndex] = useState<string>(
@@ -43,6 +48,11 @@ const PerFarmHarvestReport = () => {
 
   const [farmId, setFarmId] = useState<string>("936975470650327041");
 
+  // const {data: farmDetails} = useGetFarm
+  const { data: farmDetails, isLoading: detailLoading } = useGetFarmViewQuery(
+    farmId || ""
+  );
+
   const { data: harvestChart, isLoading: loadHarvest } =
     useGetReportTotalHarvestChart({
       id: farmId || "",
@@ -51,10 +61,70 @@ const PerFarmHarvestReport = () => {
       year: selectedYear
     });
 
+  // const result = useMemo(() => {
+  //   // Convert values to numbers
+  //   const numericValues = Object.entries(harvestChart || []).map(
+  //     ([month, value]) => ({
+  //       month,
+  //       value: parseFloat(value)
+  //     })
+  //   );
+
+  //   // Find the month of the highest and lowest values
+  //   const highestValueObj = numericValues?.reduce((prev, current) =>
+  //     prev.value > current.value ? prev : current
+  //   );
+  //   const lowestValueObj = numericValues?.reduce((prev, current) =>
+  //     prev.value < current.value ? prev : current
+  //   );
+
+  //   return {
+  //     highest: highestValueObj,
+  //     lowest: lowestValueObj
+  //   };
+  // }, [harvestChart]);
+
+  const extremumData = useMemo(() => {
+    if (!harvestChart) return null;
+
+    let highestValue = -Infinity;
+    let highestKey = "";
+    let lowestValue = Infinity;
+    let lowestKey = "";
+
+    // Iterate through data object to find the highest and lowest values and their keys
+    for (const [key, value] of Object.entries(harvestChart)) {
+      const numericValue = parseFloat(value);
+      if (numericValue > highestValue) {
+        highestValue = numericValue;
+        highestKey = key;
+      }
+      if (numericValue < lowestValue) {
+        lowestValue = numericValue;
+        lowestKey = key;
+      }
+    }
+
+    return {
+      highkey: highestKey,
+      highvalue: highestValue,
+      lowkey: lowestKey,
+      lowvalue: lowestValue
+    };
+  }, [harvestChart]);
+
   const lastTwoItem = useMemo(() => {
     const values = Object.values(harvestChart ?? {});
+    const slicedArray = values.slice(0, -1);
+
+    const sumArray = slicedArray.reduce((curr, acc) => {
+      return Number(curr) + Number(acc);
+    }, 0);
+
+    const average = sumArray / slicedArray.length;
+
     const slicedValues = values.slice(-2);
-    const pm = Number(slicedValues[0]);
+    const pm = average;
     const cm = Number(slicedValues[1]);
     if (cm === 0) {
       return "N/A"; // or any other default value you prefer
@@ -62,11 +132,11 @@ const PerFarmHarvestReport = () => {
     const final = ((cm - pm) / cm) * 100;
     return final.toFixed(2);
   }, [harvestChart]);
-  console.log(lastTwoItem);
 
   const lastTwoMonths = useMemo(() => {
     const values = Object.keys(harvestChart ?? {});
-    const slicedValues = values.slice(-2);
+
+    const slicedValues = values.slice(-1);
     return slicedValues;
   }, [harvestChart]);
 
@@ -74,6 +144,43 @@ const PerFarmHarvestReport = () => {
     id: farmId || "",
     month: activeIndex
   });
+
+  const lastCrop = useMemo(() => {
+    const getLast = cropDistribution?.slice(-1);
+    if (getLast) {
+      return getLast[0];
+    }
+  }, [cropDistribution]);
+
+  // const extremumCrops = useMemo(() => {
+  //   if (!cropDistribution) return null;
+
+  //   let highestValue = -Infinity;
+  //   let highestKey = 0;
+  //   let lowestValue = Infinity;
+  //   let lowestKey = 0;
+
+  //   // Iterate through data object to find the highest and lowest values and their keys
+  //   for (const [key, value] of Object.entries(cropDistribution || {})) {
+  //     const numericValue = parseFloat(value);
+  //     if (numericValue > highestValue) {
+  //       highestValue = numericValue;
+  //       highestKey = key;
+  //     }
+  //     if (numericValue < lowestValue) {
+  //       lowestValue = numericValue;
+  //       lowestKey = key;
+  //     }
+  //   }
+
+  //   return {
+  //     highkey: highestKey,
+  //     highvalue: highestValue,
+  //     lowkey: lowestKey,
+  //     lowvalue: lowestValue
+  //   };
+  // }, [cropDistribution]);
+
   const { data: farmData, isLoading } = useGetFarmListQuery({
     search: undefined,
     page: "1",
@@ -131,7 +238,7 @@ const PerFarmHarvestReport = () => {
     },
     plugins: {
       datalabels: {
-        display: true,
+        display: "auto",
         color: "rgba(228, 241, 254, 1)",
         anchor: "end" as "end",
         align: "start" as "start",
@@ -205,7 +312,8 @@ const PerFarmHarvestReport = () => {
   };
   const componentRef = useRef<HTMLDivElement>(null);
   const handlePrint = useReactToPrint({
-    content: () => componentRef?.current
+    content: () => componentRef?.current,
+    documentTitle: "Farm Harvest Report"
   });
 
   //   const { toPDF, targetRef } = usePDF({
@@ -235,7 +343,7 @@ const PerFarmHarvestReport = () => {
               <img className="h-[4rem]" src={logo as unknown as string} />
             </div>
             <div className=" p-4">
-              <div className="flex md:flex-row flex-col gap-4 justify-between ">
+              <div className="flex md:flex-row flex-col gap-2 justify-between ">
                 <div>
                   <h5 className="font-poppins-medium">
                     Monthly Harvest Per Farm
@@ -270,8 +378,11 @@ const PerFarmHarvestReport = () => {
                       <SelectValue placeholder="Year" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="2024">2024</SelectItem>
-                      <SelectItem value="2023">2023</SelectItem>
+                      {years.map((year, i) => (
+                        <SelectItem key={i} value={String(year)}>
+                          {year}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
 
@@ -294,7 +405,7 @@ const PerFarmHarvestReport = () => {
                           <SelectItem
                             key={month.value}
                             value={month.value}
-                            disabled={month.value === String(currentMonth)}
+                            disabled={month.value >= String(endMonth)}
                           >
                             {month.label}
                           </SelectItem>
@@ -348,11 +459,11 @@ const PerFarmHarvestReport = () => {
                     Not enough date to current month to compare
                   </p>
                 ) : (
-                  <p className="text-xs text-gray-400 mt-1">
+                  <p className="text-sm mt-1">
                     This graph compares the amount of harvest farms collected
                     with the crops as of{" "}
-                    <span className=" text-primary">{lastTwoMonths[0]}</span>–
-                    <span className=" text-primary">{lastTwoMonths[1]}</span>{" "}
+                    <span className=" text-primary">{lastTwoMonths[0]}</span>
+                    {/* <span className=" text-primary">{lastTwoMonths[1]}</span>{" "} */}{" "}
                     <span className=" text-primary">{selectedYear}</span>. Based
                     on system calculations, it seems that your harvest for{" "}
                     <span className=" text-primary">{lastTwoMonths[1]}</span>{" "}
@@ -366,7 +477,7 @@ const PerFarmHarvestReport = () => {
                     >
                       {lastTwoItem}%
                     </span>{" "}
-                    compared to the previous month.
+                    compared to the previous months.
                   </p>
                 ))}
             </div>
@@ -380,6 +491,70 @@ const PerFarmHarvestReport = () => {
               </h5>
               <div className="h-[350px]  ">
                 <Doughnut data={radarData} options={optionsRadar} />
+              </div>
+            </div>
+            <div className="mt-6 print:py-[5rem]">
+              <div className=" font-poppins-medium">Summary Report :</div>
+              <ul className=" px-8">
+                {!detailLoading && (
+                  <li>
+                    The highest harvest this year for the{" "}
+                    <span className=" text-primary">
+                      {farmDetails?.farm_name}
+                    </span>{" "}
+                    was in{" "}
+                    <span className="text-primary">
+                      {extremumData?.highkey}
+                    </span>{" "}
+                    at{" "}
+                    <span className="text-primary">
+                      {extremumData?.highvalue} KG
+                    </span>
+                    .{" "}
+                    <span className=" text-destructive">
+                      {extremumData?.lowkey}
+                    </span>{" "}
+                    had the lowest harvest at{" "}
+                    <span className="text-destructive">
+                      {extremumData?.lowvalue} KG
+                    </span>
+                    .
+                  </li>
+                )}
+
+                <li>
+                  The highest crop harvested in {formatMonth(activeIndex)} is{" "}
+                  <span className=" text-primary">
+                    {cropDistribution && cropDistribution[0].crop_name}
+                  </span>{" "}
+                  at{" "}
+                  <span className=" text-primary">
+                    {cropDistribution &&
+                      Number(
+                        cropDistribution[0].percentage_distribution
+                      ).toFixed(2)}{" "}
+                    %
+                  </span>
+                  .{" "}
+                  <span className=" text-destructive">
+                    {lastCrop?.crop_name}
+                  </span>{" "}
+                  had the lowest harvest at{" "}
+                  <span className=" text-destructive">
+                    {Number(lastCrop?.percentage_distribution).toFixed(2)} %
+                  </span>
+                  .
+                </li>
+              </ul>
+            </div>
+            <div className="flex justify-end mt-2">
+              <div>
+                <p className=" text-base font-poppins-medium text-gray-500">
+                  Exported by : {userData?.firstname + " " + userData?.lastname}
+                </p>
+                <p className="text-sm font-poppins-medium text-gray-500 text-end">
+                  {currentDate.toDateString()}
+                </p>
               </div>
             </div>
           </div>

@@ -9,7 +9,7 @@
     "build": "vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "openapi-generate": "openapi --input https://api.qc-agrihub.xyz/docs.json --output ./src/api/openapi --client axios --useOptions --exportCore false"
+    "openapi-generate": "openapi --input https://apiv2.qc-agrihub.xyz/docs.json --output ./src/api/openapi --client axios --useOptions --exportCore false"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",

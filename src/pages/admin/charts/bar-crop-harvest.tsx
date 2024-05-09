@@ -15,8 +15,10 @@ import {
   SelectValue
 } from "../../../components/ui/select";
 import PerFarmHarvestReport from "./reports/per-farm-harvest-report";
+import useYearList from "../../../hooks/utils/useYearList";
 
 const BarCropHarvest = () => {
+  const years = useYearList();
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
   const currentMonth = currentDate.getMonth() + 1;
@@ -40,17 +42,23 @@ const BarCropHarvest = () => {
 
   const lastTwoItem = useMemo(() => {
     const values = Object.values(harvestChart ?? {});
+    const slicedArray = values.slice(0, -1);
+
+    const sumArray = slicedArray.reduce((curr, acc) => {
+      return Number(curr) + Number(acc);
+    }, 0);
+
+    const average = sumArray / slicedArray.length;
+
     const slicedValues = values.slice(-2);
-    const pm = Number(slicedValues[0]);
+    const pm = average;
     const cm = Number(slicedValues[1]);
     if (cm === 0) {
       return "N/A"; // or any other default value you prefer
     }
     const final = ((cm - pm) / cm) * 100;
-
     return final.toFixed(2);
   }, [harvestChart]);
-  console.log(lastTwoItem);
 
   const lastTwoMonths = useMemo(() => {
     const values = Object.keys(harvestChart ?? {});
@@ -95,7 +103,6 @@ const BarCropHarvest = () => {
           weight: "bold" as "bold"
         },
         formatter: function (value: any) {
-          console.log(value);
           if (value === "0") {
             return "";
           } else {
@@ -228,8 +235,11 @@ const BarCropHarvest = () => {
                 <SelectValue placeholder="Year" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="2024">2024</SelectItem>
-                <SelectItem value="2023">2023</SelectItem>
+                {years.map((year, i) => (
+                  <SelectItem key={i} value={String(year)}>
+                    {year}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
 
@@ -252,7 +262,7 @@ const BarCropHarvest = () => {
                     <SelectItem
                       key={month.value}
                       value={month.value}
-                      disabled={month.value === String(currentMonth)}
+                      disabled={month.value >= String(endMonth)}
                     >
                       {month.label}
                     </SelectItem>
@@ -310,7 +320,7 @@ const BarCropHarvest = () => {
             <p className="text-xs text-gray-400 mt-1">
               This graph compares the amount of harvest farms collected with the
               crops as of{" "}
-              <span className=" text-primary">{lastTwoMonths[0]}</span>–
+              {/* <span className=" text-primary">{lastTwoMonths[0]}</span>– */}
               <span className=" text-primary">{lastTwoMonths[1]}</span>{" "}
               <span className=" text-primary">{selectedYear}</span>. Based on
               system calculations, it seems that your harvest for{" "}
@@ -323,7 +333,7 @@ const BarCropHarvest = () => {
               >
                 {lastTwoItem}%
               </span>{" "}
-              compared to the previous month.
+              compared to the previous months.
             </p>
           ))}
       </div>

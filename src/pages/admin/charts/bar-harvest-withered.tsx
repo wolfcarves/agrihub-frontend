@@ -32,8 +32,10 @@ import { Button } from "../../../components/ui/button";
 import { FaRegFilePdf } from "react-icons/fa6";
 import { useReactToPrint } from "react-to-print";
 import HarvestKilogramReport from "./reports/harvest-kilogram-report";
+import useYearList from "../../../hooks/utils/useYearList";
 
 const BarHarvestWithered = () => {
+  const years = useYearList();
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
   const currentMonth = currentDate.getMonth() + 1;
@@ -53,24 +55,60 @@ const BarHarvestWithered = () => {
   const { data: harvestDistribution } = useGetReportHarvestDistribution({
     month: activeLabel
   });
+  console.log(barChartData);
 
-  const { prevMonth, activeMonth, percentageHigher } = useMemo(() => {
-    const barData = barChartData?.slice(-2);
+  // const { activeMonth, percentageHigher } = useMemo(() => {
+  //   const barData = barChartData?.slice(-1);
+  //   const slicedArray = barChartData?.slice(0, -1);
+
+  //   const sumArray = barChartData?.reduce((curr, acc) => {
+  //     return Number(curr) + Number(acc.harvested);
+  //   }, 0);
+  //   if(sumArray && slicedArray){
+
+  //   const average =  sumArray / slicedArray?.length;
+  //   }
+
+  //   if (barData) {
+  //     const prevMonth = average;
+  //     const curMonth = barData[1]?.harvested || 0;
+  //     const finalValue = ((curMonth - prevMonth) / prevMonth) * 100;
+  //     return {
+  //       activeMonth: barData[1]?.month,
+  //       percentageHigher: finalValue.toFixed(2)
+  //     };
+  //   } else {
+  //     return {
+  //       activeMonth: undefined,
+  //       percentageHigher: "0.00" // Or any default value you prefer
+  //     };
+  //   }
+  // }, [barChartData]);
+  const activePercentage = useMemo(() => {
+    const slicedArray = barChartData?.slice(0, -1);
+    const activeBarData = barChartData?.slice(-1);
+
+    const sumArray = slicedArray?.reduce((curr, acc) => {
+      return Number(curr) + Number(acc.harvested);
+    }, 0);
+
+    if (sumArray && slicedArray && activeBarData) {
+      const average = sumArray / slicedArray?.length;
+      console.log(average, "asdas");
+      const pm = average;
+      const cm = Number(activeBarData[0].harvested);
+      if (cm === 0) {
+        return "N/A"; // or any other default value you prefer
+      }
+      const final = ((cm - pm) / cm) * 100;
+      return final.toFixed(2);
+    }
+  }, [barChartData]);
+
+  const activeMonth = useMemo(() => {
+    const barData = barChartData?.slice(-1);
     if (barData) {
-      const prevMonth = barData[0]?.harvested || 0;
-      const curMonth = barData[1]?.harvested || 0;
-      const finalValue = ((curMonth - prevMonth) / prevMonth) * 100;
-      return {
-        prevMonth: barData[0]?.month,
-        activeMonth: barData[1]?.month,
-        percentageHigher: finalValue.toFixed(2)
-      };
-    } else {
-      return {
-        prevMonth: undefined,
-        activeMonth: undefined,
-        percentageHigher: "0.00" // Or any default value you prefer
-      };
+      return barData[0];
     }
   }, [barChartData]);
 
@@ -268,8 +306,11 @@ const BarHarvestWithered = () => {
                   <SelectValue placeholder="Year" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="2024">2024</SelectItem>
-                  <SelectItem value="2023">2023</SelectItem>
+                  {years.map((year, i) => (
+                    <SelectItem key={i} value={String(year)}>
+                      {year}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
 
@@ -292,7 +333,7 @@ const BarHarvestWithered = () => {
                       <SelectItem
                         key={month.value}
                         value={month.value}
-                        disabled={month.value === String(currentMonth)}
+                        disabled={month.value >= String(endMonth)}
                       >
                         {month.label}
                       </SelectItem>
@@ -356,19 +397,19 @@ const BarHarvestWithered = () => {
               </span>
               . */}
               This graph compares the amount of harvest you have collected as of
-              <span className="text-primary"> [{prevMonth}]</span>–
-              <span className=" text-primary">[{activeMonth}] </span> of{" "}
+              {/* <span className="text-primary"> [{prevMonth}]</span>– */}{" "}
+              <span className=" text-primary">[{activeMonth?.month}] </span> of{" "}
               <span className=" text-primary">[{selectedYear}]</span>. Based on
               system calculations, it seems that your harvest for this present
               month has changed by{" "}
               <span
                 className={
-                  Number(percentageHigher) > 0
+                  Number(activePercentage) > 0
                     ? "text-primary"
                     : "text-destructive"
                 }
               >
-                [ {percentageHigher}% ]
+                [ {activePercentage}% ]
               </span>{" "}
               compared to the previous month.
             </p>

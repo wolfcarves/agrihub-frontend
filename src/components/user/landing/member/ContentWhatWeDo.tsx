@@ -192,10 +192,10 @@ const ContentWhatWeDo: React.FC = () => {
                     Our Focus
                   </h3>
 
-                  <p className="mt-">
-                    Explore urban ag innovation with us! Discover how we're
-                    revolutionizing farming in Quezon City through technology
-                    and community collaboration.
+                  <p className="">
+                    Explore urban agriculture and innovation with us! Discover
+                    how we're revolutionizing farming in Quezon City through
+                    technology and community collaboration.
                   </p>
                 </header>
                 <Button

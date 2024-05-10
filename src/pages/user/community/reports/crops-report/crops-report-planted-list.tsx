@@ -106,6 +106,7 @@ const CropsReportPlantedList = () => {
       order: orderSelected,
       month: monthSelected
     });
+  console.log(CropExisting);
 
   const handleCropReport = (cropData: PlantedCropsResponse) => {
     // dispatch(setExistingCrop(cropData));
@@ -170,6 +171,16 @@ const CropsReportPlantedList = () => {
 
     const updatedDate = new Date(
       inputedData.setDate(inputedData.getDate() + 7)
+    );
+
+    return updatedDate.toISOString();
+  };
+
+  const dec7Day = (date: string) => {
+    const inputedData = new Date(date);
+
+    const updatedDate = new Date(
+      inputedData.setDate(inputedData.getDate() - 7)
     );
 
     return updatedDate.toISOString();
@@ -265,7 +276,7 @@ const CropsReportPlantedList = () => {
         </div>
       )}
 
-      <div className="grid grid-cols-12 gap-3">
+      <div className="grid grid-cols-12 gap-3 mb-2">
         {CropExisting?.data?.map((crop, i) => (
           <div
             key={i}
@@ -309,20 +320,24 @@ const CropsReportPlantedList = () => {
                 )}
                 <p
                   className={`flex items-center gap-2 my-2 text-xs font-poppins-semibold ${
-                    crop.expected_harvest_date &&
-                    crop?.expected_harvest_date <= formattedDate
+                    (crop.batch
+                      ? add7Day(crop.batch)
+                      : crop.expected_harvest_date || "") <= formattedDate
                       ? "text-primary"
                       : " text-destructive"
                   } capitalize line-clamp-1`}
                 >
                   <GiFruitTree size={18} /> Expected Harvest :{" "}
-                  {formatDate(crop.expected_harvest_date || "")}
+                  {crop.batch
+                    ? formatDate(add7Day(crop.batch))
+                    : formatDate(crop.expected_harvest_date || "")}
                 </p>
 
                 <p
                   className={`flex items-center gap-2 my-2 text-xs font-poppins-semibold ${
-                    crop.expected_harvest_date &&
-                    crop?.expected_harvest_date <= formattedDate
+                    (crop.batch
+                      ? add7Day(crop.batch)
+                      : crop.expected_harvest_date || "") <= formattedDate
                       ? "text-primary"
                       : add7Day(crop.expected_harvest_date || "") <=
                         formattedDate
@@ -331,20 +346,31 @@ const CropsReportPlantedList = () => {
                   } capitalize line-clamp-1`}
                 >
                   Status :{" "}
-                  {crop.expected_harvest_date &&
-                  crop?.expected_harvest_date <= formattedDate
+                  {(crop.batch
+                    ? add7Day(crop.batch)
+                    : crop.expected_harvest_date || "") <= formattedDate
                     ? "Ready For Harvest"
-                    : add7Day(crop.expected_harvest_date || "") <= formattedDate
-                    ? "! Already a week or greater has passed in expected harvest date"
-                    : "Not Ready For Harvest"}
+                    : checkGreater(
+                        crop.batch
+                          ? add7Day(crop.batch)
+                          : dec7Day(crop.expected_harvest_date || "") || ""
+                      )
+                    ? "Ready For Early Harvest"
+                    : crop.expected_harvest_date &&
+                      crop.expected_harvest_date >= formattedDate
+                    ? "Not Ready For Harvest"
+                    : null}
                 </p>
                 {userData?.role === "farm_head" && (
                   <div className=" flex gap-2">
                     <Button
                       // disabled={userData?.role === "farm_head" ? false : true}
                       disabled={
-                        checkGreater(crop.expected_harvest_date || "") &&
-                        userData?.role === "farm_head"
+                        checkGreater(
+                          crop.batch
+                            ? add7Day(crop.batch)
+                            : dec7Day(crop.expected_harvest_date || "") || ""
+                        ) && userData?.role === "farm_head"
                           ? false
                           : true
                       }

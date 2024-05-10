@@ -89,7 +89,12 @@ const ContentWhatWeDo: React.FC = () => {
   const [videoSrc] = useState<string>(guidelineVid);
   // nakukuha na seconds pero yung link aralin pa
 
-  const { data: blogData } = useGetBlogsPublishList();
+  const { data: blogData } = useGetBlogsPublishList(
+    undefined,
+    undefined,
+    "2",
+    "Our Focus"
+  );
 
   const seeApproach = () => {
     navigate("/about/our-focus");
@@ -192,10 +197,10 @@ const ContentWhatWeDo: React.FC = () => {
                     Our Focus
                   </h3>
 
-                  <p className="mt-">
-                    Explore urban ag innovation with us! Discover how we're
-                    revolutionizing farming in Quezon City through technology
-                    and community collaboration.
+                  <p className="">
+                    Explore urban agriculture and innovation with us! Discover
+                    how we're revolutionizing farming in Quezon City through
+                    technology and community collaboration.
                   </p>
                 </header>
                 <Button
@@ -210,38 +215,35 @@ const ContentWhatWeDo: React.FC = () => {
 
             <div className="lg:col-span-2">
               <div className="grid grid-cols-1 lg:grid-cols-2 sm:grid-cols-2 grid-rows-1 gap-5 my-4">
-                {blogData?.data
-                  ?.filter(item => item.category === "Our Focus")
-                  .slice(0, 2)
-                  .map((item, index) => {
-                    return (
-                      <Link to={`/blogs/view/${item.id}`} key={index}>
-                        <article className="group relative overflow-hidden rounded-sm shadow transition hover:shadow-lg">
-                          <img
-                            alt={item.title}
-                            src={item.thumbnail}
-                            className="absolute inset-0 h-full w-full object-cover group-hover:scale-125 duration-300"
-                          />
+                {blogData?.data?.map((item, index) => {
+                  return (
+                    <Link to={`/blogs/view/${item.id}`} key={index}>
+                      <article className="group relative overflow-hidden rounded-sm shadow transition hover:shadow-lg">
+                        <img
+                          alt={item.title}
+                          src={item.thumbnail}
+                          className="absolute inset-0 h-full w-full object-cover group-hover:scale-125 duration-300"
+                        />
 
-                          <div className="relative bg-gradient-to-t from-gray-900/95 to-gray-900/0 pt-32 sm:pt-48 lg:pt-64">
-                            <div className="p-4 sm:p-6">
-                              <time className="block text-xs text-white/90">
-                                {formatDate(item.createdat || "")}
-                              </time>
+                        <div className="relative bg-gradient-to-t from-gray-900/95 to-gray-900/0 pt-32 sm:pt-48 lg:pt-64">
+                          <div className="p-4 sm:p-6">
+                            <time className="block text-xs text-white/90">
+                              {formatDate(item.createdat || "")}
+                            </time>
 
-                              <h3 className="line-clamp-1 mt-0.5 text-lg font-poppins-semibold text-white">
-                                {item.title}
-                              </h3>
+                            <h3 className="line-clamp-1 mt-0.5 text-lg font-poppins-semibold text-white">
+                              {item.title}
+                            </h3>
 
-                              <p className="mt-2 line-clamp-3 text-sm/relaxed text-white/95">
-                                {parse(item.content || "")}
-                              </p>
-                            </div>
+                            <p className="mt-2 line-clamp-3 text-sm/relaxed text-white/95">
+                              {parse(item.content || "")}
+                            </p>
                           </div>
-                        </article>
-                      </Link>
-                    );
-                  })}
+                        </div>
+                      </article>
+                    </Link>
+                  );
+                })}
               </div>
             </div>
           </div>

@@ -504,17 +504,13 @@ const CommunityLanding = () => {
                 {/* Subheader */}
                 <p className="text-gray-500 leading-relaxed mt-3">
                   Para sa patuloy na pagpapalawig ng iba't ibang Urban Farm sa
-                  Lungsod Quezon. Ang Agrihub ay makakatulong upang makatanggap
-                  ng iba't ibang miyembro ang iyong Urban Farm na may interes na
-                  makilahok.
+                  Lungsod Quezon.
                 </p>
                 <hr className="my-4" />
                 {/* Description */}
                 <p className="text-gray-500 leading-relaxed mt-3">
-                  Makatanggap ng mga request mula sa mga nais sumali sa iyong
-                  Urban Farm o mag-imbita ng mga Urban Farmers na maaring
-                  makatulong mapalawig at mapabuti ang pag-aalaga sa mga pananim
-                  ng iyong Urban Farm.
+                  Ang Agrihub ay makakatulong upang makatanggap ng iba't ibang
+                  miyembro ang iyong Urban Farm na may interes na makilahok.
                 </p>
               </div>
 

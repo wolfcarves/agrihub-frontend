@@ -106,7 +106,7 @@ const UserHeaderMobileSidebar = ({
             <UserSidebarNavLink
               to={`/community/chat/${userData?.farm_id}`}
               title="Chats"
-              logo={<PiNewspaper size={20} />}
+              logo={<CiChat1 size={20} />}
               end
               onClick={handleEventClick}
             />
@@ -115,7 +115,7 @@ const UserHeaderMobileSidebar = ({
             <UserSidebarNavLink
               to={`/community/task/${userData?.farm_id}`}
               title="Task"
-              logo={<CiChat1 size={20} />}
+              logo={<GoTasklist size={20} />}
               end
               onClick={handleEventClick}
             />
@@ -124,7 +124,7 @@ const UserHeaderMobileSidebar = ({
             <UserSidebarNavLink
               to={`/community/reports/${userData?.farm_id}`}
               title="Reports"
-              logo={<GoTasklist size={20} />}
+              logo={<PiNewspaper size={20} />}
               end
               onClick={handleEventClick}
             />

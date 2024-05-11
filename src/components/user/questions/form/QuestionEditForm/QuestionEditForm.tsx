@@ -85,7 +85,7 @@ const QuestionEditForm = () => {
       }
 
       await axios({
-        url: `https://api.qc-agrihub.xyz/api/forums/${params.questionId}`,
+        url: `https://apiv2.qc-agrihub.xyz/api/forums/${params.questionId}`,
         method: "PUT",
         data: formData,
         withCredentials: true

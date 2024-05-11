@@ -13,7 +13,7 @@ import { showNotificationBadge } from "../redux/slices/notificationSlice";
 //     : "http://localhost:3000";
 
 const axiosInstance = axios.create({
-  baseURL: "https://api.qc-agrihub.xyz",
+  baseURL: "https://apiv2.qc-agrihub.xyz",
   withCredentials: true
 });
 

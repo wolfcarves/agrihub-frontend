@@ -58,7 +58,7 @@ const QuestionAskForm = () => {
       }
 
       await axios({
-        url: "https://api.qc-agrihub.xyz/api/forums",
+        url: "https://apiv2.qc-agrihub.xyz/api/forums",
         method: "POST",
         data: formData,
         withCredentials: true

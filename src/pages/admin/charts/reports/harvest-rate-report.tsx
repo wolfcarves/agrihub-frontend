@@ -26,7 +26,9 @@ import {
 } from "../../../../components/ui/select";
 import { formatMonth } from "../../../../components/lib/utils";
 import useAuth from "../../../../hooks/useAuth";
+import useYearList from "../../../../hooks/utils/useYearList";
 const HarvestRateReport = () => {
+  const years = useYearList();
   const chartRef = useRef();
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
@@ -87,6 +89,32 @@ const HarvestRateReport = () => {
       lowkey: lowestKey,
       lowvalue: lowestValue
     };
+  }, [growthMonthly]);
+
+  const lastTwoItem = useMemo(() => {
+    const values = Object.values(growthMonthly ?? {});
+    const slicedArray = values.slice(0, -1);
+
+    const sumArray = slicedArray.reduce((curr, acc) => {
+      return Number(curr) + Number(acc);
+    }, 0);
+
+    const average = sumArray / slicedArray.length;
+
+    const slicedValues = values.slice(-2);
+    const pm = average;
+    const cm = Number(slicedValues[1]);
+    if (cm === 0) {
+      return "N/A"; // or any other default value you prefer
+    }
+    const final = ((cm - pm) / cm) * 100;
+    return final.toFixed(2);
+  }, [growthMonthly]);
+
+  const lastMonth = useMemo(() => {
+    const values = Object.keys(growthMonthly ?? {});
+    const slicedValues = values.slice(-1);
+    return slicedValues[0];
   }, [growthMonthly]);
 
   const handleChangeYear = (year: string) => {
@@ -256,8 +284,11 @@ const HarvestRateReport = () => {
                       <SelectValue placeholder="Year" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="2024">2024</SelectItem>
-                      <SelectItem value="2023">2023</SelectItem>
+                      {years.map((year, i) => (
+                        <SelectItem key={i} value={String(year)}>
+                          {year}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
 
@@ -277,7 +308,11 @@ const HarvestRateReport = () => {
                             : 12
                         )
                         .map(month => (
-                          <SelectItem key={month.value} value={month.value}>
+                          <SelectItem
+                            key={month.value}
+                            value={month.value}
+                            disabled={month.value >= String(endMonth)}
+                          >
                             {month.label}
                           </SelectItem>
                         ))}
@@ -321,38 +356,39 @@ const HarvestRateReport = () => {
                   options={options}
                 />
               </div>
-              {!isLoadingLine && (
-                <p className="text-xs text-gray-400 mt-1">
-                  Based on the graph,{" "}
-                  <span className=" text-blue-600">
-                    {Number(extremumData?.highvalue.toFixed(2)) -
-                      Number(extremumData?.lowvalue.toFixed(2))}
-                    %
-                  </span>{" "}
-                  is the difference value between the highest harvest rate among
-                  the selected timeframe,{" "}
-                  <span className=" text-primary">{extremumData?.highkey}</span>{" "}
-                  with a harvest rate value of{" "}
-                  <span className=" text-primary">
-                    {extremumData?.highvalue.toFixed(2)}%
-                  </span>{" "}
-                  and the lowest harvest rate is in{" "}
-                  <span className="  text-destructive">
-                    {extremumData?.lowkey}
-                  </span>{" "}
-                  at{" "}
-                  <span className="  text-destructive">
-                    {extremumData?.lowvalue.toFixed(2)}%
-                  </span>
-                  .
-                </p>
-              )}
+              {!isLoadingLine &&
+                (lastTwoItem === "N/A" ? (
+                  <p className="text-xs text-gray-400 mt-1">
+                    Not enough date to current month to compare
+                  </p>
+                ) : (
+                  <p className="text-sm mt-1">
+                    Compared to the previous months. This graph illustrates the
+                    harvest rates of farms up to{" "}
+                    <span className=" text-primary">{lastMonth}</span>{" "}
+                    <span className=" text-primary">{selectedYear}</span>.
+                    According to our analysis, there has been a significant
+                    change of{" "}
+                    <span
+                      className={
+                        Number(lastTwoItem) > 0
+                          ? " text-primary"
+                          : "text-destructive"
+                      }
+                    >
+                      {lastTwoItem}%
+                    </span>{" "}
+                    in your harvest for{" "}
+                    <span className=" text-primary">{lastMonth}</span> compared
+                    to the preceding months.
+                  </p>
+                ))}
             </div>
             <div className="my-8">
               <h2 className="text-lg font-bold tracking-tight ">
                 Crops Growth Rate Distribution : {formatMonth(activeLabel)}
               </h2>
-              <p className="text-xs text-gray-400 mt-1">
+              <p className="text-sm mt-1">
                 The{" "}
                 <span className=" text-primary">
                   {growthDistribution && growthDistribution[0]?.crop_name}

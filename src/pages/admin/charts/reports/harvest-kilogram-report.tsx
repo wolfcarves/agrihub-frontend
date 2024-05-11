@@ -28,8 +28,10 @@ import { useReactToPrint } from "react-to-print";
 import logo from "@assets/icons/agrihub-topleaf.svg";
 import { formatMonth } from "../../../../components/lib/utils";
 import useAuth from "../../../../hooks/useAuth";
+import useYearList from "../../../../hooks/utils/useYearList";
 
 const HarvestKilogramReport = () => {
+  const years = useYearList();
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
   const currentMonth = currentDate.getMonth() + 1;
@@ -53,23 +55,51 @@ const HarvestKilogramReport = () => {
     month: activeLabel
   });
 
-  const { prevMonth, activeMonth, percentageHigher } = useMemo(() => {
-    const barData = barChartData?.slice(-2);
+  // const { prevMonth, activeMonth, percentageHigher } = useMemo(() => {
+  //   const barData = barChartData?.slice(-2);
+  //   if (barData) {
+  //     const prevMonth = barData[0]?.harvested || 0;
+  //     const curMonth = barData[1]?.harvested || 0;
+  //     const finalValue = ((curMonth - prevMonth) / prevMonth) * 100;
+  //     return {
+  //       prevMonth: barData[0]?.month,
+  //       activeMonth: barData[1]?.month,
+  //       percentageHigher: finalValue.toFixed(2)
+  //     };
+  //   } else {
+  //     return {
+  //       prevMonth: undefined,
+  //       activeMonth: undefined,
+  //       percentageHigher: "0.00" // Or any default value you prefer
+  //     };
+  //   }
+  // }, [barChartData]);
+
+  const activePercentage = useMemo(() => {
+    const slicedArray = barChartData?.slice(0, -1);
+    const activeBarData = barChartData?.slice(-1);
+
+    const sumArray = slicedArray?.reduce((curr, acc) => {
+      return Number(curr) + Number(acc.harvested);
+    }, 0);
+
+    if (sumArray && slicedArray && activeBarData) {
+      const average = sumArray / slicedArray?.length;
+      console.log(average, "asdas");
+      const pm = average;
+      const cm = Number(activeBarData[0].harvested);
+      if (cm === 0) {
+        return "N/A"; // or any other default value you prefer
+      }
+      const final = ((cm - pm) / cm) * 100;
+      return final.toFixed(2);
+    }
+  }, [barChartData]);
+
+  const activeMonth = useMemo(() => {
+    const barData = barChartData?.slice(-1);
     if (barData) {
-      const prevMonth = barData[0]?.harvested || 0;
-      const curMonth = barData[1]?.harvested || 0;
-      const finalValue = ((curMonth - prevMonth) / prevMonth) * 100;
-      return {
-        prevMonth: barData[0]?.month,
-        activeMonth: barData[1]?.month,
-        percentageHigher: finalValue.toFixed(2)
-      };
-    } else {
-      return {
-        prevMonth: undefined,
-        activeMonth: undefined,
-        percentageHigher: "0.00" // Or any default value you prefer
-      };
+      return barData[0];
     }
   }, [barChartData]);
 
@@ -283,8 +313,11 @@ const HarvestKilogramReport = () => {
                       <SelectValue placeholder="Year" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="2024">2024</SelectItem>
-                      <SelectItem value="2023">2023</SelectItem>
+                      {years.map((year, i) => (
+                        <SelectItem key={i} value={String(year)}>
+                          {year}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
 
@@ -307,7 +340,7 @@ const HarvestKilogramReport = () => {
                           <SelectItem
                             key={month.value}
                             value={month.value}
-                            disabled={month.value === String(currentMonth)}
+                            disabled={month.value >= String(endMonth)}
                           >
                             {month.label}
                           </SelectItem>
@@ -356,7 +389,7 @@ const HarvestKilogramReport = () => {
                 />
               </div>
               {!barLoading && (
-                <p className="text-xs text-gray-400 mt-1">
+                <p className="text-sm mt-1">
                   {/* Based on the graph, the highest harvest among the selected months
               is in <span className=" text-primary">{highestMonth}</span> with a
               harvest value of{" "}
@@ -371,25 +404,25 @@ const HarvestKilogramReport = () => {
               . */}
                   This graph compares the amount of harvest you have collected
                   as of
-                  <span className="text-primary"> [{prevMonth}]</span>–
-                  <span className=" text-primary">[{activeMonth}] </span> of{" "}
-                  <span className=" text-primary">[{selectedYear}]</span>. Based
-                  on system calculations, it seems that your harvest for this
-                  present month has changed by{" "}
+                  {/* <span className="text-primary"> [{prevMonth}]</span>– */}{" "}
+                  <span className=" text-primary">[{activeMonth?.month}] </span>{" "}
+                  of <span className=" text-primary">[{selectedYear}]</span>.
+                  Based on system calculations, it seems that your harvest for
+                  this present month has changed by{" "}
                   <span
                     className={
-                      Number(percentageHigher) > 0
+                      Number(activePercentage) > 0
                         ? "text-primary"
                         : "text-destructive"
                     }
                   >
-                    [ {percentageHigher}% ]
+                    [ {activePercentage}% ]
                   </span>{" "}
                   compared to the previous month.
                 </p>
               )}
             </div>
-            <div className="p-5 lg:col-span-7 col-span-12 my-2">
+            <div className="p-5 lg:col-span-7 col-span-12 my-0">
               <h2 className="text-lg font-bold tracking-tight ">
                 Crops Distribution : {formatMonth(activeLabel)}
               </h2>
@@ -398,7 +431,7 @@ const HarvestKilogramReport = () => {
               >
                 <Line data={lineData} options={optionsLine} />
               </div>
-              <p className="text-xs text-gray-400 mt-1">
+              <p className="text-sm mt-1">
                 <span className=" text-primary">
                   {cropDistribution && cropDistribution[0]?.crop_name}
                 </span>{" "}
@@ -420,7 +453,7 @@ const HarvestKilogramReport = () => {
               <div className="h-[350px]">
                 <Bar data={dataHarvest} options={optionsBar} />
               </div>
-              <p className="text-xs text-gray-400 mt-1">
+              <p className="text-sm mt-1">
                 The{" "}
                 <span className=" text-primary">
                   {harvestDistribution && harvestDistribution[0]?.farm_name}

@@ -61,7 +61,6 @@ const BarDistrictOverviewAnalytics = () => {
           weight: "bold" as "bold"
         },
         formatter: function (value: any) {
-          console.log(value);
           if (value === "0") {
             return "";
           } else {

@@ -29,7 +29,9 @@ import { formatMonth } from "../../../../components/lib/utils";
 import { usePDF } from "react-to-pdf";
 import useGetFarmViewQuery from "../../../../hooks/api/get/useGetFarmViewQuery";
 import useAuth from "../../../../hooks/useAuth";
+import useYearList from "../../../../hooks/utils/useYearList";
 const PerFarmHarvestReport = () => {
+  const years = useYearList();
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
   const currentMonth = currentDate.getMonth() + 1;
@@ -113,8 +115,16 @@ const PerFarmHarvestReport = () => {
 
   const lastTwoItem = useMemo(() => {
     const values = Object.values(harvestChart ?? {});
+    const slicedArray = values.slice(0, -1);
+
+    const sumArray = slicedArray.reduce((curr, acc) => {
+      return Number(curr) + Number(acc);
+    }, 0);
+
+    const average = sumArray / slicedArray.length;
+
     const slicedValues = values.slice(-2);
-    const pm = Number(slicedValues[0]);
+    const pm = average;
     const cm = Number(slicedValues[1]);
     if (cm === 0) {
       return "N/A"; // or any other default value you prefer
@@ -122,11 +132,11 @@ const PerFarmHarvestReport = () => {
     const final = ((cm - pm) / cm) * 100;
     return final.toFixed(2);
   }, [harvestChart]);
-  console.log(lastTwoItem);
 
   const lastTwoMonths = useMemo(() => {
     const values = Object.keys(harvestChart ?? {});
-    const slicedValues = values.slice(-2);
+
+    const slicedValues = values.slice(-1);
     return slicedValues;
   }, [harvestChart]);
 
@@ -333,7 +343,7 @@ const PerFarmHarvestReport = () => {
               <img className="h-[4rem]" src={logo as unknown as string} />
             </div>
             <div className=" p-4">
-              <div className="flex md:flex-row flex-col gap-4 justify-between ">
+              <div className="flex md:flex-row flex-col gap-2 justify-between ">
                 <div>
                   <h5 className="font-poppins-medium">
                     Monthly Harvest Per Farm
@@ -368,8 +378,11 @@ const PerFarmHarvestReport = () => {
                       <SelectValue placeholder="Year" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="2024">2024</SelectItem>
-                      <SelectItem value="2023">2023</SelectItem>
+                      {years.map((year, i) => (
+                        <SelectItem key={i} value={String(year)}>
+                          {year}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
 
@@ -392,7 +405,7 @@ const PerFarmHarvestReport = () => {
                           <SelectItem
                             key={month.value}
                             value={month.value}
-                            disabled={month.value === String(currentMonth)}
+                            disabled={month.value >= String(endMonth)}
                           >
                             {month.label}
                           </SelectItem>
@@ -446,11 +459,11 @@ const PerFarmHarvestReport = () => {
                     Not enough date to current month to compare
                   </p>
                 ) : (
-                  <p className="text-xs text-gray-400 mt-1">
+                  <p className="text-sm mt-1">
                     This graph compares the amount of harvest farms collected
                     with the crops as of{" "}
-                    <span className=" text-primary">{lastTwoMonths[0]}</span>–
-                    <span className=" text-primary">{lastTwoMonths[1]}</span>{" "}
+                    <span className=" text-primary">{lastTwoMonths[0]}</span>
+                    {/* <span className=" text-primary">{lastTwoMonths[1]}</span>{" "} */}{" "}
                     <span className=" text-primary">{selectedYear}</span>. Based
                     on system calculations, it seems that your harvest for{" "}
                     <span className=" text-primary">{lastTwoMonths[1]}</span>{" "}
@@ -464,7 +477,7 @@ const PerFarmHarvestReport = () => {
                     >
                       {lastTwoItem}%
                     </span>{" "}
-                    compared to the previous month.
+                    compared to the previous months.
                   </p>
                 ))}
             </div>

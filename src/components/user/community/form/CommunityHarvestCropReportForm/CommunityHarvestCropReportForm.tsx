@@ -89,13 +89,35 @@ const CommunityHarvestCropReportForm = () => {
 
   const todayDate = format(new Date(), "yyyy-MM-dd");
 
+  const dec7Day = (date: string) => {
+    const inputedData = new Date(date);
+
+    const updatedDate = new Date(
+      inputedData.setDate(inputedData.getDate() - 7)
+    );
+
+    return updatedDate.toISOString();
+  };
+
   const addMonth = (date: string, month: string) => {
     const dateConvert = new Date(date);
     const dateAdded = new Date(
       dateConvert.setMonth(dateConvert.getMonth() + Number(month))
     );
-    const finalDate = format(new Date(dateAdded || ""), "yyyy-MM-dd");
+
+    const updatedDate = new Date(dateAdded.setDate(dateAdded.getDate() - 7));
+    const finalDate = format(new Date(updatedDate || ""), "yyyy-MM-dd");
     return finalDate;
+  };
+
+  const add7Day = (date: string) => {
+    const inputedData = new Date(date);
+
+    const updatedDate = new Date(
+      inputedData.setDate(inputedData.getDate() + 7)
+    );
+
+    return updatedDate.toISOString();
   };
 
   return (
@@ -206,10 +228,17 @@ const CommunityHarvestCropReportForm = () => {
             type="date"
             className="h-9 rounded-md "
             max={todayDate}
-            min={addMonth(
-              CropReport?.batch || CropReport?.date_planted || "",
-              CropReport?.growth_span || ""
-            )}
+            min={
+              CropReport?.batch
+                ? format(
+                    new Date(add7Day(CropReport.batch) || ""),
+                    "yyyy-MM-dd"
+                  )
+                : addMonth(
+                    CropReport?.date_planted || "",
+                    CropReport?.growth_span || ""
+                  )
+            }
           />
           <FormMessage>
             {form.formState.errors.date_harvested?.message}

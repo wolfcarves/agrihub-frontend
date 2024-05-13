@@ -106,7 +106,6 @@ const CropsReportPlantedList = () => {
       order: orderSelected,
       month: monthSelected
     });
-  console.log(CropExisting);
 
   const handleCropReport = (cropData: PlantedCropsResponse) => {
     // dispatch(setExistingCrop(cropData));
@@ -190,6 +189,8 @@ const CropsReportPlantedList = () => {
     const check = date <= formattedDate;
     return check;
   };
+
+  console.log(formattedDate);
 
   return (
     <div>
@@ -339,25 +340,29 @@ const CropsReportPlantedList = () => {
                       ? add7Day(crop.batch)
                       : crop.expected_harvest_date || "") <= formattedDate
                       ? "text-primary"
-                      : add7Day(crop.expected_harvest_date || "") <=
+                      : dec7Day(crop.expected_harvest_date || "") <
                         formattedDate
                       ? "text-orange-500"
                       : " text-destructive"
                   } capitalize line-clamp-1`}
                 >
                   Status :{" "}
+                  {/* {(crop.batch
+                    ? add7Day(crop.batch)
+                    : crop.expected_harvest_date || "") <= formattedDate
+                    ? "Ready For Harvest"
+                    : !crop.batch &&
+                      dec7Day(crop.expected_harvest_date || "") < formattedDate
+                    ? "Ready For Early Harvest"
+                    : } */}
                   {(crop.batch
                     ? add7Day(crop.batch)
                     : crop.expected_harvest_date || "") <= formattedDate
                     ? "Ready For Harvest"
-                    : checkGreater(
-                        crop.batch
-                          ? add7Day(crop.batch)
-                          : dec7Day(crop.expected_harvest_date || "") || ""
-                      )
+                    : dec7Day(crop.expected_harvest_date || "") < formattedDate
                     ? "Ready For Early Harvest"
                     : crop.expected_harvest_date &&
-                      crop.expected_harvest_date >= formattedDate
+                      crop.expected_harvest_date > formattedDate
                     ? "Not Ready For Harvest"
                     : null}
                 </p>

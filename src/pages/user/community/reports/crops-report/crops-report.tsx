@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import CropsReportTable from "../../../../../components/user/community/crops-report/crops-report-table/crops-report-table";
 import withAuthGuard from "../../../../../higher-order/account/withAuthGuard";
 import {
@@ -8,18 +8,30 @@ import {
   TabsTrigger
 } from "../../../../../components/ui/tabs";
 import CropsReportPlantedList from "./crops-report-planted-list";
+import { useSearchParams } from "react-router-dom";
 
 const CropsReport = () => {
-  const [tab, setTab] = useState<string>("planted");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const params = useMemo(() => {
+    return {
+      tab: searchParams.get("tab") || "planted"
+    };
+  }, [searchParams]);
+
+  const setTab = (value: string) => {
+    searchParams.set("tab", value);
+    searchParams.delete("page");
+    setSearchParams(searchParams);
+  };
   return (
     <div className="md:px-10 px-2 py-6 ">
       <div className="flex justify-between">
         <h3 className=" font-poppins-semibold">
-          {tab === "planted" ? "Planted Crops" : "Harvested Crops"}
+          {params.tab === "planted" ? "Planted Crops" : "Harvested Crops"}
         </h3>
       </div>
 
-      <Tabs defaultValue="planted" onValueChange={value => setTab(value)}>
+      <Tabs value={params.tab} onValueChange={value => setTab(value)}>
         <TabsList className="mt-3">
           <TabsTrigger
             className="data-[state=active]:bg-primary data-[state=active]:text-white font-poppins-semibold"

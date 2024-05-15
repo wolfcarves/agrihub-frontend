@@ -26,7 +26,10 @@ import {
 } from "../../../../components/ui/select";
 import { useReactToPrint } from "react-to-print";
 import logo from "@assets/icons/agrihub-topleaf.svg";
-import { formatMonth } from "../../../../components/lib/utils";
+import {
+  formatMonth,
+  formatNumberWithCommas
+} from "../../../../components/lib/utils";
 import useAuth from "../../../../hooks/useAuth";
 import useYearList from "../../../../hooks/utils/useYearList";
 
@@ -55,25 +58,61 @@ const HarvestKilogramReport = () => {
     month: activeLabel
   });
 
-  // const { prevMonth, activeMonth, percentageHigher } = useMemo(() => {
-  //   const barData = barChartData?.slice(-2);
-  //   if (barData) {
-  //     const prevMonth = barData[0]?.harvested || 0;
-  //     const curMonth = barData[1]?.harvested || 0;
-  //     const finalValue = ((curMonth - prevMonth) / prevMonth) * 100;
-  //     return {
-  //       prevMonth: barData[0]?.month,
-  //       activeMonth: barData[1]?.month,
-  //       percentageHigher: finalValue.toFixed(2)
-  //     };
-  //   } else {
-  //     return {
-  //       prevMonth: undefined,
-  //       activeMonth: undefined,
-  //       percentageHigher: "0.00" // Or any default value you prefer
-  //     };
-  //   }
-  // }, [barChartData]);
+  const {
+    highestMonth,
+    highestValue,
+    lowestMonth,
+    lowestValue,
+    highestMonthWithered,
+    highestValueWithered
+  } = useMemo(() => {
+    let highestWithered = Number.MIN_SAFE_INTEGER;
+    let highestMonthWithered = "";
+    let highestHarvested = Number.MIN_SAFE_INTEGER;
+    let highestMonth = "";
+    let lowestHarvested = Number.MAX_SAFE_INTEGER;
+    let lowestMonth = "";
+
+    barChartData?.forEach(item => {
+      if (item.harvested && item.month && item.withered) {
+        if (item?.harvested > highestHarvested) {
+          highestHarvested = item.harvested;
+          highestMonth = item.month;
+        }
+        if (item?.withered > highestWithered) {
+          highestWithered = item.withered;
+          highestMonthWithered = item.month;
+        }
+        if (item?.harvested < lowestHarvested) {
+          lowestHarvested = item.harvested;
+          lowestMonth = item.month;
+        }
+      }
+    });
+
+    return {
+      highestMonth,
+      highestValue: highestHarvested,
+      highestMonthWithered,
+      highestValueWithered: highestWithered,
+      lowestMonth,
+      lowestValue: lowestHarvested
+    };
+  }, [barChartData]);
+
+  const getLastCrop = useMemo(() => {
+    const lastObject = cropDistribution?.slice(-1);
+    if (lastObject) {
+      return lastObject[0];
+    }
+  }, [cropDistribution]);
+
+  const getLastFarm = useMemo(() => {
+    const lastObject = harvestDistribution?.slice(-1);
+    if (lastObject) {
+      return lastObject[0];
+    }
+  }, [harvestDistribution]);
 
   const activePercentage = useMemo(() => {
     const slicedArray = barChartData?.slice(0, -1);
@@ -466,6 +505,70 @@ const HarvestKilogramReport = () => {
                 </span>{" "}
                 compared to the other farms in this month
               </p>
+            </div>
+            <div className="mt-6 print:pb-[5rem]">
+              <div className=" font-poppins-medium">Summary Report :</div>
+              <ul className=" px-8">
+                <li>
+                  {" "}
+                  Based on the graph, the highest harvest among the selected
+                  months is in{" "}
+                  <span className=" text-primary">{highestMonth}</span> with a
+                  harvest of{" "}
+                  <span className=" text-primary">{highestValue} KG</span>. The
+                  lowest harvest is in{" "}
+                  <span className="  text-destructive">{lowestMonth}</span> at{" "}
+                  <span className="  text-destructive">{lowestValue} KG</span>
+                </li>
+
+                <li>
+                  The crop that has the highest harvest in the month of{" "}
+                  <span className="text-primary">
+                    {formatMonth(activeLabel)} {currentYear}
+                  </span>{" "}
+                  is{" "}
+                  <span className=" text-primary">
+                    {cropDistribution && cropDistribution[0]?.crop_name}
+                  </span>{" "}
+                  with the harvest of{" "}
+                  <span className=" text-primary">
+                    {cropDistribution &&
+                      cropDistribution[0]?.total_harvested_qty}{" "}
+                    KG
+                  </span>
+                  . The crop that has the lowest harvest is{" "}
+                  <span className=" text-destructive">
+                    {getLastCrop?.crop_name}
+                  </span>{" "}
+                  at{" "}
+                  <span className=" text-destructive">
+                    {getLastCrop?.total_harvested_qty} KG
+                  </span>
+                </li>
+                <li>
+                  The farm with highest harvest in the month of{" "}
+                  <span className="text-primary">
+                    {formatMonth(activeLabel)} {currentYear}
+                  </span>{" "}
+                  is{" "}
+                  <span className="text-primary">
+                    {harvestDistribution && harvestDistribution[0]?.farm_name}
+                  </span>{" "}
+                  with a total harvest of{" "}
+                  <span className="text-primary">
+                    {harvestDistribution &&
+                      harvestDistribution[0]?.farm_harvest_qty}
+                  </span>
+                  . The farm has the lowest harvest is{" "}
+                  <span className="text-destructive">
+                    {getLastFarm?.farm_name}
+                  </span>{" "}
+                  with a total harvest of{" "}
+                  <span className="text-destructive">
+                    {getLastFarm?.farm_harvest_qty} KG
+                  </span>
+                </li>
+              </ul>
             </div>
             <div className="flex justify-end mt-2">
               <div>

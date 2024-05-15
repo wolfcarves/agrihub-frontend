@@ -5,6 +5,7 @@ import PlantingCalendarSeedlingCarousel from "../carousel/PlantingCalendarSeedli
 import useGetCropsQuery from "@hooks/api/get/useGetCropsQuery";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { MONTHS } from "@pages/user/planting-calendar/planting-calendar";
+import PlantingCalendarHarvestCarousel from "../carousel/PlantingCalendarHarvestCarousel";
 
 interface PlantingCalendarCropListProps {}
 
@@ -77,6 +78,12 @@ const PlantingCalendarCropList = ({}: PlantingCalendarCropListProps) => {
       />
 
       <PlantingCalendarSeasonCarousel
+        data={cropData}
+        selectedMonth={String(selectedMonth)}
+        isLoading={isCropDataLoading}
+      />
+
+      <PlantingCalendarHarvestCarousel
         data={cropData}
         selectedMonth={String(selectedMonth)}
         isLoading={isCropDataLoading}

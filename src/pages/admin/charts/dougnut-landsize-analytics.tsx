@@ -5,7 +5,6 @@ import { Card } from "../../../components/ui/card";
 import { Bar, Doughnut, getElementAtEvent } from "react-chartjs-2";
 import { chartColor } from "../../../constants/data";
 import { ChartOptions } from "chart.js";
-import { formatNumberWithCommas } from "../../../components/lib/utils";
 import LandsizeReport from "./reports/landsize-report";
 
 const DougnutLandsizeAnalytics = () => {

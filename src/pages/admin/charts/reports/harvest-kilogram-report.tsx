@@ -427,8 +427,12 @@ const HarvestKilogramReport = () => {
                   options={options}
                 />
               </div>
-              {!barLoading && (
-                <p className="text-sm mt-1">
+              {!barLoading && activePercentage === "N/A" ? (
+                <p className="text-xs text-gray-400 mt-1">
+                  Not enough data to current month to compare
+                </p>
+              ) : (
+                <p className="text-xs text-gray-400 mt-1">
                   {/* Based on the graph, the highest harvest among the selected months
               is in <span className=" text-primary">{highestMonth}</span> with a
               harvest value of{" "}
@@ -461,115 +465,123 @@ const HarvestKilogramReport = () => {
                 </p>
               )}
             </div>
-            <div className="p-5 lg:col-span-7 col-span-12 my-0">
-              <h2 className="text-lg font-bold tracking-tight ">
-                Crops Distribution : {formatMonth(activeLabel)}
-              </h2>
-              <div
-                className={`h-[350px] mt-4 duration-300 flex flex-col gap-1`}
-              >
-                <Line data={lineData} options={optionsLine} />
-              </div>
-              <p className="text-sm mt-1">
-                <span className=" text-primary">
-                  {cropDistribution && cropDistribution[0]?.crop_name}
-                </span>{" "}
-                is higher by{" "}
-                <span className=" text-primary">
-                  {cropDistribution &&
-                    Number(
-                      cropDistribution[0]?.percentage_distribution
-                    ).toFixed(2)}
-                  %
-                </span>{" "}
-                from other crops in this month
-              </p>
-            </div>
-            <div className={` p-5 duration-300 lg:col-span-5 col-span-12`}>
-              <h2 className="text-lg font-bold tracking-tight ">
-                Farm Harvest Distribution : {formatMonth(activeLabel)}
-              </h2>
-              <div className="h-[350px]">
-                <Bar data={dataHarvest} options={optionsBar} />
-              </div>
-              <p className="text-sm mt-1">
-                The{" "}
-                <span className=" text-primary">
-                  {harvestDistribution && harvestDistribution[0]?.farm_name}
-                </span>{" "}
-                has a harvest value percentage of{" "}
-                <span className=" text-primary">
-                  {harvestDistribution &&
-                    harvestDistribution[0]?.percentage_distribution}
-                  %
-                </span>{" "}
-                compared to the other farms in this month
-              </p>
-            </div>
-            <div className="mt-6 print:pb-[5rem]">
-              <div className=" font-poppins-medium">Summary Report :</div>
-              <ul className=" px-8">
-                <li>
-                  {" "}
-                  Based on the graph, the highest harvest among the selected
-                  months is in{" "}
-                  <span className=" text-primary">{highestMonth}</span> with a
-                  harvest of{" "}
-                  <span className=" text-primary">{highestValue} KG</span>. The
-                  lowest harvest is in{" "}
-                  <span className="  text-destructive">{lowestMonth}</span> at{" "}
-                  <span className="  text-destructive">{lowestValue} KG</span>
-                </li>
+            {cropDistribution &&
+              cropDistribution[0]?.percentage_distribution && (
+                <div className="p-5 lg:col-span-7 col-span-12 my-0">
+                  <h2 className="text-lg font-bold tracking-tight ">
+                    Crops Distribution : {formatMonth(activeLabel)}
+                  </h2>
+                  <div
+                    className={`h-[350px] mt-4 duration-300 flex flex-col gap-1`}
+                  >
+                    <Line data={lineData} options={optionsLine} />
+                  </div>
+                  <p className="text-sm mt-1">
+                    <span className=" text-primary">
+                      {cropDistribution[0]?.crop_name}
+                    </span>{" "}
+                    is higher by{" "}
+                    <span className=" text-primary">
+                      {Number(
+                        cropDistribution[0]?.percentage_distribution
+                      ).toFixed(2)}
+                      %
+                    </span>{" "}
+                    from other crops in this month
+                  </p>
+                </div>
+              )}
+            {harvestDistribution &&
+              harvestDistribution[0]?.percentage_distribution && (
+                <div className={` p-5 duration-300 lg:col-span-5 col-span-12`}>
+                  <h2 className="text-lg font-bold tracking-tight ">
+                    Farm Harvest Distribution : {formatMonth(activeLabel)}
+                  </h2>
+                  <div className="h-[350px]">
+                    <Bar data={dataHarvest} options={optionsBar} />
+                  </div>
+                  <p className="text-sm mt-1">
+                    The{" "}
+                    <span className=" text-primary">
+                      {harvestDistribution && harvestDistribution[0]?.farm_name}
+                    </span>{" "}
+                    has a harvest value percentage of{" "}
+                    <span className=" text-primary">
+                      {harvestDistribution &&
+                        harvestDistribution[0]?.percentage_distribution}
+                      %
+                    </span>{" "}
+                    compared to the other farms in this month
+                  </p>
+                </div>
+              )}
+            {!barLoading && activePercentage !== "N/A" && (
+              <div className="mt-6 print:pb-[5rem]">
+                <div className=" font-poppins-medium">Summary Report :</div>
+                <ul className=" px-8">
+                  <li>
+                    {" "}
+                    Based on the graph, the highest harvest among the selected
+                    months is in{" "}
+                    <span className=" text-primary">{highestMonth}</span> with a
+                    harvest of{" "}
+                    <span className=" text-primary">{highestValue} KG</span>.
+                    The lowest harvest is in{" "}
+                    <span className="  text-destructive">{lowestMonth}</span> at{" "}
+                    <span className="  text-destructive">{lowestValue} KG</span>
+                  </li>
 
-                <li>
-                  The crop that has the highest harvest in the month of{" "}
-                  <span className="text-primary">
-                    {formatMonth(activeLabel)} {currentYear}
-                  </span>{" "}
-                  is{" "}
-                  <span className=" text-primary">
-                    {cropDistribution && cropDistribution[0]?.crop_name}
-                  </span>{" "}
-                  with the harvest of{" "}
-                  <span className=" text-primary">
-                    {cropDistribution &&
-                      cropDistribution[0]?.total_harvested_qty}{" "}
-                    KG
-                  </span>
-                  . The crop that has the lowest harvest is{" "}
-                  <span className=" text-destructive">
-                    {getLastCrop?.crop_name}
-                  </span>{" "}
-                  at{" "}
-                  <span className=" text-destructive">
-                    {getLastCrop?.total_harvested_qty} KG
-                  </span>
-                </li>
-                <li>
-                  The farm with highest harvest in the month of{" "}
-                  <span className="text-primary">
-                    {formatMonth(activeLabel)} {currentYear}
-                  </span>{" "}
-                  is{" "}
-                  <span className="text-primary">
-                    {harvestDistribution && harvestDistribution[0]?.farm_name}
-                  </span>{" "}
-                  with a total harvest of{" "}
-                  <span className="text-primary">
-                    {harvestDistribution &&
-                      harvestDistribution[0]?.farm_harvest_qty}
-                  </span>
-                  . The farm has the lowest harvest is{" "}
-                  <span className="text-destructive">
-                    {getLastFarm?.farm_name}
-                  </span>{" "}
-                  with a total harvest of{" "}
-                  <span className="text-destructive">
-                    {getLastFarm?.farm_harvest_qty} KG
-                  </span>
-                </li>
-              </ul>
-            </div>
+                  <li>
+                    The crop that has the highest harvest in the month of{" "}
+                    <span className="text-primary">
+                      {formatMonth(activeLabel)} {currentYear}
+                    </span>{" "}
+                    is{" "}
+                    <span className=" text-primary">
+                      {cropDistribution && cropDistribution[0]?.crop_name}
+                    </span>{" "}
+                    with the harvest of{" "}
+                    <span className=" text-primary">
+                      {cropDistribution &&
+                        cropDistribution[0]?.total_harvested_qty}{" "}
+                      KG
+                    </span>
+                    . The crop that has the lowest harvest is{" "}
+                    <span className=" text-destructive">
+                      {getLastCrop?.crop_name}
+                    </span>{" "}
+                    at{" "}
+                    <span className=" text-destructive">
+                      {getLastCrop?.total_harvested_qty} KG
+                    </span>
+                  </li>
+                  <li>
+                    The farm with highest harvest in the month of{" "}
+                    <span className="text-primary">
+                      {formatMonth(activeLabel)} {currentYear}
+                    </span>{" "}
+                    is{" "}
+                    <span className="text-primary">
+                      {harvestDistribution && harvestDistribution[0]?.farm_name}
+                    </span>{" "}
+                    with a total harvest of{" "}
+                    <span className="text-primary">
+                      {harvestDistribution &&
+                        harvestDistribution[0]?.farm_harvest_qty}
+                    </span>
+                    . The farm has the lowest harvest is{" "}
+                    <span className="text-destructive">
+                      {getLastFarm?.farm_name}
+                    </span>{" "}
+                    with a total harvest of{" "}
+                    <span className="text-destructive">
+                      {getLastFarm?.farm_harvest_qty} KG
+                    </span>
+                  </li>
+                </ul>
+              </div>
+            )}
+
             <div className="flex justify-end mt-2">
               <div>
                 <p className=" text-base font-poppins-medium text-gray-500">

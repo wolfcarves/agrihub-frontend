@@ -382,7 +382,11 @@ const BarHarvestWithered = () => {
               options={options}
             />
           </div>
-          {!barLoading && (
+          {!barLoading && activePercentage === "N/A" ? (
+            <p className="text-xs text-gray-400 mt-1">
+              Not enough data to current month to compare
+            </p>
+          ) : (
             <p className="text-xs text-gray-400 mt-1">
               {/* Based on the graph, the highest harvest among the selected months
               is in <span className=" text-primary">{highestMonth}</span> with a

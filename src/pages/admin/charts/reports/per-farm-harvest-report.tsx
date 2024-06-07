@@ -456,7 +456,7 @@ const PerFarmHarvestReport = () => {
               {!loadHarvest &&
                 (lastTwoItem === "N/A" ? (
                   <p className="text-xs text-gray-400 mt-1">
-                    Not enough date to current month to compare
+                    Not enough data to current month to compare
                   </p>
                 ) : (
                   <p className="text-sm mt-1">
@@ -481,72 +481,77 @@ const PerFarmHarvestReport = () => {
                   </p>
                 ))}
             </div>
-            <div
-              className={`py-6 p-4 rounded-lg duration-300 ${
-                Number(cropDistribution?.length || 0) > 0 ? "h-full" : "h-0"
-              }`}
-            >
-              <h5 className="font-poppins-medium">
-                Crops Harvest : {formatMonth(activeIndex)}
-              </h5>
-              <div className="h-[350px]  ">
-                <Doughnut data={radarData} options={optionsRadar} />
+            {Number(cropDistribution?.length || 0) > 0 && (
+              <div
+                className={`py-6 p-4 rounded-lg duration-300 ${
+                  Number(cropDistribution?.length || 0) > 0 ? "h-full" : "h-0"
+                }`}
+              >
+                <h5 className="font-poppins-medium">
+                  Crops Harvest : {formatMonth(activeIndex)}
+                </h5>
+                <div className="h-[350px]  ">
+                  <Doughnut data={radarData} options={optionsRadar} />
+                </div>
               </div>
-            </div>
-            <div className="mt-6 print:py-[5rem]">
-              <div className=" font-poppins-medium">Summary Report :</div>
-              <ul className=" px-8">
-                {!detailLoading && (
+            )}
+
+            {!loadHarvest && lastTwoItem !== "N/A" && (
+              <div className="mt-6 print:py-[5rem]">
+                <div className=" font-poppins-medium">Summary Report :</div>
+                <ul className=" px-8">
+                  {!detailLoading && (
+                    <li>
+                      The highest harvest this year for the{" "}
+                      <span className=" text-primary">
+                        {farmDetails?.farm_name}
+                      </span>{" "}
+                      was in{" "}
+                      <span className="text-primary">
+                        {extremumData?.highkey}
+                      </span>{" "}
+                      at{" "}
+                      <span className="text-primary">
+                        {extremumData?.highvalue} KG
+                      </span>
+                      .{" "}
+                      <span className=" text-destructive">
+                        {extremumData?.lowkey}
+                      </span>{" "}
+                      had the lowest harvest at{" "}
+                      <span className="text-destructive">
+                        {extremumData?.lowvalue} KG
+                      </span>
+                      .
+                    </li>
+                  )}
+
                   <li>
-                    The highest harvest this year for the{" "}
+                    The highest crop harvested in {formatMonth(activeIndex)} is{" "}
                     <span className=" text-primary">
-                      {farmDetails?.farm_name}
-                    </span>{" "}
-                    was in{" "}
-                    <span className="text-primary">
-                      {extremumData?.highkey}
+                      {cropDistribution && cropDistribution[0].crop_name}
                     </span>{" "}
                     at{" "}
-                    <span className="text-primary">
-                      {extremumData?.highvalue} KG
+                    <span className=" text-primary">
+                      {cropDistribution &&
+                        Number(
+                          cropDistribution[0].percentage_distribution
+                        ).toFixed(2)}{" "}
+                      %
                     </span>
                     .{" "}
                     <span className=" text-destructive">
-                      {extremumData?.lowkey}
+                      {lastCrop?.crop_name}
                     </span>{" "}
                     had the lowest harvest at{" "}
-                    <span className="text-destructive">
-                      {extremumData?.lowvalue} KG
+                    <span className=" text-destructive">
+                      {Number(lastCrop?.percentage_distribution).toFixed(2)} %
                     </span>
                     .
                   </li>
-                )}
-
-                <li>
-                  The highest crop harvested in {formatMonth(activeIndex)} is{" "}
-                  <span className=" text-primary">
-                    {cropDistribution && cropDistribution[0].crop_name}
-                  </span>{" "}
-                  at{" "}
-                  <span className=" text-primary">
-                    {cropDistribution &&
-                      Number(
-                        cropDistribution[0].percentage_distribution
-                      ).toFixed(2)}{" "}
-                    %
-                  </span>
-                  .{" "}
-                  <span className=" text-destructive">
-                    {lastCrop?.crop_name}
-                  </span>{" "}
-                  had the lowest harvest at{" "}
-                  <span className=" text-destructive">
-                    {Number(lastCrop?.percentage_distribution).toFixed(2)} %
-                  </span>
-                  .
-                </li>
-              </ul>
-            </div>
+                </ul>
+              </div>
+            )}
             <div className="flex justify-end mt-2">
               <div>
                 <p className=" text-base font-poppins-medium text-gray-500">

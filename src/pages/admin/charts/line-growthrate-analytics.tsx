@@ -331,7 +331,7 @@ const GrowthRateLineChartAnalytics = () => {
           {!isLoadingLine &&
             (lastTwoItem === "N/A" ? (
               <p className="text-xs text-gray-400 mt-1">
-                Not enough date to current month to compare
+                Not enough data to current month to compare
               </p>
             ) : (
               <p className="text-xs text-gray-400 mt-1">

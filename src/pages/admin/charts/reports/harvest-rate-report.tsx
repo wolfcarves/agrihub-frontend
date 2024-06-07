@@ -384,23 +384,26 @@ const HarvestRateReport = () => {
                   </p>
                 ))}
             </div>
-            <div className="my-8">
-              <h2 className="text-lg font-bold tracking-tight ">
-                Crops Growth Rate Distribution : {formatMonth(activeLabel)}
-              </h2>
-              <p className="text-sm mt-1">
-                The{" "}
-                <span className=" text-primary">
-                  {growthDistribution && growthDistribution[0]?.crop_name}
-                </span>{" "}
-                has the highest contribution this month, with a{" "}
-                <span className=" text-primary">{compareDistribution}% </span>{" "}
-                gap compared to the crop with the lowest contribution.
-              </p>
-              <div className="h-[350px]">
-                <Bar data={dataGrowth} options={optionsBar} />
+            {compareDistribution !== "NaN" && (
+              <div className="my-8">
+                <h2 className="text-lg font-bold tracking-tight ">
+                  Crops Growth Rate Distribution : {formatMonth(activeLabel)}
+                </h2>
+                <p className="text-sm mt-1">
+                  The{" "}
+                  <span className=" text-primary">
+                    {growthDistribution && growthDistribution[0]?.crop_name}
+                  </span>{" "}
+                  has the highest contribution this month, with a{" "}
+                  <span className=" text-primary">{compareDistribution}% </span>{" "}
+                  gap compared to the crop with the lowest contribution.
+                </p>
+                <div className="h-[350px]">
+                  <Bar data={dataGrowth} options={optionsBar} />
+                </div>
               </div>
-            </div>
+            )}
+
             <div className="flex justify-end mt-2">
               <div>
                 <p className=" text-base font-poppins-medium text-gray-500">

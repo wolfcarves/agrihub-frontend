@@ -19,6 +19,21 @@ const MainLayout = () => {
   }, [location]);
 
   return (
+    <div className="relative w-screen h-screen overflow-hidden">
+      <img
+        src="/agrihub-background.png"
+        className="w-full h-full object-cover lg:object-none mx-auto"
+      />
+
+      <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2">
+        <p className="text-white text-center text-xl lg:text-xl">
+          Until the end 💚
+        </p>
+      </div>
+    </div>
+  );
+
+  return (
     <>
       <LoadingBar
         ref={loader}
